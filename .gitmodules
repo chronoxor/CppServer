@@ -1,0 +1,16 @@
+[submodule "build"]
+	path = build
+	url = https://github.com/chronoxor/CppBuildScripts.git
+	branch = master
+[submodule "cmake"]
+	path = cmake
+	url = https://github.com/chronoxor/CppCMakeScripts.git
+	branch = master
+[submodule "modules/catch"]
+	path = modules/catch
+	url = https://github.com/philsquared/Catch.git
+	branch = master
+[submodule "modules/CppBenchmark"]
+	path = modules/CppBenchmark
+	url = https://github.com/chronoxor/CppBenchmark.git
+	branch = master
