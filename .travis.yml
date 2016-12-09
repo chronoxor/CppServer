@@ -1,0 +1,73 @@
+# Programming language definition
+language: cpp
+
+# Build matrix (OS, compiler)
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      env: GCC_VERSION=6
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-6
+            - g++-6
+            - cmake
+            - doxygen
+            - graphviz
+            - libbfd-dev
+            - uuid-dev
+    - os: linux
+      compiler: clang
+      env: CLANG_VERSION=3.8
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+          packages:
+            - clang-3.8
+            - libc++-dev
+            - cmake
+            - doxygen
+            - graphviz
+            - libbfd-dev
+            - uuid-dev
+    - os: osx
+      compiler: clang
+      osx_image: xcode8
+
+# Using Trusty environment
+sudo: required
+dist: trusty
+
+# Branches to build
+branches:
+  only:
+    - master
+
+# Clone depth
+git:
+  depth: 5
+
+# Scripts that run before install
+before_install:
+  - git config --global user.name "Travis CI"
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global push.default simple
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]] && [ "$CXX" = "g++" ]; then export CC="gcc-${GCC_VERSION}" CXX="g++-${GCC_VERSION}"; fi
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]] && [ "$CXX" = "clang++" ]; then export CC="clang-${CLANG_VERSION}" CXX="clang++-${CLANG_VERSION}"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install doxygen; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install graphviz; fi
+
+# Build scripts
+script: 
+  - cd build
+  - ./unix.sh
+
+# Don't send notifications on success
+notifications:
+  email:
+    on_success: never
