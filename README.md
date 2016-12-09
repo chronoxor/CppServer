@@ -28,8 +28,8 @@ client/server solutions.
 * Benchmarks
 * Examples
 * Tests
-* (Doxygen)[http://www.doxygen.org] API documentation
-* Continuous integration ((Travis CI)[https://travis-ci.com], (AppVeyor)[https://www.appveyor.com])
+* [Doxygen](http://www.doxygen.org) API documentation
+* Continuous integration ([Travis CI](https://travis-ci.com), [AppVeyor](https://www.appveyor.com))
 
 # Requirements
 * Linux
