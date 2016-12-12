@@ -2,13 +2,13 @@ if(NOT TARGET nanomsg)
 
   # Save old compiler flags
   set(CMAKE_C_FLAGS_OLD ${CMAKE_C_FLAGS})
-  message(CMAKE_C_FLAGS)
-  message(CMAKE_C_FLAGS_OLD)
+  message(${CMAKE_C_FLAGS})
+  message(${CMAKE_C_FLAGS_OLD})
 
   # Setup new compiler flags
   if(NOT MSVC)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wstrict-aliasing=n")
-    message(CMAKE_C_FLAGS)
+    message(${CMAKE_C_FLAGS})
   else()
     # Disable some compile warnings
     # C4100: 'identifier' : unreferenced formal parameter
@@ -43,6 +43,6 @@ if(NOT TARGET nanomsg)
 
   # Restore old compiler flags
   set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS_OLD})
-  message(CMAKE_C_FLAGS)
+  message(${CMAKE_C_FLAGS})
 
 endif()
