@@ -1,11 +1,13 @@
 if(NOT TARGET nanomsg)
 
-  # Save old compiler flags
+  # Save old variables
   set(CMAKE_C_FLAGS_OLD ${CMAKE_C_FLAGS})
+  set(CMAKE_INSTALL_LIBDIR_OLD ${CMAKE_INSTALL_LIBDIR})
 
   # Setup new compiler flags
   if(NOT MSVC)
     set(CMAKE_C_FLAGS "")
+    set(CMAKE_INSTALL_LIBDIR "../temp/nanomsg")
   else()
     # Disable some compile warnings
     # C4100: 'identifier' : unreferenced formal parameter
@@ -38,7 +40,8 @@ if(NOT TARGET nanomsg)
   set_target_properties(nanocat PROPERTIES FOLDER modules/nanomsg)
   set_target_properties(dist PROPERTIES FOLDER modules/nanomsg)
 
-  # Restore old compiler flags
+  # Restore old variables
   set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS_OLD})
+  set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR_OLD})
 
 endif()

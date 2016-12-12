@@ -26,10 +26,11 @@ include(SetCompilerWarnings)
 include(SetPlatformFeatures)
 
 # External packages
+find_package(OpenSSL REQUIRED)
 find_package(Threads REQUIRED)
 
 # System link libraries
-list(APPEND SYSTEM Threads::Threads)
+list(APPEND SYSTEM OpenSSL::SSL Threads::Threads)
 
 # Modules
 add_subdirectory("modules")
