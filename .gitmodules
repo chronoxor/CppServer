@@ -14,3 +14,15 @@
 	path = modules/CppBenchmark
 	url = https://github.com/chronoxor/CppBenchmark.git
 	branch = master
+[submodule "modules/asio"]
+	path = modules/asio
+	url = https://github.com/chriskohlhoff/asio.git
+	branch = master
+[submodule "modules/nanomsg"]
+	path = modules/nanomsg
+	url = https://github.com/nanomsg/nanomsg.git
+	branch = master
+[submodule "modules/openssl"]
+	path = modules/openssl
+	url = https://github.com/openssl/openssl.git
+	branch = master
