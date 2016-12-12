@@ -7,7 +7,7 @@ if(NOT TARGET nanomsg)
 
   # Setup new compiler flags
   if(NOT MSVC)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wstrict-aliasing=n")
+    set(CMAKE_C_FLAGS "")
     message(${CMAKE_C_FLAGS})
   else()
     # Disable some compile warnings
