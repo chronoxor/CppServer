@@ -1,13 +1,16 @@
 if(NOT TARGET asio)
 
+  # Save old variables
+  set(CMAKE_CXX_FLAGS_OLD ${CMAKE_CXX_FLAGS})
+
   # Module library
   file(GLOB SOURCE_FILES "asio/asio/src/*.cpp")
   if(NOT MSVC)
-    set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
+    set(CMAKE_C_FLAGS "")
   else()
     # C4127: conditional expression is constant
     # C4702: unreachable code
-    set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS} /wd4127 /wd4702")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4127 /wd4702")
   endif()
   add_library(asio ${SOURCE_FILES})
   target_compile_definitions(asio PRIVATE ASIO_STANDALONE=1 ASIO_SEPARATE_COMPILATION=1)
@@ -16,5 +19,8 @@ if(NOT TARGET asio)
 
   # Module folder
   set_target_properties(asio PROPERTIES FOLDER modules/asio)
+
+  # Restore old variables
+  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS_OLD})
 
 endif()

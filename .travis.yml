@@ -18,7 +18,6 @@ matrix:
             - doxygen
             - graphviz
             - libbfd-dev
-            - libssl-dev
             - uuid-dev
     - os: linux
       compiler: clang
@@ -35,7 +34,6 @@ matrix:
             - doxygen
             - graphviz
             - libbfd-dev
-            - libssl-dev
             - uuid-dev
     - os: osx
       compiler: clang

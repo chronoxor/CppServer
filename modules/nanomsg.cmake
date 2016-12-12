@@ -9,7 +9,6 @@ if(NOT TARGET nanomsg)
     set(CMAKE_C_FLAGS "")
     set(CMAKE_INSTALL_LIBDIR "../temp/nanomsg")
   else()
-    # Disable some compile warnings
     # C4100: 'identifier' : unreferenced formal parameter
     # C4152: non standard extension, function/data ptr conversion in expression
     # C4201: nonstandard extension used : nameless struct/union
