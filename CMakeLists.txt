@@ -38,7 +38,7 @@ file(GLOB_RECURSE SOURCE_FILES "source/*.cpp")
 set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
 add_library(cppserver ${SOURCE_FILES})
 target_include_directories(cppserver PUBLIC "include")
-target_link_libraries(cppserver)
+target_link_libraries(cppserver asio nanomsg)
 set_target_properties(cppserver PROPERTIES FOLDER libraries)
 list(APPEND INSTALL_TARGETS cppserver)
 
