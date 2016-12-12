@@ -38,6 +38,7 @@ client/server solutions.
 * [CMake](http://www.cmake.org)
 * [GIT](https://git-scm.com)
 * [GCC](https://gcc.gnu.org)
+* [OpenSSL](https://www.openssl.org)
 
 Optional:
 * [Clang](http://clang.llvm.org)
@@ -79,6 +80,9 @@ mingw.bat
 ```
 
 ## Windows (Visaul Studio 2015)
+It is required that OpenSSL can be found in your system! It could be build from
+the original repository https://github.com/openssl/openssl or installed from
+https://slproweb.com/products/Win32OpenSSL.html
 ```
 cd build
 vs.bat

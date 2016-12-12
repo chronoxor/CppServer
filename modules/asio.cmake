@@ -1,5 +1,8 @@
 if(NOT TARGET asio)
 
+  # Module packages
+  find_package(OpenSSL REQUIRED)
+
   # Module library
   file(GLOB SOURCE_FILES "asio/asio/src/*.cpp")
   if(NOT MSVC)
@@ -12,7 +15,7 @@ if(NOT TARGET asio)
   add_library(asio ${SOURCE_FILES})
   target_compile_definitions(asio PRIVATE ASIO_STANDALONE=1 ASIO_SEPARATE_COMPILATION=1)
   target_include_directories(asio PRIVATE "asio/asio/include" "openssl/include")
-  target_link_libraries(asio)
+  target_link_libraries(asio OpenSSL::SSL)
 
   # Module folder
   set_target_properties(asio PROPERTIES FOLDER modules/asio)
