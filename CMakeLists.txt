@@ -22,16 +22,13 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Compiler features
 include(SetCompilerFeatures)
-include(SetCompilerWarnings)
 include(SetPlatformFeatures)
 
 # External packages
-set(OPENSSL_USE_STATIC_LIBS TRUE)
-find_package(OpenSSL REQUIRED)
 find_package(Threads REQUIRED)
 
 # System link libraries
-list(APPEND SYSTEM OpenSSL::SSL Threads::Threads)
+list(APPEND SYSTEM Threads::Threads)
 
 # Modules
 add_subdirectory("modules")

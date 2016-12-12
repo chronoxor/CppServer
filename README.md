@@ -2,6 +2,7 @@
 
 [![Linux build status](https://img.shields.io/travis/chronoxor/CppServer/master.svg?label=Linux)](https://travis-ci.org/chronoxor/CppServer)
 [![OSX build status](https://img.shields.io/travis/chronoxor/CppServer/master.svg?label=OSX)](https://travis-ci.org/chronoxor/CppServer)
+[![Cygwin build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=Cygwin)](https://ci.appveyor.com/project/chronoxor/CppServer)
 [![MinGW build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=MinGW)](https://ci.appveyor.com/project/chronoxor/CppServer)
 [![Windows build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=Windows)](https://ci.appveyor.com/project/chronoxor/CppServer)
 
@@ -17,6 +18,7 @@ client/server solutions.
     * [Clone repository with submodules](#clone-repository-with-submodules)
     * [Linux](#linux)
     * [OSX](#osx)
+    * [Windows (Cygwin)](#windows-cygwin)
     * [Windows (MinGW)](#windows-mingw)
     * [Windows (MinGW with MSYS)](#windows-mingw-with-msys)
     * [Windows (Visaul Studio 2015)](#windows-visaul-studio-2015)
@@ -36,7 +38,6 @@ client/server solutions.
 * [CMake](http://www.cmake.org)
 * [GIT](https://git-scm.com)
 * [GCC](https://gcc.gnu.org)
-* [OpenSSL](https://www.openssl.org)
 
 Optional:
 * [Clang](http://clang.llvm.org)
@@ -65,6 +66,12 @@ cd build
 ./unix.sh
 ```
 
+## Windows (Cygwin)
+```
+cd build
+cygwin.bat
+```
+
 ## Windows (MinGW)
 ```
 cd build
@@ -72,9 +79,6 @@ mingw.bat
 ```
 
 ## Windows (Visaul Studio 2015)
-It is required that OpenSSL can be found in your system! It could be build from
-the original repository https://github.com/openssl/openssl or installed from
-https://slproweb.com/products/Win32OpenSSL.html
 ```
 cd build
 vs.bat
