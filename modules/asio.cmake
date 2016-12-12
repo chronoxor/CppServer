@@ -3,7 +3,7 @@ if(NOT TARGET asio)
   # Module library
   file(GLOB SOURCE_FILES "asio/asio/src/*.cpp")
   if(NOT MSVC)
-    set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
+    set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "")
   else()
     # C4127: conditional expression is constant
     # C4702: unreachable code
