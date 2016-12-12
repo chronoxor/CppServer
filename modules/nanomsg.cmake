@@ -5,6 +5,7 @@ if(NOT TARGET nanomsg)
 
   # Setup new compiler flags
   if(NOT MSVC)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wstrict-aliasing=n")
   else()
     # Disable some compile warnings
     # C4100: 'identifier' : unreferenced formal parameter
