@@ -37,6 +37,7 @@ install:
   - if "%type%"=="MinGW" set INCLUDE=C:\tools\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
   - if "%type%"=="VisualStudio" set INCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\um;%INCLUDE%
   - if "%type%"=="VisualStudio" set LIB=C:\Program Files (x86)\Windows Kits\10\Lib\10.0.14393.0\um\x64;%LIB%
+  - '%command% "cmake --version"'
   - '%command% "git config --global user.name "AppVeyor""'
   - '%command% "git config --global user.email "team@appveyor.com""'
   - '%command% "git config --global push.default simple"'

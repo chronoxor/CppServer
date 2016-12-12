@@ -54,6 +54,7 @@ git:
 
 # Scripts that run before install
 before_install:
+  - cmake --version
   - git config --global user.name "Travis CI"
   - git config --global user.email "travis@travis-ci.org"
   - git config --global push.default simple

@@ -30,12 +30,6 @@ set(OPENSSL_USE_STATIC_LIBS TRUE)
 find_package(OpenSSL REQUIRED)
 find_package(Threads REQUIRED)
 
-message(${OPENSSL_FOUND})
-message(${OPENSSL_INCLUDE_DIR})
-message(${OPENSSL_LIBRARIES})
-message(${OPENSSL_CRYPTO_LIBRARY})
-message(${OPENSSL_SSL_LIBRARY})
-
 # System link libraries
 list(APPEND SYSTEM OpenSSL::SSL Threads::Threads)
 
