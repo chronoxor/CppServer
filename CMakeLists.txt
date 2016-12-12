@@ -23,6 +23,11 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # Compiler features
 include(SetCompilerFeatures)
 include(SetPlatformFeatures)
+if(MSVC)
+  # C4267: 'var' : conversion from 'size_t' to 'type', possible loss of data
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4267")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4267")
+endif()
 
 # External packages
 find_package(Threads REQUIRED)
