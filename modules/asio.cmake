@@ -6,11 +6,11 @@ if(NOT TARGET asio)
   # Module library
   file(GLOB SOURCE_FILES "asio/asio/src/*.cpp")
   if(NOT MSVC)
-    set(CMAKE_C_FLAGS "")
+    set(CMAKE_CXX_FLAGS "")
   else()
     # C4127: conditional expression is constant
     # C4702: unreachable code
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4127 /wd4702")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4127 /wd4702")
   endif()
   add_library(asio ${SOURCE_FILES})
   target_compile_definitions(asio PRIVATE ASIO_STANDALONE=1 ASIO_SEPARATE_COMPILATION=1)
