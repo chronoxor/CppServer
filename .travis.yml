@@ -21,7 +21,7 @@ matrix:
             - uuid-dev
     - os: linux
       compiler: clang
-      env: CLANG_VERSION=3.8
+      env: CLANG_VERSION=3.8 PATCH_ASIO=1
       addons:
         apt:
           sources:
@@ -58,10 +58,11 @@ before_install:
   - git config --global user.name "Travis CI"
   - git config --global user.email "travis@travis-ci.org"
   - git config --global push.default simple
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]] && [ "$CXX" = "g++" ]; then export CC="gcc-${GCC_VERSION}" CXX="g++-${GCC_VERSION}"; fi
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]] && [ "$CXX" = "clang++" ]; then export CC="clang-${CLANG_VERSION}" CXX="clang++-${CLANG_VERSION}"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install doxygen; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install graphviz; fi
+  - if [ "$TRAVIS_OS_NAME" != "osx" ] && [ "$CXX" = "g++" ]; then export CC="gcc-${GCC_VERSION}" CXX="g++-${GCC_VERSION}"; fi
+  - if [ "$TRAVIS_OS_NAME" != "osx" ] && [ "$CXX" = "clang++" ]; then export CC="clang-${CLANG_VERSION}" CXX="clang++-${CLANG_VERSION}"; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install doxygen; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install graphviz; fi
+  - if [ "$PATCH_ASIO" == "1" ]; then sed -i -r "s/^#include <cstddef>/#include <stddef.h>/g" ./modules/asio/asio/include/asio/local/detail/endpoint.hpp; fi
 
 # Build scripts
 script: 
