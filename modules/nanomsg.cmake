@@ -3,10 +3,6 @@ if(NOT TARGET nanomsg)
   # Module flags
   set(NN_HAVE_CONDVAR 1)
 
-  # Module install
-  set(CMAKE_INSTALL_PREFIX "../temp")
-  set(CMAKE_INSTALL_LIBDIR "install")
-
   # Module options
   SET(NN_STATIC_LIB ON CACHE BOOL "Build static library instead of shared library")
   SET(NN_ENABLE_DOC OFF CACHE BOOL "Disable building documentation")
