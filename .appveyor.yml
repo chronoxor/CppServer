@@ -9,6 +9,10 @@ branches:
 # Clone depth
 clone_depth: 5
 
+# Including commits with 'build' comment
+only_commits:
+  message: build
+
 # Cache files to speed up build
 cache:
     - C:\cache\cygwin -> .appveyor.yml
