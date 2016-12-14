@@ -1,4 +1,5 @@
 include("catch.cmake")
 include("CppBenchmark.cmake")
+include("CppCommon.cmake")
 include("asio.cmake")
 include("nanomsg.cmake")

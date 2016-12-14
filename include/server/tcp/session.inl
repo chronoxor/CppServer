@@ -8,8 +8,8 @@
 
 namespace CppServer {
 
-template <class TServer>
-TCPSession::TCPSession(TServer& server, asio::tcp::socket socket) : _server(server), _socket(std::move(socket))
+template <class TServer, class TSession>
+inline TCPSession<TServer, TSession>::TCPSession(TServer& server, asio::ip::tcp::socket socket) : _server(server), _socket(std::move(socket))
 {
 }
 

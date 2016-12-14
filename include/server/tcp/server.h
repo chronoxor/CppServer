@@ -11,7 +11,7 @@
 
 #include "errors/fatal.h"
 
-#include "../../modules/asio/asio/include/asio.hpp"
+#include "../asio.h"
 
 #include <atomic>
 #include <memory>
@@ -26,7 +26,7 @@ namespace CppServer {
 enum class TCPProtocol
 {
     IPv4,               //!< Internet Protocol version 4
-    IPv4                //!< Internet Protocol version 6
+    IPv6                //!< Internet Protocol version 6
 };
 
 //! TCP server
@@ -39,7 +39,7 @@ enum class TCPProtocol
 
     http://think-async.com
 */
-template <class TSession>
+template <class TServer, class TSession>
 class TCPServer
 {
 public:
@@ -107,17 +107,17 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    std::atimic<bool> _started;
+    std::atomic<bool> _started;
     std::thread _thread;
     asio::io_service _service;
-    asio::tcp::acceptor _acceptor;
-    asio::tcp::socket _socket;
+    asio::ip::tcp::acceptor _acceptor;
+    asio::ip::tcp::socket _socket;
     std::vector<std::shared_ptr<TSession>> _sessions;
 
     //! Server accept
-    void ServerAccept()
+    void ServerAccept();
     //! Server loop
-    void ServerLoop()
+    void ServerLoop();
 };
 
 /*! \example tcp_server.cpp TCP server example */

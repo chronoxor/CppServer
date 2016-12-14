@@ -9,7 +9,7 @@
 #ifndef CPPSERVER_TCP_SESSION_H
 #define CPPSERVER_TCP_SESSION_H
 
-#include "../../modules/asio/asio/include/asio.hpp"
+#include "../asio.h"
 
 #include <utility>
 
@@ -21,7 +21,7 @@ namespace CppServer {
 
     Not thread-safe.
 */
-template <class TServer>
+template <class TServer, class TSession>
 class TCPSession
 {
 public:
@@ -30,7 +30,7 @@ public:
         \param server - TCP server
         \param socket - Connected socket
     */
-    explicit TCPSession(TServer& server, asio::tcp::socket socket);
+    explicit TCPSession(TServer& server, asio::ip::tcp::socket socket);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) noexcept = default;
     virtual ~TCPSession() {};
@@ -49,7 +49,7 @@ protected:
 
 private:
     TServer& _server;
-    asio::tcp::socket _socket;
+    asio::ip::tcp::socket _socket;
 };
 
 } // namespace CppServer

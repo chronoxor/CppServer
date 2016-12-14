@@ -8,43 +8,43 @@
 
 namespace CppServer {
 
-template <class TSession>
-inline TCPServer::TCPServer(TCPProtocol protocol, uint16_t port) : _started(false)
+template <class TServer, class TSession>
+inline TCPServer<TServer, TSession>::TCPServer(TCPProtocol protocol, uint16_t port) : _started(false), _service(), _acceptor(_service), _socket(_service)
 {
     // Create TCP endpoint
-    asio::tcp::endpoint endpoint;
+    asio::ip::tcp::endpoint endpoint;
     switch (protocol)
     {
-        case IPv4:
-            endpoint = tcp::endpoint(tcp::v4(), port);
+        case TCPProtocol::IPv4:
+            endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port);
             break;
-        case IPv6:
-            endpoint = tcp::endpoint(tcp::v6(), port);
+        case TCPProtocol::IPv6:
+            endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v6(), port);
             break;
     }
 
     // Create TCP acceptor
-    _acceptor = tcp::acceptor(_service, endpoint);
+    _acceptor = asio::ip::tcp::acceptor(_service, endpoint);
 }
 
-template <class TSession>
-inline TCPServer::TCPServer(const std::string& address, uint16_t port) : _started(false)
+template <class TServer, class TSession>
+inline TCPServer<TServer, TSession>::TCPServer(const std::string& address, uint16_t port) : _started(false), _service(), _acceptor(_service), _socket(_service)
 {
     // Create TCP resolver
-    asio::tcp::resolver resolver(_service);
+    asio::ip::tcp::resolver resolver(_service);
 
     // Create TCP resolver query
-    asio::tcp::resolver::query query(address, port);
+    asio::ip::tcp::resolver::query query(address, port);
 
     // Create TCP endpoint
-    asio::tcp::endpoint endpoint = tcp::endpoint(resolver.resolve(query));
+    asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(resolver.resolve(query));
 
     // Create TCP acceptor
-    _acceptor = tcp::acceptor(_service, endpoint);
+    _acceptor = asio::ip::tcp::acceptor(_service, endpoint);
 }
 
-template <class TSession>
-inline void TCPServer::Start()
+template <class TServer, class TSession>
+inline void TCPServer<TServer, TSession>::Start()
 {
     if (IsStarted())
         return;
@@ -59,8 +59,8 @@ inline void TCPServer::Start()
     _started = true;
 }
 
-template <class TSession>
-inline void TCPServer::Stop()
+template <class TServer, class TSession>
+inline void TCPServer<TServer, TSession>::Stop()
 {
     if (!IsStarted())
         return;
@@ -78,8 +78,8 @@ inline void TCPServer::Stop()
     _thread.join();
 }
 
-template <class TSession>
-inline void TCPServer::ServerAccept()
+template <class TServer, class TSession>
+inline void TCPServer<TServer, TSession>::ServerAccept()
 {
     _acceptor.async_accept(_socket, [this](std::error_code ec)
     {
@@ -88,9 +88,9 @@ inline void TCPServer::ServerAccept()
         else
         {
             // Create and register a new session
-            auto session = std::make_shared<TSession>(*this, std::move(_socket));
+            auto session = std::make_shared<TSession>(*dynamic_cast<TServer*>(this), std::move(_socket));
             _sessions.emplace_back(session);
-            onAccepted(session);
+            onAccepted(*session);
         }
 
         // Perform the next server accept
@@ -98,8 +98,8 @@ inline void TCPServer::ServerAccept()
     });
 }
 
-template <class TSession>
-inline void TCPServer::ServerLoop()
+template <class TServer, class TSession>
+inline void TCPServer<TServer, TSession>::ServerLoop()
 {
     // Call initialize thread handler
     onThreadInitialize();
