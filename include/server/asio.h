@@ -14,11 +14,15 @@
 
 #include "../../modules/asio/asio/include/asio.hpp"
 
+namespace CppServer {
+
 //! Internet protocols
 enum class InternetProtocol
 {
     IPv4,               //!< Internet Protocol version 4
     IPv6                //!< Internet Protocol version 6
 };
+
+} // namespace CppServer
 
 #endif // CPPSERVER_ASIO_H

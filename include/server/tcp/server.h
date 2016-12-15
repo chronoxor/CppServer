@@ -34,7 +34,7 @@ namespace CppServer {
 template <class TServer, class TSession>
 class TCPServer
 {
-    template <class TServer, class TSession>
+    template <class TSomeServer, class TSomeSession>
     friend class TCPSession;
 
 public:
