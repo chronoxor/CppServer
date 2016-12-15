@@ -30,14 +30,8 @@ inline TCPServer<TServer, TSession>::TCPServer(InternetProtocol protocol, uint16
 template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(const std::string& address, uint16_t port) : _started(false), _service(), _acceptor(_service), _socket(_service)
 {
-    // Create TCP resolver
-    asio::ip::tcp::resolver resolver(_service);
-
-    // Create TCP resolver query
-    asio::ip::tcp::resolver::query query(address);
-
     // Create TCP endpoint
-    asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(resolver.resolve(query), port);
+    asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
 
     // Create TCP acceptor
     _acceptor = asio::ip::tcp::acceptor(_service, endpoint);
