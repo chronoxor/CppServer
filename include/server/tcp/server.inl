@@ -9,16 +9,16 @@
 namespace CppServer {
 
 template <class TServer, class TSession>
-inline TCPServer<TServer, TSession>::TCPServer(TCPProtocol protocol, uint16_t port) : _started(false), _service(), _acceptor(_service), _socket(_service)
+inline TCPServer<TServer, TSession>::TCPServer(InternetProtocol protocol, uint16_t port) : _started(false), _service(), _acceptor(_service), _socket(_service)
 {
     // Create TCP endpoint
     asio::ip::tcp::endpoint endpoint;
     switch (protocol)
     {
-        case TCPProtocol::IPv4:
+        case InternetProtocol::IPv4:
             endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port);
             break;
-        case TCPProtocol::IPv6:
+        case InternetProtocol::IPv6:
             endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v6(), port);
             break;
     }
@@ -142,7 +142,7 @@ inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
     // Call a new session connected handler
     onConnected(session);
 
-	return session;
+    return session;
 }
 
 template <class TServer, class TSession>

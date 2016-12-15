@@ -16,13 +16,13 @@ class EchoServer;
 class EchoSession : public CppServer::TCPSession<EchoServer, EchoSession>
 {
 public:
-	using CppServer::TCPSession<EchoServer, EchoSession>::TCPSession;
+    using CppServer::TCPSession<EchoServer, EchoSession>::TCPSession;
 
-	void onConnected() override { std::cout << "EchoSession with Id " << id() << " connected!" << std::endl; }
-	void onDisconnected() override { std::cout << "EchoSession with Id " << id() << " disconnected!" << std::endl; }
-	size_t onReceived(const void* buffer, size_t size) override { Send(buffer, size); return size; }
-	void onSent(size_t sent, size_t pending) {}
-	void onError(int error, const std::string& category, const std::string& message) override { std::cout << "EchoSession caught an error with code " << error << " and category '" << category << "': " << message << std::endl; }
+    void onConnected() override { std::cout << "EchoSession with Id " << id() << " connected!" << std::endl; }
+    void onDisconnected() override { std::cout << "EchoSession with Id " << id() << " disconnected!" << std::endl; }
+    size_t onReceived(const void* buffer, size_t size) override { Send(buffer, size); return size; }
+    void onSent(size_t sent, size_t pending) {}
+    void onError(int error, const std::string& category, const std::string& message) override { std::cout << "EchoSession caught an error with code " << error << " and category '" << category << "': " << message << std::endl; }
 };
 
 class EchoServer : public CppServer::TCPServer<EchoServer, EchoSession>
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
     std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new echo server
-    EchoServer server(CppServer::TCPProtocol::IPv4, 1234);
+    EchoServer server(CppServer::InternetProtocol::IPv4, 1234);
 
     // Start the server
     server.Start();

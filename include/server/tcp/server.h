@@ -23,13 +23,6 @@
 
 namespace CppServer {
 
-//! TCP protocols
-enum class TCPProtocol
-{
-    IPv4,               //!< Internet Protocol version 4
-    IPv6                //!< Internet Protocol version 6
-};
-
 //! TCP server
 /*!
     TCP server is used to connect, disconnect and manage TCP sessions.
@@ -41,7 +34,7 @@ enum class TCPProtocol
 template <class TServer, class TSession>
 class TCPServer
 {
-	template <class TServer, class TSession>
+    template <class TServer, class TSession>
     friend class TCPSession;
 
 public:
@@ -50,7 +43,7 @@ public:
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit TCPServer(TCPProtocol protocol, uint16_t port);
+    explicit TCPServer(InternetProtocol protocol, uint16_t port);
     //! Initialize TCP server with a given IP address and port number
     /*!
         \param address - IP address
