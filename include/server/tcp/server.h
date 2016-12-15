@@ -107,11 +107,14 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    std::atomic<bool> _started;
-    std::thread _thread;
+    // Asio service
     asio::io_service _service;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
+    // Server thread
+    std::thread _thread;
+    std::atomic<bool> _started;
+    // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     std::mutex _sessions_lock;
 

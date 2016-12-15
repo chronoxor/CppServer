@@ -9,7 +9,11 @@
 namespace CppServer {
 
 template <class TServer, class TSession>
-inline TCPServer<TServer, TSession>::TCPServer(InternetProtocol protocol, uint16_t port) : _started(false), _service(), _acceptor(_service), _socket(_service)
+inline TCPServer<TServer, TSession>::TCPServer(InternetProtocol protocol, uint16_t port)
+    : _service(),
+      _acceptor(_service),
+      _socket(_service),
+      _started(false)
 {
     // Create TCP endpoint
     asio::ip::tcp::endpoint endpoint;
@@ -28,7 +32,11 @@ inline TCPServer<TServer, TSession>::TCPServer(InternetProtocol protocol, uint16
 }
 
 template <class TServer, class TSession>
-inline TCPServer<TServer, TSession>::TCPServer(const std::string& address, uint16_t port) : _started(false), _service(), _acceptor(_service), _socket(_service)
+inline TCPServer<TServer, TSession>::TCPServer(const std::string& address, uint16_t port)
+    : _service(),
+      _acceptor(_service),
+      _socket(_service),
+      _started(false)
 {
     // Create TCP endpoint
     asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);

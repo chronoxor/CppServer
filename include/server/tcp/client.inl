@@ -1,8 +1,8 @@
 /*!
-    \file session.inl
-    \brief TCP session inline implementation
+    \file client.inl
+    \brief TCP client inline implementation
     \author Ivan Shynkarenka
-    \date 14.12.2016
+    \date 15.12.2016
     \copyright MIT License
 */
 
@@ -10,10 +10,10 @@ namespace CppServer {
 
 template <class TServer, class TSession>
 inline TCPSession<TServer, TSession>::TCPSession(TServer& server, const CppCommon::UUID& uuid, asio::ip::tcp::socket socket)
-    : _id(uuid),
-      _server(server),
+    : _server(server),
+      _id(uuid),
       _socket(std::move(socket)),
-      _ñonnected(true)
+      _disconnected(false)
 {
     // Put the socket into non-blocking mode
     _socket.non_blocking(true);
@@ -26,26 +26,22 @@ inline TCPSession<TServer, TSession>::TCPSession(TServer& server, const CppCommo
 }
 
 template <class TServer, class TSession>
-bool TCPSession<TServer, TSession>::Disconnect()
+void TCPSession<TServer, TSession>::Disconnect()
 {
-    if (!IsConnected())
-        return false;
+    if (IsConnected())
+    {
+        // Setup disconnected flag
+        _disconnected = true;
 
-    std::lock_guard<std::mutex> locker(_ñonnected_lock);
+        // Close the session on error
+        _socket.close();
 
-    // Setup disconnected flag
-    _disconnected = true;
+        // Call the session disconnected handler
+        onDisconnected();
 
-    // Close the session on error
-    _socket.close();
-
-    // Call the session disconnected handler
-    onDisconnected();
-
-    // Unregister the session
-    _server.UnregisterSession(id());
-
-    return true;
+        // Unregister the session
+        _server.UnregisterSession(id());
+    }
 }
 
 template <class TServer, class TSession>
@@ -66,12 +62,8 @@ size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t size)
 template <class TServer, class TSession>
 inline void TCPSession<TServer, TSession>::TryReceive()
 {
-    std::lock_guard<std::mutex> locker(_ñonnected_lock);
-
     _socket.async_wait(asio::ip::tcp::socket::wait_read, [this](std::error_code ec)
     {
-        std::lock_guard<std::mutex> locker(_ñonnected_lock);
-
         // Perform receive some data from the client in non blocking mode
         if (!ec)
         {
@@ -108,8 +100,6 @@ inline void TCPSession<TServer, TSession>::TrySend()
 {
     _socket.async_wait(asio::ip::tcp::socket::wait_write, [this](std::error_code ec)
     {
-        std::lock_guard<std::mutex> locker(_ñonnected_lock);
-
         // Perform send some data to the client in non blocking mode
         if (!ec)
         {
