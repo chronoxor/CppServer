@@ -21,7 +21,7 @@ public:
     void onConnected() override { std::cout << "EchoSession with Id " << id() << " connected!" << std::endl; }
     void onDisconnected() override { std::cout << "EchoSession with Id " << id() << " disconnected!" << std::endl; }
     size_t onReceived(const void* buffer, size_t size) override { Send(buffer, size); return size; }
-    void onSent(size_t sent, size_t pending) {}
+    void onSent(size_t sent, size_t pending) override {}
     void onError(int error, const std::string& category, const std::string& message) override { std::cout << "EchoSession caught an error with code " << error << " and category '" << category << "': " << message << std::endl; }
 };
 
