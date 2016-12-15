@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['class_2ecpp',['class.cpp',['../class_8cpp.html',1,'']]],
-  ['class_2eh',['class.h',['../class_8h.html',1,'']]],
-  ['class_2einl',['class.inl',['../class_8inl.html',1,'']]],
-  ['cpptemplate',['CppTemplate',['../namespace_cpp_template.html',1,'']]],
-  ['c_2b_2b_20template_20library',['C++ Template Library',['../index.html',1,'']]]
+  ['asio_2eh',['asio.h',['../asio_8h.html',1,'']]],
+  ['asio_5fseparate_5fcompilation',['ASIO_SEPARATE_COMPILATION',['../asio_8h.html#a61c9282eacc368b1f6adb1746d7d00b6',1,'asio.h']]],
+  ['asio_5fstandalone',['ASIO_STANDALONE',['../asio_8h.html#a5b90f4adb6bc09ca319c35c3448ee67a',1,'asio.h']]]
 ];

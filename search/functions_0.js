@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['field',['field',['../class_cpp_template_1_1_template.html#a077b38ebc7c91c672830dcf0006520e9',1,'CppTemplate::Template']]],
-  ['function',['function',['../namespace_cpp_template.html#aa07d7bdc14cfc5cdd4959ad21dc02523',1,'CppTemplate']]]
+  ['disconnect',['Disconnect',['../class_cpp_server_1_1_t_c_p_session.html#a42f9b02e0af419942932a30aad4f4dc4',1,'CppServer::TCPSession']]]
 ];
