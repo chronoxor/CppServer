@@ -34,10 +34,10 @@ inline TCPServer<TServer, TSession>::TCPServer(const std::string& address, uint1
     asio::ip::tcp::resolver resolver(_service);
 
     // Create TCP resolver query
-    asio::ip::tcp::resolver::query query(address, port);
+    asio::ip::tcp::resolver::query query(address);
 
     // Create TCP endpoint
-    asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(resolver.resolve(query));
+    asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(resolver.resolve(query), port);
 
     // Create TCP acceptor
     _acceptor = asio::ip::tcp::acceptor(_service, endpoint);
