@@ -35,11 +35,11 @@ public:
     */
     explicit TCPSession(TServer& server, const CppCommon::UUID& uuid, asio::ip::tcp::socket socket);
     TCPSession(const TCPSession&) = delete;
-    TCPSession(TCPSession&&) noexcept = default;
+    TCPSession(TCPSession&&) = default;
     virtual ~TCPSession() {};
 
     TCPSession& operator=(const TCPSession&) = delete;
-    TCPSession& operator=(TCPSession&&) noexcept = default;
+    TCPSession& operator=(TCPSession&&) = default;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }

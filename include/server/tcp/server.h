@@ -51,11 +51,11 @@ public:
     */
     explicit TCPServer(const std::string& address, uint16_t port);
     TCPServer(const TCPServer&) = delete;
-    TCPServer(TCPServer&&) noexcept = default;
+    TCPServer(TCPServer&&) = default;
     virtual ~TCPServer() { Stop(); }
 
     TCPServer& operator=(const TCPServer&) = delete;
-    TCPServer& operator=(TCPServer&&) noexcept = default;
+    TCPServer& operator=(TCPServer&&) = default;
 
     //! Is server started?
     bool IsStarted() const noexcept { return _started; }
