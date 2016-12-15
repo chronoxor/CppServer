@@ -10,15 +10,16 @@
 #define CPPSERVER_TCP_SERVER_H
 
 #include "errors/fatal.h"
+#include "system/uuid.h"
 
 #include "../asio.h"
 
 #include <atomic>
+#include <map>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <thread>
-#include <utility>
-#include <vector>
 
 namespace CppServer {
 
@@ -31,17 +32,18 @@ enum class TCPProtocol
 
 //! TCP server
 /*!
-    TCP server is used to accept, create and manage TCP sessions.
+    TCP server is used to connect, disconnect and manage TCP sessions.
     It is implemented based on Asio C++ Library and use a separate
     thread to perform all TCP communications.
 
     Not thread-safe.
-
-    http://think-async.com
 */
 template <class TServer, class TSession>
 class TCPServer
 {
+	template <class TServer, class TSession>
+    friend class TCPSession;
+
 public:
     //! Initialize TCP server with a given protocol and port number
     /*!
@@ -92,11 +94,16 @@ protected:
     //! Handle server stopped notification
     virtual void onStopped() {}
 
-    //! Handle new session accepted notification
+    //! Handle new session connected notification
     /*!
-        \param session - New accepted session
+        \param session - Connected session
     */
-    virtual void onAccepted(const TSession& session) {}
+    virtual void onConnected(std::shared_ptr<TSession> session) {}
+    //! Handle session disconnected notification
+    /*!
+        \param session - Disconnected session
+    */
+    virtual void onDisconnected(std::shared_ptr<TSession> session) {}
 
     //! Handle error notification
     /*!
@@ -112,12 +119,18 @@ private:
     asio::io_service _service;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
-    std::vector<std::shared_ptr<TSession>> _sessions;
+    std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
+    std::mutex _sessions_lock;
 
     //! Server accept
     void ServerAccept();
     //! Server loop
     void ServerLoop();
+
+    //! Register a new session
+    std::shared_ptr<TSession> RegisterSession();
+    //! Unregister the given session
+    void UnregisterSession(const CppCommon::UUID& id);
 };
 
 /*! \example tcp_server.cpp TCP server example */

@@ -83,15 +83,10 @@ inline void TCPServer<TServer, TSession>::ServerAccept()
 {
     _acceptor.async_accept(_socket, [this](std::error_code ec)
     {
-        if (ec)
-            onError(ec.value(), ec.category().name(), ec.message());
+        if (!ec)
+            RegisterSession();
         else
-        {
-            // Create and register a new session
-            auto session = std::make_shared<TSession>(*dynamic_cast<TServer*>(this), std::move(_socket));
-            _sessions.emplace_back(session);
-            onAccepted(*session);
-        }
+            onError(ec.value(), ec.category().name(), ec.message());
 
         // Perform the next server accept
         ServerAccept();
@@ -134,6 +129,37 @@ inline void TCPServer<TServer, TSession>::ServerLoop()
 
     // Call cleanup thread handler
     onThreadCleanup();
+}
+
+template <class TServer, class TSession>
+inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
+{
+    std::lock_guard<std::mutex> locker(_sessions_lock);
+
+    auto session = std::make_shared<TSession>(*dynamic_cast<TServer*>(this), CppCommon::UUID::Generate(), std::move(_socket));
+    _sessions.emplace(session->id(), session);
+
+    // Call a new session connected handler
+    onConnected(session);
+
+	return session;
+}
+
+template <class TServer, class TSession>
+inline void TCPServer<TServer, TSession>::UnregisterSession(const CppCommon::UUID& id)
+{
+    std::lock_guard<std::mutex> locker(_sessions_lock);
+
+    // Try to find session to unregister
+    auto it = _sessions.find(id);
+    if (it != _sessions.end())
+    {
+        // Call the session disconnected handler
+        onDisconnected(it->second);
+
+        // Erase the session
+        _sessions.erase(it);
+    }
 }
 
 } // namespace CppServer
