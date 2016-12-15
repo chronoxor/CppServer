@@ -116,8 +116,9 @@ inline void TCPServer<TServer, TSession>::ServerLoop()
                 onError(ec.value(), ec.category().name(), ec.message());
         }
 
-        // Clear sessions collection
-        _sessions.clear();
+        // Disconnect all sessions
+        while (!_sessions.empty())
+            _sessions.begin()->second->Disconnect();
 
         // Call server stopped handler
         onStopped();

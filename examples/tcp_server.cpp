@@ -54,7 +54,7 @@ int main(int argc, char** argv)
     std::cin.get();
 
     // Stop the server
-    server.Start();
+    server.Stop();
 
     return 0;
 }
