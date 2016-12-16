@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['disconnect',['Disconnect',['../class_cpp_server_1_1_t_c_p_session.html#a42f9b02e0af419942932a30aad4f4dc4',1,'CppServer::TCPSession']]]
+  ['connect',['Connect',['../class_cpp_server_1_1_t_c_p_client.html#aba3fb0c450d8c53b6b4def9f352c23fd',1,'CppServer::TCPClient']]]
 ];

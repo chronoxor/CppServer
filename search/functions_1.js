@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['field',['field',['../class_cpp_template_1_1_template.html#a077b38ebc7c91c672830dcf0006520e9',1,'CppTemplate::Template']]],
-  ['function',['function',['../namespace_cpp_template.html#aa07d7bdc14cfc5cdd4959ad21dc02523',1,'CppTemplate']]]
+  ['disconnect',['Disconnect',['../class_cpp_server_1_1_t_c_p_client.html#a97fbc070b94b7503857e05917bc0ad82',1,'CppServer::TCPClient::Disconnect()'],['../class_cpp_server_1_1_t_c_p_session.html#aa31842aa2845c2281ace1d1faed54781',1,'CppServer::TCPSession::Disconnect()']]],
+  ['disconnectall',['DisconnectAll',['../class_cpp_server_1_1_t_c_p_server.html#af10f3748af7ae914a59a48aa2593f19a',1,'CppServer::TCPServer']]]
 ];
