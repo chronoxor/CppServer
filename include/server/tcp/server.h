@@ -52,7 +52,7 @@ public:
     explicit TCPServer(const std::string& address, uint16_t port);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = default;
-    virtual ~TCPServer() { Stop(); }
+    virtual ~TCPServer() = default;
 
     TCPServer& operator=(const TCPServer&) = delete;
     TCPServer& operator=(TCPServer&&) = default;
@@ -64,6 +64,9 @@ public:
     void Start();
     //! Stop server
     void Stop();
+
+    //! Disconnect all sessions
+    void DisconnectAll();
 
 protected:
     //! Initialize thread handler
@@ -115,8 +118,8 @@ private:
     std::thread _thread;
     std::atomic<bool> _started;
     // Server sessions
-    std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     std::mutex _sessions_lock;
+    std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
 
     //! Server accept
     void ServerAccept();
@@ -129,7 +132,7 @@ private:
     void UnregisterSession(const CppCommon::UUID& id);
 };
 
-/*! \example tcp_server.cpp TCP server example */
+/*! \example tcp_echo_server.cpp TCP echo server example */
 
 } // namespace CppServer
 

@@ -14,6 +14,7 @@
 
 #include "../asio.h"
 
+#include <atomic>
 #include <mutex>
 #include <vector>
 
@@ -36,7 +37,7 @@ public:
     explicit TCPClient(const std::string& address, uint16_t port);
     TCPClient(const TCPClient&) = delete;
     TCPClient(TCPClient&&) = default;
-    virtual ~TCPClient() {};
+    virtual ~TCPClient() = default;
 
     TCPClient& operator=(const TCPClient&) = delete;
     TCPClient& operator=(TCPClient&&) = default;
@@ -44,8 +45,15 @@ public:
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }
 
+    //! Is the client started?
+    bool IsStarted() const noexcept { return _started; }
     //! Is the client connected?
-    bool IsConnected() const noexcept { return !_disconnected; };
+    bool IsConnected() const noexcept { return _ñonnected; };
+
+    //! Start server
+    void Start();
+    //! Stop server
+    void Stop();
 
     //! Connect the client
     /*!
@@ -62,14 +70,35 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of total bytes to send
+        \return Count of sent bytes
     */
     size_t Send(const void* buffer, size_t size);
 
 protected:
-    //! Handle session connected notification
+    //! Initialize thread handler
+    /*!
+         This handler can be used to initialize priority or affinity of the client thread.
+    */
+    virtual void onThreadInitialize() {}
+    //! Cleanup thread handler
+    /*!
+         This handler can be used to cleanup priority or affinity of the client thread.
+    */
+    virtual void onThreadCleanup() {}
+
+    //! Handle client starting notification
+    virtual void onStarting() {}
+    //! Handle client started notification
+    virtual void onStarted() {}
+
+    //! Handle client stopping notification
+    virtual void onStopping() {}
+    //! Handle client stopped notification
+    virtual void onStopped() {}
+
+    //! Handle client connected notification
     virtual void onConnected() {}
-    //! Handle session disconnected notification
+    //! Handle client disconnected notification
     virtual void onDisconnected() {}
 
     //! Handle buffer received notification
@@ -113,12 +142,22 @@ private:
     // Asio service
     asio::io_service _service;
     asio::ip::tcp::socket _socket;
+    asio::ip::tcp::endpoint _endpoint;
+    // Client thread
+    std::thread _thread;
+    std::atomic<bool> _started;
     std::atomic<bool> _ñonnected;
-    std::mutex _ñonnected_lock;
     // Receive & send buffers
+    std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
     std::vector<uint8_t> _send_buffer;
-    std::mutex _send_lock;
+    bool _reciving;
+    bool _sending;
+
+    static const size_t CHUNK = 8192;
+
+    //! Client loop
+    void ClientLoop();
 
     //! Try to receive data
     void TryReceive();

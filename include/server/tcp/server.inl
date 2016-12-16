@@ -73,6 +73,9 @@ inline void TCPServer<TServer, TSession>::Stop()
     // Update started flag
     _started = false;
 
+    // Disconnect all sessions
+    DisconnectAll();
+
     // Stop Asio service
     _service.stop();
 
@@ -83,6 +86,9 @@ inline void TCPServer<TServer, TSession>::Stop()
 template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::ServerAccept()
 {
+    if (!IsStarted())
+        return;
+
     _acceptor.async_accept(_socket, [this](std::error_code ec)
     {
         if (!ec)
@@ -118,10 +124,6 @@ inline void TCPServer<TServer, TSession>::ServerLoop()
                 onError(ec.value(), ec.category().name(), ec.message());
         }
 
-        // Disconnect all sessions
-        while (!_sessions.empty())
-            _sessions.begin()->second->Disconnect();
-
         // Call server stopped handler
         onStopped();
     }
@@ -137,10 +139,11 @@ inline void TCPServer<TServer, TSession>::ServerLoop()
 template <class TServer, class TSession>
 inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
 {
-    std::lock_guard<std::mutex> locker(_sessions_lock);
-
     auto session = std::make_shared<TSession>(*dynamic_cast<TServer*>(this), CppCommon::UUID::Generate(), std::move(_socket));
-    _sessions.emplace(session->id(), session);
+    {
+        std::lock_guard<std::mutex> locker(_sessions_lock);
+        _sessions.emplace(session->id(), session);
+    }
 
     // Call a new session connected handler
     onConnected(session);
@@ -151,18 +154,40 @@ inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
 template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::UnregisterSession(const CppCommon::UUID& id)
 {
-    std::lock_guard<std::mutex> locker(_sessions_lock);
-
-    // Try to find session to unregister
-    auto it = _sessions.find(id);
-    if (it != _sessions.end())
+    std::shared_ptr<TSession> session;
     {
-        // Call the session disconnected handler
-        onDisconnected(it->second);
+        std::lock_guard<std::mutex> locker(_sessions_lock);
 
-        // Erase the session
-        _sessions.erase(it);
+        // Try to find session to unregister
+        auto it = _sessions.find(id);
+        if (it != _sessions.end())
+        {
+            // Cache session
+            session = it->second;
+
+            // Erase the session
+            _sessions.erase(it);
+        }
     }
+
+    // Call the session disconnected handler
+    if (session)
+        onDisconnected(session);
+}
+
+template <class TServer, class TSession>
+inline void TCPServer<TServer, TSession>::DisconnectAll()
+{
+    // Cache all sessions to disconnect
+    std::map<CppCommon::UUID, std::shared_ptr<TSession>> sessions;
+    {
+        std::lock_guard<std::mutex> locker(_sessions_lock);
+        sessions = _sessions;
+    }
+
+    // Disconnect all sessions from the cache
+    for (auto& session : sessions)
+        session.second->Disconnect();
 }
 
 } // namespace CppServer

@@ -1,6 +1,6 @@
 /*!
-    \file tcp_server.cpp
-    \brief TCP server example
+    \file tcp_echo_server.cpp
+    \brief TCP echo server example
     \author Ivan Shynkarenka
     \date 14.12.2016
     \copyright MIT License
@@ -18,9 +18,12 @@ class EchoSession : public CppServer::TCPSession<EchoServer, EchoSession>
 public:
     using CppServer::TCPSession<EchoServer, EchoSession>::TCPSession;
 
+protected:
     void onConnected() override
     {
         std::cout << "EchoSession with Id " << id() << " connected!" << std::endl;
+
+        // Send invite message
         std::string message("Please send something to echo server or send '0' for disconnect!");
         Send(message.data(), message.size());
     }
@@ -33,9 +36,11 @@ public:
     {
         // Send the buffer back to client
         Send(buffer, size);
+
         // If the buffer starts with '0' the disconnect the client
         if (*(const uint8_t*)buffer == '0')
             Disconnect();
+
         // Inform that we handled the whole buffer
         return size;
     }
@@ -88,7 +93,7 @@ int main(int argc, char** argv)
 {
     std::cout << "Press Enter to stop..." << std::endl;
 
-    // Create a new echo server
+    // Create a new TCP echo server
     EchoServer server(CppServer::InternetProtocol::IPv4, 1234);
 
     // Start the server

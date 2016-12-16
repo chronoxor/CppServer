@@ -37,7 +37,7 @@ public:
     explicit TCPSession(TServer& server, const CppCommon::UUID& uuid, asio::ip::tcp::socket socket);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
-    virtual ~TCPSession() {};
+    virtual ~TCPSession() = default;
 
     TCPSession& operator=(const TCPSession&) = delete;
     TCPSession& operator=(TCPSession&&) = default;
@@ -58,7 +58,7 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of total bytes to send
+        \return Count of sent bytes
     */
     size_t Send(const void* buffer, size_t size);
 
@@ -110,11 +110,14 @@ private:
     TServer& _server;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _ñonnected;
-    std::mutex _ñonnected_lock;
     // Receive & send buffers
+    std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
     std::vector<uint8_t> _send_buffer;
-    std::mutex _send_lock;
+    bool _reciving;
+    bool _sending;
+
+    static const size_t CHUNK = 8192;
 
     //! Try to receive data
     void TryReceive();
