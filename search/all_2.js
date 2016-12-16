@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['disconnect',['Disconnect',['../class_cpp_server_1_1_t_c_p_client.html#a97fbc070b94b7503857e05917bc0ad82',1,'CppServer::TCPClient::Disconnect()'],['../class_cpp_server_1_1_t_c_p_session.html#aa31842aa2845c2281ace1d1faed54781',1,'CppServer::TCPSession::Disconnect()']]],
-  ['disconnectall',['DisconnectAll',['../class_cpp_server_1_1_t_c_p_server.html#af10f3748af7ae914a59a48aa2593f19a',1,'CppServer::TCPServer']]]
+  ['client_2eh',['client.h',['../client_8h.html',1,'']]],
+  ['client_2einl',['client.inl',['../client_8inl.html',1,'']]],
+  ['connect',['Connect',['../class_cpp_server_1_1_t_c_p_client.html#aba3fb0c450d8c53b6b4def9f352c23fd',1,'CppServer::TCPClient']]],
+  ['cppserver',['CppServer',['../namespace_cpp_server.html',1,'']]],
+  ['c_2b_2b_20server_20library',['C++ Server Library',['../index.html',1,'']]]
 ];

@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['send',['Send',['../class_cpp_server_1_1_t_c_p_client.html#a20b9d0361c6c906d443c92a1d3c7b7cb',1,'CppServer::TCPClient::Send()'],['../class_cpp_server_1_1_t_c_p_session.html#afb0f4b780d62224d8f0070e0f61d3c72',1,'CppServer::TCPSession::Send()']]],
-  ['server_2eh',['server.h',['../server_8h.html',1,'']]],
-  ['server_2einl',['server.inl',['../server_8inl.html',1,'']]],
-  ['session_2eh',['session.h',['../session_8h.html',1,'']]],
-  ['session_2einl',['session.inl',['../session_8inl.html',1,'']]],
-  ['start',['Start',['../class_cpp_server_1_1_t_c_p_client.html#ab92e1a1934de2a5cb876d4dc814f1c1b',1,'CppServer::TCPClient::Start()'],['../class_cpp_server_1_1_t_c_p_server.html#a3acb531ca39edc0b362b4577153f5ca9',1,'CppServer::TCPServer::Start()']]],
-  ['staticmethod',['StaticMethod',['../class_cpp_template_1_1_template.html#a790b89d9b6a4cd93bfb4fae965b0426a',1,'CppTemplate::Template']]],
-  ['stop',['Stop',['../class_cpp_server_1_1_t_c_p_client.html#acb48f32e7a75b3f278b232dc2e3952ad',1,'CppServer::TCPClient::Stop()'],['../class_cpp_server_1_1_t_c_p_server.html#acf067bacda945ae98ae36fdbd04fe17d',1,'CppServer::TCPServer::Stop()']]]
+  ['tcpclient',['TCPClient',['../class_cpp_server_1_1_t_c_p_client.html',1,'CppServer']]],
+  ['tcpclient',['TCPClient',['../class_cpp_server_1_1_t_c_p_client.html#a9e30700322caef2af87b14f615b6cd35',1,'CppServer::TCPClient::TCPClient(const std::string &amp;address, int port)'],['../class_cpp_server_1_1_t_c_p_client.html#aa6d0669590d54f864747404762ee3818',1,'CppServer::TCPClient::TCPClient(const TCPClient &amp;client)'],['../class_cpp_server_1_1_t_c_p_client.html#a6351ed7671559fdd84d0197d12b8e06c',1,'CppServer::TCPClient::TCPClient(TCPClient &amp;&amp;)=default']]],
+  ['tcpserver',['TCPServer',['../class_cpp_server_1_1_t_c_p_server.html#a17f45456a4f14e90fc4add913e2eacc8',1,'CppServer::TCPServer::TCPServer(InternetProtocol protocol, int port)'],['../class_cpp_server_1_1_t_c_p_server.html#a02a4df1861b2cb8b5c657f36f298da3a',1,'CppServer::TCPServer::TCPServer(const std::string &amp;address, int port)'],['../class_cpp_server_1_1_t_c_p_server.html#a9a95f257dbd274335bd659ec8968fc9b',1,'CppServer::TCPServer::TCPServer(const TCPServer &amp;)=delete'],['../class_cpp_server_1_1_t_c_p_server.html#a6438bcb8d2b2cfd2dafe268b505ac0e8',1,'CppServer::TCPServer::TCPServer(TCPServer &amp;&amp;)=default']]],
+  ['tcpserver',['TCPServer',['../class_cpp_server_1_1_t_c_p_server.html',1,'CppServer']]],
+  ['tcpsession',['TCPSession',['../class_cpp_server_1_1_t_c_p_session.html',1,'CppServer']]],
+  ['tcpsession',['TCPSession',['../class_cpp_server_1_1_t_c_p_server.html#a925f8a6af12d537a5b451766f0c89c88',1,'CppServer::TCPServer::TCPSession()'],['../class_cpp_server_1_1_t_c_p_session.html#a1f4e607eb1576a1f6de5b25439380c24',1,'CppServer::TCPSession::TCPSession(TServer &amp;server, const CppCommon::UUID &amp;uuid, asio::ip::tcp::socket socket)'],['../class_cpp_server_1_1_t_c_p_session.html#ac23053cad5493669a55ba46589af696b',1,'CppServer::TCPSession::TCPSession(const TCPSession &amp;)=delete'],['../class_cpp_server_1_1_t_c_p_session.html#a75bcefcdae69b32c7cb40290de8713c1',1,'CppServer::TCPSession::TCPSession(TCPSession &amp;&amp;)=default']]]
 ];
