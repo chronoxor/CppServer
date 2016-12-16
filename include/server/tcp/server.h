@@ -11,13 +11,13 @@
 
 #include "errors/fatal.h"
 #include "system/uuid.h"
+#include "threads/thread.h"
 
 #include "../asio.h"
 
 #include <atomic>
 #include <map>
 #include <memory>
-#include <mutex>
 #include <string>
 #include <thread>
 
@@ -43,13 +43,13 @@ public:
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit TCPServer(InternetProtocol protocol, uint16_t port);
+    explicit TCPServer(InternetProtocol protocol, int port);
     //! Initialize TCP server with a given IP address and port number
     /*!
         \param address - IP address
         \param port - Port number
     */
-    explicit TCPServer(const std::string& address, uint16_t port);
+    explicit TCPServer(const std::string& address, int port);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = default;
     virtual ~TCPServer() = default;
@@ -61,9 +61,19 @@ public:
     bool IsStarted() const noexcept { return _started; }
 
     //! Start server
-    void Start();
+    /*!
+        \param polling - Polling loop mode with idle handler call (default is false)
+    */
+    void Start(bool polling = false);
     //! Stop server
     void Stop();
+
+    //! Broadcast data into all sessions
+    /*!
+        \param buffer - Buffer to send
+        \param size - Buffer size
+    */
+    void Broadcast(const void* buffer, size_t size);
 
     //! Disconnect all sessions
     void DisconnectAll();
@@ -89,6 +99,9 @@ protected:
     virtual void onStopping() {}
     //! Handle server stopped notification
     virtual void onStopped() {}
+
+    //! Handle server idle notification
+    virtual void onIdle() { CppCommon::Thread::Yield(); }
 
     //! Handle new session connected notification
     /*!
@@ -118,13 +131,15 @@ private:
     std::thread _thread;
     std::atomic<bool> _started;
     // Server sessions
-    std::mutex _sessions_lock;
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
+    // Broadcast buffer
+    std::mutex _broadcast_lock;
+    std::vector<uint8_t> _broadcast_buffer;
 
     //! Server accept
     void ServerAccept();
     //! Server loop
-    void ServerLoop();
+    void ServerLoop(bool polling);
 
     //! Register a new session
     std::shared_ptr<TSession> RegisterSession();
@@ -132,7 +147,7 @@ private:
     void UnregisterSession(const CppCommon::UUID& id);
 };
 
-/*! \example tcp_echo_server.cpp TCP echo server example */
+/*! \example tcp_chat_server.cpp TCP chat server example */
 
 } // namespace CppServer
 

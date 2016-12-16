@@ -45,6 +45,9 @@ public:
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
 
+    //! Get the session's server
+    TServer& server() noexcept { return _server; }
+
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; };
 
@@ -58,7 +61,7 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of sent bytes
+        \return Count of pending bytes in the send buffer
     */
     size_t Send(const void* buffer, size_t size);
 

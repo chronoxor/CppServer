@@ -20,11 +20,15 @@ inline TCPSession<TServer, TSession>::TCPSession(TServer& server, const CppCommo
     // Put the socket into non-blocking mode
     _socket.non_blocking(true);
 
-    // Call session connected handler
-    onConnected();
+    // Post connect routine
+    _server._service.post([this]()
+    {
+        // Call session connected handler
+        onConnected();
 
-    // Try to receive something from the client
-    TryReceive();
+        // Try to receive something from the client
+        TryReceive();
+    });
 }
 
 template <class TServer, class TSession>
@@ -33,11 +37,18 @@ bool TCPSession<TServer, TSession>::Disconnect()
     if (!IsConnected())
         return false;
 
-    // Post the disconnect routine
+    // Post disconnect routine
     _server._service.post([this]()
     {
         // Update connected flag
         _connected = false;
+
+        // Clear receive/send buffers
+        _recive_buffer.clear();
+        {
+            std::lock_guard<std::mutex> locker(_send_lock);
+            _send_buffer.clear();
+        }
 
         // Close the session socket
         _socket.close();
@@ -63,7 +74,7 @@ size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t size)
     const uint8_t* bytes = (const uint8_t*)buffer;
     _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
 
-    // Post the send routine
+    // Post send routine
     _server._service.post([this]()
     {
         // Try to send the buffer if it is the first buffer to send
@@ -71,7 +82,7 @@ size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t size)
             TrySend();
     });
 
-    return size;
+    return _send_buffer.size();
 }
 
 template <class TServer, class TSession>

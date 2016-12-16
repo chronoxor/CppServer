@@ -14,6 +14,10 @@
 
 #include "../../modules/asio/asio/include/asio.hpp"
 
+#if defined(_WIN32) || defined(_WIN64)
+#undef Yield
+#endif
+
 namespace CppServer {
 
 //! Internet protocols

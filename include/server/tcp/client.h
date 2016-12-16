@@ -10,6 +10,7 @@
 #define CPPSERVER_TCP_CLIENT_H
 
 #include "errors/fatal.h"
+#include "threads/thread.h"
 #include "system/uuid.h"
 
 #include "../asio.h"
@@ -34,8 +35,8 @@ public:
         \param address - IP address
         \param port - Port number
     */
-    explicit TCPClient(const std::string& address, uint16_t port);
-    TCPClient(const TCPClient&) = delete;
+    explicit TCPClient(const std::string& address, int port);
+    TCPClient(const TCPClient& client);
     TCPClient(TCPClient&&) = default;
     virtual ~TCPClient() = default;
 
@@ -51,7 +52,10 @@ public:
     bool IsConnected() const noexcept { return _connected; };
 
     //! Start server
-    void Start();
+    /*!
+        \param polling - Polling loop mode with idle handler call (default is false)
+    */
+    void Start(bool polling = false);
     //! Stop server
     void Stop();
 
@@ -70,7 +74,7 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of sent bytes
+        \return Count of pending bytes in the send buffer
     */
     size_t Send(const void* buffer, size_t size);
 
@@ -95,6 +99,9 @@ protected:
     virtual void onStopping() {}
     //! Handle client stopped notification
     virtual void onStopped() {}
+
+    //! Handle client idle notification
+    virtual void onIdle() { CppCommon::Thread::Yield(); }
 
     //! Handle client connected notification
     virtual void onConnected() {}
@@ -157,13 +164,15 @@ private:
     static const size_t CHUNK = 8192;
 
     //! Client loop
-    void ClientLoop();
+    void ClientLoop(bool polling);
 
     //! Try to receive data
     void TryReceive();
     //! Try to send data
     void TrySend();
 };
+
+/*! \example tcp_chat_client.cpp TCP chat client example */
 
 } // namespace CppServer
 

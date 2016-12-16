@@ -8,7 +8,7 @@
 
 namespace CppServer {
 
-inline TCPClient::TCPClient(const std::string& address, uint16_t port)
+inline TCPClient::TCPClient(const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(),
       _socket(_service),
@@ -20,7 +20,19 @@ inline TCPClient::TCPClient(const std::string& address, uint16_t port)
 {
 }
 
-inline void TCPClient::Start()
+inline TCPClient::TCPClient(const TCPClient& client)
+    : _id(CppCommon::UUID::Generate()),
+      _service(),
+      _socket(_service),
+      _endpoint(client._endpoint),
+      _started(false),
+      _connected(false),
+      _reciving(false),
+      _sending(false)
+{
+}
+
+inline void TCPClient::Start(bool polling)
 {
     if (IsStarted())
         return;
@@ -28,11 +40,11 @@ inline void TCPClient::Start()
     // Call client starting handler
     onStarting();
 
-    // Start client thread
-    _thread = std::thread([this]() { ClientLoop(); });
-
     // Update started flag
     _started = true;
+
+    // Start client thread
+    _thread = std::thread([this, polling]() { ClientLoop(polling); });
 }
 
 inline void TCPClient::Stop()
@@ -53,7 +65,7 @@ inline void TCPClient::Stop()
     _thread.join();
 }
 
-inline void TCPClient::ClientLoop()
+inline void TCPClient::ClientLoop(bool polling)
 {
     // Call initialize thread handler
     onThreadInitialize();
@@ -63,17 +75,37 @@ inline void TCPClient::ClientLoop()
         // Call client started handler
         onStarted();
 
-        // Run Asio service in a loop with skipping errors
-        while (_started)
+        if (polling)
         {
-            asio::error_code ec;
-            _service.run(ec);
-            if (ec)
-                onError(ec.value(), ec.category().name(), ec.message());
+            // Run Asio service in a polling loop
+            while (_started)
+            {
+                // Poll all pending handlers
+                _service.poll();
+
+                // Call idle handler
+                onIdle();
+            }
+        }
+        else
+        {
+            // Run Asio service in a running loop
+            while (_started)
+            {
+                // Run all pending handlers
+                _service.run();
+
+                // Call idle handler
+                onIdle();
+            }
         }
 
         // Call client stopped handler
         onStopped();
+    }
+    catch (asio::system_error& ex)
+    {
+        onError(ex.code().value(), ex.code().category().name(), ex.code().message());
     }
     catch (...)
     {
@@ -89,7 +121,7 @@ inline bool TCPClient::Connect()
     if (IsConnected() || !IsStarted())
         return false;
 
-    // Post the connect routine
+    // Post connect routine
     _service.post([this]()
     {
         _socket.async_connect(_endpoint, [this](std::error_code ec)
@@ -126,11 +158,18 @@ inline bool TCPClient::Disconnect()
     if (!IsConnected() || !IsStarted())
         return false;
 
-    // Post the disconnect routine
+    // Post disconnect routine
     _service.post([this]()
     {
         // Update connected flag
         _connected = false;
+
+        // Clear receive/send buffers
+        _recive_buffer.clear();
+        {
+            std::lock_guard<std::mutex> locker(_send_lock);
+            _send_buffer.clear();
+        }
 
         // Close the client socket
         _socket.close();
@@ -144,12 +183,15 @@ inline bool TCPClient::Disconnect()
 
 inline size_t TCPClient::Send(const void* buffer, size_t size)
 {
+    if (!IsConnected() || !IsStarted())
+        return 0;
+
     std::lock_guard<std::mutex> locker(_send_lock);
 
     const uint8_t* bytes = (const uint8_t*)buffer;
     _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
 
-    // Post the send routine
+    // Post send routine
     _service.post([this]()
     {
         // Try to send the buffer if it is the first buffer to send
@@ -157,7 +199,7 @@ inline size_t TCPClient::Send(const void* buffer, size_t size)
             TrySend();
     });
 
-    return size;
+    return _send_buffer.size();
 }
 
 inline void TCPClient::TryReceive()
