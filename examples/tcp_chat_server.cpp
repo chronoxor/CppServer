@@ -85,6 +85,9 @@ int main(int argc, char** argv)
     // Create a new TCP chat server
     ChatServer server(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
+    // Accept new connections
+    server.Accept();
+
     // Perform text input
     std::string line;
     while (getline(std::cin, line))

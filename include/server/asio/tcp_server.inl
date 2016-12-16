@@ -50,15 +50,19 @@ inline void TCPServer<TServer, TSession>::Accept()
     if (!_service.IsStarted())
         return;
 
-    _acceptor.async_accept(_socket, [this](std::error_code ec)
+    // Post disconnect routine
+    _service.service().post([this]()
     {
-        if (!ec)
-            RegisterSession();
-        else
-            onError(ec.value(), ec.category().name(), ec.message());
+        _acceptor.async_accept(_socket, [this](std::error_code ec)
+        {
+            if (!ec)
+                RegisterSession();
+            else
+                onError(ec.value(), ec.category().name(), ec.message());
 
-        // Perform the next server accept
-        Accept();
+            // Perform the next server accept
+            Accept();
+        });
     });
 }
 
