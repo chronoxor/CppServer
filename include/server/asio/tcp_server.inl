@@ -33,9 +33,9 @@ inline TCPServer<TServer, TSession>::TCPServer(Service& service, InternetProtoco
 
 template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(Service& service, const std::string& address, int port)
-    : _service(service.service()),
-      _acceptor(_service),
-      _socket(_service)
+    : _service(service),
+      _acceptor(_service.service()),
+      _socket(_service.service())
 {
     // Create TCP endpoint
     asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
