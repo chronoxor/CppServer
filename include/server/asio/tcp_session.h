@@ -45,7 +45,7 @@ public:
     TCPSession& operator=(TCPSession&&) = default;
 
     //! Get the Asio service
-    Service& service() noexcept { return _service; }
+    Service& service() noexcept { return _server.service(); }
     //! Get the session's server
     TServer& server() noexcept { return _server; }
 
