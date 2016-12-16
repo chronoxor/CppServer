@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['send',['Send',['../class_cpp_server_1_1_t_c_p_client.html#a20b9d0361c6c906d443c92a1d3c7b7cb',1,'CppServer::TCPClient::Send()'],['../class_cpp_server_1_1_t_c_p_session.html#afb0f4b780d62224d8f0070e0f61d3c72',1,'CppServer::TCPSession::Send()']]],
-  ['server',['server',['../class_cpp_server_1_1_t_c_p_session.html#a72d658dad58b1013c786dbcd202fad04',1,'CppServer::TCPSession']]],
-  ['server_2eh',['server.h',['../server_8h.html',1,'']]],
-  ['server_2einl',['server.inl',['../server_8inl.html',1,'']]],
-  ['session_2eh',['session.h',['../session_8h.html',1,'']]],
-  ['session_2einl',['session.inl',['../session_8inl.html',1,'']]],
-  ['start',['Start',['../class_cpp_server_1_1_t_c_p_client.html#aa7d454564385dafc08ae7dfe8813ee91',1,'CppServer::TCPClient::Start()'],['../class_cpp_server_1_1_t_c_p_server.html#a60404668e1fa09505b9f5806f66a042e',1,'CppServer::TCPServer::Start()']]],
-  ['stop',['Stop',['../class_cpp_server_1_1_t_c_p_client.html#acb48f32e7a75b3f278b232dc2e3952ad',1,'CppServer::TCPClient::Stop()'],['../class_cpp_server_1_1_t_c_p_server.html#acf067bacda945ae98ae36fdbd04fe17d',1,'CppServer::TCPServer::Stop()']]]
+  ['send',['Send',['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a16d1f93958c8c98a7a1315b6fc0f3a39',1,'CppServer::Asio::TCPClient::Send()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a8509b519c4df3d9a904feecffd3961ed',1,'CppServer::Asio::TCPSession::Send()']]],
+  ['server',['server',['../class_cpp_server_1_1_asio_1_1_t_c_p_session.html#ab6122a7f35b2b046274f413ebb5bcbc5',1,'CppServer::Asio::TCPSession']]],
+  ['service',['Service',['../class_cpp_server_1_1_asio_1_1_service.html',1,'CppServer::Asio']]],
+  ['service',['service',['../class_cpp_server_1_1_asio_1_1_service.html#a0e22109f69d39ee047b0f8cabf57738a',1,'CppServer::Asio::Service::service()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a20728e7277796f8387d3c74c993f3a18',1,'CppServer::Asio::TCPClient::service()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a8a115c8d9bf9944dfe995525bfb1fda7',1,'CppServer::Asio::TCPServer::service()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_session.html#acd418fac9987a02e85407d9429cfd67a',1,'CppServer::Asio::TCPSession::service()'],['../class_cpp_server_1_1_asio_1_1_service.html#a1888890d636746ccff2b44604929660e',1,'CppServer::Asio::Service::Service()'],['../class_cpp_server_1_1_asio_1_1_service.html#a1ac04a05071716a2fa5831712f058617',1,'CppServer::Asio::Service::Service(const Service &amp;)=delete'],['../class_cpp_server_1_1_asio_1_1_service.html#ab8a7f7b7d23bd166d90145fdd38c8f60',1,'CppServer::Asio::Service::Service(Service &amp;&amp;)=default']]],
+  ['service_2ecpp',['service.cpp',['../service_8cpp.html',1,'']]],
+  ['service_2eh',['service.h',['../service_8h.html',1,'']]],
+  ['start',['Start',['../class_cpp_server_1_1_asio_1_1_service.html#abf7447dc57f9c1ae3c7bf2074ee55098',1,'CppServer::Asio::Service']]],
+  ['stop',['Stop',['../class_cpp_server_1_1_asio_1_1_service.html#a788c20f92564c6101c809cc3a976ddcb',1,'CppServer::Asio::Service']]]
 ];

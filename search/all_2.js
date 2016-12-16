@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['client_2eh',['client.h',['../client_8h.html',1,'']]],
-  ['client_2einl',['client.inl',['../client_8inl.html',1,'']]],
-  ['connect',['Connect',['../class_cpp_server_1_1_t_c_p_client.html#aba3fb0c450d8c53b6b4def9f352c23fd',1,'CppServer::TCPClient']]],
+  ['asio',['Asio',['../namespace_cpp_server_1_1_asio.html',1,'CppServer']]],
+  ['connect',['Connect',['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a1252491897a4b58a4f3fb167a41d9678',1,'CppServer::Asio::TCPClient']]],
   ['cppserver',['CppServer',['../namespace_cpp_server.html',1,'']]],
   ['c_2b_2b_20server_20library',['C++ Server Library',['../index.html',1,'']]]
 ];
