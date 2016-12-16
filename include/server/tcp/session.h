@@ -46,7 +46,7 @@ public:
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Is the session connected?
-    bool IsConnected() const noexcept { return _ñonnected; };
+    bool IsConnected() const noexcept { return _connected; };
 
     //! Disconnect the session
     /*!
