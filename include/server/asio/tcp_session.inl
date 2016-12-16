@@ -1,5 +1,5 @@
 /*!
-    \file session.inl
+    \file tcp_session.inl
     \brief TCP session inline implementation
     \author Ivan Shynkarenka
     \date 14.12.2016
@@ -7,6 +7,7 @@
 */
 
 namespace CppServer {
+namespace Asio {
 
 template <class TServer, class TSession>
 inline TCPSession<TServer, TSession>::TCPSession(TServer& server, const CppCommon::UUID& uuid, asio::ip::tcp::socket socket)
@@ -21,7 +22,7 @@ inline TCPSession<TServer, TSession>::TCPSession(TServer& server, const CppCommo
     _socket.non_blocking(true);
 
     // Post connect routine
-    _server._service.post([this]()
+    _server._service.service().post([this]()
     {
         // Call session connected handler
         onConnected();
@@ -38,7 +39,7 @@ bool TCPSession<TServer, TSession>::Disconnect()
         return false;
 
     // Post disconnect routine
-    _server._service.post([this]()
+    _server._service.service().post([this]()
     {
         // Update connected flag
         _connected = false;
@@ -75,7 +76,7 @@ size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t size)
     _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
 
     // Post send routine
-    _server._service.post([this]()
+    _server._service.service().post([this]()
     {
         // Try to send the buffer if it is the first buffer to send
         if (!_sending)
@@ -173,4 +174,5 @@ inline void TCPSession<TServer, TSession>::TrySend()
     });
 }
 
+} // namespace Asio
 } // namespace CppServer

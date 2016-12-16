@@ -12,7 +12,7 @@
 #define ASIO_STANDALONE 1
 #define ASIO_SEPARATE_COMPILATION 1
 
-#include "../../modules/asio/asio/include/asio.hpp"
+#include "../../../modules/asio/asio/include/asio.hpp"
 
 #if defined(_WIN32) || defined(_WIN64)
 #undef Yield
@@ -20,12 +20,20 @@
 
 namespace CppServer {
 
+/*!
+    \namespace Asio
+    \brief Asio definitions
+*/
+namespace Asio {
+
 //! Internet protocols
 enum class InternetProtocol
 {
     IPv4,               //!< Internet Protocol version 4
     IPv6                //!< Internet Protocol version 6
 };
+
+} // namespace Asio
 
 } // namespace CppServer
 

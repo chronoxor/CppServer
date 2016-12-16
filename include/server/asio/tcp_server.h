@@ -1,27 +1,26 @@
 /*!
-    \file server.h
+    \file tcp_server.h
     \brief TCP server definition
     \author Ivan Shynkarenka
     \date 14.12.2016
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_TCP_SERVER_H
-#define CPPSERVER_TCP_SERVER_H
+#ifndef CPPSERVER_ASIO_TCP_SERVER_H
+#define CPPSERVER_ASIO_TCP_SERVER_H
 
-#include "errors/fatal.h"
+#include "service.h"
+#include "tcp_session.h"
+
 #include "system/uuid.h"
-#include "threads/thread.h"
 
-#include "../asio.h"
-
-#include <atomic>
 #include <map>
 #include <memory>
 #include <string>
 #include <thread>
 
 namespace CppServer {
+namespace Asio {
 
 //! TCP server
 /*!
@@ -38,35 +37,32 @@ class TCPServer
     friend class TCPSession;
 
 public:
-    //! Initialize TCP server with a given protocol and port number
+    //! Initialize TCP server with a given Asio service, protocol and port number
     /*!
+        \param service - Asio service
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit TCPServer(InternetProtocol protocol, int port);
-    //! Initialize TCP server with a given IP address and port number
+    explicit TCPServer(Service& service, InternetProtocol protocol, int port);
+    //! Initialize TCP server with a given Asio service, IP address and port number
     /*!
+        \param service - Asio service
         \param address - IP address
         \param port - Port number
     */
-    explicit TCPServer(const std::string& address, int port);
+    explicit TCPServer(Service& service, const std::string& address, int port);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = default;
-    virtual ~TCPServer() = default;
+    virtual ~TCPServer() { DisconnectAll(); }
 
     TCPServer& operator=(const TCPServer&) = delete;
     TCPServer& operator=(TCPServer&&) = default;
 
-    //! Is server started?
-    bool IsStarted() const noexcept { return _started; }
+    //! Get the Asio service
+    Service& service() noexcept { return _service; }
 
-    //! Start server
-    /*!
-        \param polling - Polling loop mode with idle handler call (default is false)
-    */
-    void Start(bool polling = false);
-    //! Stop server
-    void Stop();
+    //! Accept new connections
+    void Accept();
 
     //! Broadcast data into all sessions
     /*!
@@ -79,30 +75,6 @@ public:
     void DisconnectAll();
 
 protected:
-    //! Initialize thread handler
-    /*!
-         This handler can be used to initialize priority or affinity of the server thread.
-    */
-    virtual void onThreadInitialize() {}
-    //! Cleanup thread handler
-    /*!
-         This handler can be used to cleanup priority or affinity of the server thread.
-    */
-    virtual void onThreadCleanup() {}
-
-    //! Handle server starting notification
-    virtual void onStarting() {}
-    //! Handle server started notification
-    virtual void onStarted() {}
-
-    //! Handle server stopping notification
-    virtual void onStopping() {}
-    //! Handle server stopped notification
-    virtual void onStopped() {}
-
-    //! Handle server idle notification
-    virtual void onIdle() { CppCommon::Thread::Yield(); }
-
     //! Handle new session connected notification
     /*!
         \param session - Connected session
@@ -124,22 +96,15 @@ protected:
 
 private:
     // Asio service
-    asio::io_service _service;
+    Service& _service;
+    // Server acceptor & socket
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
-    // Server thread
-    std::thread _thread;
-    std::atomic<bool> _started;
     // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Broadcast buffer
     std::mutex _broadcast_lock;
     std::vector<uint8_t> _broadcast_buffer;
-
-    //! Server accept
-    void ServerAccept();
-    //! Server loop
-    void ServerLoop(bool polling);
 
     //! Register a new session
     std::shared_ptr<TSession> RegisterSession();
@@ -149,8 +114,9 @@ private:
 
 /*! \example tcp_chat_server.cpp TCP chat server example */
 
+} // namespace Asio
 } // namespace CppServer
 
-#include "server.inl"
+#include "tcp_server.inl"
 
-#endif // CPPSERVER_TCP_SERVER_H
+#endif // CPPSERVER_ASIO_TCP_SERVER_H

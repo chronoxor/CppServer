@@ -6,46 +6,29 @@
     \copyright MIT License
 */
 
-#include "server/tcp/server.h"
-#include "server/tcp/session.h"
+#include "server/asio/tcp_server.h"
+#include "server/asio/tcp_session.h"
 
 #include <iostream>
 
 class ChatSession;
 
-class ChatServer : public CppServer::TCPServer<ChatServer, ChatSession>
+class ChatServer : public CppServer::Asio::TCPServer<ChatServer, ChatSession>
 {
 public:
-    using CppServer::TCPServer<ChatServer, ChatSession>::TCPServer;
+    using CppServer::Asio::TCPServer<ChatServer, ChatSession>::TCPServer;
 
 protected:
-    void onStarting() override
-    {
-        std::cout << "Chat server starting..." << std::endl;
-    }
-    void onStarted() override
-    {
-        std::cout << "Chat server started!" << std::endl;
-    }
-    void onStopping() override
-    {
-        std::cout << "Chat server stopping..." << std::endl;
-    }
-    void onStopped() override
-    {
-        std::cout << "Chat server stopped!" << std::endl;
-    }
-
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Chat server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
-class ChatSession : public CppServer::TCPSession<ChatServer, ChatSession>
+class ChatSession : public CppServer::Asio::TCPSession<ChatServer, ChatSession>
 {
 public:
-    using CppServer::TCPSession<ChatServer, ChatSession>::TCPSession;
+    using CppServer::Asio::TCPSession<ChatServer, ChatSession>::TCPSession;
 
 protected:
     void onConnected() override
@@ -93,11 +76,14 @@ int main(int argc, char** argv)
     std::cout << "Server port: " << port << std::endl;
     std::cout << "Press Enter to stop..." << std::endl;
 
-    // Create a new TCP chat server
-    ChatServer server(CppServer::InternetProtocol::IPv4, port);
+    // Create a new Asio service
+    CppServer::Asio::Service service;
 
-    // Start the server
-    server.Start();
+    // Start the service
+    service.Start();
+
+    // Create a new TCP chat server
+    ChatServer server(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Perform text input
     std::string line;
@@ -111,8 +97,11 @@ int main(int argc, char** argv)
         server.Broadcast(line.data(), line.size());
     }
 
-    // Stop the server
-    server.Stop();
+    // Disconnect all sessions
+    server.DisconnectAll();
+
+    // Stop the service
+    service.Stop();
 
     return 0;
 }

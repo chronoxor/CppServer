@@ -4,14 +4,14 @@
 
 #include "catch.hpp"
 
-#include "server/tcp/client.h"
-#include "server/tcp/server.h"
-#include "server/tcp/session.h"
+#include "server/asio/tcp_client.h"
+#include "server/asio/tcp_server.h"
+#include "server/asio/tcp_session.h"
 
 using namespace CppCommon;
-using namespace CppServer;
+using namespace CppServer::Asio;
 
-class EchoClient : public TCPClient
+class EchoService : public Service
 {
 public:
     bool thread_initialize;
@@ -21,25 +21,16 @@ public:
     bool stopping;
     bool stopped;
     bool idle;
-    bool connected;
-    bool disconnected;
-    size_t received;
-    size_t sent;
     bool error;
 
-    explicit EchoClient(const std::string& address, int port)
-        : TCPClient(address, port),
-          thread_initialize(false),
+    explicit EchoService()
+        : thread_initialize(false),
           thread_cleanup(false),
           starting(false),
           started(false),
           stopping(false),
           stopped(false),
           idle(false),
-          connected(false),
-          disconnected(false),
-          received(0),
-          sent(0),
           error(false)
     {
     }
@@ -52,6 +43,29 @@ protected:
     void onStopping() override { stopping = true; }
     void onStopped() override { stopped = true; }
     void onIdle() override { idle = true; }
+    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+};
+
+class EchoClient : public TCPClient
+{
+public:
+    bool connected;
+    bool disconnected;
+    size_t received;
+    size_t sent;
+    bool error;
+
+    explicit EchoClient(EchoService& service, const std::string& address, int port)
+        : TCPClient(service, address, port),
+          connected(false),
+          disconnected(false),
+          received(0),
+          sent(0),
+          error(false)
+    {
+    }
+
+protected:
     void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; Thread::Sleep(1); Connect(); }
     size_t onReceived(const void* buffer, size_t size) override { received += size; return size; }
@@ -91,28 +105,14 @@ protected:
 class EchoServer : public TCPServer<EchoServer, EchoSession>
 {
 public:
-    bool thread_initialize;
-    bool thread_cleanup;
-    bool starting;
-    bool started;
-    bool stopping;
-    bool stopped;
-    bool idle;
     bool connected;
     bool disconnected;
     size_t received;
     size_t sent;
     bool error;
 
-    explicit EchoServer(InternetProtocol protocol, int port)
-        : TCPServer<EchoServer, EchoSession>(protocol, port),
-          thread_initialize(false),
-          thread_cleanup(false),
-          starting(false),
-          started(false),
-          stopping(false),
-          stopped(false),
-          idle(false),
+    explicit EchoServer(EchoService& service, InternetProtocol protocol, int port)
+        : TCPServer<EchoServer, EchoSession>(service, protocol, port),
           connected(false),
           disconnected(false),
           received(0),
@@ -122,13 +122,6 @@ public:
     }
 
 protected:
-    void onThreadInitialize() override { thread_initialize = true; }
-    void onThreadCleanup() override { thread_cleanup = true; }
-    void onStarting() override { starting = true; }
-    void onStarted() override { started = true; }
-    void onStopping() override { stopping = true; }
-    void onStopped() override { stopped = true; }
-    void onIdle() override { idle = true; }
     void onConnected(std::shared_ptr<EchoSession> session) override { connected = true; }
     void onDisconnected(std::shared_ptr<EchoSession> session) override { disconnected = true; received += session->received; sent += session->sent; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
@@ -136,11 +129,13 @@ protected:
 
 TEST_CASE("TCP server & client", "[CppServer]")
 {
-    EchoServer server(InternetProtocol::IPv4, 1234);
-    server.Start();
+    EchoService service;
+    service.Start();
 
-    EchoClient client("127.0.0.1", 1234);
-    client.Start();
+    EchoServer server(service, InternetProtocol::IPv4, 1234);
+    server.Accept();
+
+    EchoClient client(service, "127.0.0.1", 1234);
     client.Connect();
 
     // Wait for a while...
@@ -156,17 +151,19 @@ TEST_CASE("TCP server & client", "[CppServer]")
     // Wait for a while...
     Thread::Sleep(5000);
 
-    client.Stop();
-    server.Stop();
+    service.Stop();
+
+    // Check the service state
+    REQUIRE(service.thread_initialize);
+    REQUIRE(service.thread_cleanup);
+    REQUIRE(service.starting);
+    REQUIRE(service.started);
+    REQUIRE(service.stopping);
+    REQUIRE(service.stopped);
+    REQUIRE(service.idle);
+    REQUIRE(!service.error);
 
     // Check the client state
-    REQUIRE(client.thread_initialize);
-    REQUIRE(client.thread_cleanup);
-    REQUIRE(client.starting);
-    REQUIRE(client.started);
-    REQUIRE(client.stopping);
-    REQUIRE(client.stopped);
-    REQUIRE(client.idle);
     REQUIRE(client.connected);
     REQUIRE(client.disconnected);
     REQUIRE(client.received == 4);
@@ -174,13 +171,6 @@ TEST_CASE("TCP server & client", "[CppServer]")
     REQUIRE(!client.error);
 
     // Check the server state
-    REQUIRE(server.thread_initialize);
-    REQUIRE(server.thread_cleanup);
-    REQUIRE(server.starting);
-    REQUIRE(server.started);
-    REQUIRE(server.stopping);
-    REQUIRE(server.stopped);
-    REQUIRE(server.idle);
     REQUIRE(server.connected);
     REQUIRE(server.disconnected);
     REQUIRE(server.received == 4);
@@ -191,19 +181,19 @@ TEST_CASE("TCP server & client", "[CppServer]")
 
 TEST_CASE("TCP server broadcast ", "[CppServer]")
 {
-    EchoServer server(InternetProtocol::IPv4, 1234);
-    server.Start();
+    EchoService service;
+    service.Start();
 
-    EchoClient client1("127.0.0.1", 1234);
-    client1.Start();
+    EchoServer server(service, InternetProtocol::IPv4, 1234);
+    server.Accept();
+
+    EchoClient client1(service, "127.0.0.1", 1234);
     client1.Connect();
 
-    EchoClient client2(client1);
-    client2.Start();
+    EchoClient client2(service, "127.0.0.1", 1234);
     client2.Connect();
 
-    EchoClient client3(client1);
-    client3.Start();
+    EchoClient client3(service, "127.0.0.1", 1234);
     client3.Connect();
 
     // Wait for a while...
@@ -214,17 +204,22 @@ TEST_CASE("TCP server broadcast ", "[CppServer]")
     // Wait for a while...
     Thread::Sleep(5000);
 
-    client1.Disconnect();
-    client2.Disconnect();
-    client3.Disconnect();
+    server.DisconnectAll();
 
     // Wait for a while...
     Thread::Sleep(5000);
 
-    client1.Stop();
-    client2.Stop();
-    client3.Stop();
-    server.Stop();
+    service.Stop();
+
+    // Check the service state
+    REQUIRE(service.thread_initialize);
+    REQUIRE(service.thread_cleanup);
+    REQUIRE(service.starting);
+    REQUIRE(service.started);
+    REQUIRE(service.stopping);
+    REQUIRE(service.stopped);
+    REQUIRE(service.idle);
+    REQUIRE(!service.error);
 
     // Check the client state
     REQUIRE(client1.received == 4);

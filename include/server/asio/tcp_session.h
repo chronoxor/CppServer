@@ -1,23 +1,25 @@
 /*!
-    \file session.h
+    \file tcp_session.h
     \brief TCP session definition
     \author Ivan Shynkarenka
     \date 14.12.2016
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_TCP_SESSION_H
-#define CPPSERVER_TCP_SESSION_H
+#ifndef CPPSERVER_ASIO_TCP_SESSION_H
+#define CPPSERVER_ASIO_TCP_SESSION_H
+
+#include "service.h"
+#include "tcp_server.h"
 
 #include "system/uuid.h"
-
-#include "../asio.h"
 
 #include <atomic>
 #include <mutex>
 #include <vector>
 
 namespace CppServer {
+namespace Asio {
 
 //! TCP session
 /*!
@@ -37,16 +39,18 @@ public:
     explicit TCPSession(TServer& server, const CppCommon::UUID& uuid, asio::ip::tcp::socket socket);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
-    virtual ~TCPSession() = default;
+    virtual ~TCPSession() { Disconnect(); }
 
     TCPSession& operator=(const TCPSession&) = delete;
     TCPSession& operator=(TCPSession&&) = default;
 
-    //! Get the session Id
-    const CppCommon::UUID& id() const noexcept { return _id; }
-
+    //! Get the Asio service
+    Service& service() noexcept { return _service; }
     //! Get the session's server
     TServer& server() noexcept { return _server; }
+
+    //! Get the session Id
+    const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; };
@@ -109,7 +113,7 @@ protected:
 private:
     // Session Id
     CppCommon::UUID _id;
-    // Asio service
+    // Session server & socket
     TServer& _server;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
@@ -128,8 +132,9 @@ private:
     void TrySend();
 };
 
+} // namespace Asio
 } // namespace CppServer
 
-#include "session.inl"
+#include "tcp_session.inl"
 
-#endif // CPPSERVER_TCP_SESSION_H
+#endif // CPPSERVER_ASIO_TCP_SESSION_H

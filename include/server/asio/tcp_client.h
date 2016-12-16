@@ -1,25 +1,24 @@
 /*!
-    \file client.h
+    \file tcp_client.h
     \brief TCP client definition
     \author Ivan Shynkarenka
     \date 15.12.2016
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_TCP_CLIENT_H
-#define CPPSERVER_TCP_CLIENT_H
+#ifndef CPPSERVER_ASIO_TCP_CLIENT_H
+#define CPPSERVER_ASIO_TCP_CLIENT_H
 
-#include "errors/fatal.h"
-#include "threads/thread.h"
+#include "service.h"
+
 #include "system/uuid.h"
-
-#include "../asio.h"
 
 #include <atomic>
 #include <mutex>
 #include <vector>
 
 namespace CppServer {
+namespace Asio {
 
 //! TCP client
 /*!
@@ -32,32 +31,26 @@ class TCPClient
 public:
     //! Initialize TCP client with a given IP address and port number
     /*!
+        \param service - Asio service
         \param address - IP address
         \param port - Port number
     */
-    explicit TCPClient(const std::string& address, int port);
-    TCPClient(const TCPClient& client);
+    explicit TCPClient(Service& service, const std::string& address, int port);
+    TCPClient(const TCPClient&) = delete;
     TCPClient(TCPClient&&) = default;
     virtual ~TCPClient() = default;
 
     TCPClient& operator=(const TCPClient&) = delete;
     TCPClient& operator=(TCPClient&&) = default;
 
+    //! Get the Asio service
+    Service& service() noexcept { return _service; }
+
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }
 
-    //! Is the client started?
-    bool IsStarted() const noexcept { return _started; }
     //! Is the client connected?
     bool IsConnected() const noexcept { return _connected; };
-
-    //! Start server
-    /*!
-        \param polling - Polling loop mode with idle handler call (default is false)
-    */
-    void Start(bool polling = false);
-    //! Stop server
-    void Stop();
 
     //! Connect the client
     /*!
@@ -79,30 +72,6 @@ public:
     size_t Send(const void* buffer, size_t size);
 
 protected:
-    //! Initialize thread handler
-    /*!
-         This handler can be used to initialize priority or affinity of the client thread.
-    */
-    virtual void onThreadInitialize() {}
-    //! Cleanup thread handler
-    /*!
-         This handler can be used to cleanup priority or affinity of the client thread.
-    */
-    virtual void onThreadCleanup() {}
-
-    //! Handle client starting notification
-    virtual void onStarting() {}
-    //! Handle client started notification
-    virtual void onStarted() {}
-
-    //! Handle client stopping notification
-    virtual void onStopping() {}
-    //! Handle client stopped notification
-    virtual void onStopped() {}
-
-    //! Handle client idle notification
-    virtual void onIdle() { CppCommon::Thread::Yield(); }
-
     //! Handle client connected notification
     virtual void onConnected() {}
     //! Handle client disconnected notification
@@ -147,12 +116,10 @@ private:
     // Session Id
     CppCommon::UUID _id;
     // Asio service
-    asio::io_service _service;
+    Service& _service;
+    // Client socket & endpoint
     asio::ip::tcp::socket _socket;
     asio::ip::tcp::endpoint _endpoint;
-    // Client thread
-    std::thread _thread;
-    std::atomic<bool> _started;
     std::atomic<bool> _connected;
     // Receive & send buffers
     std::mutex _send_lock;
@@ -163,9 +130,6 @@ private:
 
     static const size_t CHUNK = 8192;
 
-    //! Client loop
-    void ClientLoop(bool polling);
-
     //! Try to receive data
     void TryReceive();
     //! Try to send data
@@ -174,8 +138,9 @@ private:
 
 /*! \example tcp_chat_client.cpp TCP chat client example */
 
+} // namespace Asio
 } // namespace CppServer
 
-#include "client.inl"
+#include "tcp_client.inl"
 
-#endif // CPPSERVER_TCP_CLIENT_H
+#endif // CPPSERVER_ASIO_TCP_CLIENT_H

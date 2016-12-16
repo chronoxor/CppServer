@@ -1,5 +1,5 @@
 /*!
-    \file client.inl
+    \file tcp_client.inl
     \brief TCP client inline implementation
     \author Ivan Shynkarenka
     \date 15.12.2016
@@ -7,122 +7,26 @@
 */
 
 namespace CppServer {
+namespace Asio {
 
-inline TCPClient::TCPClient(const std::string& address, int port)
+inline TCPClient::TCPClient(Service& service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
-      _service(),
-      _socket(_service),
+      _service(service),
+      _socket(_service.service()),
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
-      _started(false),
       _connected(false),
       _reciving(false),
       _sending(false)
 {
-}
-
-inline TCPClient::TCPClient(const TCPClient& client)
-    : _id(CppCommon::UUID::Generate()),
-      _service(),
-      _socket(_service),
-      _endpoint(client._endpoint),
-      _started(false),
-      _connected(false),
-      _reciving(false),
-      _sending(false)
-{
-}
-
-inline void TCPClient::Start(bool polling)
-{
-    if (IsStarted())
-        return;
-
-    // Call client starting handler
-    onStarting();
-
-    // Update started flag
-    _started = true;
-
-    // Start client thread
-    _thread = std::thread([this, polling]() { ClientLoop(polling); });
-}
-
-inline void TCPClient::Stop()
-{
-    if (!IsStarted())
-        return;
-
-    // Call client stopping handler
-    onStopping();
-
-    // Update started flag
-    _started = false;
-
-    // Stop Asio service
-    _service.stop();
-
-    // Wait for client thread
-    _thread.join();
-}
-
-inline void TCPClient::ClientLoop(bool polling)
-{
-    // Call initialize thread handler
-    onThreadInitialize();
-
-    try
-    {
-        // Call client started handler
-        onStarted();
-
-        if (polling)
-        {
-            // Run Asio service in a polling loop
-            while (_started)
-            {
-                // Poll all pending handlers
-                _service.poll();
-
-                // Call idle handler
-                onIdle();
-            }
-        }
-        else
-        {
-            // Run Asio service in a running loop
-            while (_started)
-            {
-                // Run all pending handlers
-                _service.run();
-
-                // Call idle handler
-                onIdle();
-            }
-        }
-
-        // Call client stopped handler
-        onStopped();
-    }
-    catch (asio::system_error& ex)
-    {
-        onError(ex.code().value(), ex.code().category().name(), ex.code().message());
-    }
-    catch (...)
-    {
-        fatality("TCP client thread terminated!");
-    }
-
-    // Call cleanup thread handler
-    onThreadCleanup();
 }
 
 inline bool TCPClient::Connect()
 {
-    if (IsConnected() || !IsStarted())
+    if (IsConnected() || !_service.IsStarted())
         return false;
 
     // Post connect routine
-    _service.post([this]()
+    _service.service().post([this]()
     {
         _socket.async_connect(_endpoint, [this](std::error_code ec)
         {
@@ -155,11 +59,11 @@ inline bool TCPClient::Connect()
 
 inline bool TCPClient::Disconnect()
 {
-    if (!IsConnected() || !IsStarted())
+    if (!IsConnected() || !_service.IsStarted())
         return false;
 
     // Post disconnect routine
-    _service.post([this]()
+    _service.service().post([this]()
     {
         // Update connected flag
         _connected = false;
@@ -183,7 +87,7 @@ inline bool TCPClient::Disconnect()
 
 inline size_t TCPClient::Send(const void* buffer, size_t size)
 {
-    if (!IsConnected() || !IsStarted())
+    if (!IsConnected() || !_service.IsStarted())
         return 0;
 
     std::lock_guard<std::mutex> locker(_send_lock);
@@ -192,7 +96,7 @@ inline size_t TCPClient::Send(const void* buffer, size_t size)
     _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
 
     // Post send routine
-    _service.post([this]()
+    _service.service().post([this]()
     {
         // Try to send the buffer if it is the first buffer to send
         if (!_sending)
@@ -288,4 +192,5 @@ inline void TCPClient::TrySend()
     });
 }
 
+} // namespace Asio
 } // namespace CppServer

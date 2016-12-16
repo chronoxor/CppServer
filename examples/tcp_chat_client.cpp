@@ -6,33 +6,16 @@
     \copyright MIT License
 */
 
-#include "server/tcp/client.h"
+#include "server/asio/tcp_client.h"
 
 #include <iostream>
 
-class ChatClient : public CppServer::TCPClient
+class ChatClient : public CppServer::Asio::TCPClient
 {
 public:
-    using CppServer::TCPClient::TCPClient;
+    using CppServer::Asio::TCPClient::TCPClient;
 
 protected:
-    void onStarting() override
-    {
-        std::cout << "Chat client starting..." << std::endl;
-    }
-    void onStarted() override
-    {
-        std::cout << "Chat client started!" << std::endl;
-    }
-    void onStopping() override
-    {
-        std::cout << "Chat client stopping..." << std::endl;
-    }
-    void onStopped() override
-    {
-        std::cout << "Chat client stopped!" << std::endl;
-    }
-
     void onConnected() override
     {
         std::cout << "Chat client connected a new session with Id " << id() << std::endl;
@@ -76,11 +59,14 @@ int main(int argc, char** argv)
     std::cout << "Server port: " << port << std::endl;
     std::cout << "Press Enter to stop..." << std::endl;
 
-    // Create a new TCP chat client
-    ChatClient client(address, port);
+    // Create a new Asio service
+    CppServer::Asio::Service service;
 
-    // Start the client
-    client.Start();
+    // Start the chat service
+    service.Start();
+
+    // Create a new TCP chat client
+    ChatClient client(service, address, port);
 
     // Connect the client
     client.Connect();
@@ -99,8 +85,8 @@ int main(int argc, char** argv)
     // Disconnect the client
     client.Disconnect();
 
-    // Stop the client
-    client.Stop();
+    // Stop the chat service
+    service.Stop();
 
     return 0;
 }
