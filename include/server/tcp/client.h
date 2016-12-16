@@ -48,7 +48,7 @@ public:
     //! Is the client started?
     bool IsStarted() const noexcept { return _started; }
     //! Is the client connected?
-    bool IsConnected() const noexcept { return _ñonnected; };
+    bool IsConnected() const noexcept { return _connected; };
 
     //! Start server
     void Start();
@@ -146,7 +146,7 @@ private:
     // Client thread
     std::thread _thread;
     std::atomic<bool> _started;
-    std::atomic<bool> _ñonnected;
+    std::atomic<bool> _connected;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;

@@ -109,7 +109,7 @@ private:
     // Asio service
     TServer& _server;
     asio::ip::tcp::socket _socket;
-    std::atomic<bool> _ñonnected;
+    std::atomic<bool> _connected;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;

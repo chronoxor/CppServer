@@ -13,7 +13,7 @@ inline TCPSession<TServer, TSession>::TCPSession(TServer& server, const CppCommo
     : _id(uuid),
       _server(server),
       _socket(std::move(socket)),
-      _ñonnected(true),
+      _connected(true),
       _reciving(false),
       _sending(false)
 {
@@ -37,7 +37,7 @@ bool TCPSession<TServer, TSession>::Disconnect()
     _server._service.post([this]()
     {
         // Update connected flag
-        _ñonnected = false;
+        _connected = false;
 
         // Close the session socket
         _socket.close();

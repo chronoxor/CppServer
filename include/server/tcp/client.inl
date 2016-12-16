@@ -14,7 +14,7 @@ inline TCPClient::TCPClient(const std::string& address, uint16_t port)
       _socket(_service),
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
       _started(false),
-      _ñonnected(false),
+      _connected(false),
       _reciving(false),
       _sending(false)
 {
@@ -100,7 +100,7 @@ inline bool TCPClient::Connect()
                 _socket.non_blocking(true);
 
                 // Update connected flag
-                _ñonnected = true;
+                _connected = true;
 
                 // Call client connected handler
                 onConnected();
@@ -130,7 +130,7 @@ inline bool TCPClient::Disconnect()
     _service.post([this]()
     {
         // Update connected flag
-        _ñonnected = false;
+        _connected = false;
 
         // Close the client socket
         _socket.close();
