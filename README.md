@@ -2,7 +2,6 @@
 
 [![Linux build status](https://img.shields.io/travis/chronoxor/CppServer/master.svg?label=Linux)](https://travis-ci.org/chronoxor/CppServer)
 [![OSX build status](https://img.shields.io/travis/chronoxor/CppServer/master.svg?label=OSX)](https://travis-ci.org/chronoxor/CppServer)
-[![Cygwin build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=Cygwin)](https://ci.appveyor.com/project/chronoxor/CppServer)
 [![MinGW build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=MinGW)](https://ci.appveyor.com/project/chronoxor/CppServer)
 [![Windows build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=Windows)](https://ci.appveyor.com/project/chronoxor/CppServer)
 
@@ -18,7 +17,6 @@ client/server solutions.
     * [Clone repository with submodules](#clone-repository-with-submodules)
     * [Linux](#linux)
     * [OSX](#osx)
-    * [Windows (Cygwin)](#windows-cygwin)
     * [Windows (MinGW)](#windows-mingw)
     * [Windows (MinGW with MSYS)](#windows-mingw-with-msys)
     * [Windows (Visaul Studio 2015)](#windows-visaul-studio-2015)
@@ -64,12 +62,6 @@ cd build
 ```
 cd build
 ./unix.sh
-```
-
-## Windows (Cygwin)
-```
-cd build
-cygwin.bat
 ```
 
 ## Windows (MinGW)
