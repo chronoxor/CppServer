@@ -22,6 +22,9 @@
 namespace CppServer {
 namespace Asio {
 
+template <class TServer, class TSession>
+class TCPSession;
+
 //! TCP server
 /*!
     TCP server is used to connect, disconnect and manage TCP sessions.

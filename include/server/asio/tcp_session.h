@@ -21,6 +21,9 @@
 namespace CppServer {
 namespace Asio {
 
+template <class TServer, class TSession>
+class TCPServer;
+
 //! TCP session
 /*!
     TCP session is used to read and write data from the connected TCP client.
