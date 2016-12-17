@@ -45,7 +45,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect()
         return false;
 
     // Post disconnect routine
-    auto self(shared_from_this());
+    auto self(this->shared_from_this());
     _server->service()->service().post([this, self]()
     {
         // Update connected flag
@@ -83,7 +83,7 @@ inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t siz
     _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
 
     // Dispatch send routine
-    auto self(shared_from_this());
+    auto self(this->shared_from_this());
     _server->service()->service().dispatch([this, self]()
     {
         // Try to send the buffer if it is the first buffer to send
@@ -101,7 +101,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
         return;
 
     _reciving = true;
-    auto self(shared_from_this());
+    auto self(this->shared_from_this());
     _socket.async_wait(asio::ip::tcp::socket::wait_read, [this, self](std::error_code ec)
     {
         _reciving = false;
@@ -138,7 +138,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
         return;
 
     _sending = true;
-    auto self(shared_from_this());
+    auto self(this->shared_from_this());
     _socket.async_wait(asio::ip::tcp::socket::wait_write, [this, self](std::error_code ec)
     {
         _sending = false;

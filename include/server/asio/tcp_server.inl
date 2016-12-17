@@ -51,7 +51,7 @@ inline void TCPServer<TServer, TSession>::Accept()
         return;
 
     // Dispatch disconnect routine
-    auto self(shared_from_this());
+    auto self(this->shared_from_this());
     _service->service().dispatch([this, self]()
     {
         _acceptor.async_accept(_socket, [this, self](std::error_code ec)
@@ -80,7 +80,7 @@ inline void TCPServer<TServer, TSession>::Broadcast(const void* buffer, size_t s
     _broadcast_buffer.insert(_broadcast_buffer.end(), bytes, bytes + size);
 
     // Dispatch broadcast routine
-    auto self(shared_from_this());
+    auto self(this->shared_from_this());
     _service->service().dispatch([this, self]()
     {
         // Broadcast all sessions
@@ -99,7 +99,7 @@ inline void TCPServer<TServer, TSession>::DisconnectAll()
         return;
 
     // Post disconnect routine
-    auto self(shared_from_this());
+    auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
         // Clear broadcast buffer
@@ -117,12 +117,12 @@ inline void TCPServer<TServer, TSession>::DisconnectAll()
 template <class TServer, class TSession>
 inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
 {
-	// Create and register a new session
+    // Create and register a new session
     auto session = std::make_shared<TSession>(std::move(_socket));
     _sessions.emplace(session->id(), session);
 
     // Connect a new session
-	auto self(shared_from_this());
+    auto self(this->shared_from_this());
     session->Connect(self);
 
     // Call a new session connected handler
