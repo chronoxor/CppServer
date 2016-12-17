@@ -68,6 +68,9 @@ inline bool TCPClient::Disconnect()
         // Update connected flag
         _connected = false;
 
+        // Call the client disconnected handler
+        onDisconnected();
+
         // Clear receive/send buffers
         _recive_buffer.clear();
         {
@@ -77,9 +80,6 @@ inline bool TCPClient::Disconnect()
 
         // Close the client socket
         _socket.close();
-
-        // Call the client disconnected handler
-        onDisconnected();
     });
 
     return true;

@@ -18,11 +18,15 @@ void Service::Start(bool polling)
     if (IsStarted())
         return;
 
-    // Call service starting handler
-    onStarting();
+    // Post started routine
+    _service.post([this]()
+    {
+        // Update started flag
+        _started = true;
 
-    // Update started flag
-    _started = true;
+        // Call service started handler
+        onStarted();
+    });
 
     // Start service thread
     _thread = std::thread([this, polling]() { ServiceLoop(polling); });
@@ -33,14 +37,18 @@ void Service::Stop()
     if (!IsStarted())
         return;
 
-    // Call service stopping handler
-    onStopping();
+    // Post stopped routine
+    _service.post([this]()
+    {
+        // Update started flag
+        _started = false;
 
-    // Update started flag
-    _started = false;
+        // Call service stopped handler
+        onStopped();
 
-    // Stop Asio service
-    _service.stop();
+        // Stop Asio service
+        _service.stop();
+    });
 
     // Wait for service thread
     _thread.join();
@@ -53,36 +61,30 @@ void Service::ServiceLoop(bool polling)
 
     try
     {
-        // Call service started handler
-        onStarted();
-
         if (polling)
         {
             // Run Asio service in a polling loop
-            while (_started)
+            do
             {
                 // Poll all pending handlers
                 _service.poll();
 
                 // Call idle handler
                 onIdle();
-            }
+            } while (_started);
         }
         else
         {
             // Run Asio service in a running loop
-            while (_started)
+            do
             {
                 // Run all pending handlers
                 _service.run();
 
                 // Call idle handler
                 onIdle();
-            }
+            } while (_started);
         }
-
-        // Call service stopped handler
-        onStopped();
     }
     catch (asio::system_error& ex)
     {

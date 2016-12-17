@@ -9,8 +9,8 @@
 #ifndef CPPSERVER_ASIO_H
 #define CPPSERVER_ASIO_H
 
-#define ASIO_STANDALONE 1
-#define ASIO_SEPARATE_COMPILATION 1
+#define ASIO_STANDALONE
+#define ASIO_SEPARATE_COMPILATION
 
 #include "../../../modules/asio/asio/include/asio.hpp"
 

@@ -14,22 +14,21 @@ inline TCPSession<TServer, TSession>::TCPSession(TServer& server, const CppCommo
     : _id(uuid),
       _server(server),
       _socket(std::move(socket)),
-      _connected(true),
+      _connected(false),
       _reciving(false),
       _sending(false)
 {
     // Put the socket into non-blocking mode
     _socket.non_blocking(true);
 
-    // Post connect routine
-    _server._service.service().post([this]()
-    {
-        // Call session connected handler
-        onConnected();
+    // Update connected flag
+    _connected = true;
 
-        // Try to receive something from the client
-        TryReceive();
-    });
+    // Call session connected handler
+    onConnected();
+
+    // Try to receive something from the client
+    TryReceive();
 }
 
 template <class TServer, class TSession>
@@ -44,6 +43,12 @@ bool TCPSession<TServer, TSession>::Disconnect()
         // Update connected flag
         _connected = false;
 
+        // Call the session disconnected handler
+        onDisconnected();
+
+        // Unregister the session
+        _server.UnregisterSession(id());
+
         // Clear receive/send buffers
         _recive_buffer.clear();
         {
@@ -53,12 +58,6 @@ bool TCPSession<TServer, TSession>::Disconnect()
 
         // Close the session socket
         _socket.close();
-
-        // Call the session disconnected handler
-        onDisconnected();
-
-        // Unregister the session
-        _server.UnregisterSession(id());
     });
 
     return true;

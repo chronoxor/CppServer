@@ -2,7 +2,7 @@ if(NOT TARGET asio)
 
   # Module library
   add_library(asio "asio/asio/src/asio.cpp")
-  target_compile_definitions(asio PRIVATE ASIO_STANDALONE=1 ASIO_SEPARATE_COMPILATION=1)
+  target_compile_definitions(asio PRIVATE ASIO_STANDALONE ASIO_SEPARATE_COMPILATION)
   target_include_directories(asio PRIVATE "asio/asio/include")
   target_link_libraries(asio)
 

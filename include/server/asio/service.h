@@ -61,13 +61,8 @@ protected:
     */
     virtual void onThreadCleanup() {}
 
-    //! Handle service starting notification
-    virtual void onStarting() {}
     //! Handle service started notification
     virtual void onStarted() {}
-
-    //! Handle service stopping notification
-    virtual void onStopping() {}
     //! Handle service stopped notification
     virtual void onStopped() {}
 

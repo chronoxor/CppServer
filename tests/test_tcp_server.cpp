@@ -16,9 +16,7 @@ class EchoService : public Service
 public:
     bool thread_initialize;
     bool thread_cleanup;
-    bool starting;
     bool started;
-    bool stopping;
     bool stopped;
     bool idle;
     bool error;
@@ -26,9 +24,7 @@ public:
     explicit EchoService()
         : thread_initialize(false),
           thread_cleanup(false),
-          starting(false),
           started(false),
-          stopping(false),
           stopped(false),
           idle(false),
           error(false)
@@ -38,9 +34,7 @@ public:
 protected:
     void onThreadInitialize() override { thread_initialize = true; }
     void onThreadCleanup() override { thread_cleanup = true; }
-    void onStarting() override { starting = true; }
     void onStarted() override { started = true; }
-    void onStopping() override { stopping = true; }
     void onStopped() override { stopped = true; }
     void onIdle() override { idle = true; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
@@ -132,33 +126,34 @@ TEST_CASE("TCP server & client", "[CppServer]")
     EchoService service;
     service.Start();
 
+    Thread::Sleep(1000);
+
     EchoServer server(service, InternetProtocol::IPv4, 1234);
     server.Accept();
+
+    Thread::Sleep(1000);
 
     EchoClient client(service, "127.0.0.1", 1234);
     client.Connect();
 
-    // Wait for a while...
-    Thread::Sleep(5000);
+    Thread::Sleep(1000);
 
     client.Send("test", 4);
 
-    // Wait for a while...
-    Thread::Sleep(5000);
+    Thread::Sleep(1000);
 
     client.Disconnect();
 
-    // Wait for a while...
-    Thread::Sleep(5000);
+    Thread::Sleep(1000);
 
     service.Stop();
+
+    Thread::Sleep(1000);
 
     // Check the service state
     REQUIRE(service.thread_initialize);
     REQUIRE(service.thread_cleanup);
-    REQUIRE(service.starting);
     REQUIRE(service.started);
-    REQUIRE(service.stopping);
     REQUIRE(service.stopped);
     REQUIRE(service.idle);
     REQUIRE(!service.error);
@@ -178,45 +173,49 @@ TEST_CASE("TCP server & client", "[CppServer]")
     REQUIRE(!server.error);
 }
 
-
 TEST_CASE("TCP server broadcast ", "[CppServer]")
 {
     EchoService service;
     service.Start();
 
+    Thread::Sleep(1000);
+
     EchoServer server(service, InternetProtocol::IPv4, 1234);
     server.Accept();
+
+    Thread::Sleep(1000);
 
     EchoClient client1(service, "127.0.0.1", 1234);
     client1.Connect();
 
+    Thread::Sleep(1000);
+
     EchoClient client2(service, "127.0.0.1", 1234);
     client2.Connect();
+
+    Thread::Sleep(1000);
 
     EchoClient client3(service, "127.0.0.1", 1234);
     client3.Connect();
 
-    // Wait for a while...
-    Thread::Sleep(5000);
+    Thread::Sleep(1000);
 
     server.Broadcast("test", 4);
 
-    // Wait for a while...
-    Thread::Sleep(5000);
+    Thread::Sleep(1000);
 
     server.DisconnectAll();
 
-    // Wait for a while...
-    Thread::Sleep(5000);
+    Thread::Sleep(1000);
 
     service.Stop();
+
+    Thread::Sleep(1000);
 
     // Check the service state
     REQUIRE(service.thread_initialize);
     REQUIRE(service.thread_cleanup);
-    REQUIRE(service.starting);
     REQUIRE(service.started);
-    REQUIRE(service.stopping);
     REQUIRE(service.stopped);
     REQUIRE(service.idle);
     REQUIRE(!service.error);
