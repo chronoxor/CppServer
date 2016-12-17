@@ -31,6 +31,10 @@ void Service::Start(bool polling)
 
     // Start service thread
     _thread = std::thread([this, polling]() { ServiceLoop(polling); });
+
+    // Wait for the service start
+    while (!IsStarted())
+        CppCommon::Thread::Yield();
 }
 
 void Service::Stop()

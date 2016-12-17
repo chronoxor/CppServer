@@ -202,7 +202,7 @@ TEST_CASE("TCP server broadcast ", "[CppServer]")
 
     server->Broadcast("test", 4);
 
-    Thread::Sleep(5000);
+    Thread::Sleep(1000);
 
     server->DisconnectAll();
 

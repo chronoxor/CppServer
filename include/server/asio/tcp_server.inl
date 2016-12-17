@@ -56,7 +56,6 @@ inline void TCPServer<TServer, TSession>::Accept()
     {
         _acceptor.async_accept(_socket, [this, self](std::error_code ec)
         {
-
             if (!ec)
                 RegisterSession();
             else
