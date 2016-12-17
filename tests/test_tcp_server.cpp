@@ -78,7 +78,7 @@ public:
     size_t sent;
     bool error;
 
-	explicit EchoSession::EchoSession(asio::ip::tcp::socket socket)
+    explicit EchoSession(asio::ip::tcp::socket socket)
         : TCPSession<EchoServer, EchoSession>(std::move(socket)),
           connected(false),
           disconnected(false),
@@ -120,7 +120,7 @@ protected:
     void onDisconnected(std::shared_ptr<EchoSession> session) override { disconnected = true; received += session->received; sent += session->sent; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
-/*
+
 TEST_CASE("TCP server & client", "[CppServer]")
 {
     auto service = std::make_shared<EchoService>();
@@ -172,7 +172,7 @@ TEST_CASE("TCP server & client", "[CppServer]")
     REQUIRE(server->sent == 4);
     REQUIRE(!server->error);
 }
-*/
+
 TEST_CASE("TCP server broadcast ", "[CppServer]")
 {
     auto service = std::make_shared<EchoService>();

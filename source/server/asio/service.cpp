@@ -19,7 +19,7 @@ void Service::Start(bool polling)
         return;
 
     // Post started routine
-    auto self(shared_from_this());
+    auto self(this->shared_from_this());
     _service.post([this, self]()
     {
          // Update started flag
@@ -39,7 +39,7 @@ void Service::Stop()
         return;
 
     // Post stopped routine
-    auto self(shared_from_this());
+    auto self(this->shared_from_this());
     _service.post([this, self]()
     {
         // Update started flag
