@@ -31,7 +31,7 @@ class TCPServer;
     Not thread-safe.
 */
 template <class TServer, class TSession>
-class TCPSession : public std::enable_shared_from_this<TSession>
+class TCPSession : public std::enable_shared_from_this<TCPSession<TServer, TSession>>
 {
     template <class TSomeServer, class TSomeSession>
     friend class TCPServer;
