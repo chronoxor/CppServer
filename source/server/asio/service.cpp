@@ -18,12 +18,12 @@ void Service::Start(bool polling)
     if (IsStarted())
         return;
 
+    // Update started flag
+    _started = true;
+
     // Post started routine
     _service.post([this]()
     {
-        // Update started flag
-        _started = true;
-
         // Call service started handler
         onStarted();
     });
@@ -64,26 +64,26 @@ void Service::ServiceLoop(bool polling)
         if (polling)
         {
             // Run Asio service in a polling loop
-            do
+            while (_started)
             {
                 // Poll all pending handlers
                 _service.poll();
 
                 // Call idle handler
                 onIdle();
-            } while (_started);
+            }
         }
         else
         {
             // Run Asio service in a running loop
-            do
+            while (_started)
             {
                 // Run all pending handlers
                 _service.run();
 
                 // Call idle handler
                 onIdle();
-            } while (_started);
+            }
         }
     }
     catch (asio::system_error& ex)
