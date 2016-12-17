@@ -31,7 +31,7 @@ namespace Asio {
     Not thread-safe.
 */
 template <class TServer, class TSession>
-class TCPServer
+class TCPServer : public std::enable_shared_from_this<TCPServer<TServer, TSession>>
 {
     template <class TSomeServer, class TSomeSession>
     friend class TCPSession;
@@ -43,14 +43,14 @@ public:
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit TCPServer(Service& service, InternetProtocol protocol, int port);
+    explicit TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port);
     //! Initialize TCP server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
         \param address - IP address
         \param port - Port number
     */
-    explicit TCPServer(Service& service, const std::string& address, int port);
+    explicit TCPServer(std::shared_ptr<Service> service, const std::string& address, int port);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = default;
     virtual ~TCPServer() { DisconnectAll(); }
@@ -59,7 +59,7 @@ public:
     TCPServer& operator=(TCPServer&&) = default;
 
     //! Get the Asio service
-    Service& service() noexcept { return _service; }
+    std::shared_ptr<Service> service() noexcept { return _service; }
 
     //! Accept new connections
     void Accept();
@@ -96,7 +96,7 @@ protected:
 
 private:
     // Asio service
-    Service& _service;
+    std::shared_ptr<Service> _service;
     // Server acceptor & socket
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;

@@ -26,7 +26,7 @@ namespace Asio {
 
     Not thread-safe.
 */
-class TCPClient
+class TCPClient : public std::enable_shared_from_this<TCPClient>
 {
 public:
     //! Initialize TCP client with a given IP address and port number
@@ -35,7 +35,7 @@ public:
         \param address - IP address
         \param port - Port number
     */
-    explicit TCPClient(Service& service, const std::string& address, int port);
+    explicit TCPClient(std::shared_ptr<Service> service, const std::string& address, int port);
     TCPClient(const TCPClient&) = delete;
     TCPClient(TCPClient&&) = default;
     virtual ~TCPClient() = default;
@@ -44,7 +44,7 @@ public:
     TCPClient& operator=(TCPClient&&) = default;
 
     //! Get the Asio service
-    Service& service() noexcept { return _service; }
+    std::shared_ptr<Service> service() noexcept { return _service; }
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }
@@ -116,7 +116,7 @@ private:
     // Session Id
     CppCommon::UUID _id;
     // Asio service
-    Service& _service;
+    std::shared_ptr<Service> _service;
     // Client socket & endpoint
     asio::ip::tcp::socket _socket;
     asio::ip::tcp::endpoint _endpoint;

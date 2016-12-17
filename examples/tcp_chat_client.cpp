@@ -60,16 +60,16 @@ int main(int argc, char** argv)
     std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service
-    CppServer::Asio::Service service;
+    auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the chat service
-    service.Start();
+    service->Start();
 
     // Create a new TCP chat client
-    ChatClient client(service, address, port);
+    auto client = std::make_shared<ChatClient>(service, address, port);
 
     // Connect the client
-    client.Connect();
+    client->Connect();
 
     // Perform text input
     std::string line;
@@ -79,14 +79,14 @@ int main(int argc, char** argv)
             break;
 
         // Send the entered text to the chat server
-        client.Send(line.data(), line.size());
+        client->Send(line.data(), line.size());
     }
 
     // Disconnect the client
-    client.Disconnect();
+    client->Disconnect();
 
     // Stop the chat service
-    service.Stop();
+    service->Stop();
 
     return 0;
 }

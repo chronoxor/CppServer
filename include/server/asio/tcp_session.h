@@ -28,15 +28,17 @@ namespace Asio {
     Not thread-safe.
 */
 template <class TServer, class TSession>
-class TCPSession
+class TCPSession : public std::enable_shared_from_this<TCPSession<TServer, TSession>>
 {
+    template <class TSomeServer, class TSomeSession>
+    friend class TCPServer;
+
 public:
-    //! Initialize TCP session with a given TCP server and connected socket
+    //! Initialize TCP session with a given connected socket
     /*!
-        \param server - TCP server
         \param socket - Connected socket
     */
-    explicit TCPSession(TServer& server, const CppCommon::UUID& uuid, asio::ip::tcp::socket socket);
+    TCPSession(asio::ip::tcp::socket socket);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
     virtual ~TCPSession() { Disconnect(); }
@@ -45,9 +47,9 @@ public:
     TCPSession& operator=(TCPSession&&) = default;
 
     //! Get the Asio service
-    Service& service() noexcept { return _server.service(); }
+    std::shared_ptr<Service> service() noexcept { return _server.service(); }
     //! Get the session's server
-    TServer& server() noexcept { return _server; }
+    std::shared_ptr<TCPServer<TServer, TSession>> server() noexcept { return _server; }
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
@@ -114,7 +116,7 @@ private:
     // Session Id
     CppCommon::UUID _id;
     // Session server & socket
-    TServer& _server;
+    std::shared_ptr<TCPServer<TServer, TSession>> _server;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
     // Receive & send buffers
@@ -125,6 +127,12 @@ private:
     bool _sending;
 
     static const size_t CHUNK = 8192;
+
+    //! Connect the session
+    /*!
+        \param server - TCP server
+    */
+    void Connect(std::shared_ptr<TCPServer<TServer, TSession>> server);
 
     //! Try to receive data
     void TryReceive();

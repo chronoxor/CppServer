@@ -10,10 +10,10 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline TCPServer<TServer, TSession>::TCPServer(Service& service, InternetProtocol protocol, int port)
+inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
-      _acceptor(_service.service()),
-      _socket(_service.service())
+      _acceptor(_service->service()),
+      _socket(_service->service())
 {
     // Create TCP endpoint
     asio::ip::tcp::endpoint endpoint;
@@ -28,32 +28,33 @@ inline TCPServer<TServer, TSession>::TCPServer(Service& service, InternetProtoco
     }
 
     // Create TCP acceptor
-    _acceptor = asio::ip::tcp::acceptor(_service.service(), endpoint);
+    _acceptor = asio::ip::tcp::acceptor(_service->service(), endpoint);
 }
 
 template <class TServer, class TSession>
-inline TCPServer<TServer, TSession>::TCPServer(Service& service, const std::string& address, int port)
+inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
-      _acceptor(_service.service()),
-      _socket(_service.service())
+      _acceptor(_service->service()),
+      _socket(_service->service())
 {
     // Create TCP endpoint
     asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
 
     // Create TCP acceptor
-    _acceptor = asio::ip::tcp::acceptor(_service.service(), endpoint);
+    _acceptor = asio::ip::tcp::acceptor(_service->service(), endpoint);
 }
 
 template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::Accept()
 {
-    if (!_service.IsStarted())
+    if (!_service->IsStarted())
         return;
 
-    // Post disconnect routine
-    _service.service().post([this]()
+    // Dispatch disconnect routine
+    auto self(shared_from_this());
+    _service->service().dispatch([this, self]()
     {
-        _acceptor.async_accept(_socket, [this](std::error_code ec)
+        _acceptor.async_accept(_socket, [this, self](std::error_code ec)
         {
 
             if (!ec)
@@ -70,7 +71,7 @@ inline void TCPServer<TServer, TSession>::Accept()
 template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::Broadcast(const void* buffer, size_t size)
 {
-    if (!_service.IsStarted())
+    if (!_service->IsStarted())
         return;
 
     std::lock_guard<std::mutex> locker(_broadcast_lock);
@@ -78,8 +79,9 @@ inline void TCPServer<TServer, TSession>::Broadcast(const void* buffer, size_t s
     const uint8_t* bytes = (const uint8_t*)buffer;
     _broadcast_buffer.insert(_broadcast_buffer.end(), bytes, bytes + size);
 
-    // Post broadcast routine
-    _service.service().post([this]()
+    // Dispatch broadcast routine
+    auto self(shared_from_this());
+    _service->service().dispatch([this, self]()
     {
         // Broadcast all sessions
         for (auto& session : _sessions)
@@ -93,11 +95,12 @@ inline void TCPServer<TServer, TSession>::Broadcast(const void* buffer, size_t s
 template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::DisconnectAll()
 {
-    if (!_service.IsStarted())
+    if (!_service->IsStarted())
         return;
 
     // Post disconnect routine
-    _service.service().post([this]()
+    auto self(shared_from_this());
+    _service->service().post([this, self]()
     {
         // Clear broadcast buffer
         {
@@ -114,8 +117,13 @@ inline void TCPServer<TServer, TSession>::DisconnectAll()
 template <class TServer, class TSession>
 inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
 {
-    auto session = std::make_shared<TSession>(*dynamic_cast<TServer*>(this), CppCommon::UUID::Generate(), std::move(_socket));
+	// Create and register a new session
+    auto session = std::make_shared<TSession>(std::move(_socket));
     _sessions.emplace(session->id(), session);
+
+    // Connect a new session
+	auto self(shared_from_this());
+    session->Connect(self);
 
     // Call a new session connected handler
     onConnected(session);

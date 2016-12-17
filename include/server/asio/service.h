@@ -14,6 +14,7 @@
 #include "asio.h"
 
 #include <atomic>
+#include <memory>
 
 namespace CppServer {
 namespace Asio {
@@ -24,13 +25,13 @@ namespace Asio {
 
     Not thread-safe.
 */
-class Service
+class Service : public std::enable_shared_from_this<Service>
 {
 public:
-    Service() : _starting(false), _started(false) {}
+    Service() : _started(false) {}
     Service(const Service&) = delete;
     Service(Service&&) = default;
-    virtual ~Service() = default;
+    virtual ~Service() { Stop(); }
 
     Service& operator=(const Service&) = delete;
     Service& operator=(Service&&) = default;
@@ -81,7 +82,6 @@ private:
     // Asio service
     asio::io_service _service;
     std::thread _thread;
-    std::atomic<bool> _starting;
     std::atomic<bool> _started;
 
     //! Service loop

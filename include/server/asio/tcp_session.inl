@@ -10,14 +10,21 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline TCPSession<TServer, TSession>::TCPSession(TServer& server, const CppCommon::UUID& uuid, asio::ip::tcp::socket socket)
-    : _id(uuid),
-      _server(server),
+inline TCPSession<TServer, TSession>::TCPSession(asio::ip::tcp::socket socket)
+    : _id(CppCommon::UUID::Generate()),
       _socket(std::move(socket)),
       _connected(false),
       _reciving(false),
       _sending(false)
 {
+}
+
+template <class TServer, class TSession>
+inline void TCPSession<TServer, TSession>::Connect(std::shared_ptr<TCPServer<TServer, TSession>> server)
+{
+    // Assign TCP server
+    _server = server;
+
     // Put the socket into non-blocking mode
     _socket.non_blocking(true);
 
@@ -32,13 +39,14 @@ inline TCPSession<TServer, TSession>::TCPSession(TServer& server, const CppCommo
 }
 
 template <class TServer, class TSession>
-bool TCPSession<TServer, TSession>::Disconnect()
+inline bool TCPSession<TServer, TSession>::Disconnect()
 {
     if (!IsConnected())
         return false;
 
     // Post disconnect routine
-    _server._service.service().post([this]()
+    auto self(shared_from_this());
+    _server->service()->service().post([this, self]()
     {
         // Update connected flag
         _connected = false;
@@ -47,7 +55,7 @@ bool TCPSession<TServer, TSession>::Disconnect()
         onDisconnected();
 
         // Unregister the session
-        _server.UnregisterSession(id());
+        _server->UnregisterSession(id());
 
         // Clear receive/send buffers
         _recive_buffer.clear();
@@ -64,7 +72,7 @@ bool TCPSession<TServer, TSession>::Disconnect()
 }
 
 template <class TServer, class TSession>
-size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t size)
+inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t size)
 {
     if (!IsConnected())
         return 0;
@@ -74,8 +82,9 @@ size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t size)
     const uint8_t* bytes = (const uint8_t*)buffer;
     _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
 
-    // Post send routine
-    _server._service.service().post([this]()
+    // Dispatch send routine
+    auto self(shared_from_this());
+    _server->service()->service().dispatch([this, self]()
     {
         // Try to send the buffer if it is the first buffer to send
         if (!_sending)
@@ -92,7 +101,8 @@ inline void TCPSession<TServer, TSession>::TryReceive()
         return;
 
     _reciving = true;
-    _socket.async_wait(asio::ip::tcp::socket::wait_read, [this](std::error_code ec)
+    auto self(shared_from_this());
+    _socket.async_wait(asio::ip::tcp::socket::wait_read, [this, self](std::error_code ec)
     {
         _reciving = false;
 
@@ -128,7 +138,8 @@ inline void TCPSession<TServer, TSession>::TrySend()
         return;
 
     _sending = true;
-    _socket.async_wait(asio::ip::tcp::socket::wait_write, [this](std::error_code ec)
+    auto self(shared_from_this());
+    _socket.async_wait(asio::ip::tcp::socket::wait_write, [this, self](std::error_code ec)
     {
         _sending = false;
 

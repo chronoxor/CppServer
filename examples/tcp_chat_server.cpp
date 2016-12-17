@@ -50,7 +50,7 @@ protected:
         std::cout << "Incoming: " << messsage << std::endl;
 
         // Broadcast message to all sessions
-        server().Broadcast(buffer, size);
+        server()->Broadcast(buffer, size);
 
         // If the buffer starts with '!' the disconnect the session
         if (messsage == "!")
@@ -77,16 +77,16 @@ int main(int argc, char** argv)
     std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service
-    CppServer::Asio::Service service;
+    auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
-    service.Start();
+    service->Start();
 
     // Create a new TCP chat server
-    ChatServer server(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Accept new connections
-    server.Accept();
+    server->Accept();
 
     // Perform text input
     std::string line;
@@ -97,14 +97,14 @@ int main(int argc, char** argv)
 
         // Send the entered text to the chat server
         line = "(admin) " + line;
-        server.Broadcast(line.data(), line.size());
+        server->Broadcast(line.data(), line.size());
     }
 
     // Disconnect all sessions
-    server.DisconnectAll();
+    server->DisconnectAll();
 
     // Stop the service
-    service.Stop();
+    service->Stop();
 
     return 0;
 }

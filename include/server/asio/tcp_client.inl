@@ -9,10 +9,10 @@
 namespace CppServer {
 namespace Asio {
 
-inline TCPClient::TCPClient(Service& service, const std::string& address, int port)
+inline TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
-      _socket(_service.service()),
+      _socket(_service->service()),
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
       _connected(false),
       _reciving(false),
@@ -22,13 +22,14 @@ inline TCPClient::TCPClient(Service& service, const std::string& address, int po
 
 inline bool TCPClient::Connect()
 {
-    if (IsConnected() || !_service.IsStarted())
+    if (IsConnected() || !_service->IsStarted())
         return false;
 
     // Post connect routine
-    _service.service().post([this]()
+    auto self(shared_from_this());
+    _service->service().post([this, self]()
     {
-        _socket.async_connect(_endpoint, [this](std::error_code ec)
+        _socket.async_connect(_endpoint, [this, self](std::error_code ec)
         {
             if (!ec)
             {
@@ -59,11 +60,12 @@ inline bool TCPClient::Connect()
 
 inline bool TCPClient::Disconnect()
 {
-    if (!IsConnected() || !_service.IsStarted())
+    if (!IsConnected() || !_service->IsStarted())
         return false;
 
     // Post disconnect routine
-    _service.service().post([this]()
+    auto self(shared_from_this());
+    _service->service().post([this, self]()
     {
         // Update connected flag
         _connected = false;
@@ -87,7 +89,7 @@ inline bool TCPClient::Disconnect()
 
 inline size_t TCPClient::Send(const void* buffer, size_t size)
 {
-    if (!IsConnected() || !_service.IsStarted())
+    if (!IsConnected() || !_service->IsStarted())
         return 0;
 
     std::lock_guard<std::mutex> locker(_send_lock);
@@ -95,8 +97,9 @@ inline size_t TCPClient::Send(const void* buffer, size_t size)
     const uint8_t* bytes = (const uint8_t*)buffer;
     _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
 
-    // Post send routine
-    _service.service().post([this]()
+    // Dispatch send routine
+    auto self(shared_from_this());
+    _service->service().dispatch([this, self]()
     {
         // Try to send the buffer if it is the first buffer to send
         if (!_sending)
@@ -112,7 +115,8 @@ inline void TCPClient::TryReceive()
         return;
 
     _reciving = true;
-    _socket.async_wait(asio::ip::tcp::socket::wait_read, [this](std::error_code ec)
+    auto self(shared_from_this());
+    _socket.async_wait(asio::ip::tcp::socket::wait_read, [this, self](std::error_code ec)
     {
         _reciving = false;
 
@@ -147,7 +151,8 @@ inline void TCPClient::TrySend()
         return;
 
     _sending = true;
-    _socket.async_wait(asio::ip::tcp::socket::wait_write, [this](std::error_code ec)
+    auto self(shared_from_this());
+    _socket.async_wait(asio::ip::tcp::socket::wait_write, [this, self](std::error_code ec)
     {
         _sending = false;
 

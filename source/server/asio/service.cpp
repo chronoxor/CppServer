@@ -18,15 +18,10 @@ void Service::Start(bool polling)
     if (IsStarted())
         return;
 
-     // Update starting flag
-    _starting = true;
-
     // Post started routine
-    _service.post([this]()
+    auto self(shared_from_this());
+    _service.post([this, self]()
     {
-         // Update starting flag
-        _starting = false;
-
          // Update started flag
         _started = true;
 
@@ -44,7 +39,8 @@ void Service::Stop()
         return;
 
     // Post stopped routine
-    _service.post([this]()
+    auto self(shared_from_this());
+    _service.post([this, self]()
     {
         // Update started flag
         _started = false;
@@ -67,29 +63,24 @@ void Service::ServiceLoop(bool polling)
 
     try
     {
+        asio::io_service::work work(_service);
+
         if (polling)
         {
             // Run Asio service in a polling loop
-            while (_started || _starting)
+            do
             {
                 // Poll all pending handlers
                 _service.poll();
 
                 // Call idle handler
                 onIdle();
-            }
+            } while (_started);
         }
         else
         {
-            // Run Asio service in a running loop
-            while (_started || _starting)
-            {
-                // Run all pending handlers
-                _service.run();
-
-                // Call idle handler
-                onIdle();
-            }
+            // Run all pending handlers
+            _service.run();
         }
     }
     catch (asio::system_error& ex)
