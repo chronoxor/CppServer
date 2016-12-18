@@ -49,8 +49,8 @@ protected:
         std::string messsage((const char*)buffer, size);
         std::cout << "Incoming: " << messsage << std::endl;
 
-        // Broadcast message to all sessions
-        server()->Broadcast(buffer, size);
+        // Multicast message to all sessions
+        server()->Multicast(buffer, size);
 
         // If the buffer starts with '!' the disconnect the session
         if (messsage == "!")
@@ -95,9 +95,9 @@ int main(int argc, char** argv)
         if (line.empty())
             break;
 
-        // Send the entered text to the chat server
+        // Multicast admin message to all sessions
         line = "(admin) " + line;
-        server->Broadcast(line.data(), line.size());
+        server->Multicast(line.data(), line.size());
     }
 
     // Stop the server

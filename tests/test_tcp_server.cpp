@@ -105,6 +105,7 @@ public:
     std::atomic<bool> stopped;
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
+    std::atomic<size_t> clients;
     std::atomic<size_t> received;
     std::atomic<size_t> sent;
     std::atomic<bool> error;
@@ -115,6 +116,7 @@ public:
           stopped(false),
           connected(false),
           disconnected(false),
+          clients(0),
           received(0),
           sent(0),
           error(false)
@@ -124,8 +126,8 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onConnected(std::shared_ptr<EchoSession> session) override { connected = true; }
-    void onDisconnected(std::shared_ptr<EchoSession> session) override { disconnected = true; received += session->received; sent += session->sent; }
+    void onConnected(std::shared_ptr<EchoSession> session) override { connected = true; ++clients; }
+    void onDisconnected(std::shared_ptr<EchoSession> session) override { disconnected = true; --clients; received += session->received; sent += session->sent; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
@@ -137,54 +139,49 @@ TEST_CASE("TCP server & client", "[CppServer]")
     while (!service->IsStarted())
         Thread::Yield();
 
-    // Create and start echo server
+    // Create and start Echo server
     auto server = std::make_shared<EchoServer>(service, InternetProtocol::IPv4, 1234);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
-    // Create and connect echo client
+    // Create and connect Echo client
     auto client = std::make_shared<EchoClient>(service, "127.0.0.1", 1234);
     REQUIRE(client->Connect());
-    while (!client->IsConnected())
+	while (!client->IsConnected() || (server->clients != 1))
         Thread::Yield();
 
-    // Send some data to the server
+    // Send some data to the Echo server
     client->Send("test", 4);
 
     // Wait for all data processed...
     while (client->received != 4)
         Thread::Yield();
 
-    // Disconnect echo client
+    // Disconnect the Echo client
     REQUIRE(client->Disconnect());
-    while (client->IsConnected())
+	while (client->IsConnected() || (server->clients != 0))
         Thread::Yield();
 
-    // Stop echo server
+    // Stop the Echo server
     REQUIRE(server->Stop());
     while (server->IsStarted())
         Thread::Yield();
 
-    // Stop Asio service
+    // Stop the Asio service
     REQUIRE(service->Stop());
     while (service->IsStarted())
         Thread::Yield();
 
-    // Check the service state
+    // Check the Asio service state
     REQUIRE(service->thread_initialize);
     REQUIRE(service->thread_cleanup);
     REQUIRE(service->started);
     REQUIRE(service->stopped);
     REQUIRE(!service->idle);
+    REQUIRE(!service->error);
 
-    // Check the client state
-    REQUIRE(client->connected);
-    REQUIRE(client->disconnected);
-    REQUIRE(client->received == 4);
-    REQUIRE(client->sent == 4);
-
-    // Check the server state
+    // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
@@ -192,48 +189,108 @@ TEST_CASE("TCP server & client", "[CppServer]")
     REQUIRE(server->received == 4);
     REQUIRE(server->sent == 4);
     REQUIRE(!server->error);
+
+    // Check the Echo client state
+    REQUIRE(client->connected);
+    REQUIRE(client->disconnected);
+    REQUIRE(client->received == 4);
+    REQUIRE(client->sent == 4);
+    REQUIRE(!client->error);
 }
-/*
-TEST_CASE("TCP server broadcast ", "[CppServer]")
+
+TEST_CASE("TCP server multicast ", "[CppServer]")
 {
+    // Create and start Asio service
     auto service = std::make_shared<EchoService>();
-    service->Start(true);
+    REQUIRE(service->Start(true));
+    while (!service->IsStarted())
+        Thread::Yield();
 
-    Thread::Sleep(1000);
+    // Create and start Echo server
+    auto server = std::make_shared<EchoServer>(service, InternetProtocol::IPv4, 1235);
+    REQUIRE(server->Start());
+    while (!server->IsStarted())
+        Thread::Yield();
 
-    auto server = std::make_shared<EchoServer>(service, InternetProtocol::IPv4, 1234);
-    server->Accept();
+    // Create and connect Echo client
+    auto client1 = std::make_shared<EchoClient>(service, "127.0.0.1", 1235);
+    REQUIRE(client1->Connect());
+    while (!client1->IsConnected() || (server->clients != 1))
+        Thread::Yield();
 
-    Thread::Sleep(1000);
+    // Multicast some data to all clients
+    server->Multicast("test", 4);
 
-    auto client1 = std::make_shared<EchoClient>(service, "127.0.0.1", 1234);
-    client1->Connect();
+    // Wait for all data processed...
+    while (client1->received != 4)
+        Thread::Yield();
 
-    Thread::Sleep(1000);
+    // Create and connect Echo client
+    auto client2 = std::make_shared<EchoClient>(service, "127.0.0.1", 1235);
+    REQUIRE(client2->Connect());
+    while (!client2->IsConnected() || (server->clients != 2))
+        Thread::Yield();
 
-    auto client2 = std::make_shared<EchoClient>(service, "127.0.0.1", 1234);
-    client2->Connect();
+    // Multicast some data to all clients
+    server->Multicast("test", 4);
 
-    Thread::Sleep(1000);
+    // Wait for all data processed...
+    while ((client1->received != 8) || (client2->received != 4))
+        Thread::Yield();
 
-    auto client3 = std::make_shared<EchoClient>(service, "127.0.0.1", 1234);
-    client3->Connect();
+    // Create and connect Echo client
+    auto client3 = std::make_shared<EchoClient>(service, "127.0.0.1", 1235);
+    REQUIRE(client3->Connect());
+    while (!client3->IsConnected() || (server->clients != 3))
+        Thread::Yield();
 
-    Thread::Sleep(1000);
+    // Multicast some data to all clients
+    server->Multicast("test", 4);
 
-    server->Broadcast("test", 4);
+    // Wait for all data processed...
+    while ((client1->received != 12) || (client2->received != 8) || (client3->received != 4))
+        Thread::Yield();
 
-    Thread::Sleep(1000);
+    // Disconnect the Echo client
+    REQUIRE(client1->Disconnect());
+    while (client1->IsConnected() || (server->clients != 2))
+        Thread::Yield();
 
-    server->DisconnectAll();
+    // Multicast some data to all clients
+    server->Multicast("test", 4);
 
-    Thread::Sleep(1000);
+    // Wait for all data processed...
+    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 8))
+        Thread::Yield();
 
-    service->Stop();
+    // Disconnect the Echo client
+    REQUIRE(client2->Disconnect());
+    while (client2->IsConnected() || (server->clients != 1))
+        Thread::Yield();
 
-    Thread::Sleep(1000);
+    // Multicast some data to all clients
+    server->Multicast("test", 4);
 
-    // Check the service state
+    // Wait for all data processed...
+    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 12))
+        Thread::Yield();
+
+    // Disconnect the Echo client
+    REQUIRE(client3->Disconnect());
+    while (client3->IsConnected() || (server->clients != 0))
+        Thread::Yield();
+
+    // Stop the Echo server
+    REQUIRE(server->Stop());
+    while (server->IsStarted())
+        Thread::Yield();
+
+    // Stop the Asio service
+    REQUIRE(service->Stop());
+    while (service->IsStarted())
+        Thread::Yield();
+
+    // Check the Asio service state
     REQUIRE(service->thread_initialize);
     REQUIRE(service->thread_cleanup);
     REQUIRE(service->started);
@@ -241,20 +298,23 @@ TEST_CASE("TCP server broadcast ", "[CppServer]")
     REQUIRE(service->idle);
     REQUIRE(!service->error);
 
-    // Check the client state
-    REQUIRE(client1->received == 4);
-    REQUIRE(client1->sent == 0);
-    REQUIRE(!client1->error);
-    REQUIRE(client2->received == 4);
-    REQUIRE(client2->sent == 0);
-    REQUIRE(!client2->error);
-    REQUIRE(client3->received == 4);
-    REQUIRE(client3->sent == 0);
-    REQUIRE(!client3->error);
-
-    // Check the server state
+    // Check the Echo server state
+    REQUIRE(server->started);
+    REQUIRE(server->stopped);
+    REQUIRE(server->connected);
+    REQUIRE(server->disconnected);
     REQUIRE(server->received == 0);
-    REQUIRE(server->sent == 12);
+    REQUIRE(server->sent == 36);
     REQUIRE(!server->error);
+
+    // Check the Echo client state
+    REQUIRE(client1->received == 12);
+    REQUIRE(client2->received == 12);
+    REQUIRE(client3->received == 12);
+    REQUIRE(client1->sent == 0);
+    REQUIRE(client2->sent == 0);
+    REQUIRE(client3->sent == 0);
+    REQUIRE(!client1->error);
+    REQUIRE(!client2->error);
+    REQUIRE(!client3->error);
 }
-*/

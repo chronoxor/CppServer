@@ -49,11 +49,9 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
 template <class TServer, class TSession>
 inline bool TCPServer<TServer, TSession>::Start()
 {
-    assert(!IsStarted() && "Asio service is not started!");
     if (!_service->IsStarted())
         return false;
 
-    assert(!IsStarted() && "TCP server is already started!");
     if (IsStarted())
         return false;
 
@@ -77,7 +75,6 @@ inline bool TCPServer<TServer, TSession>::Start()
 template <class TServer, class TSession>
 inline bool TCPServer<TServer, TSession>::Stop()
 {
-    assert(IsStarted() && "TCP server is already stopped!");
     if (!IsStarted())
         return false;
 
@@ -122,26 +119,26 @@ inline void TCPServer<TServer, TSession>::Accept()
 }
 
 template <class TServer, class TSession>
-inline bool TCPServer<TServer, TSession>::Broadcast(const void* buffer, size_t size)
+inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t size)
 {
     if (!IsStarted())
         return false;
 
-    std::lock_guard<std::mutex> locker(_broadcast_lock);
+    std::lock_guard<std::mutex> locker(_multicast_lock);
 
     const uint8_t* bytes = (const uint8_t*)buffer;
-    _broadcast_buffer.insert(_broadcast_buffer.end(), bytes, bytes + size);
+    _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
 
-    // Dispatch broadcast routine
+    // Dispatch multicast routine
     auto self(this->shared_from_this());
     _service->service().dispatch([this, self]()
     {
-        // Broadcast all sessions
+        // Multicast all sessions
         for (auto& session : _sessions)
-            session.second->Send(_broadcast_buffer.data(), _broadcast_buffer.size());
+            session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
 
-        // Clear broadcast buffer
-        _broadcast_buffer.clear();
+        // Clear multicast buffer
+        _multicast_buffer.clear();
     });
 
     return true;
@@ -157,10 +154,10 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
     auto self(this->shared_from_this());
     _service->service().dispatch([this, self]()
     {
-        // Clear broadcast buffer
+        // Clear multicast buffer
         {
-            std::lock_guard<std::mutex> locker(_broadcast_lock);
-            _broadcast_buffer.clear();
+            std::lock_guard<std::mutex> locker(_multicast_lock);
+            _multicast_buffer.clear();
         }
 
         // Disconnect all sessions

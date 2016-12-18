@@ -22,11 +22,9 @@ inline TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string&
 
 inline bool TCPClient::Connect()
 {
-    assert(!IsStarted() && "Asio service is not started!");
     if (!_service->IsStarted())
         return false;
 
-    assert(!IsConnected() && "TCP client is already connected!");
     if (IsConnected())
         return false;
 
@@ -65,7 +63,6 @@ inline bool TCPClient::Connect()
 
 inline bool TCPClient::Disconnect()
 {
-    assert(IsConnected() && "TCP client is already disconnected!");
     if (!IsConnected())
         return false;
 

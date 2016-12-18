@@ -78,13 +78,13 @@ public:
     */
     bool Stop();
 
-    //! Broadcast data into all sessions
+    //! Multicast data into all sessions
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return 'true' if the data was successfully broadcast, 'false' if the server it not started
+        \return 'true' if the data was successfully multicast, 'false' if the server it not started
     */
-    bool Broadcast(const void* buffer, size_t size);
+    bool Multicast(const void* buffer, size_t size);
 
     //! Disconnect all sessions
     /*!
@@ -126,9 +126,9 @@ private:
     std::atomic<bool> _started;
     // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
-    // Broadcast buffer
-    std::mutex _broadcast_lock;
-    std::vector<uint8_t> _broadcast_buffer;
+    // Multicast buffer
+    std::mutex _multicast_lock;
+    std::vector<uint8_t> _multicast_buffer;
 
     //! Accept new connections
     void Accept();
