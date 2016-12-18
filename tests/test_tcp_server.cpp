@@ -7,8 +7,11 @@
 #include "server/asio/tcp_client.h"
 #include "server/asio/tcp_server.h"
 #include "server/asio/tcp_session.h"
+#include "threads/thread.h"
 
 #include <atomic>
+#include <chrono>
+#include <vector>
 
 using namespace CppCommon;
 using namespace CppServer::Asio;
@@ -148,7 +151,7 @@ TEST_CASE("TCP server & client", "[CppServer]")
     // Create and connect Echo client
     auto client = std::make_shared<EchoClient>(service, "127.0.0.1", 1234);
     REQUIRE(client->Connect());
-	while (!client->IsConnected() || (server->clients != 1))
+    while (!client->IsConnected() || (server->clients != 1))
         Thread::Yield();
 
     // Send some data to the Echo server
@@ -160,7 +163,7 @@ TEST_CASE("TCP server & client", "[CppServer]")
 
     // Disconnect the Echo client
     REQUIRE(client->Disconnect());
-	while (client->IsConnected() || (server->clients != 0))
+    while (client->IsConnected() || (server->clients != 0))
         Thread::Yield();
 
     // Stop the Echo server
@@ -198,7 +201,7 @@ TEST_CASE("TCP server & client", "[CppServer]")
     REQUIRE(!client->error);
 }
 
-TEST_CASE("TCP server multicast ", "[CppServer]")
+TEST_CASE("TCP server multicast", "[CppServer]")
 {
     // Create and start Asio service
     auto service = std::make_shared<EchoService>();
@@ -317,4 +320,94 @@ TEST_CASE("TCP server multicast ", "[CppServer]")
     REQUIRE(!client1->error);
     REQUIRE(!client2->error);
     REQUIRE(!client3->error);
+}
+
+
+TEST_CASE("TCP server random test", "[CppServer]")
+{
+    // Create and start Asio service
+    auto service = std::make_shared<EchoService>();
+    REQUIRE(service->Start());
+    while (!service->IsStarted())
+        Thread::Yield();
+
+    // Create and start Echo server
+    auto server = std::make_shared<EchoServer>(service, InternetProtocol::IPv4, 1236);
+    REQUIRE(server->Start());
+    while (!server->IsStarted())
+        Thread::Yield();
+
+    // Test duration in seconds
+    const int duration = 10;
+
+    // Clients collection
+    std::vector<std::shared_ptr<EchoClient>> clients;
+
+    // Start random test
+    auto start = std::chrono::high_resolution_clock::now();
+    while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
+    {
+        // Connect a new client
+        if ((rand() % 100) == 0)
+        {
+            // Create and connect Echo client
+            auto client = std::make_shared<EchoClient>(service, "127.0.0.1", 1236);
+            client->Connect();
+            clients.emplace_back(client);
+        }
+        // Disconnect the random client
+        else if ((rand() % 100) == 0)
+        {
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                client->Disconnect();
+                clients.erase(clients.begin() + index);
+            }
+        }
+        // Send a message from the random client
+        else if ((rand() % 1) == 0)
+        {
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                client->Send("test", 4);
+            }
+        }
+        // Multicast a message to all clients
+        else if ((rand() % 10) == 0)
+        {
+            server->Multicast("test", 4);
+        }
+        // Disconnect all clients
+        else if ((rand() % 1000) == 0)
+        {
+            server->DisconnectAll();
+        }
+
+        // Sleep for a while...
+        Thread::Sleep(1);
+    }
+
+    // Stop the Echo server
+    REQUIRE(server->Stop());
+    while (server->IsStarted())
+        Thread::Yield();
+
+    // Stop the Asio service
+    REQUIRE(service->Stop());
+    while (service->IsStarted())
+        Thread::Yield();
+
+    // Check the Echo server state
+    REQUIRE(server->started);
+    REQUIRE(server->stopped);
+    REQUIRE(server->connected);
+    REQUIRE(server->disconnected);
+    REQUIRE(server->received > 0);
+    REQUIRE(server->sent > 0);
+    REQUIRE(server->received == server->sent);
+    REQUIRE(!server->error);
 }
