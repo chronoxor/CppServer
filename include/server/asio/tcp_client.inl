@@ -22,7 +22,12 @@ inline TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string&
 
 inline bool TCPClient::Connect()
 {
-    if (IsConnected() || !_service->IsStarted())
+    assert(!IsStarted() && "Asio service is not started!");
+    if (!_service->IsStarted())
+        return false;
+
+    assert(!IsConnected() && "TCP client is already connected!");
+    if (IsConnected())
         return false;
 
     // Post connect routine
@@ -60,7 +65,8 @@ inline bool TCPClient::Connect()
 
 inline bool TCPClient::Disconnect()
 {
-    if (!IsConnected() || !_service->IsStarted())
+    assert(IsConnected() && "TCP client is already disconnected!");
+    if (!IsConnected())
         return false;
 
     // Post disconnect routine
@@ -89,7 +95,7 @@ inline bool TCPClient::Disconnect()
 
 inline size_t TCPClient::Send(const void* buffer, size_t size)
 {
-    if (!IsConnected() || !_service->IsStarted())
+    if (!IsConnected())
         return 0;
 
     std::lock_guard<std::mutex> locker(_send_lock);

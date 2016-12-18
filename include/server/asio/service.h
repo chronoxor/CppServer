@@ -45,10 +45,14 @@ public:
     //! Start the service
     /*!
         \param polling - Polling loop mode with idle handler call (default is false)
+        \return 'true' if the service was successfully started, 'false' if the service failed to start
     */
-    void Start(bool polling = false);
+    bool Start(bool polling = false);
     //! Stop the service
-    void Stop();
+    /*!
+        \return 'true' if the service was successfully stopped, 'false' if the service is already stopped
+    */
+    bool Stop();
 
 protected:
     //! Initialize thread handler

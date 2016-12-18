@@ -56,7 +56,7 @@ public:
     explicit TCPServer(std::shared_ptr<Service> service, const std::string& address, int port);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = default;
-    virtual ~TCPServer() { DisconnectAll(); }
+    virtual ~TCPServer() { Stop(); }
 
     TCPServer& operator=(const TCPServer&) = delete;
     TCPServer& operator=(TCPServer&&) = default;
@@ -64,20 +64,40 @@ public:
     //! Get the Asio service
     std::shared_ptr<Service> service() noexcept { return _service; }
 
-    //! Accept new connections
-    void Accept();
+    //! Is the service started?
+    bool IsStarted() const noexcept { return _started; }
+
+    //! Start the server
+    /*!
+        \return 'true' if the server was successfully started, 'false' if the server failed to start
+    */
+    bool Start();
+    //! Stop the server
+    /*!
+        \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
+    */
+    bool Stop();
 
     //! Broadcast data into all sessions
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
+        \return 'true' if the data was successfully broadcast, 'false' if the server it not started
     */
-    void Broadcast(const void* buffer, size_t size);
+    bool Broadcast(const void* buffer, size_t size);
 
     //! Disconnect all sessions
-    void DisconnectAll();
+    /*!
+        \return 'true' if all sessions were successfully disconnected, 'false' if the server it not started
+    */
+    bool DisconnectAll();
 
 protected:
+    //! Handle server started notification
+    virtual void onStarted() {}
+    //! Handle server stopped notification
+    virtual void onStopped() {}
+
     //! Handle new session connected notification
     /*!
         \param session - Connected session
@@ -103,11 +123,15 @@ private:
     // Server acceptor & socket
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
+    std::atomic<bool> _started;
     // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Broadcast buffer
     std::mutex _broadcast_lock;
     std::vector<uint8_t> _broadcast_buffer;
+
+    //! Accept new connections
+    void Accept();
 
     //! Register a new session
     std::shared_ptr<TSession> RegisterSession();

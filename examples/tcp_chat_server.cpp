@@ -85,8 +85,8 @@ int main(int argc, char** argv)
     // Create a new TCP chat server
     auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
-    // Accept new connections
-    server->Accept();
+    // Start the server
+    server->Start();
 
     // Perform text input
     std::string line;
@@ -100,8 +100,8 @@ int main(int argc, char** argv)
         server->Broadcast(line.data(), line.size());
     }
 
-    // Disconnect all sessions
-    server->DisconnectAll();
+    // Stop the server
+    server->Stop();
 
     // Stop the service
     service->Stop();

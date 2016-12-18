@@ -10,13 +10,16 @@
 
 #include "errors/fatal.h"
 
+#include <cassert>
+
 namespace CppServer {
 namespace Asio {
 
-void Service::Start(bool polling)
+bool Service::Start(bool polling)
 {
+    assert(!IsStarted() && "Asio service is already started!");
     if (IsStarted())
-        return;
+        return false;
 
     // Post started routine
     auto self(this->shared_from_this());
@@ -32,17 +35,16 @@ void Service::Start(bool polling)
     // Start service thread
     _thread = std::thread([this, polling]() { ServiceLoop(polling); });
 
-    // Wait for the service start
-    while (!IsStarted())
-        CppCommon::Thread::Yield();
+    return true;
 }
 
-void Service::Stop()
+bool Service::Stop()
 {
+    assert(IsStarted() && "Asio service is already stopped!");
     if (!IsStarted())
-        return;
+        return false;
 
-    // Post stopped routine
+    // Post stop routine
     auto self(this->shared_from_this());
     _service.post([this, self]()
     {
@@ -58,6 +60,8 @@ void Service::Stop()
 
     // Wait for service thread
     _thread.join();
+
+    return true;
 }
 
 void Service::ServiceLoop(bool polling)

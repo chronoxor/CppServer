@@ -13,7 +13,8 @@ template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
       _acceptor(_service->service()),
-      _socket(_service->service())
+      _socket(_service->service()),
+      _started(false)
 {
     // Create TCP endpoint
     asio::ip::tcp::endpoint endpoint;
@@ -35,7 +36,8 @@ template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _acceptor(_service->service()),
-      _socket(_service->service())
+      _socket(_service->service()),
+      _started(false)
 {
     // Create TCP endpoint
     asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
@@ -45,9 +47,61 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
 }
 
 template <class TServer, class TSession>
+inline bool TCPServer<TServer, TSession>::Start()
+{
+    assert(!IsStarted() && "Asio service is not started!");
+    if (!_service->IsStarted())
+        return false;
+
+    assert(!IsStarted() && "TCP server is already started!");
+    if (IsStarted())
+        return false;
+
+    // Post start routine
+    auto self(this->shared_from_this());
+    _service->service().post([this, self]()
+    {
+         // Update started flag
+        _started = true;
+
+        // Call server started handler
+        onStarted();
+
+        // Perform the first server accept
+        Accept();
+    });
+
+    return true;
+}
+
+template <class TServer, class TSession>
+inline bool TCPServer<TServer, TSession>::Stop()
+{
+    assert(IsStarted() && "TCP server is already stopped!");
+    if (!IsStarted())
+        return false;
+
+    // Post stopped routine
+    auto self(this->shared_from_this());
+    _service->service().post([this, self]()
+    {
+        // Disconnect all sessions
+        DisconnectAll();
+
+        // Update started flag
+        _started = false;
+
+        // Call server stopped handler
+        onStopped();
+    });
+
+    return true;
+}
+
+template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::Accept()
 {
-    if (!_service->IsStarted())
+    if (!IsStarted())
         return;
 
     // Dispatch disconnect routine
@@ -68,10 +122,10 @@ inline void TCPServer<TServer, TSession>::Accept()
 }
 
 template <class TServer, class TSession>
-inline void TCPServer<TServer, TSession>::Broadcast(const void* buffer, size_t size)
+inline bool TCPServer<TServer, TSession>::Broadcast(const void* buffer, size_t size)
 {
-    if (!_service->IsStarted())
-        return;
+    if (!IsStarted())
+        return false;
 
     std::lock_guard<std::mutex> locker(_broadcast_lock);
 
@@ -89,17 +143,19 @@ inline void TCPServer<TServer, TSession>::Broadcast(const void* buffer, size_t s
         // Clear broadcast buffer
         _broadcast_buffer.clear();
     });
+
+    return true;
 }
 
 template <class TServer, class TSession>
-inline void TCPServer<TServer, TSession>::DisconnectAll()
+inline bool TCPServer<TServer, TSession>::DisconnectAll()
 {
-    if (!_service->IsStarted())
-        return;
+    if (!IsStarted())
+        return false;
 
-    // Post disconnect routine
+    // Dispatch disconnect routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service().dispatch([this, self]()
     {
         // Clear broadcast buffer
         {
@@ -111,6 +167,8 @@ inline void TCPServer<TServer, TSession>::DisconnectAll()
         for (auto& session : _sessions)
             session.second->Disconnect();
     });
+
+    return true;
 }
 
 template <class TServer, class TSession>
