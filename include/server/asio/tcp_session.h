@@ -14,7 +14,6 @@
 
 #include "system/uuid.h"
 
-#include <atomic>
 #include <mutex>
 #include <vector>
 
