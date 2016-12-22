@@ -162,7 +162,8 @@ private:
     void TrySend(const asio::ip::udp::endpoint& endpoint, size_t size);
 };
 
-/*! \example udp_chat_server.cpp UDP chat server example */
+/*! \example udp_echo_server.cpp UDP echo server example */
+/*! \example udp_multicast_server.cpp UDP multicast server example */
 
 } // namespace Asio
 } // namespace CppServer

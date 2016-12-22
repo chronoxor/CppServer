@@ -1,6 +1,6 @@
 /*!
-    \file udp_chat_server.cpp
-    \brief UDP chat server example
+    \file udp_multicast_server.cpp
+    \brief UDP multicast server example
     \author Ivan Shynkarenka
     \date 22.12.2016
     \copyright MIT License
@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-class ChatServer : public CppServer::Asio::UDPServer
+class MulticastServer : public CppServer::Asio::UDPServer
 {
 public:
     using CppServer::Asio::UDPServer::UDPServer;
@@ -27,14 +27,14 @@ protected:
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Chat UDP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "Multicast UDP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
 int main(int argc, char** argv)
 {
     // UDP server port
-    int port = 1234;
+    int port = 1236;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
@@ -44,7 +44,7 @@ int main(int argc, char** argv)
         multicast_address = argv[2];
 
     // UDP multicast port
-    int multicast_port = 1234;
+    int multicast_port = 1237;
     if (argc > 3)
         multicast_port = std::atoi(argv[3]);
 
@@ -59,8 +59,8 @@ int main(int argc, char** argv)
     // Start the service
     service->Start();
 
-    // Create a new UDP chat server
-    auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    // Create a new UDP multicast server
+    auto server = std::make_shared<MulticastServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Setup UDP server multicast endpoint
     server->SetupMulticastEndpoint(multicast_address, multicast_port);

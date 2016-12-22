@@ -12,7 +12,9 @@ namespace Asio {
 inline UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
       _socket(_service->service()),
-      _started(false)
+      _started(false),
+      _reciving(false),
+      _sending(false)
 {
     switch (protocol)
     {
@@ -23,6 +25,7 @@ inline UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol p
             _endpoint = asio::ip::udp::endpoint(asio::ip::udp::v6(), port);
             break;
     }
+	_socket = asio::ip::udp::socket(_service->service(), _endpoint);
 }
 
 inline UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
@@ -31,12 +34,13 @@ inline UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string&
       _started(false)
 {
     _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), port);
+	_socket = asio::ip::udp::socket(_service->service(), _endpoint);
 }
 
 inline UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _service(service),
       _endpoint(endpoint),
-      _socket(_service->service()),
+      _socket(_service->service(), endpoint),
       _started(false)
 {
 }
