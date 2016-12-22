@@ -9,13 +9,11 @@
 #ifndef CPPSERVER_ASIO_TCP_SERVER_H
 #define CPPSERVER_ASIO_TCP_SERVER_H
 
-#include "service.h"
 #include "tcp_session.h"
 
-#include "system/uuid.h"
-
 #include <map>
-#include <thread>
+#include <mutex>
+#include <vector>
 
 namespace CppServer {
 namespace Asio {
@@ -26,10 +24,8 @@ class TCPSession;
 //! TCP server
 /*!
     TCP server is used to connect, disconnect and manage TCP sessions.
-    It is implemented based on Asio C++ Library and use a separate
-    thread to perform all TCP communications.
 
-    Not thread-safe.
+    Thread-safe.
 */
 template <class TServer, class TSession>
 class TCPServer : public std::enable_shared_from_this<TCPServer<TServer, TSession>>
@@ -52,6 +48,12 @@ public:
         \param port - Port number
     */
     explicit TCPServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    //! Initialize TCP server with a given TCP endpoint
+    /*!
+        \param service - Asio service
+        \param endpoint - Server TCP endpoint
+    */
+    explicit TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = default;
     virtual ~TCPServer() { Stop(); }
@@ -80,7 +82,7 @@ public:
     */
     bool Stop();
 
-    //! Multicast data into all sessions
+    //! Multicast data to all connected sessions
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
@@ -88,7 +90,7 @@ public:
     */
     bool Multicast(const void* buffer, size_t size);
 
-    //! Disconnect all sessions
+    //! Disconnect all connected sessions
     /*!
         \return 'true' if all sessions were successfully disconnected, 'false' if the server it not started
     */
@@ -122,7 +124,7 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
-    // Server acceptor & socket
+    // Server endpoint, acceptor & socket
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;

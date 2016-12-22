@@ -21,7 +21,7 @@ public:
 protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Chat server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "Chat TCP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
@@ -33,15 +33,15 @@ public:
 protected:
     void onConnected() override
     {
-        std::cout << "Chat session with Id " << id() << " connected!" << std::endl;
+        std::cout << "Chat TCP session with Id " << id() << " connected!" << std::endl;
 
         // Send invite message
-        std::string message("Hello in chat! Please send a message or '!' for disconnect!");
+        std::string message("Hello from TCP chat! Please send a message or '!' for disconnect!");
         Send(message.data(), message.size());
     }
     void onDisconnected() override
     {
-        std::cout << "Chat session with Id " << id() << " disconnected!" << std::endl;
+        std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;
     }
 
     size_t onReceived(const void* buffer, size_t size) override
@@ -49,10 +49,10 @@ protected:
         std::string messsage((const char*)buffer, size);
         std::cout << "Incoming: " << messsage << std::endl;
 
-        // Multicast message to all sessions
+        // Multicast message to all connected sessions
         server()->Multicast(buffer, size);
 
-        // If the buffer starts with '!' the disconnect the session
+        // If the buffer starts with '!' the disconnect the current session
         if (messsage == "!")
             Disconnect();
 
@@ -62,18 +62,18 @@ protected:
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Chat session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "Chat TCP session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
 int main(int argc, char** argv)
 {
-    // Server port
+    // TCP server port
     int port = 1234;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
-    std::cout << "Server port: " << port << std::endl;
+    std::cout << "TCP server port: " << port << std::endl;
     std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service

@@ -10,12 +10,8 @@
 #define CPPSERVER_ASIO_TCP_SESSION_H
 
 #include "service.h"
-#include "tcp_server.h"
 
 #include "system/uuid.h"
-
-#include <mutex>
-#include <vector>
 
 namespace CppServer {
 namespace Asio {
@@ -27,7 +23,7 @@ class TCPServer;
 /*!
     TCP session is used to read and write data from the connected TCP client.
 
-    Not thread-safe.
+    Thread-safe.
 */
 template <class TServer, class TSession>
 class TCPSession : public std::enable_shared_from_this<TCPSession<TServer, TSession>>

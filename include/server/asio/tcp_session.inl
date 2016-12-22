@@ -144,9 +144,6 @@ inline void TCPSession<TServer, TSession>::TrySend()
         _sending = false;
 
         // Send some data to the client in non blocking mode
-        size_t sent = 0;
-        size_t pending = 0;
-        bool repeat = true;
         if (!ec)
         {
             std::lock_guard<std::mutex> locker(_send_lock);
@@ -157,23 +154,14 @@ inline void TCPSession<TServer, TSession>::TrySend()
                 // Erase the sent buffer
                 _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
 
-                // Fill sent handler parameters
-                sent = size;
-                pending = _send_buffer.size();
+                // Call the buffer sent handler
+                onSent(size, _send_buffer.size());
 
                 // Stop sending if the send buffer is empty
                 if (_send_buffer.empty())
-                    repeat = false;
+                    return;
             }
         }
-
-        // Call the buffer sent handler
-        if (sent > 0)
-            onSent(sent, pending);
-
-        // Stop the send loop if there is nothing to send
-        if (!repeat)
-            return;
 
         // Try to send again if the session is valid
         if (!ec || (ec == asio::error::would_block))

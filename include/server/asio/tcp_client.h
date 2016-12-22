@@ -23,7 +23,7 @@ namespace Asio {
 /*!
     TCP client is used to read and write data from the connected TCP server.
 
-    Not thread-safe.
+    Thread-safe.
 */
 class TCPClient : public std::enable_shared_from_this<TCPClient>
 {
@@ -35,6 +35,12 @@ public:
         \param port - Server port number
     */
     explicit TCPClient(std::shared_ptr<Service> service, const std::string& address, int port);
+    //! Initialize TCP client with a given TCP endpoint
+    /*!
+        \param service - Asio service
+        \param endpoint - Server TCP endpoint
+    */
+    explicit TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPClient(const TCPClient&) = delete;
     TCPClient(TCPClient&&) = default;
     virtual ~TCPClient() = default;

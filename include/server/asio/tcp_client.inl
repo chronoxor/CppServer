@@ -20,6 +20,17 @@ inline TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string&
 {
 }
 
+inline TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
+    : _id(CppCommon::UUID::Generate()),
+      _service(service),
+      _endpoint(endpoint),
+      _socket(_service->service()),
+      _connected(false),
+      _reciving(false),
+      _sending(false)
+{
+}
+
 inline bool TCPClient::Connect()
 {
     if (!_service->IsStarted())
@@ -164,9 +175,6 @@ inline void TCPClient::TrySend()
         _sending = false;
 
         // Send some data to the server in non blocking mode
-        size_t sent = 0;
-        size_t pending = 0;
-        bool repeat = true;
         if (!ec)
         {
             std::lock_guard<std::mutex> locker(_send_lock);
@@ -177,23 +185,14 @@ inline void TCPClient::TrySend()
                 // Erase the sent buffer
                 _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
 
-                // Fill sent handler parameters
-                sent = size;
-                pending = _send_buffer.size();
+                // Call the buffer sent handler
+                onSent(size, _send_buffer.size());
 
                 // Stop sending if the send buffer is empty
                 if (_send_buffer.empty())
-                    repeat = false;
+                    return;
             }
         }
-
-        // Call the buffer sent handler
-        if (sent > 0)
-            onSent(sent, pending);
-
-        // Stop the send loop if there is nothing to send
-        if (!repeat)
-            return;
 
         // Try to send again if the client is valid
         if (!ec || (ec == asio::error::would_block))

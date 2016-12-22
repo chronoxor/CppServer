@@ -23,8 +23,10 @@ namespace Asio {
 //! Asio service
 /*!
     Asio service is used to host all clients/servers based on Asio C++ library.
+    It is implemented based on Asio C++ Library and use a separate thread to
+    perform all asynchronous IO operations and communications.
 
-    Not thread-safe.
+    Thread-safe.
 */
 class Service : public std::enable_shared_from_this<Service>
 {

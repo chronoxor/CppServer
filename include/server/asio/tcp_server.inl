@@ -16,7 +16,6 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _socket(_service->service()),
       _started(false)
 {
-    // Create the TCP endpoint
     switch (protocol)
     {
         case InternetProtocol::IPv4:
@@ -26,8 +25,6 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
             _endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v6(), port);
             break;
     }
-
-    // Create the TCP acceptor
     _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
 }
 
@@ -38,11 +35,18 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _socket(_service->service()),
       _started(false)
 {
-    // Create the TCP endpoint
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
-
-    // Create the TCP acceptor
     _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
+}
+
+template <class TServer, class TSession>
+inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
+    : _service(service),
+      _endpoint(endpoint),
+      _acceptor(_service->service()),
+      _socket(_service->service()),
+      _started(false)
+{
 }
 
 template <class TServer, class TSession>
