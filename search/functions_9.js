@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['_7eservice',['~Service',['../class_cpp_server_1_1_asio_1_1_service.html#ac68fa2770646bcad6522cc564a0c7b04',1,'CppServer::Asio::Service']]],
-  ['_7etcpclient',['~TCPClient',['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a7fa9d9d42d3e632572cca8699739d708',1,'CppServer::Asio::TCPClient']]],
-  ['_7etcpserver',['~TCPServer',['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#ad29a5927f780832280232a9dca494fa9',1,'CppServer::Asio::TCPServer']]],
-  ['_7etcpsession',['~TCPSession',['../class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a4e2d40e708ab38b773ddab72dc15929a',1,'CppServer::Asio::TCPSession']]]
+  ['udpserver',['UDPServer',['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a242b20907168992041be0c738d95dfaa',1,'CppServer::Asio::UDPServer::UDPServer(std::shared_ptr&lt; Service &gt; service, InternetProtocol protocol, int port)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a847d378d2a9af2120318284465fa03d7',1,'CppServer::Asio::UDPServer::UDPServer(std::shared_ptr&lt; Service &gt; service, const std::string &amp;address, int port)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a421533bd0ea01444093c0f3591b3150d',1,'CppServer::Asio::UDPServer::UDPServer(std::shared_ptr&lt; Service &gt; service, const asio::ip::udp::endpoint &amp;endpoint)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a53855a3634dbd22056ea83e86e7e22b4',1,'CppServer::Asio::UDPServer::UDPServer(const UDPServer &amp;)=delete'],['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#aa393247d541a000e71695eef4c7cd009',1,'CppServer::Asio::UDPServer::UDPServer(UDPServer &amp;&amp;)=default']]]
 ];
