@@ -18,18 +18,18 @@ bool Service::Start(bool polling)
     if (IsStarted())
         return false;
 
-    // Post started routine
+    // Post the started routine
     auto self(this->shared_from_this());
     _service.post([this, self]()
     {
-         // Update started flag
+         // Update the started flag
         _started = true;
 
-        // Call service started handler
+        // Call the service started handler
         onStarted();
     });
 
-    // Start service thread
+    // Start the service thread
     _thread = std::thread([this, polling]() { ServiceLoop(polling); });
 
     return true;
@@ -40,17 +40,17 @@ bool Service::Stop()
     if (!IsStarted())
         return false;
 
-    // Post stop routine
+    // Post the stop routine
     auto self(this->shared_from_this());
     _service.post([this, self]()
     {
-        // Update started flag
+        // Update the started flag
         _started = false;
 
-        // Call service stopped handler
+        // Call the service stopped handler
         onStopped();
 
-        // Stop Asio service
+        // Stop the Asio service
         _service.stop();
     });
 
@@ -62,7 +62,7 @@ bool Service::Stop()
 
 void Service::ServiceLoop(bool polling)
 {
-    // Call initialize thread handler
+    // Call the initialize thread handler
     onThreadInitialize();
 
     try
@@ -71,13 +71,13 @@ void Service::ServiceLoop(bool polling)
 
         if (polling)
         {
-            // Run Asio service in a polling loop
+            // Run the Asio service in a polling loop
             do
             {
                 // Poll all pending handlers
                 _service.poll();
 
-                // Call idle handler
+                // Call the idle handler
                 onIdle();
             } while (_started);
         }
@@ -96,7 +96,7 @@ void Service::ServiceLoop(bool polling)
         fatality("TCP service thread terminated!");
     }
 
-    // Call cleanup thread handler
+    // Call the cleanup thread handler
     onThreadCleanup();
 }
 

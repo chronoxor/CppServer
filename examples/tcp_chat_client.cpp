@@ -18,11 +18,11 @@ public:
 protected:
     void onConnected() override
     {
-        std::cout << "Chat client connected a new session with Id " << id() << std::endl;
+        std::cout << "Chat TCP client connected a new session with Id " << id() << std::endl;
     }
     void onDisconnected() override
     {
-        std::cout << "Chat client disconnected a session with Id " << id() << std::endl;
+        std::cout << "Chat TCP client disconnected a session with Id " << id() << std::endl;
 
         // Try to wait for a while
         CppCommon::Thread::Sleep(1000);
@@ -39,24 +39,24 @@ protected:
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Chat client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "Chat TCP client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
 int main(int argc, char** argv)
 {
-    // Server address
+    // TCP server address
     std::string address = "127.0.0.1";
     if (argc > 1)
         address = argv[1];
 
-    // Server port
+    // TCP server port
     int port = 1234;
     if (argc > 2)
         port = std::atoi(argv[2]);
 
-    std::cout << "Server address: " << address << std::endl;
-    std::cout << "Server port: " << port << std::endl;
+    std::cout << "TCP server address: " << address << std::endl;
+    std::cout << "TCP server port: " << port << std::endl;
     std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service

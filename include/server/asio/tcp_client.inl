@@ -12,8 +12,8 @@ namespace Asio {
 inline TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
-      _socket(_service->service()),
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
+      _socket(_service->service()),
       _connected(false),
       _reciving(false),
       _sending(false)
@@ -28,7 +28,7 @@ inline bool TCPClient::Connect()
     if (IsConnected())
         return false;
 
-    // Post connect routine
+    // Post the connect routine
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
@@ -39,10 +39,14 @@ inline bool TCPClient::Connect()
                 // Put the socket into non-blocking mode
                 _socket.non_blocking(true);
 
-                // Update connected flag
+                // Set the socket keep-alive option
+                asio::ip::tcp::socket::keep_alive keep_alive(true);
+                _socket.set_option(keep_alive);
+
+                // Update the connected flag
                 _connected = true;
 
-                // Call client connected handler
+                // Call the client connected handler
                 onConnected();
 
                 // Try to receive something from the server
@@ -66,11 +70,11 @@ inline bool TCPClient::Disconnect()
     if (!IsConnected())
         return false;
 
-    // Post disconnect routine
+    // Post the disconnect routine
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
-        // Update connected flag
+        // Update the connected flag
         _connected = false;
 
         // Call the client disconnected handler
@@ -100,7 +104,7 @@ inline size_t TCPClient::Send(const void* buffer, size_t size)
     const uint8_t* bytes = (const uint8_t*)buffer;
     _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
 
-    // Dispatch send routine
+    // Dispatch the send routine
     auto self(this->shared_from_this());
     _service->service().dispatch([this, self]()
     {
@@ -123,7 +127,7 @@ inline void TCPClient::TryReceive()
     {
         _reciving = false;
 
-        // Perform receive some data from the server in non blocking mode
+        // Receive some data from the server in non blocking mode
         if (!ec)
         {
             uint8_t buffer[CHUNK];
@@ -132,7 +136,7 @@ inline void TCPClient::TryReceive()
             {
                 _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
 
-                // Call buffer received handler
+                // Call the buffer received handler
                 size_t handled = onReceived(_recive_buffer.data(), _recive_buffer.size());
 
                 // Erase handled buffer
@@ -159,7 +163,7 @@ inline void TCPClient::TrySend()
     {
         _sending = false;
 
-        // Perform send some data to the server in non blocking mode
+        // Send some data to the server in non blocking mode
         size_t sent = 0;
         size_t pending = 0;
         bool repeat = true;
@@ -167,11 +171,10 @@ inline void TCPClient::TrySend()
         {
             std::lock_guard<std::mutex> locker(_send_lock);
 
-            std::error_code ec;
             size_t size = _socket.write_some(asio::buffer(_send_buffer), ec);
             if (size > 0)
             {
-                // Erase sent buffer
+                // Erase the sent buffer
                 _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
 
                 // Fill sent handler parameters
@@ -184,11 +187,11 @@ inline void TCPClient::TrySend()
             }
         }
 
-        // Call buffer sent handler
+        // Call the buffer sent handler
         if (sent > 0)
             onSent(sent, pending);
 
-        // Stop send loop if there is nothing to send
+        // Stop the send loop if there is nothing to send
         if (!repeat)
             return;
 

@@ -60,7 +60,11 @@ public:
     TCPServer& operator=(TCPServer&&) = default;
 
     //! Get the Asio service
-    std::shared_ptr<Service> service() noexcept { return _service; }
+    std::shared_ptr<Service>& service() noexcept { return _service; }
+    //! Get the server endpoint
+    asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
+    //! Get the server acceptor
+    asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
 
     //! Is the service started?
     bool IsStarted() const noexcept { return _started; }
@@ -119,6 +123,7 @@ private:
     // Asio service
     std::shared_ptr<Service> _service;
     // Server acceptor & socket
+    asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;

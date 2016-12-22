@@ -22,16 +22,16 @@ inline TCPSession<TServer, TSession>::TCPSession(asio::ip::tcp::socket socket)
 template <class TServer, class TSession>
 inline void TCPSession<TServer, TSession>::Connect(std::shared_ptr<TCPServer<TServer, TSession>> server)
 {
-    // Assign TCP server
+    // Assign the TCP server
     _server = server;
 
     // Put the socket into non-blocking mode
     _socket.non_blocking(true);
 
-    // Update connected flag
+    // Update the connected flag
     _connected = true;
 
-    // Call session connected handler
+    // Call the session connected handler
     onConnected();
 
     // Try to receive something from the client
@@ -44,11 +44,11 @@ inline bool TCPSession<TServer, TSession>::Disconnect()
     if (!IsConnected())
         return false;
 
-    // Post disconnect routine
+    // Post the disconnect routine
     auto self(this->shared_from_this());
     _server->service()->service().post([this, self]()
     {
-        // Update connected flag
+        // Update the connected flag
         _connected = false;
 
         // Call the session disconnected handler
@@ -82,7 +82,7 @@ inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t siz
     const uint8_t* bytes = (const uint8_t*)buffer;
     _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
 
-    // Dispatch send routine
+    // Dispatch the send routine
     auto self(this->shared_from_this());
     _server->service()->service().dispatch([this, self]()
     {
@@ -106,7 +106,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
     {
         _reciving = false;
 
-        // Perform receive some data from the client in non blocking mode
+        // Receive some data from the client in non blocking mode
         if (!ec)
         {
             uint8_t buffer[CHUNK];
@@ -115,10 +115,10 @@ inline void TCPSession<TServer, TSession>::TryReceive()
             {
                 _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
 
-                // Call buffer received handler
+                // Call the buffer received handler
                 size_t handled = onReceived(_recive_buffer.data(), _recive_buffer.size());
 
-                // Erase handled buffer
+                // Erase the handled buffer
                 _recive_buffer.erase(_recive_buffer.begin(), _recive_buffer.begin() + handled);
             }
         }
@@ -143,7 +143,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
     {
         _sending = false;
 
-        // Perform send some data to the client in non blocking mode
+        // Send some data to the client in non blocking mode
         size_t sent = 0;
         size_t pending = 0;
         bool repeat = true;
@@ -151,11 +151,10 @@ inline void TCPSession<TServer, TSession>::TrySend()
         {
             std::lock_guard<std::mutex> locker(_send_lock);
 
-            std::error_code ec;
             size_t size = _socket.write_some(asio::buffer(_send_buffer), ec);
             if (size > 0)
             {
-                // Erase sent buffer
+                // Erase the sent buffer
                 _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
 
                 // Fill sent handler parameters
@@ -168,11 +167,11 @@ inline void TCPSession<TServer, TSession>::TrySend()
             }
         }
 
-        // Call buffer sent handler
+        // Call the buffer sent handler
         if (sent > 0)
             onSent(sent, pending);
 
-        // Stop send loop if there is nothing to send
+        // Stop the send loop if there is nothing to send
         if (!repeat)
             return;
 

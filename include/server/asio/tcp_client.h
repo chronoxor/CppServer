@@ -28,11 +28,11 @@ namespace Asio {
 class TCPClient : public std::enable_shared_from_this<TCPClient>
 {
 public:
-    //! Initialize TCP client with a given IP address and port number
+    //! Initialize TCP client with a server IP address and port number
     /*!
         \param service - Asio service
-        \param address - IP address
-        \param port - Port number
+        \param address - Server IP address
+        \param port - Server port number
     */
     explicit TCPClient(std::shared_ptr<Service> service, const std::string& address, int port);
     TCPClient(const TCPClient&) = delete;
@@ -42,11 +42,15 @@ public:
     TCPClient& operator=(const TCPClient&) = delete;
     TCPClient& operator=(TCPClient&&) = default;
 
-    //! Get the Asio service
-    std::shared_ptr<Service> service() noexcept { return _service; }
-
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }
+
+    //! Get the Asio service
+    std::shared_ptr<Service>& service() noexcept { return _service; }
+    //! Get the client endpoint
+    asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
+    //! Get the client socket
+    asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
     //! Is the client connected?
     bool IsConnected() const noexcept { return _connected; };
@@ -116,9 +120,9 @@ private:
     CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;
-    // Client socket & endpoint
-    asio::ip::tcp::socket _socket;
+    // Client endpoint & socket
     asio::ip::tcp::endpoint _endpoint;
+    asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
     // Receive & send buffers
     std::mutex _send_lock;

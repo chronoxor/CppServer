@@ -16,20 +16,19 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _socket(_service->service()),
       _started(false)
 {
-    // Create TCP endpoint
-    asio::ip::tcp::endpoint endpoint;
+    // Create the TCP endpoint
     switch (protocol)
     {
         case InternetProtocol::IPv4:
-            endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port);
+            _endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port);
             break;
         case InternetProtocol::IPv6:
-            endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v6(), port);
+            _endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v6(), port);
             break;
     }
 
-    // Create TCP acceptor
-    _acceptor = asio::ip::tcp::acceptor(_service->service(), endpoint);
+    // Create the TCP acceptor
+    _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
 }
 
 template <class TServer, class TSession>
@@ -39,11 +38,11 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _socket(_service->service()),
       _started(false)
 {
-    // Create TCP endpoint
-    asio::ip::tcp::endpoint endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
+    // Create the TCP endpoint
+    _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
 
-    // Create TCP acceptor
-    _acceptor = asio::ip::tcp::acceptor(_service->service(), endpoint);
+    // Create the TCP acceptor
+    _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
 }
 
 template <class TServer, class TSession>
@@ -55,14 +54,14 @@ inline bool TCPServer<TServer, TSession>::Start()
     if (IsStarted())
         return false;
 
-    // Post start routine
+    // Post the start routine
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
-         // Update started flag
+         // Update the started flag
         _started = true;
 
-        // Call server started handler
+        // Call the server started handler
         onStarted();
 
         // Perform the first server accept
@@ -78,17 +77,17 @@ inline bool TCPServer<TServer, TSession>::Stop()
     if (!IsStarted())
         return false;
 
-    // Post stopped routine
+    // Post the stopped routine
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
         // Disconnect all sessions
         DisconnectAll();
 
-        // Update started flag
+        // Update the started flag
         _started = false;
 
-        // Call server stopped handler
+        // Call the server stopped handler
         onStopped();
     });
 
@@ -101,7 +100,7 @@ inline void TCPServer<TServer, TSession>::Accept()
     if (!IsStarted())
         return;
 
-    // Dispatch disconnect routine
+    // Dispatch the disconnect routine
     auto self(this->shared_from_this());
     _service->service().dispatch([this, self]()
     {
@@ -129,7 +128,7 @@ inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t s
     const uint8_t* bytes = (const uint8_t*)buffer;
     _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
 
-    // Dispatch multicast routine
+    // Dispatch the multicast routine
     auto self(this->shared_from_this());
     _service->service().dispatch([this, self]()
     {
@@ -137,7 +136,7 @@ inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t s
         for (auto& session : _sessions)
             session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
 
-        // Clear multicast buffer
+        // Clear the multicast buffer
         _multicast_buffer.clear();
     });
 
@@ -150,11 +149,11 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
     if (!IsStarted())
         return false;
 
-    // Dispatch disconnect routine
+    // Dispatch the disconnect routine
     auto self(this->shared_from_this());
     _service->service().dispatch([this, self]()
     {
-        // Clear multicast buffer
+        // Clear the multicast buffer
         {
             std::lock_guard<std::mutex> locker(_multicast_lock);
             _multicast_buffer.clear();
@@ -188,7 +187,7 @@ inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
 template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::UnregisterSession(const CppCommon::UUID& id)
 {
-    // Try to find session to unregister
+    // Try to find the unregistered session
     auto it = _sessions.find(id);
     if (it != _sessions.end())
     {

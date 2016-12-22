@@ -48,13 +48,15 @@ public:
     TCPSession& operator=(const TCPSession&) = delete;
     TCPSession& operator=(TCPSession&&) = default;
 
-    //! Get the Asio service
-    std::shared_ptr<Service> service() noexcept { return _server.service(); }
-    //! Get the session's server
-    std::shared_ptr<TCPServer<TServer, TSession>> server() noexcept { return _server; }
-
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
+
+    //! Get the Asio service
+    std::shared_ptr<Service>& service() noexcept { return _server.service(); }
+    //! Get the session server
+    std::shared_ptr<TCPServer<TServer, TSession>>& server() noexcept { return _server; }
+    //! Get the session socket
+    asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; };
