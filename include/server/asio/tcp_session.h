@@ -134,9 +134,9 @@ private:
     */
     void Connect(std::shared_ptr<TCPServer<TServer, TSession>> server);
 
-    //! Try to receive data
+    //! Try to receive new data
     void TryReceive();
-    //! Try to send data
+    //! Try to send pending data
     void TrySend();
 };
 

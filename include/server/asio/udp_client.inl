@@ -1,114 +1,94 @@
 /*!
-    \file udp_server.inl
-    \brief UDP server inline implementation
+    \file udp_client.inl
+    \brief UDP client inline implementation
     \author Ivan Shynkarenka
-    \date 22.12.2016
+    \date 23.12.2016
     \copyright MIT License
 */
 
 namespace CppServer {
 namespace Asio {
 
-inline UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
-    : _service(service),
-      _socket(_service->service()),
-      _started(false),
+inline UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
+    : _id(CppCommon::UUID::Generate()),
+      _service(service),
+      _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
+      _socket(_service->service(), asio::ip::udp::endpoint(_endpoint.protocol(), 0)),
+      _connected(false),
       _reciving(false),
       _sending(false)
 {
-    switch (protocol)
-    {
-        case InternetProtocol::IPv4:
-            _endpoint = asio::ip::udp::endpoint(asio::ip::udp::v4(), port);
-            break;
-        case InternetProtocol::IPv6:
-            _endpoint = asio::ip::udp::endpoint(asio::ip::udp::v6(), port);
-            break;
-    }
-    _socket = asio::ip::udp::socket(_service->service(), _endpoint);
 }
 
-inline UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
-    : _service(service),
-      _socket(_service->service()),
-      _started(false)
-{
-    _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), port);
-    _socket = asio::ip::udp::socket(_service->service(), _endpoint);
-}
-
-inline UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
-    : _service(service),
+inline UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
+    : _id(CppCommon::UUID::Generate()),
+      _service(service),
       _endpoint(endpoint),
-      _socket(_service->service(), endpoint),
-      _started(false)
+      _socket(_service->service(), asio::ip::udp::endpoint(_endpoint.protocol(), 0)),
+      _connected(false),
+      _reciving(false),
+      _sending(false)
 {
 }
 
-inline bool UDPServer::Start()
+inline bool UDPClient::Connect()
 {
     if (!_service->IsStarted())
         return false;
 
-    if (IsStarted())
+    if (IsConnected())
         return false;
 
-    // Post the start routine
+    // Post the connect routine
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
-         // Update the started flag
-        _started = true;
+        // Update the connected flag
+        _connected = true;
 
-        // Call the server started handler
-        onStarted();
+        // Call the client connected handler
+        onConnected();
 
-        // Try to receive datagrams from the clients
+        // Try to receive something from the server
         TryReceive();
     });
 
     return true;
 }
 
-inline bool UDPServer::Stop()
+inline bool UDPClient::Disconnect()
 {
-    if (!IsStarted())
+    if (!IsConnected())
         return false;
 
-    // Post the stopped routine
+    // Post the disconnect routine
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
-        // Update the started flag
-        _started = false;
+        // Update the connected flag
+        _connected = false;
 
-        // Call the server stopped handler
-        onStopped();
+        // Call the client disconnected handler
+        onDisconnected();
 
-        // Close the server socket
-        _socket.close();
+        // Clear receive/send buffers
+        _recive_buffer.clear();
+        {
+            std::lock_guard<std::mutex> locker(_send_lock);
+            _send_buffer.clear();
+        }
     });
 
     return true;
 }
 
-inline void UDPServer::SetupMulticastEndpoint(const std::string& address, int port)
+inline size_t UDPClient::Send(const void* buffer, size_t size)
 {
-    _multicast_endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), port);
+    // Send the datagram to the server endpoint
+    return Send(_endpoint, buffer, size);
 }
 
-inline void UDPServer::SetupMulticastEndpoint(const asio::ip::udp::endpoint& endpoint)
-{
-    _multicast_endpoint = endpoint;
-}
-
-inline size_t UDPServer::Multicast(const void* buffer, size_t size)
-{
-    // Send the datagram to the multicast endpoint
-    return Send(_multicast_endpoint, buffer, size);
-}
-
-inline size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
+inline size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
     std::lock_guard<std::mutex> locker(_send_lock);
 
@@ -126,7 +106,7 @@ inline size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const voi
     return _send_buffer.size();
 }
 
-inline void UDPServer::TryReceive()
+inline void UDPClient::TryReceive()
 {
     if (_reciving)
         return;
@@ -141,7 +121,7 @@ inline void UDPServer::TryReceive()
     {
         _reciving = false;
 
-        // Received datagram from the client
+        // Received datagram from the server
         if (received > 0)
         {
             // Prepare receive buffer
@@ -158,11 +138,14 @@ inline void UDPServer::TryReceive()
         if (!ec || (ec == asio::error::would_block))
             TryReceive();
         else
+        {
             onError(ec.value(), ec.category().name(), ec.message());
+            Disconnect();
+        }
     });
 }
 
-inline void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
+inline void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
 {
     if (_sending)
         return;
@@ -173,7 +156,7 @@ inline void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t s
     {
         _sending = false;
 
-        // Sent datagram to the client
+        // Sent datagram to the server
         if (sent > 0)
         {
             // Erase the sent buffer
@@ -190,7 +173,10 @@ inline void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t s
         if (!ec || (ec == asio::error::would_block))
             return;
         else
+        {
             onError(ec.value(), ec.category().name(), ec.message());
+            Disconnect();
+        }
     });
 }
 

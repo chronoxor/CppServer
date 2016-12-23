@@ -159,7 +159,10 @@ inline void TCPClient::TryReceive()
         if (!ec || (ec == asio::error::would_block))
             TryReceive();
         else
+        {
+            onError(ec.value(), ec.category().name(), ec.message());
             Disconnect();
+        }
     });
 }
 
@@ -198,7 +201,10 @@ inline void TCPClient::TrySend()
         if (!ec || (ec == asio::error::would_block))
             TrySend();
         else
+        {
+            onError(ec.value(), ec.category().name(), ec.message());
             Disconnect();
+        }
     });
 }
 

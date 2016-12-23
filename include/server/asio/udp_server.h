@@ -147,7 +147,7 @@ private:
     // Multicast & receive endpoint
     asio::ip::udp::endpoint _multicast_endpoint;
     asio::ip::udp::endpoint _recive_endpoint;
-    // Receive buffer
+    // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
     std::vector<uint8_t> _send_buffer;
@@ -156,9 +156,9 @@ private:
 
     static const size_t CHUNK = 8192;
 
-    //! Try to receive datagram
+    //! Try to receive new datagram
     void TryReceive();
-    //! Try to send data
+    //! Try to send pending datagram
     void TrySend(const asio::ip::udp::endpoint& endpoint, size_t size);
 };
 

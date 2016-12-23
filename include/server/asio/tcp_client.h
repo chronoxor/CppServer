@@ -21,7 +21,7 @@ namespace Asio {
 
 //! TCP client
 /*!
-    TCP client is used to read and write data from the connected TCP server.
+    TCP client is used to read/write data from/into the connected TCP server.
 
     Thread-safe.
 */
@@ -126,7 +126,7 @@ private:
     CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;
-    // Client endpoint & socket
+    // Server endpoint & client socket
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
@@ -139,9 +139,9 @@ private:
 
     static const size_t CHUNK = 8192;
 
-    //! Try to receive data
+    //! Try to receive new data
     void TryReceive();
-    //! Try to send data
+    //! Try to send pending data
     void TrySend();
 };
 
