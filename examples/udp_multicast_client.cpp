@@ -71,7 +71,7 @@ int main(int argc, char** argv)
     service->Start();
 
     // Create a new UDP multicast client
-    auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_port);
+    auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_port, true);
 
     // Join UDP multicast group
     client->JoinMulticastGroup(multicast_address);
