@@ -2,7 +2,7 @@
     \file udp_multicast_server.cpp
     \brief UDP multicast server example
     \author Ivan Shynkarenka
-    \date 22.12.2016
+    \date 27.12.2016
     \copyright MIT License
 */
 
@@ -33,22 +33,16 @@ protected:
 
 int main(int argc, char** argv)
 {
-    // UDP server port
-    int port = 1236;
-    if (argc > 1)
-        port = std::atoi(argv[1]);
-
     // UDP multicast address
     std::string multicast_address = "239.255.0.1";
-    if (argc > 2)
-        multicast_address = argv[2];
+    if (argc > 1)
+        multicast_address = argv[1];
 
     // UDP multicast port
-    int multicast_port = 1237;
-    if (argc > 3)
-        multicast_port = std::atoi(argv[3]);
+    int multicast_port = 1236;
+    if (argc > 2)
+        multicast_port = std::atoi(argv[2]);
 
-    std::cout << "UDP server port: " << port << std::endl;
     std::cout << "UDP multicast address: " << multicast_address << std::endl;
     std::cout << "UDP multicast port: " << multicast_port << std::endl;
     std::cout << "Press Enter to stop..." << std::endl;
@@ -60,7 +54,7 @@ int main(int argc, char** argv)
     service->Start();
 
     // Create a new UDP multicast server
-    auto server = std::make_shared<MulticastServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<MulticastServer>(service, CppServer::Asio::InternetProtocol::IPv4, 0);
 
     // Setup UDP server multicast endpoint
     server->SetupMulticastEndpoint(multicast_address, multicast_port);

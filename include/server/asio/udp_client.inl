@@ -31,6 +31,34 @@ inline UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::ud
 {
 }
 
+inline UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address)
+    : _id(CppCommon::UUID::Generate()),
+      _service(service),
+      _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
+      _socket(_service->service()),
+      _connected(false),
+      _reciving(false),
+      _sending(false)
+{
+    _socket.open(_endpoint.protocol()),
+    _socket.set_option(asio::ip::udp::socket::reuse_address(reuse_address));
+    _socket.bind(_endpoint);
+}
+
+inline UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address)
+    : _id(CppCommon::UUID::Generate()),
+      _service(service),
+      _endpoint(endpoint),
+      _socket(_service->service()),
+      _connected(false),
+      _reciving(false),
+      _sending(false)
+{
+    _socket.open(_endpoint.protocol()),
+    _socket.set_option(asio::ip::udp::socket::reuse_address(reuse_address));
+    _socket.bind(_endpoint);
+}
+
 inline bool UDPClient::Connect()
 {
     if (!_service->IsStarted())
@@ -80,6 +108,18 @@ inline bool UDPClient::Disconnect()
     });
 
     return true;
+}
+
+inline void UDPClient::JoinMulticastGroup(const std::string& address)
+{
+    asio::ip::multicast::join_group join(asio::ip::address::from_string(address));
+    _socket.set_option(join);
+}
+
+inline void UDPClient::LeaveMulticastGroup(const std::string& address)
+{
+    asio::ip::multicast::leave_group leave(asio::ip::address::from_string(address));
+    _socket.set_option(leave);
 }
 
 inline size_t UDPClient::Send(const void* buffer, size_t size)

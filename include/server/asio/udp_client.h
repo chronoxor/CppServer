@@ -41,6 +41,21 @@ public:
         \param endpoint - Server UDP endpoint
     */
     explicit UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
+    //! Initialize UDP client with a server IP address and port number (bind the socket to the multicast UDP server)
+    /*!
+        \param service - Asio service
+        \param address - Server IP address
+        \param port - Server port number
+        \param reuse_address - Reuse address socket option
+    */
+    explicit UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address);
+    //! Initialize UDP client with a given UDP endpoint (bind the socket to the multicast UDP server)
+    /*!
+        \param service - Asio service
+        \param endpoint - Server UDP endpoint
+        \param reuse_address - Reuse address socket option
+    */
+    explicit UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address);
     UDPClient(const UDPClient&) = delete;
     UDPClient(UDPClient&&) = default;
     virtual ~UDPClient() = default;
@@ -71,6 +86,17 @@ public:
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
     bool Disconnect();
+
+    //! Join multicast group with a given IP address
+    /*!
+        \param address - IP address
+    */
+    void JoinMulticastGroup(const std::string& address);
+    //! Leave multicast group with a given IP address
+    /*!
+        \param address - IP address
+    */
+    void LeaveMulticastGroup(const std::string& address);
 
     //! Send datagram to the connected server
     /*!
@@ -153,6 +179,7 @@ private:
 };
 
 /*! \example udp_echo_client.cpp UDP echo client example */
+/*! \example udp_multicast_client.cpp UDP multicast client example */
 
 } // namespace Asio
 } // namespace CppServer
