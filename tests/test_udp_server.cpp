@@ -1,12 +1,11 @@
 //
-// Created by Ivan Shynkarenka on 16.12.2016.
+// Created by Ivan Shynkarenka on 27.12.2016.
 //
 
 #include "catch.hpp"
 
-#include "server/asio/tcp_client.h"
-#include "server/asio/tcp_server.h"
-#include "server/asio/tcp_session.h"
+#include "server/asio/udp_client.h"
+#include "server/asio/udp_server.h"
 #include "threads/thread.h"
 
 #include <atomic>
@@ -16,7 +15,7 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-class EchoTCPService : public Service
+class EchoUDPService : public Service
 {
 public:
     std::atomic<bool> thread_initialize;
@@ -26,7 +25,7 @@ public:
     std::atomic<bool> idle;
     std::atomic<bool> error;
 
-    explicit EchoTCPService()
+    explicit EchoUDPService()
         : thread_initialize(false),
           thread_cleanup(false),
           started(false),
@@ -45,7 +44,7 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-class EchoTCPClient : public TCPClient
+class EchoUDPClient : public UDPClient
 {
 public:
     std::atomic<bool> connected;
@@ -54,8 +53,17 @@ public:
     std::atomic<size_t> sent;
     std::atomic<bool> error;
 
-    explicit EchoTCPClient(std::shared_ptr<EchoTCPService>& service, const std::string& address, int port)
-        : TCPClient(service, address, port),
+    explicit EchoUDPClient(std::shared_ptr<EchoUDPService>& service, const std::string& address, int port)
+        : UDPClient(service, address, port),
+          connected(false),
+          disconnected(false),
+          received(0),
+          sent(0),
+          error(false)
+    {
+    }
+    explicit EchoUDPClient(std::shared_ptr<EchoUDPService>& service, const std::string& address, int port, bool reuse_address)
+        : UDPClient(service, address, port, reuse_address),
           connected(false),
           disconnected(false),
           received(0),
@@ -67,59 +75,24 @@ public:
 protected:
     void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; }
-    size_t onReceived(const void* buffer, size_t size) override { received += size; return size; }
-    void onSent(size_t sent, size_t pending) override { this->sent += sent; }
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { received += size; }
+    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent, size_t pending) override { this->sent += sent; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-class EchoTCPServer;
-
-class EchoTCPSession : public TCPSession<EchoTCPServer, EchoTCPSession>
-{
-public:
-    std::atomic<bool> connected;
-    std::atomic<bool> disconnected;
-    std::atomic<size_t> received;
-    std::atomic<size_t> sent;
-    std::atomic<bool> error;
-
-    explicit EchoTCPSession(asio::ip::tcp::socket socket)
-        : TCPSession<EchoTCPServer, EchoTCPSession>(std::move(socket)),
-          connected(false),
-          disconnected(false),
-          received(0),
-          sent(0),
-          error(false)
-    {
-    }
-
-protected:
-    void onConnected() override { connected = true; }
-    void onDisconnected() override { disconnected = true; }
-    size_t onReceived(const void* buffer, size_t size) override { Send(buffer, size); received += size; return size; }
-    void onSent(size_t sent, size_t pending) override { this->sent += sent; }
-    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
-};
-
-class EchoTCPServer : public TCPServer<EchoTCPServer, EchoTCPSession>
+class EchoUDPServer : public UDPServer
 {
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
-    std::atomic<bool> connected;
-    std::atomic<bool> disconnected;
-    std::atomic<size_t> clients;
     std::atomic<size_t> received;
     std::atomic<size_t> sent;
     std::atomic<bool> error;
 
-    explicit EchoTCPServer(std::shared_ptr<EchoTCPService> service, InternetProtocol protocol, int port)
-        : TCPServer<EchoTCPServer, EchoTCPSession>(service, protocol, port),
+    explicit EchoUDPServer(std::shared_ptr<EchoUDPService> service, InternetProtocol protocol, int port)
+        : UDPServer(service, protocol, port),
           started(false),
           stopped(false),
-          connected(false),
-          disconnected(false),
-          clients(0),
           received(0),
           sent(0),
           error(false)
@@ -129,32 +102,32 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onConnected(std::shared_ptr<EchoTCPSession> session) override { connected = true; ++clients; }
-    void onDisconnected(std::shared_ptr<EchoTCPSession> session) override { disconnected = true; --clients; received += session->received; sent += session->sent; }
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Send(endpoint, buffer, size); received += size; }
+    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent, size_t pending) override { this->sent += sent; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("TCP server & client", "[CppServer][Asio]")
+TEST_CASE("UDP server & client", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 1234;
+    const int port = 1237;
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoTCPService>();
+    auto service = std::make_shared<EchoUDPService>();
     REQUIRE(service->Start());
     while (!service->IsStarted())
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoTCPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client = std::make_shared<EchoTCPClient>(service, address, port);
+    auto client = std::make_shared<EchoUDPClient>(service, address, port);
     REQUIRE(client->Connect());
-    while (!client->IsConnected() || (server->clients != 1))
+    while (!client->IsConnected())
         Thread::Yield();
 
     // Send some data to the Echo server
@@ -166,7 +139,7 @@ TEST_CASE("TCP server & client", "[CppServer][Asio]")
 
     // Disconnect the Echo client
     REQUIRE(client->Disconnect());
-    while (client->IsConnected() || (server->clients != 0))
+    while (client->IsConnected())
         Thread::Yield();
 
     // Stop the Echo server
@@ -190,8 +163,6 @@ TEST_CASE("TCP server & client", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->connected);
-    REQUIRE(server->disconnected);
     REQUIRE(server->received == 4);
     REQUIRE(server->sent == 4);
     REQUIRE(!server->error);
@@ -204,27 +175,30 @@ TEST_CASE("TCP server & client", "[CppServer][Asio]")
     REQUIRE(!client->error);
 }
 
-TEST_CASE("TCP server multicast", "[CppServer][Asio]")
+TEST_CASE("UDP server multicast", "[CppServer][Asio]")
 {
-    const std::string address = "127.0.0.1";
-    const int port = 1235;
+    const std::string listen_address = "0.0.0.0";
+    const std::string multicast_address = "239.255.0.1";
+    const int multicast_port = 1238;
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoTCPService>();
+    auto service = std::make_shared<EchoUDPService>();
     REQUIRE(service->Start(true));
     while (!service->IsStarted())
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoTCPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, 0);
+    server->SetupMulticastEndpoint(multicast_address, multicast_port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client1 = std::make_shared<EchoTCPClient>(service, address, port);
+    auto client1 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+    client1->JoinMulticastGroup(multicast_address);
     REQUIRE(client1->Connect());
-    while (!client1->IsConnected() || (server->clients != 1))
+    while (!client1->IsConnected())
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -235,9 +209,10 @@ TEST_CASE("TCP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client2 = std::make_shared<EchoTCPClient>(service, address, port);
+    auto client2 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+    client2->JoinMulticastGroup(multicast_address);
     REQUIRE(client2->Connect());
-    while (!client2->IsConnected() || (server->clients != 2))
+    while (!client2->IsConnected())
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -248,9 +223,10 @@ TEST_CASE("TCP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client3 = std::make_shared<EchoTCPClient>(service, address, port);
+    auto client3 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+    client3->JoinMulticastGroup(multicast_address);
     REQUIRE(client3->Connect());
-    while (!client3->IsConnected() || (server->clients != 3))
+    while (!client3->IsConnected())
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -261,8 +237,9 @@ TEST_CASE("TCP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
+    client1->LeaveMulticastGroup(multicast_address);
     REQUIRE(client1->Disconnect());
-    while (client1->IsConnected() || (server->clients != 2))
+    while (client1->IsConnected())
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -273,8 +250,9 @@ TEST_CASE("TCP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
+    client2->LeaveMulticastGroup(multicast_address);
     REQUIRE(client2->Disconnect());
-    while (client2->IsConnected() || (server->clients != 1))
+    while (client2->IsConnected())
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -285,8 +263,9 @@ TEST_CASE("TCP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
+    client3->LeaveMulticastGroup(multicast_address);
     REQUIRE(client3->Disconnect());
-    while (client3->IsConnected() || (server->clients != 0))
+    while (client3->IsConnected())
         Thread::Yield();
 
     // Stop the Echo server
@@ -310,10 +289,8 @@ TEST_CASE("TCP server multicast", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->connected);
-    REQUIRE(server->disconnected);
     REQUIRE(server->received == 0);
-    REQUIRE(server->sent == 36);
+    REQUIRE(server->sent == 20);
     REQUIRE(!server->error);
 
     // Check the Echo client state
@@ -329,19 +306,19 @@ TEST_CASE("TCP server multicast", "[CppServer][Asio]")
 }
 
 
-TEST_CASE("TCP server random test", "[CppServer][Asio]")
+TEST_CASE("UDP server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 1236;
+    const int port = 1239;
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoTCPService>();
+    auto service = std::make_shared<EchoUDPService>();
     REQUIRE(service->Start());
     while (!service->IsStarted())
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoTCPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -350,7 +327,7 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
     const int duration = 10;
 
     // Clients collection
-    std::vector<std::shared_ptr<EchoTCPClient>> clients;
+    std::vector<std::shared_ptr<EchoUDPClient>> clients;
 
     // Start random test
     auto start = std::chrono::high_resolution_clock::now();
@@ -360,7 +337,7 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
         if ((rand() % 100) == 0)
         {
             // Create and connect Echo client
-            auto client = std::make_shared<EchoTCPClient>(service, address, port);
+            auto client = std::make_shared<EchoUDPClient>(service, address, port);
             client->Connect();
             clients.emplace_back(client);
         }
@@ -385,15 +362,84 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
                 client->Send("test", 4);
             }
         }
+
+        // Sleep for a while...
+        Thread::Sleep(1);
+    }
+
+    // Stop the Echo server
+    REQUIRE(server->Stop());
+    while (server->IsStarted())
+        Thread::Yield();
+
+    // Stop the Asio service
+    REQUIRE(service->Stop());
+    while (service->IsStarted())
+        Thread::Yield();
+
+    // Check the Echo server state
+    REQUIRE(server->started);
+    REQUIRE(server->stopped);
+    REQUIRE(server->received > 0);
+    REQUIRE(server->sent > 0);
+    REQUIRE(server->received == server->sent);
+    REQUIRE(!server->error);
+}
+
+TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
+{
+    const std::string listen_address = "0.0.0.0";
+    const std::string multicast_address = "239.255.0.1";
+    const int multicast_port = 1240;
+
+    // Create and start Asio service
+    auto service = std::make_shared<EchoUDPService>();
+    REQUIRE(service->Start());
+    while (!service->IsStarted())
+        Thread::Yield();
+
+    // Create and start Echo server
+    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, 0);
+    server->SetupMulticastEndpoint(multicast_address, multicast_port);
+    REQUIRE(server->Start());
+    while (!server->IsStarted())
+        Thread::Yield();
+
+    // Test duration in seconds
+    const int duration = 10;
+
+    // Clients collection
+    std::vector<std::shared_ptr<EchoUDPClient>> clients;
+
+    // Start random test
+    auto start = std::chrono::high_resolution_clock::now();
+    while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
+    {
+        // Connect a new client
+        if ((rand() % 100) == 0)
+        {
+            // Create and connect Echo client
+            auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+            client->JoinMulticastGroup(multicast_address);
+            client->Connect();
+            clients.emplace_back(client);
+        }
+        // Disconnect the random client
+        else if ((rand() % 100) == 0)
+        {
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                client->LeaveMulticastGroup(multicast_address);
+                client->Disconnect();
+                clients.erase(clients.begin() + index);
+            }
+        }
         // Multicast a message to all clients
         else if ((rand() % 10) == 0)
         {
             server->Multicast("test", 4);
-        }
-        // Disconnect all clients
-        else if ((rand() % 1000) == 0)
-        {
-            server->DisconnectAll();
         }
 
         // Sleep for a while...
@@ -413,10 +459,7 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->connected);
-    REQUIRE(server->disconnected);
-    REQUIRE(server->received > 0);
+    REQUIRE(server->received == 0);
     REQUIRE(server->sent > 0);
-    REQUIRE(server->received == server->sent);
     REQUIRE(!server->error);
 }

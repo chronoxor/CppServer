@@ -23,12 +23,6 @@ protected:
     void onDisconnected() override
     {
         std::cout << "Multicast UDP client disconnected a session with Id " << id() << std::endl;
-
-        // Try to wait for a while
-        CppCommon::Thread::Sleep(1000);
-
-        // Try to connect again
-        Connect();
     }
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
@@ -79,19 +73,14 @@ int main(int argc, char** argv)
     // Connect the client
     client->Connect();
 
-    // Perform text input
-    std::string line;
-    while (getline(std::cin, line))
-    {
-        if (line.empty())
-            break;
-
-        // Send the entered text to the echo server
-        client->Send(line.data(), line.size());
-    }
+    // Wait for input
+    std::cin.get();
 
     // Disconnect the client
     client->Disconnect();
+
+    // Leave UDP multicast group
+    client->LeaveMulticastGroup(multicast_address);
 
     // Stop the service
     service->Stop();
