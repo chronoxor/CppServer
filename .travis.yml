@@ -62,6 +62,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" != "osx" ] && [ "$CXX" = "clang++" ]; then export CC="clang-${CLANG_VERSION}" CXX="clang++-${CLANG_VERSION}"; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install doxygen; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install graphviz; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install openssl; fi  
   - if [ "$PATCH_ASIO" == "1" ]; then sed -i -r "s/^#include <cstddef>/#include <stddef.h>/g" ./modules/asio/asio/include/asio/local/detail/endpoint.hpp; fi
 
 # Build scripts
