@@ -30,6 +30,8 @@ if(MSVC)
 endif()
 
 # External packages
+set(OPENSSL_USE_STATIC_LIBS TRUE)
+find_package(OpenSSL REQUIRED)
 find_package(Threads REQUIRED)
 if(UNIX)
   find_package(LibBFD)
