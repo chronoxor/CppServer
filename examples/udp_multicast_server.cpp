@@ -56,11 +56,8 @@ int main(int argc, char** argv)
     // Create a new UDP multicast server
     auto server = std::make_shared<MulticastServer>(service, CppServer::Asio::InternetProtocol::IPv4, 0);
 
-    // Setup UDP server multicast endpoint
-    server->SetupMulticastEndpoint(multicast_address, multicast_port);
-
-    // Start the server
-    server->Start();
+    // Start the multicast server
+    server->Start(multicast_address, multicast_port);
 
     // Perform text input
     std::string line;

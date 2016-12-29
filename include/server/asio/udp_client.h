@@ -169,6 +169,9 @@ private:
     std::vector<uint8_t> _send_buffer;
     bool _reciving;
     bool _sending;
+    // Additional options
+    bool _multicast;
+    bool _reuse_address;
 
     static const size_t CHUNK = 8192;
 

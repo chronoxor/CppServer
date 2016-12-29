@@ -65,23 +65,26 @@ public:
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
     bool Start();
+    //! Start the server with a given multicast IP address and port number
+    /*!
+        \param multicast_address - Multicast IP address
+        \param multicast_port - Multicast port number
+
+        \return 'true' if the server was successfully started, 'false' if the server failed to start
+    */
+    bool Start(const std::string& multicast_address, int multicast_port);
+    //! Start the server with a given multicast endpoint
+    /*!
+        \param multicast_endpoint - Multicast UDP endpoint
+
+        \return 'true' if the server was successfully started, 'false' if the server failed to start
+    */
+    bool Start(const asio::ip::udp::endpoint& multicast_endpoint);
     //! Stop the server
     /*!
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
     */
     bool Stop();
-
-    //! Setup multicast endpoint for the UDP server with a given IP address and port number
-    /*!
-        \param address - IP address
-        \param port - Port number
-    */
-    void SetupMulticastEndpoint(const std::string& address, int port);
-    //! Setup multicast endpoint with a given UDP endpoint
-    /*!
-        \param endpoint - UDP endpoint
-    */
-    void SetupMulticastEndpoint(const asio::ip::udp::endpoint& endpoint);
 
     //! Multicast a datagram to the prepared mulicast endpoint
     /*!

@@ -88,9 +88,6 @@ inline bool TCPClient::Disconnect()
         // Update the connected flag
         _connected = false;
 
-        // Call the client disconnected handler
-        onDisconnected();
-
         // Clear receive/send buffers
         _recive_buffer.clear();
         {
@@ -100,6 +97,9 @@ inline bool TCPClient::Disconnect()
 
         // Close the client socket
         _socket.close();
+
+        // Call the client disconnected handler
+        onDisconnected();
     });
 
     return true;
@@ -155,6 +155,10 @@ inline void TCPClient::TryReceive()
             }
         }
 
+        // Check for disconnect
+        if (!IsConnected())
+            return;
+
         // Try to receive again if the client is valid
         if (!ec || (ec == asio::error::would_block))
             TryReceive();
@@ -196,6 +200,10 @@ inline void TCPClient::TrySend()
                     return;
             }
         }
+
+        // Check for disconnect
+        if (!IsConnected())
+            return;
 
         // Try to send again if the client is valid
         if (!ec || (ec == asio::error::would_block))

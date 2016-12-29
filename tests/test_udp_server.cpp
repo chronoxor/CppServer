@@ -189,17 +189,16 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
 
     // Create and start Echo server
     auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, 0);
-    server->SetupMulticastEndpoint(multicast_address, multicast_port);
-    REQUIRE(server->Start());
+    REQUIRE(server->Start(multicast_address, multicast_port));
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Echo client
     auto client1 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
-    client1->JoinMulticastGroup(multicast_address);
     REQUIRE(client1->Connect());
     while (!client1->IsConnected())
         Thread::Yield();
+	client1->JoinMulticastGroup(multicast_address);
 
     // Multicast some data to all clients
     server->Multicast("test", 4);
@@ -210,10 +209,10 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
 
     // Create and connect Echo client
     auto client2 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
-    client2->JoinMulticastGroup(multicast_address);
     REQUIRE(client2->Connect());
     while (!client2->IsConnected())
         Thread::Yield();
+	client2->JoinMulticastGroup(multicast_address);
 
     // Multicast some data to all clients
     server->Multicast("test", 4);
@@ -224,10 +223,10 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
 
     // Create and connect Echo client
     auto client3 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
-    client3->JoinMulticastGroup(multicast_address);
     REQUIRE(client3->Connect());
     while (!client3->IsConnected())
         Thread::Yield();
+	client3->JoinMulticastGroup(multicast_address);
 
     // Multicast some data to all clients
     server->Multicast("test", 4);
@@ -400,8 +399,7 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
 
     // Create and start Echo server
     auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, 0);
-    server->SetupMulticastEndpoint(multicast_address, multicast_port);
-    REQUIRE(server->Start());
+    REQUIRE(server->Start(multicast_address, multicast_port));
     while (!server->IsStarted())
         Thread::Yield();
 
@@ -420,8 +418,10 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
         {
             // Create and connect Echo client
             auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
-            client->JoinMulticastGroup(multicast_address);
             client->Connect();
+			while (!client->IsConnected())
+				Thread::Yield();
+			client->JoinMulticastGroup(multicast_address);
             clients.emplace_back(client);
         }
         // Disconnect the random client

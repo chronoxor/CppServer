@@ -51,12 +51,6 @@ inline bool TCPSession<TServer, TSession>::Disconnect()
         // Update the connected flag
         _connected = false;
 
-        // Call the session disconnected handler
-        onDisconnected();
-
-        // Unregister the session
-        _server->UnregisterSession(id());
-
         // Clear receive/send buffers
         _recive_buffer.clear();
         {
@@ -66,6 +60,12 @@ inline bool TCPSession<TServer, TSession>::Disconnect()
 
         // Close the session socket
         _socket.close();
+
+        // Call the session disconnected handler
+        onDisconnected();
+
+        // Unregister the session
+        _server->UnregisterSession(id());
     });
 
     return true;
@@ -123,6 +123,10 @@ inline void TCPSession<TServer, TSession>::TryReceive()
             }
         }
 
+        // Check for disconnect
+        if (!IsConnected())
+            return;
+
         // Try to receive again if the session is valid
         if (!ec || (ec == asio::error::would_block))
             TryReceive();
@@ -165,6 +169,10 @@ inline void TCPSession<TServer, TSession>::TrySend()
                     return;
             }
         }
+
+        // Check for disconnect
+        if (!IsConnected())
+            return;
 
         // Try to send again if the session is valid
         if (!ec || (ec == asio::error::would_block))

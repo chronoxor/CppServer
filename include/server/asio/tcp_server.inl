@@ -25,7 +25,6 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
             _endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v6(), port);
             break;
     }
-    _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
 }
 
 template <class TServer, class TSession>
@@ -36,7 +35,6 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _started(false)
 {
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
-    _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
 }
 
 template <class TServer, class TSession>
@@ -62,7 +60,10 @@ inline bool TCPServer<TServer, TSession>::Start()
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
-         // Update the started flag
+        // Create the server acceptor
+        _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
+
+        // Update the started flag
         _started = true;
 
         // Call the server started handler
@@ -91,6 +92,9 @@ inline bool TCPServer<TServer, TSession>::Stop()
         // Update the started flag
         _started = false;
 
+        // Close the server acceptor
+        _acceptor.close();
+
         // Call the server stopped handler
         onStopped();
     });
@@ -110,6 +114,10 @@ inline void TCPServer<TServer, TSession>::Accept()
     {
         _acceptor.async_accept(_socket, [this, self](std::error_code ec)
         {
+            // Check if the server is stopped
+            if (!IsStarted())
+                return;
+
             if (!ec)
                 RegisterSession();
             else

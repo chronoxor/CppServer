@@ -13,16 +13,28 @@
 class MulticastClient : public CppServer::Asio::UDPClient
 {
 public:
+    std::string multicast;
+
+public:
     using CppServer::Asio::UDPClient::UDPClient;
 
 protected:
     void onConnected() override
     {
         std::cout << "Multicast UDP client connected a new session with Id " << id() << std::endl;
+
+        // Join UDP multicast group
+        JoinMulticastGroup(multicast);
     }
     void onDisconnected() override
     {
         std::cout << "Multicast UDP client disconnected a session with Id " << id() << std::endl;
+
+        // Try to wait for a while
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        Connect();
     }
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
@@ -56,7 +68,7 @@ int main(int argc, char** argv)
     std::cout << "UDP listen address: " << listen_address << std::endl;
     std::cout << "UDP multicast address: " << multicast_address << std::endl;
     std::cout << "UDP multicast port: " << multicast_port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
+    std::cout << "Press Enter to stop or '!' for disconnect..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
@@ -66,21 +78,28 @@ int main(int argc, char** argv)
 
     // Create a new UDP multicast client
     auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_port, true);
-
-    // Join UDP multicast group
-    client->JoinMulticastGroup(multicast_address);
+    client->multicast = multicast_address;
 
     // Connect the client
     client->Connect();
 
-    // Wait for input
-    std::cin.get();
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Disconnect the client
+        if (line == "!")
+        {
+            client->Disconnect();
+            continue;
+        }
+    }
 
     // Disconnect the client
     client->Disconnect();
-
-    // Leave UDP multicast group
-    client->LeaveMulticastGroup(multicast_address);
 
     // Stop the service
     service->Stop();

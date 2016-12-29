@@ -70,6 +70,18 @@ inline bool UDPServer::Start()
     return true;
 }
 
+inline bool UDPServer::Start(const std::string& multicast_address, int multicast_port)
+{
+    _multicast_endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(multicast_address), multicast_port);
+    return Start();
+}
+
+inline bool UDPServer::Start(const asio::ip::udp::endpoint& multicast_endpoint)
+{
+    _multicast_endpoint = multicast_endpoint;
+    return Start();
+}
+
 inline bool UDPServer::Stop()
 {
     if (!IsStarted())
@@ -82,24 +94,14 @@ inline bool UDPServer::Stop()
         // Update the started flag
         _started = false;
 
-        // Call the server stopped handler
-        onStopped();
-
         // Close the server socket
         _socket.close();
+
+        // Call the server stopped handler
+        onStopped();
     });
 
     return true;
-}
-
-inline void UDPServer::SetupMulticastEndpoint(const std::string& address, int port)
-{
-    _multicast_endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), port);
-}
-
-inline void UDPServer::SetupMulticastEndpoint(const asio::ip::udp::endpoint& endpoint)
-{
-    _multicast_endpoint = endpoint;
 }
 
 inline size_t UDPServer::Multicast(const void* buffer, size_t size)
@@ -154,6 +156,10 @@ inline void UDPServer::TryReceive()
             _recive_buffer.clear();
         }
 
+        // Check if the server is stopped
+        if (!IsStarted())
+            return;
+
         // Try to receive again if the session is valid
         if (!ec || (ec == asio::error::would_block))
             TryReceive();
@@ -177,7 +183,10 @@ inline void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t s
         if (sent > 0)
         {
             // Erase the sent buffer
-            _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + sent);
+            {
+                std::lock_guard<std::mutex> locker(_send_lock);
+                _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + sent);
+            }
 
             // Call the datagram sent handler
             onSent(endpoint, sent, 0);
@@ -185,6 +194,10 @@ inline void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t s
             // Stop sending
             return;
         }
+
+        // Check if the server is stopped
+        if (!IsStarted())
+            return;
 
         // Try to send again if the session is valid
         if (!ec || (ec == asio::error::would_block))
