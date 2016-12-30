@@ -51,8 +51,6 @@ endif()
 # Modules
 add_subdirectory("modules")
 
-message(${OPENSSL_LIBRARIES})
-
 # Link libraries
 list(APPEND LINKLIBS ${OPENSSL_LIBRARIES})
 list(APPEND LINKLIBS Threads::Threads)
@@ -74,7 +72,7 @@ file(GLOB_RECURSE SOURCE_FILES "source/*.cpp")
 set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
 add_library(cppserver ${SOURCE_FILES})
 target_include_directories(cppserver PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/modules/asio/asio/include" PUBLIC ${OPENSSL_INCLUDE_DIR})
-target_link_libraries(cppserver asio nanomsg ${LINKLIBS})
+target_link_libraries(cppserver ${LINKLIBS} asio nanomsg)
 set_target_properties(cppserver PROPERTIES FOLDER libraries)
 list(APPEND INSTALL_TARGETS cppserver)
 list(APPEND LINKLIBS cppserver)
