@@ -48,6 +48,9 @@ if(WIN32)
   find_package(Userenv)
 endif()
 
+# Modules
+add_subdirectory("modules")
+
 # Link libraries
 list(APPEND LINKLIBS ${OPENSSL_LIBRARIES})
 list(APPEND LINKLIBS Threads::Threads)
@@ -63,9 +66,6 @@ if(WIN32)
   list(APPEND LINKLIBS ${USERENV_LIBRARIES})
 endif()
 list(APPEND LINKLIBS cppcommon)
-
-# Modules
-add_subdirectory("modules")
 
 # Library
 file(GLOB_RECURSE SOURCE_FILES "source/*.cpp")
