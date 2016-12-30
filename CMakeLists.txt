@@ -67,8 +67,6 @@ if(WIN32)
 endif()
 list(APPEND LINKLIBS cppcommon)
 
-message("${OPENSSL_INCLUDE_DIR}")
-
 # Library
 file(GLOB_RECURSE SOURCE_FILES "source/*.cpp")
 set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
