@@ -37,7 +37,7 @@ matrix:
             - uuid-dev
     - os: osx
       compiler: clang
-      osx_image: xcode8
+      osx_image: xcode8.2
 
 # Using Trusty environment
 sudo: required
