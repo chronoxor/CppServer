@@ -186,7 +186,7 @@ template <class TServer, class TSession>
 inline std::shared_ptr<TSession> SSLServer<TServer, TSession>::RegisterSession()
 {
     // Create and register a new session
-    auto session = std::make_shared<TSession>(std::move(_socket));
+    auto session = std::make_shared<TSession>(std::move(_socket), _context);
     _sessions.emplace(session->id(), session);
 
     // Connect a new session

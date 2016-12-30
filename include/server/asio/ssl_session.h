@@ -24,7 +24,7 @@ class SSLServer;
     Thread-safe.
 */
 template <class TServer, class TSession>
-class SSLSession : public SSLSession<TServer, TSession>
+class SSLSession : public std::enable_shared_from_this<SSLSession<TServer, TSession>>
 {
     template <class TSomeServer, class TSomeSession>
     friend class SSLServer;
@@ -32,10 +32,10 @@ class SSLSession : public SSLSession<TServer, TSession>
 public:
     //! Initialize SSL session with a given connected socket
     /*!
-        \param stream - SSL stream
+        \param socket - Connected socket
         \param context - SSL context
     */
-    SSLSession(asio::ssl::stream<asio::ip::tcp::socket>&& stream, asio::ssl::context& context);
+    SSLSession(asio::ip::tcp::socket&& socket, asio::ssl::context& context);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
     virtual ~SSLSession() { Disconnect(); }
@@ -51,7 +51,7 @@ public:
     //! Get the session server
     std::shared_ptr<SSLServer<TServer, TSession>>& server() noexcept { return _server; }
     //! Get the session socket
-    asio::ip::tcp::socket& socket() noexcept { return _stream.lowest_layer(); }
+    asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
     //! Get the session SSL context
     asio::ssl::context& context() noexcept { return _context; }
     //! Get the session SSL stream
@@ -118,7 +118,7 @@ protected:
 private:
     // Session Id
     CppCommon::UUID _id;
-    // Session server & socket
+    // Session server, SSL stream and SSL context
     std::shared_ptr<SSLServer<TServer, TSession>> _server;
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
     asio::ssl::context& _context;

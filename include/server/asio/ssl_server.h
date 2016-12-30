@@ -126,7 +126,7 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
-    // Server endpoint, acceptor & socket
+    // Server endpoint, acceptor, socket and SSL context
     asio::ssl::context _context;
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;

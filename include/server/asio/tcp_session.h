@@ -30,8 +30,6 @@ class TCPSession : public std::enable_shared_from_this<TCPSession<TServer, TSess
 {
     template <class TSomeServer, class TSomeSession>
     friend class TCPServer;
-    template <class TSomeServer, class TSomeSession>
-    friend class SSLSession;
 
 public:
     //! Initialize TCP session with a given connected socket

@@ -10,9 +10,9 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline SSLSession<TServer, TSession>::SSLSession(asio::ssl::stream<asio::ip::tcp::socket>&& stream, asio::ssl::context& context)
+inline SSLSession<TServer, TSession>::SSLSession(asio::ip::tcp::socket&& socket, asio::ssl::context& context)
     : _id(CppCommon::UUID::Generate()),
-      _stream(std::move(stream), context),
+      _stream(std::move(socket), context),
       _context(context),
       _connected(false),
       _reciving(false),
@@ -48,7 +48,7 @@ inline void SSLSession<TServer, TSession>::Connect(std::shared_ptr<SSLServer<TSe
         {
             // Disconnect on in case of the bad handshake
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect()
+            Disconnect();
         }
     });
 }
