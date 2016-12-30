@@ -50,7 +50,7 @@ int main(int argc, char** argv)
         address = argv[1];
 
     // UDP server port
-    int port = 1235;
+    int port = 2222;
     if (argc > 2)
         port = std::atoi(argv[2]);
 

@@ -13,6 +13,7 @@
 #define ASIO_SEPARATE_COMPILATION
 
 #include "../../../modules/asio/asio/include/asio.hpp"
+#include "../../../modules/asio/asio/include/asio/ssl.hpp"
 
 #if defined(_WIN32) || defined(_WIN64)
 #undef Yield

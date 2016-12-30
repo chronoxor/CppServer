@@ -110,7 +110,7 @@ protected:
 TEST_CASE("UDP server & client", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 1237;
+    const int port = 2222;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoUDPService>();
@@ -179,7 +179,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
 {
     const std::string listen_address = "0.0.0.0";
     const std::string multicast_address = "239.255.0.1";
-    const int multicast_port = 1238;
+    const int multicast_port = 2223;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoUDPService>();
@@ -198,7 +198,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(client1->Connect());
     while (!client1->IsConnected())
         Thread::Yield();
-	client1->JoinMulticastGroup(multicast_address);
+    client1->JoinMulticastGroup(multicast_address);
 
     // Multicast some data to all clients
     server->Multicast("test", 4);
@@ -212,7 +212,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(client2->Connect());
     while (!client2->IsConnected())
         Thread::Yield();
-	client2->JoinMulticastGroup(multicast_address);
+    client2->JoinMulticastGroup(multicast_address);
 
     // Multicast some data to all clients
     server->Multicast("test", 4);
@@ -226,7 +226,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(client3->Connect());
     while (!client3->IsConnected())
         Thread::Yield();
-	client3->JoinMulticastGroup(multicast_address);
+    client3->JoinMulticastGroup(multicast_address);
 
     // Multicast some data to all clients
     server->Multicast("test", 4);
@@ -419,9 +419,9 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
             // Create and connect Echo client
             auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
             client->Connect();
-			while (!client->IsConnected())
-				Thread::Yield();
-			client->JoinMulticastGroup(multicast_address);
+            while (!client->IsConnected())
+                Thread::Yield();
+            client->JoinMulticastGroup(multicast_address);
             clients.emplace_back(client);
         }
         // Disconnect the random client

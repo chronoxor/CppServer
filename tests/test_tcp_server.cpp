@@ -136,7 +136,7 @@ protected:
 TEST_CASE("TCP server & client", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 1234;
+    const int port = 1111;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoTCPService>();
@@ -206,7 +206,7 @@ TEST_CASE("TCP server & client", "[CppServer][Asio]")
 TEST_CASE("TCP server multicast", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 1235;
+    const int port = 1112;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoTCPService>();
@@ -331,7 +331,7 @@ TEST_CASE("TCP server multicast", "[CppServer][Asio]")
 TEST_CASE("TCP server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 1236;
+    const int port = 1113;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoTCPService>();

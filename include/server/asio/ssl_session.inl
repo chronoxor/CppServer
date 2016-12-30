@@ -1,8 +1,8 @@
 /*!
-    \file tcp_session.inl
-    \brief TCP session inline implementation
+    \file ssl_session.inl
+    \brief SSL session inline implementation
     \author Ivan Shynkarenka
-    \date 14.12.2016
+    \date 30.12.2016
     \copyright MIT License
 */
 
@@ -10,9 +10,10 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline TCPSession<TServer, TSession>::TCPSession(asio::ip::tcp::socket&& socket)
+inline SSLSession<TServer, TSession>::SSLSession(asio::ssl::stream<asio::ip::tcp::socket>&& stream, asio::ssl::context& context)
     : _id(CppCommon::UUID::Generate()),
-      _socket(std::move(socket)),
+      _stream(std::move(stream), context),
+      _context(context),
       _connected(false),
       _reciving(false),
       _sending(false)
@@ -20,13 +21,13 @@ inline TCPSession<TServer, TSession>::TCPSession(asio::ip::tcp::socket&& socket)
 }
 
 template <class TServer, class TSession>
-inline void TCPSession<TServer, TSession>::Connect(std::shared_ptr<TCPServer<TServer, TSession>> server)
+inline void SSLSession<TServer, TSession>::Connect(std::shared_ptr<SSLServer<TServer, TSession>> server)
 {
-    // Assign the TCP server
+    // Assign the SSL server
     _server = server;
 
     // Put the socket into non-blocking mode
-    _socket.non_blocking(true);
+    socket().non_blocking(true);
 
     // Update the connected flag
     _connected = true;
@@ -34,12 +35,26 @@ inline void TCPSession<TServer, TSession>::Connect(std::shared_ptr<TCPServer<TSe
     // Call the session connected handler
     onConnected();
 
-    // Try to receive something from the client
-    TryReceive();
+    // Perform SSL handshake
+    auto self(this->shared_from_this());
+    _stream.async_handshake(asio::ssl::stream_base::server, [this, self](std::error_code ec)
+    {
+        if (!ec)
+        {
+            // Try to receive something from the client
+            TryReceive();
+        }
+        else
+        {
+            // Disconnect on in case of the bad handshake
+            onError(ec.value(), ec.category().name(), ec.message());
+            Disconnect()
+        }
+    });
 }
 
 template <class TServer, class TSession>
-inline bool TCPSession<TServer, TSession>::Disconnect()
+inline bool SSLSession<TServer, TSession>::Disconnect()
 {
     if (!IsConnected())
         return false;
@@ -58,8 +73,8 @@ inline bool TCPSession<TServer, TSession>::Disconnect()
             _send_buffer.clear();
         }
 
-        // Close the session socket
-        _socket.close();
+        // Close the session stream
+        _stream.shutdown();
 
         // Call the session disconnected handler
         onDisconnected();
@@ -72,7 +87,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect()
 }
 
 template <class TServer, class TSession>
-inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t size)
+inline size_t SSLSession<TServer, TSession>::Send(const void* buffer, size_t size)
 {
     if (!IsConnected())
         return 0;
@@ -95,14 +110,14 @@ inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t siz
 }
 
 template <class TServer, class TSession>
-inline void TCPSession<TServer, TSession>::TryReceive()
+inline void SSLSession<TServer, TSession>::TryReceive()
 {
     if (_reciving)
         return;
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_wait(asio::ip::tcp::socket::wait_read, [this, self](std::error_code ec)
+    socket().async_wait(asio::ip::tcp::socket::wait_read, [this, self](std::error_code ec)
     {
         _reciving = false;
 
@@ -110,7 +125,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
         if (!ec)
         {
             uint8_t buffer[CHUNK];
-            size_t size = _socket.read_some(asio::buffer(buffer), ec);
+            size_t size = _stream.read_some(asio::buffer(buffer), ec);
             if (size > 0)
             {
                 _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
@@ -139,14 +154,14 @@ inline void TCPSession<TServer, TSession>::TryReceive()
 }
 
 template <class TServer, class TSession>
-inline void TCPSession<TServer, TSession>::TrySend()
+inline void SSLSession<TServer, TSession>::TrySend()
 {
     if (_sending)
         return;
 
     _sending = true;
     auto self(this->shared_from_this());
-    _socket.async_wait(asio::ip::tcp::socket::wait_write, [this, self](std::error_code ec)
+    socket().async_wait(asio::ip::tcp::socket::wait_write, [this, self](std::error_code ec)
     {
         _sending = false;
 
@@ -155,7 +170,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
         {
             std::lock_guard<std::mutex> locker(_send_lock);
 
-            size_t size = _socket.write_some(asio::buffer(_send_buffer), ec);
+            size_t size = _stream.write_some(asio::buffer(_send_buffer), ec);
             if (size > 0)
             {
                 // Erase the sent buffer

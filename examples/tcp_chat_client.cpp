@@ -51,7 +51,7 @@ int main(int argc, char** argv)
         address = argv[1];
 
     // TCP server port
-    int port = 1234;
+    int port = 1111;
     if (argc > 2)
         port = std::atoi(argv[2]);
 

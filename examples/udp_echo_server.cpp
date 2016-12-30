@@ -34,7 +34,7 @@ protected:
 int main(int argc, char** argv)
 {
     // UDP server port
-    int port = 1235;
+    int port = 2222;
     if (argc > 1)
         port = std::atoi(argv[1]);
 

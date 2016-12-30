@@ -1,21 +1,21 @@
 /*!
-    \file tcp_chat_server.cpp
-    \brief TCP chat server example
+    \file ssl_chat_server.cpp
+    \brief SSL chat server example
     \author Ivan Shynkarenka
-    \date 14.12.2016
+    \date 30.12.2016
     \copyright MIT License
 */
 
-#include "server/asio/tcp_server.h"
+#include "server/asio/ssl_server.h"
 
 #include <iostream>
 
 class ChatSession;
 
-class ChatServer : public CppServer::Asio::TCPServer<ChatServer, ChatSession>
+class ChatServer : public CppServer::Asio::SSLServer<ChatServer, ChatSession>
 {
 public:
-    using CppServer::Asio::TCPServer<ChatServer, ChatSession>::TCPServer;
+    using CppServer::Asio::SSLServer<ChatServer, ChatSession>::SSLServer;
 
 protected:
     void onError(int error, const std::string& category, const std::string& message) override
@@ -24,23 +24,23 @@ protected:
     }
 };
 
-class ChatSession : public CppServer::Asio::TCPSession<ChatServer, ChatSession>
+class ChatSession : public CppServer::Asio::SSLSession<ChatServer, ChatSession>
 {
 public:
-    using CppServer::Asio::TCPSession<ChatServer, ChatSession>::TCPSession;
+    using CppServer::Asio::SSLSession<ChatServer, ChatSession>::SSLSession;
 
 protected:
     void onConnected() override
     {
-        std::cout << "Chat TCP session with Id " << id() << " connected!" << std::endl;
+        std::cout << "Chat SSL session with Id " << id() << " connected!" << std::endl;
 
         // Send invite message
-        std::string message("Hello from TCP chat! Please send a message or '!' for disconnect!");
+        std::string message("Hello from SSL chat! Please send a message or '!' for disconnect!");
         Send(message.data(), message.size());
     }
     void onDisconnected() override
     {
-        std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;
+        std::cout << "Chat SSL session with Id " << id() << " disconnected!" << std::endl;
     }
 
     size_t onReceived(const void* buffer, size_t size) override
@@ -61,18 +61,18 @@ protected:
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Chat TCP session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "Chat SSL session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
 int main(int argc, char** argv)
 {
-    // TCP server port
-    int port = 1111;
+    // SSL server port
+    int port = 1112;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
-    std::cout << "TCP server port: " << port << std::endl;
+    std::cout << "SSL server port: " << port << std::endl;
     std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service
@@ -81,7 +81,7 @@ int main(int argc, char** argv)
     // Start the service
     service->Start();
 
-    // Create a new TCP chat server
+    // Create a new SSL chat server
     auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server

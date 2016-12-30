@@ -39,7 +39,7 @@ int main(int argc, char** argv)
         multicast_address = argv[1];
 
     // UDP multicast port
-    int multicast_port = 1236;
+    int multicast_port = 2223;
     if (argc > 2)
         multicast_port = std::atoi(argv[2]);
 

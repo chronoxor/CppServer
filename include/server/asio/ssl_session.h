@@ -1,50 +1,47 @@
 /*!
-    \file tcp_session.h
-    \brief TCP session definition
+    \file ssl_session.h
+    \brief SSL session definition
     \author Ivan Shynkarenka
-    \date 14.12.2016
+    \date 30.12.2016
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_ASIO_TCP_SESSION_H
-#define CPPSERVER_ASIO_TCP_SESSION_H
+#ifndef CPPSERVER_ASIO_SSL_SESSION_H
+#define CPPSERVER_ASIO_SSL_SESSION_H
 
-#include "service.h"
-
-#include "system/uuid.h"
+#include "tcp_session.h"
 
 namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-class TCPServer;
+class SSLServer;
 
-//! TCP session
+//! SSL session
 /*!
-    TCP session is used to read and write data from the connected TCP client.
+    SSL session is used to read and write data from the connected SSL client.
 
     Thread-safe.
 */
 template <class TServer, class TSession>
-class TCPSession : public std::enable_shared_from_this<TCPSession<TServer, TSession>>
+class SSLSession : public SSLSession<TServer, TSession>
 {
     template <class TSomeServer, class TSomeSession>
-    friend class TCPServer;
-    template <class TSomeServer, class TSomeSession>
-    friend class SSLSession;
+    friend class SSLServer;
 
 public:
-    //! Initialize TCP session with a given connected socket
+    //! Initialize SSL session with a given connected socket
     /*!
-        \param socket - Connected socket
+        \param stream - SSL stream
+        \param context - SSL context
     */
-    TCPSession(asio::ip::tcp::socket&& socket);
-    TCPSession(const TCPSession&) = delete;
-    TCPSession(TCPSession&&) = default;
-    virtual ~TCPSession() { Disconnect(); }
+    SSLSession(asio::ssl::stream<asio::ip::tcp::socket>&& stream, asio::ssl::context& context);
+    SSLSession(const SSLSession&) = delete;
+    SSLSession(SSLSession&&) = default;
+    virtual ~SSLSession() { Disconnect(); }
 
-    TCPSession& operator=(const TCPSession&) = delete;
-    TCPSession& operator=(TCPSession&&) = default;
+    SSLSession& operator=(const SSLSession&) = delete;
+    SSLSession& operator=(SSLSession&&) = default;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
@@ -52,9 +49,13 @@ public:
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _server.service(); }
     //! Get the session server
-    std::shared_ptr<TCPServer<TServer, TSession>>& server() noexcept { return _server; }
+    std::shared_ptr<SSLServer<TServer, TSession>>& server() noexcept { return _server; }
     //! Get the session socket
-    asio::ip::tcp::socket& socket() noexcept { return _socket; }
+    asio::ip::tcp::socket& socket() noexcept { return _stream.lowest_layer(); }
+    //! Get the session SSL context
+    asio::ssl::context& context() noexcept { return _context; }
+    //! Get the session SSL stream
+    asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
 
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; };
@@ -118,8 +119,9 @@ private:
     // Session Id
     CppCommon::UUID _id;
     // Session server & socket
-    std::shared_ptr<TCPServer<TServer, TSession>> _server;
-    asio::ip::tcp::socket _socket;
+    std::shared_ptr<SSLServer<TServer, TSession>> _server;
+    asio::ssl::stream<asio::ip::tcp::socket> _stream;
+    asio::ssl::context& _context;
     std::atomic<bool> _connected;
     // Receive & send buffers
     std::mutex _send_lock;
@@ -134,7 +136,7 @@ private:
     /*!
         \param server - Connected server
     */
-    void Connect(std::shared_ptr<TCPServer<TServer, TSession>> server);
+    void Connect(std::shared_ptr<SSLServer<TServer, TSession>> server);
 
     //! Try to receive new data
     void TryReceive();
@@ -145,6 +147,6 @@ private:
 } // namespace Asio
 } // namespace CppServer
 
-#include "tcp_session.inl"
+#include "ssl_session.inl"
 
-#endif // CPPSERVER_ASIO_TCP_SESSION_H
+#endif // CPPSERVER_ASIO_SSL_SESSION_H
