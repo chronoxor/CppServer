@@ -29,9 +29,6 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4267")
 endif()
 
-# Modules
-add_subdirectory("modules")
-
 # External packages
 if(MSVC)
   set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/openssl")
@@ -66,6 +63,9 @@ if(WIN32)
   list(APPEND LINKLIBS ${USERENV_LIBRARIES})
 endif()
 list(APPEND LINKLIBS cppcommon)
+
+# Modules
+add_subdirectory("modules")
 
 # Library
 file(GLOB_RECURSE SOURCE_FILES "source/*.cpp")
