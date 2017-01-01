@@ -1,6 +1,7 @@
 var searchData=
 [
   ['_7eservice',['~Service',['../class_cpp_server_1_1_asio_1_1_service.html#ac68fa2770646bcad6522cc564a0c7b04',1,'CppServer::Asio::Service']]],
+  ['_7esslclient',['~SSLClient',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1976e1c31130e760fe2d73d160a069af',1,'CppServer::Asio::SSLClient']]],
   ['_7esslserver',['~SSLServer',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#ad308533805dab2894cad9ce35b28c772',1,'CppServer::Asio::SSLServer']]],
   ['_7esslsession',['~SSLSession',['../class_cpp_server_1_1_asio_1_1_s_s_l_session.html#ab0ab6963e3882b05ea0f335980b01af0',1,'CppServer::Asio::SSLSession']]],
   ['_7etcpclient',['~TCPClient',['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a7fa9d9d42d3e632572cca8699739d708',1,'CppServer::Asio::TCPClient']]],
