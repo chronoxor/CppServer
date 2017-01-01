@@ -73,7 +73,7 @@ int main(int argc, char** argv)
     // Start the service
     service->Start();
 
-    // Create and prepare a new SSL context
+    // Create and prepare a new SSL client context
     asio::ssl::context context(asio::ssl::context::sslv23);
 
     // Create a new SSL chat client

@@ -81,7 +81,7 @@ int main(int argc, char** argv)
     // Start the service
     service->Start();
 
-    // Create and prepare a new SSL context
+    // Create and prepare a new SSL server context
     asio::ssl::context context(asio::ssl::context::sslv23);
     context.set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
     context.set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "123qwe!"; });

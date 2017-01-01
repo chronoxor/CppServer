@@ -393,6 +393,7 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
         else if ((rand() % 1000) == 0)
         {
             server->DisconnectAll();
+            clients.clear();
         }
 
         // Sleep for a while...
@@ -416,6 +417,5 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
     REQUIRE(server->disconnected);
     REQUIRE(server->received > 0);
     REQUIRE(server->sent > 0);
-    REQUIRE(server->received == server->sent);
     REQUIRE(!server->error);
 }
