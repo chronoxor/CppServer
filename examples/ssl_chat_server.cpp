@@ -30,9 +30,9 @@ public:
     using CppServer::Asio::SSLSession<ChatServer, ChatSession>::SSLSession;
 
 protected:
-    void onConnected() override
+    void onHandshaked() override
     {
-        std::cout << "Chat SSL session with Id " << id() << " connected!" << std::endl;
+        std::cout << "Chat SSL session with Id " << id() << " handshaked!" << std::endl;
 
         // Send invite message
         std::string message("Hello from SSL chat! Please send a message or '!' for disconnect!");
@@ -81,8 +81,16 @@ int main(int argc, char** argv)
     // Start the service
     service->Start();
 
+    // Create and prepare a new SSL context
+    asio::ssl::context context(asio::ssl::context::sslv23);
+    context.set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
+    context.set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "123qwe!"; });
+    context.use_certificate_chain_file("../tools/certificates/server.pem");
+    context.use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
+    context.use_tmp_dh_file("../tools/certificates/dh2048.pem");
+
     // Create a new SSL chat server
-    auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<ChatServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
     server->Start();

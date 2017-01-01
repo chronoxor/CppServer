@@ -50,15 +50,17 @@ public:
     std::shared_ptr<Service>& service() noexcept { return _server.service(); }
     //! Get the session server
     std::shared_ptr<SSLServer<TServer, TSession>>& server() noexcept { return _server; }
+    //! Get the session SSL stream
+    asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     //! Get the session socket
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
     //! Get the session SSL context
     asio::ssl::context& context() noexcept { return _context; }
-    //! Get the session SSL stream
-    asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
 
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; };
+    //! Is the session handshaked?
+    bool IsHandshaked() const noexcept { return _handshaked; };
 
     //! Disconnect the session
     /*!
@@ -77,6 +79,8 @@ public:
 protected:
     //! Handle session connected notification
     virtual void onConnected() {}
+    //! Handle session handshaked notification
+    virtual void onHandshaked() {}
     //! Handle session disconnected notification
     virtual void onDisconnected() {}
 
@@ -123,6 +127,7 @@ private:
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
     asio::ssl::context& _context;
     std::atomic<bool> _connected;
+    std::atomic<bool> _handshaked;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;

@@ -37,23 +37,26 @@ public:
     //! Initialize SSL server with a given Asio service, protocol and port number
     /*!
         \param service - Asio service
+        \param context - SSL context
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit SSLServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port);
+    explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, InternetProtocol protocol, int port);
     //! Initialize SSL server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
+        \param context - SSL context
         \param address - IP address
         \param port - Port number
     */
-    explicit SSLServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port);
     //! Initialize SSL server with a given SSL endpoint
     /*!
         \param service - Asio service
+        \param context - SSL context
         \param endpoint - Server SSL endpoint
     */
-    explicit SSLServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
+    explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint);
     SSLServer(const SSLServer&) = delete;
     SSLServer(SSLServer&&) = default;
     virtual ~SSLServer() { Stop(); }
@@ -63,12 +66,12 @@ public:
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
+    //! Get the server SSL context
+    asio::ssl::context& context() noexcept { return _context; }
     //! Get the server endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
-    //! Get the server SSL context
-    asio::ssl::context& context() noexcept { return _context; }
 
     //! Is the service started?
     bool IsStarted() const noexcept { return _started; }
@@ -126,8 +129,8 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
-    // Server endpoint, acceptor, socket and SSL context
-    asio::ssl::context _context;
+    // Server SSL context, endpoint, acceptor and socket
+    asio::ssl::context& _context;
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;

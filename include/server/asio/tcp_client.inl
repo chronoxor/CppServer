@@ -43,6 +43,7 @@ inline bool TCPClient::Connect()
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
+        // Connect the client socket
         _socket.async_connect(_endpoint, [this, self](std::error_code ec)
         {
             if (!ec)
@@ -65,9 +66,8 @@ inline bool TCPClient::Connect()
             }
             else
             {
-                onError(ec.value(), ec.category().name(), ec.message());
-
                 // Call the client disconnected handler
+                onError(ec.value(), ec.category().name(), ec.message());
                 onDisconnected();
             }
         });
@@ -150,7 +150,7 @@ inline void TCPClient::TryReceive()
                 // Call the buffer received handler
                 size_t handled = onReceived(_recive_buffer.data(), _recive_buffer.size());
 
-                // Erase handled buffer
+                // Erase the handled buffer
                 _recive_buffer.erase(_recive_buffer.begin(), _recive_buffer.begin() + handled);
             }
         }

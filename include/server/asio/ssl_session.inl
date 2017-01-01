@@ -15,6 +15,7 @@ inline SSLSession<TServer, TSession>::SSLSession(asio::ip::tcp::socket&& socket,
       _stream(std::move(socket), context),
       _context(context),
       _connected(false),
+      _handshaked(false),
       _reciving(false),
       _sending(false)
 {
@@ -41,6 +42,12 @@ inline void SSLSession<TServer, TSession>::Connect(std::shared_ptr<SSLServer<TSe
     {
         if (!ec)
         {
+            // Update the handshaked flag
+            _handshaked = true;
+
+            // Call the session handshaked handler
+            onHandshaked();
+
             // Try to receive something from the client
             TryReceive();
         }
@@ -63,6 +70,9 @@ inline bool SSLSession<TServer, TSession>::Disconnect()
     auto self(this->shared_from_this());
     _server->service()->service().post([this, self]()
     {
+        // Update the handshaked flag
+        _handshaked = false;
+
         // Update the connected flag
         _connected = false;
 
@@ -73,8 +83,8 @@ inline bool SSLSession<TServer, TSession>::Disconnect()
             _send_buffer.clear();
         }
 
-        // Close the session stream
-        _stream.shutdown();
+        // Close the session socket
+        socket().close();
 
         // Call the session disconnected handler
         onDisconnected();
@@ -89,7 +99,7 @@ inline bool SSLSession<TServer, TSession>::Disconnect()
 template <class TServer, class TSession>
 inline size_t SSLSession<TServer, TSession>::Send(const void* buffer, size_t size)
 {
-    if (!IsConnected())
+    if (!IsHandshaked())
         return 0;
 
     std::lock_guard<std::mutex> locker(_send_lock);
@@ -147,7 +157,8 @@ inline void SSLSession<TServer, TSession>::TryReceive()
             TryReceive();
         else
         {
-            onError(ec.value(), ec.category().name(), ec.message());
+            if (ec != asio::error::eof)
+                onError(ec.value(), ec.category().name(), ec.message());
             Disconnect();
         }
     });

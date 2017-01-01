@@ -10,9 +10,9 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
+inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, InternetProtocol protocol, int port)
     : _service(service),
-      _context(asio::ssl::context::sslv23),
+      _context(context),
       _acceptor(_service->service()),
       _socket(_service->service()),
       _started(false)
@@ -29,9 +29,9 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
 }
 
 template <class TServer, class TSession>
-inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, const std::string& address, int port)
+inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port)
     : _service(service),
-      _context(asio::ssl::context::sslv23),
+      _context(context),
       _acceptor(_service->service()),
       _socket(_service->service()),
       _started(false)
@@ -40,9 +40,9 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
 }
 
 template <class TServer, class TSession>
-inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
+inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
     : _service(service),
-      _context(asio::ssl::context::sslv23),
+      _context(context),
       _endpoint(endpoint),
       _acceptor(_service->service()),
       _socket(_service->service()),
