@@ -398,8 +398,14 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
+        // Disconnect all clients
+        if ((rand() % 1000) == 0)
+        {
+            server->DisconnectAll();
+            clients.clear();
+        }
         // Connect a new client
-        if ((rand() % 100) == 0)
+        else if ((rand() % 100) == 0)
         {
             // Create and connect Echo client
             auto client = std::make_shared<EchoSSLClient>(service, client_context, address, port);
@@ -409,7 +415,6 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
         // Disconnect the random client
         else if ((rand() % 100) == 0)
         {
-            /*
             if (!clients.empty())
             {
                 size_t index = rand() % clients.size();
@@ -417,7 +422,11 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 client->Disconnect();
                 clients.erase(clients.begin() + index);
             }
-            */
+        }
+        // Multicast a message to all clients
+        else if ((rand() % 10) == 0)
+        {
+            server->Multicast("test", 4);
         }
         // Send a message from the random client
         else if ((rand() % 1) == 0)
@@ -428,17 +437,6 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 auto client = clients.at(index);
                 client->Send("test", 4);
             }
-        }
-        // Multicast a message to all clients
-        else if ((rand() % 10) == 0)
-        {
-            server->Multicast("test", 4);
-        }
-        // Disconnect all clients
-        else if ((rand() % 1000) == 0)
-        {
-            server->DisconnectAll();
-            clients.clear();
         }
 
         // Sleep for a while...

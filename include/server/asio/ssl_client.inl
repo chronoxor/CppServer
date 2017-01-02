@@ -27,7 +27,7 @@ inline SSLClient::SSLClient(std::shared_ptr<Service> service, asio::ssl::context
       _service(service),
       _context(context),
       _endpoint(endpoint),
-	  _stream(std::make_shared<asio::ssl::stream<asio::ip::tcp::socket>>(_service->service(), _context)),
+      _stream(std::make_shared<asio::ssl::stream<asio::ip::tcp::socket>>(_service->service(), _context)),
       _connected(false),
       _handshaked(false),
       _reciving(false),
@@ -114,18 +114,21 @@ inline bool SSLClient::Disconnect()
         // Update the connected flag
         _connected = false;
 
-        // Clear receive/send buffers
-        _recive_buffer.clear();
+        // Shutdown the client stream
+        _stream->async_shutdown([this, self](std::error_code ec)
         {
-            std::lock_guard<std::mutex> locker(_send_lock);
-            _send_buffer.clear();
-        }
+            // Clear receive/send buffers
+            ClearBuffers();
 
-        // Reset the client stream
-		_stream = std::make_shared<asio::ssl::stream<asio::ip::tcp::socket>>(_service->service(), _context);
+            // Close the client socket
+            socket().close();
 
-        // Call the client disconnected handler
-        onDisconnected();
+            // Reset the client stream
+            _stream = std::make_shared<asio::ssl::stream<asio::ip::tcp::socket>>(_service->service(), _context);
+
+            // Call the client disconnected handler
+            onDisconnected();
+        });
     });
 
     return true;
@@ -241,6 +244,13 @@ inline void SSLClient::TrySend()
             Disconnect();
         }
     });
+}
+
+inline void SSLClient::ClearBuffers()
+{
+    std::lock_guard<std::mutex> locker(_send_lock);
+    _recive_buffer.clear();
+    _send_buffer.clear();
 }
 
 } // namespace Asio

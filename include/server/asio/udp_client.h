@@ -179,6 +179,9 @@ private:
     void TryReceive();
     //! Try to send pending datagram
     void TrySend(const asio::ip::udp::endpoint& endpoint, size_t size);
+
+    //! Clear receive & send buffers
+    void ClearBuffers();
 };
 
 /*! \example udp_echo_client.cpp UDP echo client example */

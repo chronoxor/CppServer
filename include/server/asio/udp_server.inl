@@ -94,6 +94,9 @@ inline bool UDPServer::Stop()
         // Update the started flag
         _started = false;
 
+        // Clear receive/send buffers
+        ClearBuffers();
+
         // Close the server socket
         _socket.close();
 
@@ -205,6 +208,13 @@ inline void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t s
         else
             onError(ec.value(), ec.category().name(), ec.message());
     });
+}
+
+inline void UDPServer::ClearBuffers()
+{
+    std::lock_guard<std::mutex> locker(_send_lock);
+    _recive_buffer.clear();
+    _send_buffer.clear();
 }
 
 } // namespace Asio

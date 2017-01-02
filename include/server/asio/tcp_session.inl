@@ -52,11 +52,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect()
         _connected = false;
 
         // Clear receive/send buffers
-        _recive_buffer.clear();
-        {
-            std::lock_guard<std::mutex> locker(_send_lock);
-            _send_buffer.clear();
-        }
+        ClearBuffers();
 
         // Close the session socket
         _socket.close();
@@ -183,6 +179,14 @@ inline void TCPSession<TServer, TSession>::TrySend()
             Disconnect();
         }
     });
+}
+
+template <class TServer, class TSession>
+inline void TCPSession<TServer, TSession>::ClearBuffers()
+{
+    std::lock_guard<std::mutex> locker(_send_lock);
+    _recive_buffer.clear();
+    _send_buffer.clear();
 }
 
 } // namespace Asio

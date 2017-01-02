@@ -147,6 +147,9 @@ private:
     void TryReceive();
     //! Try to send pending data
     void TrySend();
+
+    //! Clear receive & send buffers
+    void ClearBuffers();
 };
 
 } // namespace Asio

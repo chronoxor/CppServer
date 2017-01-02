@@ -112,11 +112,7 @@ inline bool UDPClient::Disconnect()
         _connected = false;
 
         // Clear receive/send buffers
-        _recive_buffer.clear();
-        {
-            std::lock_guard<std::mutex> locker(_send_lock);
-            _send_buffer.clear();
-        }
+        ClearBuffers();
 
         // Close the client socket
         _socket.close();
@@ -261,6 +257,13 @@ inline void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t s
             Disconnect();
         }
     });
+}
+
+inline void UDPClient::ClearBuffers()
+{
+    std::lock_guard<std::mutex> locker(_send_lock);
+    _recive_buffer.clear();
+    _send_buffer.clear();
 }
 
 } // namespace Asio

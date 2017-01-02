@@ -332,8 +332,15 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
+        // Disconnect all clients
+        if ((rand() % 1000) == 0)
+        {
+            for (auto& client : clients)
+                client->Disconnect();
+            clients.clear();
+        }
         // Connect a new client
-        if ((rand() % 100) == 0)
+        else if ((rand() % 100) == 0)
         {
             // Create and connect Echo client
             auto client = std::make_shared<EchoUDPClient>(service, address, port);
@@ -360,13 +367,6 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
                 auto client = clients.at(index);
                 client->Send("test", 4);
             }
-        }
-        // Disconnect all clients
-        else if ((rand() % 1000) == 0)
-        {
-            for (auto& client : clients)
-                client->Disconnect();
-            clients.clear();
         }
 
         // Sleep for a while...
@@ -419,8 +419,15 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
+        // Disconnect all clients
+        if ((rand() % 1000) == 0)
+        {
+            for (auto& client : clients)
+                client->Disconnect();
+            clients.clear();
+        }
         // Connect a new client
-        if ((rand() % 100) == 0)
+        else if ((rand() % 100) == 0)
         {
             // Create and connect Echo client
             auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
@@ -446,13 +453,6 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
         else if ((rand() % 10) == 0)
         {
             server->Multicast("test", 4);
-        }
-        // Disconnect all clients
-        else if ((rand() % 1000) == 0)
-        {
-            for (auto& client : clients)
-                client->Disconnect();
-            clients.clear();
         }
 
         // Sleep for a while...

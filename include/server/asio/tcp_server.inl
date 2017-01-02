@@ -92,6 +92,9 @@ inline bool TCPServer<TServer, TSession>::Stop()
         // Update the started flag
         _started = false;
 
+        // Clear multicast buffer
+        ClearBuffers();
+
         // Close the server acceptor
         _acceptor.close();
 
@@ -165,12 +168,6 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
     auto self(this->shared_from_this());
     _service->service().dispatch([this, self]()
     {
-        // Clear the multicast buffer
-        {
-            std::lock_guard<std::mutex> locker(_multicast_lock);
-            _multicast_buffer.clear();
-        }
-
         // Disconnect all sessions
         for (auto& session : _sessions)
             session.second->Disconnect();
@@ -209,6 +206,13 @@ inline void TCPServer<TServer, TSession>::UnregisterSession(const CppCommon::UUI
         // Erase the session
         _sessions.erase(it);
     }
+}
+
+template <class TServer, class TSession>
+inline void TCPServer<TServer, TSession>::ClearBuffers()
+{
+    std::lock_guard<std::mutex> locker(_multicast_lock);
+    _multicast_buffer.clear();
 }
 
 } // namespace Asio

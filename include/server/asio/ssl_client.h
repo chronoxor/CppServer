@@ -155,6 +155,9 @@ private:
     void TryReceive();
     //! Try to send pending data
     void TrySend();
+
+    //! Clear receive & send buffers
+    void ClearBuffers();
 };
 
 /*! \example ssl_chat_client.cpp SSL chat client example */

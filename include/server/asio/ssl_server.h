@@ -148,6 +148,9 @@ private:
     std::shared_ptr<TSession> RegisterSession();
     //! Unregister the given session
     void UnregisterSession(const CppCommon::UUID& id);
+
+    //! Clear multicast buffer
+    void ClearBuffers();
 };
 
 /*! \example ssl_chat_server.cpp SSL chat server example */
