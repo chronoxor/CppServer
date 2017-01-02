@@ -16,9 +16,8 @@ namespace Asio {
 class SSLClient::Impl : public std::enable_shared_from_this<SSLClient::Impl>
 {
 public:
-    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port)
-        : _id(id),
-          _service(service),
+    Impl(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port)
+        : _service(service),
           _context(context),
           _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
           _stream(_service->service(), _context),
@@ -29,9 +28,8 @@ public:
     {
     }
 
-    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
-        : _id(id),
-          _service(service),
+    Impl(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
+        : _service(service),
           _context(context),
           _endpoint(endpoint),
           _stream(_service->service(), _context),
@@ -43,11 +41,11 @@ public:
     }
 
     Impl(const Impl&) = delete;
-    Impl(Impl&&) noexcept = default;
+    Impl(Impl&&) = default;
     ~Impl() = default;
 
     Impl& operator=(const Impl&) = delete;
-    Impl& operator=(Impl&&) noexcept = default;
+    Impl& operator=(Impl&&) = default;
 
     std::shared_ptr<SSLClient>& client() noexcept { return _client; }
     std::shared_ptr<Service>& service() noexcept { return _service; }
@@ -148,7 +146,7 @@ public:
                 onDisconnected();
 
                 // Reset the client stream
-                _client->_pimpl = std::make_shared<Impl>(_id, _service, _context, _endpoint);
+                _client->_pimpl = std::make_shared<Impl>(_service, _context, _endpoint);
                 _client->_pimpl->client() = _client;
             });
         });
@@ -309,17 +307,17 @@ private:
 
 SSLClient::SSLClient(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
-      _pimpl(std::make_shared<Impl>(_id, service, context, address, port))
+      _pimpl(std::make_shared<Impl>(service, context, address, port))
 {
 }
 
 SSLClient::SSLClient(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
     : _id(CppCommon::UUID::Generate()),
-      _pimpl(std::make_shared<Impl>(_id, service, context, endpoint))
+      _pimpl(std::make_shared<Impl>(service, context, endpoint))
 {
 }
 
-SSLClient::SSLClient(SSLClient&& client) noexcept
+SSLClient::SSLClient(SSLClient&& client)
     : _id(std::move(client._id)),
       _pimpl(std::move(client._pimpl))
 {
@@ -330,7 +328,7 @@ SSLClient::~SSLClient()
     Disconnect();
 }
 
-SSLClient& SSLClient::operator=(SSLClient&& client) noexcept
+SSLClient& SSLClient::operator=(SSLClient&& client)
 {
     _id = std::move(client._id);
     _pimpl = std::move(client._pimpl);
