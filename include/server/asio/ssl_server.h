@@ -58,11 +58,11 @@ public:
     */
     explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint);
     SSLServer(const SSLServer&) = delete;
-    SSLServer(SSLServer&&) noexcept = default;
+    SSLServer(SSLServer&&) = default;
     virtual ~SSLServer() { Stop(); }
 
     SSLServer& operator=(const SSLServer&) = delete;
-    SSLServer& operator=(SSLServer&&) noexcept = default;
+    SSLServer& operator=(SSLServer&&) = default;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

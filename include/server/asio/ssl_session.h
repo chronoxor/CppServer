@@ -37,11 +37,11 @@ public:
     */
     SSLSession(asio::ip::tcp::socket&& socket, asio::ssl::context& context);
     SSLSession(const SSLSession&) = delete;
-    SSLSession(SSLSession&&) noexcept = default;
+    SSLSession(SSLSession&&) = default;
     virtual ~SSLSession() { Disconnect(); }
 
     SSLSession& operator=(const SSLSession&) = delete;
-    SSLSession& operator=(SSLSession&&) noexcept = default;
+    SSLSession& operator=(SSLSession&&) = default;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
