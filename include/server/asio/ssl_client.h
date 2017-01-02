@@ -13,6 +13,7 @@
 
 #include "system/uuid.h"
 
+#include <memory>
 #include <mutex>
 #include <vector>
 
@@ -44,30 +45,30 @@ public:
     */
     explicit SSLClient(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint);
     SSLClient(const SSLClient&) = delete;
-    SSLClient(SSLClient&&) = default;
-    virtual ~SSLClient() = default;
+    SSLClient(SSLClient&& client) noexcept;
+    virtual ~SSLClient();
 
     SSLClient& operator=(const SSLClient&) = delete;
-    SSLClient& operator=(SSLClient&&) = default;
+    SSLClient& operator=(SSLClient&& client) noexcept;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Get the Asio service
-    std::shared_ptr<Service>& service() noexcept { return _service; }
+    std::shared_ptr<Service>& service() noexcept;
     //! Get the client SSL context
-    asio::ssl::context& context() noexcept { return _context; }
+    asio::ssl::context& context() noexcept;
     //! Get the client endpoint
-    asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
+    asio::ip::tcp::endpoint& endpoint() noexcept;
     //! Get the client SSL stream
-    asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return *_stream; }
+    asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept;
     //! Get the client socket
-    asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream->lowest_layer(); }
+    asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept;
 
     //! Is the client connected?
-    bool IsConnected() const noexcept { return _connected; };
+    bool IsConnected() const noexcept;
     //! Is the session handshaked?
-    bool IsHandshaked() const noexcept { return _handshaked; };
+    bool IsHandshaked() const noexcept;
 
     //! Connect the client
     /*!
@@ -132,39 +133,17 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    // Session Id
+    // Client Id
     CppCommon::UUID _id;
-    // Asio service
-    std::shared_ptr<Service> _service;
-    // Server SSL context, endpoint & client stream
-    asio::ssl::context& _context;
-    asio::ip::tcp::endpoint _endpoint;
-    std::shared_ptr<asio::ssl::stream<asio::ip::tcp::socket>> _stream;
-    std::atomic<bool> _connected;
-    std::atomic<bool> _handshaked;
-    // Receive & send buffers
-    std::mutex _send_lock;
-    std::vector<uint8_t> _recive_buffer;
-    std::vector<uint8_t> _send_buffer;
-    bool _reciving;
-    bool _sending;
 
-    static const size_t CHUNK = 8192;
-
-    //! Try to receive new data
-    void TryReceive();
-    //! Try to send pending data
-    void TrySend();
-
-    //! Clear receive & send buffers
-    void ClearBuffers();
+    friend class Impl;
+    class Impl;
+    std::shared_ptr<Impl> _pimpl;
 };
 
 /*! \example ssl_chat_client.cpp SSL chat client example */
 
 } // namespace Asio
 } // namespace CppServer
-
-#include "ssl_client.inl"
 
 #endif // CPPSERVER_ASIO_SSL_CLIENT_H

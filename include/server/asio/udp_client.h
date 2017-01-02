@@ -57,11 +57,11 @@ public:
     */
     explicit UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address);
     UDPClient(const UDPClient&) = delete;
-    UDPClient(UDPClient&&) = default;
-    virtual ~UDPClient() = default;
+    UDPClient(UDPClient&&) noexcept = default;
+    virtual ~UDPClient() { Disconnect(); }
 
     UDPClient& operator=(const UDPClient&) = delete;
-    UDPClient& operator=(UDPClient&&) = default;
+    UDPClient& operator=(UDPClient&&) noexcept = default;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }
@@ -74,7 +74,7 @@ public:
     asio::ip::udp::socket& socket() noexcept { return _socket; }
 
     //! Is the client connected?
-    bool IsConnected() const noexcept { return _connected; };
+    bool IsConnected() const noexcept { return _connected; }
 
     //! Connect the client
     /*!
@@ -153,7 +153,7 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    // Session Id
+    // Client Id
     CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;

@@ -44,11 +44,11 @@ public:
     */
     explicit UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
     UDPServer(const UDPServer&) = delete;
-    UDPServer(UDPServer&&) = default;
+    UDPServer(UDPServer&&) noexcept = default;
     virtual ~UDPServer() { Stop(); }
 
     UDPServer& operator=(const UDPServer&) = delete;
-    UDPServer& operator=(UDPServer&&) = default;
+    UDPServer& operator=(UDPServer&&) noexcept = default;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

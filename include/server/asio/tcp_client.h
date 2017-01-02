@@ -42,11 +42,11 @@ public:
     */
     explicit TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPClient(const TCPClient&) = delete;
-    TCPClient(TCPClient&&) = default;
-    virtual ~TCPClient() = default;
+    TCPClient(TCPClient&&) noexcept = default;
+    virtual ~TCPClient() { Disconnect(); }
 
     TCPClient& operator=(const TCPClient&) = delete;
-    TCPClient& operator=(TCPClient&&) = default;
+    TCPClient& operator=(TCPClient&&) noexcept = default;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }
@@ -59,7 +59,7 @@ public:
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
     //! Is the client connected?
-    bool IsConnected() const noexcept { return _connected; };
+    bool IsConnected() const noexcept { return _connected; }
 
     //! Connect the client
     /*!
@@ -122,7 +122,7 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    // Session Id
+    // Client Id
     CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;

@@ -37,11 +37,11 @@ public:
     */
     SSLSession(asio::ip::tcp::socket&& socket, asio::ssl::context& context);
     SSLSession(const SSLSession&) = delete;
-    SSLSession(SSLSession&&) = default;
+    SSLSession(SSLSession&&) noexcept = default;
     virtual ~SSLSession() { Disconnect(); }
 
     SSLSession& operator=(const SSLSession&) = delete;
-    SSLSession& operator=(SSLSession&&) = default;
+    SSLSession& operator=(SSLSession&&) noexcept = default;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
@@ -58,9 +58,9 @@ public:
     asio::ssl::context& context() noexcept { return _context; }
 
     //! Is the session connected?
-    bool IsConnected() const noexcept { return _connected; };
+    bool IsConnected() const noexcept { return _connected; }
     //! Is the session handshaked?
-    bool IsHandshaked() const noexcept { return _handshaked; };
+    bool IsHandshaked() const noexcept { return _handshaked; }
 
     //! Disconnect the session
     /*!

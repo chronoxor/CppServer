@@ -38,11 +38,11 @@ public:
     */
     TCPSession(asio::ip::tcp::socket&& socket);
     TCPSession(const TCPSession&) = delete;
-    TCPSession(TCPSession&&) = default;
+    TCPSession(TCPSession&&) noexcept = default;
     virtual ~TCPSession() { Disconnect(); }
 
     TCPSession& operator=(const TCPSession&) = delete;
-    TCPSession& operator=(TCPSession&&) = default;
+    TCPSession& operator=(TCPSession&&) noexcept = default;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
@@ -55,7 +55,7 @@ public:
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
     //! Is the session connected?
-    bool IsConnected() const noexcept { return _connected; };
+    bool IsConnected() const noexcept { return _connected; }
 
     //! Disconnect the session
     /*!
