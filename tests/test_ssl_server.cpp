@@ -363,7 +363,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
     REQUIRE(!client2->error);
     REQUIRE(!client3->error);
 }
-
+/*
 TEST_CASE("SSL server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
@@ -472,3 +472,4 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     REQUIRE(server->sent > 0);
     REQUIRE(!server->error);
 }
+*/
