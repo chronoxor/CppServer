@@ -124,6 +124,11 @@ inline bool UDPClient::Disconnect()
     return true;
 }
 
+inline bool UDPClient::Reconnect()
+{
+    return Disconnect() ? Connect() : false;
+}
+
 inline void UDPClient::JoinMulticastGroup(const std::string& address)
 {
     asio::ip::address muticast_address = asio::ip::address::from_string(address);

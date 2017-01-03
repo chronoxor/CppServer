@@ -381,6 +381,11 @@ bool SSLClient::Disconnect()
     return _pimpl->Disconnect();
 }
 
+bool SSLClient::Reconnect()
+{
+    return Disconnect() ? Connect() : false;
+}
+
 size_t SSLClient::Send(const void* buffer, size_t size)
 {
     return _pimpl->Send(buffer, size);

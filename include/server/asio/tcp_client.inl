@@ -101,6 +101,11 @@ inline bool TCPClient::Disconnect()
     return true;
 }
 
+inline bool TCPClient::Reconnect()
+{
+    return Disconnect() ? Connect() : false;
+}
+
 inline size_t TCPClient::Send(const void* buffer, size_t size)
 {
     if (!IsConnected())

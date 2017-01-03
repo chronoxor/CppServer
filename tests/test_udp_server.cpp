@@ -358,6 +358,16 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
                 clients.erase(clients.begin() + index);
             }
         }
+        // Reconnect the random client
+        else if ((rand() % 100) == 0)
+        {
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                client->Reconnect();
+            }
+        }
         // Send a message from the random client
         else if ((rand() % 1) == 0)
         {

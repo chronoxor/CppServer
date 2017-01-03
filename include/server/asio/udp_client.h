@@ -86,6 +86,11 @@ public:
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
     bool Disconnect();
+    //! Reconnect the client
+    /*!
+        \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
+    */
+    bool Reconnect();
 
     //! Join multicast group with a given IP address
     /*!
