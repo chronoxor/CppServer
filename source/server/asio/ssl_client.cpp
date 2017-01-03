@@ -142,16 +142,15 @@ public:
                 // Update the handshaked flag
                 _handshaked = false;
 
+                // Update the connected flag
+                _connected = false;
+
+                // Call the client reset handler
+                onReset();
+
                 // Call the client disconnected handler
                 onDisconnected();
-
-                // Reset the client stream
-                _client->_pimpl = std::make_shared<Impl>(_service, _context, _endpoint);
-                _client->_pimpl->client() = _client;
             });
-
-            // Update the connected flag
-            _connected = false;
         };
 
         // Dispatch or post the disconnect routine
@@ -189,6 +188,7 @@ protected:
     void onConnected() { _client->onConnected(); }
     void onHandshaked() { _client->onHandshaked(); }
     void onDisconnected() { _client->onDisconnected(); }
+    void onReset() { _client->onReset(); }
     size_t onReceived(const void* buffer, size_t size) { return _client->onReceived(buffer, size); }
     void onSent(size_t sent, size_t pending) { _client->onSent(sent, pending); }
     void onError(int error, const std::string& category, const std::string& message) { _client->onError(error, category, message); }
@@ -403,6 +403,11 @@ bool SSLClient::Reconnect()
 size_t SSLClient::Send(const void* buffer, size_t size)
 {
     return _pimpl->Send(buffer, size);
+}
+
+void SSLClient::onReset()
+{
+    _pimpl = std::make_shared<Impl>(_pimpl->service(), _pimpl->context(), _pimpl->endpoint());
 }
 
 } // namespace Asio

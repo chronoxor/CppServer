@@ -151,6 +151,9 @@ private:
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
     bool Disconnect(bool dispatch);
+
+    //! Handle client reset notification
+    void onReset();
 };
 
 /*! \example ssl_chat_client.cpp SSL chat client example */
