@@ -1,6 +1,7 @@
 var searchData=
 [
   ['id',['id',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#aab0c910c4bcfaee6d68f77bfbbc5246d',1,'CppServer::Asio::SSLClient::id()'],['../class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a3d6a5fdf2dadfcdb55cfa9d97fe9f502',1,'CppServer::Asio::SSLSession::id()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#afd22bf175c21895b35bcb62707458c90',1,'CppServer::Asio::TCPClient::id()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a007250b8227e19d839f9b364b7914bc2',1,'CppServer::Asio::TCPSession::id()'],['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a986c1fa4de747f44892a1538246ac9df',1,'CppServer::Asio::UDPClient::id()']]],
+  ['impl',['Impl',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#ae708b2c3f144ba0c31bb444c4efe8ccf',1,'CppServer::Asio::SSLClient']]],
   ['internetprotocol',['InternetProtocol',['../namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4',1,'CppServer::Asio']]],
   ['ipv4',['IPv4',['../namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626',1,'CppServer::Asio']]],
   ['ipv6',['IPv6',['../namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4afdb7cb8f657426e7c409bfd6d1a36ce4',1,'CppServer::Asio']]],
