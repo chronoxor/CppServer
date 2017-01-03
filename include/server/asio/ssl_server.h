@@ -90,7 +90,7 @@ public:
     /*!
         \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
     */
-    bool Restart() { return Stop() ? Start() : false; }
+    bool Restart();
 
     //! Multicast data to all connected sessions
     /*!

@@ -130,17 +130,17 @@ public:
         auto self(this->shared_from_this());
         auto disconnect = [this, self]()
         {
-            // Update the handshaked flag
-            _handshaked = false;
-
-            // Update the connected flag
-            _connected = false;
-
             // Shutdown the client stream
             _stream.async_shutdown([this, self](std::error_code ec)
             {
+                // Close the client socket
+                socket().close();
+
                 // Clear receive/send buffers
                 ClearBuffers();
+
+                // Update the handshaked flag
+                _handshaked = false;
 
                 // Call the client disconnected handler
                 onDisconnected();
@@ -149,6 +149,9 @@ public:
                 _client->_pimpl = std::make_shared<Impl>(_service, _context, _endpoint);
                 _client->_pimpl->client() = _client;
             });
+
+            // Update the connected flag
+            _connected = false;
         };
 
         // Dispatch or post the disconnect routine
@@ -384,6 +387,17 @@ bool SSLClient::Connect()
 bool SSLClient::Disconnect(bool dispatch)
 {
     return _pimpl->Disconnect(dispatch);
+}
+
+bool SSLClient::Reconnect()
+{
+    if (!Disconnect())
+        return false;
+
+    while (IsConnected())
+        CppCommon::Thread::Yield();
+
+    return Connect();
 }
 
 size_t SSLClient::Send(const void* buffer, size_t size)

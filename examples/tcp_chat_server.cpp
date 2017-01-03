@@ -97,7 +97,9 @@ int main(int argc, char** argv)
         // Restart the server
         if (line == "!")
         {
+            std::cout << "Server restarting...";
             server->Restart();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 

@@ -47,14 +47,14 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
     auto self(this->shared_from_this());
     auto disconnect = [this, self]()
     {
-        // Update the connected flag
-        _connected = false;
+        // Close the session socket
+        _socket.close();
 
         // Clear receive/send buffers
         ClearBuffers();
 
-        // Close the session socket
-        _socket.close();
+        // Update the connected flag
+        _connected = false;
 
         // Call the session disconnected handler
         onDisconnected();

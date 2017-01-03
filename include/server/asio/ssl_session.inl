@@ -70,17 +70,17 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
     auto self(this->shared_from_this());
     auto disconnect = [this, self]()
     {
+        // Close the session socket
+        socket().close();
+
+        // Clear receive/send buffers
+        ClearBuffers();
+
         // Update the handshaked flag
         _handshaked = false;
 
         // Update the connected flag
         _connected = false;
-
-        // Clear receive/send buffers
-        ClearBuffers();
-
-        // Close the session socket
-        socket().close();
 
         // Call the session disconnected handler
         onDisconnected();

@@ -89,7 +89,7 @@ public:
     /*!
         \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
     */
-    bool Restart() { return Stop() ? Start() : false; }
+    bool Restart();
 
     //! Multicast a datagram to the prepared mulicast endpoint
     /*!

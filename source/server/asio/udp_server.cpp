@@ -27,7 +27,6 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
             _endpoint = asio::ip::udp::endpoint(asio::ip::udp::v6(), port);
             break;
     }
-    _socket = asio::ip::udp::socket(_service->service(), _endpoint);
 }
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
@@ -36,13 +35,12 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
       _started(false)
 {
     _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), port);
-    _socket = asio::ip::udp::socket(_service->service(), _endpoint);
 }
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _service(service),
       _endpoint(endpoint),
-      _socket(_service->service(), endpoint),
+      _socket(_service->service()),
       _started(false)
 {
 }
@@ -59,6 +57,9 @@ bool UDPServer::Start()
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
+        // Open the server socket
+        _socket = asio::ip::udp::socket(_service->service(), _endpoint);
+
          // Update the started flag
         _started = true;
 
@@ -93,20 +94,31 @@ bool UDPServer::Stop()
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
-        // Update the started flag
-        _started = false;
+        // Close the server socket
+        _socket.close();
 
         // Clear receive/send buffers
         ClearBuffers();
 
-        // Close the server socket
-        _socket.close();
+        // Update the started flag
+        _started = false;
 
         // Call the server stopped handler
         onStopped();
     });
 
     return true;
+}
+
+bool UDPServer::Restart()
+{
+    if (!Stop())
+        return false;
+
+    while (IsStarted())
+        CppCommon::Thread::Yield();
+
+    return Start();
 }
 
 size_t UDPServer::Multicast(const void* buffer, size_t size)

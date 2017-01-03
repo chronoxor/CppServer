@@ -90,7 +90,7 @@ public:
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
     */
-    bool Reconnect() { return Disconnect() ? Connect() : false; }
+    bool Reconnect();
 
     //! Join multicast group with a given IP address
     /*!

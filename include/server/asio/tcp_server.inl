@@ -89,20 +89,32 @@ inline bool TCPServer<TServer, TSession>::Stop()
         // Disconnect all sessions
         DisconnectAll();
 
-        // Update the started flag
-        _started = false;
+        // Close the server acceptor
+        _acceptor.close();
 
         // Clear multicast buffer
         ClearBuffers();
 
-        // Close the server acceptor
-        _acceptor.close();
+        // Update the started flag
+        _started = false;
 
         // Call the server stopped handler
         onStopped();
     });
 
     return true;
+}
+
+template <class TServer, class TSession>
+inline bool TCPServer<TServer, TSession>::Restart()
+{
+    if (!Stop())
+        return false;
+
+    while (IsStarted())
+        CppCommon::Thread::Yield();
+
+    return Start();
 }
 
 template <class TServer, class TSession>

@@ -86,14 +86,14 @@ bool TCPClient::Disconnect(bool dispatch)
     auto self(this->shared_from_this());
     auto disconnect = [this, self]()
     {
-        // Update the connected flag
-        _connected = false;
+        // Close the client socket
+        _socket.close();
 
         // Clear receive/send buffers
         ClearBuffers();
 
-        // Close the client socket
-        _socket.close();
+        // Update the connected flag
+        _connected = false;
 
         // Call the client disconnected handler
         onDisconnected();
@@ -106,6 +106,17 @@ bool TCPClient::Disconnect(bool dispatch)
         _service->service().post(disconnect);
 
     return true;
+}
+
+bool TCPClient::Reconnect()
+{
+    if (!Disconnect())
+        return false;
+
+    while (IsConnected())
+        CppCommon::Thread::Yield();
+
+    return Connect();
 }
 
 size_t TCPClient::Send(const void* buffer, size_t size)
