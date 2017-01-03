@@ -85,6 +85,11 @@ public:
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
     */
     bool Stop();
+    //! Restart the server
+    /*!
+        \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
+    */
+    bool Restart() { return Stop() ? Start() : false; }
 
     //! Multicast a datagram to the prepared mulicast endpoint
     /*!

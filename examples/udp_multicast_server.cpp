@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 
     std::cout << "UDP multicast address: " << multicast_address << std::endl;
     std::cout << "UDP multicast port: " << multicast_port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
@@ -65,6 +65,13 @@ int main(int argc, char** argv)
     {
         if (line.empty())
             break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            server->Restart();
+            continue;
+        }
 
         // Multicast admin message to all sessions
         line = "(admin) " + line;

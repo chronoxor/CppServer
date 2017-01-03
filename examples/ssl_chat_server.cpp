@@ -35,7 +35,7 @@ protected:
         std::cout << "Chat SSL session with Id " << id() << " handshaked!" << std::endl;
 
         // Send invite message
-        std::string message("Hello from SSL chat! Please send a message or '!' for disconnect!");
+        std::string message("Hello from SSL chat! Please send a message or '!' to disconnect the client!");
         Send(message.data(), message.size());
     }
     void onDisconnected() override
@@ -73,7 +73,7 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "SSL server port: " << port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
@@ -101,6 +101,13 @@ int main(int argc, char** argv)
     {
         if (line.empty())
             break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            server->Restart();
+            continue;
+        }
 
         // Multicast admin message to all sessions
         line = "(admin) " + line;

@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 
     std::cout << "UDP server address: " << address << std::endl;
     std::cout << "UDP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop or '!' for disconnect..." << std::endl;
+    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();

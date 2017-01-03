@@ -39,7 +39,7 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "UDP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
@@ -53,8 +53,20 @@ int main(int argc, char** argv)
     // Start the server
     server->Start();
 
-    // Wait for input
-    std::cin.get();
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            server->Restart();
+            continue;
+        }
+    }
 
     // Stop the server
     server->Stop();
