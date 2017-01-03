@@ -101,14 +101,14 @@ bool UDPClient::Connect()
     return true;
 }
 
-bool UDPClient::Disconnect()
+bool UDPClient::Disconnect(bool dispatch)
 {
     if (!IsConnected())
         return false;
 
     // Post the disconnect routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    auto disconnect = [this, self]()
     {
         // Update the connected flag
         _connected = false;
@@ -121,14 +121,15 @@ bool UDPClient::Disconnect()
 
         // Call the client disconnected handler
         onDisconnected();
-    });
+    };
+
+    // Dispatch or post the disconnect routine
+    if (dispatch)
+        _service->service().dispatch(disconnect);
+    else
+        _service->service().post(disconnect);
 
     return true;
-}
-
-bool UDPClient::Reconnect()
-{
-    return Disconnect() ? Connect() : false;
 }
 
 void UDPClient::JoinMulticastGroup(const std::string& address)
@@ -219,7 +220,7 @@ void UDPClient::TryReceive()
         else
         {
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect();
+            Disconnect(true);
         }
     });
 }
@@ -261,7 +262,7 @@ void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
         else
         {
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect();
+            Disconnect(true);
         }
     });
 }

@@ -55,20 +55,20 @@ inline void SSLSession<TServer, TSession>::Connect(std::shared_ptr<SSLServer<TSe
         {
             // Disconnect on in case of the bad handshake
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect();
+            Disconnect(true);
         }
     });
 }
 
 template <class TServer, class TSession>
-inline bool SSLSession<TServer, TSession>::Disconnect()
+inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
 {
     if (!IsConnected())
         return false;
 
     // Post the disconnect routine
     auto self(this->shared_from_this());
-    _server->service()->service().post([this, self]()
+    auto disconnect = [this, self]()
     {
         // Update the handshaked flag
         _handshaked = false;
@@ -87,7 +87,13 @@ inline bool SSLSession<TServer, TSession>::Disconnect()
 
         // Unregister the session
         _server->UnregisterSession(id());
-    });
+    };
+
+    // Dispatch or post the disconnect routine
+    if (dispatch)
+        _server->service()->service().dispatch(disconnect);
+    else
+        _server->service()->service().post(disconnect);
 
     return true;
 }
@@ -153,9 +159,8 @@ inline void SSLSession<TServer, TSession>::TryReceive()
             TryReceive();
         else
         {
-            if (ec != asio::error::eof)
-                onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect();
+            onError(ec.value(), ec.category().name(), ec.message());
+            Disconnect(true);
         }
     });
 }
@@ -202,7 +207,7 @@ inline void SSLSession<TServer, TSession>::TrySend()
         else
         {
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect();
+            Disconnect(true);
         }
     });
 }

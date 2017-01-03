@@ -78,14 +78,13 @@ bool TCPClient::Connect()
     return true;
 }
 
-bool TCPClient::Disconnect()
+bool TCPClient::Disconnect(bool dispatch)
 {
     if (!IsConnected())
         return false;
 
-    // Post the disconnect routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    auto disconnect = [this, self]()
     {
         // Update the connected flag
         _connected = false;
@@ -98,14 +97,15 @@ bool TCPClient::Disconnect()
 
         // Call the client disconnected handler
         onDisconnected();
-    });
+    };
+
+    // Dispatch or post the disconnect routine
+    if (dispatch)
+        _service->service().dispatch(disconnect);
+    else
+        _service->service().post(disconnect);
 
     return true;
-}
-
-bool TCPClient::Reconnect()
-{
-    return Disconnect() ? Connect() : false;
 }
 
 size_t TCPClient::Send(const void* buffer, size_t size)
@@ -168,7 +168,7 @@ void TCPClient::TryReceive()
         else
         {
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect();
+            Disconnect(true);
         }
     });
 }
@@ -214,7 +214,7 @@ void TCPClient::TrySend()
         else
         {
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect();
+            Disconnect(true);
         }
     });
 }

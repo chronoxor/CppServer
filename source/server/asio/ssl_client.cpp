@@ -105,7 +105,7 @@ public:
                         {
                             // Disconnect on in case of the bad handshake
                             onError(ec.value(), ec.category().name(), ec.message());
-                            Disconnect();
+                            Disconnect(true);
                         }
                     });
                 }
@@ -121,14 +121,14 @@ public:
         return true;
     }
 
-    bool Disconnect()
+    bool Disconnect(bool dispatch)
     {
         if (!IsConnected())
             return false;
 
         // Post the disconnect routine
         auto self(this->shared_from_this());
-        _service->service().post([this, self]()
+        auto disconnect = [this, self]()
         {
             // Update the handshaked flag
             _handshaked = false;
@@ -149,7 +149,13 @@ public:
                 _client->_pimpl = std::make_shared<Impl>(_service, _context, _endpoint);
                 _client->_pimpl->client() = _client;
             });
-        });
+        };
+
+        // Dispatch or post the disconnect routine
+        if (dispatch)
+            _service->service().dispatch(disconnect);
+        else
+            _service->service().post(disconnect);
 
         return true;
     }
@@ -242,9 +248,8 @@ private:
                 TryReceive();
             else
             {
-                if (ec != asio::error::eof)
-                    onError(ec.value(), ec.category().name(), ec.message());
-                Disconnect();
+                onError(ec.value(), ec.category().name(), ec.message());
+                Disconnect(true);
             }
         });
     }
@@ -290,7 +295,7 @@ private:
             else
             {
                 onError(ec.value(), ec.category().name(), ec.message());
-                Disconnect();
+                Disconnect(true);
             }
         });
     }
@@ -325,7 +330,7 @@ SSLClient::SSLClient(SSLClient&& client)
 
 SSLClient::~SSLClient()
 {
-    Disconnect();
+    Disconnect(true);
 }
 
 SSLClient& SSLClient::operator=(SSLClient&& client)
@@ -376,14 +381,9 @@ bool SSLClient::Connect()
     return _pimpl->Connect();
 }
 
-bool SSLClient::Disconnect()
+bool SSLClient::Disconnect(bool dispatch)
 {
-    return _pimpl->Disconnect();
-}
-
-bool SSLClient::Reconnect()
-{
-    return Disconnect() ? Connect() : false;
+    return _pimpl->Disconnect(dispatch);
 }
 
 size_t SSLClient::Send(const void* buffer, size_t size)

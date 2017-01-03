@@ -39,7 +39,7 @@ public:
     TCPSession(asio::ip::tcp::socket&& socket);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
-    virtual ~TCPSession() { Disconnect(); }
+    virtual ~TCPSession() { Disconnect(true); }
 
     TCPSession& operator=(const TCPSession&) = delete;
     TCPSession& operator=(TCPSession&&) = default;
@@ -61,7 +61,7 @@ public:
     /*!
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    bool Disconnect();
+    bool Disconnect() { return Disconnect(false); }
 
     //! Send data into the session
     /*!
@@ -133,6 +133,12 @@ private:
         \param server - Connected server
     */
     void Connect(std::shared_ptr<TCPServer<TServer, TSession>> server);
+    //! Disconnect the session
+    /*!
+        \param dispatch - Dispatch flag
+        \return 'true' if the session was successfully disconnected, 'false' if the session is already disconnected
+    */
+    bool Disconnect(bool dispatch);
 
     //! Try to receive new data
     void TryReceive();

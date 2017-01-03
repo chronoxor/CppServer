@@ -38,7 +38,7 @@ public:
     SSLSession(asio::ip::tcp::socket&& socket, asio::ssl::context& context);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
-    virtual ~SSLSession() { Disconnect(); }
+    virtual ~SSLSession() { Disconnect(true); }
 
     SSLSession& operator=(const SSLSession&) = delete;
     SSLSession& operator=(SSLSession&&) = default;
@@ -66,7 +66,7 @@ public:
     /*!
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    bool Disconnect();
+    bool Disconnect() { return Disconnect(false); }
 
     //! Send data into the session
     /*!
@@ -142,6 +142,12 @@ private:
         \param server - Connected server
     */
     void Connect(std::shared_ptr<SSLServer<TServer, TSession>> server);
+    //! Disconnect the session
+    /*!
+        \param dispatch - Dispatch flag
+        \return 'true' if the session was successfully disconnected, 'false' if the session is already disconnected
+    */
+    bool Disconnect(bool dispatch);
 
     //! Try to receive new data
     void TryReceive();

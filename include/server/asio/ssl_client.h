@@ -79,12 +79,12 @@ public:
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Disconnect();
+    bool Disconnect() { return Disconnect(false); }
     //! Reconnect the client
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
     */
-    bool Reconnect();
+    bool Reconnect() { return Disconnect() ? Connect() : false; }
 
     //! Send data to the server
     /*!
@@ -144,6 +144,13 @@ private:
     friend class Impl;
     class Impl;
     std::shared_ptr<Impl> _pimpl;
+
+    //! Disconnect the client
+    /*!
+        \param dispatch - Dispatch flag
+        \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
+    */
+    bool Disconnect(bool dispatch);
 };
 
 /*! \example ssl_chat_client.cpp SSL chat client example */

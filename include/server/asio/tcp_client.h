@@ -43,7 +43,7 @@ public:
     explicit TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPClient(const TCPClient&) = delete;
     TCPClient(TCPClient&&) = default;
-    virtual ~TCPClient() { Disconnect(); }
+    virtual ~TCPClient() { Disconnect(true); }
 
     TCPClient& operator=(const TCPClient&) = delete;
     TCPClient& operator=(TCPClient&&) = default;
@@ -70,12 +70,12 @@ public:
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Disconnect();
+    bool Disconnect() { return Disconnect(false); }
     //! Reconnect the client
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
     */
-    bool Reconnect();
+    bool Reconnect() { return Disconnect() ? Connect() : false; }
 
     //! Send data to the server
     /*!
@@ -143,6 +143,13 @@ private:
     bool _sending;
 
     static const size_t CHUNK = 8192;
+
+    //! Disconnect the client
+    /*!
+        \param dispatch - Dispatch flag
+        \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
+    */
+    bool Disconnect(bool dispatch);
 
     //! Try to receive new data
     void TryReceive();

@@ -39,14 +39,13 @@ inline void TCPSession<TServer, TSession>::Connect(std::shared_ptr<TCPServer<TSe
 }
 
 template <class TServer, class TSession>
-inline bool TCPSession<TServer, TSession>::Disconnect()
+inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
 {
     if (!IsConnected())
         return false;
 
-    // Post the disconnect routine
     auto self(this->shared_from_this());
-    _server->service()->service().post([this, self]()
+    auto disconnect = [this, self]()
     {
         // Update the connected flag
         _connected = false;
@@ -62,7 +61,13 @@ inline bool TCPSession<TServer, TSession>::Disconnect()
 
         // Unregister the session
         _server->UnregisterSession(id());
-    });
+    };
+
+    // Dispatch or post the disconnect routine
+    if (dispatch)
+        _server->service()->service().dispatch(disconnect);
+    else
+        _server->service()->service().post(disconnect);
 
     return true;
 }
@@ -129,7 +134,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
         else
         {
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect();
+            Disconnect(true);
         }
     });
 }
@@ -176,7 +181,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
         else
         {
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnect();
+            Disconnect(true);
         }
     });
 }
