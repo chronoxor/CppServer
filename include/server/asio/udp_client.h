@@ -195,6 +195,4 @@ private:
 } // namespace Asio
 } // namespace CppServer
 
-#include "udp_client.inl"
-
 #endif // CPPSERVER_ASIO_UDP_CLIENT_H

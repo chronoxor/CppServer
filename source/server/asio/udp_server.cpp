@@ -1,15 +1,17 @@
 /*!
-    \file udp_server.inl
-    \brief UDP server inline implementation
+    \file udp_server.cpp
+    \brief UDP server implementation
     \author Ivan Shynkarenka
     \date 22.12.2016
     \copyright MIT License
 */
 
+#include "server/asio/udp_server.h"
+
 namespace CppServer {
 namespace Asio {
 
-inline UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
+UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
       _socket(_service->service()),
       _started(false),
@@ -28,7 +30,7 @@ inline UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol p
     _socket = asio::ip::udp::socket(_service->service(), _endpoint);
 }
 
-inline UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
+UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _socket(_service->service()),
       _started(false)
@@ -37,7 +39,7 @@ inline UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string&
     _socket = asio::ip::udp::socket(_service->service(), _endpoint);
 }
 
-inline UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
+UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _service(service),
       _endpoint(endpoint),
       _socket(_service->service(), endpoint),
@@ -45,7 +47,7 @@ inline UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::ud
 {
 }
 
-inline bool UDPServer::Start()
+bool UDPServer::Start()
 {
     if (!_service->IsStarted())
         return false;
@@ -70,19 +72,19 @@ inline bool UDPServer::Start()
     return true;
 }
 
-inline bool UDPServer::Start(const std::string& multicast_address, int multicast_port)
+bool UDPServer::Start(const std::string& multicast_address, int multicast_port)
 {
     _multicast_endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(multicast_address), multicast_port);
     return Start();
 }
 
-inline bool UDPServer::Start(const asio::ip::udp::endpoint& multicast_endpoint)
+bool UDPServer::Start(const asio::ip::udp::endpoint& multicast_endpoint)
 {
     _multicast_endpoint = multicast_endpoint;
     return Start();
 }
 
-inline bool UDPServer::Stop()
+bool UDPServer::Stop()
 {
     if (!IsStarted())
         return false;
@@ -107,13 +109,13 @@ inline bool UDPServer::Stop()
     return true;
 }
 
-inline size_t UDPServer::Multicast(const void* buffer, size_t size)
+size_t UDPServer::Multicast(const void* buffer, size_t size)
 {
     // Send the datagram to the multicast endpoint
     return Send(_multicast_endpoint, buffer, size);
 }
 
-inline size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
+size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
     std::lock_guard<std::mutex> locker(_send_lock);
 
@@ -131,7 +133,7 @@ inline size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const voi
     return _send_buffer.size();
 }
 
-inline void UDPServer::TryReceive()
+void UDPServer::TryReceive()
 {
     if (_reciving)
         return;
@@ -171,7 +173,7 @@ inline void UDPServer::TryReceive()
     });
 }
 
-inline void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
+void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
 {
     if (_sending)
         return;
@@ -210,7 +212,7 @@ inline void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t s
     });
 }
 
-inline void UDPServer::ClearBuffers()
+void UDPServer::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_send_lock);
     _recive_buffer.clear();

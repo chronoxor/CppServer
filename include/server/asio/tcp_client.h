@@ -158,6 +158,4 @@ private:
 } // namespace Asio
 } // namespace CppServer
 
-#include "tcp_client.inl"
-
 #endif // CPPSERVER_ASIO_TCP_CLIENT_H

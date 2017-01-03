@@ -1,15 +1,17 @@
 /*!
-    \file tcp_client.inl
-    \brief TCP client inline implementation
+    \file tcp_client.cpp
+    \brief TCP client implementation
     \author Ivan Shynkarenka
     \date 15.12.2016
     \copyright MIT License
 */
 
+#include "server/asio/tcp_client.h"
+
 namespace CppServer {
 namespace Asio {
 
-inline TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
+TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
@@ -20,7 +22,7 @@ inline TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string&
 {
 }
 
-inline TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
+TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(endpoint),
@@ -31,7 +33,7 @@ inline TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tc
 {
 }
 
-inline bool TCPClient::Connect()
+bool TCPClient::Connect()
 {
     if (!_service->IsStarted())
         return false;
@@ -76,7 +78,7 @@ inline bool TCPClient::Connect()
     return true;
 }
 
-inline bool TCPClient::Disconnect()
+bool TCPClient::Disconnect()
 {
     if (!IsConnected())
         return false;
@@ -101,12 +103,12 @@ inline bool TCPClient::Disconnect()
     return true;
 }
 
-inline bool TCPClient::Reconnect()
+bool TCPClient::Reconnect()
 {
     return Disconnect() ? Connect() : false;
 }
 
-inline size_t TCPClient::Send(const void* buffer, size_t size)
+size_t TCPClient::Send(const void* buffer, size_t size)
 {
     if (!IsConnected())
         return 0;
@@ -128,7 +130,7 @@ inline size_t TCPClient::Send(const void* buffer, size_t size)
     return _send_buffer.size();
 }
 
-inline void TCPClient::TryReceive()
+void TCPClient::TryReceive()
 {
     if (_reciving)
         return;
@@ -171,7 +173,7 @@ inline void TCPClient::TryReceive()
     });
 }
 
-inline void TCPClient::TrySend()
+void TCPClient::TrySend()
 {
     if (_sending)
         return;
@@ -217,7 +219,7 @@ inline void TCPClient::TrySend()
     });
 }
 
-inline void TCPClient::ClearBuffers()
+void TCPClient::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_send_lock);
     _recive_buffer.clear();

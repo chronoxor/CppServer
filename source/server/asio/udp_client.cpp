@@ -1,15 +1,17 @@
 /*!
-    \file udp_client.inl
-    \brief UDP client inline implementation
+    \file udp_client.cpp
+    \brief UDP client implementation
     \author Ivan Shynkarenka
     \date 23.12.2016
     \copyright MIT License
 */
 
+#include "server/asio/udp_client.h"
+
 namespace CppServer {
 namespace Asio {
 
-inline UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
+UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
@@ -22,7 +24,7 @@ inline UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string&
 {
 }
 
-inline UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
+UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(endpoint),
@@ -35,7 +37,7 @@ inline UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::ud
 {
 }
 
-inline UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address)
+UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
@@ -48,7 +50,7 @@ inline UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string&
 {
 }
 
-inline UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address)
+UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(endpoint),
@@ -61,7 +63,7 @@ inline UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::ud
 {
 }
 
-inline bool UDPClient::Connect()
+bool UDPClient::Connect()
 {
     if (!_service->IsStarted())
         return false;
@@ -99,7 +101,7 @@ inline bool UDPClient::Connect()
     return true;
 }
 
-inline bool UDPClient::Disconnect()
+bool UDPClient::Disconnect()
 {
     if (!IsConnected())
         return false;
@@ -124,12 +126,12 @@ inline bool UDPClient::Disconnect()
     return true;
 }
 
-inline bool UDPClient::Reconnect()
+bool UDPClient::Reconnect()
 {
     return Disconnect() ? Connect() : false;
 }
 
-inline void UDPClient::JoinMulticastGroup(const std::string& address)
+void UDPClient::JoinMulticastGroup(const std::string& address)
 {
     asio::ip::address muticast_address = asio::ip::address::from_string(address);
 
@@ -142,7 +144,7 @@ inline void UDPClient::JoinMulticastGroup(const std::string& address)
     });
 }
 
-inline void UDPClient::LeaveMulticastGroup(const std::string& address)
+void UDPClient::LeaveMulticastGroup(const std::string& address)
 {
     asio::ip::address muticast_address = asio::ip::address::from_string(address);
 
@@ -155,13 +157,13 @@ inline void UDPClient::LeaveMulticastGroup(const std::string& address)
     });
 }
 
-inline size_t UDPClient::Send(const void* buffer, size_t size)
+size_t UDPClient::Send(const void* buffer, size_t size)
 {
     // Send the datagram to the server endpoint
     return Send(_endpoint, buffer, size);
 }
 
-inline size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
+size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
     std::lock_guard<std::mutex> locker(_send_lock);
 
@@ -179,7 +181,7 @@ inline size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const voi
     return _send_buffer.size();
 }
 
-inline void UDPClient::TryReceive()
+void UDPClient::TryReceive()
 {
     if (_reciving)
         return;
@@ -222,7 +224,7 @@ inline void UDPClient::TryReceive()
     });
 }
 
-inline void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
+void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
 {
     if (_sending)
         return;
@@ -264,7 +266,7 @@ inline void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t s
     });
 }
 
-inline void UDPClient::ClearBuffers()
+void UDPClient::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_send_lock);
     _recive_buffer.clear();
