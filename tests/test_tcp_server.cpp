@@ -425,6 +425,7 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
+    REQUIRE(server->clients == 0);
     REQUIRE(server->received > 0);
     REQUIRE(server->sent > 0);
     REQUIRE(!server->error);
