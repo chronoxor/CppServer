@@ -332,23 +332,8 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
-        // Restart the server and reconnect all clients
-        if ((rand() % 1000) == 0)
-        {
-            server->Restart();
-            for (auto& client : clients)
-                client->Reconnect();
-            clients.clear();
-        }
-        // Disconnect all clients
-        else if ((rand() % 1000) == 0)
-        {
-            for (auto& client : clients)
-                client->Disconnect();
-            clients.clear();
-        }
         // Connect a new client
-        else if ((rand() % 100) == 0)
+        if ((rand() % 100) == 0)
         {
             // Create and connect Echo client
             auto client = std::make_shared<EchoUDPClient>(service, address, port);

@@ -1,7 +1,7 @@
 //
 // Created by Ivan Shynkarenka on 01.01.2016.
 //
-/*
+
 #include "catch.hpp"
 
 #include "server/asio/ssl_client.h"
@@ -397,16 +397,8 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
-        // Restart the server and reconnect all clients
-        if ((rand() % 1000) == 0)
-        {
-            server->Restart();
-            for (auto& client : clients)
-                client->Reconnect();
-            clients.clear();
-        }
         // Disconnect all clients
-        else if ((rand() % 1000) == 0)
+        if ((rand() % 1000) == 0)
         {
             server->DisconnectAll();
             clients.clear();
@@ -480,4 +472,3 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     REQUIRE(server->sent > 0);
     REQUIRE(!server->error);
 }
-*/
