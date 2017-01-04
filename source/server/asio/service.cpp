@@ -60,6 +60,14 @@ bool Service::Stop()
     return true;
 }
 
+bool Service::Restart()
+{
+    if (!Stop())
+        return false;
+
+    return Start();
+}
+
 void Service::ServiceLoop(bool polling)
 {
     // Call the initialize thread handler

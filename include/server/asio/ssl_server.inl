@@ -128,7 +128,7 @@ inline void SSLServer<TServer, TSession>::Accept()
 
     // Dispatch the disconnect routine
     auto self(this->shared_from_this());
-    _service->service().dispatch([this, self]()
+    _service->Dispatch([this, self]()
     {
         _acceptor.async_accept(_socket, [this, self](std::error_code ec)
         {
@@ -160,7 +160,7 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
     // Dispatch the multicast routine
     auto self(this->shared_from_this());
-    _service->service().dispatch([this, self]()
+    _service->Dispatch([this, self]()
     {
         // Multicast all sessions
         for (auto& session : _sessions)
@@ -181,7 +181,7 @@ inline bool SSLServer<TServer, TSession>::DisconnectAll()
 
     // Dispatch the disconnect routine
     auto self(this->shared_from_this());
-    _service->service().dispatch([this, self]()
+    _service->Dispatch([this, self]()
     {
         // Disconnect all sessions
         for (auto& session : _sessions)

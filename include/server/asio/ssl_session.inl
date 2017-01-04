@@ -93,9 +93,9 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect routine
     if (dispatch)
-        _server->service()->service().dispatch(disconnect);
+        service()->Dispatch(disconnect);
     else
-        _server->service()->service().post(disconnect);
+        service()->Post(disconnect);
 
     return true;
 }
@@ -113,7 +113,7 @@ inline size_t SSLSession<TServer, TSession>::Send(const void* buffer, size_t siz
 
     // Dispatch the send routine
     auto self(this->shared_from_this());
-    _server->service()->service().dispatch([this, self]()
+    service()->Dispatch([this, self]()
     {
         // Try to send the buffer if it is the first buffer to send
         if (!_sending)

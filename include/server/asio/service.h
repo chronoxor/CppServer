@@ -56,6 +56,34 @@ public:
         \return 'true' if the service was successfully stopped, 'false' if the service is already stopped
     */
     bool Stop();
+    //! Restart the service
+    /*!
+        \return 'true' if the service was successfully restarted, 'false' if the service failed to restart
+    */
+    bool Restart();
+
+    //! Dispatch the given handler
+    /*!
+        The given handler may be executed immediately if this function is called from IO service thread.
+        Otherwise it will be enqueued to the IO service pending operations queue.
+
+        \param handler - Handler to dispatch
+        \return Async result of the handler
+    */
+    template <typename CompletionHandler>
+    ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Dispatch(ASIO_MOVE_ARG(CompletionHandler) handler)
+    { return _service.dispatch(handler); }
+
+    //! Post the given handler
+    /*!
+        The given handler will be enqueued to the IO service pending operations queue.
+
+        \param handler - Handler to dispatch
+        \return Async result of the handler
+    */
+    template <typename CompletionHandler>
+    ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Post(ASIO_MOVE_ARG(CompletionHandler) handler)
+    { return _service.post(handler); }
 
 protected:
     //! Initialize thread handler

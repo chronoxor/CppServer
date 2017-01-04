@@ -20,6 +20,7 @@ client/server solutions.
     * [Windows (MinGW)](#windows-mingw)
     * [Windows (MinGW with MSYS)](#windows-mingw-with-msys)
     * [Windows (Visaul Studio 2015)](#windows-visaul-studio-2015)
+  * [OpenSSL certificates](#openssl-certificates)
 
 # Features
 * Cross platform
@@ -74,4 +75,47 @@ mingw.bat
 ```
 cd build
 vs.bat
+```
+
+# OpenSSL certificates
+In order to create OpenSSL based server and client you should prepare a set of
+SSL certificates. Here comes several steps to get a self-signed set of SSL
+certificates for testing purposes:
+
+1) Generate a 4096-bit long RSA key for root CA and store it in a file:
+
+```
+openssl genrsa -out ca-key.pem 4096
+```
+
+If you want to password-protect this key, add option -des3
+
+2) Create self-signed root CA certificate. You’ll need to provide an identity
+for your root CA:
+
+```
+openssl req -new -x509 -nodes -days 3652 -key ca-key.pem -out ca-cert.pem
+```
+
+The -x509 option is used for a self-signed certificate. 3652 days gives us a
+cert valid for 5 years.
+
+3) Generate a 4096-bit long RSA key for a new server CA and request a server
+certificate signed by the root CA:
+
+```
+openssl req -newkey rsa:4096 -days 3652 -nodes -keyout server-key.pem -out server-req.pem
+openssl x509 -req -in server-req.pem -days 3652 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem
+```
+
+Make sure that the Common Name you enter here is different from the
+Common Name you entered previously for the root CA. If they are the same,
+you will get an error later on when creating the pkcs12 file.
+
+4) Generate a 4096-bit long RSA key for a new client CA and request a client
+certificate signed by the root CA:
+
+```
+openssl req -newkey rsa:4096 -days 3652 -nodes -keyout client-key.pem -out client-req.pem
+openssl x509 -req -in client-req.pem -days 3652 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out client-cert.pem;
 ```

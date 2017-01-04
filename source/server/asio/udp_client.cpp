@@ -125,9 +125,9 @@ bool UDPClient::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect routine
     if (dispatch)
-        _service->service().dispatch(disconnect);
+        _service->Dispatch(disconnect);
     else
-        _service->service().post(disconnect);
+        _service->Post(disconnect);
 
     return true;
 }
@@ -149,7 +149,7 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
 
     // Dispatch the join multicast group routine
     auto self(this->shared_from_this());
-    service()->service().dispatch([this, self, muticast_address]()
+    service()->Dispatch([this, self, muticast_address]()
     {
         asio::ip::multicast::join_group join(muticast_address);
         _socket.set_option(join);
@@ -162,7 +162,7 @@ void UDPClient::LeaveMulticastGroup(const std::string& address)
 
     // Dispatch the leave multicast group routine
     auto self(this->shared_from_this());
-    service()->service().dispatch([this, self, muticast_address]()
+    service()->Dispatch([this, self, muticast_address]()
     {
         asio::ip::multicast::leave_group leave(muticast_address);
         _socket.set_option(leave);
@@ -184,7 +184,7 @@ size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buff
 
     // Dispatch the send routine
     auto self(this->shared_from_this());
-    service()->service().dispatch([this, self, endpoint, size]()
+    service()->Dispatch([this, self, endpoint, size]()
     {
         // Try to send the datagram
         TrySend(endpoint, size);

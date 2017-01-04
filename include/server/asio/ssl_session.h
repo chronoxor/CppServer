@@ -48,7 +48,7 @@ public:
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Get the Asio service
-    std::shared_ptr<Service>& service() noexcept { return _server.service(); }
+    std::shared_ptr<Service>& service() noexcept { return _server->service(); }
     //! Get the session server
     std::shared_ptr<SSLServer<TServer, TSession>>& server() noexcept { return _server; }
     //! Get the session SSL stream

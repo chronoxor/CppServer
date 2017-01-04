@@ -136,7 +136,7 @@ size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buff
 
     // Dispatch the send routine
     auto self(this->shared_from_this());
-    service()->service().dispatch([this, self, endpoint, size]()
+    service()->Dispatch([this, self, endpoint, size]()
     {
         // Try to send the datagram
         TrySend(endpoint, size);

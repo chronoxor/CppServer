@@ -160,9 +160,9 @@ public:
 
         // Dispatch or post the disconnect routine
         if (dispatch)
-            _service->service().dispatch(disconnect);
+            _service->Dispatch(disconnect);
         else
-            _service->service().post(disconnect);
+            _service->Post(disconnect);
 
         return true;
     }
@@ -179,7 +179,7 @@ public:
 
         // Dispatch the send routine
         auto self(this->shared_from_this());
-        _service->service().dispatch([this, self]()
+        _service->Dispatch([this, self]()
         {
             // Try to send the buffer if it is the first buffer to send
             if (!_sending)
