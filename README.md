@@ -24,7 +24,7 @@ client/server solutions.
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
     * [SSL Client certificate](#ssl-client-certificate)
-    * [Diffie–Hellman key exchange](#diffie–hellman-key-exchange)
+    * [Diffie-Hellman key exchange](#diffie-hellman-key-exchange)
 
 # Features
 * Cross platform
@@ -177,7 +177,7 @@ openssl pkcs12 -clcerts -export -passout pass:qwerty -in client.crt -inkey clien
 openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in client.p12 -out client.pem
 ```
 
-## Diffie–Hellman key exchange
+## Diffie-Hellman key exchange
 
 * Create DH parameters
 ```
