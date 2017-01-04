@@ -82,40 +82,70 @@ In order to create OpenSSL based server and client you should prepare a set of
 SSL certificates. Here comes several steps to get a self-signed set of SSL
 certificates for testing purposes:
 
-1) Generate a 4096-bit long RSA key for root CA and store it in a file:
+## Certificate Authority (CA)
 
+* Create CA private key
 ```
-openssl genrsa -out ca-key.pem 4096
-```
-
-If you want to password-protect this key, add option -des3
-
-2) Create self-signed root CA certificate. You’ll need to provide an identity
-for your root CA:
-
-```
-openssl req -new -x509 -nodes -days 3652 -key ca-key.pem -out ca-cert.pem
+openssl genrsa -des3 -passout pass:qwerty -out ca-secret.key 4096
 ```
 
-The -x509 option is used for a self-signed certificate. 3652 days gives us a
-cert valid for 5 years.
-
-3) Generate a 4096-bit long RSA key for a new server CA and request a server
-certificate signed by the root CA:
-
+* Remove passphrase
 ```
-openssl req -newkey rsa:4096 -days 3652 -nodes -keyout server-key.pem -out server-req.pem
-openssl x509 -req -in server-req.pem -days 3652 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem
+openssl rsa -passin pass:qwerty -in ca-secret.key -out ca.key
 ```
 
-Make sure that the Common Name you enter here is different from the
-Common Name you entered previously for the root CA. If they are the same,
-you will get an error later on when creating the pkcs12 file.
-
-4) Generate a 4096-bit long RSA key for a new client CA and request a client
-certificate signed by the root CA:
-
+* Create CA self-signed certificate
 ```
-openssl req -newkey rsa:4096 -days 3652 -nodes -keyout client-key.pem -out client-req.pem
-openssl x509 -req -in client-req.pem -days 3652 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out client-cert.pem;
+openssl req -new -x509 -days 3650 -subj '/C=BY/ST=Belarus/L=Minsk/O=Example root CA/OU=Example CA unit/CN=example.com' -key ca.key -out ca.crt -config openssl.cfg
+```
+
+## SSL Server certificate
+
+* Create private key for the server
+```
+openssl genrsa -des3 -passout pass:qwerty -out server-secret.key 4096
+```
+
+* Remove passphrase
+```
+openssl rsa -passin pass:qwerty -in server-secret.key -out server.key
+```
+
+* Create CSR for the server
+```
+openssl req -new -subj '/C=BY/ST=Belarus/L=Minsk/O=Example server/OU=Example server unit/CN=server.example.com' -key server.key -out server.csr -config openssl.cfg
+```
+
+* Create certificate for the server
+```
+openssl ca -batch -days 3650 -in server.csr -out server.crt -keyfile ca.key -cert ca.crt -policy policy_anything -config openssl.cfg
+```
+
+## SSL Client certificate
+
+* Create private key for the client
+```
+openssl genrsa -des3 -passout pass:qwerty -out client-secret.key 4096
+```
+
+* Remove passphrase
+```
+openssl rsa -passin pass:qwerty -in client-secret.key -out client.key
+```
+
+* Create CSR for the client
+```
+openssl req -new -subj '/C=BY/ST=Belarus/L=Minsk/O=Example client/OU=Example client unit/CN=client.example.com' -key client.key -out client.csr -config openssl.cfg
+```
+
+* Create the client certificate
+```
+openssl ca -batch -days 3650 -in client.csr -out client.crt -keyfile ca.key -cert ca.crt -policy policy_anything -config openssl.cfg
+```
+
+## Diffie–Hellman (D-H) key exchange
+
+* Create DH parameters
+```
+openssl dhparam -out dh4096.pem 4096
 ```
