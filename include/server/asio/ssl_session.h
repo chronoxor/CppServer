@@ -11,8 +11,6 @@
 
 #include "tcp_session.h"
 
-#include <iostream>
-
 namespace CppServer {
 namespace Asio {
 
@@ -41,7 +39,7 @@ public:
     explicit SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, asio::ssl::context& context);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
-    virtual ~SSLSession() { Disconnect(true); std::cout << id() << " - SSLSession destroyed" << std::endl; }
+    virtual ~SSLSession() { Disconnect(true); }
 
     SSLSession& operator=(const SSLSession&) = delete;
     SSLSession& operator=(SSLSession&&) = default;

@@ -8,8 +8,6 @@
 
 #include "server/asio/ssl_client.h"
 
-#include <iostream>
-
 namespace CppServer {
 namespace Asio {
 
@@ -29,7 +27,6 @@ public:
           _reciving(false),
           _sending(false)
     {
-        std::cout << this->id() << " - SSLClient created" << std::endl;
     }
 
     Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
@@ -43,12 +40,11 @@ public:
           _reciving(false),
           _sending(false)
     {
-        std::cout << this->id() << " - SSLClient created" << std::endl;
     }
 
     Impl(const Impl&) = delete;
     Impl(Impl&&) = default;
-    ~Impl() { std::cout << id() << " - SSLClient destroyed" << std::endl; }
+    ~Impl() = default;
 
     Impl& operator=(const Impl&) = delete;
     Impl& operator=(Impl&&) = default;

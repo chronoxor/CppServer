@@ -20,7 +20,6 @@ inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServ
       _reciving(false),
       _sending(false)
 {
-    std::cout << this->id() << " - SSLSession created" << std::endl;
 }
 
 template <class TServer, class TSession>
