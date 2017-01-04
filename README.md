@@ -21,6 +21,10 @@ client/server solutions.
     * [Windows (MinGW with MSYS)](#windows-mingw-with-msys)
     * [Windows (Visaul Studio 2015)](#windows-visaul-studio-2015)
   * [OpenSSL certificates](#openssl-certificates)
+    * [Certificate Authority](#certificate-authority)
+    * [SSL Server certificate](#ssl-server-certificate)
+    * [SSL Client certificate](#ssl-client-certificate)
+    * [Diffie–Hellman key exchange](#diffie–hellman-key-exchange)
 
 # Features
 * Cross platform
@@ -82,7 +86,7 @@ In order to create OpenSSL based server and client you should prepare a set of
 SSL certificates. Here comes several steps to get a self-signed set of SSL
 certificates for testing purposes:
 
-## Certificate Authority (CA)
+## Certificate Authority
 
 * Create CA private key
 ```
@@ -173,7 +177,7 @@ openssl pkcs12 -clcerts -export -passout pass:qwerty -in client.crt -inkey clien
 openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in client.p12 -out client.pem
 ```
 
-## Diffie–Hellman (D-H) key exchange
+## Diffie–Hellman key exchange
 
 * Create DH parameters
 ```
