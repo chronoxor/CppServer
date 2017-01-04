@@ -99,6 +99,16 @@ openssl rsa -passin pass:qwerty -in ca-secret.key -out ca.key
 openssl req -new -x509 -days 3650 -subj '/C=BY/ST=Belarus/L=Minsk/O=Example root CA/OU=Example CA unit/CN=example.com' -key ca.key -out ca.crt -config openssl.cfg
 ```
 
+* Convert CA self-signed certificate to PKCS
+```
+openssl pkcs12 -clcerts -export -passout pass:qwerty -in ca.crt -inkey ca.key -out ca.p12
+```
+
+* Convert CA self-signed certificate to PEM
+```
+openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in ca.p12 -out ca.pem
+```
+
 ## SSL Server certificate
 
 * Create private key for the server
@@ -118,7 +128,17 @@ openssl req -new -subj '/C=BY/ST=Belarus/L=Minsk/O=Example server/OU=Example ser
 
 * Create certificate for the server
 ```
-openssl ca -batch -days 3650 -in server.csr -out server.crt -keyfile ca.key -cert ca.crt -policy policy_anything -config openssl.cfg
+openssl x509 -req -days 3650 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt
+```
+
+* Convert the server certificate to PKCS
+```
+openssl pkcs12 -clcerts -export -passout pass:qwerty -in server.crt -inkey server.key -out server.p12
+```
+
+* Convert the server certificate to PEM
+```
+openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in server.p12 -out server.pem
 ```
 
 ## SSL Client certificate
@@ -140,7 +160,17 @@ openssl req -new -subj '/C=BY/ST=Belarus/L=Minsk/O=Example client/OU=Example cli
 
 * Create the client certificate
 ```
-openssl ca -batch -days 3650 -in client.csr -out client.crt -keyfile ca.key -cert ca.crt -policy policy_anything -config openssl.cfg
+openssl x509 -req -days 3650 -in client.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out client.crt
+```
+
+* Convert the client certificate to PKCS
+```
+openssl pkcs12 -clcerts -export -passout pass:qwerty -in client.crt -inkey client.key -out client.p12
+```
+
+* Convert the client certificate to PEM
+```
+openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in client.p12 -out client.pem
 ```
 
 ## Diffie–Hellman (D-H) key exchange

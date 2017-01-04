@@ -13,11 +13,7 @@
 class ChatClient : public CppServer::Asio::SSLClient
 {
 public:
-    explicit ChatClient(std::shared_ptr<CppServer::Asio::Service> service, asio::ssl::context& context, const std::string& address, int port)
-        : SSLClient(service, context, address, port)
-    {
-        stream().set_verify_mode(asio::ssl::verify_none);
-    }
+    using CppServer::Asio::SSLClient::SSLClient;
 
 protected:
     void onConnected() override
@@ -75,6 +71,8 @@ int main(int argc, char** argv)
 
     // Create and prepare a new SSL client context
     asio::ssl::context context(asio::ssl::context::sslv23);
+    context.set_verify_mode(asio::ssl::verify_peer);
+    context.load_verify_file("../tools/certificates/ca.pem");
 
     // Create a new SSL chat client
     auto client = std::make_shared<ChatClient>(service, context, address, port);

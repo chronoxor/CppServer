@@ -63,12 +63,13 @@ public:
           sent(0),
           error(false)
     {
-        stream().set_verify_mode(asio::ssl::verify_none);
     }
 
     static asio::ssl::context CreateContext()
     {
         asio::ssl::context context(asio::ssl::context::sslv23);
+        context.set_verify_mode(asio::ssl::verify_peer);
+        context.load_verify_file("../tools/certificates/ca.pem");
         return context;
     }
 
@@ -142,10 +143,10 @@ public:
     {
         asio::ssl::context context(asio::ssl::context::sslv23);
         context.set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
-        context.set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "123qwe!"; });
+        context.set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
         context.use_certificate_chain_file("../tools/certificates/server.pem");
         context.use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
-        context.use_tmp_dh_file("../tools/certificates/dh2048.pem");
+        context.use_tmp_dh_file("../tools/certificates/dh4096.pem");
         return context;
     }
 
