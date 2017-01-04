@@ -32,11 +32,12 @@ class TCPSession : public std::enable_shared_from_this<TCPSession<TServer, TSess
     friend class TCPServer;
 
 public:
-    //! Initialize TCP session with a given connected socket
+    //! Initialize the session with a given server
     /*!
+        \param server - Connected server
         \param socket - Connected socket
     */
-    TCPSession(asio::ip::tcp::socket&& socket);
+    explicit TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
     virtual ~TCPSession() { Disconnect(true); }
@@ -48,7 +49,7 @@ public:
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Get the Asio service
-    std::shared_ptr<Service>& service() noexcept { return _server.service(); }
+    std::shared_ptr<Service>& service() noexcept { return _server->service(); }
     //! Get the session server
     std::shared_ptr<TCPServer<TServer, TSession>>& server() noexcept { return _server; }
     //! Get the session socket
@@ -129,10 +130,7 @@ private:
     static const size_t CHUNK = 8192;
 
     //! Connect the session
-    /*!
-        \param server - Connected server
-    */
-    void Connect(std::shared_ptr<TCPServer<TServer, TSession>> server);
+    void Connect();
     //! Disconnect the session
     /*!
         \param dispatch - Dispatch flag

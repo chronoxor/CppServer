@@ -82,8 +82,8 @@ public:
     std::atomic<size_t> sent;
     std::atomic<bool> error;
 
-    explicit EchoTCPSession(asio::ip::tcp::socket socket)
-        : TCPSession<EchoTCPServer, EchoTCPSession>(std::move(socket)),
+    explicit EchoTCPSession(std::shared_ptr<TCPServer<EchoTCPServer, EchoTCPSession>> server, asio::ip::tcp::socket&& socket)
+        : TCPSession<EchoTCPServer, EchoTCPSession>(server, std::move(socket)),
           connected(false),
           disconnected(false),
           received(0),

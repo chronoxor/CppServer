@@ -11,6 +11,8 @@
 
 #include "tcp_session.h"
 
+#include <iostream>
+
 namespace CppServer {
 namespace Asio {
 
@@ -30,15 +32,16 @@ class SSLSession : public std::enable_shared_from_this<SSLSession<TServer, TSess
     friend class SSLServer;
 
 public:
-    //! Initialize SSL session with a given connected socket
+    //! Initialize the session with a given server, socket and SSL context
     /*!
+        \param server - Connected server
         \param socket - Connected socket
         \param context - SSL context
     */
-    SSLSession(asio::ip::tcp::socket&& socket, asio::ssl::context& context);
+    explicit SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, asio::ssl::context& context);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
-    virtual ~SSLSession() { Disconnect(true); }
+    virtual ~SSLSession() { Disconnect(true); std::cout << id() << " - SSLSession destroyed" << std::endl; }
 
     SSLSession& operator=(const SSLSession&) = delete;
     SSLSession& operator=(SSLSession&&) = default;
@@ -138,10 +141,7 @@ private:
     static const size_t CHUNK = 8192;
 
     //! Connect the session
-    /*!
-        \param server - Connected server
-    */
-    void Connect(std::shared_ptr<SSLServer<TServer, TSession>> server);
+    void Connect();
     //! Disconnect the session
     /*!
         \param dispatch - Dispatch flag

@@ -93,8 +93,8 @@ public:
     std::atomic<size_t> sent;
     std::atomic<bool> error;
 
-    explicit EchoSSLSession(asio::ip::tcp::socket socket, asio::ssl::context& context)
-        : SSLSession<EchoSSLServer, EchoSSLSession>(std::move(socket), context),
+    explicit EchoSSLSession(std::shared_ptr<SSLServer<EchoSSLServer, EchoSSLSession>> server, asio::ip::tcp::socket&& socket, asio::ssl::context& context)
+        : SSLSession<EchoSSLServer, EchoSSLSession>(server, std::move(socket), context),
           connected(false),
           handshaked(false),
           disconnected(false),
@@ -363,7 +363,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
     REQUIRE(!client2->error);
     REQUIRE(!client3->error);
 }
-/*
+
 TEST_CASE("SSL server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
@@ -472,4 +472,3 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     REQUIRE(server->sent > 0);
     REQUIRE(!server->error);
 }
-*/

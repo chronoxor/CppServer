@@ -192,12 +192,12 @@ template <class TServer, class TSession>
 inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
 {
     // Create and register a new session
-    auto session = std::make_shared<TSession>(std::move(_socket));
+    auto self(this->shared_from_this());
+    auto session = std::make_shared<TSession>(self, std::move(_socket));
     _sessions.emplace(session->id(), session);
 
     // Connect a new session
-    auto self(this->shared_from_this());
-    session->Connect(self);
+    session->Connect();
 
     // Call a new session connected handler
     onConnected(session);

@@ -10,8 +10,9 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline TCPSession<TServer, TSession>::TCPSession(asio::ip::tcp::socket&& socket)
+inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket)
     : _id(CppCommon::UUID::Generate()),
+      _server(server),
       _socket(std::move(socket)),
       _connected(false),
       _reciving(false),
@@ -20,11 +21,8 @@ inline TCPSession<TServer, TSession>::TCPSession(asio::ip::tcp::socket&& socket)
 }
 
 template <class TServer, class TSession>
-inline void TCPSession<TServer, TSession>::Connect(std::shared_ptr<TCPServer<TServer, TSession>> server)
+inline void TCPSession<TServer, TSession>::Connect()
 {
-    // Assign the TCP server
-    _server = server;
-
     // Put the socket into non-blocking mode
     _socket.non_blocking(true);
 
@@ -65,9 +63,9 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect routine
     if (dispatch)
-        _server->service()->service().dispatch(disconnect);
+        service()->service().dispatch(disconnect);
     else
-        _server->service()->service().post(disconnect);
+        service()->service().post(disconnect);
 
     return true;
 }
@@ -85,7 +83,7 @@ inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t siz
 
     // Dispatch the send routine
     auto self(this->shared_from_this());
-    _server->service()->service().dispatch([this, self]()
+    service()->service().dispatch([this, self]()
     {
         // Try to send the buffer if it is the first buffer to send
         if (!_sending)

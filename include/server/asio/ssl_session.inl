@@ -10,8 +10,9 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline SSLSession<TServer, TSession>::SSLSession(asio::ip::tcp::socket&& socket, asio::ssl::context& context)
+inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, asio::ssl::context& context)
     : _id(CppCommon::UUID::Generate()),
+      _server(server),
       _stream(std::move(socket), context),
       _context(context),
       _connected(false),
@@ -19,14 +20,12 @@ inline SSLSession<TServer, TSession>::SSLSession(asio::ip::tcp::socket&& socket,
       _reciving(false),
       _sending(false)
 {
+    std::cout << this->id() << " - SSLSession created" << std::endl;
 }
 
 template <class TServer, class TSession>
-inline void SSLSession<TServer, TSession>::Connect(std::shared_ptr<SSLServer<TServer, TSession>> server)
+inline void SSLSession<TServer, TSession>::Connect()
 {
-    // Assign the SSL server
-    _server = server;
-
     // Put the socket into non-blocking mode
     socket().non_blocking(true);
 
@@ -70,23 +69,27 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
     auto self(this->shared_from_this());
     auto disconnect = [this, self]()
     {
-        // Close the session socket
-        socket().close();
+        // Shutdown the client stream
+        _stream.async_shutdown([this, self](std::error_code ec)
+        {
+            // Close the session socket
+            socket().close();
 
-        // Clear receive/send buffers
-        ClearBuffers();
+            // Clear receive/send buffers
+            ClearBuffers();
 
-        // Update the handshaked flag
-        _handshaked = false;
+            // Update the handshaked flag
+            _handshaked = false;
 
-        // Update the connected flag
-        _connected = false;
+            // Update the connected flag
+            _connected = false;
 
-        // Call the session disconnected handler
-        onDisconnected();
+            // Call the session disconnected handler
+            onDisconnected();
 
-        // Unregister the session
-        _server->UnregisterSession(id());
+            // Unregister the session
+            _server->UnregisterSession(id());
+        });
     };
 
     // Dispatch or post the disconnect routine

@@ -8,6 +8,8 @@
 
 #include "server/asio/ssl_client.h"
 
+#include <iostream>
+
 namespace CppServer {
 namespace Asio {
 
@@ -16,8 +18,9 @@ namespace Asio {
 class SSLClient::Impl : public std::enable_shared_from_this<SSLClient::Impl>
 {
 public:
-    Impl(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port)
-        : _service(service),
+    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port)
+        : _id(id),
+          _service(service),
           _context(context),
           _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
           _stream(_service->service(), _context),
@@ -26,10 +29,12 @@ public:
           _reciving(false),
           _sending(false)
     {
+        std::cout << this->id() << " - SSLClient created" << std::endl;
     }
 
-    Impl(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
-        : _service(service),
+    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
+        : _id(id),
+          _service(service),
           _context(context),
           _endpoint(endpoint),
           _stream(_service->service(), _context),
@@ -38,16 +43,18 @@ public:
           _reciving(false),
           _sending(false)
     {
+        std::cout << this->id() << " - SSLClient created" << std::endl;
     }
 
     Impl(const Impl&) = delete;
     Impl(Impl&&) = default;
-    ~Impl() = default;
+    ~Impl() { std::cout << id() << " - SSLClient destroyed" << std::endl; }
 
     Impl& operator=(const Impl&) = delete;
     Impl& operator=(Impl&&) = default;
 
-    std::shared_ptr<SSLClient>& client() noexcept { return _client; }
+    const CppCommon::UUID& id() const noexcept { return _id; }
+
     std::shared_ptr<Service>& service() noexcept { return _service; }
     asio::ssl::context& context() noexcept { return _context; }
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
@@ -57,8 +64,10 @@ public:
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
 
-    bool Connect()
+    bool Connect(std::shared_ptr<SSLClient> client)
     {
+        _client = client;
+
         if (!_service->IsStarted())
             return false;
 
@@ -194,6 +203,7 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) { _client->onError(error, category, message); }
 
 private:
+    // Client Id
     CppCommon::UUID _id;
     // SSL client
     std::shared_ptr<SSLClient> _client;
@@ -315,13 +325,13 @@ private:
 
 SSLClient::SSLClient(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
-      _pimpl(std::make_shared<Impl>(service, context, address, port))
+      _pimpl(std::make_shared<Impl>(_id, service, context, address, port))
 {
 }
 
 SSLClient::SSLClient(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
     : _id(CppCommon::UUID::Generate()),
-      _pimpl(std::make_shared<Impl>(service, context, endpoint))
+      _pimpl(std::make_shared<Impl>(_id, service, context, endpoint))
 {
 }
 
@@ -380,8 +390,8 @@ bool SSLClient::IsHandshaked() const noexcept
 
 bool SSLClient::Connect()
 {
-    _pimpl->client() = shared_from_this();
-    return _pimpl->Connect();
+    auto self(this->shared_from_this());
+    return _pimpl->Connect(self);
 }
 
 bool SSLClient::Disconnect(bool dispatch)
@@ -407,7 +417,7 @@ size_t SSLClient::Send(const void* buffer, size_t size)
 
 void SSLClient::onReset()
 {
-    _pimpl = std::make_shared<Impl>(_pimpl->service(), _pimpl->context(), _pimpl->endpoint());
+    _pimpl = std::make_shared<Impl>(_pimpl->id(), _pimpl->service(), _pimpl->context(), _pimpl->endpoint());
 }
 
 } // namespace Asio
