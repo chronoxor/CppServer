@@ -33,6 +33,8 @@ class WebSocketServer
     template <class TSomeServer, class TSomeSession>
     friend class WebSocketSession;
 
+    typedef websocketpp::server<websocketpp::config::asio> wsserver;
+
 public:
     //! Initialize WebSocket server with a given Asio service and port number
     /*!
@@ -64,7 +66,7 @@ public:
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
     //! Get the WebSocket server
-    websocket& server() noexcept { return _server; }
+    wsserver& server() noexcept { return _server; }
     //! Get the server endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
 
@@ -131,7 +133,7 @@ private:
     std::shared_ptr<Service> _service;
     // Server endpoint & socket
     asio::ip::tcp::endpoint _endpoint;
-    websocket _server;
+    wsserver _server;
     std::atomic<bool> _started;
     // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
