@@ -1,14 +1,14 @@
 var indexSectionsWithContent =
 {
-  0: "acdeijlmorstuv~",
-  1: "stu",
+  0: "acdeijlmorstuvw~",
+  1: "stuw",
   2: "ac",
-  3: "astuv",
-  4: "acdeijlmorstu~",
+  3: "astuvw",
+  4: "acdeijlmorstuw~",
   5: "v",
   6: "i",
   7: "i",
-  8: "ist",
+  8: "istw",
   9: "a",
   10: "c"
 };
