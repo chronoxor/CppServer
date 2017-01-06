@@ -68,7 +68,7 @@ public:
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
 
-    //! Is the service started?
+    //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
     //! Start the server

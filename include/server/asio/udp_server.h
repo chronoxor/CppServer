@@ -57,7 +57,7 @@ public:
     //! Get the server multicast endpoint
     asio::ip::udp::endpoint& multicast_endpoint() noexcept { return _multicast_endpoint; }
 
-    //! Is the service started?
+    //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
     //! Start the server

@@ -1,15 +1,15 @@
 /*!
-    \file ssl_server.h
-    \brief SSL server definition
+    \file websocket_server.h
+    \brief WebSocket server definition
     \author Ivan Shynkarenka
-    \date 30.12.2016
+    \date 06.01.2016
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_ASIO_SSL_SERVER_H
-#define CPPSERVER_ASIO_SSL_SERVER_H
+#ifndef CPPSERVER_ASIO_WEBSOCKET_SERVER_H
+#define CPPSERVER_ASIO_WEBSOCKET_SERVER_H
 
-#include "ssl_session.h"
+#include "websocket_session.h"
 
 #include <map>
 #include <mutex>
@@ -19,59 +19,54 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-class SSLSession;
+class WebSocketSession;
 
-//! SSL server
+//! WebSocket server
 /*!
-    SSL server is used to connect, disconnect and manage SSL sessions.
+    WebSocket server is used to connect, disconnect and manage WebSocket sessions.
 
     Thread-safe.
 */
 template <class TServer, class TSession>
-class SSLServer : public std::enable_shared_from_this<SSLServer<TServer, TSession>>
+class WebSocketServer
 {
     template <class TSomeServer, class TSomeSession>
-    friend class SSLSession;
+    friend class WebSocketSession;
 
 public:
-    //! Initialize SSL server with a given Asio service, protocol and port number
+    //! Initialize WebSocket server with a given Asio service and port number
     /*!
         \param service - Asio service
-        \param context - SSL context
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, InternetProtocol protocol, int port);
-    //! Initialize SSL server with a given Asio service, IP address and port number
+    explicit WebSocketServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port);
+    //! Initialize WebSocket server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
-        \param context - SSL context
         \param address - IP address
         \param port - Port number
     */
-    explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port);
-    //! Initialize SSL server with a given SSL endpoint
+    explicit WebSocketServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    //! Initialize WebSocket server with a given endpoint
     /*!
         \param service - Asio service
-        \param context - SSL context
-        \param endpoint - Server SSL endpoint
+        \param endpoint - Server endpoint
     */
-    explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint);
-    SSLServer(const SSLServer&) = delete;
-    SSLServer(SSLServer&&) = default;
-    virtual ~SSLServer() { Stop(); }
+    explicit WebSocketServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
+    WebSocketServer(const WebSocketServer&) = delete;
+    WebSocketServer(WebSocketServer&&) = default;
+    virtual ~WebSocketServer() { Stop(); }
 
-    SSLServer& operator=(const SSLServer&) = delete;
-    SSLServer& operator=(SSLServer&&) = default;
+    WebSocketServer& operator=(const WebSocketServer&) = delete;
+    WebSocketServer& operator=(WebSocketServer&&) = default;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
-    //! Get the server SSL context
-    asio::ssl::context& context() noexcept { return _context; }
+    //! Get the WebSocket server
+    websocket& server() noexcept { return _server; }
     //! Get the server endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
-    //! Get the server acceptor
-    asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
 
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
@@ -134,20 +129,15 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
-    // Server SSL context, endpoint, acceptor and socket
-    asio::ssl::context& _context;
+    // Server endpoint & socket
     asio::ip::tcp::endpoint _endpoint;
-    asio::ip::tcp::acceptor _acceptor;
-    asio::ip::tcp::socket _socket;
+    websocket _server;
     std::atomic<bool> _started;
     // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Multicast buffer
     std::mutex _multicast_lock;
     std::vector<uint8_t> _multicast_buffer;
-
-    //! Accept new connections
-    void Accept();
 
     //! Register a new session
     std::shared_ptr<TSession> RegisterSession();
@@ -158,11 +148,9 @@ private:
     void ClearBuffers();
 };
 
-/*! \example ssl_chat_server.cpp SSL chat server example */
+/*! \example websocket_echo_server.cpp WebSocket echo server example */
 
 } // namespace Asio
 } // namespace CppServer
 
-#include "ssl_server.inl"
-
-#endif // CPPSERVER_ASIO_SSL_SERVER_H
+#endif // CPPSERVER_ASIO_WEBSOCKET_SERVER_H
