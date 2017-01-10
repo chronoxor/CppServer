@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" buildAllGenerated="true">
+    <generated>
+      <config projectName="cppserver" targetName="cppserver-tests" />
+      <config projectName="cppserver" targetName="cppbenchmark" />
+      <config projectName="cppserver" targetName="cppserver-example-ssl_chat_server" />
+      <config projectName="cppserver" targetName="fmt" />
+      <config projectName="cppserver" targetName="nanocat" />
+      <config projectName="cppserver" targetName="cpp-optparse" />
+      <config projectName="cppserver" targetName="dist" />
+      <config projectName="cppserver" targetName="HdrHistogram" />
+      <config projectName="cppserver" targetName="cppserver-example-udp_multicast_client" />
+      <config projectName="cppserver" targetName="cppserver-example-tcp_chat_server" />
+      <config projectName="cppserver" targetName="zlib" />
+      <config projectName="cppserver" targetName="cppserver-example-websocket_chat_server" />
+      <config projectName="cppserver" targetName="nanomsg" />
+      <config projectName="cppserver" targetName="doxygen" />
+      <config projectName="cppserver" targetName="cppserver" />
+      <config projectName="cppserver" targetName="cppserver-example-udp_echo_server" />
+      <config projectName="cppserver" targetName="cppserver-example-tcp_chat_client" />
+      <config projectName="cppserver" targetName="cppcommon" />
+      <config projectName="cppserver" targetName="cppserver-example-ssl_chat_client" />
+      <config projectName="cppserver" targetName="asio" />
+      <config projectName="cppserver" targetName="cppserver-example-udp_echo_client" />
+      <config projectName="cppserver" targetName="cppserver-example-udp_multicast_server" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration CONFIG_NAME="Debug" GENERATION_DIR="temp" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2ae92bd5-1c15-4805-8771-2352ad46d684" name="Default" comment="" />
+    <ignored path="CppServer.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="CppServer" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="65" />
+    <option name="y" value="24" />
+    <option name="width" value="1615" />
+    <option name="height" value="1026" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cppserver" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CppServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
+  </component>
+  <component name="RunManager" selected="Application.Build All">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Build All" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-ssl_chat_client" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-ssl_chat_client" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-ssl_chat_client">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-ssl_chat_server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-ssl_chat_server" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-ssl_chat_server">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-tcp_chat_client" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-tcp_chat_client" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-tcp_chat_client">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-tcp_chat_server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-tcp_chat_server" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-tcp_chat_server">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-udp_echo_client" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-udp_echo_client" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-udp_echo_client">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-udp_echo_server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-udp_echo_server" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-udp_echo_server">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-udp_multicast_client" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-udp_multicast_client" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-udp_multicast_client">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-udp_multicast_server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-udp_multicast_server" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-udp_multicast_server">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-websocket_chat_server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-websocket_chat_server" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-websocket_chat_server">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-tests" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-tests" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-tests">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="doxygen" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="doxygen" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="asio" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="asio" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppbenchmark" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppbenchmark" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cpp-optparse" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cpp-optparse" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="HdrHistogram" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="HdrHistogram" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="zlib" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="zlib" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppcommon" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppcommon" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="fmt" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="fmt" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="dist" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="dist" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="nanocat" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="nanocat" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="nanocat">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="nanomsg" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="nanomsg" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <list size="23">
+      <item index="0" class="java.lang.String" itemvalue="Application.Build All" />
+      <item index="1" class="java.lang.String" itemvalue="Application.cppserver" />
+      <item index="2" class="java.lang.String" itemvalue="Application.cppserver-example-ssl_chat_client" />
+      <item index="3" class="java.lang.String" itemvalue="Application.cppserver-example-ssl_chat_server" />
+      <item index="4" class="java.lang.String" itemvalue="Application.cppserver-example-tcp_chat_client" />
+      <item index="5" class="java.lang.String" itemvalue="Application.cppserver-example-tcp_chat_server" />
+      <item index="6" class="java.lang.String" itemvalue="Application.cppserver-example-udp_echo_client" />
+      <item index="7" class="java.lang.String" itemvalue="Application.cppserver-example-udp_echo_server" />
+      <item index="8" class="java.lang.String" itemvalue="Application.cppserver-example-udp_multicast_client" />
+      <item index="9" class="java.lang.String" itemvalue="Application.cppserver-example-udp_multicast_server" />
+      <item index="10" class="java.lang.String" itemvalue="Application.cppserver-example-websocket_chat_server" />
+      <item index="11" class="java.lang.String" itemvalue="Application.cppserver-tests" />
+      <item index="12" class="java.lang.String" itemvalue="Application.doxygen" />
+      <item index="13" class="java.lang.String" itemvalue="Application.asio" />
+      <item index="14" class="java.lang.String" itemvalue="Application.cppbenchmark" />
+      <item index="15" class="java.lang.String" itemvalue="Application.cpp-optparse" />
+      <item index="16" class="java.lang.String" itemvalue="Application.HdrHistogram" />
+      <item index="17" class="java.lang.String" itemvalue="Application.zlib" />
+      <item index="18" class="java.lang.String" itemvalue="Application.cppcommon" />
+      <item index="19" class="java.lang.String" itemvalue="Application.fmt" />
+      <item index="20" class="java.lang.String" itemvalue="Application.dist" />
+      <item index="21" class="java.lang.String" itemvalue="Application.nanocat" />
+      <item index="22" class="java.lang.String" itemvalue="Application.nanomsg" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ae92bd5-1c15-4805-8771-2352ad46d684" name="Default" comment="" />
+      <created>1484076684393</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1484076684393</updated>
+      <workItem from="1484076685709" duration="1064000" />
+      <workItem from="1484079441285" duration="170000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1234000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="65" y="24" width="1615" height="1026" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2495356" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32912722" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912722" sideWeight="0.50216717" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/websocket_session.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="44" column="23" lean-forward="false" selection-start-line="44" selection-start-column="23" selection-end-line="44" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/websocket_session.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1665">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/websocket_chat_server.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-855">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
