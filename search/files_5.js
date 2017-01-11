@@ -1,6 +1,8 @@
 var searchData=
 [
   ['websocket_2eh',['websocket.h',['../websocket_8h.html',1,'']]],
+  ['websocket_5fclient_2ecpp',['websocket_client.cpp',['../websocket__client_8cpp.html',1,'']]],
+  ['websocket_5fclient_2eh',['websocket_client.h',['../websocket__client_8h.html',1,'']]],
   ['websocket_5fserver_2eh',['websocket_server.h',['../websocket__server_8h.html',1,'']]],
   ['websocket_5fserver_2einl',['websocket_server.inl',['../websocket__server_8inl.html',1,'']]],
   ['websocket_5fsession_2eh',['websocket_session.h',['../websocket__session_8h.html',1,'']]],
