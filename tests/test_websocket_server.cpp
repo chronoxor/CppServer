@@ -10,6 +10,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <mutex>
 #include <vector>
 
 using namespace CppCommon;
@@ -61,12 +62,69 @@ public:
     {
     }
 
+    static void DisconnectRandom()
+    {
+        if (!clients.empty())
+        {
+            std::lock_guard<std::mutex> locker(lock);
+
+            size_t index = rand() % clients.size();
+            auto client = clients.at(index);
+            client->Disconnect();
+        }
+    }
+
+    static void ReconnectRandom()
+    {
+        if (!clients.empty())
+        {
+            std::lock_guard<std::mutex> locker(lock);
+
+            size_t index = rand() % clients.size();
+            auto client = clients.at(index);
+            client->Reconnect();
+        }
+    }
+
+    static void SendRandom(const void* buffer, size_t size, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::binary)
+    {
+        if (!clients.empty())
+        {
+            std::lock_guard<std::mutex> locker(lock);
+
+            size_t index = rand() % clients.size();
+            auto client = clients.at(index);
+            client->Send(buffer, size, opcode);
+        }
+    }
+
 protected:
-    void onConnected() override { connected = true; }
-    void onDisconnected() override { disconnected = true; }
+    void onConnected() override
+    {
+        connected = true;
+
+        std::lock_guard<std::mutex> locker(lock);
+
+        clients.push_back(this);
+    }
+    void onDisconnected() override
+    {
+        disconnected = true;
+
+        std::lock_guard<std::mutex> locker(lock);
+
+        clients.erase(std::remove(clients.begin(), clients.end(), this), clients.end());
+    }
     void onReceived(WebSocketMessage message) override { received += message->get_payload().size(); }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+
+private:
+    static std::mutex lock;
+    static std::vector<EchoWebSocketClient*> clients;
 };
+
+std::mutex EchoWebSocketClient::lock;
+std::vector<EchoWebSocketClient*> EchoWebSocketClient::clients;
 
 class EchoWebSocketServer;
 
@@ -323,7 +381,6 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
 
 TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
 {
-    /*
     const std::string address = "127.0.0.1";
     const int port = 4446;
     std::string uri = "ws://" + address + ":" + std::to_string(port);
@@ -354,7 +411,6 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
         if ((rand() % 1000) == 0)
         {
             server->DisconnectAll();
-            clients.clear();
         }
         // Connect a new client
         else if ((rand() % 100) == 0)
@@ -367,23 +423,12 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
         // Disconnect the random client
         else if ((rand() % 100) == 0)
         {
-            if (!clients.empty())
-            {
-                size_t index = rand() % clients.size();
-                auto client = clients.at(index);
-                client->Disconnect();
-                clients.erase(clients.begin() + index);
-            }
+            EchoWebSocketClient::DisconnectRandom();
         }
         // Reconnect the random client
         else if ((rand() % 100) == 0)
         {
-            if (!clients.empty())
-            {
-                size_t index = rand() % clients.size();
-                auto client = clients.at(index);
-                client->Reconnect();
-            }
+            //EchoWebSocketClient::ReconnectRandom();
         }
         // Multicast a message to all clients
         else if ((rand() % 10) == 0)
@@ -393,12 +438,7 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
         // Send a message from the random client
         else if ((rand() % 1) == 0)
         {
-            if (!clients.empty())
-            {
-                size_t index = rand() % clients.size();
-                auto client = clients.at(index);
-                client->Send("test", 4);
-            }
+            EchoWebSocketClient::SendRandom("test", 4);
         }
 
         // Sleep for a while...
@@ -409,8 +449,6 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
     REQUIRE(server->Stop());
     while (server->IsStarted())
         Thread::Yield();
-
-    Thread::Sleep(5000);
 
     // Stop the Asio service
     REQUIRE(service->Stop());
@@ -425,5 +463,4 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
     REQUIRE(server->received > 0);
     REQUIRE(server->sent > 0);
     REQUIRE(!server->error);
-    */
 }
