@@ -12,6 +12,7 @@ namespace Asio {
 template <class TServer, class TSession>
 inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
+      _initialized(false),
       _started(false)
 {
     switch (protocol)
@@ -23,28 +24,56 @@ inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Servi
             _endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v6(), port);
             break;
     }
+
+    InitAsio();
 }
 
 template <class TServer, class TSession>
 inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
+      _initialized(false),
       _started(false)
 {
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
+
+    InitAsio();
 }
 
 template <class TServer, class TSession>
 inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
     : _service(service),
       _endpoint(endpoint),
+      _initialized(false),
       _started(false)
 {
+    InitAsio();
+}
+
+template <class TServer, class TSession>
+inline void WebSocketServer<TServer, TSession>::InitAsio()
+{
+    if (_initialized)
+        return;
+
+    // Setup WebSocket server core Asio service
+    websocketpp::lib::error_code ec;
+    _core.init_asio(&_service->service(), ec);
+    if (ec)
+    {
+        onError(ec.value(), ec.category().name(), ec.message());
+        return;
+    }
+
+    _initialized = true;
 }
 
 template <class TServer, class TSession>
 inline bool WebSocketServer<TServer, TSession>::Start()
 {
     if (!_service->IsStarted())
+        return false;
+
+    if (!_initialized)
         return false;
 
     if (IsStarted())
@@ -57,16 +86,8 @@ inline bool WebSocketServer<TServer, TSession>::Start()
         websocketpp::lib::error_code ec;
 
         // Setup WebSocket server core logging
-        _core.set_access_channels(websocketpp::log::alevel::all);
-        _core.set_error_channels(websocketpp::log::elevel::all);
-
-        // Setup WebSocket server core Asio service
-        _core.init_asio(&_service->service(), ec);
-        if (ec)
-        {
-            onError(ec.value(), ec.category().name(), ec.message());
-            return;
-        }
+        _core.set_access_channels(websocketpp::log::alevel::none);
+        _core.set_error_channels(websocketpp::log::elevel::none);
 
         // Setup WebSocket server core handlers
         _core.set_open_handler([this](websocketpp::connection_hdl connection) { RegisterSession(connection); });
@@ -77,6 +98,7 @@ inline bool WebSocketServer<TServer, TSession>::Start()
         if (ec)
         {
             onError(ec.value(), ec.category().name(), ec.message());
+            onStopped();
             return;
         }
 
@@ -89,7 +111,11 @@ inline bool WebSocketServer<TServer, TSession>::Start()
         // Start WebSocket core acceptor
         _core.start_accept(ec);
         if (ec)
+        {
             onError(ec.value(), ec.category().name(), ec.message());
+            Stop();
+            return;
+        }
     });
 
     return true;
@@ -210,13 +236,7 @@ inline void WebSocketServer<TServer, TSession>::UnregisterSession(websocketpp::c
     if (it != _connections.end())
     {
         // Call the session disconnected handler
-        onDisconnected(it->second);
-
-        // Erase the connection
-        _connections.erase(it);
-
-        // Erase the session
-        _sessions.erase(_sessions.find(it->second->id()));
+        it->second->Disconnected();
     }
 }
 
@@ -230,11 +250,11 @@ inline void WebSocketServer<TServer, TSession>::UnregisterSession(const CppCommo
         // Call the session disconnected handler
         onDisconnected(it->second);
 
-        // Erase the session
-        _sessions.erase(it);
-
         // Erase the connection
         _connections.erase(_connections.find(it->second->connection()));
+
+        // Erase the session
+        _sessions.erase(it);
     }
 }
 

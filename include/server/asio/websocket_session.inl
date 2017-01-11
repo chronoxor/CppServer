@@ -28,6 +28,7 @@ inline void WebSocketSession<TServer, TSession>::Connect(websocketpp::connection
         WebSocketServerCore::connection_ptr con = _server->core().get_con_from_hdl(connection);
         websocketpp::lib::error_code ec = con->get_ec();
         onError(ec.value(), ec.category().name(), ec.message());
+        Disconnected();
     });
 
     // Assign new WebSocket connection

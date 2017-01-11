@@ -98,7 +98,7 @@ protected:
 private:
     // Session Id
     CppCommon::UUID _id;
-    // Session server & socket
+    // WebSocket session server & connection
     std::shared_ptr<WebSocketServer<TServer, TSession>> _server;
     websocketpp::connection_hdl _connection;
     std::atomic<bool> _connected;
@@ -108,7 +108,7 @@ private:
         \param connection - WebSocket connection
     */
     void Connect(websocketpp::connection_hdl connection);
-    //! Disconnect the session
+    //! Disconnected session handler
     void Disconnected();
 };
 

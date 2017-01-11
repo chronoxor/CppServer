@@ -64,10 +64,10 @@ public:
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
-    //! Get the WebSocket server core
-    WebSocketServerCore& core() noexcept { return _core; }
     //! Get the server endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
+    //! Get the WebSocket server core
+    WebSocketServerCore& core() noexcept { return _core; }
 
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
@@ -131,16 +131,20 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
-    // Server endpoint & socket
+    // WebSocket server endpoint & core
     asio::ip::tcp::endpoint _endpoint;
     WebSocketServerCore _core;
+    std::atomic<bool> _initialized;
     std::atomic<bool> _started;
-    // Server sessions
+    // WebSocket server sessions
     std::map<websocketpp::connection_hdl, std::shared_ptr<TSession>, std::owner_less<websocketpp::connection_hdl>> _connections;
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Multicast buffer
     std::mutex _multicast_lock;
     std::vector<std::tuple<std::vector<uint8_t>, websocketpp::frame::opcode::value>> _multicast_buffer;
+
+    //! Initialize Asio
+    void InitAsio();
 
     //! Register a new session
     /*
