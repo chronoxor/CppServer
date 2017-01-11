@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['asio',['Asio',['../namespace_cpp_server_1_1_asio.html',1,'CppServer']]],
-  ['connect',['Connect',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abc6c97220479d4345f6d65b3ae2f5902',1,'CppServer::Asio::SSLClient::Connect()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a1252491897a4b58a4f3fb167a41d9678',1,'CppServer::Asio::TCPClient::Connect()'],['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#ad323993b3b207581b4f5b19f9709ca25',1,'CppServer::Asio::UDPClient::Connect()']]],
-  ['context',['context',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#aa75271bd2e45f9f36b935aba093d3861',1,'CppServer::Asio::SSLClient::context()'],['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a8e6def6942417e76b5201ac4e0d81642',1,'CppServer::Asio::SSLServer::context()'],['../class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a14da187b6575175c8316bca4228d2173',1,'CppServer::Asio::SSLSession::context()']]],
-  ['cppserver',['CppServer',['../namespace_cpp_server.html',1,'']]],
-  ['c_2b_2b_20server_20library',['C++ Server Library',['../index.html',1,'']]]
+  ['acceptor',['acceptor',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#afa9b03e529931b56d26b30c924cc88b4',1,'CppServer::Asio::SSLServer::acceptor()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#acfac198a2457f5e809d7eb348a105b46',1,'CppServer::Asio::TCPServer::acceptor()']]],
+  ['asio',['Asio',['../namespace_asio.html',1,'']]],
+  ['asio_2eh',['asio.h',['../asio_8h.html',1,'']]],
+  ['asio_5finitfn_5fresult_5ftype',['ASIO_INITFN_RESULT_TYPE',['../class_cpp_server_1_1_asio_1_1_service.html#a6d68a8ee6d780b65682a57fb58edb13a',1,'CppServer::Asio::Service::ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Dispatch(ASIO_MOVE_ARG(CompletionHandler) handler)'],['../class_cpp_server_1_1_asio_1_1_service.html#a636118a30966fe37bb7631d7677d940e',1,'CppServer::Asio::Service::ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Post(ASIO_MOVE_ARG(CompletionHandler) handler)']]],
+  ['asio_5fseparate_5fcompilation',['ASIO_SEPARATE_COMPILATION',['../asio_8h.html#a61c9282eacc368b1f6adb1746d7d00b6',1,'asio.h']]],
+  ['asio_5fstandalone',['ASIO_STANDALONE',['../asio_8h.html#a5b90f4adb6bc09ca319c35c3448ee67a',1,'asio.h']]]
 ];

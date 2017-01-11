@@ -1,13 +1,15 @@
 var searchData=
 [
-  ['_7eservice',['~Service',['../class_cpp_server_1_1_asio_1_1_service.html#ac68fa2770646bcad6522cc564a0c7b04',1,'CppServer::Asio::Service']]],
-  ['_7esslclient',['~SSLClient',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3a454cb55dd13516fa68209ded2d5fcb',1,'CppServer::Asio::SSLClient']]],
-  ['_7esslserver',['~SSLServer',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#ad308533805dab2894cad9ce35b28c772',1,'CppServer::Asio::SSLServer']]],
-  ['_7esslsession',['~SSLSession',['../class_cpp_server_1_1_asio_1_1_s_s_l_session.html#ab0ab6963e3882b05ea0f335980b01af0',1,'CppServer::Asio::SSLSession']]],
-  ['_7etcpclient',['~TCPClient',['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aa03891072bfddc5e2daf7e21e71f7505',1,'CppServer::Asio::TCPClient']]],
-  ['_7etcpserver',['~TCPServer',['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#ad29a5927f780832280232a9dca494fa9',1,'CppServer::Asio::TCPServer']]],
-  ['_7etcpsession',['~TCPSession',['../class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a4e2d40e708ab38b773ddab72dc15929a',1,'CppServer::Asio::TCPSession']]],
-  ['_7eudpclient',['~UDPClient',['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#abf199f57206ebdca7b631ed4945a9929',1,'CppServer::Asio::UDPClient']]],
-  ['_7eudpserver',['~UDPServer',['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a9efb78e06fb7ca10a84386fc301ee407',1,'CppServer::Asio::UDPServer']]],
-  ['_7ewebsocketserver',['~WebSocketServer',['../class_cpp_server_1_1_asio_1_1_web_socket_server.html#abcc99a0c07604aca88d01e31f4605f3f',1,'CppServer::Asio::WebSocketServer']]]
+  ['websocket_2eh',['websocket.h',['../websocket_8h.html',1,'']]],
+  ['websocket_5fserver_2eh',['websocket_server.h',['../websocket__server_8h.html',1,'']]],
+  ['websocket_5fserver_2einl',['websocket_server.inl',['../websocket__server_8inl.html',1,'']]],
+  ['websocket_5fsession_2eh',['websocket_session.h',['../websocket__session_8h.html',1,'']]],
+  ['websocket_5fsession_2einl',['websocket_session.inl',['../websocket__session_8inl.html',1,'']]],
+  ['websocketconnection',['WebSocketConnection',['../namespace_cpp_server_1_1_asio.html#ae7cc545d9acc8758c6a4fe5a51839907',1,'CppServer::Asio']]],
+  ['websocketmessage',['WebSocketMessage',['../namespace_cpp_server_1_1_asio.html#a8540420956568de911f67ad88c18cd23',1,'CppServer::Asio']]],
+  ['websocketserver',['WebSocketServer',['../class_cpp_server_1_1_asio_1_1_web_socket_session.html#ab46ef1087d8474dbb0ff10ed293a09ae',1,'CppServer::Asio::WebSocketSession::WebSocketServer()'],['../class_cpp_server_1_1_asio_1_1_web_socket_server.html#a3f90917abe44c778f6190564d730c61e',1,'CppServer::Asio::WebSocketServer::WebSocketServer(std::shared_ptr&lt; Service &gt; service, InternetProtocol protocol, int port)'],['../class_cpp_server_1_1_asio_1_1_web_socket_server.html#ac760fc8d2bbf989b79c5baf8b620262f',1,'CppServer::Asio::WebSocketServer::WebSocketServer(std::shared_ptr&lt; Service &gt; service, const std::string &amp;address, int port)'],['../class_cpp_server_1_1_asio_1_1_web_socket_server.html#a9d5be720df313c0e6b11d299229ab7ef',1,'CppServer::Asio::WebSocketServer::WebSocketServer(std::shared_ptr&lt; Service &gt; service, const asio::ip::tcp::endpoint &amp;endpoint)'],['../class_cpp_server_1_1_asio_1_1_web_socket_server.html#a6bd98b1267d42c5778708d1deec291d0',1,'CppServer::Asio::WebSocketServer::WebSocketServer(const WebSocketServer &amp;)=delete'],['../class_cpp_server_1_1_asio_1_1_web_socket_server.html#a7e886c6a8b95ac963eec77679813fd54',1,'CppServer::Asio::WebSocketServer::WebSocketServer(WebSocketServer &amp;&amp;)=default']]],
+  ['websocketserver',['WebSocketServer',['../class_cpp_server_1_1_asio_1_1_web_socket_server.html',1,'CppServer::Asio']]],
+  ['websocketservercore',['WebSocketServerCore',['../namespace_cpp_server_1_1_asio.html#acfca409a9b5641987c4068e9b3b891d7',1,'CppServer::Asio']]],
+  ['websocketsession',['WebSocketSession',['../class_cpp_server_1_1_asio_1_1_web_socket_session.html',1,'CppServer::Asio']]],
+  ['websocketsession',['WebSocketSession',['../class_cpp_server_1_1_asio_1_1_web_socket_server.html#a43b2eceb45c389604840fd93c90ad76f',1,'CppServer::Asio::WebSocketServer::WebSocketSession()'],['../class_cpp_server_1_1_asio_1_1_web_socket_session.html#aa584ef1abb2530c03731c5df5a9d89b9',1,'CppServer::Asio::WebSocketSession::WebSocketSession(std::shared_ptr&lt; WebSocketServer&lt; TServer, TSession &gt;&gt; server)'],['../class_cpp_server_1_1_asio_1_1_web_socket_session.html#aee5d6dd5928efb5a4a8682bb9c16abdf',1,'CppServer::Asio::WebSocketSession::WebSocketSession(const WebSocketSession &amp;)=delete'],['../class_cpp_server_1_1_asio_1_1_web_socket_session.html#ab6c949a41131a4233a36e9ef48466c80',1,'CppServer::Asio::WebSocketSession::WebSocketSession(WebSocketSession &amp;&amp;)=default']]]
 ];
