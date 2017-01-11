@@ -55,7 +55,7 @@ int main(int argc, char** argv)
         address = argv[1];
 
     // SSL server port
-    int port = 1112;
+    int port = 3333;
     if (argc > 2)
         port = std::atoi(argv[2]);
 

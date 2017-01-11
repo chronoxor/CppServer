@@ -50,7 +50,7 @@ int main(int argc, char** argv)
         address = argv[1];
 
     // WebSocket server port
-    int port = 3333;
+    int port = 4444;
     if (argc > 2)
         port = std::atoi(argv[2]);
 

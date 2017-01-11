@@ -44,14 +44,14 @@ bool Service::Stop()
     auto self(this->shared_from_this());
     _service.post([this, self]()
     {
+        // Stop the Asio service
+        _service.stop();
+
         // Update the started flag
         _started = false;
 
         // Call the service stopped handler
         onStopped();
-
-        // Stop the Asio service
-        _service.stop();
     });
 
     // Wait for service thread

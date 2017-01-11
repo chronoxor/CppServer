@@ -131,9 +131,6 @@ inline bool WebSocketServer<TServer, TSession>::Stop()
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
-        // Disconnect all sessions
-        DisconnectAll();
-
         // Stop WebSocket server
         websocketpp::lib::error_code ec;
         _core.stop_listening(ec);
@@ -142,6 +139,9 @@ inline bool WebSocketServer<TServer, TSession>::Stop()
 
         // Clear multicast buffer
         ClearBuffers();
+
+        // Disconnect all sessions
+        DisconnectAll();
 
         // Update the started flag
         _started = false;
@@ -180,6 +180,8 @@ inline bool WebSocketServer<TServer, TSession>::Multicast(const void* buffer, si
     auto self(this->shared_from_this());
     _service->Dispatch([this, self]()
     {
+        std::lock_guard<std::mutex> locker(_multicast_lock);
+
         // Multicast all sessions
         for (auto& session : _sessions)
             for (auto& message : _multicast_buffer)

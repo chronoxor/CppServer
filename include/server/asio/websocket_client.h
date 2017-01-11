@@ -37,7 +37,7 @@ public:
     explicit WebSocketClient(std::shared_ptr<Service> service, const std::string& uri);
     WebSocketClient(const WebSocketClient&) = delete;
     WebSocketClient(WebSocketClient&&) = default;
-    virtual ~WebSocketClient() { Disconnect(); }
+    virtual ~WebSocketClient() { Disconnect(true); }
 
     WebSocketClient& operator=(const WebSocketClient&) = delete;
     WebSocketClient& operator=(WebSocketClient&&) = default;
@@ -66,7 +66,8 @@ public:
         \param reason - Close reason to send (default is "")
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Disconnect(websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "");
+    bool Disconnect(websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "")
+    { return Disconnect(false, code, reason); }
     //! Reconnect the client
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
@@ -116,6 +117,15 @@ private:
 
     //! Initialize Asio
     void InitAsio();
+
+    //! Disconnect the client
+    /*!
+        \param dispatch - Dispatch flag
+        \param code - Close code to send (default is normal)
+        \param reason - Close reason to send (default is "")
+        \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
+    */
+    bool Disconnect(bool dispatch, websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "");
 
     //! Connected session handler
     void Connected();

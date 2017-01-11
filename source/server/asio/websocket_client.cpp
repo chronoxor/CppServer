@@ -99,19 +99,26 @@ void WebSocketClient::Connected()
     onConnected();
 }
 
-bool WebSocketClient::Disconnect(websocketpp::close::status::value code, const std::string& reason)
+bool WebSocketClient::Disconnect(bool dispatch, websocketpp::close::status::value code, const std::string& reason)
 {
     if (!IsConnected())
         return false;
 
-    // Close the client connection
-    websocketpp::lib::error_code ec;
-    _core.close(_connection, code, reason, ec);
-    if (ec)
+    auto self(this->shared_from_this());
+    auto disconnect = [this, self, code, reason]()
     {
-        onError(ec.value(), ec.category().name(), ec.message());
-        return false;
-    }
+        // Close the client connection
+        websocketpp::lib::error_code ec;
+        _core.close(_connection, code, reason, ec);
+        if (ec)
+            onError(ec.value(), ec.category().name(), ec.message());
+    };
+
+    // Dispatch or post the disconnect routine
+    if (dispatch)
+        _service->Dispatch(disconnect);
+    else
+        _service->Post(disconnect);
 
     return true;
 }

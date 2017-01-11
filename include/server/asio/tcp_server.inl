@@ -86,14 +86,14 @@ inline bool TCPServer<TServer, TSession>::Stop()
     auto self(this->shared_from_this());
     _service->service().post([this, self]()
     {
-        // Disconnect all sessions
-        DisconnectAll();
-
         // Close the server acceptor
         _acceptor.close();
 
         // Clear multicast buffer
         ClearBuffers();
+
+        // Disconnect all sessions
+        DisconnectAll();
 
         // Update the started flag
         _started = false;
@@ -159,6 +159,8 @@ inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t s
     auto self(this->shared_from_this());
     _service->Dispatch([this, self]()
     {
+        std::lock_guard<std::mutex> locker(_multicast_lock);
+
         // Multicast all sessions
         for (auto& session : _sessions)
             session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());

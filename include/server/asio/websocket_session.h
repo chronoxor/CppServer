@@ -40,7 +40,7 @@ public:
     explicit WebSocketSession(std::shared_ptr<WebSocketServer<TServer, TSession>> server);
     WebSocketSession(const WebSocketSession&) = delete;
     WebSocketSession(WebSocketSession&&) = default;
-    virtual ~WebSocketSession() { Disconnect(); }
+    virtual ~WebSocketSession() { Disconnect(true); }
 
     WebSocketSession& operator=(const WebSocketSession&) = delete;
     WebSocketSession& operator=(WebSocketSession&&) = default;
@@ -64,7 +64,8 @@ public:
         \param reason - Close reason to send (default is "")
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    bool Disconnect(websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "");
+    bool Disconnect(websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "")
+    { return Disconnect(false, code, reason); }
 
     //! Send data into the session
     /*!
@@ -108,6 +109,15 @@ private:
         \param connection - WebSocket connection
     */
     void Connect(websocketpp::connection_hdl connection);
+    //! Disconnect the session
+    /*!
+        \param dispatch - Dispatch flag
+        \param code - Close code to send (default is normal)
+        \param reason - Close reason to send (default is "")
+        \return 'true' if the session was successfully disconnected, 'false' if the session is already disconnected
+    */
+    bool Disconnect(bool dispatch, websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "");
+
     //! Disconnected session handler
     void Disconnected();
 };

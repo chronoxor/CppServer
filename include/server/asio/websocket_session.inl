@@ -42,19 +42,26 @@ inline void WebSocketSession<TServer, TSession>::Connect(websocketpp::connection
 }
 
 template <class TServer, class TSession>
-inline bool WebSocketSession<TServer, TSession>::Disconnect(websocketpp::close::status::value code, const std::string& reason)
+inline bool WebSocketSession<TServer, TSession>::Disconnect(bool dispatch, websocketpp::close::status::value code, const std::string& reason)
 {
     if (!IsConnected())
         return false;
 
-    // Close the session connection
-    websocketpp::lib::error_code ec;
-    _server->core().close(_connection, code, reason, ec);
-    if (ec)
+    auto self(this->shared_from_this());
+    auto disconnect = [this, self, code, reason]()
     {
-        onError(ec.value(), ec.category().name(), ec.message());
-        return false;
-    }
+        // Close the session connection
+        websocketpp::lib::error_code ec;
+        _server->core().close(_connection, code, reason, ec);
+        if (ec)
+            onError(ec.value(), ec.category().name(), ec.message());
+    };
+
+    // Dispatch or post the disconnect routine
+    if (dispatch)
+        service()->Dispatch(disconnect);
+    else
+        service()->Post(disconnect);
 
     return true;
 }
