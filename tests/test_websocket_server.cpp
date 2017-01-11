@@ -66,10 +66,12 @@ public:
     {
         if (!clients.empty())
         {
-            std::lock_guard<std::mutex> locker(lock);
-
-            size_t index = rand() % clients.size();
-            auto client = clients.at(index);
+            EchoWebSocketClient* client;
+            {
+                std::lock_guard<std::mutex> locker(lock);
+                size_t index = rand() % clients.size();
+                client = clients.at(index);
+            }
             client->Disconnect();
         }
     }
@@ -78,10 +80,12 @@ public:
     {
         if (!clients.empty())
         {
-            std::lock_guard<std::mutex> locker(lock);
-
-            size_t index = rand() % clients.size();
-            auto client = clients.at(index);
+            EchoWebSocketClient* client;
+            {
+                std::lock_guard<std::mutex> locker(lock);
+                size_t index = rand() % clients.size();
+                client = clients.at(index);
+            }
             client->Reconnect();
         }
     }
@@ -90,10 +94,12 @@ public:
     {
         if (!clients.empty())
         {
-            std::lock_guard<std::mutex> locker(lock);
-
-            size_t index = rand() % clients.size();
-            auto client = clients.at(index);
+            EchoWebSocketClient* client;
+            {
+                std::lock_guard<std::mutex> locker(lock);
+                size_t index = rand() % clients.size();
+                client = clients.at(index);
+            }
             client->Send(buffer, size, opcode);
         }
     }
@@ -428,7 +434,7 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
         // Reconnect the random client
         else if ((rand() % 100) == 0)
         {
-            //EchoWebSocketClient::ReconnectRandom();
+            EchoWebSocketClient::ReconnectRandom();
         }
         // Multicast a message to all clients
         else if ((rand() % 10) == 0)
