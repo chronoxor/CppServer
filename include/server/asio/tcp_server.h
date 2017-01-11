@@ -146,6 +146,9 @@ private:
     //! Register a new session
     std::shared_ptr<TSession> RegisterSession();
     //! Unregister the given session
+    /*!
+        \param id - Session Id
+    */
     void UnregisterSession(const CppCommon::UUID& id);
 
     //! Clear multicast buffer

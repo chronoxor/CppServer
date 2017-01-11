@@ -167,6 +167,10 @@ private:
     //! Try to receive new datagram
     void TryReceive();
     //! Try to send pending datagram
+    /*!
+        \param endpoint - Endpoint to send into
+        \param size - Buffer size to send
+    */
     void TrySend(const asio::ip::udp::endpoint& endpoint, size_t size);
 
     //! Clear receive & send buffers

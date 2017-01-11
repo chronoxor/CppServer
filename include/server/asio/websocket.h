@@ -16,4 +16,17 @@
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
 
+namespace CppServer {
+namespace Asio {
+
+//! WebSocket server core
+typedef websocketpp::server<websocketpp::config::asio> WebSocketServerCore;
+//! WebSocket connection
+typedef websocketpp::connection<websocketpp::config::asio> WebSocketConnection;
+//! WebSocket message
+typedef WebSocketConnection::message_ptr WebSocketMessage;
+
+} // namespace Asio
+} // namespace CppServer
+
 #endif // CPPSERVER_WEBSOCKET_H

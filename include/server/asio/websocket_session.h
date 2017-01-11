@@ -32,8 +32,6 @@ class WebSocketSession : public std::enable_shared_from_this<WebSocketSession<TS
     template <class TSomeServer, class TSomeSession>
     friend class WebSocketServer;
 
-    typedef websocketpp::connection<websocketpp::config::asio> wsconnection;
-
 public:
     //! Initialize the session with a given server
     /*!
@@ -62,17 +60,20 @@ public:
 
     //! Disconnect the session
     /*!
+        \param code - Close code to send (default is normal)
+        \param reason - Close reason to send (default is "")
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    bool Disconnect();
+    bool Disconnect(websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "");
 
     //! Send data into the session
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of pending bytes in the send buffer
+        \param opcode - Data opcode (default is binary)
+        \return Count of sent bytes
     */
-    size_t Send(const void* buffer, size_t size);
+    size_t Send(const void* buffer, size_t size, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::binary);
 
 protected:
     //! Handle session connected notification
@@ -80,32 +81,11 @@ protected:
     //! Handle session disconnected notification
     virtual void onDisconnected() {}
 
-    //! Handle buffer received notification
+    //! Handle message received notification
     /*!
-        Notification is called when another chunk of buffer was received
-        from the client.
-
-        Default behavior is to handle all bytes from the received buffer.
-        If you want to wait for some more bytes from the client return the
-        size of the buffer you want to keep until another chunk is received.
-
-        \param buffer - Received buffer
-        \param size - Received buffer size
-        \return Count of handled bytes
+        \param message - Received message
     */
-    virtual size_t onReceived(const void* buffer, size_t size) { return size; }
-    //! Handle buffer sent notification
-    /*!
-        Notification is called when another chunk of buffer was sent
-        to the client.
-
-        This handler could be used to send another buffer to the client
-        for instance when the pending size is zero.
-
-        \param sent - Size of sent buffer
-        \param pending - Size of pending buffer
-    */
-    virtual void onSent(size_t sent, size_t pending) {}
+    virtual void onReceived(WebSocketMessage message) {}
 
     //! Handle error notification
     /*!
@@ -122,25 +102,14 @@ private:
     std::shared_ptr<WebSocketServer<TServer, TSession>> _server;
     websocketpp::connection_hdl _connection;
     std::atomic<bool> _connected;
-    // Receive & send buffers
-    std::mutex _send_lock;
-    std::vector<wsconnection::message_ptr> _send_buffer;
-    bool _reciving;
-    bool _sending;
-
-    static const size_t CHUNK = 8192;
 
     //! Connect the session
     /*!
         \param connection - WebSocket connection
     */
     void Connect(websocketpp::connection_hdl connection);
-
-    //! Try to send pending data
-    void TrySend();
-
-    //! Clear receive & send buffers
-    void ClearBuffers();
+    //! Disconnect the session
+    void Disconnected();
 };
 
 } // namespace Asio

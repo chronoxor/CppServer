@@ -13,6 +13,7 @@
 
 #include <map>
 #include <mutex>
+#include <tuple>
 #include <vector>
 
 namespace CppServer {
@@ -28,12 +29,10 @@ class WebSocketSession;
     Thread-safe.
 */
 template <class TServer, class TSession>
-class WebSocketServer
+class WebSocketServer : public std::enable_shared_from_this<WebSocketServer<TServer, TSession>>
 {
     template <class TSomeServer, class TSomeSession>
     friend class WebSocketSession;
-
-    typedef websocketpp::server<websocketpp::config::asio> wsserver;
 
 public:
     //! Initialize WebSocket server with a given Asio service and port number
@@ -65,8 +64,8 @@ public:
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
-    //! Get the WebSocket server
-    wsserver& server() noexcept { return _server; }
+    //! Get the WebSocket server core
+    WebSocketServerCore& core() noexcept { return _core; }
     //! Get the server endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
 
@@ -93,9 +92,10 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
+        \param opcode - Data opcode (default is binary)
         \return 'true' if the data was successfully multicast, 'false' if the server it not started
     */
-    bool Multicast(const void* buffer, size_t size);
+    bool Multicast(const void* buffer, size_t size, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::binary);
 
     //! Disconnect all connected sessions
     /*!
@@ -133,17 +133,29 @@ private:
     std::shared_ptr<Service> _service;
     // Server endpoint & socket
     asio::ip::tcp::endpoint _endpoint;
-    wsserver _server;
+    WebSocketServerCore _core;
     std::atomic<bool> _started;
     // Server sessions
+    std::map<websocketpp::connection_hdl, std::shared_ptr<TSession>, std::owner_less<websocketpp::connection_hdl>> _connections;
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Multicast buffer
     std::mutex _multicast_lock;
-    std::vector<uint8_t> _multicast_buffer;
+    std::vector<std::tuple<std::vector<uint8_t>, websocketpp::frame::opcode::value>> _multicast_buffer;
 
     //! Register a new session
-    std::shared_ptr<TSession> RegisterSession();
+    /*
+        \param connection - WebSocket connection
+    */
+    std::shared_ptr<TSession> RegisterSession(websocketpp::connection_hdl connection);
     //! Unregister the given session
+    /*!
+        \param connection - Session connection
+    */
+    void UnregisterSession(websocketpp::connection_hdl connection);
+    //! Unregister the given session
+    /*!
+        \param id - Session Id
+    */
     void UnregisterSession(const CppCommon::UUID& id);
 
     //! Clear multicast buffer
@@ -154,5 +166,8 @@ private:
 
 } // namespace Asio
 } // namespace CppServer
+
+#include "websocket_session.inl"
+#include "websocket_server.inl"
 
 #endif // CPPSERVER_ASIO_WEBSOCKET_SERVER_H

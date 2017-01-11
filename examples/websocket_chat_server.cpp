@@ -43,20 +43,16 @@ protected:
         std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(CppServer::Asio::WebSocketMessage message) override
     {
-        std::string messsage((const char*)buffer, size);
-        std::cout << "Incoming: " << messsage << std::endl;
+        std::cout << "Incoming: " << message->get_payload() << std::endl;
 
         // Multicast message to all connected sessions
-        server()->Multicast(buffer, size);
+        server()->Multicast(message->get_payload().data(), message->get_payload().size(), message->get_opcode());
 
         // If the buffer starts with '!' the disconnect the current session
-        if (messsage == "!")
+        if (message->get_payload() == "!")
             Disconnect();
-
-        // Inform that we handled the whole buffer
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
