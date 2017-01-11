@@ -8,6 +8,9 @@
 
 #include "server/asio/ssl_client.h"
 
+#include <mutex>
+#include <vector>
+
 namespace CppServer {
 namespace Asio {
 

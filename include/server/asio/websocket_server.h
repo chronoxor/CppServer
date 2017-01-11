@@ -57,7 +57,7 @@ public:
     explicit WebSocketServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     WebSocketServer(const WebSocketServer&) = delete;
     WebSocketServer(WebSocketServer&&) = default;
-    virtual ~WebSocketServer() { Stop(); }
+    virtual ~WebSocketServer() = default;
 
     WebSocketServer& operator=(const WebSocketServer&) = delete;
     WebSocketServer& operator=(WebSocketServer&&) = default;

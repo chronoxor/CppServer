@@ -14,9 +14,6 @@
 
 #include "system/uuid.h"
 
-#include <mutex>
-#include <vector>
-
 namespace CppServer {
 namespace Asio {
 
@@ -37,7 +34,7 @@ public:
     explicit WebSocketClient(std::shared_ptr<Service> service, const std::string& uri);
     WebSocketClient(const WebSocketClient&) = delete;
     WebSocketClient(WebSocketClient&&) = default;
-    virtual ~WebSocketClient() { Disconnect(true); }
+    virtual ~WebSocketClient() = default;
 
     WebSocketClient& operator=(const WebSocketClient&) = delete;
     WebSocketClient& operator=(WebSocketClient&&) = default;
