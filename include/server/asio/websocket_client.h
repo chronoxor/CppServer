@@ -49,6 +49,11 @@ public:
     //! Get the WebSocket client core
     WebSocketClientCore& core() noexcept { return _core; }
 
+    //! Total bytes received
+    size_t total_received() const noexcept { return _total_received; }
+    //! Total bytes sent
+    size_t total_sent() const noexcept { return _total_sent; }
+
     //! Is the client connected?
     bool IsConnected() const noexcept { return _connected; }
 
@@ -63,8 +68,7 @@ public:
         \param reason - Close reason to send (default is "")
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Disconnect(websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "")
-    { return Disconnect(false, code, reason); }
+    bool Disconnect(websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "") { return Disconnect(false, code, reason); }
     //! Reconnect the client
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
@@ -75,10 +79,23 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \param opcode - Data opcode (default is binary)
+        \param opcode - Data opcode (default is websocketpp::frame::opcode::binary)
         \return Count of sent bytes
     */
     size_t Send(const void* buffer, size_t size, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::binary);
+    //! Send a text string to the server
+    /*!
+        \param text - Text string to send
+        \param opcode - Data opcode (default is websocketpp::frame::opcode::text)
+        \return Count of sent bytes
+    */
+    size_t Send(const std::string& text, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::text);
+    //! Send a message to the server
+    /*!
+        \param message - Message to send
+        \return Count of sent bytes
+    */
+    size_t Send(WebSocketMessage message);
 
 protected:
     //! Handle client connected notification
@@ -105,12 +122,15 @@ private:
     CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;
-    // WebSocket server URI address, client core and client connection
+    // Server URI address, client core and client connection
     std::string _uri;
     WebSocketClientCore _core;
     WebSocketClientCore::connection_ptr _connection;
     std::atomic<bool> _initialized;
     std::atomic<bool> _connected;
+    // Client statistic
+    size_t _total_received;
+    size_t _total_sent;
 
     //! Initialize Asio
     void InitAsio();

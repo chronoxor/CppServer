@@ -8,6 +8,8 @@
 
 #include "server/asio/tcp_client.h"
 
+#include <cassert>
+
 namespace CppServer {
 namespace Asio {
 
@@ -17,6 +19,8 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
       _socket(_service->service()),
       _connected(false),
+      _total_received(0),
+      _total_sent(0),
       _reciving(false),
       _sending(false)
 {
@@ -28,6 +32,8 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _endpoint(endpoint),
       _socket(_service->service()),
       _connected(false),
+      _total_received(0),
+      _total_sent(0),
       _reciving(false),
       _sending(false)
 {
@@ -35,9 +41,6 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
 
 bool TCPClient::Connect()
 {
-    if (!_service->IsStarted())
-        return false;
-
     if (IsConnected())
         return false;
 
@@ -56,6 +59,10 @@ bool TCPClient::Connect()
                 // Set the socket keep-alive option
                 asio::ip::tcp::socket::keep_alive keep_alive(true);
                 _socket.set_option(keep_alive);
+
+                // Reset statistic
+                _total_received = 0;
+                _total_sent = 0;
 
                 // Update the connected flag
                 _connected = true;
@@ -121,6 +128,11 @@ bool TCPClient::Reconnect()
 
 size_t TCPClient::Send(const void* buffer, size_t size)
 {
+    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((size > 0) && "Buffer size should be greater than zero!");
+    if ((buffer == nullptr) || (size == 0))
+        return 0;
+
     if (!IsConnected())
         return 0;
 
@@ -159,6 +171,10 @@ void TCPClient::TryReceive()
             size_t size = _socket.read_some(asio::buffer(buffer), ec);
             if (size > 0)
             {
+                // Update statistic
+                _total_received += size;
+
+                // Fill receive buffer
                 _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
 
                 // Call the buffer received handler
@@ -203,6 +219,9 @@ void TCPClient::TrySend()
             size_t size = _socket.write_some(asio::buffer(_send_buffer), ec);
             if (size > 0)
             {
+                // Update statistic
+                _total_sent += size;
+
                 // Erase the sent buffer
                 _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
 

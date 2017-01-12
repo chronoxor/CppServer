@@ -8,6 +8,8 @@
 
 #include "server/asio/websocket_client.h"
 
+#include <cassert>
+
 namespace CppServer {
 namespace Asio {
 
@@ -16,13 +18,16 @@ WebSocketClient::WebSocketClient(std::shared_ptr<Service> service, const std::st
       _service(service),
       _uri(uri),
       _initialized(false),
-      _connected(false)
+      _connected(false),
+      _total_received(0),
+      _total_sent(0)
 {
     InitAsio();
 }
 
 void WebSocketClient::InitAsio()
 {
+    assert(!_initialized && "Asio is already initialed!");
     if (_initialized)
         return;
 
@@ -40,9 +45,7 @@ void WebSocketClient::InitAsio()
 
 bool WebSocketClient::Connect()
 {
-    if (!_service->IsStarted())
-        return false;
-
+    assert(_initialized && "Asio is not initialed!");
     if (!_initialized)
         return false;
 
@@ -73,7 +76,16 @@ bool WebSocketClient::Connect()
         }
 
         // Setup WebSocket client handlers
-        _connection->set_message_handler([this](websocketpp::connection_hdl connection, WebSocketMessage message) { onReceived(message); });
+        _connection->set_message_handler([this](websocketpp::connection_hdl connection, WebSocketMessage message)
+        {
+            size_t size = message->get_raw_payload().size();
+
+            // Update statistic
+            _total_received += size;
+
+            // Call the message received handler
+            onReceived(message);
+        });
         _connection->set_fail_handler([this](websocketpp::connection_hdl connection)
         {
             WebSocketServerCore::connection_ptr con = _core.get_con_from_hdl(connection);
@@ -92,6 +104,10 @@ bool WebSocketClient::Connect()
 
 void WebSocketClient::Connected()
 {
+    // Reset statistic
+    _total_received = 0;
+    _total_sent = 0;
+
     // Update the connected flag
     _connected = true;
 
@@ -145,6 +161,11 @@ bool WebSocketClient::Reconnect()
 
 size_t WebSocketClient::Send(const void* buffer, size_t size, websocketpp::frame::opcode::value opcode)
 {
+    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((size > 0) && "Buffer size should be greater than zero!");
+    if ((buffer == nullptr) || (size == 0))
+        return 0;
+
     if (!IsConnected())
         return 0;
 
@@ -155,6 +176,51 @@ size_t WebSocketClient::Send(const void* buffer, size_t size, websocketpp::frame
         onError(ec.value(), ec.category().name(), ec.message());
         return 0;
     }
+
+    // Update statistic
+    _total_sent += size;
+
+    return size;
+}
+
+size_t WebSocketClient::Send(const std::string& text, websocketpp::frame::opcode::value opcode)
+{
+    if (!IsConnected())
+        return 0;
+
+    websocketpp::lib::error_code ec;
+    _core.send(_connection, text, opcode, ec);
+    if (ec)
+    {
+        onError(ec.value(), ec.category().name(), ec.message());
+        return 0;
+    }
+
+    size_t size = text.size();
+
+    // Update statistic
+    _total_sent += size;
+
+    return size;
+}
+
+size_t WebSocketClient::Send(WebSocketMessage message)
+{
+    if (!IsConnected())
+        return 0;
+
+    websocketpp::lib::error_code ec;
+    _core.send(_connection, message, ec);
+    if (ec)
+    {
+        onError(ec.value(), ec.category().name(), ec.message());
+        return 0;
+    }
+
+    size_t size = message->get_raw_payload().size();
+
+    // Update statistic
+    _total_sent += size;
 
     return size;
 }

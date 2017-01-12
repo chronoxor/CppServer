@@ -8,6 +8,7 @@
 
 #include "server/asio/ssl_client.h"
 
+#include <cassert>
 #include <mutex>
 #include <vector>
 
@@ -27,6 +28,8 @@ public:
           _stream(_service->service(), _context),
           _connected(false),
           _handshaked(false),
+          _total_received(0),
+          _total_sent(0),
           _reciving(false),
           _sending(false)
     {
@@ -40,6 +43,8 @@ public:
           _stream(_service->service(), _context),
           _connected(false),
           _handshaked(false),
+          _total_received(0),
+          _total_sent(0),
           _reciving(false),
           _sending(false)
     {
@@ -60,15 +65,15 @@ public:
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
 
+    size_t& total_received() noexcept { return _total_received; }
+    size_t& total_sent() noexcept { return _total_sent; }
+
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
 
     bool Connect(std::shared_ptr<SSLClient> client)
     {
         _client = client;
-
-        if (!_service->IsStarted())
-            return false;
 
         if (IsConnected())
             return false;
@@ -88,6 +93,10 @@ public:
                     // Set the socket keep-alive option
                     asio::ip::tcp::socket::keep_alive keep_alive(true);
                     socket().set_option(keep_alive);
+
+                    // Reset statistic
+                    _total_received = 0;
+                    _total_sent = 0;
 
                     // Update the connected flag
                     _connected = true;
@@ -172,6 +181,11 @@ public:
 
     size_t Send(const void* buffer, size_t size)
     {
+        assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+        assert((size > 0) && "Buffer size should be greater than zero!");
+        if ((buffer == nullptr) || (size == 0))
+            return 0;
+
         if (!IsHandshaked())
             return 0;
 
@@ -214,6 +228,9 @@ private:
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
+    // Client statistic
+    size_t _total_received;
+    size_t _total_sent;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
@@ -241,6 +258,10 @@ private:
                 size_t size = _stream.read_some(asio::buffer(buffer), ec);
                 if (size > 0)
                 {
+                    // Update statistic
+                    _total_received += size;
+
+                    // Fill receive buffer
                     _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
 
                     // Call the buffer received handler
@@ -285,6 +306,9 @@ private:
                 size_t size = _stream.write_some(asio::buffer(_send_buffer), ec);
                 if (size > 0)
                 {
+                    // Update statistic
+                    _total_sent += size;
+
                     // Erase the sent buffer
                     _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
 
@@ -342,7 +366,6 @@ SSLClient::SSLClient(SSLClient&& client)
 
 SSLClient::~SSLClient()
 {
-    Disconnect(true);
 }
 
 SSLClient& SSLClient::operator=(SSLClient&& client)
@@ -375,6 +398,16 @@ asio::ssl::stream<asio::ip::tcp::socket>& SSLClient::stream() noexcept
 asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& SSLClient::socket() noexcept
 {
     return _pimpl->socket();
+}
+
+size_t SSLClient::total_received() const noexcept
+{
+    return _pimpl->total_received();
+}
+
+size_t SSLClient::total_sent() const noexcept
+{
+    return _pimpl->total_sent();
 }
 
 bool SSLClient::IsConnected() const noexcept
@@ -416,7 +449,11 @@ size_t SSLClient::Send(const void* buffer, size_t size)
 
 void SSLClient::onReset()
 {
+    size_t total_received = _pimpl->total_received();
+    size_t total_sent = _pimpl->total_sent();
     _pimpl = std::make_shared<Impl>(_pimpl->id(), _pimpl->service(), _pimpl->context(), _pimpl->endpoint());
+    _pimpl->total_received() = total_received;
+    _pimpl->total_sent() = total_sent;
 }
 
 } // namespace Asio

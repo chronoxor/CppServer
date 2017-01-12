@@ -88,7 +88,7 @@ int main(int argc, char** argv)
             break;
 
         // Send the entered text to the chat server
-        client->Send(line.data(), line.size());
+        client->Send(line);
     }
 
     // Disconnect the client

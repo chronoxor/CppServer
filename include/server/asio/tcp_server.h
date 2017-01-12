@@ -56,7 +56,7 @@ public:
     explicit TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = default;
-    virtual ~TCPServer() { Stop(); }
+    virtual ~TCPServer() = default;
 
     TCPServer& operator=(const TCPServer&) = delete;
     TCPServer& operator=(TCPServer&&) = default;
@@ -67,6 +67,11 @@ public:
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
+
+    //! Total bytes received
+    size_t total_received() const noexcept { return _total_received; }
+    //! Total bytes sent
+    size_t total_sent() const noexcept { return _total_sent; }
 
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
@@ -89,11 +94,17 @@ public:
 
     //! Multicast data to all connected sessions
     /*!
-        \param buffer - Buffer to send
+        \param buffer - Buffer to multicast
         \param size - Buffer size
         \return 'true' if the data was successfully multicast, 'false' if the server it not started
     */
     bool Multicast(const void* buffer, size_t size);
+    //! Multicast a text string to all connected sessions
+    /*!
+        \param text - Text string to multicast
+        \return 'true' if the text string was successfully multicast, 'false' if the server it not started
+    */
+    bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
 
     //! Disconnect all connected sessions
     /*!
@@ -134,6 +145,9 @@ private:
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
+    // Server statistic
+    size_t _total_received;
+    size_t _total_sent;
     // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Multicast buffer

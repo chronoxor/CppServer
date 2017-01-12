@@ -39,7 +39,7 @@ public:
     explicit SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, asio::ssl::context& context);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
-    virtual ~SSLSession() { Disconnect(true); }
+    virtual ~SSLSession() = default;
 
     SSLSession& operator=(const SSLSession&) = delete;
     SSLSession& operator=(SSLSession&&) = default;
@@ -57,6 +57,11 @@ public:
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
     //! Get the session SSL context
     asio::ssl::context& context() noexcept { return _context; }
+
+    //! Total bytes received
+    size_t total_received() const noexcept { return _total_received; }
+    //! Total bytes sent
+    size_t total_sent() const noexcept { return _total_sent; }
 
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; }
@@ -76,6 +81,12 @@ public:
         \return Count of pending bytes in the send buffer
     */
     size_t Send(const void* buffer, size_t size);
+    //! Send a text string into the session
+    /*!
+        \param text - Text string to send
+        \return Count of pending bytes in the send buffer
+    */
+    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
 
 protected:
     //! Handle session connected notification
@@ -129,6 +140,9 @@ private:
     asio::ssl::context& _context;
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
+    // Session statistic
+    size_t _total_received;
+    size_t _total_sent;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;

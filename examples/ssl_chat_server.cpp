@@ -45,14 +45,14 @@ protected:
 
     size_t onReceived(const void* buffer, size_t size) override
     {
-        std::string messsage((const char*)buffer, size);
-        std::cout << "Incoming: " << messsage << std::endl;
+        std::string message((const char*)buffer, size);
+        std::cout << "Incoming: " << message << std::endl;
 
         // Multicast message to all connected sessions
-        server()->Multicast(buffer, size);
+        server()->Multicast(message);
 
         // If the buffer starts with '!' the disconnect the current session
-        if (messsage == "!")
+        if (message == "!")
             Disconnect();
 
         // Inform that we handled the whole buffer
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
 
         // Multicast admin message to all sessions
         line = "(admin) " + line;
-        server->Multicast(line.data(), line.size());
+        server->Multicast(line);
     }
 
     // Stop the server

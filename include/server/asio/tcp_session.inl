@@ -16,7 +16,9 @@ inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServ
       _socket(std::move(socket)),
       _connected(false),
       _reciving(false),
-      _sending(false)
+      _sending(false),
+      _total_received(0),
+      _total_sent(0)
 {
 }
 
@@ -25,6 +27,10 @@ inline void TCPSession<TServer, TSession>::Connect()
 {
     // Put the socket into non-blocking mode
     _socket.non_blocking(true);
+
+    // Reset statistic
+    _total_received = 0;
+    _total_sent = 0;
 
     // Update the connected flag
     _connected = true;
@@ -73,6 +79,11 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
 template <class TServer, class TSession>
 inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t size)
 {
+    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((size > 0) && "Buffer size should be greater than zero!");
+    if ((buffer == nullptr) || (size == 0))
+        return 0;
+
     if (!IsConnected())
         return 0;
 
@@ -112,6 +123,11 @@ inline void TCPSession<TServer, TSession>::TryReceive()
             size_t size = _socket.read_some(asio::buffer(buffer), ec);
             if (size > 0)
             {
+                // Update statistic
+                _total_received += size;
+                server()->_total_received += size;
+
+                // Fill receive buffer
                 _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
 
                 // Call the buffer received handler
@@ -157,6 +173,10 @@ inline void TCPSession<TServer, TSession>::TrySend()
             size_t size = _socket.write_some(asio::buffer(_send_buffer), ec);
             if (size > 0)
             {
+                // Update statistic
+                _total_sent += size;
+                server()->_total_sent += size;
+
                 // Erase the sent buffer
                 _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
 

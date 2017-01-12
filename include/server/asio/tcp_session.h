@@ -40,7 +40,7 @@ public:
     explicit TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
-    virtual ~TCPSession() { Disconnect(true); }
+    virtual ~TCPSession() = default;
 
     TCPSession& operator=(const TCPSession&) = delete;
     TCPSession& operator=(TCPSession&&) = default;
@@ -54,6 +54,11 @@ public:
     std::shared_ptr<TCPServer<TServer, TSession>>& server() noexcept { return _server; }
     //! Get the session socket
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
+
+    //! Total bytes received
+    size_t total_received() const noexcept { return _total_received; }
+    //! Total bytes sent
+    size_t total_sent() const noexcept { return _total_sent; }
 
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; }
@@ -71,6 +76,12 @@ public:
         \return Count of pending bytes in the send buffer
     */
     size_t Send(const void* buffer, size_t size);
+    //! Send a text string into the session
+    /*!
+        \param text - Text string to send
+        \return Count of pending bytes in the send buffer
+    */
+    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
 
 protected:
     //! Handle session connected notification
@@ -120,6 +131,9 @@ private:
     std::shared_ptr<TCPServer<TServer, TSession>> _server;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
+    // Session statistic
+    size_t _total_received;
+    size_t _total_sent;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;

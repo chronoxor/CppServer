@@ -49,16 +49,12 @@ class EchoUDPClient : public UDPClient
 public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
-    std::atomic<size_t> received;
-    std::atomic<size_t> sent;
     std::atomic<bool> error;
 
     explicit EchoUDPClient(std::shared_ptr<EchoUDPService>& service, const std::string& address, int port)
         : UDPClient(service, address, port),
           connected(false),
           disconnected(false),
-          received(0),
-          sent(0),
           error(false)
     {
     }
@@ -66,8 +62,6 @@ public:
         : UDPClient(service, address, port, reuse_address),
           connected(false),
           disconnected(false),
-          received(0),
-          sent(0),
           error(false)
     {
     }
@@ -75,8 +69,6 @@ public:
 protected:
     void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; }
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { received += size; }
-    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent, size_t pending) override { this->sent += sent; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
@@ -85,16 +77,12 @@ class EchoUDPServer : public UDPServer
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
-    std::atomic<size_t> received;
-    std::atomic<size_t> sent;
     std::atomic<bool> error;
 
     explicit EchoUDPServer(std::shared_ptr<EchoUDPService> service, InternetProtocol protocol, int port)
         : UDPServer(service, protocol, port),
           started(false),
           stopped(false),
-          received(0),
-          sent(0),
           error(false)
     {
     }
@@ -102,8 +90,7 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Send(endpoint, buffer, size); received += size; }
-    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent, size_t pending) override { this->sent += sent; }
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Send(endpoint, buffer, size); }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
@@ -131,10 +118,10 @@ TEST_CASE("UDP server & client", "[CppServer][Asio]")
         Thread::Yield();
 
     // Send some data to the Echo server
-    client->Send("test", 4);
+    client->Send("test");
 
     // Wait for all data processed...
-    while (client->received != 4)
+    while (client->total_received() != 4)
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -163,15 +150,15 @@ TEST_CASE("UDP server & client", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->received == 4);
-    REQUIRE(server->sent == 4);
+    REQUIRE(server->total_received() == 4);
+    REQUIRE(server->total_sent() == 4);
     REQUIRE(!server->error);
 
     // Check the Echo client state
     REQUIRE(client->connected);
     REQUIRE(client->disconnected);
-    REQUIRE(client->received == 4);
-    REQUIRE(client->sent == 4);
+    REQUIRE(client->total_received() == 4);
+    REQUIRE(client->total_sent() == 4);
     REQUIRE(!client->error);
 }
 
@@ -201,10 +188,10 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     client1->JoinMulticastGroup(multicast_address);
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while (client1->received != 4)
+    while (client1->total_received() != 4)
         Thread::Yield();
 
     // Create and connect Echo client
@@ -215,10 +202,10 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     client2->JoinMulticastGroup(multicast_address);
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 8) || (client2->received != 4))
+    while ((client1->total_received() != 8) || (client2->total_received() != 4))
         Thread::Yield();
 
     // Create and connect Echo client
@@ -229,10 +216,10 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     client3->JoinMulticastGroup(multicast_address);
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 12) || (client2->received != 8) || (client3->received != 4))
+    while ((client1->total_received() != 12) || (client2->total_received() != 8) || (client3->total_received() != 4))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -242,10 +229,10 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 8))
+    while ((client1->total_received() != 12) || (client2->total_received() != 12) || (client3->total_received() != 8))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -255,10 +242,10 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 12))
+    while ((client1->total_received() != 12) || (client2->total_received() != 12) || (client3->total_received() != 12))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -288,17 +275,17 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->received == 0);
-    REQUIRE(server->sent == 20);
+    REQUIRE(server->total_received() == 0);
+    REQUIRE(server->total_sent() == 20);
     REQUIRE(!server->error);
 
     // Check the Echo client state
-    REQUIRE(client1->received == 12);
-    REQUIRE(client2->received == 12);
-    REQUIRE(client3->received == 12);
-    REQUIRE(client1->sent == 0);
-    REQUIRE(client2->sent == 0);
-    REQUIRE(client3->sent == 0);
+    REQUIRE(client1->total_received() == 12);
+    REQUIRE(client2->total_received() == 12);
+    REQUIRE(client3->total_received() == 12);
+    REQUIRE(client1->total_sent() == 0);
+    REQUIRE(client2->total_sent() == 0);
+    REQUIRE(client3->total_sent() == 0);
     REQUIRE(!client1->error);
     REQUIRE(!client2->error);
     REQUIRE(!client3->error);
@@ -331,7 +318,7 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
-        // Connect a new client
+        // Create a new client and connect
         if ((rand() % 100) == 0)
         {
             // Create and connect Echo client
@@ -339,15 +326,17 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
             client->Connect();
             clients.emplace_back(client);
         }
-        // Disconnect the random client
+        // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)
         {
             if (!clients.empty())
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                client->Disconnect();
-                clients.erase(clients.begin() + index);
+                if (client->IsConnected())
+                    client->Disconnect();
+                else
+                    client->Connect();
             }
         }
         // Reconnect the random client
@@ -357,7 +346,8 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                client->Reconnect();
+                if (client->IsConnected())
+                    client->Reconnect();
             }
         }
         // Send a message from the random client
@@ -367,7 +357,8 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                client->Send("test", 4);
+                if (client->IsConnected())
+                    client->Send("test");
             }
         }
 
@@ -388,8 +379,8 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->received > 0);
-    REQUIRE(server->sent > 0);
+    REQUIRE(server->total_received() > 0);
+    REQUIRE(server->total_sent() > 0);
     REQUIRE(!server->error);
 }
 
@@ -421,15 +412,8 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
-        // Disconnect all clients
-        if ((rand() % 1000) == 0)
-        {
-            for (auto& client : clients)
-                client->Disconnect();
-            clients.clear();
-        }
-        // Connect a new client
-        else if ((rand() % 100) == 0)
+        // Create a new client and connect
+        if ((rand() % 100) == 0)
         {
             // Create and connect Echo client
             auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
@@ -439,22 +423,31 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
             client->JoinMulticastGroup(multicast_address);
             clients.emplace_back(client);
         }
-        // Disconnect the random client
+        // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)
         {
             if (!clients.empty())
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                client->LeaveMulticastGroup(multicast_address);
-                client->Disconnect();
-                clients.erase(clients.begin() + index);
+                if (client->IsConnected())
+                {
+                    client->LeaveMulticastGroup(multicast_address);
+                    client->Disconnect();
+                }
+                else
+                {
+                    client->Connect();
+                    while (!client->IsConnected())
+                        Thread::Yield();
+                    client->JoinMulticastGroup(multicast_address);
+                }
             }
         }
         // Multicast a message to all clients
         else if ((rand() % 10) == 0)
         {
-            server->Multicast("test", 4);
+            server->Multicast("test");
         }
 
         // Sleep for a while...
@@ -474,7 +467,7 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->received == 0);
-    REQUIRE(server->sent > 0);
+    REQUIRE(server->total_received() == 0);
+    REQUIRE(server->total_sent() > 0);
     REQUIRE(!server->error);
 }

@@ -36,7 +36,7 @@ protected:
 
         // Send invite message
         std::string message("Hello from TCP chat! Please send a message or '!' to disconnect the client!");
-        Send(message.data(), message.size());
+        Send(message);
     }
     void onDisconnected() override
     {
@@ -45,10 +45,10 @@ protected:
 
     void onReceived(CppServer::Asio::WebSocketMessage message) override
     {
-        std::cout << "Incoming: " << message->get_payload() << std::endl;
+        std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
 
         // Multicast message to all connected sessions
-        server()->Multicast(message->get_payload().data(), message->get_payload().size(), message->get_opcode());
+        server()->Multicast(message);
 
         // If the buffer starts with '!' the disconnect the current session
         if (message->get_payload() == "!")
@@ -101,7 +101,7 @@ int main(int argc, char** argv)
 
         // Multicast admin message to all sessions
         line = "(admin) " + line;
-        server->Multicast(line.data(), line.size());
+        server->Multicast(line);
     }
 
     // Stop the server

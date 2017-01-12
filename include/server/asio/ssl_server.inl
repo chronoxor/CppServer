@@ -15,7 +15,9 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _context(context),
       _acceptor(_service->service()),
       _socket(_service->service()),
-      _started(false)
+      _started(false),
+      _total_received(0),
+      _total_sent(0)
 {
     switch (protocol)
     {
@@ -34,7 +36,9 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _context(context),
       _acceptor(_service->service()),
       _socket(_service->service()),
-      _started(false)
+      _started(false),
+      _total_received(0),
+      _total_sent(0)
 {
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
 }
@@ -46,16 +50,16 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _endpoint(endpoint),
       _acceptor(_service->service()),
       _socket(_service->service()),
-      _started(false)
+      _started(false),
+      _total_received(0),
+      _total_sent(0)
 {
 }
 
 template <class TServer, class TSession>
 inline bool SSLServer<TServer, TSession>::Start()
 {
-    if (!_service->IsStarted())
-        return false;
-
+    assert(!IsStarted() && "SSL server is already started!");
     if (IsStarted())
         return false;
 
@@ -65,6 +69,10 @@ inline bool SSLServer<TServer, TSession>::Start()
     {
         // Create the server acceptor
         _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
+
+        // Reset statistic
+        _total_received = 0;
+        _total_sent = 0;
 
         // Update the started flag
         _started = true;
@@ -82,6 +90,7 @@ inline bool SSLServer<TServer, TSession>::Start()
 template <class TServer, class TSession>
 inline bool SSLServer<TServer, TSession>::Stop()
 {
+    assert(IsStarted() && "SSL server is not started!");
     if (!IsStarted())
         return false;
 
@@ -150,6 +159,11 @@ inline void SSLServer<TServer, TSession>::Accept()
 template <class TServer, class TSession>
 inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t size)
 {
+    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((size > 0) && "Buffer size should be greater than zero!");
+    if ((buffer == nullptr) || (size == 0))
+        return 0;
+
     if (!IsStarted())
         return false;
 
@@ -163,6 +177,10 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
     _service->Dispatch([this, self]()
     {
         std::lock_guard<std::mutex> locker(_multicast_lock);
+
+        // Check for empty multicast buffer
+        if (_multicast_buffer.empty())
+            return;
 
         // Multicast all sessions
         for (auto& session : _sessions)

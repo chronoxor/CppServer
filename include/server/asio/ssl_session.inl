@@ -18,7 +18,9 @@ inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServ
       _connected(false),
       _handshaked(false),
       _reciving(false),
-      _sending(false)
+      _sending(false),
+      _total_received(0),
+      _total_sent(0)
 {
 }
 
@@ -27,6 +29,10 @@ inline void SSLSession<TServer, TSession>::Connect()
 {
     // Put the socket into non-blocking mode
     socket().non_blocking(true);
+
+    // Reset statistic
+    _total_received = 0;
+    _total_sent = 0;
 
     // Update the connected flag
     _connected = true;
@@ -103,6 +109,11 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
 template <class TServer, class TSession>
 inline size_t SSLSession<TServer, TSession>::Send(const void* buffer, size_t size)
 {
+    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((size > 0) && "Buffer size should be greater than zero!");
+    if ((buffer == nullptr) || (size == 0))
+        return 0;
+
     if (!IsHandshaked())
         return 0;
 
@@ -142,6 +153,11 @@ inline void SSLSession<TServer, TSession>::TryReceive()
             size_t size = _stream.read_some(asio::buffer(buffer), ec);
             if (size > 0)
             {
+                // Update statistic
+                _total_received += size;
+                server()->_total_received += size;
+
+                // Fill receive buffer
                 _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
 
                 // Call the buffer received handler
@@ -187,6 +203,10 @@ inline void SSLSession<TServer, TSession>::TrySend()
             size_t size = _stream.write_some(asio::buffer(_send_buffer), ec);
             if (size > 0)
             {
+                // Update statistic
+                _total_sent += size;
+                server()->_total_sent += size;
+
                 // Erase the sent buffer
                 _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
 

@@ -69,6 +69,11 @@ public:
     //! Get the WebSocket server core
     WebSocketServerCore& core() noexcept { return _core; }
 
+    //! Total bytes received
+    size_t total_received() const noexcept { return _total_received; }
+    //! Total bytes sent
+    size_t total_sent() const noexcept { return _total_sent; }
+
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
@@ -92,10 +97,23 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \param opcode - Data opcode (default is binary)
+        \param opcode - Data opcode (default is websocketpp::frame::opcode::binary)
         \return 'true' if the data was successfully multicast, 'false' if the server it not started
     */
     bool Multicast(const void* buffer, size_t size, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::binary);
+    //! Multicast a text string to all connected sessions
+    /*!
+        \param text - Text string to send
+        \param opcode - Data opcode (default is websocketpp::frame::opcode::text)
+        \return 'true' if the text string was successfully multicast, 'false' if the server it not started
+    */
+    bool Multicast(const std::string& text, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::text);
+    //! Multicast a message to all connected sessions
+    /*!
+        \param message - Message to send
+        \return 'true' if the message was successfully multicast, 'false' if the server it not started
+    */
+    bool Multicast(WebSocketMessage message);
 
     //! Disconnect all connected sessions
     /*!
@@ -131,17 +149,22 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
-    // WebSocket server endpoint & core
+    // Server endpoint & core
     asio::ip::tcp::endpoint _endpoint;
     WebSocketServerCore _core;
     std::atomic<bool> _initialized;
     std::atomic<bool> _started;
-    // WebSocket server sessions
+    // Server statistic
+    size_t _total_received;
+    size_t _total_sent;
+    // Server sessions
     std::map<websocketpp::connection_hdl, std::shared_ptr<TSession>, std::owner_less<websocketpp::connection_hdl>> _connections;
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Multicast buffer
     std::mutex _multicast_lock;
     std::vector<std::tuple<std::vector<uint8_t>, websocketpp::frame::opcode::value>> _multicast_buffer;
+    std::vector<std::tuple<std::string, websocketpp::frame::opcode::value>> _multicast_text;
+    std::vector<WebSocketMessage> _multicast_messages;
 
     //! Initialize Asio
     void InitAsio();
@@ -161,6 +184,9 @@ private:
         \param id - Session Id
     */
     void UnregisterSession(const CppCommon::UUID& id);
+
+    //! Multicast all
+    void MulticastAll();
 
     //! Clear multicast buffer
     void ClearBuffers();

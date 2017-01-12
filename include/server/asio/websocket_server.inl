@@ -13,7 +13,9 @@ template <class TServer, class TSession>
 inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
       _initialized(false),
-      _started(false)
+      _started(false),
+      _total_received(0),
+      _total_sent(0)
 {
     switch (protocol)
     {
@@ -32,7 +34,9 @@ template <class TServer, class TSession>
 inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _initialized(false),
-      _started(false)
+      _started(false),
+      _total_received(0),
+      _total_sent(0)
 {
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
 
@@ -44,7 +48,9 @@ inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Servi
     : _service(service),
       _endpoint(endpoint),
       _initialized(false),
-      _started(false)
+      _started(false),
+      _total_received(0),
+      _total_sent(0)
 {
     InitAsio();
 }
@@ -52,6 +58,7 @@ inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Servi
 template <class TServer, class TSession>
 inline void WebSocketServer<TServer, TSession>::InitAsio()
 {
+    assert(!_initialized && "Asio is already initialed!");
     if (_initialized)
         return;
 
@@ -70,12 +77,11 @@ inline void WebSocketServer<TServer, TSession>::InitAsio()
 template <class TServer, class TSession>
 inline bool WebSocketServer<TServer, TSession>::Start()
 {
-    if (!_service->IsStarted())
-        return false;
-
+    assert(_initialized && "Asio is not initialed!");
     if (!_initialized)
         return false;
 
+    assert(!IsStarted() && "WebSocket server is already started!");
     if (IsStarted())
         return false;
 
@@ -102,6 +108,10 @@ inline bool WebSocketServer<TServer, TSession>::Start()
             return;
         }
 
+        // Reset statistic
+        _total_received = 0;
+        _total_sent = 0;
+
         // Update the started flag
         _started = true;
 
@@ -124,6 +134,7 @@ inline bool WebSocketServer<TServer, TSession>::Start()
 template <class TServer, class TSession>
 inline bool WebSocketServer<TServer, TSession>::Stop()
 {
+    assert(IsStarted() && "WebSocket server is not started!");
     if (!IsStarted())
         return false;
 
@@ -168,6 +179,11 @@ inline bool WebSocketServer<TServer, TSession>::Restart()
 template <class TServer, class TSession>
 inline bool WebSocketServer<TServer, TSession>::Multicast(const void* buffer, size_t size, websocketpp::frame::opcode::value opcode)
 {
+    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((size > 0) && "Buffer size should be greater than zero!");
+    if ((buffer == nullptr) || (size == 0))
+        return false;
+
     if (!IsStarted())
         return false;
 
@@ -176,6 +192,41 @@ inline bool WebSocketServer<TServer, TSession>::Multicast(const void* buffer, si
     std::vector<uint8_t> message((const uint8_t*)buffer, ((const uint8_t*)buffer) + size);
     _multicast_buffer.emplace_back(std::make_tuple(message, opcode));
 
+    MulticastAll();
+    return true;
+}
+
+template <class TServer, class TSession>
+inline bool WebSocketServer<TServer, TSession>::Multicast(const std::string& text, websocketpp::frame::opcode::value opcode)
+{
+    if (!IsStarted())
+        return false;
+
+    std::lock_guard<std::mutex> locker(_multicast_lock);
+
+    _multicast_text.emplace_back(std::make_tuple(text, opcode));
+
+    MulticastAll();
+    return true;
+}
+
+template <class TServer, class TSession>
+inline bool WebSocketServer<TServer, TSession>::Multicast(WebSocketMessage message)
+{
+    if (!IsStarted())
+        return false;
+
+    std::lock_guard<std::mutex> locker(_multicast_lock);
+
+    _multicast_messages.push_back(message);
+
+    MulticastAll();
+    return true;
+}
+
+template <class TServer, class TSession>
+inline void WebSocketServer<TServer, TSession>::MulticastAll()
+{
     // Dispatch the multicast routine
     auto self(this->shared_from_this());
     _service->Dispatch([this, self]()
@@ -184,14 +235,20 @@ inline bool WebSocketServer<TServer, TSession>::Multicast(const void* buffer, si
 
         // Multicast all sessions
         for (auto& session : _sessions)
+        {
             for (auto& message : _multicast_buffer)
                 session.second->Send(std::get<0>(message).data(), std::get<0>(message).size(), std::get<1>(message));
+            for (auto& text : _multicast_text)
+                session.second->Send(std::get<0>(text), std::get<1>(text));
+            for (auto& message : _multicast_messages)
+                session.second->Send(message);
+        }
 
-        // Clear the multicast buffer
+        // Clear the multicast buffers
         _multicast_buffer.clear();
+        _multicast_text.clear();
+        _multicast_messages.clear();
     });
-
-    return true;
 }
 
 template <class TServer, class TSession>
@@ -265,6 +322,8 @@ inline void WebSocketServer<TServer, TSession>::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_multicast_lock);
     _multicast_buffer.clear();
+    _multicast_text.clear();
+    _multicast_messages.clear();
 }
 
 } // namespace Asio

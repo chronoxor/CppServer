@@ -58,7 +58,7 @@ public:
     explicit UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address);
     UDPClient(const UDPClient&) = delete;
     UDPClient(UDPClient&&) = default;
-    virtual ~UDPClient() { Disconnect(true); }
+    virtual ~UDPClient() = default;
 
     UDPClient& operator=(const UDPClient&) = delete;
     UDPClient& operator=(UDPClient&&) = default;
@@ -72,6 +72,11 @@ public:
     asio::ip::udp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the client socket
     asio::ip::udp::socket& socket() noexcept { return _socket; }
+
+    //! Total bytes received
+    size_t total_received() const noexcept { return _total_received; }
+    //! Total bytes sent
+    size_t total_sent() const noexcept { return _total_sent; }
 
     //! Is the client connected?
     bool IsConnected() const noexcept { return _connected; }
@@ -110,6 +115,12 @@ public:
         \return Count of pending bytes in the send buffer
     */
     size_t Send(const void* buffer, size_t size);
+    //! Send a text string to the connected server
+    /*!
+        \param text - Text string to send
+        \return Count of pending bytes in the send buffer
+    */
+    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
 
     //! Send datagram to the given endpoint
     /*!
@@ -119,6 +130,13 @@ public:
         \return Count of pending bytes in the send buffer
     */
     size_t Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    //! Send a text string to the given endpoint
+    /*!
+        \param endpoint - Endpoint to send
+        \param text - Text string to send
+        \return Count of pending bytes in the send buffer
+    */
+    size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
 protected:
     //! Handle client connected notification
@@ -166,6 +184,9 @@ private:
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;
     std::atomic<bool> _connected;
+    // Client statistic
+    size_t _total_received;
+    size_t _total_sent;
     // Receive endpoint
     asio::ip::udp::endpoint _recive_endpoint;
     // Receive & send buffers

@@ -45,7 +45,7 @@ public:
     explicit UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
     UDPServer(const UDPServer&) = delete;
     UDPServer(UDPServer&&) = default;
-    virtual ~UDPServer() { Stop(); }
+    virtual ~UDPServer() = default;
 
     UDPServer& operator=(const UDPServer&) = delete;
     UDPServer& operator=(UDPServer&&) = default;
@@ -56,6 +56,11 @@ public:
     asio::ip::udp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the server multicast endpoint
     asio::ip::udp::endpoint& multicast_endpoint() noexcept { return _multicast_endpoint; }
+
+    //! Total bytes received
+    size_t total_received() const noexcept { return _total_received; }
+    //! Total bytes sent
+    size_t total_sent() const noexcept { return _total_sent; }
 
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
@@ -93,11 +98,17 @@ public:
 
     //! Multicast a datagram to the prepared mulicast endpoint
     /*!
-        \param buffer - Datagram buffer to send
+        \param buffer - Datagram buffer to multicast
         \param size - Datagram buffer size
         \return Count of pending bytes in the send buffer
     */
     size_t Multicast(const void* buffer, size_t size);
+    //! Multicast a text string to the prepared mulicast endpoint
+    /*!
+        \param text - Text string to multicast
+        \return Count of pending bytes in the send buffer
+    */
+    size_t Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
 
     //! Send a datagram into the given endpoint
     /*!
@@ -107,6 +118,13 @@ public:
         \return Count of pending bytes in the send buffer
     */
     size_t Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    //! Send a text string into the given endpoint
+    /*!
+        \param endpoint - Endpoint to send
+        \param text - Text string to send
+        \return Count of pending bytes in the send buffer
+    */
+    size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text); }
 
 protected:
     //! Handle server started notification
@@ -152,6 +170,9 @@ private:
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;
     std::atomic<bool> _started;
+    // Server statistic
+    size_t _total_received;
+    size_t _total_sent;
     // Multicast & receive endpoint
     asio::ip::udp::endpoint _multicast_endpoint;
     asio::ip::udp::endpoint _recive_endpoint;

@@ -14,6 +14,7 @@
 #include "asio.h"
 
 #include <atomic>
+#include <cassert>
 #include <memory>
 #include <string>
 
@@ -34,7 +35,7 @@ public:
     Service() : _started(false) {}
     Service(const Service&) = delete;
     Service(Service&&) = default;
-    virtual ~Service() { Stop(); }
+    virtual ~Service() = default;
 
     Service& operator=(const Service&) = delete;
     Service& operator=(Service&&) = default;

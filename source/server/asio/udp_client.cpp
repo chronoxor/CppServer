@@ -8,6 +8,8 @@
 
 #include "server/asio/udp_client.h"
 
+#include <cassert>
+
 namespace CppServer {
 namespace Asio {
 
@@ -17,6 +19,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
       _socket(_service->service()),
       _connected(false),
+      _total_received(0),
+      _total_sent(0),
       _reciving(false),
       _sending(false),
       _multicast(false),
@@ -30,6 +34,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _endpoint(endpoint),
       _socket(_service->service()),
       _connected(false),
+      _total_received(0),
+      _total_sent(0),
       _reciving(false),
       _sending(false),
       _multicast(false),
@@ -43,6 +49,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
       _socket(_service->service()),
       _connected(false),
+      _total_received(0),
+      _total_sent(0),
       _reciving(false),
       _sending(false),
       _multicast(true),
@@ -56,6 +64,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _endpoint(endpoint),
       _socket(_service->service()),
       _connected(false),
+      _total_received(0),
+      _total_sent(0),
       _reciving(false),
       _sending(false),
       _multicast(true),
@@ -65,9 +75,6 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
 
 bool UDPClient::Connect()
 {
-    if (!_service->IsStarted())
-        return false;
-
     if (IsConnected())
         return false;
 
@@ -87,6 +94,10 @@ bool UDPClient::Connect()
             _socket.open(_endpoint.protocol());
             _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
         }
+
+        // Reset statistic
+        _total_received = 0;
+        _total_sent = 0;
 
         // Update the connected flag
         _connected = true;
@@ -145,6 +156,9 @@ bool UDPClient::Reconnect()
 
 void UDPClient::JoinMulticastGroup(const std::string& address)
 {
+    if (!IsConnected())
+        return;
+
     asio::ip::address muticast_address = asio::ip::address::from_string(address);
 
     // Dispatch the join multicast group routine
@@ -158,6 +172,9 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
 
 void UDPClient::LeaveMulticastGroup(const std::string& address)
 {
+    if (!IsConnected())
+        return;
+
     asio::ip::address muticast_address = asio::ip::address::from_string(address);
 
     // Dispatch the leave multicast group routine
@@ -177,6 +194,14 @@ size_t UDPClient::Send(const void* buffer, size_t size)
 
 size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
+    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((size > 0) && "Buffer size should be greater than zero!");
+    if ((buffer == nullptr) || (size == 0))
+        return 0;
+
+    if (!IsConnected())
+        return 0;
+
     std::lock_guard<std::mutex> locker(_send_lock);
 
     const uint8_t* bytes = (const uint8_t*)buffer;
@@ -211,6 +236,9 @@ void UDPClient::TryReceive()
         // Received datagram from the server
         if (received > 0)
         {
+            // Update statistic
+            _total_received += received;
+
             // Prepare receive buffer
             _recive_buffer.resize(_recive_buffer.size() - (CHUNK - received));
 
@@ -250,6 +278,9 @@ void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
         // Sent datagram to the server
         if (sent > 0)
         {
+            // Update statistic
+            _total_sent += sent;
+
             // Erase the sent buffer
             {
                 std::lock_guard<std::mutex> locker(_send_lock);

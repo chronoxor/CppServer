@@ -50,8 +50,6 @@ public:
     std::atomic<bool> connected;
     std::atomic<bool> handshaked;
     std::atomic<bool> disconnected;
-    std::atomic<size_t> received;
-    std::atomic<size_t> sent;
     std::atomic<bool> error;
 
     explicit EchoSSLClient(std::shared_ptr<EchoSSLService>& service, asio::ssl::context& context, const std::string& address, int port)
@@ -59,8 +57,6 @@ public:
           connected(false),
           handshaked(false),
           disconnected(false),
-          received(0),
-          sent(0),
           error(false)
     {
     }
@@ -77,8 +73,6 @@ protected:
     void onConnected() override { connected = true; }
     void onHandshaked() override { handshaked = true; }
     void onDisconnected() override { disconnected = true; }
-    size_t onReceived(const void* buffer, size_t size) override { received += size; return size; }
-    void onSent(size_t sent, size_t pending) override { this->sent += sent; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
@@ -90,8 +84,6 @@ public:
     std::atomic<bool> connected;
     std::atomic<bool> handshaked;
     std::atomic<bool> disconnected;
-    std::atomic<size_t> received;
-    std::atomic<size_t> sent;
     std::atomic<bool> error;
 
     explicit EchoSSLSession(std::shared_ptr<SSLServer<EchoSSLServer, EchoSSLSession>> server, asio::ip::tcp::socket&& socket, asio::ssl::context& context)
@@ -99,8 +91,6 @@ public:
           connected(false),
           handshaked(false),
           disconnected(false),
-          received(0),
-          sent(0),
           error(false)
     {
     }
@@ -109,8 +99,7 @@ protected:
     void onConnected() override { connected = true; }
     void onHandshaked() override { handshaked = true; }
     void onDisconnected() override { disconnected = true; }
-    size_t onReceived(const void* buffer, size_t size) override { Send(buffer, size); received += size; return size; }
-    void onSent(size_t sent, size_t pending) override { this->sent += sent; }
+    size_t onReceived(const void* buffer, size_t size) override { Send(buffer, size); return size; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
@@ -122,8 +111,6 @@ public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
     std::atomic<size_t> clients;
-    std::atomic<size_t> received;
-    std::atomic<size_t> sent;
     std::atomic<bool> error;
 
     explicit EchoSSLServer(std::shared_ptr<EchoSSLService> service, asio::ssl::context& context, InternetProtocol protocol, int port)
@@ -133,8 +120,6 @@ public:
           connected(false),
           disconnected(false),
           clients(0),
-          received(0),
-          sent(0),
           error(false)
     {
     }
@@ -154,7 +139,7 @@ protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
     void onConnected(std::shared_ptr<EchoSSLSession> session) override { connected = true; ++clients; }
-    void onDisconnected(std::shared_ptr<EchoSSLSession> session) override { disconnected = true; --clients; received += session->received; sent += session->sent; }
+    void onDisconnected(std::shared_ptr<EchoSSLSession> session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
@@ -188,10 +173,10 @@ TEST_CASE("SSL server & client", "[CppServer][Asio]")
         Thread::Yield();
 
     // Send some data to the Echo server
-    client->Send("test", 4);
+    client->Send("test");
 
     // Wait for all data processed...
-    while (client->received != 4)
+    while (client->total_received() != 4)
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -222,16 +207,16 @@ TEST_CASE("SSL server & client", "[CppServer][Asio]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
-    REQUIRE(server->received == 4);
-    REQUIRE(server->sent == 4);
+    REQUIRE(server->total_received() == 4);
+    REQUIRE(server->total_sent() == 4);
     REQUIRE(!server->error);
 
     // Check the Echo client state
     REQUIRE(client->connected);
     REQUIRE(client->handshaked);
     REQUIRE(client->disconnected);
-    REQUIRE(client->received == 4);
-    REQUIRE(client->sent == 4);
+    REQUIRE(client->total_received() == 4);
+    REQUIRE(client->total_sent() == 4);
     REQUIRE(!client->error);
 }
 
@@ -265,10 +250,10 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while (client1->received != 4)
+    while (client1->total_received() != 4)
         Thread::Yield();
 
     // Create and connect Echo client
@@ -278,10 +263,10 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 8) || (client2->received != 4))
+    while ((client1->total_received() != 8) || (client2->total_received() != 4))
         Thread::Yield();
 
     // Create and connect Echo client
@@ -291,10 +276,10 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 12) || (client2->received != 8) || (client3->received != 4))
+    while ((client1->total_received() != 12) || (client2->total_received() != 8) || (client3->total_received() != 4))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -303,10 +288,10 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 8))
+    while ((client1->total_received() != 12) || (client2->total_received() != 12) || (client3->total_received() != 8))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -315,10 +300,10 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 12))
+    while ((client1->total_received() != 12) || (client2->total_received() != 12) || (client3->total_received() != 12))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -349,17 +334,17 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
-    REQUIRE(server->received == 0);
-    REQUIRE(server->sent == 36);
+    REQUIRE(server->total_received() == 0);
+    REQUIRE(server->total_sent() == 36);
     REQUIRE(!server->error);
 
     // Check the Echo client state
-    REQUIRE(client1->received == 12);
-    REQUIRE(client2->received == 12);
-    REQUIRE(client3->received == 12);
-    REQUIRE(client1->sent == 0);
-    REQUIRE(client2->sent == 0);
-    REQUIRE(client3->sent == 0);
+    REQUIRE(client1->total_received() == 12);
+    REQUIRE(client2->total_received() == 12);
+    REQUIRE(client3->total_received() == 12);
+    REQUIRE(client1->total_sent() == 0);
+    REQUIRE(client2->total_sent() == 0);
+    REQUIRE(client3->total_sent() == 0);
     REQUIRE(!client1->error);
     REQUIRE(!client2->error);
     REQUIRE(!client3->error);
@@ -402,9 +387,8 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
         if ((rand() % 1000) == 0)
         {
             server->DisconnectAll();
-            clients.clear();
         }
-        // Connect a new client
+        // Create a new client and connect
         else if ((rand() % 100) == 0)
         {
             // Create and connect Echo client
@@ -412,15 +396,17 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
             client->Connect();
             clients.emplace_back(client);
         }
-        // Disconnect the random client
+        // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)
         {
             if (!clients.empty())
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                client->Disconnect();
-                clients.erase(clients.begin() + index);
+                if (client->IsConnected())
+                    client->Disconnect();
+                else
+                    client->Connect();
             }
         }
         // Reconnect the random client
@@ -430,13 +416,14 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                client->Reconnect();
+                if (client->IsConnected())
+                    client->Reconnect();
             }
         }
         // Multicast a message to all clients
         else if ((rand() % 10) == 0)
         {
-            server->Multicast("test", 4);
+            server->Multicast("test");
         }
         // Send a message from the random client
         else if ((rand() % 1) == 0)
@@ -445,7 +432,8 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                client->Send("test", 4);
+				if (client->IsHandshaked())
+					client->Send("test");
             }
         }
 
@@ -468,7 +456,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
-    REQUIRE(server->received > 0);
-    REQUIRE(server->sent > 0);
+    REQUIRE(server->total_received() > 0);
+    REQUIRE(server->total_sent() > 0);
     REQUIRE(!server->error);
 }

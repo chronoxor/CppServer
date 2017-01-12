@@ -8,6 +8,8 @@
 
 #include "server/asio/udp_server.h"
 
+#include <cassert>
+
 namespace CppServer {
 namespace Asio {
 
@@ -16,7 +18,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _socket(_service->service()),
       _started(false),
       _reciving(false),
-      _sending(false)
+      _sending(false),
+      _total_received(0),
+      _total_sent(0)
 {
     switch (protocol)
     {
@@ -32,7 +36,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
 UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _socket(_service->service()),
-      _started(false)
+      _started(false),
+      _total_received(0),
+      _total_sent(0)
 {
     _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), port);
 }
@@ -41,15 +47,15 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
     : _service(service),
       _endpoint(endpoint),
       _socket(_service->service()),
-      _started(false)
+      _started(false),
+      _total_received(0),
+      _total_sent(0)
 {
 }
 
 bool UDPServer::Start()
 {
-    if (!_service->IsStarted())
-        return false;
-
+    assert(!IsStarted() && "UDP server is already started!");
     if (IsStarted())
         return false;
 
@@ -59,6 +65,10 @@ bool UDPServer::Start()
     {
         // Open the server socket
         _socket = asio::ip::udp::socket(_service->service(), _endpoint);
+
+        // Reset statistic
+        _total_received = 0;
+        _total_sent = 0;
 
          // Update the started flag
         _started = true;
@@ -87,6 +97,7 @@ bool UDPServer::Start(const asio::ip::udp::endpoint& multicast_endpoint)
 
 bool UDPServer::Stop()
 {
+    assert(IsStarted() && "UDP server is not started!");
     if (!IsStarted())
         return false;
 
@@ -129,6 +140,14 @@ size_t UDPServer::Multicast(const void* buffer, size_t size)
 
 size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
+    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((size > 0) && "Buffer size should be greater than zero!");
+    if ((buffer == nullptr) || (size == 0))
+        return 0;
+
+    if (!IsStarted())
+        return 0;
+
     std::lock_guard<std::mutex> locker(_send_lock);
 
     const uint8_t* bytes = (const uint8_t*)buffer;
@@ -163,6 +182,9 @@ void UDPServer::TryReceive()
         // Received datagram from the client
         if (received > 0)
         {
+            // Update statistic
+            _total_received += received;
+
             // Prepare receive buffer
             _recive_buffer.resize(_recive_buffer.size() - (CHUNK - received));
 
@@ -199,6 +221,9 @@ void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
         // Sent datagram to the client
         if (sent > 0)
         {
+            // Update statistic
+            _total_sent += sent;
+
             // Erase the sent buffer
             {
                 std::lock_guard<std::mutex> locker(_send_lock);

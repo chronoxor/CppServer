@@ -33,7 +33,7 @@ protected:
 
     void onReceived(CppServer::Asio::WebSocketMessage message) override
     {
-        std::cout << "Incoming: " << message->get_payload() << std::endl;
+        std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -82,7 +82,7 @@ int main(int argc, char** argv)
             break;
 
         // Send the entered text to the chat server
-        client->Send(line.data(), line.size());
+        client->Send(line);
     }
 
     // Disconnect the client

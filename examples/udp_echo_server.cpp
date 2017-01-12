@@ -18,11 +18,11 @@ public:
 protected:
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
-        std::string messsage((const char*)buffer, size);
-        std::cout << "Incoming: " << messsage << std::endl;
+        std::string message((const char*)buffer, size);
+        std::cout << "Incoming: " << message << std::endl;
 
         // Echo the message back to the sender
-        Send(endpoint, buffer, size);
+        Send(endpoint, message);
     }
 
     void onError(int error, const std::string& category, const std::string& message) override

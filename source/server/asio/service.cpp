@@ -10,11 +10,14 @@
 
 #include "errors/fatal.h"
 
+#include <cassert>
+
 namespace CppServer {
 namespace Asio {
 
 bool Service::Start(bool polling)
 {
+    assert(!IsStarted() && "Asio service is already started!");
     if (IsStarted())
         return false;
 
@@ -37,6 +40,7 @@ bool Service::Start(bool polling)
 
 bool Service::Stop()
 {
+    assert(IsStarted() && "Asio service is not started!");
     if (!IsStarted())
         return false;
 

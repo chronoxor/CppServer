@@ -18,11 +18,11 @@ public:
 protected:
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
-        std::string messsage((const char*)buffer, size);
-        std::cout << "Incoming: " << messsage << std::endl;
+        std::string message((const char*)buffer, size);
+        std::cout << "Incoming: " << message << std::endl;
 
         // Multicast message
-        Multicast(buffer, size);
+        Multicast(message);
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -77,7 +77,7 @@ int main(int argc, char** argv)
 
         // Multicast admin message to all sessions
         line = "(admin) " + line;
-        server->Multicast(line.data(), line.size());
+        server->Multicast(line);
     }
 
     // Stop the server

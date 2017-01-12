@@ -85,7 +85,7 @@ int main(int argc, char** argv)
         }
 
         // Send the entered text to the echo server
-        client->Send(line.data(), line.size());
+        client->Send(line);
     }
 
     // Disconnect the client

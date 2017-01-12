@@ -50,87 +50,21 @@ class EchoWebSocketClient : public WebSocketClient
 public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
-    std::atomic<size_t> received;
     std::atomic<bool> error;
 
     explicit EchoWebSocketClient(std::shared_ptr<EchoWebSocketService>& service, const std::string& uri)
         : WebSocketClient(service, uri),
           connected(false),
           disconnected(false),
-          received(0),
           error(false)
     {
     }
 
-    static void DisconnectRandom()
-    {
-        if (!clients.empty())
-        {
-            EchoWebSocketClient* client;
-            {
-                std::lock_guard<std::mutex> locker(lock);
-                size_t index = rand() % clients.size();
-                client = clients.at(index);
-            }
-            client->Disconnect();
-        }
-    }
-
-    static void ReconnectRandom()
-    {
-        if (!clients.empty())
-        {
-            EchoWebSocketClient* client;
-            {
-                std::lock_guard<std::mutex> locker(lock);
-                size_t index = rand() % clients.size();
-                client = clients.at(index);
-            }
-            client->Reconnect();
-        }
-    }
-
-    static void SendRandom(const void* buffer, size_t size, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::binary)
-    {
-        if (!clients.empty())
-        {
-            EchoWebSocketClient* client;
-            {
-                std::lock_guard<std::mutex> locker(lock);
-                size_t index = rand() % clients.size();
-                client = clients.at(index);
-            }
-            client->Send(buffer, size, opcode);
-        }
-    }
-
 protected:
-    void onConnected() override
-    {
-        connected = true;
-
-        std::lock_guard<std::mutex> locker(lock);
-
-        clients.push_back(this);
-    }
-    void onDisconnected() override
-    {
-        disconnected = true;
-
-        std::lock_guard<std::mutex> locker(lock);
-
-        clients.erase(std::remove(clients.begin(), clients.end(), this), clients.end());
-    }
-    void onReceived(WebSocketMessage message) override { received += message->get_payload().size(); }
+    void onConnected() override { connected = true; }
+    void onDisconnected() override { disconnected = true; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
-
-private:
-    static std::mutex lock;
-    static std::vector<EchoWebSocketClient*> clients;
 };
-
-std::mutex EchoWebSocketClient::lock;
-std::vector<EchoWebSocketClient*> EchoWebSocketClient::clients;
 
 class EchoWebSocketServer;
 
@@ -139,16 +73,12 @@ class EchoWebSocketSession : public WebSocketSession<EchoWebSocketServer, EchoWe
 public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
-    std::atomic<size_t> received;
-    std::atomic<size_t> sent;
     std::atomic<bool> error;
 
     explicit EchoWebSocketSession(std::shared_ptr<WebSocketServer<EchoWebSocketServer, EchoWebSocketSession>> server)
         : WebSocketSession<EchoWebSocketServer, EchoWebSocketSession>(server),
           connected(false),
           disconnected(false),
-          received(0),
-          sent(0),
           error(false)
     {
     }
@@ -156,7 +86,7 @@ public:
 protected:
     void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; }
-    void onReceived(WebSocketMessage message) override { Send(message->get_payload().data(), message->get_payload().size()); received += message->get_payload().size(); sent += message->get_payload().size(); }
+    void onReceived(WebSocketMessage message) override { Send(message); }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
@@ -168,8 +98,6 @@ public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
     std::atomic<size_t> clients;
-    std::atomic<size_t> received;
-    std::atomic<size_t> sent;
     std::atomic<bool> error;
 
     explicit EchoWebSocketServer(std::shared_ptr<EchoWebSocketService> service, InternetProtocol protocol, int port)
@@ -179,8 +107,6 @@ public:
           connected(false),
           disconnected(false),
           clients(0),
-          received(0),
-          sent(0),
           error(false)
     {
     }
@@ -189,7 +115,7 @@ protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
     void onConnected(std::shared_ptr<EchoWebSocketSession> session) override { connected = true; ++clients; }
-    void onDisconnected(std::shared_ptr<EchoWebSocketSession> session) override { disconnected = true; --clients; received += session->received; sent += session->sent; }
+    void onDisconnected(std::shared_ptr<EchoWebSocketSession> session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
@@ -218,10 +144,10 @@ TEST_CASE("WebSocket server & client", "[CppServer][Asio]")
         Thread::Yield();
 
     // Send some data to the Echo server
-    client->Send("test", 4);
+    client->Send("test");
 
     // Wait for all data processed...
-    while (client->received != 4)
+    while (client->total_received() != 4)
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -252,14 +178,15 @@ TEST_CASE("WebSocket server & client", "[CppServer][Asio]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
-    REQUIRE(server->received == 4);
-    REQUIRE(server->sent == 4);
+    REQUIRE(server->total_received() == 4);
+    REQUIRE(server->total_sent() == 4);
     REQUIRE(!server->error);
 
     // Check the Echo client state
     REQUIRE(client->connected);
     REQUIRE(client->disconnected);
-    REQUIRE(client->received == 4);
+    REQUIRE(client->total_received() == 4);
+    REQUIRE(client->total_sent() == 4);
     REQUIRE(!client->error);
 }
 
@@ -288,10 +215,10 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while (client1->received != 4)
+    while (client1->total_received() != 4)
         Thread::Yield();
 
     // Create and connect Echo client
@@ -301,10 +228,10 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 8) || (client2->received != 4))
+    while ((client1->total_received() != 8) || (client2->total_received() != 4))
         Thread::Yield();
 
     // Create and connect Echo client
@@ -314,10 +241,10 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 12) || (client2->received != 8) || (client3->received != 4))
+    while ((client1->total_received() != 12) || (client2->total_received() != 8) || (client3->total_received() != 4))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -326,10 +253,10 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 8))
+    while ((client1->total_received() != 12) || (client2->total_received() != 12) || (client3->total_received() != 8))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -338,10 +265,10 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test", 4);
+    server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 12))
+    while ((client1->total_received() != 12) || (client2->total_received() != 12) || (client3->total_received() != 12))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -372,13 +299,17 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
-    REQUIRE(server->received == 0);
+    REQUIRE(server->total_received() == 0);
+    REQUIRE(server->total_sent() == 36);
     REQUIRE(!server->error);
 
     // Check the Echo client state
-    REQUIRE(client1->received == 12);
-    REQUIRE(client2->received == 12);
-    REQUIRE(client3->received == 12);
+    REQUIRE(client1->total_received() == 12);
+    REQUIRE(client2->total_received() == 12);
+    REQUIRE(client3->total_received() == 12);
+    REQUIRE(client1->total_sent() == 0);
+    REQUIRE(client2->total_sent() == 0);
+    REQUIRE(client3->total_sent() == 0);
     REQUIRE(!client1->error);
     REQUIRE(!client2->error);
     REQUIRE(!client3->error);
@@ -418,7 +349,7 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
         {
             server->DisconnectAll();
         }
-        // Connect a new client
+        // Create a new client and connect
         else if ((rand() % 100) == 0)
         {
             // Create and connect Echo client
@@ -426,25 +357,45 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
             client->Connect();
             clients.emplace_back(client);
         }
-        // Disconnect the random client
+        // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)
         {
-            EchoWebSocketClient::DisconnectRandom();
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                if (client->IsConnected())
+                    client->Disconnect();
+                else
+                    client->Connect();
+            }
         }
         // Reconnect the random client
         else if ((rand() % 100) == 0)
         {
-            EchoWebSocketClient::ReconnectRandom();
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                if (client->IsConnected())
+                    client->Reconnect();
+            }
         }
         // Multicast a message to all clients
         else if ((rand() % 10) == 0)
         {
-            server->Multicast("test", 4);
+            server->Multicast("test");
         }
         // Send a message from the random client
         else if ((rand() % 1) == 0)
         {
-            EchoWebSocketClient::SendRandom("test", 4);
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                if (client->IsConnected())
+                    client->Send("test");
+            }
         }
 
         // Sleep for a while...
@@ -466,7 +417,7 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
-    REQUIRE(server->received > 0);
-    REQUIRE(server->sent > 0);
+    REQUIRE(server->total_received() > 0);
+    REQUIRE(server->total_sent() > 0);
     REQUIRE(!server->error);
 }

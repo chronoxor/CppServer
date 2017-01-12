@@ -55,6 +55,11 @@ public:
     //! Get the session connection
     websocketpp::connection_hdl& connection() noexcept { return _connection; }
 
+    //! Total bytes received
+    size_t total_received() const noexcept { return _total_received; }
+    //! Total bytes sent
+    size_t total_sent() const noexcept { return _total_sent; }
+
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; }
 
@@ -64,17 +69,29 @@ public:
         \param reason - Close reason to send (default is "")
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    bool Disconnect(websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "")
-    { return Disconnect(false, code, reason); }
+    bool Disconnect(websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "") { return Disconnect(false, code, reason); }
 
     //! Send data into the session
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \param opcode - Data opcode (default is binary)
+        \param opcode - Data opcode (default is websocketpp::frame::opcode::binary)
         \return Count of sent bytes
     */
     size_t Send(const void* buffer, size_t size, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::binary);
+    //! Send a text string into the session
+    /*!
+        \param text - Text string to send
+        \param opcode - Data opcode (default is websocketpp::frame::opcode::text)
+        \return Count of sent bytes
+    */
+    size_t Send(const std::string& text, websocketpp::frame::opcode::value opcode = websocketpp::frame::opcode::text);
+    //! Send a message into the session
+    /*!
+        \param message - Message to send
+        \return Count of sent bytes
+    */
+    size_t Send(WebSocketMessage message);
 
 protected:
     //! Handle session connected notification
@@ -99,10 +116,13 @@ protected:
 private:
     // Session Id
     CppCommon::UUID _id;
-    // WebSocket session server & connection
+    // Session server & connection
     std::shared_ptr<WebSocketServer<TServer, TSession>> _server;
     websocketpp::connection_hdl _connection;
     std::atomic<bool> _connected;
+    // Session statistic
+    size_t _total_received;
+    size_t _total_sent;
 
     //! Connect the session
     /*!

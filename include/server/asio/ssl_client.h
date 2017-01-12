@@ -63,6 +63,11 @@ public:
     //! Get the client socket
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept;
 
+    //! Total bytes received
+    size_t total_received() const noexcept;
+    //! Total bytes sent
+    size_t total_sent() const noexcept;
+
     //! Is the client connected?
     bool IsConnected() const noexcept;
     //! Is the session handshaked?
@@ -91,6 +96,12 @@ public:
         \return Count of pending bytes in the send buffer
     */
     size_t Send(const void* buffer, size_t size);
+    //! Send a text string to the server
+    /*!
+        \param text - Text string to send
+        \return Count of pending bytes in the send buffer
+    */
+    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
 
 protected:
     //! Handle client connected notification

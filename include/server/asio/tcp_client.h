@@ -43,7 +43,7 @@ public:
     explicit TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPClient(const TCPClient&) = delete;
     TCPClient(TCPClient&&) = default;
-    virtual ~TCPClient() { Disconnect(true); }
+    virtual ~TCPClient() = default;
 
     TCPClient& operator=(const TCPClient&) = delete;
     TCPClient& operator=(TCPClient&&) = default;
@@ -57,6 +57,11 @@ public:
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the client socket
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
+
+    //! Total bytes received
+    size_t total_received() const noexcept { return _total_received; }
+    //! Total bytes sent
+    size_t total_sent() const noexcept { return _total_sent; }
 
     //! Is the client connected?
     bool IsConnected() const noexcept { return _connected; }
@@ -84,6 +89,12 @@ public:
         \return Count of pending bytes in the send buffer
     */
     size_t Send(const void* buffer, size_t size);
+    //! Send a text string to the server
+    /*!
+        \param text - Text string to send
+        \return Count of pending bytes in the send buffer
+    */
+    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
 
 protected:
     //! Handle client connected notification
@@ -135,6 +146,9 @@ private:
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
+    // Client statistic
+    size_t _total_received;
+    size_t _total_sent;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
