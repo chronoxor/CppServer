@@ -8,8 +8,6 @@
 
 #include "server/asio/udp_server.h"
 
-#include <cassert>
-
 namespace CppServer {
 namespace Asio {
 

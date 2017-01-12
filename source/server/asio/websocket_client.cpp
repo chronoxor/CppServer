@@ -8,8 +8,6 @@
 
 #include "server/asio/websocket_client.h"
 
-#include <cassert>
-
 namespace CppServer {
 namespace Asio {
 

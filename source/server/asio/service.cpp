@@ -10,8 +10,6 @@
 
 #include "errors/fatal.h"
 
-#include <cassert>
-
 namespace CppServer {
 namespace Asio {
 

@@ -8,7 +8,6 @@
 
 #include "server/asio/ssl_client.h"
 
-#include <cassert>
 #include <mutex>
 #include <vector>
 

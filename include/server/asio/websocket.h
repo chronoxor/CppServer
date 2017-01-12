@@ -12,6 +12,7 @@
 #include "asio.hpp"
 
 #define _WEBSOCKETPP_CPP11_STL_
+#define _WEBSOCKETPP_CPP11_THREAD_
 
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/client.hpp>
