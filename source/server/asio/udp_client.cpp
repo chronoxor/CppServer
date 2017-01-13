@@ -200,10 +200,12 @@ size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buff
     if (!IsConnected())
         return 0;
 
-    std::lock_guard<std::mutex> locker(_send_lock);
-
-    const uint8_t* bytes = (const uint8_t*)buffer;
-    _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
+    // Fill the send buffer
+    {
+        std::lock_guard<std::mutex> locker(_send_lock);
+        const uint8_t* bytes = (const uint8_t*)buffer;
+        _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
+    }
 
     // Dispatch the send routine
     auto self(this->shared_from_this());

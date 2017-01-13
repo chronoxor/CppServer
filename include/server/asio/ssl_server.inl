@@ -167,10 +167,12 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
     if (!IsStarted())
         return false;
 
-    std::lock_guard<std::mutex> locker(_multicast_lock);
-
-    const uint8_t* bytes = (const uint8_t*)buffer;
-    _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
+    // Fill the multicast buffer
+    {
+        std::lock_guard<std::mutex> locker(_multicast_lock);
+        const uint8_t* bytes = (const uint8_t*)buffer;
+        _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
+    }
 
     // Dispatch the multicast routine
     auto self(this->shared_from_this());
