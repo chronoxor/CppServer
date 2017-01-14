@@ -10,6 +10,14 @@
 
 #include <iostream>
 
+class AsioService : public CppServer::Asio::Service
+{
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat Asio service caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
 class ChatClient : public CppServer::Asio::TCPClient
 {
 public:
@@ -60,7 +68,7 @@ int main(int argc, char** argv)
     std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<CppServer::Asio::Service>();
+    auto service = std::make_shared<AsioService>();
 
     // Start the service
     service->Start();
