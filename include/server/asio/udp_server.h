@@ -124,7 +124,7 @@ public:
         \param text - Text string to send
         \return Count of pending bytes in the send buffer
     */
-    size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text); }
+    size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
 protected:
     //! Handle server started notification

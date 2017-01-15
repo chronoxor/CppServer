@@ -192,7 +192,7 @@ private:
     void ClearBuffers();
 };
 
-/*! \example websocket_echo_server.cpp WebSocket echo server example */
+/*! \example websocket_chat_server.cpp WebSocket chat server example */
 
 } // namespace Asio
 } // namespace CppServer

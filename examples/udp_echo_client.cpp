@@ -8,15 +8,9 @@
 
 #include "server/asio/udp_client.h"
 
-#include <iostream>
+#include "asio_service.h"
 
-class AsioService : public CppServer::Asio::Service
-{
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        std::cout << "Chat Asio service caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
-    }
-};
+#include <iostream>
 
 class EchoClient : public CppServer::Asio::UDPClient
 {
@@ -32,7 +26,7 @@ protected:
     {
         std::cout << "Echo UDP client disconnected a session with Id " << id() << std::endl;
 
-        // Try to wait for a while
+        // Wait for a while...
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again

@@ -124,6 +124,8 @@ private:
     void ServiceLoop(bool polling);
 };
 
+/*! \example asio_service.cpp Asio service example */
+
 } // namespace Asio
 } // namespace CppServer
 

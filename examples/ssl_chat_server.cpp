@@ -8,15 +8,9 @@
 
 #include "server/asio/ssl_server.h"
 
-#include <iostream>
+#include "asio_service.h"
 
-class AsioService : public CppServer::Asio::Service
-{
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        std::cout << "Chat Asio service caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
-    }
-};
+#include <iostream>
 
 class ChatSession;
 
