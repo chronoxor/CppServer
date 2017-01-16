@@ -115,13 +115,13 @@ Inheritance diagram for CppServer::Asio::WebSocketServer&lt; TServer, TSession &
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3f90917abe44c778f6190564d730c61e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#a3f90917abe44c778f6190564d730c61e">WebSocketServer</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#afe6a4848298edfa4d05a3f2ebef6d12a">service</a>, <a class="el" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">InternetProtocol</a> protocol, int port)</td></tr>
-<tr class="memdesc:a3f90917abe44c778f6190564d730c61e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize WebSocket server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html">Asio</a> service and port number.  <a href="#a3f90917abe44c778f6190564d730c61e">More...</a><br/></td></tr>
+<tr class="memdesc:a3f90917abe44c778f6190564d730c61e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize WebSocket server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html">Asio</a> service, protocol and port number.  <a href="#a3f90917abe44c778f6190564d730c61e">More...</a><br/></td></tr>
 <tr class="separator:a3f90917abe44c778f6190564d730c61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac760fc8d2bbf989b79c5baf8b620262f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#ac760fc8d2bbf989b79c5baf8b620262f">WebSocketServer</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#afe6a4848298edfa4d05a3f2ebef6d12a">service</a>, const std::string &amp;address, int port)</td></tr>
 <tr class="memdesc:ac760fc8d2bbf989b79c5baf8b620262f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize WebSocket server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html">Asio</a> service, IP address and port number.  <a href="#ac760fc8d2bbf989b79c5baf8b620262f">More...</a><br/></td></tr>
 <tr class="separator:ac760fc8d2bbf989b79c5baf8b620262f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d5be720df313c0e6b11d299229ab7ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#a9d5be720df313c0e6b11d299229ab7ef">WebSocketServer</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#afe6a4848298edfa4d05a3f2ebef6d12a">service</a>, const asio::ip::tcp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#adaeabcd8c66745588da95d4b95ec2110">endpoint</a>)</td></tr>
-<tr class="memdesc:a9d5be720df313c0e6b11d299229ab7ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize WebSocket server with a given endpoint.  <a href="#a9d5be720df313c0e6b11d299229ab7ef">More...</a><br/></td></tr>
+<tr class="memdesc:a9d5be720df313c0e6b11d299229ab7ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize WebSocket server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html">Asio</a> service and endpoint.  <a href="#a9d5be720df313c0e6b11d299229ab7ef">More...</a><br/></td></tr>
 <tr class="separator:a9d5be720df313c0e6b11d299229ab7ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bd98b1267d42c5778708d1deec291d0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#a6bd98b1267d42c5778708d1deec291d0">WebSocketServer</a> (const <a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html">WebSocketServer</a> &amp;)=delete</td></tr>
 <tr class="separator:a6bd98b1267d42c5778708d1deec291d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,7 +248,7 @@ template&lt;class TServer , class TSession &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Initialize WebSocket server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html">Asio</a> service and port number. </p>
+<p>Initialize WebSocket server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html">Asio</a> service, protocol and port number. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">service</td><td>- <a class="el" href="namespace_cpp_server_1_1_asio.html">Asio</a> service </td></tr>
@@ -350,7 +350,7 @@ template&lt;class TServer , class TSession &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Initialize WebSocket server with a given endpoint. </p>
+<p>Initialize WebSocket server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html">Asio</a> service and endpoint. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">service</td><td>- <a class="el" href="namespace_cpp_server_1_1_asio.html">Asio</a> service </td></tr>

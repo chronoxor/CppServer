@@ -114,9 +114,9 @@ Inheritance diagram for CppServer::Asio::SSLSession&lt; TServer, TSession &gt;:<
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a60e11fff3d4b1c9188bd5ee8f3ecb232"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a60e11fff3d4b1c9188bd5ee8f3ecb232">SSLSession</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html">SSLServer</a>&lt; TServer, TSession &gt;&gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a72f55c2912232fdd0dbe229fb43e00d0">server</a>, asio::ip::tcp::socket &amp;&amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#aba151ac34a36a3a30245fd85c2dc1c9d">socket</a>, asio::ssl::context &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a14da187b6575175c8316bca4228d2173">context</a>)</td></tr>
-<tr class="memdesc:a60e11fff3d4b1c9188bd5ee8f3ecb232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the session with a given server, socket and SSL context.  <a href="#a60e11fff3d4b1c9188bd5ee8f3ecb232">More...</a><br/></td></tr>
-<tr class="separator:a60e11fff3d4b1c9188bd5ee8f3ecb232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08f5633577939685b66055680fdbefb4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a08f5633577939685b66055680fdbefb4">SSLSession</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html">SSLServer</a>&lt; TServer, TSession &gt;&gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a72f55c2912232fdd0dbe229fb43e00d0">server</a>, asio::ip::tcp::socket &amp;&amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#aba151ac34a36a3a30245fd85c2dc1c9d">socket</a>, std::shared_ptr&lt; asio::ssl::context &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a52220cc073ea55232e0e70fd7e80c773">context</a>)</td></tr>
+<tr class="memdesc:a08f5633577939685b66055680fdbefb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the session with a given server, socket and SSL context.  <a href="#a08f5633577939685b66055680fdbefb4">More...</a><br/></td></tr>
+<tr class="separator:a08f5633577939685b66055680fdbefb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31baaf99b312ccd55a7c9bfdfa534c3b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a31baaf99b312ccd55a7c9bfdfa534c3b">SSLSession</a> (const <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">SSLSession</a> &amp;)=delete</td></tr>
 <tr class="separator:a31baaf99b312ccd55a7c9bfdfa534c3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a155ac096cc57c8d80d471b3ec1543d79"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a155ac096cc57c8d80d471b3ec1543d79">SSLSession</a> (<a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">SSLSession</a> &amp;&amp;)=default</td></tr>
@@ -146,9 +146,10 @@ Public Member Functions</h2></td></tr>
 ::lowest_layer_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#aba151ac34a36a3a30245fd85c2dc1c9d">socket</a> () noexcept</td></tr>
 <tr class="memdesc:aba151ac34a36a3a30245fd85c2dc1c9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the session socket.  <a href="#aba151ac34a36a3a30245fd85c2dc1c9d">More...</a><br/></td></tr>
 <tr class="separator:aba151ac34a36a3a30245fd85c2dc1c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14da187b6575175c8316bca4228d2173"><td class="memItemLeft" align="right" valign="top">asio::ssl::context &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a14da187b6575175c8316bca4228d2173">context</a> () noexcept</td></tr>
-<tr class="memdesc:a14da187b6575175c8316bca4228d2173"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the session SSL context.  <a href="#a14da187b6575175c8316bca4228d2173">More...</a><br/></td></tr>
-<tr class="separator:a14da187b6575175c8316bca4228d2173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52220cc073ea55232e0e70fd7e80c773"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
+&lt; asio::ssl::context &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a52220cc073ea55232e0e70fd7e80c773">context</a> () noexcept</td></tr>
+<tr class="memdesc:a52220cc073ea55232e0e70fd7e80c773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the session SSL context.  <a href="#a52220cc073ea55232e0e70fd7e80c773">More...</a><br/></td></tr>
+<tr class="separator:a52220cc073ea55232e0e70fd7e80c773"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae127986825b85aa18a4376e0b83b2b47"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#ae127986825b85aa18a4376e0b83b2b47">total_received</a> () const noexcept</td></tr>
 <tr class="memdesc:ae127986825b85aa18a4376e0b83b2b47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes received.  <a href="#ae127986825b85aa18a4376e0b83b2b47">More...</a><br/></td></tr>
 <tr class="separator:ae127986825b85aa18a4376e0b83b2b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,7 +210,7 @@ class CppServer::Asio::SSLSession&lt; TServer, TSession &gt;</h3>
 </dl>
 <p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00022">22</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a60e11fff3d4b1c9188bd5ee8f3ecb232"></a>
+<a class="anchor" id="a08f5633577939685b66055680fdbefb4"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -233,7 +234,7 @@ template&lt;class TServer , class TSession &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">asio::ssl::context &amp;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; asio::ssl::context &gt;&#160;</td>
           <td class="paramname"><em>context</em>&#160;</td>
         </tr>
         <tr>
@@ -341,7 +342,7 @@ template&lt;class TServer , class TSession &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a14da187b6575175c8316bca4228d2173"></a>
+<a class="anchor" id="a52220cc073ea55232e0e70fd7e80c773"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -351,7 +352,7 @@ template&lt;class TServer , class TSession &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">asio::ssl::context&amp; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">CppServer::Asio::SSLSession</a>&lt; TServer, TSession &gt;::context </td>
+          <td class="memname">std::shared_ptr&lt;asio::ssl::context&gt;&amp; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">CppServer::Asio::SSLSession</a>&lt; TServer, TSession &gt;::context </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
