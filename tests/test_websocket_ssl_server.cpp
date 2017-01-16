@@ -346,7 +346,7 @@ TEST_CASE("WebSocket SSL server multicast", "[CppServer][Asio]")
     REQUIRE(!client3->error);
 }
 
-
+/*
 TEST_CASE("WebSocket SSL server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
@@ -458,3 +458,4 @@ TEST_CASE("WebSocket SSL server random test", "[CppServer][Asio]")
     REQUIRE(server->total_sent() > 0);
     REQUIRE(!server->error);
 }
+*/
