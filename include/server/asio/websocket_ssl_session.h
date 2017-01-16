@@ -1,13 +1,13 @@
 /*!
-    \file websocket_session.h
-    \brief WebSocket session definition
+    \file websocket_ssl_session.h
+    \brief WebSocket SSL session definition
     \author Ivan Shynkarenka
     \date 06.01.2016
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_ASIO_WEBSOCKET_SESSION_H
-#define CPPSERVER_ASIO_WEBSOCKET_SESSION_H
+#ifndef CPPSERVER_ASIO_WEBSOCKET_SSL_SESSION_H
+#define CPPSERVER_ASIO_WEBSOCKET_SSL_SESSION_H
 
 #include "service.h"
 #include "websocket.h"
@@ -18,32 +18,32 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-class WebSocketServer;
+class WebSocketSSLServer;
 
-//! WebSocket session
+//! WebSocket SSL session
 /*!
-    WebSocket session is used to read and write data from the connected WebSocket client.
+    WebSocket SSL session is used to read and write data from the connected WebSocket SSL client.
 
     Thread-safe.
 */
 template <class TServer, class TSession>
-class WebSocketSession : public std::enable_shared_from_this<WebSocketSession<TServer, TSession>>
+class WebSocketSSLSession : public std::enable_shared_from_this<WebSocketSSLSession<TServer, TSession>>
 {
     template <class TSomeServer, class TSomeSession>
-    friend class WebSocketServer;
+    friend class WebSocketSSLServer;
 
 public:
     //! Initialize the session with a given server
     /*!
         \param server - Connected server
     */
-    explicit WebSocketSession(std::shared_ptr<WebSocketServer<TServer, TSession>> server);
-    WebSocketSession(const WebSocketSession&) = delete;
-    WebSocketSession(WebSocketSession&&) = default;
-    virtual ~WebSocketSession() = default;
+    explicit WebSocketSSLSession(std::shared_ptr<WebSocketSSLServer<TServer, TSession>> server);
+    WebSocketSSLSession(const WebSocketSSLSession&) = delete;
+    WebSocketSSLSession(WebSocketSSLSession&&) = default;
+    virtual ~WebSocketSSLSession() = default;
 
-    WebSocketSession& operator=(const WebSocketSession&) = delete;
-    WebSocketSession& operator=(WebSocketSession&&) = default;
+    WebSocketSSLSession& operator=(const WebSocketSSLSession&) = delete;
+    WebSocketSSLSession& operator=(WebSocketSSLSession&&) = default;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
@@ -51,7 +51,7 @@ public:
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _server->service(); }
     //! Get the session server
-    std::shared_ptr<WebSocketServer<TServer, TSession>>& server() noexcept { return _server; }
+    std::shared_ptr<WebSocketSSLServer<TServer, TSession>>& server() noexcept { return _server; }
     //! Get the session connection
     websocketpp::connection_hdl& connection() noexcept { return _connection; }
 
@@ -91,7 +91,7 @@ public:
         \param message - Message to send
         \return Count of sent bytes
     */
-    size_t Send(WebSocketMessage message);
+    size_t Send(WebSocketSSLMessage message);
 
 protected:
     //! Handle session connected notification
@@ -103,7 +103,7 @@ protected:
     /*!
         \param message - Received message
     */
-    virtual void onReceived(WebSocketMessage message) {}
+    virtual void onReceived(WebSocketSSLMessage message) {}
 
     //! Handle error notification
     /*!
@@ -117,7 +117,7 @@ private:
     // Session Id
     CppCommon::UUID _id;
     // Session server & connection
-    std::shared_ptr<WebSocketServer<TServer, TSession>> _server;
+    std::shared_ptr<WebSocketSSLServer<TServer, TSession>> _server;
     websocketpp::connection_hdl _connection;
     std::atomic<bool> _connected;
     // Session statistic
@@ -145,4 +145,4 @@ private:
 } // namespace Asio
 } // namespace CppServer
 
-#endif // CPPSERVER_ASIO_WEBSOCKET_SESSION_H
+#endif // CPPSERVER_ASIO_WEBSOCKET_SSL_SESSION_H

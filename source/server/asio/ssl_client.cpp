@@ -19,12 +19,12 @@ namespace Asio {
 class SSLClient::Impl : public std::enable_shared_from_this<SSLClient::Impl>
 {
 public:
-    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port)
+    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
         : _id(id),
           _service(service),
           _context(context),
           _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
-          _stream(_service->service(), _context),
+          _stream(_service->service(), *_context),
           _connected(false),
           _handshaked(false),
           _total_received(0),
@@ -34,12 +34,12 @@ public:
     {
     }
 
-    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
+    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
         : _id(id),
           _service(service),
           _context(context),
           _endpoint(endpoint),
-          _stream(_service->service(), _context),
+          _stream(_service->service(), *_context),
           _connected(false),
           _handshaked(false),
           _total_received(0),
@@ -59,7 +59,7 @@ public:
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     std::shared_ptr<Service>& service() noexcept { return _service; }
-    asio::ssl::context& context() noexcept { return _context; }
+    std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
@@ -224,7 +224,7 @@ private:
     // Asio service
     std::shared_ptr<Service> _service;
     // Server SSL context, endpoint & client stream
-    asio::ssl::context& _context;
+    std::shared_ptr<asio::ssl::context> _context;
     asio::ip::tcp::endpoint _endpoint;
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
     std::atomic<bool> _connected;
@@ -347,13 +347,13 @@ private:
 
 //! @endcond
 
-SSLClient::SSLClient(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port)
+SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _pimpl(std::make_shared<Impl>(_id, service, context, address, port))
 {
 }
 
-SSLClient::SSLClient(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint)
+SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
     : _id(CppCommon::UUID::Generate()),
       _pimpl(std::make_shared<Impl>(_id, service, context, endpoint))
 {
@@ -381,7 +381,7 @@ std::shared_ptr<Service>& SSLClient::service() noexcept
     return _pimpl->service();
 }
 
-asio::ssl::context& SSLClient::context() noexcept
+std::shared_ptr<asio::ssl::context>& SSLClient::context() noexcept
 {
     return _pimpl->context();
 }

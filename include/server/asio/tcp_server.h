@@ -48,7 +48,7 @@ public:
         \param port - Port number
     */
     explicit TCPServer(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize TCP server with a given TCP endpoint
+    //! Initialize TCP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server TCP endpoint

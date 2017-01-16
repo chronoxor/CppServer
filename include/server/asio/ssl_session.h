@@ -36,7 +36,7 @@ public:
         \param socket - Connected socket
         \param context - SSL context
     */
-    explicit SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, asio::ssl::context& context);
+    explicit SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
     virtual ~SSLSession() = default;
@@ -56,7 +56,7 @@ public:
     //! Get the session socket
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
     //! Get the session SSL context
-    asio::ssl::context& context() noexcept { return _context; }
+    std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
 
     //! Total bytes received
     size_t total_received() const noexcept { return _total_received; }
@@ -137,7 +137,7 @@ private:
     // Session server, SSL stream and SSL context
     std::shared_ptr<SSLServer<TServer, TSession>> _server;
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
-    asio::ssl::context& _context;
+    std::shared_ptr<asio::ssl::context> _context;
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
     // Session statistic

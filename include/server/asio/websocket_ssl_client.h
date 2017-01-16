@@ -1,13 +1,13 @@
 /*!
-    \file websocket_client.h
-    \brief WebSocket client definition
+    \file websocket_ssl_client.h
+    \brief WebSocket SSL client definition
     \author Ivan Shynkarenka
     \date 11.01.2016
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_ASIO_WEBSOCKET_CLIENT_H
-#define CPPSERVER_ASIO_WEBSOCKET_CLIENT_H
+#ifndef CPPSERVER_ASIO_WEBSOCKET_SSL_CLIENT_H
+#define CPPSERVER_ASIO_WEBSOCKET_SSL_CLIENT_H
 
 #include "service.h"
 #include "websocket.h"
@@ -17,37 +17,40 @@
 namespace CppServer {
 namespace Asio {
 
-//! WebSocket client
+//! WebSocket SSL client
 /*!
-    WebSocket client is used to read/write data from/into the connected WebSocket server.
+    WebSocket SSL client is used to read/write data from/into the connected WebSocket SSL server.
 
     Thread-safe.
 */
-class WebSocketClient : public std::enable_shared_from_this<WebSocketClient>
+class WebSocketSSLClient : public std::enable_shared_from_this<WebSocketSSLClient>
 {
 public:
-    //! Initialize WebSocket client with a given Asio service and server URI address
+    //! Initialize WebSocket client with a given Asio service, SSL context and server URI address
     /*!
         \param service - Asio service
+        \param context - SSL context
         \param uri - WebSocket URI address
     */
-    explicit WebSocketClient(std::shared_ptr<Service> service, const std::string& uri);
-    WebSocketClient(const WebSocketClient&) = delete;
-    WebSocketClient(WebSocketClient&&) = default;
-    virtual ~WebSocketClient() = default;
+    explicit WebSocketSSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& uri);
+    WebSocketSSLClient(const WebSocketSSLClient&) = delete;
+    WebSocketSSLClient(WebSocketSSLClient&&) = default;
+    virtual ~WebSocketSSLClient() = default;
 
-    WebSocketClient& operator=(const WebSocketClient&) = delete;
-    WebSocketClient& operator=(WebSocketClient&&) = default;
+    WebSocketSSLClient& operator=(const WebSocketSSLClient&) = delete;
+    WebSocketSSLClient& operator=(WebSocketSSLClient&&) = default;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
+    //! Get the client SSL context
+    std::shared_ptr<asio::ssl::context>& context() noexcept;
     //! Get the WebSocket URI address
     const std::string& uri() const noexcept { return _uri; }
     //! Get the WebSocket client core
-    WebSocketClientCore& core() noexcept { return _core; }
+    WebSocketSSLClientCore& core() noexcept { return _core; }
 
     //! Total bytes received
     size_t total_received() const noexcept { return _total_received; }
@@ -95,7 +98,7 @@ public:
         \param message - Message to send
         \return Count of sent bytes
     */
-    size_t Send(WebSocketMessage message);
+    size_t Send(WebSocketSSLMessage message);
 
 protected:
     //! Handle client connected notification
@@ -107,7 +110,7 @@ protected:
     /*!
         \param message - Received message
     */
-    virtual void onReceived(WebSocketMessage message) {}
+    virtual void onReceived(WebSocketSSLMessage message) {}
 
     //! Handle error notification
     /*!
@@ -122,10 +125,11 @@ private:
     CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;
-    // Server URI address, client core and client connection
+    // Server SSL context, URI address, client core and client connection
+    std::shared_ptr<asio::ssl::context> _context;
     std::string _uri;
-    WebSocketClientCore _core;
-    WebSocketClientCore::connection_ptr _connection;
+    WebSocketSSLClientCore _core;
+    WebSocketSSLClientCore::connection_ptr _connection;
     std::atomic<bool> _initialized;
     std::atomic<bool> _connected;
     // Client statistic
@@ -150,9 +154,9 @@ private:
     void Disconnected();
 };
 
-/*! \example websocket_chat_client.cpp WebSocket chat client example */
+/*! \example websocket_ssl_chat_client.cpp WebSocket SSL chat client example */
 
 } // namespace Asio
 } // namespace CppServer
 
-#endif // CPPSERVER_ASIO_WEBSOCKET_CLIENT_H
+#endif // CPPSERVER_ASIO_WEBSOCKET_SSL_CLIENT_H

@@ -10,10 +10,10 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, asio::ssl::context& context)
+inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
-      _stream(std::move(socket), context),
+      _stream(std::move(socket), *context),
       _context(context),
       _connected(false),
       _handshaked(false),

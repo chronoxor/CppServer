@@ -37,7 +37,7 @@ public:
         \param port - Port number
     */
     explicit UDPServer(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize UDP server with a given UDP endpoint
+    //! Initialize UDP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server UDP endpoint

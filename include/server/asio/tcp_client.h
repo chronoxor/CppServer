@@ -28,14 +28,14 @@ namespace Asio {
 class TCPClient : public std::enable_shared_from_this<TCPClient>
 {
 public:
-    //! Initialize TCP client with a server IP address and port number
+    //! Initialize TCP client with a given Asio service, server IP address and port number
     /*!
         \param service - Asio service
         \param address - Server IP address
         \param port - Server port number
     */
     explicit TCPClient(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize TCP client with a given TCP endpoint
+    //! Initialize TCP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server TCP endpoint

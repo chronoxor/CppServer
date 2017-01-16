@@ -1,34 +1,30 @@
 /*!
-    \file ssl_chat_client.cpp
-    \brief SSL chat client example
+    \file websocket_ssl_chat_client.cpp
+    \brief WebSocket SSL chat client example
     \author Ivan Shynkarenka
-    \date 01.01.2017
+    \date 11.01.2016
     \copyright MIT License
 */
 
-#include "server/asio/ssl_client.h"
+#include "server/asio/websocket_ssl_client.h"
 
 #include "asio_service.h"
 
 #include <iostream>
 
-class ChatClient : public CppServer::Asio::SSLClient
+class ChatClient : public CppServer::Asio::WebSocketSSLClient
 {
 public:
-    using CppServer::Asio::SSLClient::SSLClient;
+    using CppServer::Asio::WebSocketSSLClient::WebSocketSSLClient;
 
 protected:
     void onConnected() override
     {
-        std::cout << "Chat SSL client connected a new session with Id " << id() << std::endl;
-    }
-    void onHandshaked() override
-    {
-        std::cout << "Chat SSL client handshaked a new session with Id " << id() << std::endl;
+        std::cout << "Chat WebSocket SSL client connected a new session with Id " << id() << std::endl;
     }
     void onDisconnected() override
     {
-        std::cout << "Chat SSL client disconnected a session with Id " << id() << std::endl;
+        std::cout << "Chat WebSocket SSL client disconnected a session with Id " << id() << std::endl;
 
         // Wait for a while...
         CppCommon::Thread::Sleep(1000);
@@ -37,32 +33,35 @@ protected:
         Connect();
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(CppServer::Asio::WebSocketSSLMessage message) override
     {
-        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
-        return size;
+        std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Chat SSL client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "Chat WebSocket SSL client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
 int main(int argc, char** argv)
 {
-    // SSL server address
+    // WebSocket SSL server address
     std::string address = "127.0.0.1";
     if (argc > 1)
         address = argv[1];
 
-    // SSL server port
-    int port = 3333;
+    // WebSocket SSL server port
+    int port = 5555;
     if (argc > 2)
         port = std::atoi(argv[2]);
 
-    std::cout << "SSL server address: " << address << std::endl;
-    std::cout << "SSL server port: " << port << std::endl;
+    // WebSocket SSL server uri
+    std::string uri = "wss://" + address + ":" + std::to_string(port);
+
+    std::cout << "WebSocket SSL server address: " << address << std::endl;
+    std::cout << "WebSocket SSL server port: " << port << std::endl;
+    std::cout << "WebSocket SSL server uri: " << uri << std::endl;
     std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service
@@ -76,8 +75,8 @@ int main(int argc, char** argv)
     context->set_verify_mode(asio::ssl::verify_peer);
     context->load_verify_file("../tools/certificates/ca.pem");
 
-    // Create a new SSL chat client
-    auto client = std::make_shared<ChatClient>(service, context, address, port);
+    // Create a new WebSocket SSL chat client
+    auto client = std::make_shared<ChatClient>(service, context, uri);
 
     // Connect the client
     client->Connect();

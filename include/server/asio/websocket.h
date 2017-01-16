@@ -14,7 +14,7 @@
 #define _WEBSOCKETPP_CPP11_STL_
 #define _WEBSOCKETPP_CPP11_THREAD_
 
-#include <websocketpp/config/asio_no_tls.hpp>
+#include <websocketpp/config/asio.hpp>
 #include <websocketpp/client.hpp>
 #include <websocketpp/server.hpp>
 
@@ -29,6 +29,15 @@ typedef websocketpp::server<websocketpp::config::asio> WebSocketServerCore;
 typedef websocketpp::connection<websocketpp::config::asio> WebSocketConnection;
 //! WebSocket message
 typedef WebSocketConnection::message_ptr WebSocketMessage;
+
+//! WebSocket SSL client core
+typedef websocketpp::client<websocketpp::config::asio_tls> WebSocketSSLClientCore;
+//! WebSocket SSL server core
+typedef websocketpp::server<websocketpp::config::asio_tls> WebSocketSSLServerCore;
+//! WebSocket SSL connection
+typedef websocketpp::connection<websocketpp::config::asio_tls> WebSocketSSLConnection;
+//! WebSocket SSL message
+typedef WebSocketSSLConnection::message_ptr WebSocketSSLMessage;
 
 } // namespace Asio
 } // namespace CppServer

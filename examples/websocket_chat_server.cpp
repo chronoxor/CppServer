@@ -22,7 +22,7 @@ public:
 protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Chat TCP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "Chat WebSocket server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
@@ -34,10 +34,10 @@ public:
 protected:
     void onConnected() override
     {
-        std::cout << "Chat TCP session with Id " << id() << " connected!" << std::endl;
+        std::cout << "Chat WebSocketCP session with Id " << id() << " connected!" << std::endl;
 
         // Send invite message
-        std::string message("Hello from TCP chat! Please send a message or '!' to disconnect the client!");
+        std::string message("Hello from WebSocket chat! Please send a message or '!' to disconnect the client!");
         Send(message);
     }
     void onDisconnected() override
@@ -59,7 +59,7 @@ protected:
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Chat TCP session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "Chat WebSocket session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 

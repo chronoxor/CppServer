@@ -27,21 +27,21 @@ namespace Asio {
 class SSLClient : public std::enable_shared_from_this<SSLClient>
 {
 public:
-    //! Initialize SSL client with a server IP address and port number
+    //! Initialize SSL client with a given Asio service, server IP address and port number
     /*!
         \param service - Asio service
         \param context - SSL context
         \param address - Server IP address
         \param port - Server port number
     */
-    explicit SSLClient(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port);
-    //! Initialize SSL client with a given SSL endpoint
+    explicit SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
+    //! Initialize SSL client with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param context - SSL context
         \param endpoint - Server SSL endpoint
     */
-    explicit SSLClient(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint);
+    explicit SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
     SSLClient(const SSLClient&) = delete;
     SSLClient(SSLClient&& client);
     virtual ~SSLClient();
@@ -55,7 +55,7 @@ public:
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept;
     //! Get the client SSL context
-    asio::ssl::context& context() noexcept;
+    std::shared_ptr<asio::ssl::context>& context() noexcept;
     //! Get the client endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept;
     //! Get the client SSL stream

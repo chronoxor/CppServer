@@ -35,7 +35,7 @@ class WebSocketServer : public std::enable_shared_from_this<WebSocketServer<TSer
     friend class WebSocketSession;
 
 public:
-    //! Initialize WebSocket server with a given Asio service and port number
+    //! Initialize WebSocket server with a given Asio service, protocol and port number
     /*!
         \param service - Asio service
         \param protocol - Protocol type
@@ -49,7 +49,7 @@ public:
         \param port - Port number
     */
     explicit WebSocketServer(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize WebSocket server with a given endpoint
+    //! Initialize WebSocket server with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server endpoint

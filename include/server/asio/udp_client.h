@@ -28,20 +28,20 @@ namespace Asio {
 class UDPClient : public std::enable_shared_from_this<UDPClient>
 {
 public:
-    //! Initialize UDP client with a server IP address and port number
+    //! Initialize UDP client with a given Asio service, server IP address and port number
     /*!
         \param service - Asio service
         \param address - Server IP address
         \param port - Server port number
     */
     explicit UDPClient(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize UDP client with a given UDP endpoint
+    //! Initialize UDP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server UDP endpoint
     */
     explicit UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
-    //! Initialize UDP client with a server IP address and port number (bind the socket to the multicast UDP server)
+    //! Initialize UDP client with a given Asio service, server IP address and port number (bind the socket to the multicast UDP server)
     /*!
         \param service - Asio service
         \param address - Server IP address
@@ -49,7 +49,7 @@ public:
         \param reuse_address - Reuse address socket option
     */
     explicit UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address);
-    //! Initialize UDP client with a given UDP endpoint (bind the socket to the multicast UDP server)
+    //! Initialize UDP client with a given Asio service and endpoint (bind the socket to the multicast UDP server)
     /*!
         \param service - Asio service
         \param endpoint - Server UDP endpoint
