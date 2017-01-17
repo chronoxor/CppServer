@@ -22,7 +22,7 @@
 namespace CppServer {
 
 /*!
-    \namespace Asio
+    \namespace CppServer::Asio
     \brief Asio definitions
 */
 namespace Asio {
