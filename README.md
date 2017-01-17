@@ -20,6 +20,8 @@ client/server solutions.
     * [Windows (MinGW)](#windows-mingw)
     * [Windows (MinGW with MSYS)](#windows-mingw-with-msys)
     * [Windows (Visaul Studio 2015)](#windows-visaul-studio-2015)
+  * [Asio](#asio)
+    * [Asio service](#asio-service)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -79,6 +81,124 @@ mingw.bat
 ```
 cd build
 vs.bat
+```
+
+# Asio
+
+##Asio service
+Asio service is used to host all clients/servers based on Asio C++ library.
+It is implemented based on Asio C++ Library and use a separate thread to
+perform all asynchronous IO operations and communications.
+
+The common usecase is to instantiate one Asio service, start the service and
+attach TCP/UDP/WebSocket servers or/and clients to it. One Asio service can
+handle several servers and clients asynchronously at the same time in one I/O
+thread. If you want to scale your servers or clients it is possible to create
+and use more than one Asio services to handle your servers/clients in balance.
+
+Also it is possible to dispatch or post your custom handler into I/O thread.
+Dispatch will execute the handler immediately if the current thread is I/O one.
+Otherwise the handler will be enqueued to the I/O queue. In opposite the post
+method will always enqueue the handler into the I/O queue.
+
+Here comes an example of using custom Asio service with dispatch/post methods:
+```C++
+#include "server/asio/service.h"
+
+#include <iostream>
+
+class AsioService : public CppServer::Asio::Service
+{
+public:
+    using CppServer::Asio::Service::Service;
+
+protected:
+    void onStarted() override
+    {
+        std::cout << "Asio service started!" << std::endl;
+    }
+    void onStopped() override
+    {
+        std::cout << "Asio service stopped!" << std::endl;
+    }
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Asio service caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // Create a new Asio service
+    auto service = std::make_shared<AsioService>();
+
+    // Start the service
+    service->Start();
+
+    // Dispatch
+    std::cout << "1 - Dispatch from the main thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+    service->Dispatch([service]()
+    {
+        std::cout << "1.1 - Dispatched in thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+
+        std::cout << "1.2 - Dispatch from thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+        service->Dispatch([service]()
+        {
+            std::cout << "1.2.1 - Dispatched in thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+        });
+
+        std::cout << "1.3 - Post from thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+        service->Post([service]()
+        {
+            std::cout << "1.3.1 - Posted in thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+        });
+    });
+
+    // Post
+    std::cout << "2 - Post from the main thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+    service->Post([service]()
+    {
+        std::cout << "2.1 - Posted in thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+
+        std::cout << "2.2 - Dispatch from thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+        service->Dispatch([service]()
+        {
+            std::cout << "2.2.1 - Dispatched in thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+        });
+
+        std::cout << "2.3 - Post from thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+        service->Post([service]()
+        {
+            std::cout << "2.3.1 - Posted in thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
+        });
+    });
+
+    // Wait for a while...
+    CppCommon::Thread::Sleep(1000);
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+Output of the above example is the following:
+```
+Asio service started!
+1 - Dispatch from the main thread with Id 16744
+2 - Post from the main thread with Id 16744
+1.1 - Dispatched in thread with Id 19920
+1.2 - Dispatch from thread with Id 19920
+1.2.1 - Dispatched in thread with Id 19920
+1.3 - Post from thread with Id 19920
+2.1 - Posted in thread with Id 19920
+2.2 - Dispatch from thread with Id 19920
+2.2.1 - Dispatched in thread with Id 19920
+2.3 - Post from thread with Id 19920
+1.3.1 - Posted in thread with Id 19920
+2.3.1 - Posted in thread with Id 19920
+Asio service stopped!
 ```
 
 # OpenSSL certificates
