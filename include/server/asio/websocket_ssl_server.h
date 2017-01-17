@@ -38,6 +38,7 @@ public:
     //! Initialize WebSocket server with a given Asio service, SSL context, protocol and port number
     /*!
         \param service - Asio service
+        \param context - SSL context
         \param protocol - Protocol type
         \param port - Port number
     */
@@ -45,6 +46,7 @@ public:
     //! Initialize WebSocket server with a given Asio service, SSL context, IP address and port number
     /*!
         \param service - Asio service
+        \param context - SSL context
         \param address - IP address
         \param port - Port number
     */
@@ -52,6 +54,7 @@ public:
     //! Initialize WebSocket server with a given Asio service, SSL context and endpoint
     /*!
         \param service - Asio service
+        \param context - SSL context
         \param endpoint - Server endpoint
     */
     explicit WebSocketSSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
