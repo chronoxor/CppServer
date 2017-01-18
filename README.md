@@ -41,6 +41,13 @@ client/server solutions.
     * [Diffie-Hellman key exchange](#diffie-hellman-key-exchange)
 
 # Features
+* [Asynchronous communication](http://think-async.com)
+* [TCP server](#example-tcp-chat-server)/[TCP client](#example-tcp-chat-client),
+  [SSL server](#example-ssl-chat-server)/[SSL client](#example-ssl-chat-client),
+  [UDP server](#example-udp-echo-server)/[UDP client](#example-udp-echo-client),
+  [UDP multicast server](#example-udp-multicast-server)/[UDP multicast client](#example-udp-multicast-client),
+  [WebSocket server](#example-websocket-chat-server)/[WebSocket client](#example-websocket-chat-client),
+  [WebSocket SSL server](#example-websocket-ssl-chat-server)/[WebSocket SSL client](#example-websocket-ssl-chat-client)
 * Cross platform
 * Benchmarks
 * Examples
