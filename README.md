@@ -28,6 +28,8 @@ client/server solutions.
     * [Example: SSL chat client](#example-ssl-chat-client)
     * [Example: UDP echo server](#example-udp-echo-server)
     * [Example: UDP echo client](#example-udp-echo-client)
+    * [Example: UDP multicast server](#example-udp-multicast-server)
+    * [Example: UDP multicast client](#example-udp-multicast-client)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -812,6 +814,195 @@ int main(int argc, char** argv)
 
         // Send the entered text to the echo server
         client->Send(line);
+    }
+
+    // Disconnect the client
+    client->Disconnect();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: UDP multicast server
+Here comes the example of the UDP multicast server. It use multicast IP address
+to multicast datagram messages to all client that joined corresponding UDP
+multicast group.
+
+```C++
+#include "server/asio/udp_server.h"
+
+#include <iostream>
+
+class MulticastServer : public CppServer::Asio::UDPServer
+{
+public:
+    using CppServer::Asio::UDPServer::UDPServer;
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Multicast UDP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // UDP multicast address
+    std::string multicast_address = "239.255.0.1";
+    if (argc > 1)
+        multicast_address = argv[1];
+
+    // UDP multicast port
+    int multicast_port = 2223;
+    if (argc > 2)
+        multicast_port = std::atoi(argv[2]);
+
+    std::cout << "UDP multicast address: " << multicast_address << std::endl;
+    std::cout << "UDP multicast port: " << multicast_port << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create a new UDP multicast server
+    auto server = std::make_shared<MulticastServer>(service, CppServer::Asio::InternetProtocol::IPv4, 0);
+
+    // Start the multicast server
+    server->Start(multicast_address, multicast_port);
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Multicast admin message to all sessions
+        line = "(admin) " + line;
+        server->Multicast(line);
+    }
+
+    // Stop the server
+    server->Stop();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: UDP multicast client
+Here comes the example of the UDP multicast client. It use multicast IP address
+and joins UDP multicast group in order to receive multicasted datagram messages
+from UDP server.
+
+```C++
+#include "server/asio/udp_client.h"
+
+#include <iostream>
+
+class MulticastClient : public CppServer::Asio::UDPClient
+{
+public:
+    std::string multicast;
+
+public:
+    using CppServer::Asio::UDPClient::UDPClient;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Multicast UDP client connected a new session with Id " << id() << std::endl;
+
+        // Join UDP multicast group
+        JoinMulticastGroup(multicast);
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Multicast UDP client disconnected a session with Id " << id() << std::endl;
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        Connect();
+    }
+
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
+    {
+        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Multicast UDP client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // UDP listen address
+    std::string listen_address = "0.0.0.0";
+    if (argc > 1)
+        listen_address = argv[1];
+
+    // UDP multicast address
+    std::string multicast_address = "239.255.0.1";
+    if (argc > 2)
+        multicast_address = argv[2];
+
+    // UDP multicast port
+    int multicast_port = 2223;
+    if (argc > 3)
+        multicast_port = std::atoi(argv[3]);
+
+    std::cout << "UDP listen address: " << listen_address << std::endl;
+    std::cout << "UDP multicast address: " << multicast_address << std::endl;
+    std::cout << "UDP multicast port: " << multicast_port << std::endl;
+    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create a new UDP multicast client
+    auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_port, true);
+    client->multicast = multicast_address;
+
+    // Connect the client
+    client->Connect();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Disconnect the client
+        if (line == "!")
+        {
+            client->Disconnect();
+            continue;
+        }
     }
 
     // Disconnect the client

@@ -18,15 +18,6 @@ public:
     using CppServer::Asio::UDPServer::UDPServer;
 
 protected:
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
-    {
-        std::string message((const char*)buffer, size);
-        std::cout << "Incoming: " << message << std::endl;
-
-        // Multicast message
-        Multicast(message);
-    }
-
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Multicast UDP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
