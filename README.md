@@ -210,7 +210,7 @@ Asio service stopped!
 ```
 
 ## Example: TCP chat server
-Here comes the example of the TCP chat server. It handles multiple clients
+Here comes the example of the TCP chat server. It handles multiple TCP client
 sessions and multicast received message from any session to all ones. Also it
 is possible to send admin message directly from the server.
 
@@ -419,7 +419,7 @@ int main(int argc, char** argv)
 ```
 
 ## Example: SSL chat server
-Here comes the example of the SSL chat server. It handles multiple clients
+Here comes the example of the SSL chat server. It handles multiple SSL client
 sessions and multicast received message from any session to all ones. Also it
 is possible to send admin message directly from the server.
 
@@ -1003,6 +1003,445 @@ int main(int argc, char** argv)
             client->Disconnect();
             continue;
         }
+    }
+
+    // Disconnect the client
+    client->Disconnect();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: WebSocket chat server
+Here comes the example of the WebSocket chat server. It handles multiple
+WebSocket client sessions and multicast received message from any session
+to all ones. Also it is possible to send admin message directly from the
+server.
+
+```C++
+#include "server/asio/websocket_server.h"
+
+#include <iostream>
+
+class ChatSession;
+
+class ChatServer : public CppServer::Asio::WebSocketServer<ChatServer, ChatSession>
+{
+public:
+    using CppServer::Asio::WebSocketServer<ChatServer, ChatSession>::WebSocketServer;
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class ChatSession : public CppServer::Asio::WebSocketSession<ChatServer, ChatSession>
+{
+public:
+    using CppServer::Asio::WebSocketSession<ChatServer, ChatSession>::WebSocketSession;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Chat WebSocketCP session with Id " << id() << " connected!" << std::endl;
+
+        // Send invite message
+        std::string message("Hello from WebSocket chat! Please send a message or '!' to disconnect the client!");
+        Send(message);
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;
+    }
+
+    void onReceived(CppServer::Asio::WebSocketMessage message) override
+    {
+        std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
+
+        // Multicast message to all connected sessions
+        server()->Multicast(message);
+
+        // If the buffer starts with '!' the disconnect the current session
+        if (message->get_payload() == "!")
+            Disconnect();
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // WebSocket server port
+    int port = 4444;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "WebSocket server port: " << port << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create a new WebSocket chat server
+    auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+
+    // Start the server
+    server->Start();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Multicast admin message to all sessions
+        line = "(admin) " + line;
+        server->Multicast(line);
+    }
+
+    // Stop the server
+    server->Stop();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: WebSocket chat client
+Here comes the example of the WebSocket chat client. It connects to the
+WebSocket chat server and allows to send message to it and receive new
+messages.
+
+```C++
+#include "server/asio/websocket_client.h"
+
+#include <iostream>
+
+class ChatClient : public CppServer::Asio::WebSocketClient
+{
+public:
+    using CppServer::Asio::WebSocketClient::WebSocketClient;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Chat WebSocket client connected a new session with Id " << id() << std::endl;
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Chat WebSocket client disconnected a session with Id " << id() << std::endl;
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        Connect();
+    }
+
+    void onReceived(CppServer::Asio::WebSocketMessage message) override
+    {
+        std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // WebSocket server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    // WebSocket server port
+    int port = 4444;
+    if (argc > 2)
+        port = std::atoi(argv[2]);
+
+    // WebSocket server uri
+    std::string uri = "ws://" + address + ":" + std::to_string(port);
+
+    std::cout << "WebSocket server address: " << address << std::endl;
+    std::cout << "WebSocket server port: " << port << std::endl;
+    std::cout << "WebSocket server uri: " << uri << std::endl;
+    std::cout << "Press Enter to stop..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create a new WebSocket chat client
+    auto client = std::make_shared<ChatClient>(service, uri);
+
+    // Connect the client
+    client->Connect();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Send the entered text to the chat server
+        client->Send(line);
+    }
+
+    // Disconnect the client
+    client->Disconnect();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: WebSocket chat server
+Here comes the example of the WebSocket chat server. It handles multiple
+WebSocket clients sessions and multicast received message from any session
+to all ones. Also it is possible to send admin message directly from the
+server.
+
+This example is very similar to the simple WebSocket one except the code that
+prepares TLS context.
+
+```C++
+#include "server/asio/websocket_ssl_server.h"
+
+#include <iostream>
+
+class ChatSession;
+
+class ChatServer : public CppServer::Asio::WebSocketSSLServer<ChatServer, ChatSession>
+{
+public:
+    using CppServer::Asio::WebSocketSSLServer<ChatServer, ChatSession>::WebSocketSSLServer;
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket SSL server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class ChatSession : public CppServer::Asio::WebSocketSSLSession<ChatServer, ChatSession>
+{
+public:
+    using CppServer::Asio::WebSocketSSLSession<ChatServer, ChatSession>::WebSocketSSLSession;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Chat WebSocket SSL session with Id " << id() << " connected!" << std::endl;
+
+        // Send invite message
+        std::string message("Hello from WebSocket SSL chat! Please send a message or '!' to disconnect the client!");
+        Send(message);
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Chat WebSocket SSL session with Id " << id() << " disconnected!" << std::endl;
+    }
+
+    void onReceived(CppServer::Asio::WebSocketSSLMessage message) override
+    {
+        std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
+
+        // Multicast message to all connected sessions
+        server()->Multicast(message);
+
+        // If the buffer starts with '!' the disconnect the current session
+        if (message->get_payload() == "!")
+            Disconnect();
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket SSL session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // WebSocket SSL server port
+    int port = 5555;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "WebSocket server port: " << port << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create and prepare a new SSL server context
+    std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    context->set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
+    context->set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
+    context->use_certificate_chain_file("../tools/certificates/server.pem");
+    context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
+    context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
+
+    // Create a new WebSocket SSL chat server
+    auto server = std::make_shared<ChatServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
+
+    // Start the server
+    server->Start();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Multicast admin message to all sessions
+        line = "(admin) " + line;
+        server->Multicast(line);
+    }
+
+    // Stop the server
+    server->Stop();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: WebSocket chat client
+Here comes the example of the WebSocket chat client. It connects to the
+WebSocket chat server and allows to send message to it and receive new
+messages.
+
+This example is very similar to the simple WebSocket one except the code that
+prepares SSL context.
+
+```C++
+#include "server/asio/websocket_ssl_client.h"
+
+#include <iostream>
+
+class ChatClient : public CppServer::Asio::WebSocketSSLClient
+{
+public:
+    using CppServer::Asio::WebSocketSSLClient::WebSocketSSLClient;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Chat WebSocket SSL client connected a new session with Id " << id() << std::endl;
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Chat WebSocket SSL client disconnected a session with Id " << id() << std::endl;
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        Connect();
+    }
+
+    void onReceived(CppServer::Asio::WebSocketSSLMessage message) override
+    {
+        std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket SSL client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // WebSocket SSL server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    // WebSocket SSL server port
+    int port = 5555;
+    if (argc > 2)
+        port = std::atoi(argv[2]);
+
+    // WebSocket SSL server uri
+    std::string uri = "wss://" + address + ":" + std::to_string(port);
+
+    std::cout << "WebSocket SSL server address: " << address << std::endl;
+    std::cout << "WebSocket SSL server port: " << port << std::endl;
+    std::cout << "WebSocket SSL server uri: " << uri << std::endl;
+    std::cout << "Press Enter to stop..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create and prepare a new SSL client context
+    std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    context->set_verify_mode(asio::ssl::verify_peer);
+    context->load_verify_file("../tools/certificates/ca.pem");
+
+    // Create a new WebSocket SSL chat client
+    auto client = std::make_shared<ChatClient>(service, context, uri);
+
+    // Connect the client
+    client->Connect();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Send the entered text to the chat server
+        client->Send(line);
     }
 
     // Disconnect the client
