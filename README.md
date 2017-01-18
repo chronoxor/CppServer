@@ -22,6 +22,8 @@ client/server solutions.
     * [Windows (Visaul Studio 2015)](#windows-visaul-studio-2015)
   * [Asio](#asio)
     * [Asio service](#asio-service)
+    * [Example: TCP chat server](#example-tcp-chat-server)
+    * [Example: TCP chat client](#example-tcp-chat-client)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -199,6 +201,215 @@ Asio service started!
 1.3.1 - Posted in thread with Id 19920
 2.3.1 - Posted in thread with Id 19920
 Asio service stopped!
+```
+
+## Example: TCP chat server
+Here comes the example of the TCP chat server. It handles multiple clients
+sessions and multicast received message from any session to all ones. Also it
+is possible to send admin message directly from the server.
+
+```C++
+#include "server/asio/tcp_server.h"
+
+#include <iostream>
+
+class ChatSession;
+
+class ChatServer : public CppServer::Asio::TCPServer<ChatServer, ChatSession>
+{
+public:
+    using CppServer::Asio::TCPServer<ChatServer, ChatSession>::TCPServer;
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat TCP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class ChatSession : public CppServer::Asio::TCPSession<ChatServer, ChatSession>
+{
+public:
+    using CppServer::Asio::TCPSession<ChatServer, ChatSession>::TCPSession;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Chat TCP session with Id " << id() << " connected!" << std::endl;
+
+        // Send invite message
+        std::string message("Hello from TCP chat! Please send a message or '!' to disconnect the client!");
+        Send(message);
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;
+    }
+
+    size_t onReceived(const void* buffer, size_t size) override
+    {
+        std::string message((const char*)buffer, size);
+        std::cout << "Incoming: " << message << std::endl;
+
+        // Multicast message to all connected sessions
+        server()->Multicast(message);
+
+        // If the buffer starts with '!' the disconnect the current session
+        if (message == "!")
+            Disconnect();
+
+        // Inform that we handled the whole buffer
+        return size;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat TCP session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // TCP server port
+    int port = 1111;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "TCP server port: " << port << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create a new TCP chat server
+    auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+
+    // Start the server
+    server->Start();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Multicast admin message to all sessions
+        line = "(admin) " + line;
+        server->Multicast(line);
+    }
+
+    // Stop the server
+    server->Stop();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: TCP chat client
+Here comes the example of the TCP chat client. It connects to the TCP chat
+server and allows to send message to it and receive new messages.
+
+```C++
+#include "server/asio/tcp_client.h"
+
+#include <iostream>
+
+class ChatClient : public CppServer::Asio::TCPClient
+{
+public:
+    using CppServer::Asio::TCPClient::TCPClient;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Chat TCP client connected a new session with Id " << id() << std::endl;
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Chat TCP client disconnected a session with Id " << id() << std::endl;
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        Connect();
+    }
+
+    size_t onReceived(const void* buffer, size_t size) override
+    {
+        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+        return size;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat TCP client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // TCP server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    // TCP server port
+    int port = 1111;
+    if (argc > 2)
+        port = std::atoi(argv[2]);
+
+    std::cout << "TCP server address: " << address << std::endl;
+    std::cout << "TCP server port: " << port << std::endl;
+    std::cout << "Press Enter to stop..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create a new TCP chat client
+    auto client = std::make_shared<ChatClient>(service, address, port);
+
+    // Connect the client
+    client->Connect();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Send the entered text to the chat server
+        client->Send(line);
+    }
+
+    // Disconnect the client
+    client->Disconnect();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
 ```
 
 # OpenSSL certificates
