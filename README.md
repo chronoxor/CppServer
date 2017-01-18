@@ -30,6 +30,10 @@ client/server solutions.
     * [Example: UDP echo client](#example-udp-echo-client)
     * [Example: UDP multicast server](#example-udp-multicast-server)
     * [Example: UDP multicast client](#example-udp-multicast-client)
+    * [Example: WebSocket chat server](#example-websocket-chat-server)
+    * [Example: WebSocket chat client](#example-websocket-chat-client)
+    * [Example: WebSocket SSL chat server](#example-websocket-ssl-chat-server)
+    * [Example: WebSocket SSL chat client](#example-websocket-ssl-chat-client)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -1225,14 +1229,14 @@ int main(int argc, char** argv)
 }
 ```
 
-## Example: WebSocket chat server
+## Example: WebSocket SSL chat server
 Here comes the example of the WebSocket chat server. It handles multiple
 WebSocket clients sessions and multicast received message from any session
 to all ones. Also it is possible to send admin message directly from the
 server.
 
 This example is very similar to the simple WebSocket one except the code that
-prepares TLS context.
+prepares SSL context.
 
 ```C++
 #include "server/asio/websocket_ssl_server.h"
@@ -1351,7 +1355,7 @@ int main(int argc, char** argv)
 }
 ```
 
-## Example: WebSocket chat client
+## Example: WebSocket SSL chat client
 Here comes the example of the WebSocket chat client. It connects to the
 WebSocket chat server and allows to send message to it and receive new
 messages.
