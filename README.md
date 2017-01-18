@@ -42,12 +42,9 @@ client/server solutions.
 
 # Features
 * [Asynchronous communication](http://think-async.com)
-* [TCP server](#example-tcp-chat-server)/[TCP client](#example-tcp-chat-client),
-  [SSL server](#example-ssl-chat-server)/[SSL client](#example-ssl-chat-client),
-  [UDP server](#example-udp-echo-server)/[UDP client](#example-udp-echo-client),
-  [UDP multicast server](#example-udp-multicast-server)/[UDP multicast client](#example-udp-multicast-client),
-  [WebSocket server](#example-websocket-chat-server)/[WebSocket client](#example-websocket-chat-client),
-  [WebSocket SSL server](#example-websocket-ssl-chat-server)/[WebSocket SSL client](#example-websocket-ssl-chat-client)
+* Supported transport protocols: [TCP](#example-tcp-chat-server), [SSL](#example-ssl-chat-server),
+  [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server),
+  [WebSocket](#example-websocket-chat-server), [WebSocket SSL](#example-websocket-ssl-chat-server)
 * Cross platform
 * Benchmarks
 * Examples
