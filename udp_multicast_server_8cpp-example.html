@@ -95,16 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">    <span class="keyword">using</span> <a name="a1"></a><a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a242b20907168992041be0c738d95dfaa">CppServer::Asio::UDPServer::UDPServer</a>;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">protected</span>:</div>
-<div class="line">    <span class="keywordtype">void</span> <a name="a2"></a><a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ae0c40804d3ee13397787ccc8a6e63a31">onReceived</a>(<span class="keyword">const</span> asio::ip::udp::endpoint&amp; endpoint, <span class="keyword">const</span> <span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size)<span class="keyword"> override</span></div>
-<div class="line"><span class="keyword">    </span>{</div>
-<div class="line">        std::string message((<span class="keyword">const</span> <span class="keywordtype">char</span>*)buffer, size);</div>
-<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Incoming: &quot;</span> &lt;&lt; message &lt;&lt; std::endl;</div>
-<div class="line"></div>
-<div class="line">        <span class="comment">// Multicast message</span></div>
-<div class="line">        <a name="a3"></a><a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a74916c8898e264923f5c8c2e0f45c48f">Multicast</a>(message);</div>
-<div class="line">    }</div>
-<div class="line"></div>
-<div class="line">    <span class="keywordtype">void</span> <a name="a4"></a><a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a7817add6d0afccaa470eeda65cfe6a22">onError</a>(<span class="keywordtype">int</span> error, <span class="keyword">const</span> std::string&amp; category, <span class="keyword">const</span> std::string&amp; message)<span class="keyword"> override</span></div>
+<div class="line">    <span class="keywordtype">void</span> <a name="a2"></a><a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a7817add6d0afccaa470eeda65cfe6a22">onError</a>(<span class="keywordtype">int</span> error, <span class="keyword">const</span> std::string&amp; category, <span class="keyword">const</span> std::string&amp; message)<span class="keyword"> override</span></div>
 <div class="line"><span class="keyword">    </span>{</div>
 <div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Multicast UDP server caught an error with code &quot;</span> &lt;&lt; error &lt;&lt; <span class="stringliteral">&quot; and category &#39;&quot;</span> &lt;&lt; category &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span> &lt;&lt; message &lt;&lt; std::endl;</div>
 <div class="line">    }</div>
@@ -133,7 +124,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">    service-&gt;Start();</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Create a new UDP multicast server</span></div>
-<div class="line">    <span class="keyword">auto</span> server = std::make_shared&lt;MulticastServer&gt;(service, <a name="a5"></a><a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626">CppServer::Asio::InternetProtocol::IPv4</a>, 0);</div>
+<div class="line">    <span class="keyword">auto</span> server = std::make_shared&lt;MulticastServer&gt;(service, <a name="a3"></a><a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626">CppServer::Asio::InternetProtocol::IPv4</a>, 0);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Start the multicast server</span></div>
 <div class="line">    server-&gt;Start(multicast_address, multicast_port);</div>
