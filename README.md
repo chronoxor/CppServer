@@ -41,16 +41,11 @@ client/server solutions.
     * [Diffie-Hellman key exchange](#diffie-hellman-key-exchange)
 
 # Features
+* Cross platform (Linux, OSX, Windows)
 * [Asynchronous communication](http://think-async.com)
 * Supported transport protocols: [TCP](#example-tcp-chat-server), [SSL](#example-ssl-chat-server),
   [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server),
   [WebSocket](#example-websocket-chat-server), [WebSocket SSL](#example-websocket-ssl-chat-server)
-* Cross platform
-* Benchmarks
-* Examples
-* Tests
-* [Doxygen](http://www.doxygen.org) API documentation
-* Continuous integration ([Travis CI](https://travis-ci.com), [AppVeyor](https://www.appveyor.com))
 
 # Requirements
 * Linux
