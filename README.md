@@ -24,6 +24,10 @@ client/server solutions.
     * [Asio service](#asio-service)
     * [Example: TCP chat server](#example-tcp-chat-server)
     * [Example: TCP chat client](#example-tcp-chat-client)
+    * [Example: SSL chat server](#example-ssl-chat-server)
+    * [Example: SSL chat client](#example-ssl-chat-client)
+    * [Example: UDP echo server](#example-udp-echo-server)
+    * [Example: UDP echo client](#example-udp-echo-client)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -399,6 +403,414 @@ int main(int argc, char** argv)
             break;
 
         // Send the entered text to the chat server
+        client->Send(line);
+    }
+
+    // Disconnect the client
+    client->Disconnect();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: SSL chat server
+Here comes the example of the SSL chat server. It handles multiple clients
+sessions and multicast received message from any session to all ones. Also it
+is possible to send admin message directly from the server.
+
+This example is very similar to the TCP one except the code that prepares SSL
+context and handshake handler.
+
+```C++
+#include "server/asio/ssl_server.h"
+
+#include <iostream>
+
+class ChatSession;
+
+class ChatServer : public CppServer::Asio::SSLServer<ChatServer, ChatSession>
+{
+public:
+    using CppServer::Asio::SSLServer<ChatServer, ChatSession>::SSLServer;
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat TCP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class ChatSession : public CppServer::Asio::SSLSession<ChatServer, ChatSession>
+{
+public:
+    using CppServer::Asio::SSLSession<ChatServer, ChatSession>::SSLSession;
+
+protected:
+    void onHandshaked() override
+    {
+        std::cout << "Chat SSL session with Id " << id() << " handshaked!" << std::endl;
+
+        // Send invite message
+        std::string message("Hello from SSL chat! Please send a message or '!' to disconnect the client!");
+        Send(message.data(), message.size());
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Chat SSL session with Id " << id() << " disconnected!" << std::endl;
+    }
+
+    size_t onReceived(const void* buffer, size_t size) override
+    {
+        std::string message((const char*)buffer, size);
+        std::cout << "Incoming: " << message << std::endl;
+
+        // Multicast message to all connected sessions
+        server()->Multicast(message);
+
+        // If the buffer starts with '!' the disconnect the current session
+        if (message == "!")
+            Disconnect();
+
+        // Inform that we handled the whole buffer
+        return size;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat SSL session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // SSL server port
+    int port = 3333;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "SSL server port: " << port << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create and prepare a new SSL server context
+    std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    context->set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
+    context->set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
+    context->use_certificate_chain_file("../tools/certificates/server.pem");
+    context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
+    context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
+
+    // Create a new SSL chat server
+    auto server = std::make_shared<ChatServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
+
+    // Start the server
+    server->Start();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Multicast admin message to all sessions
+        line = "(admin) " + line;
+        server->Multicast(line);
+    }
+
+    // Stop the server
+    server->Stop();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: SSL chat client
+Here comes the example of the SSL chat client. It connects to the SSL chat
+server and allows to send message to it and receive new messages.
+
+This example is very similar to the TCP one except the code that prepares SSL
+context and handshake handler.
+
+```C++
+#include "server/asio/ssl_client.h"
+
+#include <iostream>
+
+class ChatClient : public CppServer::Asio::SSLClient
+{
+public:
+    using CppServer::Asio::SSLClient::SSLClient;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Chat SSL client connected a new session with Id " << id() << std::endl;
+    }
+    void onHandshaked() override
+    {
+        std::cout << "Chat SSL client handshaked a new session with Id " << id() << std::endl;
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Chat SSL client disconnected a session with Id " << id() << std::endl;
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        Connect();
+    }
+
+    size_t onReceived(const void* buffer, size_t size) override
+    {
+        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+        return size;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat SSL client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // SSL server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    // SSL server port
+    int port = 3333;
+    if (argc > 2)
+        port = std::atoi(argv[2]);
+
+    std::cout << "SSL server address: " << address << std::endl;
+    std::cout << "SSL server port: " << port << std::endl;
+    std::cout << "Press Enter to stop..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create and prepare a new SSL client context
+    std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    context->set_verify_mode(asio::ssl::verify_peer);
+    context->load_verify_file("../tools/certificates/ca.pem");
+
+    // Create a new SSL chat client
+    auto client = std::make_shared<ChatClient>(service, context, address, port);
+
+    // Connect the client
+    client->Connect();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Send the entered text to the chat server
+        client->Send(line);
+    }
+
+    // Disconnect the client
+    client->Disconnect();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: UDP echo server
+Here comes the example of the UDP echo server. It receives a datagram mesage
+from any UDP client and resend it back without any changes.
+
+```C++
+#include "server/asio/udp_server.h"
+
+#include <iostream>
+
+class EchoServer : public CppServer::Asio::UDPServer
+{
+public:
+    using CppServer::Asio::UDPServer::UDPServer;
+
+protected:
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
+    {
+        std::string message((const char*)buffer, size);
+        std::cout << "Incoming: " << message << std::endl;
+
+        // Echo the message back to the sender
+        Send(endpoint, message);
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Echo UDP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // UDP server port
+    int port = 2222;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "UDP server port: " << port << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create a new UDP echo server
+    auto server = std::make_shared<EchoServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+
+    // Start the server
+    server->Start();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+    }
+
+    // Stop the server
+    server->Stop();
+
+    // Stop the service
+    service->Stop();
+
+    return 0;
+}
+```
+
+## Example: UDP echo client
+Here comes the example of the UDP echo client. It sends user datagram message
+to UDP server and listen for response.
+
+```C++
+#include "server/asio/udp_client.h"
+
+#include <iostream>
+
+class EchoClient : public CppServer::Asio::UDPClient
+{
+public:
+    using CppServer::Asio::UDPClient::UDPClient;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Echo UDP client connected a new session with Id " << id() << std::endl;
+    }
+    void onDisconnected() override
+    {
+        std::cout << "Echo UDP client disconnected a session with Id " << id() << std::endl;
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        Connect();
+    }
+
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
+    {
+        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Echo UDP client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // UDP server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    // UDP server port
+    int port = 2222;
+    if (argc > 2)
+        port = std::atoi(argv[2]);
+
+    std::cout << "UDP server address: " << address << std::endl;
+    std::cout << "UDP server port: " << port << std::endl;
+    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    service->Start();
+
+    // Create a new UDP echo client
+    auto client = std::make_shared<EchoClient>(service, address, port);
+
+    // Connect the client
+    client->Connect();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Disconnect the client
+        if (line == "!")
+        {
+            client->Disconnect();
+            continue;
+        }
+
+        // Send the entered text to the echo server
         client->Send(line);
     }
 
