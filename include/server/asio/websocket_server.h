@@ -74,6 +74,9 @@ public:
     //! Total bytes sent
     size_t total_sent() const noexcept { return _total_sent; }
 
+    //! Connected sessions count
+    size_t sessions() const noexcept { return _sessions.size(); }
+
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
