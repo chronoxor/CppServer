@@ -9,6 +9,8 @@
 #ifndef CPPSERVER_NANOMSG_H
 #define CPPSERVER_NANOMSG_H
 
+#include <iostream>
+
 #include <nn.h>
 
 // Nanomsg protocols
@@ -40,6 +42,14 @@ enum class Domain
     Raw = AF_SP_RAW             //!< Raw socket
 };
 
+//! Stream output: Nanomsg domain
+/*!
+    \param stream - Output stream
+    \param protocol - Nanomsg domain
+    \return Output stream
+*/
+std::ostream& operator<<(std::ostream& stream, Domain domain);
+
 //! Nanomsg protocol
 enum class Protocol
 {
@@ -54,6 +64,14 @@ enum class Protocol
     Respondent = NN_RESPONDENT, //!< Use to respond to the survey. This socket can be connected to at most one peer.
     Bus = NN_BUS                //!< Sent messages are distributed to all nodes in the topology. Incoming messages from all other nodes in the topology are fair-queued in the socket.
 };
+
+//! Stream output: Nanomsg protocol
+/*!
+    \param stream - Output stream
+    \param protocol - Nanomsg protocol
+    \return Output stream
+*/
+std::ostream& operator<<(std::ostream& stream, Protocol protocol);
 
 } // namespace Nanomsg
 

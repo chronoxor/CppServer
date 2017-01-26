@@ -12,6 +12,8 @@
 #define ASIO_STANDALONE
 #define ASIO_SEPARATE_COMPILATION
 
+#include <iostream>
+
 #include <asio.hpp>
 #include <asio/ssl.hpp>
 
@@ -33,6 +35,14 @@ enum class InternetProtocol
     IPv4,               //!< Internet Protocol version 4
     IPv6                //!< Internet Protocol version 6
 };
+
+//! Stream output: Internet protocol
+/*!
+    \param stream - Output stream
+    \param protocol - Internet protocol
+    \return Output stream
+*/
+std::ostream& operator<<(std::ostream& stream, InternetProtocol protocol);
 
 } // namespace Asio
 

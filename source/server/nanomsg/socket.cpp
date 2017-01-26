@@ -20,11 +20,12 @@ namespace Nanomsg {
 Socket::Socket(Domain domain, Protocol protocol)
     : _domain(domain),
       _protocol(protocol),
-      _socket(-1)
+      _socket(-1),
+      _endpoint(-1)
 {
     _socket = nn_socket((int)domain, (int)protocol);
     if (!IsOpened())
-        throwex CppCommon::SystemException("Failed to create a new nanomsg socket (domain={0}, protocol={1})!"_format(domain, protocol));
+        throwex CppCommon::SystemException("Failed to create a new nanomsg socket (domain={}, protocol={})! Nanomsg error: {}"_format(domain, protocol, nn_strerror(errno)));
 }
 
 Socket::~Socket()
@@ -42,15 +43,276 @@ Socket::~Socket()
     }
 }
 
-void Socket::Close()
+uint64_t Socket::established_connections() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_ESTABLISHED_CONNECTIONS);
+}
+
+uint64_t Socket::accepted_connections() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_ACCEPTED_CONNECTIONS);
+}
+
+uint64_t Socket::dropped_connections() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_DROPPED_CONNECTIONS);
+}
+
+uint64_t Socket::broken_connections() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_BROKEN_CONNECTIONS);
+}
+
+uint64_t Socket::connect_errors() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_CONNECT_ERRORS);
+}
+
+uint64_t Socket::bind_errors() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_BIND_ERRORS);
+}
+
+uint64_t Socket::accept_errors() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_ACCEPT_ERRORS);
+}
+
+uint64_t Socket::current_connections() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_CURRENT_CONNECTIONS);
+}
+
+uint64_t Socket::messages_sent() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_MESSAGES_SENT);
+}
+
+uint64_t Socket::messages_received() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_MESSAGES_RECEIVED);
+}
+
+uint64_t Socket::bytes_sent() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_BYTES_SENT);
+}
+
+uint64_t Socket::bytes_received() const noexcept
+{
+    return nn_get_statistic(_socket, NN_STAT_BYTES_RECEIVED);
+}
+
+bool Socket::SetSocketOption(int level, int option, const void* value, size_t size)
 {
     assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
-        throwex CppCommon::SystemException("Nanomsg socket is not opened!");
+        return false;
+
+    int result = nn_setsockopt(_socket, level, option, value, size);
+    if (result != 0)
+    {
+        if (errno == ETERM)
+            return false;
+        else
+            throwex CppCommon::SystemException("Cannot set the nanomsg socket option! Nanomsg error: {}"_format(nn_strerror(errno)));
+    }
+    return true;
+}
+
+bool Socket::GetSocketOption(int level, int option, void* value, size_t* size)
+{
+    assert(IsOpened() && "Nanomsg socket is not opened!");
+    if (!IsOpened())
+        return false;
+
+    int result = nn_getsockopt(_socket, level, option, value, size);
+    if (result != 0)
+    {
+        if (errno == ETERM)
+            return false;
+        else
+            throwex CppCommon::SystemException("Cannot get the nanomsg socket option! Nanomsg error: {}"_format(nn_strerror(errno)));
+    }
+    return true;
+}
+
+bool Socket::Bind(const std::string& address)
+{
+    assert(IsOpened() && "Nanomsg socket is not opened!");
+    if (!IsOpened())
+        return false;
+    assert((_endpoint < 0) && "Nanomsg socket is already bind or connected!");
+    if (_endpoint >= 0)
+        return false;
+
+    int result = nn_bind(_socket, address.c_str());
+    if (result != 0)
+    {
+        if (errno == ETERM)
+            return false;
+        else
+            throwex CppCommon::SystemException("Cannot bind the nanomsg socket to the given endpoint '{}'! Nanomsg error: {}"_format(address, nn_strerror(errno)));
+    }
+    _endpoint = result;
+    _address = address;
+    return true;
+}
+
+bool Socket::Connect(const std::string& address)
+{
+    assert(IsOpened() && "Nanomsg socket is not opened!");
+    if (!IsOpened())
+        return false;
+    assert((_endpoint < 0) && "Nanomsg socket is already bind or connected!");
+    if (_endpoint >= 0)
+        return false;
+
+    int result = nn_connect(_socket, address.c_str());
+    if (result != 0)
+    {
+        if (errno == ETERM)
+            return false;
+        else
+            throwex CppCommon::SystemException("Cannot connect the nanomsg socket to the given endpoint '{}'! Nanomsg error: {}"_format(address, nn_strerror(errno)));
+    }
+    _endpoint = result;
+    _address = address;
+    return true;
+}
+
+bool Socket::Disconnect()
+{
+    assert(IsOpened() && "Nanomsg socket is not opened!");
+    if (!IsOpened())
+        return false;
+    assert((_endpoint >= 0) && "Nanomsg socket is not bind or connected!");
+    if (_endpoint < 0)
+        return false;
+
+    int result = nn_shutdown(_socket, _endpoint);
+    if (result != 0)
+    {
+        if (errno == ETERM)
+            return false;
+        else
+            throwex CppCommon::SystemException("Cannot disconnect the nanomsg socket from the endpoint '{}'! Nanomsg error: {}"_format(_address, nn_strerror(errno)));
+    }
+    _endpoint = -1;
+    _address = "";
+    return true;
+}
+
+size_t Socket::Send(const void* buffer, size_t size)
+{
+    assert(IsOpened() && "Nanomsg socket is not opened!");
+    if (!IsOpened())
+        return 0;
+    assert((_endpoint >= 0) && "Nanomsg socket is not bind or connected!");
+    if (_endpoint < 0)
+        return 0;
+
+    int result = nn_send(_socket, buffer, size, 0);
+    if (result < 0)
+    {
+        if (errno == ETERM)
+            return 0;
+        else
+            throwex CppCommon::SystemException("Cannot send {} bytes to the nanomsg socket! Nanomsg error: {}"_format(size, nn_strerror(errno)));
+    }
+    return size;
+}
+
+size_t Socket::TrySend(const void* buffer, size_t size)
+{
+    assert(IsOpened() && "Nanomsg socket is not opened!");
+    if (!IsOpened())
+        return 0;
+    assert((_endpoint >= 0) && "Nanomsg socket is not bind or connected!");
+    if (_endpoint < 0)
+        return 0;
+
+    int result = nn_send(_socket, buffer, size, NN_DONTWAIT);
+    if (result < 0)
+    {
+        if (errno == EAGAIN)
+            return 0;
+        else if (errno == ETERM)
+            return 0;
+        else
+            throwex CppCommon::SystemException("Cannot send {} bytes to the nanomsg socket in non-blocking mode! Nanomsg error: {}"_format(size, nn_strerror(errno)));
+    }
+    return size;
+}
+
+size_t Socket::Receive(Message& message)
+{
+    assert(IsOpened() && "Nanomsg socket is not opened!");
+    if (!IsOpened())
+        return 0;
+    assert((_endpoint >= 0) && "Nanomsg socket is not bind or connected!");
+    if (_endpoint < 0)
+        return 0;
+
+    void* data = nullptr;
+    int result = nn_recv(_socket, &data, NN_MSG, 0);
+    if (result < 0)
+    {
+        if (errno == ETERM)
+            return 0;
+        else
+            throwex CppCommon::SystemException("Cannot receive a message from the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(errno)));
+    }
+
+    message._buffer = (uint8_t*)data;
+    message._size = result;
+    return message.size();
+}
+
+size_t Socket::TryReceive(Message& message)
+{
+    assert(IsOpened() && "Nanomsg socket is not opened!");
+    if (!IsOpened())
+        return 0;
+    assert((_endpoint >= 0) && "Nanomsg socket is not bind or connected!");
+    if (_endpoint < 0)
+        return 0;
+
+    void* data = nullptr;
+    int result = nn_recv(_socket, &data, NN_MSG, NN_DONTWAIT);
+    if (result < 0)
+    {
+        if (errno == EAGAIN)
+            return 0;
+        else if (errno == ETERM)
+            return 0;
+        else
+            throwex CppCommon::SystemException("Cannot receive a message from the nanomsg socket in non-blocking mode! Nanomsg error: {}"_format(nn_strerror(errno)));
+    }
+
+    message._buffer = (uint8_t*)data;
+    message._size = result;
+    return message.size();
+}
+
+bool Socket::Close()
+{
+    assert(IsOpened() && "Nanomsg socket is not opened!");
+    if (!IsOpened())
+        return false;
+
     int result = nn_close(_socket);
     if (result != 0)
-        throwex CppCommon::SystemException("Cannot close the nanomsg socket!");
+        throwex CppCommon::SystemException("Cannot close the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(errno)));
     _socket = -1;
+    _endpoint = -1;
+    _address = "";
+    return true;
+}
+
+void Socket::Terminate()
+{
+    nn_term();
 }
 
 } // namespace Nanomsg
