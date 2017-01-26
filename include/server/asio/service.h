@@ -9,9 +9,9 @@
 #ifndef CPPSERVER_ASIO_SERVICE_H
 #define CPPSERVER_ASIO_SERVICE_H
 
-#include "threads/thread.h"
-
 #include "asio.h"
+
+#include "threads/thread.h"
 
 #include <atomic>
 #include <cassert>
@@ -28,6 +28,8 @@ namespace Asio {
     perform all asynchronous IO operations and communications.
 
     Thread-safe.
+
+    http://think-async.com
 */
 class Service : public std::enable_shared_from_this<Service>
 {

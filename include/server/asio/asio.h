@@ -27,7 +27,7 @@ namespace CppServer {
 */
 namespace Asio {
 
-//! Internet protocols
+//! Internet protocol
 enum class InternetProtocol
 {
     IPv4,               //!< Internet Protocol version 4
