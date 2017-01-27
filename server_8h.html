@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>CppServer: include/server/tcp/server.h File Reference</title>
+<title>CppServer: include/server/nanomsg/server.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -83,7 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_9802b4c1251697bb7aa87f8aabca2719.html">server</a></li><li class="navelem"><a class="el" href="dir_b9fa819380ddeca7c49caddb747b51e0.html">tcp</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_9802b4c1251697bb7aa87f8aabca2719.html">server</a></li><li class="navelem"><a class="el" href="dir_16bc1d64a7c41484a4cdf5b61cd977d3.html">nanomsg</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -95,25 +95,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>TCP server definition.  
+<p>Nanomsg server definition.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;errors/fatal.h&quot;</code><br/>
-<code>#include &quot;system/uuid.h&quot;</code><br/>
-<code>#include &quot;threads/thread.h&quot;</code><br/>
-<code>#include &quot;<a class="el" href="asio_8h_source.html">../asio.h</a>&quot;</code><br/>
-<code>#include &lt;atomic&gt;</code><br/>
-<code>#include &lt;map&gt;</code><br/>
-<code>#include &lt;memory&gt;</code><br/>
-<code>#include &lt;string&gt;</code><br/>
-<code>#include &lt;thread&gt;</code><br/>
-<code>#include &quot;<a class="el" href="server_8inl_source.html">server.inl</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="socket_8h_source.html">socket.h</a>&quot;</code><br/>
 </div>
 <p><a href="server_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_t_c_p_server.html">CppServer::TCPServer&lt; TServer, TSession &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">TCP server.  <a href="class_cpp_server_1_1_t_c_p_server.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_nanomsg_1_1_server.html">CppServer::Nanomsg::Server</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespace_cpp_server_1_1_nanomsg.html" title="Nanomsg definitions. ">Nanomsg</a> server.  <a href="class_cpp_server_1_1_nanomsg_1_1_server.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -121,11 +112,14 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespace_cpp_server"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cpp_server.html">CppServer</a></td></tr>
 <tr class="memdesc:namespace_cpp_server"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++ server project definitions. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespace_cpp_server_1_1_nanomsg"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cpp_server_1_1_nanomsg.html">CppServer::Nanomsg</a></td></tr>
+<tr class="memdesc:namespace_cpp_server_1_1_nanomsg"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespace_cpp_server_1_1_nanomsg.html" title="Nanomsg definitions. ">Nanomsg</a> definitions. <br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>TCP server definition. </p>
+<div class="textblock"><p>Nanomsg server definition. </p>
 <dl class="section author"><dt>Author</dt><dd>Ivan Shynkarenka </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>14.12.2016 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>27.01.2016 </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>MIT License </dd></dl>
 
 <p>Definition in file <a class="el" href="server_8h_source.html">server.h</a>.</p>
