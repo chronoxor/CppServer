@@ -79,6 +79,8 @@ public:
 
     //! Is socket opened?
     bool IsOpened() const noexcept { return (_socket >= 0); }
+    //! Is socket connected?
+    bool IsConnected() const noexcept { return (_endpoint >= 0); }
 
     //! Set the socket option
     /*!
