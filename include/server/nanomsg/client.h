@@ -1,113 +1,113 @@
 /*!
-    \file server.h
-    \brief Nanomsg server definition
+    \file client.h
+    \brief Nanomsg client definition
     \author Ivan Shynkarenka
-    \date 27.01.2016
+    \date 28.01.2016
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_NANOMSG_SERVER_H
-#define CPPSERVER_NANOMSG_SERVER_H
+#ifndef CPPSERVER_NANOMSG_CLIENT_H
+#define CPPSERVER_NANOMSG_CLIENT_H
 
 #include "socket.h"
 
 namespace CppServer {
 namespace Nanomsg {
 
-//! Nanomsg server
+//! Nanomsg client
 /*!
-    Nanomsg server is used to receive messages from Nanomsg clients and
-    send responses back to clients.
+    Nanomsg client is used to send messages to Nanomsg server and
+    receive responses back.
 
     Thread-safe.
 */
-class Server
+class Client
 {
 public:
-    //! Initialize server with a given domain, protocol and endpoint address
+    //! Initialize client with a given domain, protocol and endpoint address
     /*!
         \param domain - Domain
         \param protocol - Protocol
         \param address - Endpoint address
     */
-    explicit Server(Domain domain, Protocol protocol, const std::string& address);
-    Server(const Server&) = delete;
-    Server(Server&&) = default;
-    virtual ~Server() = default;
+    explicit Client(Domain domain, Protocol protocol, const std::string& address);
+    Client(const Client&) = delete;
+    Client(Client&&) = default;
+    virtual ~Client() = default;
 
-    Server& operator=(const Server&) = delete;
-    Server& operator=(Server&&) = default;
+    Client& operator=(const Client&) = delete;
+    Client& operator=(Client&&) = default;
 
     //! Get the Nanomsg socket
     Socket& socket() noexcept { return _socket; }
 
-    //! Is the server started?
-    bool IsStarted() const noexcept { return _socket.IsOpened() && _socket.IsConnected(); }
+    //! Is the client connected?
+    bool IsConnected() const noexcept { return _socket.IsOpened() && _socket.IsConnected(); }
 
-    //! Start the server
+    //! Connect the client
     /*!
-        \return 'true' if the server was successfully started, 'false' if the server failed to start
+        \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
-    bool Start();
-    //! Stop the server
+    bool Connect();
+    //! Disconnect the client
     /*!
-        \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
+        \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Stop();
-    //! Restart the server
+    bool Disconnect();
+    //! Reconnect the client
     /*!
-        \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
+        \return 'true' if the client was successfully reconnected, 'false' if the client failed to reconnect
     */
-    bool Restart();
+    bool Reconnect();
 
-    //! Send data to the client
+    //! Send data to the server
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
         \return Count of sent bytes
     */
     virtual size_t Send(const void* buffer, size_t size);
-    //! Send a text string to the client
+    //! Send a text string to the server
     /*!
         \param text - Text string to send
         \return Count of sent bytes
     */
     virtual size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
-    //! Send a message to the client
+    //! Send a message to the server
     /*!
         \param message - Message to send
         \return Count of sent bytes
     */
     virtual size_t Send(const Message& message) { return Send(message.buffer(), message.size()); }
 
-    //! Try to send data to the client in non-blocking mode
+    //! Try to send data to the server in non-blocking mode
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
         \return Count of sent bytes
     */
     virtual size_t TrySend(const void* buffer, size_t size);
-    //! Try to send a text string to the client in non-blocking mode
+    //! Try to send a text string to the server in non-blocking mode
     /*!
         \param text - Text string to send
         \return Count of sent bytes
     */
     virtual size_t TrySend(const std::string& text) { return TrySend(text.data(), text.size()); }
-    //! Try to send a message to the client in non-blocking mode
+    //! Try to send a message to the server in non-blocking mode
     /*!
         \param message - Message to send
         \return Count of sent bytes
     */
     virtual size_t TrySend(const Message& message) { return TrySend(message.buffer(), message.size()); }
 
-    //! Receive a message from the client in non-blocking mode
+    //! Receive a message from the server in non-blocking mode
     /*!
         \param message - Message to receive
         \return Count of received bytes
     */
     virtual size_t Receive(Message& message);
 
-    //! Try to receive a message from the client in non-blocking mode
+    //! Try to receive a message from the server in non-blocking mode
     /*!
         \param message - Message to receive
         \return Count of received bytes
@@ -115,10 +115,10 @@ public:
     virtual size_t TryReceive(Message& message);
 
 protected:
-    //! Handle server started notification
-    virtual void onStarted() {}
-    //! Handle server stopped notification
-    virtual void onStopped() {}
+    //! Handle client connected notification
+    virtual void onConnected() {}
+    //! Handle client disconnected notification
+    virtual void onDisconnected() {}
 
     //! Handle message received notification
     /*!
@@ -143,4 +143,4 @@ private:
 } // namespace Nanomsg
 } // namespace CppServer
 
-#endif // CPPSERVER_NANOMSG_SERVER_H
+#endif // CPPSERVER_NANOMSG_CLIENT_H
