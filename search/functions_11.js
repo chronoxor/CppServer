@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['_7eclient',['~Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html#a0674ed519ca2208c2156e0f022787f9f',1,'CppServer::Nanomsg::Client']]],
   ['_7emessage',['~Message',['../class_cpp_server_1_1_nanomsg_1_1_message.html#ab4be4e9f8507916210b48b49c2ff1b3e',1,'CppServer::Nanomsg::Message']]],
   ['_7eserver',['~Server',['../class_cpp_server_1_1_nanomsg_1_1_server.html#a87d3ed47b64af56e73f5e357f358d7b9',1,'CppServer::Nanomsg::Server']]],
   ['_7eservice',['~Service',['../class_cpp_server_1_1_asio_1_1_service.html#a265e5f4ddab91bcbcff8ac0cdf9331c6',1,'CppServer::Asio::Service']]],
