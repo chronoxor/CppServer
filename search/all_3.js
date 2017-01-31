@@ -1,8 +1,7 @@
 var searchData=
 [
   ['asio',['Asio',['../namespace_cpp_server_1_1_asio.html',1,'CppServer']]],
-  ['client',['Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html',1,'CppServer::Nanomsg']]],
-  ['client',['Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html#a7b99f24d60f345db6ac64376d70f11cb',1,'CppServer::Nanomsg::Client::Client(Domain domain, Protocol protocol, const std::string &amp;address)'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#a256d0d837eea3c769b0c4c3a8f6273bd',1,'CppServer::Nanomsg::Client::Client(const Client &amp;)=delete'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#abe67feb7613f1b39de4abb1d79afe286',1,'CppServer::Nanomsg::Client::Client(Client &amp;&amp;)=default']]],
+  ['client',['Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html',1,'CppServer::Nanomsg::Client'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#a7b99f24d60f345db6ac64376d70f11cb',1,'CppServer::Nanomsg::Client::Client(Domain domain, Protocol protocol, const std::string &amp;address)'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#a256d0d837eea3c769b0c4c3a8f6273bd',1,'CppServer::Nanomsg::Client::Client(const Client &amp;)=delete'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#abe67feb7613f1b39de4abb1d79afe286',1,'CppServer::Nanomsg::Client::Client(Client &amp;&amp;)=default']]],
   ['client_2ecpp',['client.cpp',['../client_8cpp.html',1,'']]],
   ['client_2eh',['client.h',['../client_8h.html',1,'']]],
   ['close',['Close',['../class_cpp_server_1_1_nanomsg_1_1_socket.html#a2fb8adf6bfe902195f01d6b5c2c54101',1,'CppServer::Nanomsg::Socket']]],
