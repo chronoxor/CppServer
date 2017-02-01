@@ -6,14 +6,14 @@
     \copyright MIT License
 */
 
-#include "server/nanomsg/server.h"
+#include "server/nanomsg/pull_server.h"
 
 #include <iostream>
 
-class PullServer : public CppServer::Nanomsg::Server
+class PullServer : public CppServer::Nanomsg::PullServer
 {
 public:
-    using CppServer::Nanomsg::Server::Server;
+    using CppServer::Nanomsg::PullServer::PullServer;
 
 protected:
     void onStarted() override
@@ -41,7 +41,7 @@ protected:
 int main(int argc, char** argv)
 {
     // Nanomsg pull server address
-    std::string address = "tcp://*:10000";
+    std::string address = "tcp://*:6666";
     if (argc > 1)
         address = std::atoi(argv[1]);
 
@@ -49,7 +49,7 @@ int main(int argc, char** argv)
     std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Nanomsg pull server
-    PullServer server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pull, address);
+    PullServer server(address);
 
     // Start the server in a separate thread
     server.StartThread();

@@ -1,0 +1,49 @@
+/*!
+    \file pull_server.h
+    \brief Nanomsg pull server definition
+    \author Ivan Shynkarenka
+    \date 01.02.2017
+    \copyright MIT License
+*/
+
+#ifndef CPPSERVER_NANOMSG_PULL_SERVER_H
+#define CPPSERVER_NANOMSG_PULL_SERVER_H
+
+#include "server.h"
+
+namespace CppServer {
+namespace Nanomsg {
+
+//! Nanomsg pull server
+/*!
+    Nanomsg pull server is used to pull messages from Nanomsg clients.
+
+    Thread-safe.
+*/
+class PullServer : public Server
+{
+public:
+    //! Initialize server with a given endpoint address
+    /*!
+        \param address - Endpoint address
+    */
+    explicit PullServer(const std::string& address)
+        : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pull, address)
+    {
+    }
+    PullServer(const PullServer&) = delete;
+    PullServer(PullServer&&) = default;
+    virtual ~PullServer() = default;
+
+    PullServer& operator=(const PullServer&) = delete;
+    PullServer& operator=(PullServer&&) = default;
+
+private:
+    using Server::Send;
+    using Server::TrySend;
+};
+
+} // namespace Nanomsg
+} // namespace CppServer
+
+#endif // CPPSERVER_NANOMSG_PULL_SERVER_H

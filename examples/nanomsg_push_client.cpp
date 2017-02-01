@@ -2,19 +2,19 @@
     \file nanomsg_push_client.cpp
     \brief Nanomsg push client example
     \author Ivan Shynkarenka
-    \date 01.02.2016
+    \date 01.02.2017
     \copyright MIT License
 */
 
-#include "server/nanomsg/client.h"
+#include "server/nanomsg/push_client.h"
 #include "threads/thread.h"
 
 #include <iostream>
 
-class PushClient : public CppServer::Nanomsg::Client
+class PushClient : public CppServer::Nanomsg::PushClient
 {
 public:
-    using CppServer::Nanomsg::Client::Client;
+    using CppServer::Nanomsg::PushClient::PushClient;
 
 protected:
     void onConnected() override
@@ -42,7 +42,7 @@ protected:
 int main(int argc, char** argv)
 {
     // Nanomsg push server address
-    std::string address = "tcp://localhost:10000";
+    std::string address = "tcp://localhost:6666";
     if (argc > 1)
         address = argv[1];
 
@@ -50,7 +50,7 @@ int main(int argc, char** argv)
     std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
 
     // Create a new Nanomsg push client
-    PushClient client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Push, address);
+    PushClient client(address);
 
     // Start the client
     client.Connect();

@@ -2,7 +2,7 @@
     \file client.cpp
     \brief Nanomsg client implementation
     \author Ivan Shynkarenka
-    \date 28.01.2016
+    \date 28.01.2017
     \copyright MIT License
 */
 

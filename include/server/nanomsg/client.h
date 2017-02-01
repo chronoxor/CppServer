@@ -2,7 +2,7 @@
     \file client.h
     \brief Nanomsg client definition
     \author Ivan Shynkarenka
-    \date 28.01.2016
+    \date 28.01.2017
     \copyright MIT License
 */
 
@@ -20,7 +20,7 @@ namespace Nanomsg {
 
 //! Nanomsg client
 /*!
-    Nanomsg client is used to send messages to Nanomsg server and
+    Nanomsg client is used to send messages to the Nanomsg server and
     receive responses back.
 
     Thread-safe.
@@ -75,19 +75,19 @@ public:
         \param size - Buffer size
         \return Count of sent bytes
     */
-    virtual size_t Send(const void* buffer, size_t size);
+    size_t Send(const void* buffer, size_t size);
     //! Send a text string to the server
     /*!
         \param text - Text string to send
         \return Count of sent bytes
     */
-    virtual size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
+    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
     //! Send a message to the server
     /*!
         \param message - Message to send
         \return Count of sent bytes
     */
-    virtual size_t Send(const Message& message) { return Send(message.buffer(), message.size()); }
+    size_t Send(const Message& message) { return Send(message.buffer(), message.size()); }
 
     //! Try to send data to the server in non-blocking mode
     /*!
@@ -95,33 +95,33 @@ public:
         \param size - Buffer size
         \return Count of sent bytes
     */
-    virtual size_t TrySend(const void* buffer, size_t size);
+    size_t TrySend(const void* buffer, size_t size);
     //! Try to send a text string to the server in non-blocking mode
     /*!
         \param text - Text string to send
         \return Count of sent bytes
     */
-    virtual size_t TrySend(const std::string& text) { return TrySend(text.data(), text.size()); }
+    size_t TrySend(const std::string& text) { return TrySend(text.data(), text.size()); }
     //! Try to send a message to the server in non-blocking mode
     /*!
         \param message - Message to send
         \return Count of sent bytes
     */
-    virtual size_t TrySend(const Message& message) { return TrySend(message.buffer(), message.size()); }
+    size_t TrySend(const Message& message) { return TrySend(message.buffer(), message.size()); }
 
-    //! Receive a message from the server in non-blocking mode
+    //! Receive a message from the server
     /*!
         \param message - Message to receive
         \return Count of received bytes
     */
-    virtual size_t Receive(Message& message);
+    size_t Receive(Message& message);
 
     //! Try to receive a message from the server in non-blocking mode
     /*!
         \param message - Message to receive
         \return Count of received bytes
     */
-    virtual size_t TryReceive(Message& message);
+    size_t TryReceive(Message& message);
 
 protected:
     //! Initialize thread handler

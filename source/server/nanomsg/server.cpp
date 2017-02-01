@@ -2,7 +2,7 @@
     \file server.cpp
     \brief Nanomsg server implementation
     \author Ivan Shynkarenka
-    \date 27.01.2016
+    \date 27.01.2017
     \copyright MIT License
 */
 
