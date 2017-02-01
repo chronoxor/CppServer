@@ -16,9 +16,10 @@
 namespace CppServer {
 namespace Nanomsg {
 
-Server::Server(Domain domain, Protocol protocol, const std::string& address)
+Server::Server(Domain domain, Protocol protocol, const std::string& address, bool threading)
     : _address(address),
-      _socket(domain, protocol)
+      _socket(domain, protocol),
+      _threading(threading)
 {
 }
 
@@ -40,6 +41,11 @@ bool Server::Start()
         {
             // Call the server started handler
             onStarted();
+
+            // Start the server thread
+            if (_threading)
+                _thread = CppCommon::Thread::Start([this]() { ServerLoop(); });
+
             return true;
         }
         else
@@ -52,25 +58,11 @@ bool Server::Start()
     }
 }
 
-bool Server::StartThread()
-{
-    // Start the server
-    if (!Start())
-        return false;
-
-    // Start the server thread
-    _thread = CppCommon::Thread::Start([this]() { ServerLoop(); });
-
-    return true;
-}
-
 bool Server::Stop()
 {
     assert(IsStarted() && "Nanomsg server is not started!");
     if (!IsStarted())
         return false;
-
-    bool result = true;
 
     try
     {
@@ -78,34 +70,30 @@ bool Server::Stop()
         {
             // Call the server stopped handler
             onStopped();
+
+            // Wait for server thread
+            if (_threading)
+                if (_thread.joinable())
+                    _thread.join();
+
+            return true;
         }
         else
-            result = false;
+            return false;
     }
     catch (CppCommon::SystemException& ex)
     {
         onError(ex.system_error(), ex.system_message());
-        result = false;
+        return false;
     }
-
-    // Wait for server thread
-    if (_thread.joinable())
-        _thread.join();
-
-    return result;
 }
 
 bool Server::Restart()
 {
-    bool start_thread = _thread.joinable();
-
     if (!Stop())
         return false;
 
-    if (start_thread)
-        return StartThread();
-    else
-        return Start();
+    return Start();
 }
 
 void Server::ServerLoop()

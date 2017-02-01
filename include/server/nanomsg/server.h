@@ -33,8 +33,9 @@ public:
         \param domain - Domain
         \param protocol - Protocol
         \param address - Endpoint address
+        \param threading - Run server in a separate thread (default is true)
     */
-    explicit Server(Domain domain, Protocol protocol, const std::string& address);
+    explicit Server(Domain domain, Protocol protocol, const std::string& address, bool threading = true);
     Server(const Server&) = delete;
     Server(Server&&) = default;
     virtual ~Server();
@@ -53,11 +54,6 @@ public:
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
     bool Start();
-    //! Start the server in a separate thread
-    /*!
-        \return 'true' if the server was successfully started, 'false' if the server failed to start
-    */
-    bool StartThread();
     //! Stop the server
     /*!
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
@@ -162,6 +158,7 @@ private:
     // Nanomsg socket
     Socket _socket;
     // Nanomsg server thread
+    bool _threading;
     std::thread _thread;
 
     //! Server loop

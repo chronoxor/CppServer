@@ -33,8 +33,9 @@ public:
         \param domain - Domain
         \param protocol - Protocol
         \param address - Endpoint address
+        \param threading - Run client in a separate thread (default is true)
     */
-    explicit Client(Domain domain, Protocol protocol, const std::string& address);
+    explicit Client(Domain domain, Protocol protocol, const std::string& address, bool threading = true);
     Client(const Client&) = delete;
     Client(Client&&) = default;
     virtual ~Client();
@@ -53,11 +54,6 @@ public:
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
     bool Connect();
-    //! Connect the server in a separate thread
-    /*!
-        \return 'true' if the client was successfully connected, 'false' if the client failed to connect
-    */
-    bool ConnectThread();
     //! Disconnect the client
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
@@ -162,6 +158,7 @@ private:
     // Nanomsg socket
     Socket _socket;
     // Nanomsg client thread
+    bool _threading;
     std::thread _thread;
 
     //! Client loop

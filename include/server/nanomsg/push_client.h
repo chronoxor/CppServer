@@ -28,7 +28,7 @@ public:
         \param address - Endpoint address
     */
     explicit PushClient(const std::string& address)
-        : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Push, address)
+        : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Push, address, false)
     {}
     PushClient(const PushClient&) = delete;
     PushClient(PushClient&&) = default;

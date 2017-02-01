@@ -52,8 +52,8 @@ int main(int argc, char** argv)
     // Create a new Nanomsg pull server
     auto server = std::make_shared<PullServer>(address);
 
-    // Start the server in a separate thread
-    server->StartThread();
+    // Start the server
+    server->Start();
 
     // Perform text input
     std::string line;

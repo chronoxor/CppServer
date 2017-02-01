@@ -26,9 +26,10 @@ public:
     //! Initialize server with a given endpoint address
     /*!
         \param address - Endpoint address
+        \param threading - Run server in a separate thread (default is true)
     */
-    explicit PullServer(const std::string& address)
-        : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pull, address)
+    explicit PullServer(const std::string& address, bool threading = true)
+        : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pull, address, threading)
     {
     }
     PullServer(const PullServer&) = delete;

@@ -16,9 +16,10 @@
 namespace CppServer {
 namespace Nanomsg {
 
-Client::Client(Domain domain, Protocol protocol, const std::string& address)
+Client::Client(Domain domain, Protocol protocol, const std::string& address, bool threading)
     : _address(address),
-      _socket(domain, protocol)
+      _socket(domain, protocol),
+      _threading(threading)
 {
 }
 
@@ -40,6 +41,11 @@ bool Client::Connect()
         {
             // Call the client connected handler
             onConnected();
+
+            // Start the client thread
+            if (_threading)
+                _thread = CppCommon::Thread::Start([this]() { ClientLoop(); });
+
             return true;
         }
         else
@@ -52,25 +58,11 @@ bool Client::Connect()
     }
 }
 
-bool Client::ConnectThread()
-{
-    // Connect the client
-    if (!Connect())
-        return false;
-
-    // Start the client thread
-    _thread = CppCommon::Thread::Start([this]() { ClientLoop(); });
-
-    return true;
-}
-
 bool Client::Disconnect()
 {
     assert(IsConnected() && "Nanomsg client is not connected!");
     if (!IsConnected())
         return false;
-
-    bool result = true;
 
     try
     {
@@ -78,34 +70,30 @@ bool Client::Disconnect()
         {
             // Call the client disconnected handler
             onDisconnected();
+
+            // Wait for client thread
+            if (_threading)
+                if (_thread.joinable())
+                    _thread.join();
+
+            return true;
         }
         else
-            result = false;
+            return false;
     }
     catch (CppCommon::SystemException& ex)
     {
         onError(ex.system_error(), ex.system_message());
-        result = false;
+        return false;
     }
-
-    // Wait for server thread
-    if (_thread.joinable())
-        _thread.join();
-
-    return result;
 }
 
 bool Client::Reconnect()
 {
-    bool start_thread = _thread.joinable();
-
     if (!Disconnect())
         return false;
 
-    if (start_thread)
-        return ConnectThread();
-    else
-        return Connect();
+    return Connect();
 }
 
 void Client::ClientLoop()

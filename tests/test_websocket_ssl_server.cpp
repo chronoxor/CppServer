@@ -330,7 +330,7 @@ TEST_CASE("WebSocket SSL server multicast", "[CppServer][Asio]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
-    REQUIRE(server->bytes_sent() == 4);
+    REQUIRE(server->bytes_sent() == 36);
     REQUIRE(server->bytes_received() == 0);
     REQUIRE(!server->error);
 

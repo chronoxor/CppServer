@@ -68,13 +68,13 @@ TEST_CASE("Nanomsg push client & pull server", "[CppServer][Nanomsg]")
 
     // Create and start Nanomsg pull server
     auto server = std::make_shared<TestPullServer>(server_address);
-    REQUIRE(server->StartThread());
+    REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Nanomsg push client
     auto client = std::make_shared<TestPushClient>(client_address);
-    REQUIRE(client->ConnectThread());
+    REQUIRE(client->Connect());
     while (!client->IsConnected())
         Thread::Yield();
 
@@ -119,7 +119,7 @@ TEST_CASE("Nanomsg push/pull random test", "[CppServer][Nanomsg]")
 
     // Create and start Nanomsg pull server
     auto server = std::make_shared<TestPullServer>(server_address);
-    REQUIRE(server->StartThread());
+    REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
@@ -138,7 +138,7 @@ TEST_CASE("Nanomsg push/pull random test", "[CppServer][Nanomsg]")
         {
             // Create and connect Nanomsg push client
             auto client = std::make_shared<TestPushClient>(client_address);
-            client->ConnectThread();
+            client->Connect();
             clients.emplace_back(client);
         }
         // Connect/Disconnect the random client
@@ -151,7 +151,7 @@ TEST_CASE("Nanomsg push/pull random test", "[CppServer][Nanomsg]")
                 if (client->IsConnected())
                     client->Disconnect();
                 else
-                    client->ConnectThread();
+                    client->Connect();
             }
         }
         // Reconnect the random client
