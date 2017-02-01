@@ -146,15 +146,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afa9b03e529931b56d26b30c924cc88b4"><td class="memItemLeft" align="right" valign="top">asio::ip::tcp::acceptor &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#afa9b03e529931b56d26b30c924cc88b4">acceptor</a> () noexcept</td></tr>
 <tr class="memdesc:afa9b03e529931b56d26b30c924cc88b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the server acceptor.  <a href="#afa9b03e529931b56d26b30c924cc88b4">More...</a><br/></td></tr>
 <tr class="separator:afa9b03e529931b56d26b30c924cc88b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30cf4ff04ee61a72d6af2ed40c8229fc"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a30cf4ff04ee61a72d6af2ed40c8229fc">current_sessions</a> () const noexcept</td></tr>
+<tr class="memdesc:a30cf4ff04ee61a72d6af2ed40c8229fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of sessions currently connected to this server.  <a href="#a30cf4ff04ee61a72d6af2ed40c8229fc">More...</a><br/></td></tr>
+<tr class="separator:a30cf4ff04ee61a72d6af2ed40c8229fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a367b6a376d9bd9cad6a20e177521c44e"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a367b6a376d9bd9cad6a20e177521c44e">bytes_sent</a> () const noexcept</td></tr>
 <tr class="memdesc:a367b6a376d9bd9cad6a20e177521c44e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes sent by this server.  <a href="#a367b6a376d9bd9cad6a20e177521c44e">More...</a><br/></td></tr>
 <tr class="separator:a367b6a376d9bd9cad6a20e177521c44e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5243468160c78e0992c77b7b3ddfda30"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a5243468160c78e0992c77b7b3ddfda30">bytes_received</a> () const noexcept</td></tr>
 <tr class="memdesc:a5243468160c78e0992c77b7b3ddfda30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes received by this server.  <a href="#a5243468160c78e0992c77b7b3ddfda30">More...</a><br/></td></tr>
 <tr class="separator:a5243468160c78e0992c77b7b3ddfda30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1cc6fc0a500b6f01ac572f516dc6d22"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#ad1cc6fc0a500b6f01ac572f516dc6d22">sessions</a> () const noexcept</td></tr>
-<tr class="memdesc:ad1cc6fc0a500b6f01ac572f516dc6d22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connected sessions count.  <a href="#ad1cc6fc0a500b6f01ac572f516dc6d22">More...</a><br/></td></tr>
-<tr class="separator:ad1cc6fc0a500b6f01ac572f516dc6d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef2fd9b8686543f202ccdb1a15389905"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#aef2fd9b8686543f202ccdb1a15389905">IsStarted</a> () const noexcept</td></tr>
 <tr class="memdesc:aef2fd9b8686543f202ccdb1a15389905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the server started?  <a href="#aef2fd9b8686543f202ccdb1a15389905">More...</a><br/></td></tr>
 <tr class="separator:aef2fd9b8686543f202ccdb1a15389905"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -520,7 +520,7 @@ template&lt;class TServer , class TSession &gt; </div>
 
 <p>Get the number of bytes received by this server. </p>
 
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00079">79</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00081">81</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -549,7 +549,7 @@ template&lt;class TServer , class TSession &gt; </div>
 
 <p>Get the number of bytes sent by this server. </p>
 
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00077">77</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00079">79</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -579,6 +579,35 @@ template&lt;class TServer , class TSession &gt; </div>
 <p>Get the server SSL context. </p>
 
 <p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00070">70</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a30cf4ff04ee61a72d6af2ed40c8229fc"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class TServer , class TSession &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html">CppServer::Asio::SSLServer</a>&lt; TServer, TSession &gt;::current_sessions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of sessions currently connected to this server. </p>
+
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00077">77</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -666,7 +695,7 @@ template&lt;class TServer , class TSession &gt; </div>
 
 <p>Is the server started? </p>
 
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00085">85</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00084">84</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -751,7 +780,7 @@ template&lt;class TServer , class TSession &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the text string was successfully multicast, 'false' if the server it not started </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00115">115</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00114">114</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -787,7 +816,7 @@ template&lt;class TServer , class TSession &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00133">133</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00132">132</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -823,7 +852,7 @@ template&lt;class TServer , class TSession &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00138">138</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00137">137</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -878,7 +907,7 @@ template&lt;class TServer , class TSession &gt; </div>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a1">ssl_chat_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00146">146</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00145">145</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -907,7 +936,7 @@ template&lt;class TServer , class TSession &gt; </div>
 
 <p>Handle server started notification. </p>
 
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00125">125</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00124">124</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -936,7 +965,7 @@ template&lt;class TServer , class TSession &gt; </div>
 
 <p>Handle server stopped notification. </p>
 
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00127">127</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00126">126</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -1048,35 +1077,6 @@ template&lt;class TServer , class TSession &gt; </div>
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service. </p>
 
 <p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00068">68</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad1cc6fc0a500b6f01ac572f516dc6d22"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class TServer , class TSession &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html">CppServer::Asio::SSLServer</a>&lt; TServer, TSession &gt;::sessions </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Connected sessions count. </p>
-
-<p>Definition at line <a class="el" href="ssl__server_8h_source.html#l00082">82</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>

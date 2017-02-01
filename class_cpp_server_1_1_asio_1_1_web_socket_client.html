@@ -138,6 +138,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7299ee56ce82a1e324b60a102e5dd566"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cpp_server_1_1_asio.html#a0b5d0453fad535746f9e6d4645603f44">WebSocketClientCore</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_client.html#a7299ee56ce82a1e324b60a102e5dd566">core</a> () noexcept</td></tr>
 <tr class="memdesc:a7299ee56ce82a1e324b60a102e5dd566"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the WebSocket client core.  <a href="#a7299ee56ce82a1e324b60a102e5dd566">More...</a><br/></td></tr>
 <tr class="separator:a7299ee56ce82a1e324b60a102e5dd566"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea42aca6f28404202369337756a5f174"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_client.html#aea42aca6f28404202369337756a5f174">messages_sent</a> () const noexcept</td></tr>
+<tr class="memdesc:aea42aca6f28404202369337756a5f174"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number messages sent by this client.  <a href="#aea42aca6f28404202369337756a5f174">More...</a><br/></td></tr>
+<tr class="separator:aea42aca6f28404202369337756a5f174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaa1bd5d3e7a46db95893cb226a6e75a"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_client.html#adaa1bd5d3e7a46db95893cb226a6e75a">messages_received</a> () const noexcept</td></tr>
+<tr class="memdesc:adaa1bd5d3e7a46db95893cb226a6e75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number messages received by this client.  <a href="#adaa1bd5d3e7a46db95893cb226a6e75a">More...</a><br/></td></tr>
+<tr class="separator:adaa1bd5d3e7a46db95893cb226a6e75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fd1efd23773bc8cae248c3b69d2c440"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_client.html#a1fd1efd23773bc8cae248c3b69d2c440">bytes_sent</a> () const noexcept</td></tr>
 <tr class="memdesc:a1fd1efd23773bc8cae248c3b69d2c440"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes sent by this client.  <a href="#a1fd1efd23773bc8cae248c3b69d2c440">More...</a><br/></td></tr>
 <tr class="separator:a1fd1efd23773bc8cae248c3b69d2c440"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -330,7 +336,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the number of bytes received by this client. </p>
 
-<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00055">55</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00059">59</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
 
 </div>
 </div>
@@ -357,7 +363,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the number of bytes sent by this client. </p>
 
-<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00053">53</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00057">57</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
 
 </div>
 </div>
@@ -378,7 +384,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="websocket_chat_client_8cpp-example.html#a5">websocket_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00044">44</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00046">46</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -451,7 +457,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully disconnected, 'false' if the client is already disconnected </dd></dl>
 
-<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00071">71</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00075">75</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
 
 </div>
 </div>
@@ -506,7 +512,61 @@ Protected Member Functions</h2></td></tr>
 
 <p>Is the client connected? </p>
 
-<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00058">58</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00062">62</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adaa1bd5d3e7a46db95893cb226a6e75a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t CppServer::Asio::WebSocketClient::messages_received </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number messages received by this client. </p>
+
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00055">55</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aea42aca6f28404202369337756a5f174"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t CppServer::Asio::WebSocketClient::messages_sent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number messages sent by this client. </p>
+
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00053">53</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
 
 </div>
 </div>
@@ -534,7 +594,7 @@ Protected Member Functions</h2></td></tr>
 <p>Handle client connected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="websocket_chat_client_8cpp-example.html#a2">websocket_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00102">102</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00106">106</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
 
 </div>
 </div>
@@ -562,7 +622,7 @@ Protected Member Functions</h2></td></tr>
 <p>Handle client disconnected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="websocket_chat_client_8cpp-example.html#a4">websocket_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00104">104</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00108">108</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
 
 </div>
 </div>
@@ -615,7 +675,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="websocket_chat_client_8cpp-example.html#a7">websocket_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00118">118</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00122">122</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
 
 </div>
 </div>
@@ -650,7 +710,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="websocket_chat_client_8cpp-example.html#a6">websocket_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00110">110</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8h_source.html#l00114">114</a> of file <a class="el" href="websocket__client_8h_source.html">websocket_client.h</a>.</p>
 
 </div>
 </div>
@@ -718,7 +778,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00149">149</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00154">154</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -763,7 +823,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Count of sent bytes </dd></dl>
 
-<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00160">160</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00165">165</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -801,7 +861,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Count of sent bytes </dd></dl>
 
-<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00184">184</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00190">190</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -828,7 +888,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Count of sent bytes </dd></dl>
 
-<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00205">205</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="websocket__client_8cpp_source.html#l00212">212</a> of file <a class="el" href="websocket__client_8cpp_source.html">websocket_client.cpp</a>.</p>
 
 </div>
 </div>
