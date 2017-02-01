@@ -17,8 +17,8 @@ WebSocketClient::WebSocketClient(std::shared_ptr<Service> service, const std::st
       _uri(uri),
       _initialized(false),
       _connected(false),
-      _total_received(0),
-      _total_sent(0)
+      _bytes_sent(0),
+      _bytes_received(0)
 {
     InitAsio();
 }
@@ -79,7 +79,7 @@ bool WebSocketClient::Connect()
             size_t size = message->get_raw_payload().size();
 
             // Update statistic
-            _total_received += size;
+            _bytes_received += size;
 
             // Call the message received handler
             onReceived(message);
@@ -103,8 +103,8 @@ bool WebSocketClient::Connect()
 void WebSocketClient::Connected()
 {
     // Reset statistic
-    _total_received = 0;
-    _total_sent = 0;
+    _bytes_sent = 0;
+    _bytes_received = 0;
 
     // Update the connected flag
     _connected = true;
@@ -176,7 +176,7 @@ size_t WebSocketClient::Send(const void* buffer, size_t size, websocketpp::frame
     }
 
     // Update statistic
-    _total_sent += size;
+    _bytes_sent += size;
 
     return size;
 }
@@ -197,7 +197,7 @@ size_t WebSocketClient::Send(const std::string& text, websocketpp::frame::opcode
     size_t size = text.size();
 
     // Update statistic
-    _total_sent += size;
+    _bytes_sent += size;
 
     return size;
 }
@@ -218,7 +218,7 @@ size_t WebSocketClient::Send(WebSocketMessage message)
     size_t size = message->get_raw_payload().size();
 
     // Update statistic
-    _total_sent += size;
+    _bytes_sent += size;
 
     return size;
 }

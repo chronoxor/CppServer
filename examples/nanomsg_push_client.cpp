@@ -10,6 +10,7 @@
 #include "threads/thread.h"
 
 #include <iostream>
+#include <memory>
 
 class PushClient : public CppServer::Nanomsg::PushClient
 {
@@ -50,10 +51,10 @@ int main(int argc, char** argv)
     std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
 
     // Create a new Nanomsg push client
-    PushClient client(address);
+    auto client = std::make_shared<PushClient>(address);
 
     // Start the client
-    client.Connect();
+    client->Connect();
 
     // Perform text input
     std::string line;
@@ -66,16 +67,16 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Client disconnecting...";
-            client.Disconnect();
+            client->Disconnect();
             continue;
         }
 
         // Send the entered text to the server
-        client.Send(line);
+        client->Send(line);
     }
 
     // Disconnect the client
-    client.Disconnect();
+    client->Disconnect();
 
     return 0;
 }

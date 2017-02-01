@@ -37,7 +37,7 @@ public:
     explicit Client(Domain domain, Protocol protocol, const std::string& address);
     Client(const Client&) = delete;
     Client(Client&&) = default;
-    virtual ~Client() = default;
+    virtual ~Client();
 
     Client& operator=(const Client&) = delete;
     Client& operator=(Client&&) = default;

@@ -55,10 +55,10 @@ public:
     //! Get the session socket
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
-    //! Total bytes received
-    size_t total_received() const noexcept { return _total_received; }
-    //! Total bytes sent
-    size_t total_sent() const noexcept { return _total_sent; }
+    //! Get the number of bytes sent by this session
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
+    //! Get the number of bytes received by this session
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
 
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; }
@@ -132,8 +132,8 @@ private:
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
     // Session statistic
-    size_t _total_received;
-    size_t _total_sent;
+    size_t _bytes_sent;
+    size_t _bytes_received;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;

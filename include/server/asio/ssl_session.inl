@@ -19,8 +19,8 @@ inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServ
       _handshaked(false),
       _reciving(false),
       _sending(false),
-      _total_received(0),
-      _total_sent(0)
+      _bytes_sent(0),
+      _bytes_received(0)
 {
 }
 
@@ -31,8 +31,8 @@ inline void SSLSession<TServer, TSession>::Connect()
     socket().non_blocking(true);
 
     // Reset statistic
-    _total_received = 0;
-    _total_sent = 0;
+    _bytes_sent = 0;
+    _bytes_received = 0;
 
     // Update the connected flag
     _connected = true;
@@ -156,8 +156,8 @@ inline void SSLSession<TServer, TSession>::TryReceive()
             if (size > 0)
             {
                 // Update statistic
-                _total_received += size;
-                server()->_total_received += size;
+                _bytes_received += size;
+                server()->_bytes_received += size;
 
                 // Fill receive buffer
                 _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
@@ -206,8 +206,8 @@ inline void SSLSession<TServer, TSession>::TrySend()
             if (size > 0)
             {
                 // Update statistic
-                _total_sent += size;
-                server()->_total_sent += size;
+                _bytes_sent += size;
+                server()->_bytes_sent += size;
 
                 // Erase the sent buffer
                 _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);

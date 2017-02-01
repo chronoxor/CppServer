@@ -10,6 +10,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <memory>
 #include <vector>
 
 using namespace CppCommon;
@@ -56,76 +57,69 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onReceived(Message& message) { received += message.size(); }
+    void onReceived(Message& message) override { received += message.size(); }
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("Nanomsg pull server & push client", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg push client & pull server", "[CppServer][Nanomsg]")
 {
     const std::string server_address = "tcp://*:6666";
     const std::string client_address = "tcp://localhost:6666";
 
     // Create and start Nanomsg pull server
-    TestPullServer server(server_address);
-    REQUIRE(server.Start());
-    while (!server.IsStarted())
+    auto server = std::make_shared<TestPullServer>(server_address);
+    REQUIRE(server->StartThread());
+    while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Nanomsg push client
-    TestPushClient client(client_address);
-    REQUIRE(client.Connect());
-    while (!client.IsConnected())
+    auto client = std::make_shared<TestPushClient>(client_address);
+    REQUIRE(client->ConnectThread());
+    while (!client->IsConnected())
         Thread::Yield();
 
     // Push some data to the server
-    client.Send("test");
+    client->Send("test");
 
     // Wait for all data processed...
-    while (server.socket().bytes_received() != 4)
+    while (server->socket().bytes_received() != 4)
         Thread::Yield();
 
     // Disconnect the client
-    REQUIRE(client.Disconnect());
-    while (client.IsConnected())
+    REQUIRE(client->Disconnect());
+    while (client->IsConnected())
         Thread::Yield();
 
     // Stop the server
-    REQUIRE(server.Stop());
-    while (server.IsStarted())
+    REQUIRE(server->Stop());
+    while (server->IsStarted())
         Thread::Yield();
 
     // Check the server state
-    REQUIRE(server.started);
-    REQUIRE(server.stopped);
-    REQUIRE(server.socket().established_connections() == 1);
-    REQUIRE(server.socket().messages_received() == 1);
-    REQUIRE(server.socket().bytes_received() == 4);
-    REQUIRE(!server.error);
+    REQUIRE(server->started);
+    REQUIRE(server->stopped);
+    REQUIRE(server->socket().accepted_connections() == 1);
+    REQUIRE(server->socket().messages_received() == 1);
+    REQUIRE(server->socket().bytes_received() == 4);
+    REQUIRE(!server->error);
 
     // Check the client state
-    REQUIRE(client.connected);
-    REQUIRE(client.disconnected);
-    REQUIRE(client.socket().established_connections() == 1);
-    REQUIRE(client.socket().messages_sent() == 1);
-    REQUIRE(client.socket().bytes_sent() == 4);
-    REQUIRE(!client.error);
+    REQUIRE(client->connected);
+    REQUIRE(client->disconnected);
+    REQUIRE(client->socket().established_connections() == 1);
+    REQUIRE(client->socket().messages_sent() == 1);
+    REQUIRE(client->socket().bytes_sent() == 4);
+    REQUIRE(!client->error);
 }
 
-/*
-TEST_CASE("TCP server random test", "[CppServer][Asio]")
+TEST_CASE("Nanomsg push/pull random test", "[CppServer][Nanomsg]")
 {
-    const std::string address = "127.0.0.1";
-    const int port = 1113;
+    const std::string server_address = "tcp://*:6667";
+    const std::string client_address = "tcp://localhost:6667";
 
-    // Create and start Asio service
-    auto service = std::make_shared<EchoTCPService>();
-    REQUIRE(service->Start());
-    while (!service->IsStarted())
-        Thread::Yield();
-
-    // Create and start Echo server
-    auto server = std::make_shared<EchoTCPServer>(service, InternetProtocol::IPv4, port);
-    REQUIRE(server->Start());
+    // Create and start Nanomsg pull server
+    auto server = std::make_shared<TestPullServer>(server_address);
+    REQUIRE(server->StartThread());
     while (!server->IsStarted())
         Thread::Yield();
 
@@ -133,23 +127,18 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
     const int duration = 10;
 
     // Clients collection
-    std::vector<std::shared_ptr<EchoTCPClient>> clients;
+    std::vector<std::shared_ptr<TestPushClient>> clients;
 
     // Start random test
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
-        // Disconnect all clients
-        if ((rand() % 1000) == 0)
-        {
-            server->DisconnectAll();
-        }
         // Create a new client and connect
-        else if ((rand() % 100) == 0)
+        if ((rand() % 100) == 0)
         {
-            // Create and connect Echo client
-            auto client = std::make_shared<EchoTCPClient>(service, address, port);
-            client->Connect();
+            // Create and connect Nanomsg push client
+            auto client = std::make_shared<TestPushClient>(client_address);
+            client->ConnectThread();
             clients.emplace_back(client);
         }
         // Connect/Disconnect the random client
@@ -162,7 +151,7 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
                 if (client->IsConnected())
                     client->Disconnect();
                 else
-                    client->Connect();
+                    client->ConnectThread();
             }
         }
         // Reconnect the random client
@@ -175,11 +164,6 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
                 if (client->IsConnected())
                     client->Reconnect();
             }
-        }
-        // Multicast a message to all clients
-        else if ((rand() % 10) == 0)
-        {
-            server->Multicast("test");
         }
         // Send a message from the random client
         else if ((rand() % 1) == 0)
@@ -197,23 +181,16 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
         Thread::Sleep(1);
     }
 
-    // Stop the Echo server
+    // Stop the server
     REQUIRE(server->Stop());
     while (server->IsStarted())
         Thread::Yield();
 
-    // Stop the Asio service
-    REQUIRE(service->Stop());
-    while (service->IsStarted())
-        Thread::Yield();
-
-    // Check the Echo server state
+    // Check the server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->connected);
-    REQUIRE(server->disconnected);
-    REQUIRE(server->total_received() > 0);
-    REQUIRE(server->total_sent() > 0);
+    REQUIRE(server->socket().accepted_connections() > 0);
+    REQUIRE(server->socket().messages_received() > 0);
+    REQUIRE(server->socket().bytes_received() > 0);
     REQUIRE(!server->error);
 }
-*/

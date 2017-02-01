@@ -22,6 +22,12 @@ Server::Server(Domain domain, Protocol protocol, const std::string& address)
 {
 }
 
+Server::~Server()
+{
+    if (IsStarted())
+        Stop();
+}
+
 bool Server::Start()
 {
     assert(!IsStarted() && "Nanomsg server is already started!");

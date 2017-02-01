@@ -55,10 +55,10 @@ public:
     //! Get the session connection
     websocketpp::connection_hdl& connection() noexcept { return _connection; }
 
-    //! Total bytes received
-    size_t total_received() const noexcept { return _total_received; }
-    //! Total bytes sent
-    size_t total_sent() const noexcept { return _total_sent; }
+    //! Get the number of bytes sent by this session
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
+    //! Get the number of bytes received by this session
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
 
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; }
@@ -121,8 +121,8 @@ private:
     websocketpp::connection_hdl _connection;
     std::atomic<bool> _connected;
     // Session statistic
-    size_t _total_received;
-    size_t _total_sent;
+    size_t _bytes_sent;
+    size_t _bytes_received;
 
     //! Connect the session
     /*!

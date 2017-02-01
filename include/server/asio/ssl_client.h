@@ -63,10 +63,10 @@ public:
     //! Get the client socket
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept;
 
-    //! Total bytes received
-    size_t total_received() const noexcept;
-    //! Total bytes sent
-    size_t total_sent() const noexcept;
+    //! Get the number of bytes sent by this client
+    uint64_t bytes_sent() const noexcept;
+    //! Get the number of bytes received by this client
+    uint64_t bytes_received() const noexcept;
 
     //! Is the client connected?
     bool IsConnected() const noexcept;

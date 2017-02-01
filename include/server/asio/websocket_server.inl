@@ -14,8 +14,8 @@ inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Servi
     : _service(service),
       _initialized(false),
       _started(false),
-      _total_received(0),
-      _total_sent(0)
+      _bytes_sent(0),
+      _bytes_received(0)
 {
     switch (protocol)
     {
@@ -35,8 +35,8 @@ inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Servi
     : _service(service),
       _initialized(false),
       _started(false),
-      _total_received(0),
-      _total_sent(0)
+      _bytes_sent(0),
+      _bytes_received(0)
 {
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
 
@@ -49,8 +49,8 @@ inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Servi
       _endpoint(endpoint),
       _initialized(false),
       _started(false),
-      _total_received(0),
-      _total_sent(0)
+      _bytes_sent(0),
+      _bytes_received(0)
 {
     InitAsio();
 }
@@ -109,8 +109,8 @@ inline bool WebSocketServer<TServer, TSession>::Start()
         }
 
         // Reset statistic
-        _total_received = 0;
-        _total_sent = 0;
+        _bytes_sent = 0;
+        _bytes_received = 0;
 
         // Update the started flag
         _started = true;

@@ -73,10 +73,10 @@ public:
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
 
-    //! Total bytes received
-    size_t total_received() const noexcept { return _total_received; }
-    //! Total bytes sent
-    size_t total_sent() const noexcept { return _total_sent; }
+    //! Get the number of bytes sent by this server
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
+    //! Get the number of bytes received by this server
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
 
     //! Connected sessions count
     size_t sessions() const noexcept { return _sessions.size(); }
@@ -155,8 +155,8 @@ private:
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
     // Server statistic
-    size_t _total_received;
-    size_t _total_sent;
+    size_t _bytes_sent;
+    size_t _bytes_received;
     // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Multicast buffer

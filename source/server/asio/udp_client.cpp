@@ -17,8 +17,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
       _socket(_service->service()),
       _connected(false),
-      _total_received(0),
-      _total_sent(0),
+      _bytes_sent(0),
+      _bytes_received(0),
       _reciving(false),
       _sending(false),
       _multicast(false),
@@ -32,8 +32,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _endpoint(endpoint),
       _socket(_service->service()),
       _connected(false),
-      _total_received(0),
-      _total_sent(0),
+      _bytes_sent(0),
+      _bytes_received(0),
       _reciving(false),
       _sending(false),
       _multicast(false),
@@ -47,8 +47,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
       _socket(_service->service()),
       _connected(false),
-      _total_received(0),
-      _total_sent(0),
+      _bytes_sent(0),
+      _bytes_received(0),
       _reciving(false),
       _sending(false),
       _multicast(true),
@@ -62,8 +62,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _endpoint(endpoint),
       _socket(_service->service()),
       _connected(false),
-      _total_received(0),
-      _total_sent(0),
+      _bytes_sent(0),
+      _bytes_received(0),
       _reciving(false),
       _sending(false),
       _multicast(true),
@@ -94,8 +94,8 @@ bool UDPClient::Connect()
         }
 
         // Reset statistic
-        _total_received = 0;
-        _total_sent = 0;
+        _bytes_sent = 0;
+        _bytes_received = 0;
 
         // Update the connected flag
         _connected = true;
@@ -237,7 +237,7 @@ void UDPClient::TryReceive()
         if (received > 0)
         {
             // Update statistic
-            _total_received += received;
+            _bytes_received += received;
 
             // Prepare receive buffer
             _recive_buffer.resize(_recive_buffer.size() - (CHUNK - received));
@@ -279,7 +279,7 @@ void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
         if (sent > 0)
         {
             // Update statistic
-            _total_sent += sent;
+            _bytes_sent += sent;
 
             // Erase the sent buffer
             {

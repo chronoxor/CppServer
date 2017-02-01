@@ -69,10 +69,10 @@ public:
     //! Get the WebSocket server core
     WebSocketServerCore& core() noexcept { return _core; }
 
-    //! Total bytes received
-    size_t total_received() const noexcept { return _total_received; }
-    //! Total bytes sent
-    size_t total_sent() const noexcept { return _total_sent; }
+    //! Get the number of bytes sent by this server
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
+    //! Get the number of bytes received by this server
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
 
     //! Connected sessions count
     size_t sessions() const noexcept { return _sessions.size(); }
@@ -158,8 +158,8 @@ private:
     std::atomic<bool> _initialized;
     std::atomic<bool> _started;
     // Server statistic
-    size_t _total_received;
-    size_t _total_sent;
+    size_t _bytes_sent;
+    size_t _bytes_received;
     // Server sessions
     std::map<websocketpp::connection_hdl, std::shared_ptr<TSession>, std::owner_less<websocketpp::connection_hdl>> _connections;
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;

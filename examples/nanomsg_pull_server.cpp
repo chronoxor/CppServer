@@ -9,6 +9,7 @@
 #include "server/nanomsg/pull_server.h"
 
 #include <iostream>
+#include <memory>
 
 class PullServer : public CppServer::Nanomsg::PullServer
 {
@@ -49,10 +50,10 @@ int main(int argc, char** argv)
     std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Nanomsg pull server
-    PullServer server(address);
+    auto server = std::make_shared<PullServer>(address);
 
     // Start the server in a separate thread
-    server.StartThread();
+    server->StartThread();
 
     // Perform text input
     std::string line;
@@ -65,14 +66,14 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Server restarting...";
-            server.Restart();
+            server->Restart();
             std::cout << "Done!" << std::endl;
             continue;
         }
     }
 
     // Stop the server
-    server.Stop();
+    server->Stop();
 
     return 0;
 }

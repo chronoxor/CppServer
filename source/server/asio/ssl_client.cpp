@@ -27,8 +27,8 @@ public:
           _stream(_service->service(), *_context),
           _connected(false),
           _handshaked(false),
-          _total_received(0),
-          _total_sent(0),
+          _bytes_sent(0),
+          _bytes_received(0),
           _reciving(false),
           _sending(false)
     {
@@ -42,8 +42,8 @@ public:
           _stream(_service->service(), *_context),
           _connected(false),
           _handshaked(false),
-          _total_received(0),
-          _total_sent(0),
+          _bytes_sent(0),
+          _bytes_received(0),
           _reciving(false),
           _sending(false)
     {
@@ -64,8 +64,8 @@ public:
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
 
-    size_t& total_received() noexcept { return _total_received; }
-    size_t& total_sent() noexcept { return _total_sent; }
+    size_t& bytes_sent() noexcept { return _bytes_sent; }
+    size_t& bytes_received() noexcept { return _bytes_received; }
 
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
@@ -94,8 +94,8 @@ public:
                     socket().set_option(keep_alive);
 
                     // Reset statistic
-                    _total_received = 0;
-                    _total_sent = 0;
+                    _bytes_sent = 0;
+                    _bytes_received = 0;
 
                     // Update the connected flag
                     _connected = true;
@@ -230,8 +230,8 @@ private:
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
     // Client statistic
-    size_t _total_received;
-    size_t _total_sent;
+    size_t _bytes_sent;
+    size_t _bytes_received;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
@@ -260,7 +260,7 @@ private:
                 if (size > 0)
                 {
                     // Update statistic
-                    _total_received += size;
+                    _bytes_received += size;
 
                     // Fill receive buffer
                     _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
@@ -308,7 +308,7 @@ private:
                 if (size > 0)
                 {
                     // Update statistic
-                    _total_sent += size;
+                    _bytes_sent += size;
 
                     // Erase the sent buffer
                     _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
@@ -401,14 +401,14 @@ asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& SSLClient::socket()
     return _pimpl->socket();
 }
 
-size_t SSLClient::total_received() const noexcept
+size_t SSLClient::bytes_sent() const noexcept
 {
-    return _pimpl->total_received();
+    return _pimpl->bytes_sent();
 }
 
-size_t SSLClient::total_sent() const noexcept
+size_t SSLClient::bytes_received() const noexcept
 {
-    return _pimpl->total_sent();
+    return _pimpl->bytes_received();
 }
 
 bool SSLClient::IsConnected() const noexcept
@@ -450,11 +450,11 @@ size_t SSLClient::Send(const void* buffer, size_t size)
 
 void SSLClient::onReset()
 {
-    size_t total_received = _pimpl->total_received();
-    size_t total_sent = _pimpl->total_sent();
+    size_t bytes_sent = _pimpl->bytes_sent();
+    size_t bytes_received = _pimpl->bytes_received();
     _pimpl = std::make_shared<Impl>(_pimpl->id(), _pimpl->service(), _pimpl->context(), _pimpl->endpoint());
-    _pimpl->total_received() = total_received;
-    _pimpl->total_sent() = total_sent;
+    _pimpl->bytes_sent() = bytes_sent;
+    _pimpl->bytes_received() = bytes_received;
 }
 
 } // namespace Asio

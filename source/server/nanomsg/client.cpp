@@ -22,6 +22,12 @@ Client::Client(Domain domain, Protocol protocol, const std::string& address)
 {
 }
 
+Client::~Client()
+{
+    if (IsConnected())
+        Disconnect();
+}
+
 bool Client::Connect()
 {
     assert(!IsConnected() && "Nanomsg client is already connected!");

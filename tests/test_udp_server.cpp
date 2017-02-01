@@ -121,7 +121,7 @@ TEST_CASE("UDP server & client", "[CppServer][Asio]")
     client->Send("test");
 
     // Wait for all data processed...
-    while (client->total_received() != 4)
+    while (client->bytes_received() != 4)
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -150,15 +150,15 @@ TEST_CASE("UDP server & client", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->total_received() == 4);
-    REQUIRE(server->total_sent() == 4);
+    REQUIRE(server->bytes_sent() == 4);
+    REQUIRE(server->bytes_received() == 4);
     REQUIRE(!server->error);
 
     // Check the Echo client state
     REQUIRE(client->connected);
     REQUIRE(client->disconnected);
-    REQUIRE(client->total_received() == 4);
-    REQUIRE(client->total_sent() == 4);
+    REQUIRE(client->bytes_sent() == 4);
+    REQUIRE(client->bytes_received() == 4);
     REQUIRE(!client->error);
 }
 
@@ -191,7 +191,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     server->Multicast("test");
 
     // Wait for all data processed...
-    while (client1->total_received() != 4)
+    while (client1->bytes_received() != 4)
         Thread::Yield();
 
     // Create and connect Echo client
@@ -205,7 +205,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->total_received() != 8) || (client2->total_received() != 4))
+    while ((client1->bytes_received() != 8) || (client2->bytes_received() != 4))
         Thread::Yield();
 
     // Create and connect Echo client
@@ -219,7 +219,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->total_received() != 12) || (client2->total_received() != 8) || (client3->total_received() != 4))
+    while ((client1->bytes_received() != 12) || (client2->bytes_received() != 8) || (client3->bytes_received() != 4))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -232,7 +232,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->total_received() != 12) || (client2->total_received() != 12) || (client3->total_received() != 8))
+    while ((client1->bytes_received() != 12) || (client2->bytes_received() != 12) || (client3->bytes_received() != 8))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -245,7 +245,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     server->Multicast("test");
 
     // Wait for all data processed...
-    while ((client1->total_received() != 12) || (client2->total_received() != 12) || (client3->total_received() != 12))
+    while ((client1->bytes_received() != 12) || (client2->bytes_received() != 12) || (client3->bytes_received() != 12))
         Thread::Yield();
 
     // Disconnect the Echo client
@@ -275,17 +275,17 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->total_received() == 0);
-    REQUIRE(server->total_sent() == 20);
+    REQUIRE(server->bytes_sent() == 20);
+    REQUIRE(server->bytes_received() == 0);
     REQUIRE(!server->error);
 
     // Check the Echo client state
-    REQUIRE(client1->total_received() == 12);
-    REQUIRE(client2->total_received() == 12);
-    REQUIRE(client3->total_received() == 12);
-    REQUIRE(client1->total_sent() == 0);
-    REQUIRE(client2->total_sent() == 0);
-    REQUIRE(client3->total_sent() == 0);
+    REQUIRE(client1->bytes_sent() == 0);
+    REQUIRE(client2->bytes_sent() == 0);
+    REQUIRE(client3->bytes_sent() == 0);
+    REQUIRE(client1->bytes_received() == 12);
+    REQUIRE(client2->bytes_received() == 12);
+    REQUIRE(client3->bytes_received() == 12);
     REQUIRE(!client1->error);
     REQUIRE(!client2->error);
     REQUIRE(!client3->error);
@@ -380,8 +380,8 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->total_received() > 0);
-    REQUIRE(server->total_sent() > 0);
+    REQUIRE(server->bytes_sent() > 0);
+    REQUIRE(server->bytes_received() > 0);
     REQUIRE(!server->error);
 }
 
@@ -468,8 +468,8 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->total_received() == 0);
-    REQUIRE(server->total_sent() > 0);
+    REQUIRE(server->bytes_sent() > 0);
+    REQUIRE(server->bytes_received() == 0);
     REQUIRE(!server->error);
 }
 */

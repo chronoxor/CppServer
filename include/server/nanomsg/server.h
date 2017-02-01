@@ -37,7 +37,7 @@ public:
     explicit Server(Domain domain, Protocol protocol, const std::string& address);
     Server(const Server&) = delete;
     Server(Server&&) = default;
-    virtual ~Server() = default;
+    virtual ~Server();
 
     Server& operator=(const Server&) = delete;
     Server& operator=(Server&&) = default;

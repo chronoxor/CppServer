@@ -17,8 +17,8 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
       _socket(_service->service()),
       _connected(false),
-      _total_received(0),
-      _total_sent(0),
+      _bytes_sent(0),
+      _bytes_received(0),
       _reciving(false),
       _sending(false)
 {
@@ -30,8 +30,8 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _endpoint(endpoint),
       _socket(_service->service()),
       _connected(false),
-      _total_received(0),
-      _total_sent(0),
+      _bytes_sent(0),
+      _bytes_received(0),
       _reciving(false),
       _sending(false)
 {
@@ -59,8 +59,8 @@ bool TCPClient::Connect()
                 _socket.set_option(keep_alive);
 
                 // Reset statistic
-                _total_received = 0;
-                _total_sent = 0;
+                _bytes_sent = 0;
+                _bytes_received = 0;
 
                 // Update the connected flag
                 _connected = true;
@@ -172,7 +172,7 @@ void TCPClient::TryReceive()
             if (size > 0)
             {
                 // Update statistic
-                _total_received += size;
+                _bytes_received += size;
 
                 // Fill receive buffer
                 _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
@@ -220,7 +220,7 @@ void TCPClient::TrySend()
             if (size > 0)
             {
                 // Update statistic
-                _total_sent += size;
+                _bytes_sent += size;
 
                 // Erase the sent buffer
                 _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);

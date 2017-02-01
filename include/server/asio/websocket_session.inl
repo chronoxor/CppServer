@@ -14,8 +14,8 @@ inline WebSocketSession<TServer, TSession>::WebSocketSession(std::shared_ptr<Web
     : _id(CppCommon::UUID::Generate()),
       _server(server),
       _connected(false),
-      _total_received(0),
-      _total_sent(0)
+      _bytes_sent(0),
+      _bytes_received(0)
 {
 }
 
@@ -29,8 +29,8 @@ inline void WebSocketSession<TServer, TSession>::Connect(websocketpp::connection
         size_t size = message->get_raw_payload().size();
 
         // Update statistic
-        _total_received += size;
-        server()->_total_received += size;
+        _bytes_received += size;
+        server()->_bytes_received += size;
 
         // Call the message received handler
         onReceived(message);
@@ -47,8 +47,8 @@ inline void WebSocketSession<TServer, TSession>::Connect(websocketpp::connection
     _connection = connection;
 
     // Reset statistic
-    _total_received = 0;
-    _total_sent = 0;
+    _bytes_sent = 0;
+    _bytes_received = 0;
 
     // Update the connected flag
     _connected = true;
@@ -115,8 +115,8 @@ inline size_t WebSocketSession<TServer, TSession>::Send(const void* buffer, size
     }
 
     // Update statistic
-    _total_sent += size;
-    server()->_total_sent += size;
+    _bytes_sent += size;
+    server()->_bytes_sent += size;
 
     return size;
 }
@@ -138,8 +138,8 @@ inline size_t WebSocketSession<TServer, TSession>::Send(const std::string& text,
     size_t size = text.size();
 
     // Update statistic
-    _total_sent += size;
-    server()->_total_sent += size;
+    _bytes_sent += size;
+    server()->_bytes_sent += size;
 
     return size;
 }
@@ -161,8 +161,8 @@ inline size_t WebSocketSession<TServer, TSession>::Send(WebSocketMessage message
     size_t size = message->get_raw_payload().size();
 
     // Update statistic
-    _total_sent += size;
-    server()->_total_sent += size;
+    _bytes_sent += size;
+    server()->_bytes_sent += size;
 
     return size;
 }

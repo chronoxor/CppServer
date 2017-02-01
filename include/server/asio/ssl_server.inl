@@ -16,8 +16,8 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _acceptor(_service->service()),
       _socket(_service->service()),
       _started(false),
-      _total_received(0),
-      _total_sent(0)
+      _bytes_sent(0),
+      _bytes_received(0)
 {
     switch (protocol)
     {
@@ -37,8 +37,8 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _acceptor(_service->service()),
       _socket(_service->service()),
       _started(false),
-      _total_received(0),
-      _total_sent(0)
+      _bytes_sent(0),
+      _bytes_received(0)
 {
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
 }
@@ -51,8 +51,8 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _acceptor(_service->service()),
       _socket(_service->service()),
       _started(false),
-      _total_received(0),
-      _total_sent(0)
+      _bytes_sent(0),
+      _bytes_received(0)
 {
 }
 
@@ -71,8 +71,8 @@ inline bool SSLServer<TServer, TSession>::Start()
         _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
 
         // Reset statistic
-        _total_received = 0;
-        _total_sent = 0;
+        _bytes_sent = 0;
+        _bytes_received = 0;
 
         // Update the started flag
         _started = true;
