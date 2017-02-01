@@ -180,8 +180,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    std::atomic&lt;bool&gt; _initialized;</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    std::atomic&lt;bool&gt; _started;</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">// Server statistic</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordtype">size_t</span> _bytes_sent;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordtype">size_t</span> _bytes_received;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    uint64_t _bytes_sent;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    uint64_t _bytes_received;</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="comment">// Server sessions</span></div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    std::map&lt;websocketpp::connection_hdl, std::shared_ptr&lt;TSession&gt;, std::owner_less&lt;websocketpp::connection_hdl&gt;&gt; _connections;</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    std::map&lt;CppCommon::UUID, std::shared_ptr&lt;TSession&gt;&gt; _sessions;</div>

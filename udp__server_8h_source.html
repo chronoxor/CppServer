@@ -167,8 +167,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    asio::ip::udp::socket _socket;</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    std::atomic&lt;bool&gt; _started;</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">// Server statistic</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">size_t</span> _bytes_sent;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordtype">size_t</span> _bytes_received;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    uint64_t _bytes_sent;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    uint64_t _bytes_received;</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="comment">// Multicast &amp; receive endpoint</span></div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    asio::ip::udp::endpoint _multicast_endpoint;</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    asio::ip::udp::endpoint _recive_endpoint;</div>

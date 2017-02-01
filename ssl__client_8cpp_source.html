@@ -149,8 +149,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    asio::ssl::stream&lt;asio::ip::tcp::socket&gt;&amp; <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a74c4c08643dd428119a46bde185919b8">stream</a>() noexcept { <span class="keywordflow">return</span> _stream; }</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    asio::ssl::stream&lt;asio::ip::tcp::socket&gt;::lowest_layer_type&amp; <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a9d1eac98aff924fcce9b48471f5f2e10">socket</a>() noexcept { <span class="keywordflow">return</span> _stream.lowest_layer(); }</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">size_t</span>&amp; <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a13d1906e8980eab0299a9d54ab5e20d9">bytes_sent</a>() noexcept { <span class="keywordflow">return</span> _bytes_sent; }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">size_t</span>&amp; <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a918235c3e26249a83a563be4c3fc5706">bytes_received</a>() noexcept { <span class="keywordflow">return</span> _bytes_received; }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    uint64_t&amp; <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a13d1906e8980eab0299a9d54ab5e20d9">bytes_sent</a>() noexcept { <span class="keywordflow">return</span> _bytes_sent; }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    uint64_t&amp; <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a918235c3e26249a83a563be4c3fc5706">bytes_received</a>() noexcept { <span class="keywordflow">return</span> _bytes_received; }</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a590ca8e4fe2425f62b9a6d644cb59503">IsConnected</a>() const noexcept { <span class="keywordflow">return</span> _connected; }</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>() const noexcept { <span class="keywordflow">return</span> _handshaked; }</div>
@@ -315,8 +315,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    std::atomic&lt;bool&gt; _connected;</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    std::atomic&lt;bool&gt; _handshaked;</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="comment">// Client statistic</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keywordtype">size_t</span> _bytes_sent;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordtype">size_t</span> _bytes_received;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    uint64_t _bytes_sent;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    uint64_t _bytes_received;</div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="comment">// Receive &amp; send buffers</span></div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    std::mutex _send_lock;</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    std::vector&lt;uint8_t&gt; _recive_buffer;</div>

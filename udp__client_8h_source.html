@@ -179,8 +179,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    asio::ip::udp::socket _socket;</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    std::atomic&lt;bool&gt; _connected;</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="comment">// Client statistic</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordtype">size_t</span> _bytes_sent;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordtype">size_t</span> _bytes_received;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    uint64_t _bytes_sent;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    uint64_t _bytes_received;</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="comment">// Receive endpoint</span></div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    asio::ip::udp::endpoint _recive_endpoint;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="comment">// Receive &amp; send buffers</span></div>

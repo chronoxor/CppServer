@@ -165,8 +165,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    asio::ip::tcp::socket _socket;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    std::atomic&lt;bool&gt; _connected;</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="comment">// Client statistic</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">size_t</span> _bytes_sent;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">size_t</span> _bytes_received;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    uint64_t _bytes_sent;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    uint64_t _bytes_received;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">// Receive &amp; send buffers</span></div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    std::mutex _send_lock;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    std::vector&lt;uint8_t&gt; _recive_buffer;</div>
