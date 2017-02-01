@@ -8,6 +8,7 @@
 
 #include "server/nanomsg/client.h"
 
+#include "errors/fatal.h"
 #include "threads/thread.h"
 
 #include <cassert>
@@ -45,11 +46,25 @@ bool Client::Connect()
     }
 }
 
+bool Client::ConnectThread()
+{
+    // Connect the client
+    if (!Connect())
+        return false;
+
+    // Start the client thread
+    _thread = CppCommon::Thread::Start([this]() { ClientLoop(); });
+
+    return true;
+}
+
 bool Client::Disconnect()
 {
     assert(IsConnected() && "Nanomsg client is not connected!");
     if (!IsConnected())
         return false;
+
+    bool result = true;
 
     try
     {
@@ -57,27 +72,66 @@ bool Client::Disconnect()
         {
             // Call the client disconnected handler
             onDisconnected();
-            return true;
         }
         else
-            return false;
+            result = false;
     }
     catch (CppCommon::SystemException& ex)
     {
         onError(ex.system_error(), ex.system_message());
-        return false;
+        result = false;
     }
+
+    // Wait for server thread
+    if (_thread.joinable())
+        _thread.join();
+
+    return result;
 }
 
 bool Client::Reconnect()
 {
+    bool start_thread = _thread.joinable();
+
     if (!Disconnect())
         return false;
 
-    while (IsConnected())
-        CppCommon::Thread::Yield();
+    if (start_thread)
+        return ConnectThread();
+    else
+        return Connect();
+}
 
-    return Connect();
+void Client::ClientLoop()
+{
+    // Call the initialize thread handler
+    onThreadInitialize();
+
+    try
+    {
+        // Run Nanomsg client in a loop
+        do
+        {
+            // Try to receive a new message from the server
+            Message message;
+            if (!TryReceive(message))
+            {
+                // Call the idle handler
+                onIdle();
+            }
+        } while (IsConnected());
+    }
+    catch (CppCommon::SystemException& ex)
+    {
+        onError(ex.system_error(), ex.system_message());
+    }
+    catch (...)
+    {
+        fatality("Nanomsg client thread terminated!");
+    }
+
+    // Call the cleanup thread handler
+    onThreadCleanup();
 }
 
 size_t Client::Send(const void* buffer, size_t size)

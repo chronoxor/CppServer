@@ -6,9 +6,10 @@
     \copyright MIT License
 */
 
-#include "server/asio/udp_client.h"
-
 #include "asio_service.h"
+
+#include "server/asio/udp_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -22,6 +23,7 @@ protected:
     {
         std::cout << "Echo UDP client connected a new session with Id " << id() << std::endl;
     }
+
     void onDisconnected() override
     {
         std::cout << "Echo UDP client disconnected a session with Id " << id() << std::endl;
@@ -58,7 +60,7 @@ int main(int argc, char** argv)
 
     std::cout << "UDP server address: " << address << std::endl;
     std::cout << "UDP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
+    std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
@@ -82,6 +84,7 @@ int main(int argc, char** argv)
         // Disconnect the client
         if (line == "!")
         {
+            std::cout << "Client disconnecting...";
             client->Disconnect();
             continue;
         }

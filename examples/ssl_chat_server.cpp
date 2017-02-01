@@ -6,9 +6,9 @@
     \copyright MIT License
 */
 
-#include "server/asio/ssl_server.h"
-
 #include "asio_service.h"
+
+#include "server/asio/ssl_server.h"
 
 #include <iostream>
 
@@ -40,6 +40,7 @@ protected:
         std::string message("Hello from SSL chat! Please send a message or '!' to disconnect the client!");
         Send(message.data(), message.size());
     }
+
     void onDisconnected() override
     {
         std::cout << "Chat SSL session with Id " << id() << " disconnected!" << std::endl;

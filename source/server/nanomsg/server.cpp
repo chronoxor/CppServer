@@ -8,6 +8,7 @@
 
 #include "server/nanomsg/server.h"
 
+#include "errors/fatal.h"
 #include "threads/thread.h"
 
 #include <cassert>
@@ -45,11 +46,25 @@ bool Server::Start()
     }
 }
 
+bool Server::StartThread()
+{
+    // Start the server
+    if (!Start())
+        return false;
+
+    // Start the server thread
+    _thread = CppCommon::Thread::Start([this]() { ServerLoop(); });
+
+    return true;
+}
+
 bool Server::Stop()
 {
     assert(IsStarted() && "Nanomsg server is not started!");
     if (!IsStarted())
         return false;
+
+    bool result = true;
 
     try
     {
@@ -57,27 +72,66 @@ bool Server::Stop()
         {
             // Call the server stopped handler
             onStopped();
-            return true;
         }
         else
-            return false;
+            result = false;
     }
     catch (CppCommon::SystemException& ex)
     {
         onError(ex.system_error(), ex.system_message());
-        return false;
+        result = false;
     }
+
+    // Wait for server thread
+    if (_thread.joinable())
+        _thread.join();
+
+    return result;
 }
 
 bool Server::Restart()
 {
+    bool start_thread = _thread.joinable();
+
     if (!Stop())
         return false;
 
-    while (IsStarted())
-        CppCommon::Thread::Yield();
+    if (start_thread)
+        return StartThread();
+    else
+        return Start();
+}
 
-    return Start();
+void Server::ServerLoop()
+{
+    // Call the initialize thread handler
+    onThreadInitialize();
+
+    try
+    {
+        // Run Nanomsg server in a loop
+        do
+        {
+            // Try to receive a new message from the client
+            Message message;
+            if (!TryReceive(message))
+            {
+                // Call the idle handler
+                onIdle();
+            }
+        } while (IsStarted());
+    }
+    catch (CppCommon::SystemException& ex)
+    {
+        onError(ex.system_error(), ex.system_message());
+    }
+    catch (...)
+    {
+        fatality("Nanomsg server thread terminated!");
+    }
+
+    // Call the cleanup thread handler
+    onThreadCleanup();
 }
 
 size_t Server::Send(const void* buffer, size_t size)

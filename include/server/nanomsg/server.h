@@ -11,6 +11,10 @@
 
 #include "socket.h"
 
+#include "threads/thread.h"
+
+#include <thread>
+
 namespace CppServer {
 namespace Nanomsg {
 
@@ -49,6 +53,11 @@ public:
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
     bool Start();
+    //! Start the server in a separate thread
+    /*!
+        \return 'true' if the server was successfully started, 'false' if the server failed to start
+    */
+    bool StartThread();
     //! Stop the server
     /*!
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
@@ -115,10 +124,24 @@ public:
     virtual size_t TryReceive(Message& message);
 
 protected:
+    //! Initialize thread handler
+    /*!
+         This handler can be used to initialize priority or affinity of the server thread.
+    */
+    virtual void onThreadInitialize() {}
+    //! Cleanup thread handler
+    /*!
+         This handler can be used to cleanup priority or affinity of the server thread.
+    */
+    virtual void onThreadCleanup() {}
+
     //! Handle server started notification
     virtual void onStarted() {}
     //! Handle server stopped notification
     virtual void onStopped() {}
+
+    //! Handle server idle notification
+    virtual void onIdle() { CppCommon::Thread::Yield(); }
 
     //! Handle message received notification
     /*!
@@ -138,6 +161,11 @@ private:
     std::string _address;
     // Nanomsg socket
     Socket _socket;
+    // Nanomsg server thread
+    std::thread _thread;
+
+    //! Server loop
+    void ServerLoop();
 };
 
 } // namespace Nanomsg

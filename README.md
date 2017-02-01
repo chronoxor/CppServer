@@ -115,6 +115,7 @@ method will always enqueue the handler into the I/O queue.
 Here comes an example of using custom Asio service with dispatch/post methods:
 ```C++
 #include "server/asio/service.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -128,10 +129,12 @@ protected:
     {
         std::cout << "Asio service started!" << std::endl;
     }
+
     void onStopped() override
     {
         std::cout << "Asio service stopped!" << std::endl;
     }
+
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Asio service caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
@@ -219,6 +222,7 @@ is possible to send admin message directly from the server.
 
 ```C++
 #include "server/asio/tcp_server.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -336,6 +340,7 @@ server and allows to send message to it and receive new messages.
 
 ```C++
 #include "server/asio/tcp_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -386,7 +391,7 @@ int main(int argc, char** argv)
 
     std::cout << "TCP server address: " << address << std::endl;
     std::cout << "TCP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
+    std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
@@ -406,6 +411,14 @@ int main(int argc, char** argv)
     {
         if (line.empty())
             break;
+
+        // Disconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client disconnecting...";
+            client->Disconnect();
+            continue;
+        }
 
         // Send the entered text to the chat server
         client->Send(line);
@@ -431,6 +444,7 @@ context and handshake handler.
 
 ```C++
 #include "server/asio/ssl_server.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -559,6 +573,7 @@ context and handshake handler.
 
 ```C++
 #include "server/asio/ssl_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -613,7 +628,7 @@ int main(int argc, char** argv)
 
     std::cout << "SSL server address: " << address << std::endl;
     std::cout << "SSL server port: " << port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
+    std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
@@ -639,6 +654,14 @@ int main(int argc, char** argv)
         if (line.empty())
             break;
 
+        // Disconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client disconnecting...";
+            client->Disconnect();
+            continue;
+        }
+
         // Send the entered text to the chat server
         client->Send(line);
     }
@@ -659,6 +682,7 @@ from any UDP client and resend it back without any changes.
 
 ```C++
 #include "server/asio/udp_server.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -738,6 +762,7 @@ to UDP server and listen for response.
 
 ```C++
 #include "server/asio/udp_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -811,6 +836,7 @@ int main(int argc, char** argv)
         // Disconnect the client
         if (line == "!")
         {
+            std::cout << "Client disconnecting...";
             client->Disconnect();
             continue;
         }
@@ -836,6 +862,7 @@ multicast group.
 
 ```C++
 #include "server/asio/udp_server.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -917,6 +944,7 @@ from UDP server.
 
 ```C++
 #include "server/asio/udp_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -1003,6 +1031,7 @@ int main(int argc, char** argv)
         // Disconnect the client
         if (line == "!")
         {
+            std::cout << "Client disconnecting...";
             client->Disconnect();
             continue;
         }
@@ -1026,6 +1055,7 @@ server.
 
 ```C++
 #include "server/asio/websocket_server.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -1140,6 +1170,7 @@ messages.
 
 ```C++
 #include "server/asio/websocket_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -1193,7 +1224,7 @@ int main(int argc, char** argv)
     std::cout << "WebSocket server address: " << address << std::endl;
     std::cout << "WebSocket server port: " << port << std::endl;
     std::cout << "WebSocket server uri: " << uri << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
+    std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
@@ -1213,6 +1244,14 @@ int main(int argc, char** argv)
     {
         if (line.empty())
             break;
+
+        // Disconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client disconnecting...";
+            client->Disconnect();
+            continue;
+        }
 
         // Send the entered text to the chat server
         client->Send(line);
@@ -1239,6 +1278,7 @@ prepares SSL context.
 
 ```C++
 #include "server/asio/websocket_ssl_server.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -1364,6 +1404,7 @@ prepares SSL context.
 
 ```C++
 #include "server/asio/websocket_ssl_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -1417,7 +1458,7 @@ int main(int argc, char** argv)
     std::cout << "WebSocket SSL server address: " << address << std::endl;
     std::cout << "WebSocket SSL server port: " << port << std::endl;
     std::cout << "WebSocket SSL server uri: " << uri << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
+    std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
@@ -1443,13 +1484,21 @@ int main(int argc, char** argv)
         if (line.empty())
             break;
 
+        // Disconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client disconnecting...";
+            client->Disconnect();
+            continue;
+        }
+
         // Send the entered text to the chat server
         client->Send(line);
     }
 
     // Disconnect the client
     client->Disconnect();
-
+              ..
     // Stop the service
     service->Stop();
 

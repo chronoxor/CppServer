@@ -41,12 +41,13 @@ Message::Message(const Message& message) : Message(message.buffer(), message.siz
 
 Message::~Message()
 {
-    if (_buffer != nullptr)
+    try
     {
-        int result = nn_freemsg(_buffer);
-        if (result != 0)
-            fatality(CppCommon::SystemException("Failed to free memory of the nanomsg message!"));
-        _buffer = nullptr;
+        Clear();
+    }
+    catch (CppCommon::SystemException& ex)
+    {
+        fatality(CppCommon::SystemException(ex.string()));
     }
 }
 
@@ -55,6 +56,17 @@ Message& Message::operator=(const Message& message)
     Message temp(message);
     *this = std::move(temp);
     return *this;
+}
+
+void Message::Clear()
+{
+    if (_buffer != nullptr)
+    {
+        int result = nn_freemsg(_buffer);
+        if (result != 0)
+            throwex CppCommon::SystemException("Failed to free memory of the nanomsg message!");
+        _buffer = nullptr;
+    }
 }
 
 void Message::Reallocate(size_t size)

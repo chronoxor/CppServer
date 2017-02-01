@@ -6,9 +6,9 @@
     \copyright MIT License
 */
 
-#include "server/asio/udp_server.h"
-
 #include "asio_service.h"
+
+#include "server/asio/udp_server.h"
 
 #include <iostream>
 

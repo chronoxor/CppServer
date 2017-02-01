@@ -55,6 +55,9 @@ public:
     Message& operator=(const Message& message);
     Message& operator=(Message&&) = default;
 
+    //! Check if the message is valid
+    explicit operator bool() const { return (_buffer == nullptr); }
+
     //! Get the message buffer
     uint8_t* buffer() noexcept { return _buffer; }
     //! Get the constant message buffer
@@ -63,6 +66,9 @@ public:
     size_t size() const noexcept { return _size; }
     //! Get the message type
     int type() const noexcept { return _type; }
+
+    //! Clear the message buffer
+    void Clear();
 
     //! Reallocate the message size
     /*!

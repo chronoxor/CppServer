@@ -6,9 +6,10 @@
     \copyright MIT License
 */
 
-#include "server/asio/udp_client.h"
-
 #include "asio_service.h"
+
+#include "server/asio/udp_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -28,6 +29,7 @@ protected:
         // Join UDP multicast group
         JoinMulticastGroup(multicast);
     }
+
     void onDisconnected() override
     {
         std::cout << "Multicast UDP client disconnected a session with Id " << id() << std::endl;
@@ -70,7 +72,7 @@ int main(int argc, char** argv)
     std::cout << "UDP listen address: " << listen_address << std::endl;
     std::cout << "UDP multicast address: " << multicast_address << std::endl;
     std::cout << "UDP multicast port: " << multicast_port << std::endl;
-    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
+    std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
@@ -95,6 +97,7 @@ int main(int argc, char** argv)
         // Disconnect the client
         if (line == "!")
         {
+            std::cout << "Client disconnecting...";
             client->Disconnect();
             continue;
         }

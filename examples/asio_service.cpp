@@ -8,6 +8,8 @@
 
 #include "asio_service.h"
 
+#include "threads/thread.h"
+
 #include <iostream>
 
 int main(int argc, char** argv)

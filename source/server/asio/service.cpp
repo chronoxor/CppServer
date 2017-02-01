@@ -9,6 +9,7 @@
 #include "server/asio/service.h"
 
 #include "errors/fatal.h"
+#include "threads/thread.h"
 
 namespace CppServer {
 namespace Asio {
@@ -31,7 +32,7 @@ bool Service::Start(bool polling)
     });
 
     // Start the service thread
-    _thread = std::thread([this, polling]() { ServiceLoop(polling); });
+    _thread = CppCommon::Thread::Start([this, polling]() { ServiceLoop(polling); });
 
     return true;
 }

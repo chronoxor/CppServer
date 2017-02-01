@@ -6,9 +6,10 @@
     \copyright MIT License
 */
 
-#include "server/asio/tcp_client.h"
-
 #include "asio_service.h"
+
+#include "server/asio/tcp_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -22,6 +23,7 @@ protected:
     {
         std::cout << "Chat TCP client connected a new session with Id " << id() << std::endl;
     }
+
     void onDisconnected() override
     {
         std::cout << "Chat TCP client disconnected a session with Id " << id() << std::endl;
@@ -59,7 +61,7 @@ int main(int argc, char** argv)
 
     std::cout << "TCP server address: " << address << std::endl;
     std::cout << "TCP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
+    std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
@@ -79,6 +81,14 @@ int main(int argc, char** argv)
     {
         if (line.empty())
             break;
+
+        // Disconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client disconnecting...";
+            client->Disconnect();
+            continue;
+        }
 
         // Send the entered text to the chat server
         client->Send(line);

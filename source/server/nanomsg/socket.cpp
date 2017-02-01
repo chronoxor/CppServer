@@ -158,7 +158,7 @@ bool Socket::Bind(const std::string& address)
         return false;
 
     int result = nn_bind(_socket, address.c_str());
-    if (result != 0)
+    if (result < 0)
     {
         if (errno == ETERM)
             return false;
@@ -181,7 +181,7 @@ bool Socket::Connect(const std::string& address)
         return false;
 
     int result = nn_connect(_socket, address.c_str());
-    if (result != 0)
+    if (result < 0)
     {
         if (errno == ETERM)
             return false;

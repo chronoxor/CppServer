@@ -6,9 +6,9 @@
     \copyright MIT License
 */
 
-#include "server/asio/websocket_server.h"
-
 #include "asio_service.h"
+
+#include "server/asio/websocket_server.h"
 
 #include <iostream>
 
@@ -40,6 +40,7 @@ protected:
         std::string message("Hello from WebSocket chat! Please send a message or '!' to disconnect the client!");
         Send(message);
     }
+
     void onDisconnected() override
     {
         std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;

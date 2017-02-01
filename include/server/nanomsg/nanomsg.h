@@ -9,7 +9,7 @@
 #ifndef CPPSERVER_NANOMSG_H
 #define CPPSERVER_NANOMSG_H
 
-#include <iostream>
+#define NN_STATIC_LIB
 
 #include <nn.h>
 
@@ -26,6 +26,8 @@
 #include <ipc.h>
 #include <tcp.h>
 #include <ws.h>
+
+#include <iostream>
 
 namespace CppServer {
 
