@@ -68,13 +68,12 @@ public:
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
 
+    //! Get the number of sessions currently connected to this server
+    uint64_t current_sessions() const noexcept { return _sessions.size(); }
     //! Get the number of bytes sent by this server
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by this server
     uint64_t bytes_received() const noexcept { return _bytes_received; }
-
-    //! Connected sessions count
-    size_t sessions() const noexcept { return _sessions.size(); }
 
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }

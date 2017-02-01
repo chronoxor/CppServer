@@ -14,6 +14,8 @@ inline WebSocketSession<TServer, TSession>::WebSocketSession(std::shared_ptr<Web
     : _id(CppCommon::UUID::Generate()),
       _server(server),
       _connected(false),
+      _messages_sent(0),
+      _messages_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -29,6 +31,8 @@ inline void WebSocketSession<TServer, TSession>::Connect(websocketpp::connection
         size_t size = message->get_raw_payload().size();
 
         // Update statistic
+        ++_messages_received;
+        ++server()->_messages_received;
         _bytes_received += size;
         server()->_bytes_received += size;
 
@@ -47,6 +51,8 @@ inline void WebSocketSession<TServer, TSession>::Connect(websocketpp::connection
     _connection = connection;
 
     // Reset statistic
+    _messages_sent = 0;
+    _messages_received = 0;
     _bytes_sent = 0;
     _bytes_received = 0;
 
@@ -115,6 +121,8 @@ inline size_t WebSocketSession<TServer, TSession>::Send(const void* buffer, size
     }
 
     // Update statistic
+    ++_messages_sent;
+    ++server()->_messages_sent;
     _bytes_sent += size;
     server()->_bytes_sent += size;
 
@@ -138,6 +146,8 @@ inline size_t WebSocketSession<TServer, TSession>::Send(const std::string& text,
     size_t size = text.size();
 
     // Update statistic
+    ++_messages_sent;
+    ++server()->_messages_sent;
     _bytes_sent += size;
     server()->_bytes_sent += size;
 
@@ -161,6 +171,8 @@ inline size_t WebSocketSession<TServer, TSession>::Send(WebSocketMessage message
     size_t size = message->get_raw_payload().size();
 
     // Update statistic
+    ++_messages_sent;
+    ++server()->_messages_sent;
     _bytes_sent += size;
     server()->_bytes_sent += size;
 

@@ -69,13 +69,16 @@ public:
     //! Get the WebSocket server core
     WebSocketServerCore& core() noexcept { return _core; }
 
+    //! Get the number of sessions currently connected to this server
+    uint64_t current_sessions() const noexcept { return _sessions.size(); }
+    //! Get the number messages sent by this server
+    uint64_t messages_sent() const noexcept { return _messages_sent; }
+    //! Get the number messages received by this server
+    uint64_t messages_received() const noexcept { return _messages_received; }
     //! Get the number of bytes sent by this server
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by this server
     uint64_t bytes_received() const noexcept { return _bytes_received; }
-
-    //! Connected sessions count
-    size_t sessions() const noexcept { return _sessions.size(); }
 
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
@@ -158,6 +161,8 @@ private:
     std::atomic<bool> _initialized;
     std::atomic<bool> _started;
     // Server statistic
+    uint64_t _messages_sent;
+    uint64_t _messages_received;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Server sessions

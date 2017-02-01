@@ -73,6 +73,10 @@ public:
     //! Get the client socket
     asio::ip::udp::socket& socket() noexcept { return _socket; }
 
+    //! Get the number datagrams sent by this client
+    uint64_t datagrams_sent() const noexcept { return _datagrams_sent; }
+    //! Get the number datagrams received by this client
+    uint64_t datagrams_received() const noexcept { return _datagrams_received; }
     //! Get the number of bytes sent by this client
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by this client
@@ -185,6 +189,8 @@ private:
     asio::ip::udp::socket _socket;
     std::atomic<bool> _connected;
     // Client statistic
+    uint64_t _datagrams_sent;
+    uint64_t _datagrams_received;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Receive endpoint

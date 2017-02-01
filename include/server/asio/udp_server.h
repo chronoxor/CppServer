@@ -57,6 +57,10 @@ public:
     //! Get the server multicast endpoint
     asio::ip::udp::endpoint& multicast_endpoint() noexcept { return _multicast_endpoint; }
 
+    //! Get the number datagrams sent by this server
+    uint64_t datagrams_sent() const noexcept { return _datagrams_sent; }
+    //! Get the number datagrams received by this server
+    uint64_t datagrams_received() const noexcept { return _datagrams_received; }
     //! Get the number of bytes sent by this server
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by this server
@@ -171,6 +175,8 @@ private:
     asio::ip::udp::socket _socket;
     std::atomic<bool> _started;
     // Server statistic
+    uint64_t _datagrams_sent;
+    uint64_t _datagrams_received;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Multicast & receive endpoint

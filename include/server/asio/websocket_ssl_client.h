@@ -52,6 +52,10 @@ public:
     //! Get the WebSocket client core
     WebSocketSSLClientCore& core() noexcept { return _core; }
 
+    //! Get the number messages sent by this client
+    uint64_t messages_sent() const noexcept { return _messages_sent; }
+    //! Get the number messages received by this client
+    uint64_t messages_received() const noexcept { return _messages_received; }
     //! Get the number of bytes sent by this client
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by this client
@@ -133,6 +137,8 @@ private:
     std::atomic<bool> _initialized;
     std::atomic<bool> _connected;
     // Client statistic
+    uint64_t _messages_sent;
+    uint64_t _messages_received;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
 

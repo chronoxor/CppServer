@@ -17,6 +17,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
       _socket(_service->service()),
       _connected(false),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -32,6 +34,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _endpoint(endpoint),
       _socket(_service->service()),
       _connected(false),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -47,6 +51,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
       _socket(_service->service()),
       _connected(false),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -62,6 +68,8 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _endpoint(endpoint),
       _socket(_service->service()),
       _connected(false),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -94,6 +102,8 @@ bool UDPClient::Connect()
         }
 
         // Reset statistic
+        _datagrams_sent = 0;
+        _datagrams_received = 0;
         _bytes_sent = 0;
         _bytes_received = 0;
 
@@ -237,6 +247,7 @@ void UDPClient::TryReceive()
         if (received > 0)
         {
             // Update statistic
+            ++_datagrams_received;
             _bytes_received += received;
 
             // Prepare receive buffer
@@ -279,6 +290,7 @@ void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
         if (sent > 0)
         {
             // Update statistic
+            ++_datagrams_sent;
             _bytes_sent += sent;
 
             // Erase the sent buffer

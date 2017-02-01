@@ -17,6 +17,8 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _started(false),
       _reciving(false),
       _sending(false),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -35,6 +37,8 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
     : _service(service),
       _socket(_service->service()),
       _started(false),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -46,6 +50,8 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _endpoint(endpoint),
       _socket(_service->service()),
       _started(false),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -65,6 +71,8 @@ bool UDPServer::Start()
         _socket = asio::ip::udp::socket(_service->service(), _endpoint);
 
         // Reset statistic
+        _datagrams_sent = 0;
+        _datagrams_received = 0;
         _bytes_sent = 0;
         _bytes_received = 0;
 
@@ -183,6 +191,7 @@ void UDPServer::TryReceive()
         if (received > 0)
         {
             // Update statistic
+            ++_datagrams_received;
             _bytes_received += received;
 
             // Prepare receive buffer
@@ -222,6 +231,7 @@ void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
         if (sent > 0)
         {
             // Update statistic
+            ++_datagrams_sent;
             _bytes_sent += sent;
 
             // Erase the sent buffer

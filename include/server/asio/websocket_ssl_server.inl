@@ -15,6 +15,8 @@ inline WebSocketSSLServer<TServer, TSession>::WebSocketSSLServer(std::shared_ptr
       _context(context),
       _initialized(false),
       _started(false),
+      _messages_sent(0),
+      _messages_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -37,6 +39,8 @@ inline WebSocketSSLServer<TServer, TSession>::WebSocketSSLServer(std::shared_ptr
       _context(context),
       _initialized(false),
       _started(false),
+      _messages_sent(0),
+      _messages_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -52,6 +56,8 @@ inline WebSocketSSLServer<TServer, TSession>::WebSocketSSLServer(std::shared_ptr
       _endpoint(endpoint),
       _initialized(false),
       _started(false),
+      _messages_sent(0),
+      _messages_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -113,6 +119,8 @@ inline bool WebSocketSSLServer<TServer, TSession>::Start()
         }
 
         // Reset statistic
+        _messages_sent = 0;
+        _messages_received = 0;
         _bytes_sent = 0;
         _bytes_received = 0;
 

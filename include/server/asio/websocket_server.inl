@@ -14,6 +14,8 @@ inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Servi
     : _service(service),
       _initialized(false),
       _started(false),
+      _messages_sent(0),
+      _messages_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -35,6 +37,8 @@ inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Servi
     : _service(service),
       _initialized(false),
       _started(false),
+      _messages_sent(0),
+      _messages_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -49,6 +53,8 @@ inline WebSocketServer<TServer, TSession>::WebSocketServer(std::shared_ptr<Servi
       _endpoint(endpoint),
       _initialized(false),
       _started(false),
+      _messages_sent(0),
+      _messages_received(0),
       _bytes_sent(0),
       _bytes_received(0)
 {
@@ -109,6 +115,8 @@ inline bool WebSocketServer<TServer, TSession>::Start()
         }
 
         // Reset statistic
+        _messages_sent = 0;
+        _messages_received = 0;
         _bytes_sent = 0;
         _bytes_received = 0;
 

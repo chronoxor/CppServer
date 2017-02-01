@@ -401,12 +401,12 @@ asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& SSLClient::socket()
     return _pimpl->socket();
 }
 
-size_t SSLClient::bytes_sent() const noexcept
+uint64_t SSLClient::bytes_sent() const noexcept
 {
     return _pimpl->bytes_sent();
 }
 
-size_t SSLClient::bytes_received() const noexcept
+uint64_t SSLClient::bytes_received() const noexcept
 {
     return _pimpl->bytes_received();
 }
