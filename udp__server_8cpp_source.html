@@ -103,8 +103,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      _started(false),</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      _reciving(false),</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      _sending(false),</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;      _total_received(0),</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;      _total_sent(0)</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;      _bytes_sent(0),</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;      _bytes_received(0)</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">switch</span> (protocol)</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    {</div>
@@ -121,8 +121,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    : _service(service),</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      _socket(_service-&gt;service()),</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      _started(false),</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      _total_received(0),</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      _total_sent(0)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      _bytes_sent(0),</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      _bytes_received(0)</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), port);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
@@ -132,8 +132,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      _endpoint(endpoint),</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      _socket(_service-&gt;service()),</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      _started(false),</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      _total_received(0),</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      _total_sent(0)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      _bytes_sent(0),</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      _bytes_received(0)</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
@@ -151,8 +151,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        _socket = asio::ip::udp::socket(_service-&gt;service(), _endpoint);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="comment">// Reset statistic</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        _total_received = 0;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        _total_sent = 0;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        _bytes_sent = 0;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        _bytes_received = 0;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;         <span class="comment">// Update the started flag</span></div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        _started = <span class="keyword">true</span>;</div>
@@ -269,7 +269,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">if</span> (received &gt; 0)</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        {</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            _total_received += received;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            _bytes_received += received;</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="comment">// Prepare receive buffer</span></div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            _recive_buffer.resize(_recive_buffer.size() - (CHUNK - received));</div>
@@ -308,7 +308,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="keywordflow">if</span> (sent &gt; 0)</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        {</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            _total_sent += sent;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            _bytes_sent += sent;</div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <span class="comment">// Erase the sent buffer</span></div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            {</div>

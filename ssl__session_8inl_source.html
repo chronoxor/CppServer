@@ -105,8 +105,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      _handshaked(false),</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;      _reciving(false),</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;      _sending(false),</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;      _total_received(0),</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;      _total_sent(0)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;      _bytes_sent(0),</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;      _bytes_received(0)</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
@@ -117,8 +117,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    socket().non_blocking(<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">// Reset statistic</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    _total_received = 0;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    _total_sent = 0;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    _bytes_sent = 0;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    _bytes_received = 0;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">// Update the connected flag</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    _connected = <span class="keyword">true</span>;</div>
@@ -242,8 +242,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="keywordflow">if</span> (size &gt; 0)</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            {</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                _total_received += size;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                server()-&gt;_total_received += size;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                _bytes_received += size;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                server()-&gt;_bytes_received += size;</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                <span class="comment">// Fill receive buffer</span></div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);</div>
@@ -292,8 +292,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            <span class="keywordflow">if</span> (size &gt; 0)</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            {</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                _total_sent += size;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                server()-&gt;_total_sent += size;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                _bytes_sent += size;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                server()-&gt;_bytes_sent += size;</div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                <span class="comment">// Erase the sent buffer</span></div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);</div>

@@ -147,12 +147,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae37c80913690a93f3a7a78404371361"><td class="memItemLeft" align="right" valign="top">asio::ip::udp::socket &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#aae37c80913690a93f3a7a78404371361">socket</a> () noexcept</td></tr>
 <tr class="memdesc:aae37c80913690a93f3a7a78404371361"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the client socket.  <a href="#aae37c80913690a93f3a7a78404371361">More...</a><br/></td></tr>
 <tr class="separator:aae37c80913690a93f3a7a78404371361"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a185f7ac5e45e3d812663615bc55d1b40"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a185f7ac5e45e3d812663615bc55d1b40">total_received</a> () const noexcept</td></tr>
-<tr class="memdesc:a185f7ac5e45e3d812663615bc55d1b40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes received.  <a href="#a185f7ac5e45e3d812663615bc55d1b40">More...</a><br/></td></tr>
-<tr class="separator:a185f7ac5e45e3d812663615bc55d1b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3edcc7df12e0bf7ce92d4ea22e736462"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a3edcc7df12e0bf7ce92d4ea22e736462">total_sent</a> () const noexcept</td></tr>
-<tr class="memdesc:a3edcc7df12e0bf7ce92d4ea22e736462"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes sent.  <a href="#a3edcc7df12e0bf7ce92d4ea22e736462">More...</a><br/></td></tr>
-<tr class="separator:a3edcc7df12e0bf7ce92d4ea22e736462"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc03054885b132f2a30d892beacdfccf"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#abc03054885b132f2a30d892beacdfccf">bytes_sent</a> () const noexcept</td></tr>
+<tr class="memdesc:abc03054885b132f2a30d892beacdfccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes sent by this client.  <a href="#abc03054885b132f2a30d892beacdfccf">More...</a><br/></td></tr>
+<tr class="separator:abc03054885b132f2a30d892beacdfccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ef1e7eed18f9cab22df7260a5c19c9d"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a2ef1e7eed18f9cab22df7260a5c19c9d">bytes_received</a> () const noexcept</td></tr>
+<tr class="memdesc:a2ef1e7eed18f9cab22df7260a5c19c9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes received by this client.  <a href="#a2ef1e7eed18f9cab22df7260a5c19c9d">More...</a><br/></td></tr>
+<tr class="separator:a2ef1e7eed18f9cab22df7260a5c19c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4772db8a2fa153eada420ff271304d85"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a4772db8a2fa153eada420ff271304d85">IsConnected</a> () const noexcept</td></tr>
 <tr class="memdesc:a4772db8a2fa153eada420ff271304d85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the client connected?  <a href="#a4772db8a2fa153eada420ff271304d85">More...</a><br/></td></tr>
 <tr class="separator:a4772db8a2fa153eada420ff271304d85"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -491,6 +491,60 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a2ef1e7eed18f9cab22df7260a5c19c9d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t CppServer::Asio::UDPClient::bytes_received </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes received by this client. </p>
+
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00079">79</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abc03054885b132f2a30d892beacdfccf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t CppServer::Asio::UDPClient::bytes_sent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes sent by this client. </p>
+
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00077">77</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ad323993b3b207581b4f5b19f9709ca25"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1175,60 +1229,6 @@ Protected Member Functions</h2></td></tr>
 <p>Get the client socket. </p>
 
 <p>Definition at line <a class="el" href="udp__client_8h_source.html#l00074">74</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a185f7ac5e45e3d812663615bc55d1b40"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t CppServer::Asio::UDPClient::total_received </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes received. </p>
-
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00077">77</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3edcc7df12e0bf7ce92d4ea22e736462"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t CppServer::Asio::UDPClient::total_sent </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes sent. </p>
-
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00079">79</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>

@@ -142,12 +142,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6e46cf95d0c7cc9c0a75a5adc7da46c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cpp_server_1_1_asio.html#a33ca9f8d325cd95f341aa7643c44e0a7">WebSocketSSLClientCore</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_client.html#a6e46cf95d0c7cc9c0a75a5adc7da46c6">core</a> () noexcept</td></tr>
 <tr class="memdesc:a6e46cf95d0c7cc9c0a75a5adc7da46c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the WebSocket client core.  <a href="#a6e46cf95d0c7cc9c0a75a5adc7da46c6">More...</a><br/></td></tr>
 <tr class="separator:a6e46cf95d0c7cc9c0a75a5adc7da46c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d97ff556ed20bd46aa11ae262c65403"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_client.html#a8d97ff556ed20bd46aa11ae262c65403">total_received</a> () const noexcept</td></tr>
-<tr class="memdesc:a8d97ff556ed20bd46aa11ae262c65403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes received.  <a href="#a8d97ff556ed20bd46aa11ae262c65403">More...</a><br/></td></tr>
-<tr class="separator:a8d97ff556ed20bd46aa11ae262c65403"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa85152172574ca8efb3eefff229f2fc2"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_client.html#aa85152172574ca8efb3eefff229f2fc2">total_sent</a> () const noexcept</td></tr>
-<tr class="memdesc:aa85152172574ca8efb3eefff229f2fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes sent.  <a href="#aa85152172574ca8efb3eefff229f2fc2">More...</a><br/></td></tr>
-<tr class="separator:aa85152172574ca8efb3eefff229f2fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c4145945077a1386d0817c09bc35cd7"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_client.html#a3c4145945077a1386d0817c09bc35cd7">bytes_sent</a> () const noexcept</td></tr>
+<tr class="memdesc:a3c4145945077a1386d0817c09bc35cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes sent by this client.  <a href="#a3c4145945077a1386d0817c09bc35cd7">More...</a><br/></td></tr>
+<tr class="separator:a3c4145945077a1386d0817c09bc35cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2427808f27ac0403daa6a314ffd725cc"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_client.html#a2427808f27ac0403daa6a314ffd725cc">bytes_received</a> () const noexcept</td></tr>
+<tr class="memdesc:a2427808f27ac0403daa6a314ffd725cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes received by this client.  <a href="#a2427808f27ac0403daa6a314ffd725cc">More...</a><br/></td></tr>
+<tr class="separator:a2427808f27ac0403daa6a314ffd725cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd4d79571970a3266e614ad4291ea6fe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_client.html#abd4d79571970a3266e614ad4291ea6fe">IsConnected</a> () const noexcept</td></tr>
 <tr class="memdesc:abd4d79571970a3266e614ad4291ea6fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the client connected?  <a href="#abd4d79571970a3266e614ad4291ea6fe">More...</a><br/></td></tr>
 <tr class="separator:abd4d79571970a3266e614ad4291ea6fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -318,6 +318,60 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a2427808f27ac0403daa6a314ffd725cc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t CppServer::Asio::WebSocketSSLClient::bytes_received </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes received by this client. </p>
+
+<p>Definition at line <a class="el" href="websocket__ssl__client_8h_source.html#l00058">58</a> of file <a class="el" href="websocket__ssl__client_8h_source.html">websocket_ssl_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3c4145945077a1386d0817c09bc35cd7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t CppServer::Asio::WebSocketSSLClient::bytes_sent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes sent by this client. </p>
+
+<p>Definition at line <a class="el" href="websocket__ssl__client_8h_source.html#l00056">56</a> of file <a class="el" href="websocket__ssl__client_8h_source.html">websocket_ssl_client.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a6c214351e2355410970e089331c32832"></a>
 <div class="memitem">
 <div class="memproto">
@@ -838,60 +892,6 @@ Protected Member Functions</h2></td></tr>
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service. </p>
 
 <p>Definition at line <a class="el" href="websocket__ssl__client_8h_source.html#l00047">47</a> of file <a class="el" href="websocket__ssl__client_8h_source.html">websocket_ssl_client.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8d97ff556ed20bd46aa11ae262c65403"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t CppServer::Asio::WebSocketSSLClient::total_received </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes received. </p>
-
-<p>Definition at line <a class="el" href="websocket__ssl__client_8h_source.html#l00056">56</a> of file <a class="el" href="websocket__ssl__client_8h_source.html">websocket_ssl_client.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa85152172574ca8efb3eefff229f2fc2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t CppServer::Asio::WebSocketSSLClient::total_sent </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes sent. </p>
-
-<p>Definition at line <a class="el" href="websocket__ssl__client_8h_source.html#l00058">58</a> of file <a class="el" href="websocket__ssl__client_8h_source.html">websocket_ssl_client.h</a>.</p>
 
 </div>
 </div>

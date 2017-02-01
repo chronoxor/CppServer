@@ -142,12 +142,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7a387195d9e44afcf256a953b7bcd918"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cpp_server_1_1_asio.html#acfca409a9b5641987c4068e9b3b891d7">WebSocketServerCore</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#a7a387195d9e44afcf256a953b7bcd918">core</a> () noexcept</td></tr>
 <tr class="memdesc:a7a387195d9e44afcf256a953b7bcd918"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the WebSocket server core.  <a href="#a7a387195d9e44afcf256a953b7bcd918">More...</a><br/></td></tr>
 <tr class="separator:a7a387195d9e44afcf256a953b7bcd918"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdcbe0473122457f874fbbf1f4d4a7f5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#afdcbe0473122457f874fbbf1f4d4a7f5">total_received</a> () const noexcept</td></tr>
-<tr class="memdesc:afdcbe0473122457f874fbbf1f4d4a7f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes received.  <a href="#afdcbe0473122457f874fbbf1f4d4a7f5">More...</a><br/></td></tr>
-<tr class="separator:afdcbe0473122457f874fbbf1f4d4a7f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d62fb7b595a3bf316edee27ed830220"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#a7d62fb7b595a3bf316edee27ed830220">total_sent</a> () const noexcept</td></tr>
-<tr class="memdesc:a7d62fb7b595a3bf316edee27ed830220"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes sent.  <a href="#a7d62fb7b595a3bf316edee27ed830220">More...</a><br/></td></tr>
-<tr class="separator:a7d62fb7b595a3bf316edee27ed830220"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a655e3dbbad6762697b4b25855036c4a5"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#a655e3dbbad6762697b4b25855036c4a5">bytes_sent</a> () const noexcept</td></tr>
+<tr class="memdesc:a655e3dbbad6762697b4b25855036c4a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes sent by this server.  <a href="#a655e3dbbad6762697b4b25855036c4a5">More...</a><br/></td></tr>
+<tr class="separator:a655e3dbbad6762697b4b25855036c4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c99dca6ac1581f1e62e0afd7c4af401"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#a1c99dca6ac1581f1e62e0afd7c4af401">bytes_received</a> () const noexcept</td></tr>
+<tr class="memdesc:a1c99dca6ac1581f1e62e0afd7c4af401"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes received by this server.  <a href="#a1c99dca6ac1581f1e62e0afd7c4af401">More...</a><br/></td></tr>
+<tr class="separator:a1c99dca6ac1581f1e62e0afd7c4af401"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a338093902196a1afc7c403d97f779576"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html#a338093902196a1afc7c403d97f779576">sessions</a> () const noexcept</td></tr>
 <tr class="memdesc:a338093902196a1afc7c403d97f779576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connected sessions count.  <a href="#a338093902196a1afc7c403d97f779576">More...</a><br/></td></tr>
 <tr class="separator:a338093902196a1afc7c403d97f779576"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -444,6 +444,64 @@ template&lt;class TServer , class TSession &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a1c99dca6ac1581f1e62e0afd7c4af401"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class TServer , class TSession &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t <a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html">CppServer::Asio::WebSocketServer</a>&lt; TServer, TSession &gt;::bytes_received </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes received by this server. </p>
+
+<p>Definition at line <a class="el" href="websocket__server_8h_source.html#l00075">75</a> of file <a class="el" href="websocket__server_8h_source.html">websocket_server.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a655e3dbbad6762697b4b25855036c4a5"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class TServer , class TSession &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t <a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html">CppServer::Asio::WebSocketServer</a>&lt; TServer, TSession &gt;::bytes_sent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes sent by this server. </p>
+
+<p>Definition at line <a class="el" href="websocket__server_8h_source.html#l00073">73</a> of file <a class="el" href="websocket__server_8h_source.html">websocket_server.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a7a387195d9e44afcf256a953b7bcd918"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1083,64 +1141,6 @@ template&lt;class TServer , class TSession &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully stopped, 'false' if the server is already stopped </dd></dl>
 
 <p>Definition at line <a class="el" href="websocket__server_8inl_source.html#l00135">135</a> of file <a class="el" href="websocket__server_8inl_source.html">websocket_server.inl</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="afdcbe0473122457f874fbbf1f4d4a7f5"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class TServer , class TSession &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t <a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html">CppServer::Asio::WebSocketServer</a>&lt; TServer, TSession &gt;::total_received </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes received. </p>
-
-<p>Definition at line <a class="el" href="websocket__server_8h_source.html#l00073">73</a> of file <a class="el" href="websocket__server_8h_source.html">websocket_server.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7d62fb7b595a3bf316edee27ed830220"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class TServer , class TSession &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t <a class="el" href="class_cpp_server_1_1_asio_1_1_web_socket_server.html">CppServer::Asio::WebSocketServer</a>&lt; TServer, TSession &gt;::total_sent </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes sent. </p>
-
-<p>Definition at line <a class="el" href="websocket__server_8h_source.html#l00075">75</a> of file <a class="el" href="websocket__server_8h_source.html">websocket_server.h</a>.</p>
 
 </div>
 </div>

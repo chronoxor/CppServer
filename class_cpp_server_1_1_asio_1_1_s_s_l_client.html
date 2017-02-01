@@ -152,12 +152,12 @@ Public Member Functions</h2></td></tr>
 ::lowest_layer_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a9d1eac98aff924fcce9b48471f5f2e10">socket</a> () noexcept</td></tr>
 <tr class="memdesc:a9d1eac98aff924fcce9b48471f5f2e10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the client socket.  <a href="#a9d1eac98aff924fcce9b48471f5f2e10">More...</a><br/></td></tr>
 <tr class="separator:a9d1eac98aff924fcce9b48471f5f2e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf1f15581ef48479675e625df689efa0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#adf1f15581ef48479675e625df689efa0">total_received</a> () const noexcept</td></tr>
-<tr class="memdesc:adf1f15581ef48479675e625df689efa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes received.  <a href="#adf1f15581ef48479675e625df689efa0">More...</a><br/></td></tr>
-<tr class="separator:adf1f15581ef48479675e625df689efa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a600d7d963360601caabbcebc6d27b583"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a600d7d963360601caabbcebc6d27b583">total_sent</a> () const noexcept</td></tr>
-<tr class="memdesc:a600d7d963360601caabbcebc6d27b583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes sent.  <a href="#a600d7d963360601caabbcebc6d27b583">More...</a><br/></td></tr>
-<tr class="separator:a600d7d963360601caabbcebc6d27b583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13d1906e8980eab0299a9d54ab5e20d9"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a13d1906e8980eab0299a9d54ab5e20d9">bytes_sent</a> () const noexcept</td></tr>
+<tr class="memdesc:a13d1906e8980eab0299a9d54ab5e20d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes sent by this client.  <a href="#a13d1906e8980eab0299a9d54ab5e20d9">More...</a><br/></td></tr>
+<tr class="separator:a13d1906e8980eab0299a9d54ab5e20d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a918235c3e26249a83a563be4c3fc5706"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a918235c3e26249a83a563be4c3fc5706">bytes_received</a> () const noexcept</td></tr>
+<tr class="memdesc:a918235c3e26249a83a563be4c3fc5706"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes received by this client.  <a href="#a918235c3e26249a83a563be4c3fc5706">More...</a><br/></td></tr>
+<tr class="separator:a918235c3e26249a83a563be4c3fc5706"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a590ca8e4fe2425f62b9a6d644cb59503"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a590ca8e4fe2425f62b9a6d644cb59503">IsConnected</a> () const noexcept</td></tr>
 <tr class="memdesc:a590ca8e4fe2425f62b9a6d644cb59503"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the client connected?  <a href="#a590ca8e4fe2425f62b9a6d644cb59503">More...</a><br/></td></tr>
 <tr class="separator:a590ca8e4fe2425f62b9a6d644cb59503"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -394,6 +394,60 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a918235c3e26249a83a563be4c3fc5706"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::Asio::SSLClient::bytes_received </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes received by this client. </p>
+
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00409">409</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a13d1906e8980eab0299a9d54ab5e20d9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::Asio::SSLClient::bytes_sent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes sent by this client. </p>
+
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00404">404</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="abc6c97220479d4345f6d65b3ae2f5902"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1025,60 +1079,6 @@ Friends</h2></td></tr>
 <p>Get the client SSL stream. </p>
 
 <p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00394">394</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="adf1f15581ef48479675e625df689efa0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t CppServer::Asio::SSLClient::total_received </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes received. </p>
-
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00404">404</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a600d7d963360601caabbcebc6d27b583"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t CppServer::Asio::SSLClient::total_sent </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes sent. </p>
-
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00409">409</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>

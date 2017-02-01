@@ -150,12 +150,12 @@ Public Member Functions</h2></td></tr>
 &lt; asio::ssl::context &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a52220cc073ea55232e0e70fd7e80c773">context</a> () noexcept</td></tr>
 <tr class="memdesc:a52220cc073ea55232e0e70fd7e80c773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the session SSL context.  <a href="#a52220cc073ea55232e0e70fd7e80c773">More...</a><br/></td></tr>
 <tr class="separator:a52220cc073ea55232e0e70fd7e80c773"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae127986825b85aa18a4376e0b83b2b47"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#ae127986825b85aa18a4376e0b83b2b47">total_received</a> () const noexcept</td></tr>
-<tr class="memdesc:ae127986825b85aa18a4376e0b83b2b47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes received.  <a href="#ae127986825b85aa18a4376e0b83b2b47">More...</a><br/></td></tr>
-<tr class="separator:ae127986825b85aa18a4376e0b83b2b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f3920e4020ec6d1b4bfcaedfbf94222"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a2f3920e4020ec6d1b4bfcaedfbf94222">total_sent</a> () const noexcept</td></tr>
-<tr class="memdesc:a2f3920e4020ec6d1b4bfcaedfbf94222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total bytes sent.  <a href="#a2f3920e4020ec6d1b4bfcaedfbf94222">More...</a><br/></td></tr>
-<tr class="separator:a2f3920e4020ec6d1b4bfcaedfbf94222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acde27d19ae52bbff4018707d050d793a"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#acde27d19ae52bbff4018707d050d793a">bytes_sent</a> () const noexcept</td></tr>
+<tr class="memdesc:acde27d19ae52bbff4018707d050d793a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes sent by this session.  <a href="#acde27d19ae52bbff4018707d050d793a">More...</a><br/></td></tr>
+<tr class="separator:acde27d19ae52bbff4018707d050d793a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e64c203c6801421f58581840942da92"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a1e64c203c6801421f58581840942da92">bytes_received</a> () const noexcept</td></tr>
+<tr class="memdesc:a1e64c203c6801421f58581840942da92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes received by this session.  <a href="#a1e64c203c6801421f58581840942da92">More...</a><br/></td></tr>
+<tr class="separator:a1e64c203c6801421f58581840942da92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b87f91154c655fc9cdfa4ee0158e309"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a4b87f91154c655fc9cdfa4ee0158e309">IsConnected</a> () const noexcept</td></tr>
 <tr class="memdesc:a4b87f91154c655fc9cdfa4ee0158e309"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the session connected?  <a href="#a4b87f91154c655fc9cdfa4ee0158e309">More...</a><br/></td></tr>
 <tr class="separator:a4b87f91154c655fc9cdfa4ee0158e309"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -342,6 +342,64 @@ template&lt;class TServer , class TSession &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a1e64c203c6801421f58581840942da92"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class TServer , class TSession &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">CppServer::Asio::SSLSession</a>&lt; TServer, TSession &gt;::bytes_received </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes received by this session. </p>
+
+<p>Definition at line <a class="el" href="ssl__session_8h_source.html#l00064">64</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acde27d19ae52bbff4018707d050d793a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class TServer , class TSession &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">CppServer::Asio::SSLSession</a>&lt; TServer, TSession &gt;::bytes_sent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes sent by this session. </p>
+
+<p>Definition at line <a class="el" href="ssl__session_8h_source.html#l00062">62</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a52220cc073ea55232e0e70fd7e80c773"></a>
 <div class="memitem">
 <div class="memproto">
@@ -986,64 +1044,6 @@ template&lt;class TServer , class TSession &gt; </div>
 <p>Get the session SSL stream. </p>
 
 <p>Definition at line <a class="el" href="ssl__session_8h_source.html#l00055">55</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae127986825b85aa18a4376e0b83b2b47"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class TServer , class TSession &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">CppServer::Asio::SSLSession</a>&lt; TServer, TSession &gt;::total_received </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes received. </p>
-
-<p>Definition at line <a class="el" href="ssl__session_8h_source.html#l00062">62</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2f3920e4020ec6d1b4bfcaedfbf94222"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class TServer , class TSession &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">CppServer::Asio::SSLSession</a>&lt; TServer, TSession &gt;::total_sent </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total bytes sent. </p>
-
-<p>Definition at line <a class="el" href="ssl__session_8h_source.html#l00064">64</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
 
 </div>
 </div>

@@ -101,8 +101,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;      _context(context),</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;      _initialized(false),</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      _started(false),</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      _total_received(0),</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      _total_sent(0)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      _bytes_sent(0),</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      _bytes_received(0)</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">switch</span> (protocol)</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    {</div>
@@ -123,8 +123,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      _context(context),</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      _initialized(false),</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      _started(false),</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      _total_received(0),</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      _total_sent(0)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      _bytes_sent(0),</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      _bytes_received(0)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
@@ -138,8 +138,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      _endpoint(endpoint),</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      _initialized(false),</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      _started(false),</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      _total_received(0),</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      _total_sent(0)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      _bytes_sent(0),</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      _bytes_received(0)</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    InitAsio();</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
@@ -199,8 +199,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="comment">// Reset statistic</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        _total_received = 0;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        _total_sent = 0;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        _bytes_sent = 0;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        _bytes_received = 0;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="comment">// Update the started flag</span></div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        _started = <span class="keyword">true</span>;</div>
