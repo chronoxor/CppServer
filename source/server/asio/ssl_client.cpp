@@ -64,8 +64,8 @@ public:
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
 
-    size_t& bytes_sent() noexcept { return _bytes_sent; }
-    size_t& bytes_received() noexcept { return _bytes_received; }
+    uint64_t& bytes_sent() noexcept { return _bytes_sent; }
+    uint64_t& bytes_received() noexcept { return _bytes_received; }
 
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
@@ -230,8 +230,8 @@ private:
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
     // Client statistic
-    size_t _bytes_sent;
-    size_t _bytes_received;
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;

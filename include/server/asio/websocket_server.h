@@ -158,8 +158,8 @@ private:
     std::atomic<bool> _initialized;
     std::atomic<bool> _started;
     // Server statistic
-    size_t _bytes_sent;
-    size_t _bytes_received;
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
     // Server sessions
     std::map<websocketpp::connection_hdl, std::shared_ptr<TSession>, std::owner_less<websocketpp::connection_hdl>> _connections;
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;

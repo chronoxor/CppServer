@@ -171,8 +171,8 @@ private:
     asio::ip::udp::socket _socket;
     std::atomic<bool> _started;
     // Server statistic
-    size_t _bytes_sent;
-    size_t _bytes_received;
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
     // Multicast & receive endpoint
     asio::ip::udp::endpoint _multicast_endpoint;
     asio::ip::udp::endpoint _recive_endpoint;

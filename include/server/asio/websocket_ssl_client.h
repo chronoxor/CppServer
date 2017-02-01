@@ -133,8 +133,8 @@ private:
     std::atomic<bool> _initialized;
     std::atomic<bool> _connected;
     // Client statistic
-    size_t _bytes_sent;
-    size_t _bytes_received;
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
 
     //! Initialize Asio
     void InitAsio();

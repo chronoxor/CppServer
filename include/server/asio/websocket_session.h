@@ -121,8 +121,8 @@ private:
     websocketpp::connection_hdl _connection;
     std::atomic<bool> _connected;
     // Session statistic
-    size_t _bytes_sent;
-    size_t _bytes_received;
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
 
     //! Connect the session
     /*!

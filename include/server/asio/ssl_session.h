@@ -141,8 +141,8 @@ private:
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
     // Session statistic
-    size_t _bytes_sent;
-    size_t _bytes_received;
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
