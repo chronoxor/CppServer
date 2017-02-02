@@ -17,7 +17,7 @@ namespace Nanomsg {
 //! Nanomsg pair client
 /*!
     Nanomsg pair client is used to perform a duplex communication with
-    a Nanomsg pair server.
+    the Nanomsg pair server.
 
     Pair protocol is the simplest and least scalable scalability protocol.
     It allows scaling by breaking the application in exactly two pieces.
@@ -40,9 +40,10 @@ public:
     //! Initialize client with a given endpoint address
     /*!
         \param address - Endpoint address
+        \param threading - Run client in a separate thread (default is true)
     */
-    explicit PairClient(const std::string& address)
-        : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pair, address, true)
+    explicit PairClient(const std::string& address, bool threading = true)
+        : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pair, address, threading)
     {}
     PairClient(const PairClient&) = delete;
     PairClient(PairClient&&) = default;

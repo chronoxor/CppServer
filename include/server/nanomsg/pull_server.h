@@ -16,7 +16,7 @@ namespace Nanomsg {
 
 //! Nanomsg pull server
 /*!
-    Nanomsg pull server is used to pull messages from Nanomsg clients.
+    Nanomsg pull server is used to pull messages from the Nanomsg clients.
 
     This server is used to receive a message from a cluster of nodes.
     Send operation is not implemented on this server type.

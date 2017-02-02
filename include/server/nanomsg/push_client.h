@@ -16,7 +16,7 @@ namespace Nanomsg {
 
 //! Nanomsg push client
 /*!
-    Nanomsg push client is used to push one way messages to Nanomsg server.
+    Nanomsg push client is used to push one way messages to the Nanomsg server.
 
     This client is used to send messages to a cluster of load-balanced nodes.
     Receive operation is not implemented on this client type.

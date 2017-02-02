@@ -42,14 +42,12 @@ class TestPullServer : public PullServer
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
-    std::atomic<size_t> received;
     std::atomic<bool> error;
 
     explicit TestPullServer(const std::string& address)
         : PullServer(address),
           started(false),
           stopped(false),
-          received(0),
           error(false)
     {
     }
@@ -57,7 +55,6 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onReceived(Message& message) override { received += message.size(); }
     void onError(int error, const std::string& message) override { error = true; }
 };
 

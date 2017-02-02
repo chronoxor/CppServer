@@ -1,30 +1,30 @@
 /*!
-    \file nanomsg_pair_server.cpp
-    \brief Nanomsg pair server example
+    \file nanomsg_reply_server.cpp
+    \brief Nanomsg reply server example
     \author Ivan Shynkarenka
     \date 02.02.2017
     \copyright MIT License
 */
 
-#include "server/nanomsg/pair_server.h"
+#include "server/nanomsg/reply_server.h"
 
 #include <iostream>
 #include <memory>
 
-class ExamplePairServer : public CppServer::Nanomsg::PairServer
+class ExampleReplyServer : public CppServer::Nanomsg::ReplyServer
 {
 public:
-    using CppServer::Nanomsg::PairServer::PairServer;
+    using CppServer::Nanomsg::ReplyServer::ReplyServer;
 
 protected:
     void onStarted() override
     {
-        std::cout << "Nanomsg pair server started!" << std::endl;
+        std::cout << "Nanomsg reply server started!" << std::endl;
     }
 
     void onStopped() override
     {
-        std::cout << "Nanomsg pair server stopped!" << std::endl;
+        std::cout << "Nanomsg reply server stopped!" << std::endl;
     }
 
     void onReceived(CppServer::Nanomsg::Message& msg) override
@@ -38,22 +38,22 @@ protected:
 
     void onError(int error, const std::string& message) override
     {
-        std::cout << "Nanomsg pair server caught an error with code " << error << "': " << message << std::endl;
+        std::cout << "Nanomsg reply server caught an error with code " << error << "': " << message << std::endl;
     }
 };
 
 int main(int argc, char** argv)
 {
-    // Nanomsg pair server address
-    std::string address = "tcp://*:6667";
+    // Nanomsg reply server address
+    std::string address = "tcp://*:6668";
     if (argc > 1)
         address = std::atoi(argv[1]);
 
-    std::cout << "Nanomsg pair server address: " << address << std::endl;
+    std::cout << "Nanomsg reply server address: " << address << std::endl;
     std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
-    // Create a new Nanomsg pair server
-    auto server = std::make_shared<ExamplePairServer>(address);
+    // Create a new Nanomsg reply server
+    auto server = std::make_shared<ExampleReplyServer>(address);
 
     // Start the server
     server->Start();
@@ -73,9 +73,6 @@ int main(int argc, char** argv)
             std::cout << "Done!" << std::endl;
             continue;
         }
-
-        // Send the entered text to the client
-        server->Send(line);
     }
 
     // Stop the server

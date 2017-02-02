@@ -4,8 +4,8 @@
 
 #include "catch.hpp"
 
-#include "server/nanomsg/pair_client.h"
-#include "server/nanomsg/pair_server.h"
+#include "server/nanomsg/reply_server.h"
+#include "server/nanomsg/request_client.h"
 #include "threads/thread.h"
 
 #include <atomic>
@@ -16,15 +16,15 @@
 using namespace CppCommon;
 using namespace CppServer::Nanomsg;
 
-class TestPairClient : public PairClient
+class TestRequestClient : public RequestClient
 {
 public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit TestPairClient(const std::string& address)
-        : PairClient(address),
+    explicit TestRequestClient(const std::string& address)
+        : RequestClient(address),
           connected(false),
           disconnected(false),
           error(false)
@@ -37,15 +37,15 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-class TestPairServer : public PairServer
+class TestReplyServer : public ReplyServer
 {
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
     std::atomic<bool> error;
 
-    explicit TestPairServer(const std::string& address)
-        : PairServer(address),
+    explicit TestReplyServer(const std::string& address)
+        : ReplyServer(address),
           started(false),
           stopped(false),
           error(false)
@@ -59,31 +59,28 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("Nanomsg pair client & server", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg request client & reply server", "[CppServer][Nanomsg]")
 {
-    const std::string server_address = "tcp://*:6668";
-    const std::string client_address = "tcp://localhost:6668";
+    const std::string server_address = "tcp://*:6670";
+    const std::string client_address = "tcp://localhost:6670";
 
-    // Create and start Nanomsg pair server
-    auto server = std::make_shared<TestPairServer>(server_address);
+    // Create and start Nanomsg reply server
+    auto server = std::make_shared<TestReplyServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
-    // Create and connect Nanomsg pair client
-    auto client = std::make_shared<TestPairClient>(client_address);
+    // Create and connect Nanomsg request client
+    auto client = std::make_shared<TestRequestClient>(client_address);
     REQUIRE(client->Connect());
     while (!client->IsConnected())
         Thread::Yield();
 
-    // Send a message to the server
-    client->Send("test");
-
-    // Send a message from the server
-    server->Send("test");
+    // Request a message to the server
+    Message message = client->Request("test");
 
     // Wait for all data processed...
-    while ((server->socket().bytes_received() != 4) || (client->socket().bytes_received() != 8))
+    while ((server->socket().bytes_received() != 4) || (client->socket().bytes_received() != 4))
         Thread::Yield();
 
     // Disconnect the client
@@ -100,9 +97,9 @@ TEST_CASE("Nanomsg pair client & server", "[CppServer][Nanomsg]")
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->socket().accepted_connections() == 1);
-    REQUIRE(server->socket().messages_sent() == 2);
+    REQUIRE(server->socket().messages_sent() == 1);
     REQUIRE(server->socket().messages_received() == 1);
-    REQUIRE(server->socket().bytes_sent() == 8);
+    REQUIRE(server->socket().bytes_sent() == 4);
     REQUIRE(server->socket().bytes_received() == 4);
     REQUIRE(!server->error);
 
@@ -111,64 +108,80 @@ TEST_CASE("Nanomsg pair client & server", "[CppServer][Nanomsg]")
     REQUIRE(client->disconnected);
     REQUIRE(client->socket().established_connections() == 1);
     REQUIRE(client->socket().messages_sent() == 1);
-    REQUIRE(client->socket().messages_received() == 2);
+    REQUIRE(client->socket().messages_received() == 1);
     REQUIRE(client->socket().bytes_sent() == 4);
-    REQUIRE(client->socket().bytes_received() == 8);
+    REQUIRE(client->socket().bytes_received() == 4);
     REQUIRE(!client->error);
 }
 
-TEST_CASE("Nanomsg pair random test", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg request/reply random test", "[CppServer][Nanomsg]")
 {
-    const std::string server_address = "tcp://*:6669";
-    const std::string client_address = "tcp://localhost:6669";
+    const std::string server_address = "tcp://*:6671";
+    const std::string client_address = "tcp://localhost:6671";
 
-    // Create and start Nanomsg pair server
-    auto server = std::make_shared<TestPairServer>(server_address);
+    // Create and start Nanomsg reply server
+    auto server = std::make_shared<TestReplyServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
-        Thread::Yield();
-
-    // Create and connect Nanomsg pair client
-    auto client = std::make_shared<TestPairClient>(client_address);
-    REQUIRE(client->Connect());
-    while (!client->IsConnected())
         Thread::Yield();
 
     // Test duration in seconds
     const int duration = 10;
 
+    // Clients collection
+    std::vector<std::shared_ptr<TestRequestClient>> clients;
+
     // Start random test
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
-        // Reconnect the client
+        // Create a new client and connect
         if ((rand() % 100) == 0)
         {
-            client->Reconnect();
+            // Create and connect Nanomsg request client
+            auto client = std::make_shared<TestRequestClient>(client_address);
+            client->Connect();
+            clients.emplace_back(client);
         }
-        // Restart the server
+        // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)
         {
-            server->Restart();
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                if (client->IsConnected())
+                    client->Disconnect();
+                else
+                    client->Connect();
+            }
         }
-        // Send a message from the client & server
+        // Reconnect the random client
+        else if ((rand() % 100) == 0)
+        {
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                if (client->IsConnected())
+                    client->Reconnect();
+            }
+        }
+        // Send a request from the random client
         else if ((rand() % 1) == 0)
         {
-            if (client->IsConnected())
-                client->Send("test");
-
-            if (server->IsStarted())
-                server->Send("test");
+            if (!clients.empty())
+            {
+                size_t index = rand() % clients.size();
+                auto client = clients.at(index);
+                if (client->IsConnected())
+                    client->Request("test");
+            }
         }
 
         // Sleep for a while...
         Thread::Sleep(1);
     }
-
-    // Disconnect the client
-    REQUIRE(client->Disconnect());
-    while (client->IsConnected())
-        Thread::Yield();
 
     // Stop the server
     REQUIRE(server->Stop());
@@ -179,19 +192,7 @@ TEST_CASE("Nanomsg pair random test", "[CppServer][Nanomsg]")
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->socket().accepted_connections() > 0);
-    REQUIRE(server->socket().messages_sent() > 0);
     REQUIRE(server->socket().messages_received() > 0);
-    REQUIRE(server->socket().bytes_sent() > 0);
     REQUIRE(server->socket().bytes_received() > 0);
     REQUIRE(!server->error);
-
-    // Check the client state
-    REQUIRE(client->connected);
-    REQUIRE(client->disconnected);
-    REQUIRE(client->socket().established_connections() > 0);
-    REQUIRE(client->socket().messages_sent() > 0);
-    REQUIRE(client->socket().messages_received() > 0);
-    REQUIRE(client->socket().bytes_sent() > 0);
-    REQUIRE(client->socket().bytes_received() > 0);
-    REQUIRE(!client->error);
 }
