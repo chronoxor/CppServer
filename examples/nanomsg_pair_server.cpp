@@ -31,6 +31,9 @@ protected:
     {
         std::string message((const char*)msg.buffer(), msg.size());
         std::cout << "Incoming: " << message << std::endl;
+
+        // Send the message back to the client
+        Send(msg);
     }
 
     void onError(int error, const std::string& message) override

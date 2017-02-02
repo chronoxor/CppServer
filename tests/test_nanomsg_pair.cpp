@@ -60,7 +60,7 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onReceived(Message& message) override { received += message.size(); }
+    void onReceived(Message& message) override { Send(message); received += message.size(); }
     void onError(int error, const std::string& message) override { error = true; }
 };
 
@@ -105,9 +105,9 @@ TEST_CASE("Nanomsg pair client & server", "[CppServer][Nanomsg]")
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->socket().accepted_connections() == 1);
-    REQUIRE(server->socket().messages_sent() == 1);
+    REQUIRE(server->socket().messages_sent() == 2);
     REQUIRE(server->socket().messages_received() == 1);
-    REQUIRE(server->socket().bytes_sent() == 4);
+    REQUIRE(server->socket().bytes_sent() == 8);
     REQUIRE(server->socket().bytes_received() == 4);
     REQUIRE(!server->error);
 
@@ -116,9 +116,9 @@ TEST_CASE("Nanomsg pair client & server", "[CppServer][Nanomsg]")
     REQUIRE(client->disconnected);
     REQUIRE(client->socket().established_connections() == 1);
     REQUIRE(client->socket().messages_sent() == 1);
-    REQUIRE(client->socket().messages_received() == 1);
+    REQUIRE(client->socket().messages_received() == 2);
     REQUIRE(client->socket().bytes_sent() == 4);
-    REQUIRE(client->socket().bytes_received() == 4);
+    REQUIRE(client->socket().bytes_received() == 8);
     REQUIRE(!client->error);
 }
 
