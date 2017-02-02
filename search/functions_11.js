@@ -2,6 +2,8 @@ var searchData=
 [
   ['_7eclient',['~Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html#a222bc42acd86aead4880ef0fcdfdde51',1,'CppServer::Nanomsg::Client']]],
   ['_7emessage',['~Message',['../class_cpp_server_1_1_nanomsg_1_1_message.html#ab4be4e9f8507916210b48b49c2ff1b3e',1,'CppServer::Nanomsg::Message']]],
+  ['_7epairclient',['~PairClient',['../class_cpp_server_1_1_nanomsg_1_1_pair_client.html#a220fcef92045531cc36e0356a117c2c5',1,'CppServer::Nanomsg::PairClient']]],
+  ['_7epairserver',['~PairServer',['../class_cpp_server_1_1_nanomsg_1_1_pair_server.html#a9bf12099eb106c3bd0b89617e35bdd84',1,'CppServer::Nanomsg::PairServer']]],
   ['_7epullserver',['~PullServer',['../class_cpp_server_1_1_nanomsg_1_1_pull_server.html#a7ffb1c83b90716907705cbcb1766f8c4',1,'CppServer::Nanomsg::PullServer']]],
   ['_7epushclient',['~PushClient',['../class_cpp_server_1_1_nanomsg_1_1_push_client.html#a71e46a9893aaa95656000659419013e9',1,'CppServer::Nanomsg::PushClient']]],
   ['_7eserver',['~Server',['../class_cpp_server_1_1_nanomsg_1_1_server.html#a56515de3335f708399214449019b5c8f',1,'CppServer::Nanomsg::Server']]],
