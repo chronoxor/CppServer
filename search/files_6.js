@@ -11,5 +11,6 @@ var searchData=
   ['ssl_5fserver_2eh',['ssl_server.h',['../ssl__server_8h.html',1,'']]],
   ['ssl_5fserver_2einl',['ssl_server.inl',['../ssl__server_8inl.html',1,'']]],
   ['ssl_5fsession_2eh',['ssl_session.h',['../ssl__session_8h.html',1,'']]],
-  ['ssl_5fsession_2einl',['ssl_session.inl',['../ssl__session_8inl.html',1,'']]]
+  ['ssl_5fsession_2einl',['ssl_session.inl',['../ssl__session_8inl.html',1,'']]],
+  ['subscriber_5fclient_2eh',['subscriber_client.h',['../subscriber__client_8h.html',1,'']]]
 ];
