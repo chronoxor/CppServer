@@ -54,7 +54,7 @@ int main(int argc, char** argv)
         address = argv[1];
 
     std::cout << "Nanomsg pair server address: " << address << std::endl;
-    std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Create a new Nanomsg pair client
     auto client = std::make_shared<ExamplePairClient>(address);

@@ -61,7 +61,7 @@ int main(int argc, char** argv)
 
     std::cout << "TCP server address: " << address << std::endl;
     std::cout << "TCP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop or '!' to reconnect the client..." << std::endl;
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
