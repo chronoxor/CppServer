@@ -110,7 +110,6 @@ bool Socket::SetSocketOption(int level, int option, const void* value, size_t si
     if ((value == nullptr) || (size == 0))
         return false;
 
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return false;
 
@@ -132,7 +131,6 @@ bool Socket::GetSocketOption(int level, int option, void* value, size_t* size)
     if ((value == nullptr) || (size == nullptr))
         return false;
 
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return false;
 
@@ -149,11 +147,9 @@ bool Socket::GetSocketOption(int level, int option, void* value, size_t* size)
 
 bool Socket::Bind(const std::string& address)
 {
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return false;
 
-    assert(!IsConnected() && "Nanomsg socket is already bind or connected!");
     if (IsConnected())
         return false;
 
@@ -172,11 +168,9 @@ bool Socket::Bind(const std::string& address)
 
 bool Socket::Connect(const std::string& address)
 {
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return false;
 
-    assert(!IsConnected() && "Nanomsg socket is already bind or connected!");
     if (IsConnected())
         return false;
 
@@ -195,11 +189,9 @@ bool Socket::Connect(const std::string& address)
 
 bool Socket::Disconnect()
 {
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return false;
 
-    assert(IsConnected() && "Nanomsg socket is not bind or connected!");
     if (!IsConnected())
         return false;
 
@@ -223,11 +215,9 @@ size_t Socket::Send(const void* buffer, size_t size)
     if ((buffer == nullptr) || (size == 0))
         return 0;
 
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return 0;
 
-    assert(IsConnected() && "Nanomsg socket is not bind or connected!");
     if (!IsConnected())
         return 0;
 
@@ -249,11 +239,9 @@ size_t Socket::TrySend(const void* buffer, size_t size)
     if ((buffer == nullptr) || (size == 0))
         return 0;
 
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return 0;
 
-    assert(IsConnected() && "Nanomsg socket is not bind or connected!");
     if (!IsConnected())
         return 0;
 
@@ -272,11 +260,9 @@ size_t Socket::TrySend(const void* buffer, size_t size)
 
 size_t Socket::Receive(Message& message)
 {
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return 0;
 
-    assert(IsConnected() && "Nanomsg socket is not bind or connected!");
     if (!IsConnected())
         return 0;
 
@@ -297,11 +283,9 @@ size_t Socket::Receive(Message& message)
 
 size_t Socket::TryReceive(Message& message)
 {
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return 0;
 
-    assert(IsConnected() && "Nanomsg socket is not bind or connected!");
     if (!IsConnected())
         return 0;
 
@@ -324,7 +308,6 @@ size_t Socket::TryReceive(Message& message)
 
 bool Socket::Close()
 {
-    assert(IsOpened() && "Nanomsg socket is not opened!");
     if (!IsOpened())
         return false;
 
