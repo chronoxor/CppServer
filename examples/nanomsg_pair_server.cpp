@@ -27,7 +27,7 @@ protected:
         std::cout << "Nanomsg pair server stopped!" << std::endl;
     }
 
-    void onReceived(CppServer::Nanomsg::Message& msg)
+    void onReceived(CppServer::Nanomsg::Message& msg) override
     {
         std::string message((const char*)msg.buffer(), msg.size());
         std::cout << "Incoming: " << message << std::endl;
