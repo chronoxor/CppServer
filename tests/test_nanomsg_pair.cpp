@@ -88,7 +88,7 @@ TEST_CASE("Nanomsg pair client & server", "[CppServer][Nanomsg]")
     server->Send("test");
 
     // Wait for all data processed...
-    while ((server->socket().bytes_received() != 4) || (client->socket().bytes_received() != 4))
+    while ((server->socket().bytes_received() != 4) || (client->socket().bytes_received() != 8))
         Thread::Yield();
 
     // Disconnect the client
