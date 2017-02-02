@@ -105,11 +105,6 @@ uint64_t Socket::bytes_received() const noexcept
 
 bool Socket::SetSocketOption(int level, int option, const void* value, size_t size)
 {
-    assert((value != nullptr) && "Pointer to the value should not be equal to 'nullptr'!");
-    assert((size > 0) && "Value size should be greater than zero!");
-    if ((value == nullptr) || (size == 0))
-        return false;
-
     if (!IsOpened())
         return false;
 
@@ -126,11 +121,6 @@ bool Socket::SetSocketOption(int level, int option, const void* value, size_t si
 
 bool Socket::GetSocketOption(int level, int option, void* value, size_t* size)
 {
-    assert((value != nullptr) && "Pointer to the value should not be equal to 'nullptr'!");
-    assert((size != nullptr) && "Pointer to the value size should not be equal to 'nullptr'!");
-    if ((value == nullptr) || (size == nullptr))
-        return false;
-
     if (!IsOpened())
         return false;
 

@@ -43,6 +43,10 @@ public:
 private:
     using Client::Receive;
     using Client::TryReceive;
+    using Client::onThreadInitialize;
+    using Client::onThreadCleanup;
+    using Client::onIdle;
+    using Client::onReceived;
 };
 
 /*! \example nanomsg_push_client.cpp Nanomsg push client example */
