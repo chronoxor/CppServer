@@ -68,13 +68,13 @@ bool Server::Stop()
     {
         if (_socket.Disconnect())
         {
-            // Call the server stopped handler
-            onStopped();
-
             // Wait for server thread
             if (_threading)
                 if (_thread.joinable())
                     _thread.join();
+
+            // Call the server stopped handler
+            onStopped();
 
             return true;
         }

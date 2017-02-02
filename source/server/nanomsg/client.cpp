@@ -68,13 +68,13 @@ bool Client::Disconnect()
     {
         if (_socket.Disconnect())
         {
-            // Call the client disconnected handler
-            onDisconnected();
-
             // Wait for client thread
             if (_threading)
                 if (_thread.joinable())
                     _thread.join();
+
+            // Call the client disconnected handler
+            onDisconnected();
 
             return true;
         }

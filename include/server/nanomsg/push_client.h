@@ -18,6 +18,9 @@ namespace Nanomsg {
 /*!
     Nanomsg push client is used to push one way messages to Nanomsg server.
 
+    This client is used to send messages to a cluster of load-balanced nodes.
+    Receive operation is not implemented on this client type.
+
     Thread-safe.
 */
 class PushClient : public Client
@@ -41,6 +44,8 @@ private:
     using Client::Receive;
     using Client::TryReceive;
 };
+
+/*! \example nanomsg_push_client.cpp Nanomsg push client example */
 
 } // namespace Nanomsg
 } // namespace CppServer

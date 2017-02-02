@@ -18,6 +18,9 @@ namespace Nanomsg {
 /*!
     Nanomsg pull server is used to pull messages from Nanomsg clients.
 
+    This server is used to receive a message from a cluster of nodes.
+    Send operation is not implemented on this server type.
+
     Thread-safe.
 */
 class PullServer : public Server
@@ -43,6 +46,8 @@ private:
     using Server::Send;
     using Server::TrySend;
 };
+
+/*! \example nanomsg_pull_server.cpp Nanomsg pull server example */
 
 } // namespace Nanomsg
 } // namespace CppServer

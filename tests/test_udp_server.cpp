@@ -117,7 +117,7 @@ TEST_CASE("UDP server & client", "[CppServer][Asio]")
     while (!client->IsConnected())
         Thread::Yield();
 
-    // Send some data to the Echo server
+    // Send a message to the Echo server
     client->Send("test");
 
     // Wait for all data processed...

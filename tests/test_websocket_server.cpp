@@ -143,7 +143,7 @@ TEST_CASE("WebSocket server & client", "[CppServer][Asio]")
     while (!client->IsConnected() || (server->clients != 1))
         Thread::Yield();
 
-    // Send some data to the Echo server
+    // Send a message to the Echo server
     client->Send("test");
 
     // Wait for all data processed...
