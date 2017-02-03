@@ -147,6 +147,16 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
     // Clients collection
     std::vector<std::shared_ptr<TestRespondentClient>> clients;
 
+    // Create and connect the first Nanomsg respondent client
+    auto client = std::make_shared<TestRespondentClient>(client_address);
+    client->Connect();
+    while (!client->IsConnected())
+        Thread::Yield();
+    clients.emplace_back(client);
+
+    // Sleep for a while...
+    Thread::Sleep(100);
+
     // Start random test
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
@@ -184,7 +194,7 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
             }
         }
         // Start the survey
-        else if ((rand() % 1) == 0)
+        else if ((rand() % 1000) == 0)
         {
             // Start the survey
             bool answers = false;
