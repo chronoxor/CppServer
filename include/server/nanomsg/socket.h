@@ -12,6 +12,7 @@
 #include "message.h"
 
 #include <string>
+#include <tuple>
 
 namespace CppServer {
 namespace Nanomsg {
@@ -184,6 +185,20 @@ public:
         \return Count of received bytes
     */
     size_t TryReceive(Message& message);
+
+    //! Receive a respond to the survey from the socket in non-blocking mode
+    /*!
+        \param message - Message to receive
+        \return Count of received bytes and survey complete flag
+    */
+    std::tuple<size_t, bool> ReceiveSurvey(Message& message);
+
+    //! Try to receive a respond to the survey from the socket in non-blocking mode
+    /*!
+        \param message - Message to receive
+        \return Count of received bytes and survey complete flag
+    */
+    std::tuple<size_t, bool> TryReceiveSurvey(Message& message);
 
     //! Close the socket
     /*!

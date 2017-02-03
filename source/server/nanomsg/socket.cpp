@@ -296,6 +296,58 @@ size_t Socket::TryReceive(Message& message)
     return message.size();
 }
 
+std::tuple<size_t, bool> Socket::ReceiveSurvey(Message& message)
+{
+    if (!IsOpened())
+        return std::make_tuple(0, true);
+
+    if (!IsConnected())
+        return std::make_tuple(0, true);
+
+    void* data = nullptr;
+    int result = nn_recv(_socket, &data, NN_MSG, 0);
+    if (result == ETIMEDOUT)
+        return std::make_tuple(0, true);
+    if (result < 0)
+    {
+        if (errno == ETERM)
+            return std::make_tuple(0, true);
+        else
+            throwex CppCommon::SystemException("Cannot receive a survey respond from the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(errno)));
+    }
+
+    message._buffer = (uint8_t*)data;
+    message._size = result;
+    return std::make_tuple(message.size(), false);
+}
+
+std::tuple<size_t, bool> Socket::TryReceiveSurvey(Message& message)
+{
+    if (!IsOpened())
+        return std::make_tuple(0, true);
+
+    if (!IsConnected())
+        return std::make_tuple(0, true);
+
+    void* data = nullptr;
+    int result = nn_recv(_socket, &data, NN_MSG, NN_DONTWAIT);
+    if (result == ETIMEDOUT)
+        return std::make_tuple(0, true);
+    if (result < 0)
+    {
+        if (errno == EAGAIN)
+            return std::make_tuple(0, false);
+        else if (errno == ETERM)
+            return std::make_tuple(0, true);
+        else
+            throwex CppCommon::SystemException("Cannot receive a survey respond from the nanomsg socket in non-blocking mode! Nanomsg error: {}"_format(nn_strerror(errno)));
+    }
+
+    message._buffer = (uint8_t*)data;
+    message._size = result;
+    return std::make_tuple(message.size(), false);
+}
+
 bool Socket::Close()
 {
     if (!IsOpened())

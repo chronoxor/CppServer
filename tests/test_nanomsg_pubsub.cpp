@@ -70,7 +70,7 @@ TEST_CASE("Nanomsg subscriber client & publisher server", "[CppServer][Nanomsg]"
         Thread::Yield();
 
     // Create and connect Nanomsg subscriber client
-    auto client = std::make_shared<TestSubscriberClient>(client_address, "foo");
+    auto client = std::make_shared<TestSubscriberClient>(client_address);
     REQUIRE(client->Connect());
     while (!client->IsConnected())
         Thread::Yield();

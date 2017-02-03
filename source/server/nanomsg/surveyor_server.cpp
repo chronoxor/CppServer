@@ -1,12 +1,12 @@
 /*!
-    \file server.cpp
-    \brief Nanomsg server implementation
+    \file surveyor_server.h
+    \brief Nanomsg surveyor server implementation
     \author Ivan Shynkarenka
-    \date 27.01.2017
+    \date 02.02.2017
     \copyright MIT License
 */
 
-#include "server/nanomsg/server.h"
+#include "server/nanomsg/surveyor_server.h"
 
 #include "errors/fatal.h"
 #include "threads/thread.h"
@@ -16,22 +16,22 @@
 namespace CppServer {
 namespace Nanomsg {
 
-Server::Server(Domain domain, Protocol protocol, const std::string& address, bool threading)
+SurveyorServer::SurveyorServer(const std::string& address, bool threading)
     : _address(address),
-      _socket(domain, protocol),
+      _socket(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Surveyor),
       _threading(threading)
 {
 }
 
-Server::~Server()
+SurveyorServer::~SurveyorServer()
 {
     if (IsStarted())
         Stop();
 }
 
-bool Server::Start()
+bool SurveyorServer::Start()
 {
-    assert(!IsStarted() && "Nanomsg server is already started!");
+    assert(!IsStarted() && "Nanomsg surveyor server is already started!");
     if (IsStarted())
         return false;
 
@@ -58,9 +58,9 @@ bool Server::Start()
     }
 }
 
-bool Server::Stop()
+bool SurveyorServer::Stop()
 {
-    assert(IsStarted() && "Nanomsg server is not started!");
+    assert(IsStarted() && "Nanomsg surveyor server is not started!");
     if (!IsStarted())
         return false;
 
@@ -88,7 +88,7 @@ bool Server::Stop()
     }
 }
 
-bool Server::Restart()
+bool SurveyorServer::Restart()
 {
     if (!Stop())
         return false;
@@ -96,7 +96,7 @@ bool Server::Restart()
     return Start();
 }
 
-void Server::ServerLoop()
+void SurveyorServer::ServerLoop()
 {
     // Call the initialize thread handler
     onThreadInitialize();
@@ -108,8 +108,9 @@ void Server::ServerLoop()
         {
             Message message;
 
-            // Try to receive a new message from the client
-            if (!TryReceive(message))
+            // Try to receive a new survey respond from clients
+            std::tuple<size_t, bool> result = TryReceiveSurvey(message);
+            if (std::get<0>(result) == 0)
             {
                 // Call the idle handler
                 onIdle();
@@ -122,58 +123,23 @@ void Server::ServerLoop()
     }
     catch (...)
     {
-        fatality("Nanomsg server thread terminated!");
+        fatality("Nanomsg surveyor server thread terminated!");
     }
 
     // Call the cleanup thread handler
     onThreadCleanup();
 }
 
-size_t Server::Send(const void* buffer, size_t size)
+size_t SurveyorServer::Survey(const void* buffer, size_t size)
 {
     if (!IsStarted())
         return 0;
 
     try
     {
-        return _socket.Send(buffer, size);
-    }
-    catch (CppCommon::SystemException& ex)
-    {
-        onError(ex.system_error(), ex.system_message());
-        return 0;
-    }
-}
-
-size_t Server::TrySend(const void* buffer, size_t size)
-{
-    if (!IsStarted())
-        return 0;
-
-    try
-    {
-        return _socket.TrySend(buffer, size);
-    }
-    catch (CppCommon::SystemException& ex)
-    {
-        onError(ex.system_error(), ex.system_message());
-        return 0;
-    }
-}
-
-size_t Server::Receive(Message& message)
-{
-    if (!IsStarted())
-        return 0;
-
-    try
-    {
-        size_t result = _socket.Receive(message);
-        if (result > 0)
-        {
-            // Call the message received handler
-            onReceived(message);
-        }
+        size_t result = _socket.Send(buffer, size);
+        if (result == size)
+            onSurveyStarted(buffer, size);
         return result;
     }
     catch (CppCommon::SystemException& ex)
@@ -183,15 +149,38 @@ size_t Server::Receive(Message& message)
     }
 }
 
-size_t Server::TryReceive(Message& message)
+size_t SurveyorServer::TrySurvey(const void* buffer, size_t size)
 {
     if (!IsStarted())
         return 0;
 
     try
     {
-        size_t result = _socket.TryReceive(message);
-        if (result > 0)
+        size_t result = _socket.TrySend(buffer, size);
+        if (result == size)
+            onSurveyStarted(buffer, size);
+        return result;
+    }
+    catch (CppCommon::SystemException& ex)
+    {
+        onError(ex.system_error(), ex.system_message());
+        return 0;
+    }
+}
+
+std::tuple<size_t, bool> SurveyorServer::ReceiveSurvey(Message& message)
+{
+    if (!IsStarted())
+        return std::make_tuple(0, true);
+
+    try
+    {
+        std::tuple<size_t, bool> result = _socket.ReceiveSurvey(message);
+
+        // Call the survey stopped handler
+        if (std::get<1>(result))
+            onSurveyStopped();
+        else if (std::get<0>(result) > 0)
         {
             // Call the message received handler
             onReceived(message);
@@ -201,7 +190,33 @@ size_t Server::TryReceive(Message& message)
     catch (CppCommon::SystemException& ex)
     {
         onError(ex.system_error(), ex.system_message());
-        return 0;
+        return std::make_tuple(0, true);
+    }
+}
+
+std::tuple<size_t, bool> SurveyorServer::TryReceiveSurvey(Message& message)
+{
+    if (!IsStarted())
+        return std::make_tuple(0, true);
+
+    try
+    {
+        std::tuple<size_t, bool> result = _socket.TryReceiveSurvey(message);
+
+        // Call the survey stopped handler
+        if (std::get<1>(result))
+            onSurveyStopped();
+        else if (std::get<0>(result) > 0)
+        {
+            // Call the message received handler
+            onReceived(message);
+        }
+        return result;
+    }
+    catch (CppCommon::SystemException& ex)
+    {
+        onError(ex.system_error(), ex.system_message());
+        return std::make_tuple(0, true);
     }
 }
 
