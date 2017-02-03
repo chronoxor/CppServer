@@ -27,17 +27,6 @@ protected:
         std::cout << "Nanomsg surveyor server stopped!" << std::endl;
     }
 
-    void onSurveyStarted(const void* buffer, size_t size)
-    {
-        std::string question((const char*)buffer, size);
-        std::cout << "Survey started! Question: " << question << std::endl;
-    }
-
-    void onSurveyStopped()
-    {
-        std::cout << "Survey finished!" << std::endl;
-    }
-
     void onError(int error, const std::string& message) override
     {
         std::cout << "Nanomsg surveyor server caught an error with code " << error << "': " << message << std::endl;
@@ -77,7 +66,32 @@ int main(int argc, char** argv)
         }
 
         // Survey the entered text to all respondent clients
-        server->Survey(line);
+        if (server->Send(line) == line.size())
+        {
+            // Start the survey
+            std::cout << "Survey started! Question: " << line << std::endl;
+            while (true)
+            {
+                CppServer::Nanomsg::Message msg;
+
+                // Receive survey responses from clients
+                std::tuple<size_t, bool> result = server->ReceiveSurvey(msg);
+
+                // Show answers from respondents
+                if (std::get<0>(result) > 0)
+                {
+                    std::string message((const char*)msg.buffer(), msg.size());
+                    std::cout << "Answer: " << message << std::endl;
+                }
+
+                // Finish the survey
+                if (std::get<1>(result))
+                {
+                    std::cout << "Survey finished!" << std::endl;
+                    break;
+                }
+            }
+        }
     }
 
     // Stop the server

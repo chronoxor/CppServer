@@ -26,7 +26,7 @@ Message::Message(size_t size, int type) : _buffer(nullptr), _size(0), _type(type
     assert((size > 0) && "Message size should be greater than zero!");
     _buffer = (uint8_t*)nn_allocmsg(size, type);
     if (_buffer == nullptr)
-        throwex CppCommon::SystemException("Failed to allocate a memory buffer of {} bytes for the nanomsg message! Nanomsg error: {}"_format(size, nn_strerror(errno)));
+        throwex CppCommon::SystemException("Failed to allocate a memory buffer of {} bytes for the nanomsg message! Nanomsg error: {}"_format(size, nn_strerror(nn_errno())));
     _size = size;
 }
 
@@ -76,13 +76,13 @@ void Message::Reallocate(size_t size)
     {
         _buffer = (uint8_t*)nn_reallocmsg(_buffer, size);
         if (_buffer == nullptr)
-            throwex CppCommon::SystemException("Failed to reallocate a memory buffer of {} bytes for the nanomsg message! Nanomsg error: {}"_format(size, nn_strerror(errno)));
+            throwex CppCommon::SystemException("Failed to reallocate a memory buffer of {} bytes for the nanomsg message! Nanomsg error: {}"_format(size, nn_strerror(nn_errno())));
     }
     else
     {
         _buffer = (uint8_t*)nn_allocmsg(size, _type);
         if (_buffer == nullptr)
-            throwex CppCommon::SystemException("Failed to allocate a memory buffer of {} bytes for the nanomsg message! Nanomsg error: {}"_format(size, nn_strerror(errno)));
+            throwex CppCommon::SystemException("Failed to allocate a memory buffer of {} bytes for the nanomsg message! Nanomsg error: {}"_format(size, nn_strerror(nn_errno())));
     }
     _size = size;
 }

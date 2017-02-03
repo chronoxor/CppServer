@@ -25,7 +25,7 @@ Socket::Socket(Domain domain, Protocol protocol)
 {
     _socket = nn_socket((int)domain, (int)protocol);
     if (!IsOpened())
-        throwex CppCommon::SystemException("Failed to create a new nanomsg socket (domain={}, protocol={})! Nanomsg error: {}"_format(domain, protocol, nn_strerror(errno)));
+        throwex CppCommon::SystemException("Failed to create a new nanomsg socket (domain={}, protocol={})! Nanomsg error: {}"_format(domain, protocol, nn_strerror(nn_errno())));
 }
 
 Socket::~Socket()
@@ -111,10 +111,10 @@ bool Socket::SetSocketOption(int level, int option, const void* value, size_t si
     int result = nn_setsockopt(_socket, level, option, value, size);
     if (result != 0)
     {
-        if (errno == ETERM)
+        if (nn_errno() == ETERM)
             return false;
         else
-            throwex CppCommon::SystemException("Cannot set the nanomsg socket option! Nanomsg error: {}"_format(nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot set the nanomsg socket option! Nanomsg error: {}"_format(nn_strerror(nn_errno())));
     }
     return true;
 }
@@ -127,10 +127,10 @@ bool Socket::GetSocketOption(int level, int option, void* value, size_t* size)
     int result = nn_getsockopt(_socket, level, option, value, size);
     if (result != 0)
     {
-        if (errno == ETERM)
+        if (nn_errno() == ETERM)
             return false;
         else
-            throwex CppCommon::SystemException("Cannot get the nanomsg socket option! Nanomsg error: {}"_format(nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot get the nanomsg socket option! Nanomsg error: {}"_format(nn_strerror(nn_errno())));
     }
     return true;
 }
@@ -146,10 +146,10 @@ bool Socket::Bind(const std::string& address)
     int result = nn_bind(_socket, address.c_str());
     if (result < 0)
     {
-        if (errno == ETERM)
+        if (nn_errno() == ETERM)
             return false;
         else
-            throwex CppCommon::SystemException("Cannot bind the nanomsg socket to the given endpoint '{}'! Nanomsg error: {}"_format(address, nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot bind the nanomsg socket to the given endpoint '{}'! Nanomsg error: {}"_format(address, nn_strerror(nn_errno())));
     }
     _endpoint = result;
     _address = address;
@@ -167,10 +167,10 @@ bool Socket::Connect(const std::string& address)
     int result = nn_connect(_socket, address.c_str());
     if (result < 0)
     {
-        if (errno == ETERM)
+        if (nn_errno() == ETERM)
             return false;
         else
-            throwex CppCommon::SystemException("Cannot connect the nanomsg socket to the given endpoint '{}'! Nanomsg error: {}"_format(address, nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot connect the nanomsg socket to the given endpoint '{}'! Nanomsg error: {}"_format(address, nn_strerror(nn_errno())));
     }
     _endpoint = result;
     _address = address;
@@ -188,10 +188,10 @@ bool Socket::Disconnect()
     int result = nn_shutdown(_socket, _endpoint);
     if (result != 0)
     {
-        if (errno == ETERM)
+        if (nn_errno() == ETERM)
             return false;
         else
-            throwex CppCommon::SystemException("Cannot disconnect the nanomsg socket from the endpoint '{}'! Nanomsg error: {}"_format(_address, nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot disconnect the nanomsg socket from the endpoint '{}'! Nanomsg error: {}"_format(_address, nn_strerror(nn_errno())));
     }
     _endpoint = -1;
     _address = "";
@@ -214,10 +214,10 @@ size_t Socket::Send(const void* buffer, size_t size)
     int result = nn_send(_socket, buffer, size, 0);
     if (result < 0)
     {
-        if (errno == ETERM)
+        if (nn_errno() == ETERM)
             return 0;
         else
-            throwex CppCommon::SystemException("Cannot send {} bytes to the nanomsg socket! Nanomsg error: {}"_format(size, nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot send {} bytes to the nanomsg socket! Nanomsg error: {}"_format(size, nn_strerror(nn_errno())));
     }
     return size;
 }
@@ -238,12 +238,12 @@ size_t Socket::TrySend(const void* buffer, size_t size)
     int result = nn_send(_socket, buffer, size, NN_DONTWAIT);
     if (result < 0)
     {
-        if (errno == EAGAIN)
+        if (nn_errno() == EAGAIN)
             return 0;
-        else if (errno == ETERM)
+        else if (nn_errno() == ETERM)
             return 0;
         else
-            throwex CppCommon::SystemException("Cannot send {} bytes to the nanomsg socket in non-blocking mode! Nanomsg error: {}"_format(size, nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot send {} bytes to the nanomsg socket in non-blocking mode! Nanomsg error: {}"_format(size, nn_strerror(nn_errno())));
     }
     return size;
 }
@@ -260,10 +260,10 @@ size_t Socket::Receive(Message& message)
     int result = nn_recv(_socket, &data, NN_MSG, 0);
     if (result < 0)
     {
-        if (errno == ETERM)
+        if (nn_errno() == ETERM)
             return 0;
         else
-            throwex CppCommon::SystemException("Cannot receive a message from the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot receive a message from the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(nn_errno())));
     }
 
     message._buffer = (uint8_t*)data;
@@ -283,12 +283,12 @@ size_t Socket::TryReceive(Message& message)
     int result = nn_recv(_socket, &data, NN_MSG, NN_DONTWAIT);
     if (result < 0)
     {
-        if (errno == EAGAIN)
+        if (nn_errno() == EAGAIN)
             return 0;
-        else if (errno == ETERM)
+        else if (nn_errno() == ETERM)
             return 0;
         else
-            throwex CppCommon::SystemException("Cannot receive a message from the nanomsg socket in non-blocking mode! Nanomsg error: {}"_format(nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot receive a message from the nanomsg socket in non-blocking mode! Nanomsg error: {}"_format(nn_strerror(nn_errno())));
     }
 
     message._buffer = (uint8_t*)data;
@@ -306,14 +306,14 @@ std::tuple<size_t, bool> Socket::ReceiveSurvey(Message& message)
 
     void* data = nullptr;
     int result = nn_recv(_socket, &data, NN_MSG, 0);
-    if (result == ETIMEDOUT)
-        return std::make_tuple(0, true);
     if (result < 0)
     {
-        if (errno == ETERM)
+        if (nn_errno() == ETIMEDOUT)
+            return std::make_tuple(0, true);
+        else if (nn_errno() == ETERM)
             return std::make_tuple(0, true);
         else
-            throwex CppCommon::SystemException("Cannot receive a survey respond from the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot receive a survey respond from the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(nn_errno())));
     }
 
     message._buffer = (uint8_t*)data;
@@ -331,16 +331,16 @@ std::tuple<size_t, bool> Socket::TryReceiveSurvey(Message& message)
 
     void* data = nullptr;
     int result = nn_recv(_socket, &data, NN_MSG, NN_DONTWAIT);
-    if (result == ETIMEDOUT)
-        return std::make_tuple(0, true);
     if (result < 0)
     {
-        if (errno == EAGAIN)
+        if (nn_errno() == EAGAIN)
             return std::make_tuple(0, false);
-        else if (errno == ETERM)
+        else if (nn_errno() == ETIMEDOUT)
+            return std::make_tuple(0, true);
+        else if (nn_errno() == ETERM)
             return std::make_tuple(0, true);
         else
-            throwex CppCommon::SystemException("Cannot receive a survey respond from the nanomsg socket in non-blocking mode! Nanomsg error: {}"_format(nn_strerror(errno)));
+            throwex CppCommon::SystemException("Cannot receive a survey respond from the nanomsg socket in non-blocking mode! Nanomsg error: {}"_format(nn_strerror(nn_errno())));
     }
 
     message._buffer = (uint8_t*)data;
@@ -355,7 +355,7 @@ bool Socket::Close()
 
     int result = nn_close(_socket);
     if (result != 0)
-        throwex CppCommon::SystemException("Cannot close the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(errno)));
+        throwex CppCommon::SystemException("Cannot close the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(nn_errno())));
     _socket = -1;
     _endpoint = -1;
     _address = "";
