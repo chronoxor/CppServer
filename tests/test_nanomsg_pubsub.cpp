@@ -75,13 +75,15 @@ TEST_CASE("Nanomsg subscriber client & publisher server", "[CppServer][Nanomsg]"
     while (!client->IsConnected())
         Thread::Yield();
 
-    while (client->socket().bytes_received() == 0)
-    {
-        // Publish messages to all subscribed clients
-        server->Send("test");
-        server->Send("footest");
+    // Sleep for a while...
+    Thread::Sleep(100);
+
+    // Publish messages to all subscribed clients
+    server->Send("test");
+
+    // Wait for all data processed...
+    while (client->socket().bytes_received() != 4)
         Thread::Yield();
-    }
 
     // Disconnect the client
     REQUIRE(client->Disconnect());
@@ -97,16 +99,16 @@ TEST_CASE("Nanomsg subscriber client & publisher server", "[CppServer][Nanomsg]"
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->socket().accepted_connections() == 1);
-    REQUIRE(server->socket().messages_sent() > 0);
-    REQUIRE(server->socket().bytes_sent() > 0);
+    REQUIRE(server->socket().messages_sent() == 1);
+    REQUIRE(server->socket().bytes_sent() == 4);
     REQUIRE(!server->error);
 
     // Check the client state
     REQUIRE(client->connected);
     REQUIRE(client->disconnected);
     REQUIRE(client->socket().established_connections() == 1);
-    REQUIRE(client->socket().messages_received() > 0);
-    REQUIRE(client->socket().bytes_received() > 0);
+    REQUIRE(client->socket().messages_received() == 1);
+    REQUIRE(client->socket().bytes_received() == 4);
     REQUIRE(!client->error);
 }
 
