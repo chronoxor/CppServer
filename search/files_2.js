@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['message_2ecpp',['message.cpp',['../message_8cpp.html',1,'']]],
-  ['message_2eh',['message.h',['../message_8h.html',1,'']]]
+  ['client_2ecpp',['client.cpp',['../client_8cpp.html',1,'']]],
+  ['client_2eh',['client.h',['../client_8h.html',1,'']]]
 ];
