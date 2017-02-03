@@ -108,11 +108,11 @@ Inheritance diagram for CppServer::Nanomsg::Client:</div>
  <div class="center">
   <img src="class_cpp_server_1_1_nanomsg_1_1_client.png" usemap="#CppServer::Nanomsg::Client_map" alt=""/>
   <map id="CppServer::Nanomsg::Client_map" name="CppServer::Nanomsg::Client_map">
-<area href="class_cpp_server_1_1_nanomsg_1_1_pair_client.html" title="Nanomsg pair client. " alt="CppServer::Nanomsg::PairClient" shape="rect" coords="0,56,236,80"/>
-<area href="class_cpp_server_1_1_nanomsg_1_1_push_client.html" title="Nanomsg push client. " alt="CppServer::Nanomsg::PushClient" shape="rect" coords="246,56,482,80"/>
-<area href="class_cpp_server_1_1_nanomsg_1_1_request_client.html" title="Nanomsg request client. " alt="CppServer::Nanomsg::RequestClient" shape="rect" coords="492,56,728,80"/>
-<area href="class_cpp_server_1_1_nanomsg_1_1_respondent_client.html" title="Nanomsg respondent client. " alt="CppServer::Nanomsg::RespondentClient" shape="rect" coords="738,56,974,80"/>
-<area href="class_cpp_server_1_1_nanomsg_1_1_subscriber_client.html" title="Nanomsg subscriber client. " alt="CppServer::Nanomsg::SubscriberClient" shape="rect" coords="984,56,1220,80"/>
+<area href="class_cpp_server_1_1_nanomsg_1_1_pair_client.html" title="Nanomsg pair client. " alt="CppServer::Nanomsg::PairClient" shape="rect" coords="0,56,227,80"/>
+<area href="class_cpp_server_1_1_nanomsg_1_1_push_client.html" title="Nanomsg push client. " alt="CppServer::Nanomsg::PushClient" shape="rect" coords="237,56,464,80"/>
+<area href="class_cpp_server_1_1_nanomsg_1_1_request_client.html" title="Nanomsg request client. " alt="CppServer::Nanomsg::RequestClient" shape="rect" coords="474,56,701,80"/>
+<area href="class_cpp_server_1_1_nanomsg_1_1_subscribe_client.html" title="Nanomsg subscribe client. " alt="CppServer::Nanomsg::SubscribeClient" shape="rect" coords="711,56,938,80"/>
+<area href="class_cpp_server_1_1_nanomsg_1_1_survey_client.html" title="Nanomsg survey client. " alt="CppServer::Nanomsg::SurveyClient" shape="rect" coords="948,56,1175,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -252,7 +252,7 @@ Protected Member Functions</h2></td></tr>
     <tr><td class="paramname">domain</td><td>- Domain </td></tr>
     <tr><td class="paramname">protocol</td><td>- Protocol </td></tr>
     <tr><td class="paramname">address</td><td>- Endpoint address </td></tr>
-    <tr><td class="paramname">threading</td><td>- Run client in a separate thread (default is true) </td></tr>
+    <tr><td class="paramname">threading</td><td>- Run the client in a separate thread (default is true) </td></tr>
   </table>
   </dd>
 </dl>
@@ -350,7 +350,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Connect the client. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a4">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_push_client_8cpp-example.html#a4">nanomsg_push_client.cpp</a>, <a class="el" href="nanomsg_request_client_8cpp-example.html#a4">nanomsg_request_client.cpp</a>, <a class="el" href="nanomsg_respondent_client_8cpp-example.html#a4">nanomsg_respondent_client.cpp</a>, and <a class="el" href="nanomsg_subscriber_client_8cpp-example.html#a4">nanomsg_subscriber_client.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a4">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_push_client_8cpp-example.html#a4">nanomsg_push_client.cpp</a>, <a class="el" href="nanomsg_request_client_8cpp-example.html#a4">nanomsg_request_client.cpp</a>, <a class="el" href="nanomsg_subscribe_client_8cpp-example.html#a4">nanomsg_subscribe_client.cpp</a>, and <a class="el" href="nanomsg_survey_client_8cpp-example.html#a4">nanomsg_survey_client.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="client_8cpp_source.html#l00032">32</a> of file <a class="el" href="client_8cpp_source.html">client.cpp</a>.</p>
 
@@ -425,7 +425,7 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Handle client connected notification. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a2">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_push_client_8cpp-example.html#a2">nanomsg_push_client.cpp</a>, <a class="el" href="nanomsg_request_client_8cpp-example.html#a2">nanomsg_request_client.cpp</a>, <a class="el" href="nanomsg_respondent_client_8cpp-example.html#a2">nanomsg_respondent_client.cpp</a>, and <a class="el" href="nanomsg_subscriber_client_8cpp-example.html#a2">nanomsg_subscriber_client.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a2">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_push_client_8cpp-example.html#a2">nanomsg_push_client.cpp</a>, <a class="el" href="nanomsg_request_client_8cpp-example.html#a2">nanomsg_request_client.cpp</a>, <a class="el" href="nanomsg_subscribe_client_8cpp-example.html#a2">nanomsg_subscribe_client.cpp</a>, and <a class="el" href="nanomsg_survey_client_8cpp-example.html#a2">nanomsg_survey_client.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="client_8h_source.html#l00135">135</a> of file <a class="el" href="client_8h_source.html">client.h</a>.</p>
 
@@ -453,7 +453,7 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Handle client disconnected notification. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a3">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_push_client_8cpp-example.html#a3">nanomsg_push_client.cpp</a>, <a class="el" href="nanomsg_request_client_8cpp-example.html#a3">nanomsg_request_client.cpp</a>, <a class="el" href="nanomsg_respondent_client_8cpp-example.html#a3">nanomsg_respondent_client.cpp</a>, and <a class="el" href="nanomsg_subscriber_client_8cpp-example.html#a3">nanomsg_subscriber_client.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a3">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_push_client_8cpp-example.html#a3">nanomsg_push_client.cpp</a>, <a class="el" href="nanomsg_request_client_8cpp-example.html#a3">nanomsg_request_client.cpp</a>, <a class="el" href="nanomsg_subscribe_client_8cpp-example.html#a3">nanomsg_subscribe_client.cpp</a>, and <a class="el" href="nanomsg_survey_client_8cpp-example.html#a3">nanomsg_survey_client.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="client_8h_source.html#l00137">137</a> of file <a class="el" href="client_8h_source.html">client.h</a>.</p>
 
@@ -499,7 +499,7 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a9">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_push_client_8cpp-example.html#a5">nanomsg_push_client.cpp</a>, <a class="el" href="nanomsg_request_client_8cpp-example.html#a5">nanomsg_request_client.cpp</a>, <a class="el" href="nanomsg_respondent_client_8cpp-example.html#a10">nanomsg_respondent_client.cpp</a>, and <a class="el" href="nanomsg_subscriber_client_8cpp-example.html#a9">nanomsg_subscriber_client.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a9">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_push_client_8cpp-example.html#a5">nanomsg_push_client.cpp</a>, <a class="el" href="nanomsg_request_client_8cpp-example.html#a5">nanomsg_request_client.cpp</a>, <a class="el" href="nanomsg_subscribe_client_8cpp-example.html#a9">nanomsg_subscribe_client.cpp</a>, and <a class="el" href="nanomsg_survey_client_8cpp-example.html#a10">nanomsg_survey_client.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="client_8h_source.html#l00153">153</a> of file <a class="el" href="client_8h_source.html">client.h</a>.</p>
 
@@ -561,7 +561,7 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a5">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_respondent_client_8cpp-example.html#a5">nanomsg_respondent_client.cpp</a>, and <a class="el" href="nanomsg_subscriber_client_8cpp-example.html#a5">nanomsg_subscriber_client.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_pair_client_8cpp-example.html#a5">nanomsg_pair_client.cpp</a>, <a class="el" href="nanomsg_subscribe_client_8cpp-example.html#a5">nanomsg_subscribe_client.cpp</a>, and <a class="el" href="nanomsg_survey_client_8cpp-example.html#a5">nanomsg_survey_client.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="client_8h_source.html#l00146">146</a> of file <a class="el" href="client_8h_source.html">client.h</a>.</p>
 
@@ -751,7 +751,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Count of sent bytes </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_respondent_client_8cpp-example.html#a9">nanomsg_respondent_client.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="nanomsg_survey_client_8cpp-example.html#a9">nanomsg_survey_client.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="client_8cpp_source.html#l00132">132</a> of file <a class="el" href="client_8cpp_source.html">client.cpp</a>.</p>
 
