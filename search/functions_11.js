@@ -17,7 +17,7 @@ var searchData=
   ['_7esslserver',['~SSLServer',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a2581743ccca9ee936672584bb999e98b',1,'CppServer::Asio::SSLServer']]],
   ['_7esslsession',['~SSLSession',['../class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a88e3857d4e128244d76140190e415db2',1,'CppServer::Asio::SSLSession']]],
   ['_7esubscriberclient',['~SubscriberClient',['../class_cpp_server_1_1_nanomsg_1_1_subscriber_client.html#a1b755f9e4321922e47a4345d4187dcd0',1,'CppServer::Nanomsg::SubscriberClient']]],
-  ['_7esurveyorserver',['~SurveyorServer',['../class_cpp_server_1_1_nanomsg_1_1_surveyor_server.html#a04e39d0ff918dc0a02812247bddbce13',1,'CppServer::Nanomsg::SurveyorServer']]],
+  ['_7esurveyorserver',['~SurveyorServer',['../class_cpp_server_1_1_nanomsg_1_1_surveyor_server.html#a043f5837411c62a7373f6d78f8dc5615',1,'CppServer::Nanomsg::SurveyorServer']]],
   ['_7etcpclient',['~TCPClient',['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a7fa9d9d42d3e632572cca8699739d708',1,'CppServer::Asio::TCPClient']]],
   ['_7etcpserver',['~TCPServer',['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a20fed4176c7e34617308dfecd9936fa0',1,'CppServer::Asio::TCPServer']]],
   ['_7etcpsession',['~TCPSession',['../class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a82a76541232830cd73ee936452b973f1',1,'CppServer::Asio::TCPSession']]],

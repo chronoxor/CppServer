@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>CppServer: nanomsg_publisher_server.cpp</title>
+<title>CppServer: nanomsg_surveyor_server.cpp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -78,50 +78,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">nanomsg_publisher_server.cpp</div>  </div>
+<div class="title">nanomsg_surveyor_server.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>Nanomsg publisher server example</p>
+<p>Nanomsg surveyor server example</p>
 <div class="fragment"><div class="line"></div>
-<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="publisher__server_8h.html">server/nanomsg/publisher_server.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="surveyor__server_8h.html">server/nanomsg/surveyor_server.h</a>&quot;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"></div>
-<div class="line"><span class="keyword">class </span>ExamplePublisherServer : <span class="keyword">public</span> <a name="_a0"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_publisher_server.html">CppServer::Nanomsg::PublisherServer</a></div>
+<div class="line"><span class="keyword">class </span>ExampleSurveyorServer : <span class="keyword">public</span> <a name="_a0"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_surveyor_server.html">CppServer::Nanomsg::SurveyorServer</a></div>
 <div class="line">{</div>
 <div class="line"><span class="keyword">public</span>:</div>
-<div class="line">    <span class="keyword">using</span> <a name="a1"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_publisher_server.html#afa065abedbbd3d34206134f032e54ae4">CppServer::Nanomsg::PublisherServer::PublisherServer</a>;</div>
+<div class="line">    <span class="keyword">using</span> <a name="a1"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_surveyor_server.html#acb9abdef2741465f16d246d53915b119">CppServer::Nanomsg::SurveyorServer::SurveyorServer</a>;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">protected</span>:</div>
 <div class="line">    <span class="keywordtype">void</span> <a name="a2"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_server.html#a1af56080469f6b430e141bcd71849000">onStarted</a>()<span class="keyword"> override</span></div>
 <div class="line"><span class="keyword">    </span>{</div>
-<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Nanomsg publisher server started!&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Nanomsg surveyor server started!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line">    }</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordtype">void</span> <a name="a3"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_server.html#a9cce1e23a2a080ba233bcfdf1baaa9bd">onStopped</a>()<span class="keyword"> override</span></div>
 <div class="line"><span class="keyword">    </span>{</div>
-<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Nanomsg publisher server stopped!&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Nanomsg surveyor server stopped!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line">    }</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordtype">void</span> <a name="a4"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_server.html#a2d43f4e8503a6eef16eb7f4bc088c365">onError</a>(<span class="keywordtype">int</span> error, <span class="keyword">const</span> std::string&amp; message)<span class="keyword"> override</span></div>
 <div class="line"><span class="keyword">    </span>{</div>
-<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Nanomsg publisher server caught an error with code &quot;</span> &lt;&lt; error &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span> &lt;&lt; message &lt;&lt; std::endl;</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Nanomsg surveyor server caught an error with code &quot;</span> &lt;&lt; error &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span> &lt;&lt; message &lt;&lt; std::endl;</div>
 <div class="line">    }</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div>
 <div class="line">{</div>
-<div class="line">    <span class="comment">// Nanomsg publisher server address</span></div>
-<div class="line">    std::string address = <span class="stringliteral">&quot;tcp://*:6669&quot;</span>;</div>
+<div class="line">    <span class="comment">// Nanomsg surveyor server address</span></div>
+<div class="line">    std::string address = <span class="stringliteral">&quot;tcp://*:6670&quot;</span>;</div>
 <div class="line">    <span class="keywordflow">if</span> (argc &gt; 1)</div>
 <div class="line">        address = std::atoi(argv[1]);</div>
 <div class="line"></div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Nanomsg publisher server address: &quot;</span> &lt;&lt; address &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Nanomsg surveyor server address: &quot;</span> &lt;&lt; address &lt;&lt; std::endl;</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Press Enter to stop the server or &#39;!&#39; to restart the server...&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"></div>
-<div class="line">    <span class="comment">// Create a new Nanomsg publisher server</span></div>
-<div class="line">    <span class="keyword">auto</span> server = std::make_shared&lt;ExamplePublisherServer&gt;(address);</div>
+<div class="line">    <span class="comment">// Create a new Nanomsg surveyor server</span></div>
+<div class="line">    <span class="keyword">auto</span> server = std::make_shared&lt;ExampleSurveyorServer&gt;(address);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Start the server</span></div>
 <div class="line">    server-&gt;Start();</div>
@@ -142,8 +142,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">            <span class="keywordflow">continue</span>;</div>
 <div class="line">        }</div>
 <div class="line"></div>
-<div class="line">        <span class="comment">// Publish the entered text to all subscribed clients</span></div>
-<div class="line">        server-&gt;Send(line);</div>
+<div class="line">        <span class="comment">// Survey the entered text to all respondent clients</span></div>
+<div class="line">        <span class="keywordflow">if</span> (server-&gt;Send(line) == line.size())</div>
+<div class="line">        {</div>
+<div class="line">            <span class="comment">// Start the survey</span></div>
+<div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;Survey started! Question: &quot;</span> &lt;&lt; line &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">while</span> (<span class="keyword">true</span>)</div>
+<div class="line">            {</div>
+<div class="line">                <a name="_a5"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_message.html">CppServer::Nanomsg::Message</a> msg;</div>
+<div class="line"></div>
+<div class="line">                <span class="comment">// Receive survey responses from clients</span></div>
+<div class="line">                std::tuple&lt;size_t, bool&gt; result = server-&gt;ReceiveSurvey(msg);</div>
+<div class="line"></div>
+<div class="line">                <span class="comment">// Show answers from respondents</span></div>
+<div class="line">                <span class="keywordflow">if</span> (std::get&lt;0&gt;(result) &gt; 0)</div>
+<div class="line">                {</div>
+<div class="line">                    std::string message((<span class="keyword">const</span> <span class="keywordtype">char</span>*)msg.<a name="a6"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_message.html#ab903a34bd41a8e69ee1c4e45206cedda">buffer</a>(), msg.<a name="a7"></a><a class="code" href="class_cpp_server_1_1_nanomsg_1_1_message.html#aed1b8f01194779302ad5fc0dd3bc985b">size</a>());</div>
+<div class="line">                    std::cout &lt;&lt; <span class="stringliteral">&quot;Answer: &quot;</span> &lt;&lt; message &lt;&lt; std::endl;</div>
+<div class="line">                }</div>
+<div class="line"></div>
+<div class="line">                <span class="comment">// Finish the survey</span></div>
+<div class="line">                <span class="keywordflow">if</span> (std::get&lt;1&gt;(result))</div>
+<div class="line">                {</div>
+<div class="line">                    std::cout &lt;&lt; <span class="stringliteral">&quot;Survey finished!&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">                    <span class="keywordflow">break</span>;</div>
+<div class="line">                }</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Stop the server</span></div>
