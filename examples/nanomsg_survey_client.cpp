@@ -1,31 +1,31 @@
 /*!
-    \file nanomsg_respondent_client.cpp
-    \brief Nanomsg respondent client example
+    \file nanomsg_survey_client.cpp
+    \brief Nanomsg survey client example
     \author Ivan Shynkarenka
     \date 03.02.2017
     \copyright MIT License
 */
 
-#include "server/nanomsg/respondent_client.h"
+#include "server/nanomsg/survey_client.h"
 #include "threads/thread.h"
 
 #include <iostream>
 #include <memory>
 
-class ExampleRespondentClient : public CppServer::Nanomsg::RespondentClient
+class ExampleSurveyClient : public CppServer::Nanomsg::SurveyClient
 {
 public:
-    using CppServer::Nanomsg::RespondentClient::RespondentClient;
+    using CppServer::Nanomsg::SurveyClient::SurveyClient;
 
 protected:
     void onConnected() override
     {
-        std::cout << "Nanomsg respondent client connected" << std::endl;
+        std::cout << "Nanomsg survey client connected" << std::endl;
     }
 
     void onDisconnected() override
     {
-        std::cout << "Nanomsg respondent client disconnected" << std::endl;
+        std::cout << "Nanomsg survey client disconnected" << std::endl;
 
         // Wait for a while...
         CppCommon::Thread::Sleep(1000);
@@ -45,7 +45,7 @@ protected:
 
     void onError(int error, const std::string& message) override
     {
-        std::cout << "Nanomsg respondent client caught an error with code " << error << "': " << message << std::endl;
+        std::cout << "Nanomsg survey client caught an error with code " << error << "': " << message << std::endl;
     }
 };
 
@@ -59,8 +59,8 @@ int main(int argc, char** argv)
     std::cout << "Nanomsg surveyor server address: " << address << std::endl;
     std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
-    // Create a new Nanomsg respondent client
-    auto client = std::make_shared<ExampleRespondentClient>(address);
+    // Create a new Nanomsg survey client
+    auto client = std::make_shared<ExampleSurveyClient>(address);
 
     // Start the client
     client->Connect();

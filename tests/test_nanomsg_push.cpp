@@ -4,7 +4,7 @@
 
 #include "catch.hpp"
 
-#include "server/nanomsg/pull_server.h"
+#include "server/nanomsg/push_server.h"
 #include "server/nanomsg/push_client.h"
 #include "threads/thread.h"
 
@@ -37,15 +37,15 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-class TestPullServer : public PullServer
+class TestPushServer : public PushServer
 {
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
     std::atomic<bool> error;
 
-    explicit TestPullServer(const std::string& address)
-        : PullServer(address),
+    explicit TestPushServer(const std::string& address)
+        : PushServer(address),
           started(false),
           stopped(false),
           error(false)
@@ -58,13 +58,13 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("Nanomsg push client & pull server", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg push server & client", "[CppServer][Nanomsg]")
 {
     const std::string server_address = "tcp://*:6666";
     const std::string client_address = "tcp://localhost:6666";
 
-    // Create and start Nanomsg pull server
-    auto server = std::make_shared<TestPullServer>(server_address);
+    // Create and start Nanomsg push server
+    auto server = std::make_shared<TestPushServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -109,13 +109,13 @@ TEST_CASE("Nanomsg push client & pull server", "[CppServer][Nanomsg]")
     REQUIRE(!client->error);
 }
 
-TEST_CASE("Nanomsg push/pull random test", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg push random test", "[CppServer][Nanomsg]")
 {
     const std::string server_address = "tcp://*:6667";
     const std::string client_address = "tcp://localhost:6667";
 
-    // Create and start Nanomsg pull server
-    auto server = std::make_shared<TestPullServer>(server_address);
+    // Create and start Nanomsg push server
+    auto server = std::make_shared<TestPushServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();

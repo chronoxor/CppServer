@@ -1,22 +1,22 @@
 /*!
-    \file reply_server.h
-    \brief Nanomsg reply server definition
+    \file request_server.h
+    \brief Nanomsg request server definition
     \author Ivan Shynkarenka
     \date 02.02.2017
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_NANOMSG_REPLY_SERVER_H
-#define CPPSERVER_NANOMSG_REPLY_SERVER_H
+#ifndef CPPSERVER_NANOMSG_REQUEST_SERVER_H
+#define CPPSERVER_NANOMSG_REQUEST_SERVER_H
 
 #include "server.h"
 
 namespace CppServer {
 namespace Nanomsg {
 
-//! Nanomsg reply server
+//! Nanomsg request server
 /*!
-    Nanomsg reply server is used to receive requests from Nanomsg clients
+    Nanomsg request server is used to receive requests from Nanomsg clients
     and reply with corresponding responses.
 
     This protocol is used to distribute the workload among multiple stateless
@@ -41,28 +41,28 @@ namespace Nanomsg {
 
     Thread-safe.
 */
-class ReplyServer : public Server
+class RequestServer : public Server
 {
 public:
     //! Initialize server with a given endpoint address
     /*!
         \param address - Endpoint address
-        \param threading - Run server in a separate thread (default is true)
+        \param threading - Run the server in a separate thread (default is true)
     */
-    explicit ReplyServer(const std::string& address, bool threading = true)
+    explicit RequestServer(const std::string& address, bool threading = true)
         : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Reply, address, threading)
     {}
-    ReplyServer(const ReplyServer&) = delete;
-    ReplyServer(ReplyServer&&) = default;
-    virtual ~ReplyServer() = default;
+    RequestServer(const RequestServer&) = delete;
+    RequestServer(RequestServer&&) = default;
+    virtual ~RequestServer() = default;
 
-    ReplyServer& operator=(const ReplyServer&) = delete;
-    ReplyServer& operator=(ReplyServer&&) = default;
+    RequestServer& operator=(const RequestServer&) = delete;
+    RequestServer& operator=(RequestServer&&) = default;
 };
 
-/*! \example nanomsg_reply_server.cpp Nanomsg reply server example */
+/*! \example nanomsg_request_server.cpp Nanomsg request server example */
 
 } // namespace Nanomsg
 } // namespace CppServer
 
-#endif // CPPSERVER_NANOMSG_REPLY_SERVER_H
+#endif // CPPSERVER_NANOMSG_REQUEST_SERVER_H

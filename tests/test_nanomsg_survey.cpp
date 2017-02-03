@@ -4,8 +4,8 @@
 
 #include "catch.hpp"
 
-#include "server/nanomsg/respondent_client.h"
-#include "server/nanomsg/surveyor_server.h"
+#include "server/nanomsg/survey_client.h"
+#include "server/nanomsg/survey_server.h"
 #include "threads/thread.h"
 
 #include <atomic>
@@ -16,15 +16,15 @@
 using namespace CppCommon;
 using namespace CppServer::Nanomsg;
 
-class TestRespondentClient : public RespondentClient
+class TestSurveyClient : public SurveyClient
 {
 public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit TestRespondentClient(const std::string& address)
-        : RespondentClient(address),
+    explicit TestSurveyClient(const std::string& address)
+        : SurveyClient(address),
           connected(false),
           disconnected(false),
           error(false)
@@ -38,15 +38,15 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-class TestSurveyorServer : public SurveyorServer
+class TestSurveyServer : public SurveyServer
 {
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
     std::atomic<bool> error;
 
-    explicit TestSurveyorServer(const std::string& address)
-        : SurveyorServer(address),
+    explicit TestSurveyServer(const std::string& address)
+        : SurveyServer(address),
           started(false),
           stopped(false),
           error(false)
@@ -59,19 +59,19 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("Nanomsg respondent client & surveyor server", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg survey server & client", "[CppServer][Nanomsg]")
 {
     const std::string server_address = "tcp://*:6674";
     const std::string client_address = "tcp://localhost:6674";
 
-    // Create and start Nanomsg surveyor server
-    auto server = std::make_shared<TestSurveyorServer>(server_address);
+    // Create and start Nanomsg survey server
+    auto server = std::make_shared<TestSurveyServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
-    // Create and connect Nanomsg respondent client
-    auto client = std::make_shared<TestRespondentClient>(client_address);
+    // Create and connect Nanomsg survey client
+    auto client = std::make_shared<TestSurveyClient>(client_address);
     REQUIRE(client->Connect());
     while (!client->IsConnected())
         Thread::Yield();
@@ -89,7 +89,7 @@ TEST_CASE("Nanomsg respondent client & surveyor server", "[CppServer][Nanomsg]")
         // Receive survey responses from clients
         std::tuple<size_t, bool> result = server->ReceiveSurvey(msg);
 
-        // Show answers from respondents
+        // Show answers from survey clients
         if (std::get<0>(result) > 0)
             answers = true;
 
@@ -135,8 +135,8 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
     const std::string server_address = "tcp://*:6675";
     const std::string client_address = "tcp://localhost:6675";
 
-    // Create and start Nanomsg surveyor server
-    auto server = std::make_shared<TestSurveyorServer>(server_address);
+    // Create and start Nanomsg survey server
+    auto server = std::make_shared<TestSurveyServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -145,10 +145,10 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
     const int duration = 10;
 
     // Clients collection
-    std::vector<std::shared_ptr<TestRespondentClient>> clients;
+    std::vector<std::shared_ptr<TestSurveyClient>> clients;
 
-    // Create and connect the first Nanomsg respondent client
-    auto client = std::make_shared<TestRespondentClient>(client_address);
+    // Create and connect the first Nanomsg survey client
+    auto client = std::make_shared<TestSurveyClient>(client_address);
     client->Connect();
     while (!client->IsConnected())
         Thread::Yield();
@@ -164,8 +164,8 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
         // Create a new client and connect
         if ((rand() % 100) == 0)
         {
-            // Create and connect Nanomsg respondent client
-            auto client = std::make_shared<TestRespondentClient>(client_address);
+            // Create and connect Nanomsg survey client
+            auto client = std::make_shared<TestSurveyClient>(client_address);
             client->Connect();
             clients.emplace_back(client);
         }
@@ -206,7 +206,7 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
                 // Receive survey responses from clients
                 std::tuple<size_t, bool> result = server->ReceiveSurvey(msg);
 
-                // Show answers from respondents
+                // Show answers from survey clients
                 if (std::get<0>(result) > 0)
                     answers = true;
 

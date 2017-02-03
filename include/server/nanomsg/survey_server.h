@@ -1,23 +1,23 @@
 /*!
-    \file surveyor_server.h
-    \brief Nanomsg surveyor server definition
+    \file survey_server.h
+    \brief Nanomsg survey server definition
     \author Ivan Shynkarenka
     \date 02.02.2017
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_NANOMSG_SURVEYOR_SERVER_H
-#define CPPSERVER_NANOMSG_SURVEYOR_SERVER_H
+#ifndef CPPSERVER_NANOMSG_SURVEY_SERVER_H
+#define CPPSERVER_NANOMSG_SURVEY_SERVER_H
 
 #include "server.h"
 
 namespace CppServer {
 namespace Nanomsg {
 
-//! Nanomsg surveyor server
+//! Nanomsg survey server
 /*!
-    Nanomsg surveyor server is used to perform a survey using several
-    connected Nanomsg respondent clients.
+    Nanomsg survey server is used to perform a survey using several
+    connected Nanomsg survey clients.
 
     Used to send the survey. The survey is delivered to all the connected
     respondents. Once the query is sent, the socket can be used to receive
@@ -26,7 +26,7 @@ namespace Nanomsg {
 
     Thread-safe.
 */
-class SurveyorServer : public Server
+class SurveyServer : public Server
 {
 public:
     //! Initialize server with a given endpoint address
@@ -34,17 +34,17 @@ public:
         \param address - Endpoint address
         \param deadline - Deadline timeout in milliseconds (default is 1000)
     */
-    explicit SurveyorServer(const std::string& address, int deadline = 1000)
+    explicit SurveyServer(const std::string& address, int deadline = 1000)
         : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Surveyor, address, false)
     {
         socket().SetSocketOption(NN_SURVEYOR, NN_SURVEYOR_DEADLINE, &deadline, sizeof(deadline));
     }
-    SurveyorServer(const SurveyorServer&) = delete;
-    SurveyorServer(SurveyorServer&&) = default;
-    virtual ~SurveyorServer() = default;
+    SurveyServer(const SurveyServer&) = delete;
+    SurveyServer(SurveyServer&&) = default;
+    virtual ~SurveyServer() = default;
 
-    SurveyorServer& operator=(const SurveyorServer&) = delete;
-    SurveyorServer& operator=(SurveyorServer&&) = default;
+    SurveyServer& operator=(const SurveyServer&) = delete;
+    SurveyServer& operator=(SurveyServer&&) = default;
 
     //! Receive a respond to the survey from the clients in non-blocking mode
     /*!
@@ -69,9 +69,9 @@ private:
     using Server::onReceived;
 };
 
-/*! \example nanomsg_surveyor_server.cpp Nanomsg surveyor server example */
+/*! \example nanomsg_survey_server.cpp Nanomsg survey server example */
 
 } // namespace Nanomsg
 } // namespace CppServer
 
-#endif // CPPSERVER_NANOMSG_SURVEYOR_SERVER_H
+#endif // CPPSERVER_NANOMSG_SURVEY_SERVER_H

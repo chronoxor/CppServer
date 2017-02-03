@@ -40,7 +40,7 @@ public:
     //! Initialize client with a given endpoint address
     /*!
         \param address - Endpoint address
-        \param threading - Run client in a separate thread (default is true)
+        \param threading - Run the client in a separate thread (default is true)
     */
     explicit PairClient(const std::string& address, bool threading = true)
         : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pair, address, threading)

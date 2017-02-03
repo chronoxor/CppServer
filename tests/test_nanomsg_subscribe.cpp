@@ -4,8 +4,8 @@
 
 #include "catch.hpp"
 
-#include "server/nanomsg/publisher_server.h"
-#include "server/nanomsg/subscriber_client.h"
+#include "server/nanomsg/subscribe_server.h"
+#include "server/nanomsg/subscribe_client.h"
 #include "threads/thread.h"
 
 #include <atomic>
@@ -16,15 +16,15 @@
 using namespace CppCommon;
 using namespace CppServer::Nanomsg;
 
-class TestSubscriberClient : public SubscriberClient
+class TestSubscribeClient : public SubscribeClient
 {
 public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit TestSubscriberClient(const std::string& address, const std::string& topic = "")
-        : SubscriberClient(address, topic),
+    explicit TestSubscribeClient(const std::string& address, const std::string& topic = "")
+        : SubscribeClient(address, topic),
           connected(false),
           disconnected(false),
           error(false)
@@ -37,15 +37,15 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-class TestPublisherServer : public PublisherServer
+class TestSubscribeServer : public SubscribeServer
 {
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
     std::atomic<bool> error;
 
-    explicit TestPublisherServer(const std::string& address)
-        : PublisherServer(address),
+    explicit TestSubscribeServer(const std::string& address)
+        : SubscribeServer(address),
           started(false),
           stopped(false),
           error(false)
@@ -58,19 +58,19 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("Nanomsg subscriber client & publisher server", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg subscribe server & client", "[CppServer][Nanomsg]")
 {
     const std::string server_address = "tcp://*:6672";
     const std::string client_address = "tcp://localhost:6672";
 
-    // Create and start Nanomsg publisher server
-    auto server = std::make_shared<TestPublisherServer>(server_address);
+    // Create and start Nanomsg subscribe server
+    auto server = std::make_shared<TestSubscribeServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
-    // Create and connect Nanomsg subscriber client
-    auto client = std::make_shared<TestSubscriberClient>(client_address);
+    // Create and connect Nanomsg subscribe client
+    auto client = std::make_shared<TestSubscribeClient>(client_address);
     REQUIRE(client->Connect());
     while (!client->IsConnected())
         Thread::Yield();
@@ -112,13 +112,13 @@ TEST_CASE("Nanomsg subscriber client & publisher server", "[CppServer][Nanomsg]"
     REQUIRE(!client->error);
 }
 
-TEST_CASE("Nanomsg publish/subscribe random test", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg subscribe random test", "[CppServer][Nanomsg]")
 {
     const std::string server_address = "tcp://*:6673";
     const std::string client_address = "tcp://localhost:6673";
 
-    // Create and start Nanomsg publisher server
-    auto server = std::make_shared<TestPublisherServer>(server_address);
+    // Create and start Nanomsg subscribe server
+    auto server = std::make_shared<TestSubscribeServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -127,7 +127,7 @@ TEST_CASE("Nanomsg publish/subscribe random test", "[CppServer][Nanomsg]")
     const int duration = 10;
 
     // Clients collection
-    std::vector<std::shared_ptr<TestSubscriberClient>> clients;
+    std::vector<std::shared_ptr<TestSubscribeClient>> clients;
 
     // Start random test
     auto start = std::chrono::high_resolution_clock::now();
@@ -136,8 +136,8 @@ TEST_CASE("Nanomsg publish/subscribe random test", "[CppServer][Nanomsg]")
         // Create a new client and connect
         if ((rand() % 100) == 0)
         {
-            // Create and connect Nanomsg subscriber client
-            auto client = std::make_shared<TestSubscriberClient>(client_address);
+            // Create and connect Nanomsg subscribe client
+            auto client = std::make_shared<TestSubscribeClient>(client_address);
             client->Connect();
             clients.emplace_back(client);
         }

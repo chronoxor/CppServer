@@ -33,7 +33,7 @@ public:
         \param domain - Domain
         \param protocol - Protocol
         \param address - Endpoint address
-        \param threading - Run server in a separate thread (default is true)
+        \param threading - Run the server in a separate thread (default is true)
     */
     explicit Server(Domain domain, Protocol protocol, const std::string& address, bool threading = true);
     Server(const Server&) = delete;

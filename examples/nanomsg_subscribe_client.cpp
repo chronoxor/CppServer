@@ -1,31 +1,31 @@
 /*!
-    \file nanomsg_subscriber_client.cpp
-    \brief Nanomsg subscriber client example
+    \file nanomsg_subscribe_client.cpp
+    \brief Nanomsg subscribe client example
     \author Ivan Shynkarenka
     \date 03.02.2017
     \copyright MIT License
 */
 
-#include "server/nanomsg/subscriber_client.h"
+#include "server/nanomsg/subscribe_client.h"
 #include "threads/thread.h"
 
 #include <iostream>
 #include <memory>
 
-class ExampleSubscriberClient : public CppServer::Nanomsg::SubscriberClient
+class ExampleSubscribeClient : public CppServer::Nanomsg::SubscribeClient
 {
 public:
-    using CppServer::Nanomsg::SubscriberClient::SubscriberClient;
+    using CppServer::Nanomsg::SubscribeClient::SubscribeClient;
 
 protected:
     void onConnected() override
     {
-        std::cout << "Nanomsg subscriber client connected" << std::endl;
+        std::cout << "Nanomsg subscribe client connected" << std::endl;
     }
 
     void onDisconnected() override
     {
-        std::cout << "Nanomsg subscriber client disconnected" << std::endl;
+        std::cout << "Nanomsg subscribe client disconnected" << std::endl;
 
         // Wait for a while...
         CppCommon::Thread::Sleep(1000);
@@ -42,7 +42,7 @@ protected:
 
     void onError(int error, const std::string& message) override
     {
-        std::cout << "Nanomsg subscriber client caught an error with code " << error << "': " << message << std::endl;
+        std::cout << "Nanomsg subscribe client caught an error with code " << error << "': " << message << std::endl;
     }
 };
 
@@ -56,8 +56,8 @@ int main(int argc, char** argv)
     std::cout << "Nanomsg publisher server address: " << address << std::endl;
     std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
-    // Create a new Nanomsg subscriber client
-    auto client = std::make_shared<ExampleSubscriberClient>(address);
+    // Create a new Nanomsg subscribe client
+    auto client = std::make_shared<ExampleSubscribeClient>(address);
 
     // Start the client
     client->Connect();

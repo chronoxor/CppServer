@@ -33,7 +33,7 @@ public:
         \param domain - Domain
         \param protocol - Protocol
         \param address - Endpoint address
-        \param threading - Run client in a separate thread (default is true)
+        \param threading - Run the client in a separate thread (default is true)
     */
     explicit Client(Domain domain, Protocol protocol, const std::string& address, bool threading = true);
     Client(const Client&) = delete;

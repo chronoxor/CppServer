@@ -4,7 +4,7 @@
 
 #include "catch.hpp"
 
-#include "server/nanomsg/reply_server.h"
+#include "server/nanomsg/request_server.h"
 #include "server/nanomsg/request_client.h"
 #include "threads/thread.h"
 
@@ -37,15 +37,15 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-class TestReplyServer : public ReplyServer
+class TestRequestServer : public RequestServer
 {
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
     std::atomic<bool> error;
 
-    explicit TestReplyServer(const std::string& address)
-        : ReplyServer(address),
+    explicit TestRequestServer(const std::string& address)
+        : RequestServer(address),
           started(false),
           stopped(false),
           error(false)
@@ -59,13 +59,13 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("Nanomsg request client & reply server", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg request server & client", "[CppServer][Nanomsg]")
 {
     const std::string server_address = "tcp://*:6670";
     const std::string client_address = "tcp://localhost:6670";
 
-    // Create and start Nanomsg reply server
-    auto server = std::make_shared<TestReplyServer>(server_address);
+    // Create and start Nanomsg request server
+    auto server = std::make_shared<TestRequestServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -114,13 +114,13 @@ TEST_CASE("Nanomsg request client & reply server", "[CppServer][Nanomsg]")
     REQUIRE(!client->error);
 }
 
-TEST_CASE("Nanomsg request/reply random test", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg request random test", "[CppServer][Nanomsg]")
 {
     const std::string server_address = "tcp://*:6671";
     const std::string client_address = "tcp://localhost:6671";
 
-    // Create and start Nanomsg reply server
-    auto server = std::make_shared<TestReplyServer>(server_address);
+    // Create and start Nanomsg request server
+    auto server = std::make_shared<TestRequestServer>(server_address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();

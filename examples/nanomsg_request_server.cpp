@@ -1,30 +1,30 @@
 /*!
-    \file nanomsg_reply_server.cpp
-    \brief Nanomsg reply server example
+    \file nanomsg_request_server.cpp
+    \brief Nanomsg request server example
     \author Ivan Shynkarenka
     \date 02.02.2017
     \copyright MIT License
 */
 
-#include "server/nanomsg/reply_server.h"
+#include "server/nanomsg/request_server.h"
 
 #include <iostream>
 #include <memory>
 
-class ExampleReplyServer : public CppServer::Nanomsg::ReplyServer
+class ExampleRequestServer : public CppServer::Nanomsg::RequestServer
 {
 public:
-    using CppServer::Nanomsg::ReplyServer::ReplyServer;
+    using CppServer::Nanomsg::RequestServer::RequestServer;
 
 protected:
     void onStarted() override
     {
-        std::cout << "Nanomsg reply server started!" << std::endl;
+        std::cout << "Nanomsg request server started!" << std::endl;
     }
 
     void onStopped() override
     {
-        std::cout << "Nanomsg reply server stopped!" << std::endl;
+        std::cout << "Nanomsg request server stopped!" << std::endl;
     }
 
     void onReceived(CppServer::Nanomsg::Message& msg) override
@@ -38,22 +38,22 @@ protected:
 
     void onError(int error, const std::string& message) override
     {
-        std::cout << "Nanomsg reply server caught an error with code " << error << "': " << message << std::endl;
+        std::cout << "Nanomsg request server caught an error with code " << error << "': " << message << std::endl;
     }
 };
 
 int main(int argc, char** argv)
 {
-    // Nanomsg reply server address
+    // Nanomsg request server address
     std::string address = "tcp://*:6668";
     if (argc > 1)
         address = std::atoi(argv[1]);
 
-    std::cout << "Nanomsg reply server address: " << address << std::endl;
+    std::cout << "Nanomsg request server address: " << address << std::endl;
     std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
-    // Create a new Nanomsg reply server
-    auto server = std::make_shared<ExampleReplyServer>(address);
+    // Create a new Nanomsg request server
+    auto server = std::make_shared<ExampleRequestServer>(address);
 
     // Start the server
     server->Start();

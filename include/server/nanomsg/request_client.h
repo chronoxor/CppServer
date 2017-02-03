@@ -47,7 +47,7 @@ public:
     //! Initialize client with a given endpoint address
     /*!
         \param address - Endpoint address
-        \param threading - Run client in a separate thread (default is false)
+        \param threading - Run the client in a separate thread (default is false)
     */
     explicit RequestClient(const std::string& address, bool threading = false)
         : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Request, address, threading)
