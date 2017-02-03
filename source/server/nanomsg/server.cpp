@@ -109,7 +109,7 @@ void Server::ServerLoop()
             Message message;
 
             // Try to receive a new message from the client
-            if (!TryReceive(message))
+            if (TryReceive(message) == 0)
             {
                 // Call the idle handler
                 onIdle();
