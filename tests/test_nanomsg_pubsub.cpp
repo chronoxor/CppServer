@@ -76,7 +76,7 @@ TEST_CASE("Nanomsg subscriber client & publisher server", "[CppServer][Nanomsg]"
         Thread::Yield();
 
     // Sleep for a while...
-    Thread::Sleep(100);
+    Thread::Sleep(1000);
 
     // Publish messages to all subscribed clients
     server->Send("test");

@@ -77,7 +77,7 @@ TEST_CASE("Nanomsg respondent client & surveyor server", "[CppServer][Nanomsg]")
         Thread::Yield();
 
     // Sleep for a while...
-    Thread::Sleep(100);
+    Thread::Sleep(1000);
 
     // Start the survey
     bool answers = false;
@@ -155,7 +155,7 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
     clients.emplace_back(client);
 
     // Sleep for a while...
-    Thread::Sleep(100);
+    Thread::Sleep(1000);
 
     // Start random test
     auto start = std::chrono::high_resolution_clock::now();
