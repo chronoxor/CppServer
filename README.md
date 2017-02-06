@@ -36,8 +36,9 @@ client/server solutions.
     * [Example: WebSocket SSL chat client](#example-websocket-ssl-chat-client)
   * [Nanomsg](#nanomsg)
     * [Example: Pair protocol](#example-pair-protocol)
-    * [Example: Request/reply protocol](#example-request-reply-protocol)
-    * [Example: Publish/subscribe protocol](#example-publish-subscribe-protocol)
+    * [Example: Request/reply protocol](#example-requestreply-protocol)
+    * [Example: Push/pull protocol](#example-pushpull-protocol)
+    * [Example: Publish/subscribe protocol](#example-publishsubscribe-protocol)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -1885,6 +1886,167 @@ int main(int argc, char** argv)
 
         // Show the response message
         std::cout << "Response: " << message << std::endl;
+    }
+
+    // Disconnect the client
+    client->Disconnect();
+
+    return 0;
+}
+```
+
+## Example: Push/pull protocol
+Fair queues messages from the previous processing step and load balances them
+among instances of the next processing step.
+
+* NN_PUSH - This socket is used to send messages to a cluster of load-balanced nodes. Receive operation is not implemented on this socket type.
+* NN_PULL - This socket is used to receive a message from a cluster of nodes. Send operation is not implemented on this socket type.
+
+Here comes the example of the Nanomsg push/pull server:
+
+```C++
+#include "server/nanomsg/push_server.h"
+
+#include <iostream>
+#include <memory>
+
+class ExamplePushServer : public CppServer::Nanomsg::PushServer
+{
+public:
+    using CppServer::Nanomsg::PushServer::PushServer;
+
+protected:
+    void onStarted() override
+    {
+        std::cout << "Nanomsg push server started!" << std::endl;
+    }
+
+    void onStopped() override
+    {
+        std::cout << "Nanomsg push server stopped!" << std::endl;
+    }
+
+    void onReceived(CppServer::Nanomsg::Message& message) override
+    {
+        std::cout << "Incoming: " << message << std::endl;
+    }
+
+    void onError(int error, const std::string& message) override
+    {
+        std::cout << "Nanomsg push server caught an error with code " << error << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // Nanomsg push server address
+    std::string address = "tcp://127.0.0.1:6666";
+    if (argc > 1)
+        address = std::atoi(argv[1]);
+
+    std::cout << "Nanomsg push server address: " << address << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Create a new Nanomsg push server
+    auto server = std::make_shared<ExamplePushServer>(address);
+
+    // Start the server
+    server->Start();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+    }
+
+    // Stop the server
+    server->Stop();
+
+    return 0;
+}
+```
+
+Here comes the example of the Nanomsg push/pull client:
+
+```C++
+#include "server/nanomsg/push_client.h"
+#include "threads/thread.h"
+
+#include <iostream>
+#include <memory>
+
+class ExamplePushClient : public CppServer::Nanomsg::PushClient
+{
+public:
+    using CppServer::Nanomsg::PushClient::PushClient;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Nanomsg push client connected" << std::endl;
+    }
+
+    void onDisconnected() override
+    {
+        std::cout << "Nanomsg push client disconnected" << std::endl;
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        Connect();
+    }
+
+    void onError(int error, const std::string& message) override
+    {
+        std::cout << "Nanomsg push client caught an error with code " << error << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // Nanomsg push server address
+    std::string address = "tcp://127.0.0.1:6666";
+    if (argc > 1)
+        address = argv[1];
+
+    std::cout << "Nanomsg push server address: " << address << std::endl;
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
+
+    // Create a new Nanomsg push client
+    auto client = std::make_shared<ExamplePushClient>(address);
+
+    // Start the client
+    client->Connect();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Disconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client disconnecting...";
+            client->Disconnect();
+            continue;
+        }
+
+        // Send the entered text to the server
+        client->Send(line);
     }
 
     // Disconnect the client
