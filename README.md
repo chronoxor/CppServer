@@ -1555,11 +1555,11 @@ Whenever possible, try to use one of the more scalable protocols instead.
 Socket Types
 * **NN_PAIR** - Socket for communication with exactly one peer. Each party can
   send messages at any time. If the peer is not available or send buffer is full
-  subsequent calls to nn_send(3) will block until it’s possible to send the
+  subsequent calls to nn_send(3) will block until it's possible to send the
   message.
 
 Socket Options
-No protocol-specific socket options are defined at the moment.
+* No protocol-specific socket options are defined at the moment.
 
 Here comes the example of the Nanomsg pair server:
 
@@ -1738,7 +1738,7 @@ the request if this is necessary to respond to the request.
 
 Sender information cannot be retrieved from the underlying socket connection since,
 firstly, transports like IPC may not have a firm notion of a message origin. Secondly,
-transports that have some notion may not have a reliable one?-?a TCP disconnect may
+transports that have some notion may not have a reliable one - a TCP disconnect may
 mean a new sender, or it may mean a temporary loss in network connectivity.
 
 For this reason, sender information must be included by the application if required.
@@ -1929,7 +1929,7 @@ Socket Types
   Send operation is not implemented on this socket type.
 
 Socket Options
-No protocol-specific socket options are defined at the moment.
+* No protocol-specific socket options are defined at the moment.
 
 Here comes the example of the Nanomsg push/pull server:
 
@@ -2090,7 +2090,7 @@ Broadcasts messages to multiple destinations.
 
 Messages are sent from **NN_PUB** sockets and will only be received by **NN_SUB**
 sockets that have subscribed to the matching topic. Topic is an arbitrary sequence
-of bytes at the beginning of the message body. The NN_SUB socket will determine
+of bytes at the beginning of the message body. The **NN_SUB** socket will determine
 whether a message should be delivered to the user by comparing the subscribed
 topics (using **NN_SUB_SUBSCRIBE** on a full SUB socket) to the bytes initial
 bytes in the incoming message, up to the size of the topic.
@@ -2691,3 +2691,4 @@ openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in client.p12 
 ```
 openssl dhparam -out dh4096.pem 4096
 ```
+  ..
