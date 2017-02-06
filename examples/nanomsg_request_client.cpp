@@ -43,7 +43,7 @@ protected:
 int main(int argc, char** argv)
 {
     // Nanomsg reply server address
-    std::string address = "tcp://localhost:6668";
+    std::string address = "tcp://127.0.0.1:6668";
     if (argc > 1)
         address = argv[1];
 

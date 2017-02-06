@@ -1,13 +1,13 @@
 /*!
-    \file bus_node.h
+    \file bus.h
     \brief Nanomsg bus node definition
     \author Ivan Shynkarenka
     \date 03.02.2017
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_NANOMSG_BUS_NODE_H
-#define CPPSERVER_NANOMSG_BUS_NODE_H
+#ifndef CPPSERVER_NANOMSG_BUS_H
+#define CPPSERVER_NANOMSG_BUS_H
 
 #include "server.h"
 
@@ -36,7 +36,7 @@ namespace Nanomsg {
 
     Thread-safe.
 */
-class BusNode : public Server
+class Bus : public Server
 {
 public:
     //! Initialize bus node with a given endpoint address
@@ -44,15 +44,15 @@ public:
         \param address - Endpoint address
         \param threading - Run the bus node in a separate thread (default is true)
     */
-    explicit BusNode(const std::string& address, bool threading = true)
+    explicit Bus(const std::string& address, bool threading = true)
         : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Bus, address, threading)
     {}
-    BusNode(const BusNode&) = delete;
-    BusNode(BusNode&&) = default;
-    virtual ~BusNode() = default;
+    Bus(const Bus&) = delete;
+    Bus(Bus&&) = default;
+    virtual ~Bus() = default;
 
-    BusNode& operator=(const BusNode&) = delete;
-    BusNode& operator=(BusNode&&) = default;
+    Bus& operator=(const Bus&) = delete;
+    Bus& operator=(Bus&&) = default;
 
     //! Link the current bus node to another one
     /*!
@@ -67,9 +67,8 @@ public:
 };
 
 /*! \example nanomsg_bus.cpp Nanomsg bus example */
-/*! \example nanomsg_bus_node.cpp Nanomsg bus node example */
 
 } // namespace Nanomsg
 } // namespace CppServer
 
-#endif // CPPSERVER_NANOMSG_BUS_NODE_H
+#endif // CPPSERVER_NANOMSG_BUS_H

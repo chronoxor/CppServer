@@ -1,17 +1,17 @@
 /*!
-    \file bus_node.cpp
+    \file bus.cpp
     \brief Nanomsg bus node implementation
     \author Ivan Shynkarenka
     \date 03.02.2017
     \copyright MIT License
 */
 
-#include "server/nanomsg/bus_node.h"
+#include "server/nanomsg/bus.h"
 
 namespace CppServer {
 namespace Nanomsg {
 
-bool BusNode::Link(const std::string& address)
+bool Bus::Link(const std::string& address)
 {
     if (!IsStarted())
         return false;

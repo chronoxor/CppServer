@@ -36,7 +36,7 @@ protected:
 int main(int argc, char** argv)
 {
     // Nanomsg subscribe server address
-    std::string address = "tcp://*:6669";
+    std::string address = "tcp://127.0.0.1:6669";
     if (argc > 1)
         address = std::atoi(argv[1]);
 

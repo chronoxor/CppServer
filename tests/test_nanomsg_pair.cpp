@@ -61,17 +61,16 @@ protected:
 
 TEST_CASE("Nanomsg pair server & client", "[CppServer][Nanomsg]")
 {
-    const std::string server_address = "tcp://*:6668";
-    const std::string client_address = "tcp://localhost:6668";
+    const std::string address = "tcp://127.0.0.1:6668";
 
     // Create and start Nanomsg pair server
-    auto server = std::make_shared<TestPairServer>(server_address);
+    auto server = std::make_shared<TestPairServer>(address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Nanomsg pair client
-    auto client = std::make_shared<TestPairClient>(client_address);
+    auto client = std::make_shared<TestPairClient>(address);
     REQUIRE(client->Connect());
     while (!client->IsConnected())
         Thread::Yield();
@@ -119,17 +118,16 @@ TEST_CASE("Nanomsg pair server & client", "[CppServer][Nanomsg]")
 
 TEST_CASE("Nanomsg pair random test", "[CppServer][Nanomsg]")
 {
-    const std::string server_address = "tcp://*:6669";
-    const std::string client_address = "tcp://localhost:6669";
+    const std::string address = "tcp://127.0.0.1:6669";
 
     // Create and start Nanomsg pair server
-    auto server = std::make_shared<TestPairServer>(server_address);
+    auto server = std::make_shared<TestPairServer>(address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Nanomsg pair client
-    auto client = std::make_shared<TestPairClient>(client_address);
+    auto client = std::make_shared<TestPairClient>(address);
     REQUIRE(client->Connect());
     while (!client->IsConnected())
         Thread::Yield();

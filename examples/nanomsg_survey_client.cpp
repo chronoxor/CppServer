@@ -52,7 +52,7 @@ protected:
 int main(int argc, char** argv)
 {
     // Nanomsg surveyor server address
-    std::string address = "tcp://localhost:6670";
+    std::string address = "tcp://127.0.0.1:6670";
     if (argc > 1)
         address = argv[1];
 

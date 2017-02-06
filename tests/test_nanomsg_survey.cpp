@@ -61,17 +61,16 @@ protected:
 
 TEST_CASE("Nanomsg survey server & client", "[CppServer][Nanomsg]")
 {
-    const std::string server_address = "tcp://*:6674";
-    const std::string client_address = "tcp://localhost:6674";
+    const std::string address = "tcp://127.0.0.1:6674";
 
     // Create and start Nanomsg survey server
-    auto server = std::make_shared<TestSurveyServer>(server_address);
+    auto server = std::make_shared<TestSurveyServer>(address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Nanomsg survey client
-    auto client = std::make_shared<TestSurveyClient>(client_address);
+    auto client = std::make_shared<TestSurveyClient>(address);
     REQUIRE(client->Connect());
     while (!client->IsConnected())
         Thread::Yield();
@@ -132,11 +131,10 @@ TEST_CASE("Nanomsg survey server & client", "[CppServer][Nanomsg]")
 
 TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
 {
-    const std::string server_address = "tcp://*:6675";
-    const std::string client_address = "tcp://localhost:6675";
+    const std::string address = "tcp://127.0.0.1:6675";
 
     // Create and start Nanomsg survey server
-    auto server = std::make_shared<TestSurveyServer>(server_address);
+    auto server = std::make_shared<TestSurveyServer>(address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -148,7 +146,7 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
     std::vector<std::shared_ptr<TestSurveyClient>> clients;
 
     // Create and connect the first Nanomsg survey client
-    auto client = std::make_shared<TestSurveyClient>(client_address);
+    auto client = std::make_shared<TestSurveyClient>(address);
     client->Connect();
     while (!client->IsConnected())
         Thread::Yield();
@@ -165,7 +163,7 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
         if ((rand() % 100) == 0)
         {
             // Create and connect Nanomsg survey client
-            auto client = std::make_shared<TestSurveyClient>(client_address);
+            auto client = std::make_shared<TestSurveyClient>(address);
             client->Connect();
             clients.emplace_back(client);
         }

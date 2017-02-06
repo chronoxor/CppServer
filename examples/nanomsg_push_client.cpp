@@ -43,7 +43,7 @@ protected:
 int main(int argc, char** argv)
 {
     // Nanomsg push server address
-    std::string address = "tcp://localhost:6666";
+    std::string address = "tcp://127.0.0.1:6666";
     if (argc > 1)
         address = argv[1];
 

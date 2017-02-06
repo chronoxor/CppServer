@@ -36,7 +36,7 @@ protected:
 int main(int argc, char** argv)
 {
     // Nanomsg survey server address
-    std::string address = "tcp://*:6670";
+    std::string address = "tcp://127.0.0.1:6670";
     if (argc > 1)
         address = std::atoi(argv[1]);
 

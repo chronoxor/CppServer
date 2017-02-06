@@ -60,17 +60,16 @@ protected:
 
 TEST_CASE("Nanomsg subscribe server & client", "[CppServer][Nanomsg]")
 {
-    const std::string server_address = "tcp://*:6672";
-    const std::string client_address = "tcp://localhost:6672";
+    const std::string address = "tcp://127.0.0.1:6672";
 
     // Create and start Nanomsg subscribe server
-    auto server = std::make_shared<TestSubscribeServer>(server_address);
+    auto server = std::make_shared<TestSubscribeServer>(address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Nanomsg subscribe client
-    auto client = std::make_shared<TestSubscribeClient>(client_address);
+    auto client = std::make_shared<TestSubscribeClient>(address);
     REQUIRE(client->Connect());
     while (!client->IsConnected())
         Thread::Yield();
@@ -114,11 +113,10 @@ TEST_CASE("Nanomsg subscribe server & client", "[CppServer][Nanomsg]")
 
 TEST_CASE("Nanomsg subscribe random test", "[CppServer][Nanomsg]")
 {
-    const std::string server_address = "tcp://*:6673";
-    const std::string client_address = "tcp://localhost:6673";
+    const std::string address = "tcp://127.0.0.1:6673";
 
     // Create and start Nanomsg subscribe server
-    auto server = std::make_shared<TestSubscribeServer>(server_address);
+    auto server = std::make_shared<TestSubscribeServer>(address);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -137,7 +135,7 @@ TEST_CASE("Nanomsg subscribe random test", "[CppServer][Nanomsg]")
         if ((rand() % 100) == 0)
         {
             // Create and connect Nanomsg subscribe client
-            auto client = std::make_shared<TestSubscribeClient>(client_address);
+            auto client = std::make_shared<TestSubscribeClient>(address);
             client->Connect();
             clients.emplace_back(client);
         }

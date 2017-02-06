@@ -6,65 +6,88 @@
     \copyright MIT License
 */
 
-#include "server/nanomsg/bus_link.h"
-#include "server/nanomsg/bus_node.h"
+#include "server/nanomsg/bus.h"
 
 #include <iostream>
 #include <memory>
 
+class ExampleBus : public CppServer::Nanomsg::Bus
+{
+public:
+    using CppServer::Nanomsg::Bus::Bus;
+
+protected:
+    void onStarted() override
+    {
+        std::cout << "Nanomsg bus node started!" << std::endl;
+    }
+
+    void onStopped() override
+    {
+        std::cout << "Nanomsg bus node stopped!" << std::endl;
+    }
+
+    void onReceived(CppServer::Nanomsg::Message& message) override
+    {
+        std::cout << "Incoming: " << message << std::endl;
+    }
+
+    void onError(int error, const std::string& message) override
+    {
+        std::cout << "Nanomsg bus node caught an error with code " << error << "': " << message << std::endl;
+    }
+};
+
 int main(int argc, char** argv)
 {
-    // Nanomsg bus nodes addresses
-    std::string address1 = "inproc://node1";
-    std::string address2 = "inproc://node2";
-	std::string address3 = "inproc://node3";
-	std::string address4 = "inproc://node4";
+    if (argc < 2)
+    {
+        std::cout << "Usage: nanomsg_bus address [node1] [node2]..." << std::endl;
+        return -1;
+    }
 
-    // Create Nanomsg bus nodes
-    auto node1 = std::make_shared<CppServer::Nanomsg::BusNode>(address1, false);
-    auto node2 = std::make_shared<CppServer::Nanomsg::BusNode>(address2, false);
-	auto node3 = std::make_shared<CppServer::Nanomsg::BusNode>(address3, false);
-	auto node4 = std::make_shared<CppServer::Nanomsg::BusNode>(address4, false);
+    // Nanomsg bus node address
+    std::string address = argv[1];
 
-	// Start Nanomsg bus nodes
-	node1->Start();
-	node2->Start();
-	node3->Start();
-	node4->Start();
+    std::cout << "Nanomsg bus node address: " << address << std::endl;
+    std::cout << "Press Enter to stop the bus node or '!' to restart the bus node..." << std::endl;
 
-    // Link Nanomsg bus nodes
-    node1->Link(address2);
-	node1->Link(address3);
-	node2->Link(address3);
-	node2->Link(address4);
-	node3->Link(address4);
-	node4->Link(address1);
+    // Create a new Nanomsg bus node
+    auto server = std::make_shared<ExampleBus>(address);
 
-    // Send messages
-    node1->Send("node1");
-    node2->Send("node2");
-	node3->Send("node3");
-	node4->Send("node4");
+    // Start the server
+    server->Start();
 
-    // Receive messages
-    CppServer::Nanomsg::Message message;
-	for (int i = 0; i < 3; ++i)
-	{
-		node1->Receive(message);
-		std::cout << "node1 received: " << message << std::endl;
-		node2->Receive(message);
-		std::cout << "node2 received: " << message << std::endl;
-		node3->Receive(message);
-		std::cout << "node3 received: " << message << std::endl;
-		node4->Receive(message);
-		std::cout << "node4 received: " << message << std::endl;
-	}
+    // Link the bus node to another bus nodes
+    for (int i = 2; i < argc; ++i)
+    {
+        std::string link_address = argv[i];
+        server->Link(link_address);
+        std::cout << "Nanomsg bus node linked: " << link_address << std::endl;
+    }
 
-	// Stop Nanomsg bus nodes
-	node1->Stop();
-	node2->Stop();
-	node3->Stop();
-	node4->Stop();
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Send the entered text to all connected bus nodes
+        server->Send(line);
+    }
+
+    // Stop the server
+    server->Stop();
 
     return 0;
 }
