@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['_7ebusserver',['~BusServer',['../class_cpp_server_1_1_nanomsg_1_1_bus_server.html#a683c14a55a2fba7e72564ad62ffde86c',1,'CppServer::Nanomsg::BusServer']]],
+  ['_7ebus',['~Bus',['../class_cpp_server_1_1_nanomsg_1_1_bus.html#aee119857b495cea1a43474735fc869bf',1,'CppServer::Nanomsg::Bus']]],
   ['_7eclient',['~Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html#a222bc42acd86aead4880ef0fcdfdde51',1,'CppServer::Nanomsg::Client']]],
   ['_7emessage',['~Message',['../class_cpp_server_1_1_nanomsg_1_1_message.html#ab4be4e9f8507916210b48b49c2ff1b3e',1,'CppServer::Nanomsg::Message']]],
   ['_7epairclient',['~PairClient',['../class_cpp_server_1_1_nanomsg_1_1_pair_client.html#a220fcef92045531cc36e0356a117c2c5',1,'CppServer::Nanomsg::PairClient']]],
