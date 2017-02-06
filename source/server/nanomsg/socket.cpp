@@ -177,6 +177,22 @@ bool Socket::Connect(const std::string& address)
     return true;
 }
 
+bool Socket::Link(const std::string& address)
+{
+    if (!IsOpened())
+        return false;
+
+    int result = nn_connect(_socket, address.c_str());
+    if (result < 0)
+    {
+        if (nn_errno() == ETERM)
+            return false;
+        else
+            throwex CppCommon::SystemException("Cannot link the nanomsg socket to the given endpoint '{}'! Nanomsg error: {}"_format(address, nn_strerror(nn_errno())));
+    }
+    return true;
+}
+
 bool Socket::Disconnect()
 {
     if (!IsOpened())
@@ -250,6 +266,9 @@ size_t Socket::TrySend(const void* buffer, size_t size)
 
 size_t Socket::Receive(Message& message)
 {
+    // Clear previous message
+    message.Clear();
+
     if (!IsOpened())
         return 0;
 
@@ -273,6 +292,9 @@ size_t Socket::Receive(Message& message)
 
 size_t Socket::TryReceive(Message& message)
 {
+    // Clear previous message
+    message.Clear();
+
     if (!IsOpened())
         return 0;
 
@@ -298,6 +320,9 @@ size_t Socket::TryReceive(Message& message)
 
 std::tuple<size_t, bool> Socket::ReceiveSurvey(Message& message)
 {
+    // Clear previous message
+    message.Clear();
+
     if (!IsOpened())
         return std::make_tuple(0, true);
 
@@ -323,6 +348,9 @@ std::tuple<size_t, bool> Socket::ReceiveSurvey(Message& message)
 
 std::tuple<size_t, bool> Socket::TryReceiveSurvey(Message& message)
 {
+    // Clear previous message
+    message.Clear();
+
     if (!IsOpened())
         return std::make_tuple(0, true);
 

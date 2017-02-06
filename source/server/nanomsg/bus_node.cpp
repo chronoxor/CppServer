@@ -1,24 +1,24 @@
 /*!
-    \file bus_server.cpp
-    \brief Nanomsg bus server implementation
+    \file bus_node.cpp
+    \brief Nanomsg bus node implementation
     \author Ivan Shynkarenka
     \date 03.02.2017
     \copyright MIT License
 */
 
-#include "server/nanomsg/bus_server.h"
+#include "server/nanomsg/bus_node.h"
 
 namespace CppServer {
 namespace Nanomsg {
 
-bool BusServer::Connect(const std::string& address)
+bool BusNode::Link(const std::string& address)
 {
     if (!IsStarted())
         return false;
 
     try
     {
-        return socket().Connect(address);
+        return socket().Link(address);
     }
     catch (CppCommon::SystemException& ex)
     {

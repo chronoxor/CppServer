@@ -122,6 +122,18 @@ public:
         \return 'true' if the socket was successfully connected, 'false' if the socket was already connected or the nanomsg engine terminated
     */
     bool Connect(const std::string& address);
+    //! Link the socket to the remote endpoint
+    /*!
+        Important: This method works properly only for bus protocol!
+
+        The address argument consists of two parts as follows: transport://address.
+        The transport specifies the underlying transport protocol to use.
+        The meaning of the address part is specific to the underlying transport protocol.
+
+        \param address - Endpoint address
+        \return 'true' if the socket was successfully linked, 'false' if the current protocol does not support linking or the nanomsg engine terminated
+    */
+    bool Link(const std::string& address);
     //! Disconnect the socket from the endpoint
     /*!
         Removes an endpoint from the socket. The method call will return immediately, however,

@@ -34,13 +34,13 @@ protected:
         Connect();
     }
 
-    void onReceived(CppServer::Nanomsg::Message& msg) override
+    void onReceived(CppServer::Nanomsg::Message& message) override
     {
-        std::string message((const char*)msg.buffer(), msg.size());
         std::cout << "Incoming: " << message << std::endl;
 
         // Send the reversed respond message back to the server
-        Send(std::string(message.rbegin(), message.rend()));
+        std::string result(message.string());
+        Send(std::string(result.rbegin(), result.rend()));
     }
 
     void onError(int error, const std::string& message) override

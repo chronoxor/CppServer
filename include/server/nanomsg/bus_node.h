@@ -1,23 +1,23 @@
 /*!
-    \file bus_server.h
-    \brief Nanomsg bus server definition
+    \file bus_node.h
+    \brief Nanomsg bus node definition
     \author Ivan Shynkarenka
     \date 03.02.2017
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_NANOMSG_BUS_SERVER_H
-#define CPPSERVER_NANOMSG_BUS_SERVER_H
+#ifndef CPPSERVER_NANOMSG_BUS_NODE_H
+#define CPPSERVER_NANOMSG_BUS_NODE_H
 
 #include "server.h"
 
 namespace CppServer {
 namespace Nanomsg {
 
-//! Nanomsg pair server
+//! Nanomsg bus node
 /*!
-    Nanomsg bus server is used to perform a duplex communication with
-    other the Nanomsg bus servers.
+    Nanomsg bus node is used to perform a duplex communication with
+    other Nanomsg bus nodes.
 
     Broadcasts messages from any node to all other nodes in the topology.
     The server should never receive messages that it sent itself.
@@ -36,39 +36,40 @@ namespace Nanomsg {
 
     Thread-safe.
 */
-class BusServer : public Server
+class BusNode : public Server
 {
 public:
-    //! Initialize server with a given endpoint address
+    //! Initialize bus node with a given endpoint address
     /*!
         \param address - Endpoint address
-        \param threading - Run the server in a separate thread (default is true)
+        \param threading - Run the bus node in a separate thread (default is true)
     */
-    explicit BusServer(const std::string& address, bool threading = true)
+    explicit BusNode(const std::string& address, bool threading = true)
         : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Bus, address, threading)
     {}
-    BusServer(const BusServer&) = delete;
-    BusServer(BusServer&&) = default;
-    virtual ~BusServer() = default;
+    BusNode(const BusNode&) = delete;
+    BusNode(BusNode&&) = default;
+    virtual ~BusNode() = default;
 
-    BusServer& operator=(const BusServer&) = delete;
-    BusServer& operator=(BusServer&&) = default;
+    BusNode& operator=(const BusNode&) = delete;
+    BusNode& operator=(BusNode&&) = default;
 
-    //! Connect the bus server to the remote endpoint
+    //! Link the current bus node to another one
     /*!
         The address argument consists of two parts as follows: transport://address.
         The transport specifies the underlying transport protocol to use.
         The meaning of the address part is specific to the underlying transport protocol.
 
         \param address - Endpoint address
-        \return 'true' if the bus server was successfully connected, 'false' if the bus server was already connected or the nanomsg engine terminated
+        \return 'true' if the bus node was successfully linked, 'false' if the bus node was already linked or the nanomsg engine terminated
     */
-    bool Connect(const std::string& address);
+    bool Link(const std::string& address);
 };
 
-/*! \example nanomsg_bus_server.cpp Nanomsg bus server example */
+/*! \example nanomsg_bus.cpp Nanomsg bus example */
+/*! \example nanomsg_bus_node.cpp Nanomsg bus node example */
 
 } // namespace Nanomsg
 } // namespace CppServer
 
-#endif // CPPSERVER_NANOMSG_BUS_SERVER_H
+#endif // CPPSERVER_NANOMSG_BUS_NODE_H

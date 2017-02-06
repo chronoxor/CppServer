@@ -72,10 +72,9 @@ int main(int argc, char** argv)
         }
 
         // Request the entered text to the server
-        CppServer::Nanomsg::Message msg = client->Request(line);
+        CppServer::Nanomsg::Message message = client->Request(line);
 
         // Show the response message
-        std::string message((const char*)msg.buffer(), msg.size());
         std::cout << "Response: " << message << std::endl;
     }
 

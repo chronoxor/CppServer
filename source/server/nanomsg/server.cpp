@@ -106,9 +106,8 @@ void Server::ServerLoop()
         // Run Nanomsg server in a loop
         do
         {
-            Message message;
-
             // Try to receive a new message from the client
+            Message message;
             if (TryReceive(message) == 0)
             {
                 // Call the idle handler

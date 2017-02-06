@@ -72,17 +72,14 @@ int main(int argc, char** argv)
             std::cout << "Survey started! Question: " << line << std::endl;
             while (true)
             {
-                CppServer::Nanomsg::Message msg;
+                CppServer::Nanomsg::Message message;
 
                 // Receive survey responses from clients
-                std::tuple<size_t, bool> result = server->ReceiveSurvey(msg);
+                std::tuple<size_t, bool> result = server->ReceiveSurvey(message);
 
                 // Show answers from respondents
                 if (std::get<0>(result) > 0)
-                {
-                    std::string message((const char*)msg.buffer(), msg.size());
                     std::cout << "Answer: " << message << std::endl;
-                }
 
                 // Finish the survey
                 if (std::get<1>(result))

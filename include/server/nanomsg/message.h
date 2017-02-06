@@ -11,6 +11,9 @@
 
 #include "nanomsg.h"
 
+#include <iostream>
+#include <string>
+
 namespace CppServer {
 namespace Nanomsg {
 
@@ -76,6 +79,17 @@ public:
     */
     void Reallocate(size_t size);
 
+    //! Convert the current message to a string
+    std::string string() const { return std::string((const char*)_buffer, _size); }
+
+    //! Output instance into the given output stream
+    friend std::ostream& operator<<(std::ostream& os, const Message& instance)
+    { os << instance.string(); return os; }
+
+    //! Swap two instances
+    void swap(Message& message) noexcept;
+    friend void swap(Message& message1, Message& message2) noexcept;
+
 private:
     uint8_t* _buffer;
     size_t _size;
@@ -84,5 +98,7 @@ private:
 
 } // namespace Nanomsg
 } // namespace CppServer
+
+#include "message.inl"
 
 #endif // CPPSERVER_NANOMSG_MESSAGE_H
