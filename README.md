@@ -34,6 +34,8 @@ client/server solutions.
     * [Example: WebSocket chat client](#example-websocket-chat-client)
     * [Example: WebSocket SSL chat server](#example-websocket-ssl-chat-server)
     * [Example: WebSocket SSL chat client](#example-websocket-ssl-chat-client)
+  * [Nanomsg](#nanomsg)
+    * [Example: Pair protocol](#example-pair protocol)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -1501,6 +1503,211 @@ int main(int argc, char** argv)
               ..
     // Stop the service
     service->Stop();
+
+    return 0;
+}
+```
+
+# Nanomsg
+[Nanomsg](http://nanomsg.org) is a socket library that provides several common
+communication patterns. It aims to make the networking layer fast, scalable, and
+easy to use. Implemented in C, it works on a wide range of operating systems with
+no further dependencies.
+
+The communication patterns, also called "scalability protocols", are basic blocks
+for building distributed systems. By combining them you can create a vast array
+of distributed applications. The following scalability protocols are currently
+available:
+
+* PAIR - simple one-to-one communication
+* BUS - simple many-to-many communication
+* REQREP - allows to build clusters of stateless services to process user requests
+* PUBSUB - distributes messages to large sets of interested subscribers
+* PIPELINE - aggregates messages from multiple sources and load balances them among many destinations
+* SURVEY - allows to query state of multiple applications in a single go
+
+Scalability protocols are layered on top of the transport layer in the network
+stack. At the moment, the nanomsg library supports the following transports
+mechanisms:
+
+* INPROC - transport within a process (between threads, modules etc.)
+* IPC - transport between processes on a single machine
+* TCP - network transport via TCP
+
+## Example: Pair protocol
+Pair protocol is the simplest and least scalable scalability protocol. It allows
+scaling by breaking the application in exactly two pieces. For example, if a
+monolithic application handles both accounting and agenda of HR department, it
+can be split into two applications (accounting vs. HR) that are run on two separate
+servers. These applications can then communicate via PAIR sockets.
+
+The downside of this protocol is that its scaling properties are very limited.
+Splitting the application into two pieces allows to scale the two servers.
+To add the third server to the cluster, the application has to be split once more,
+say by separating HR functionality into hiring module and salary computation module.
+Whenever possible, try to use one of the more scalable protocols instead.
+
+Here comes the example of the Nanomsg pair server:
+
+```C++
+#include "server/nanomsg/pair_server.h"
+
+#include <iostream>
+#include <memory>
+
+class ExamplePairServer : public CppServer::Nanomsg::PairServer
+{
+public:
+    using CppServer::Nanomsg::PairServer::PairServer;
+
+protected:
+    void onStarted() override
+    {
+        std::cout << "Nanomsg pair server started!" << std::endl;
+    }
+
+    void onStopped() override
+    {
+        std::cout << "Nanomsg pair server stopped!" << std::endl;
+    }
+
+    void onReceived(CppServer::Nanomsg::Message& message) override
+    {
+        std::cout << "Incoming: " << message << std::endl;
+
+        // Send the reversed message back to the client
+        std::string result(message.string());
+        Send(std::string(result.rbegin(), result.rend()));
+    }
+
+    void onError(int error, const std::string& message) override
+    {
+        std::cout << "Nanomsg pair server caught an error with code " << error << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // Nanomsg pair server address
+    std::string address = "tcp://127.0.0.1:6667";
+    if (argc > 1)
+        address = std::atoi(argv[1]);
+
+    std::cout << "Nanomsg pair server address: " << address << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Create a new Nanomsg pair server
+    auto server = std::make_shared<ExamplePairServer>(address);
+
+    // Start the server
+    server->Start();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Send the entered text to the client
+        server->Send(line);
+    }
+
+    // Stop the server
+    server->Stop();
+
+    return 0;
+}
+```
+
+Here comes the example of the Nanomsg pair client:
+
+```C++
+#include "server/nanomsg/pair_client.h"
+#include "threads/thread.h"
+
+#include <iostream>
+#include <memory>
+
+class ExamplePairClient : public CppServer::Nanomsg::PairClient
+{
+public:
+    using CppServer::Nanomsg::PairClient::PairClient;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Nanomsg pair client connected" << std::endl;
+    }
+
+    void onDisconnected() override
+    {
+        std::cout << "Nanomsg pair client disconnected" << std::endl;
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        Connect();
+    }
+
+    void onReceived(CppServer::Nanomsg::Message& message) override
+    {
+        std::cout << "Incoming: " << message << std::endl;
+    }
+
+    void onError(int error, const std::string& message) override
+    {
+        std::cout << "Nanomsg pair client caught an error with code " << error << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // Nanomsg pair server address
+    std::string address = "tcp://127.0.0.1:6667";
+    if (argc > 1)
+        address = argv[1];
+
+    std::cout << "Nanomsg pair server address: " << address << std::endl;
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
+
+    // Create a new Nanomsg pair client
+    auto client = std::make_shared<ExamplePairClient>(address);
+
+    // Start the client
+    client->Connect();
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Disconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client disconnecting...";
+            client->Disconnect();
+            continue;
+        }
+
+        // Send the entered text to the server
+        client->Send(line);
+    }
+
+    // Disconnect the client
+    client->Disconnect();
 
     return 0;
 }
