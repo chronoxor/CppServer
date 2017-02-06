@@ -9,7 +9,7 @@ var indexSectionsWithContent =
   6: "w",
   7: "dip",
   8: "biprs",
-  9: "istw",
+  9: "iostw",
   10: "_an",
   11: "c"
 };
