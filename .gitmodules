@@ -14,6 +14,10 @@
 	path = modules/catch
 	url = https://github.com/philsquared/Catch.git
 	branch = master
+[submodule "modules/cpp-optparse"]
+	path = modules/cpp-optparse
+	url = https://github.com/weisslj/cpp-optparse.git
+	branch = master
 [submodule "modules/CppBenchmark"]
 	path = modules/CppBenchmark
 	url = https://github.com/chronoxor/CppBenchmark.git
