@@ -1,5 +1,5 @@
 #include "server/asio/service.h"
-#include "server/asio/tcp_server.h"
+#include "server/asio/udp_server.h"
 
 #include <atomic>
 #include <iostream>
@@ -7,44 +7,21 @@
 #include "../../modules/cpp-optparse/OptionParser.h"
 
 std::atomic<size_t> errors(0);
-std::atomic<size_t> connected(0);
 std::atomic<size_t> transfered(0);
 
-class EchoSession;
-
-class EchoServer : public CppServer::Asio::TCPServer<EchoServer, EchoSession>
+class EchoServer : public CppServer::Asio::UDPServer
 {
 public:
-    using CppServer::Asio::TCPServer<EchoServer, EchoSession>::TCPServer;
+    using CppServer::Asio::UDPServer::UDPServer;
 
 protected:
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        ++errors;
-    }
-};
-
-class EchoSession : public CppServer::Asio::TCPSession<EchoServer, EchoSession>
-{
-public:
-    using CppServer::Asio::TCPSession<EchoServer, EchoSession>::TCPSession;
-
-protected:
-    void onConnected() override
-    {
-        ++connected;
-    }
-
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
         // Resend the message back to the client
-        Send(buffer, size);
+        Send(endpoint, buffer, size);
 
         // Update transfered statistics
         transfered += size;
-
-        // Inform that we handled the whole buffer
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -58,7 +35,7 @@ int main(int argc, char** argv)
     auto parser = optparse::OptionParser().version("1.0.0.0");
 
     parser.add_option("-h", "--help").help("Show help");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 
@@ -103,7 +80,6 @@ int main(int argc, char** argv)
 
     std::cout << "Server statistics: " << std::endl;
     std::cout << "- Caught errors: " << errors << std::endl;
-    std::cout << "- Connected clients: " << connected << std::endl;
     std::cout << "- Bytes transfered: " << transfered << std::endl;
 
     return 0;

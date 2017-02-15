@@ -296,7 +296,8 @@ void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
             // Erase the sent buffer
             {
                 std::lock_guard<std::mutex> locker(_send_lock);
-                _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + sent);
+                if (_send_buffer.size() >= sent)
+                    _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + sent);
             }
 
             // Call the datagram sent handler

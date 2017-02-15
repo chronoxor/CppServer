@@ -1,5 +1,5 @@
 #include "server/asio/service.h"
-#include "server/asio/tcp_client.h"
+#include "server/asio/udp_client.h"
 #include "system/cpu.h"
 #include "threads/thread.h"
 
@@ -15,10 +15,10 @@ std::atomic<size_t> errors(0);
 std::atomic<size_t> connected(0);
 std::atomic<size_t> transfered(0);
 
-class EchoClient : public CppServer::Asio::TCPClient
+class EchoClient : public CppServer::Asio::UDPClient
 {
 public:
-    using CppServer::Asio::TCPClient::TCPClient;
+    using CppServer::Asio::UDPClient::UDPClient;
 
 protected:
     void onConnected() override
@@ -38,15 +38,11 @@ protected:
         Connect();
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
-        // Wait for the whole message
-        if (size < message_size)
-            return 0;
-
         // Validate the message
         const uint8_t* message = (const uint8_t*)buffer;
-        for (int i = 0; i < message_size; ++i)
+        for (int i = 0; i < size; ++i)
         {
             if (message[i] != (i % 256))
             {
@@ -56,13 +52,10 @@ protected:
         }
 
         // Update transfered statistics
-        transfered += message_size;
+        transfered += size;
 
         // Send the next message
         SendMessage();
-
-        // Inform that we handled the whole message
-        return message_size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -92,7 +85,7 @@ int main(int argc, char** argv)
 
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Threads count. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Clients count. Default: %default");
     parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Message size. Default: %default");

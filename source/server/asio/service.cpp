@@ -104,7 +104,7 @@ void Service::ServiceLoop(bool polling)
     }
     catch (...)
     {
-        fatality("TCP service thread terminated!");
+        fatality("Asio service thread terminated!");
     }
 
     // Call the cleanup thread handler
