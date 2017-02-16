@@ -50,13 +50,14 @@ int main(int argc, char** argv)
     std::string address = argv[1];
 
     std::cout << "Nanomsg bus node address: " << address << std::endl;
-    std::cout << "Press Enter to stop the bus node or '!' to restart the bus node..." << std::endl;
 
     // Create a new Nanomsg bus node
     auto server = std::make_shared<ExampleBus>(address);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
 
     // Link the bus node to another bus nodes
     for (int i = 2; i < argc; ++i)
@@ -65,6 +66,8 @@ int main(int argc, char** argv)
         server->Link(link_address);
         std::cout << "Nanomsg bus node linked: " << link_address << std::endl;
     }
+
+    std::cout << "Press Enter to stop the bus node or '!' to restart the bus node..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -87,7 +90,9 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

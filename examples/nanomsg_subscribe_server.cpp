@@ -41,13 +41,16 @@ int main(int argc, char** argv)
         address = std::atoi(argv[1]);
 
     std::cout << "Nanomsg subscribe server address: " << address << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Nanomsg subscribe server
     auto server = std::make_shared<ExampleSubscribeServer>(address);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -70,7 +73,9 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

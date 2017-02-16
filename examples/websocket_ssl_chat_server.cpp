@@ -72,13 +72,14 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "WebSocket server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL server context
     std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
@@ -92,7 +93,11 @@ int main(int argc, char** argv)
     auto server = std::make_shared<ChatServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -116,10 +121,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

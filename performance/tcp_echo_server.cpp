@@ -6,22 +6,12 @@
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
-std::atomic<size_t> errors(0);
-std::atomic<size_t> connected(0);
-std::atomic<size_t> transfered(0);
-
 class EchoSession;
 
 class EchoServer : public CppServer::Asio::TCPServer<EchoServer, EchoSession>
 {
 public:
     using CppServer::Asio::TCPServer<EchoServer, EchoSession>::TCPServer;
-
-protected:
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        ++errors;
-    }
 };
 
 class EchoSession : public CppServer::Asio::TCPSession<EchoServer, EchoSession>
@@ -30,26 +20,13 @@ public:
     using CppServer::Asio::TCPSession<EchoServer, EchoSession>::TCPSession;
 
 protected:
-    void onConnected() override
-    {
-        ++connected;
-    }
-
     size_t onReceived(const void* buffer, size_t size) override
     {
         // Resend the message back to the client
         Send(buffer, size);
 
-        // Update transfered statistics
-        transfered += size;
-
         // Inform that we handled the whole buffer
         return size;
-    }
-
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        ++errors;
     }
 };
 
@@ -73,19 +50,24 @@ int main(int argc, char** argv)
     int port = options.get("port");
 
     std::cout << "Server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new echo server
     auto server = std::make_shared<EchoServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -105,15 +87,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
-
-    std::cout << "Server statistics: " << std::endl;
-    std::cout << "- Caught errors: " << errors << std::endl;
-    std::cout << "- Connected clients: " << connected << std::endl;
-    std::cout << "- Bytes transfered: " << transfered << std::endl;
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

@@ -57,13 +57,16 @@ int main(int argc, char** argv)
         address = argv[1];
 
     std::cout << "Nanomsg surveyor server address: " << address << std::endl;
-    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Create a new Nanomsg survey client
     auto client = std::make_shared<ExampleSurveyClient>(address);
 
-    // Start the client
+    // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -77,12 +80,15 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

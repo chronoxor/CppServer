@@ -38,19 +38,24 @@ int main(int argc, char** argv)
 
     std::cout << "UDP multicast address: " << multicast_address << std::endl;
     std::cout << "UDP multicast port: " << multicast_port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new UDP multicast server
     auto server = std::make_shared<MulticastServer>(service, CppServer::Asio::InternetProtocol::IPv4, 0);
 
     // Start the multicast server
+    std::cout << "Server starting...";
     server->Start(multicast_address, multicast_port);
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -74,10 +79,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

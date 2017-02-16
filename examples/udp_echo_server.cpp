@@ -41,19 +41,24 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "UDP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new UDP echo server
     auto server = std::make_shared<EchoServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -73,10 +78,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

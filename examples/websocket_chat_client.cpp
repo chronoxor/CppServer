@@ -64,19 +64,24 @@ int main(int argc, char** argv)
     std::cout << "WebSocket server address: " << address << std::endl;
     std::cout << "WebSocket server port: " << port << std::endl;
     std::cout << "WebSocket server uri: " << uri << std::endl;
-    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new WebSocket chat client
     auto client = std::make_shared<ChatClient>(service, uri);
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -90,6 +95,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -98,10 +104,14 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

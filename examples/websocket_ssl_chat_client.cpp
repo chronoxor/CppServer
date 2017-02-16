@@ -64,13 +64,14 @@ int main(int argc, char** argv)
     std::cout << "WebSocket SSL server address: " << address << std::endl;
     std::cout << "WebSocket SSL server port: " << port << std::endl;
     std::cout << "WebSocket SSL server uri: " << uri << std::endl;
-    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL client context
     std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
@@ -81,7 +82,11 @@ int main(int argc, char** argv)
     auto client = std::make_shared<ChatClient>(service, context, uri);
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -95,6 +100,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -103,10 +109,14 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
