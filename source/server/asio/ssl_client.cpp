@@ -252,6 +252,10 @@ private:
         {
             _reciving = false;
 
+            // Check for disconnect
+            if (!IsConnected())
+                return;
+
             // Receive some data from the server in non blocking mode
             if (!ec)
             {
@@ -272,10 +276,6 @@ private:
                     _recive_buffer.erase(_recive_buffer.begin(), _recive_buffer.begin() + handled);
                 }
             }
-
-            // Check for disconnect
-            if (!IsConnected())
-                return;
 
             // Try to receive again if the client is valid
             if (!ec || (ec == asio::error::would_block))
@@ -299,6 +299,10 @@ private:
         {
             _sending = false;
 
+            // Check for disconnect
+            if (!IsConnected())
+                return;
+
             // Send some data to the server in non blocking mode
             if (!ec)
             {
@@ -321,10 +325,6 @@ private:
                         return;
                 }
             }
-
-            // Check for disconnect
-            if (!IsConnected())
-                return;
 
             // Try to send again if the client is valid
             if (!ec || (ec == asio::error::would_block))

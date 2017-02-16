@@ -291,7 +291,6 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(!client3->error);
 }
 
-/*
 TEST_CASE("UDP server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
@@ -472,4 +471,3 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     REQUIRE(server->bytes_received() == 0);
     REQUIRE(!server->error);
 }
-*/

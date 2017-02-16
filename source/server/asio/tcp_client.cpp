@@ -164,6 +164,10 @@ void TCPClient::TryReceive()
     {
         _reciving = false;
 
+        // Check for disconnect
+        if (!IsConnected())
+            return;
+
         // Receive some data from the server in non blocking mode
         if (!ec)
         {
@@ -184,10 +188,6 @@ void TCPClient::TryReceive()
                 _recive_buffer.erase(_recive_buffer.begin(), _recive_buffer.begin() + handled);
             }
         }
-
-        // Check for disconnect
-        if (!IsConnected())
-            return;
 
         // Try to receive again if the client is valid
         if (!ec || (ec == asio::error::would_block))
@@ -211,6 +211,10 @@ void TCPClient::TrySend()
     {
         _sending = false;
 
+        // Check for disconnect
+        if (!IsConnected())
+            return;
+
         // Send some data to the server in non blocking mode
         if (!ec)
         {
@@ -233,10 +237,6 @@ void TCPClient::TrySend()
                     return;
             }
         }
-
-        // Check for disconnect
-        if (!IsConnected())
-            return;
 
         // Try to send again if the client is valid
         if (!ec || (ec == asio::error::would_block))

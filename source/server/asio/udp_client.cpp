@@ -243,6 +243,10 @@ void UDPClient::TryReceive()
     {
         _reciving = false;
 
+        // Check for disconnect
+        if (!IsConnected())
+            return;
+
         // Received datagram from the server
         if (received > 0)
         {
@@ -259,10 +263,6 @@ void UDPClient::TryReceive()
             // Clear the handled buffer
             _recive_buffer.clear();
         }
-
-        // Check for disconnect
-        if (!IsConnected())
-            return;
 
         // Try to receive again if the session is valid
         if (!ec || (ec == asio::error::would_block))
@@ -286,6 +286,10 @@ void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
     {
         _sending = false;
 
+        // Check for disconnect
+        if (!IsConnected())
+            return;
+
         // Sent datagram to the server
         if (sent > 0)
         {
@@ -296,8 +300,7 @@ void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
             // Erase the sent buffer
             {
                 std::lock_guard<std::mutex> locker(_send_lock);
-                if (_send_buffer.size() >= sent)
-                    _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + sent);
+                _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + sent);
             }
 
             // Call the datagram sent handler
@@ -306,10 +309,6 @@ void UDPClient::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
             // Stop sending
             return;
         }
-
-        // Check for disconnect
-        if (!IsConnected())
-            return;
 
         // Try to send again if the session is valid
         if (!ec || (ec == asio::error::would_block))

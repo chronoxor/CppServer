@@ -148,6 +148,10 @@ inline void SSLSession<TServer, TSession>::TryReceive()
     {
         _reciving = false;
 
+        // Check for disconnect
+        if (!IsConnected())
+            return;
+
         // Receive some data from the client in non blocking mode
         if (!ec)
         {
@@ -169,10 +173,6 @@ inline void SSLSession<TServer, TSession>::TryReceive()
                 _recive_buffer.erase(_recive_buffer.begin(), _recive_buffer.begin() + handled);
             }
         }
-
-        // Check for disconnect
-        if (!IsConnected())
-            return;
 
         // Try to receive again if the session is valid
         if (!ec || (ec == asio::error::would_block))
@@ -197,6 +197,10 @@ inline void SSLSession<TServer, TSession>::TrySend()
     {
         _sending = false;
 
+        // Check for disconnect
+        if (!IsConnected())
+            return;
+
         // Send some data to the client in non blocking mode
         if (!ec)
         {
@@ -220,10 +224,6 @@ inline void SSLSession<TServer, TSession>::TrySend()
                     return;
             }
         }
-
-        // Check for disconnect
-        if (!IsConnected())
-            return;
 
         // Try to send again if the session is valid
         if (!ec || (ec == asio::error::would_block))
