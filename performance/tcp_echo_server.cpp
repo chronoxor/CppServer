@@ -73,7 +73,7 @@ int main(int argc, char** argv)
     int port = options.get("port");
 
     std::cout << "Server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the server..." << std::endl;
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
@@ -93,6 +93,15 @@ int main(int argc, char** argv)
     {
         if (line.empty())
             break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
     }
 
     // Stop the server
