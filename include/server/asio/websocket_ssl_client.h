@@ -133,7 +133,7 @@ private:
     std::shared_ptr<asio::ssl::context> _context;
     std::string _uri;
     WebSocketSSLClientCore _core;
-    WebSocketSSLClientCore::connection_ptr _connection;
+	websocketpp::connection_hdl _connection;
     std::atomic<bool> _initialized;
     std::atomic<bool> _connected;
     // Client statistic
@@ -155,9 +155,9 @@ private:
     bool Disconnect(bool dispatch, websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "");
 
     //! Connected session handler
-    void Connected();
+    void Connected(websocketpp::connection_hdl connection);
     //! Disconnected session handler
-    void Disconnected();
+    void Disconnected(websocketpp::connection_hdl connection);
 };
 
 /*! \example websocket_ssl_chat_client.cpp WebSocket SSL chat client example */

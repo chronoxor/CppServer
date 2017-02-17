@@ -129,7 +129,7 @@ private:
     // Server URI address, client core and client connection
     std::string _uri;
     WebSocketClientCore _core;
-    WebSocketClientCore::connection_ptr _connection;
+    websocketpp::connection_hdl _connection;
     std::atomic<bool> _initialized;
     std::atomic<bool> _connected;
     // Client statistic
@@ -151,9 +151,9 @@ private:
     bool Disconnect(bool dispatch, websocketpp::close::status::value code = websocketpp::close::status::normal, const std::string& reason = "");
 
     //! Connected session handler
-    void Connected();
+    void Connected(websocketpp::connection_hdl connection);
     //! Disconnected session handler
-    void Disconnected();
+    void Disconnected(websocketpp::connection_hdl connection);
 };
 
 /*! \example websocket_chat_client.cpp WebSocket chat client example */

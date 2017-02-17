@@ -64,12 +64,12 @@ bool WebSocketSSLClient::Connect()
         _core.set_error_channels(websocketpp::log::elevel::none);
 
         // Setup WebSocket server core handlers
-        _core.set_open_handler([this](websocketpp::connection_hdl connection) { Connected(); });
-        _core.set_close_handler([this](websocketpp::connection_hdl connection) { Disconnected(); });
+        _core.set_open_handler([this](websocketpp::connection_hdl connection) { Connected(connection); });
+        _core.set_close_handler([this](websocketpp::connection_hdl connection) { Disconnected(connection); });
         _core.set_tls_init_handler([this](websocketpp::connection_hdl connection) { return _context; });
 
         // Get the client connection
-        _connection = _core.get_connection(_uri, ec);
+        WebSocketSSLClientCore::connection_ptr connection_ptr = _core.get_connection(_uri, ec);
         if (ec)
         {
             onError(ec.value(), ec.category().name(), ec.message());
@@ -78,7 +78,7 @@ bool WebSocketSSLClient::Connect()
         }
 
         // Setup WebSocket client handlers
-        _connection->set_message_handler([this](websocketpp::connection_hdl connection, WebSocketSSLMessage message)
+        connection_ptr->set_message_handler([this](websocketpp::connection_hdl connection, WebSocketSSLMessage message)
         {
             size_t size = message->get_raw_payload().size();
 
@@ -89,23 +89,23 @@ bool WebSocketSSLClient::Connect()
             // Call the message received handler
             onReceived(message);
         });
-        _connection->set_fail_handler([this](websocketpp::connection_hdl connection)
+        connection_ptr->set_fail_handler([this](websocketpp::connection_hdl connection)
         {
             WebSocketSSLServerCore::connection_ptr con = _core.get_con_from_hdl(connection);
             websocketpp::lib::error_code ec = con->get_ec();
             onError(ec.value(), ec.category().name(), ec.message());
-            Disconnected();
+            Disconnected(connection);
         });
 
         // Note that connect here only requests a connection. No network messages are
         // exchanged until the event loop starts running in the next line.
-        _connection = _core.connect(_connection);
+        _core.connect(connection_ptr);
     });
 
     return true;
 }
 
-void WebSocketSSLClient::Connected()
+void WebSocketSSLClient::Connected(websocketpp::connection_hdl connection)
 {
     // Reset statistic
     _messages_sent = 0;
@@ -113,7 +113,8 @@ void WebSocketSSLClient::Connected()
     _bytes_sent = 0;
     _bytes_received = 0;
 
-    // Update the connected flag
+    // Update the connected state
+    _connection = connection;
     _connected = true;
 
     // Call the client connected handler
@@ -144,9 +145,10 @@ bool WebSocketSSLClient::Disconnect(bool dispatch, websocketpp::close::status::v
     return true;
 }
 
-void WebSocketSSLClient::Disconnected()
+void WebSocketSSLClient::Disconnected(websocketpp::connection_hdl connection)
 {
-    // Update the connected flag
+    // Update the connected state
+    _connection.reset();
     _connected = false;
 
     // Call the client disconnected handler
