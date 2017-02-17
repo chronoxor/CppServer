@@ -389,10 +389,13 @@ TEST_CASE("WebSocket SSL server random test", "[CppServer][Asio]")
         // Create a new client and connect
         else if ((rand() % 100) == 0)
         {
-            // Create and connect Echo client
-            auto client = std::make_shared<EchoWebSocketSSLClient>(service, client_context, uri);
-            client->Connect();
-            clients.emplace_back(client);
+            if (clients.size() < 100)
+            {
+                // Create and connect Echo client
+                auto client = std::make_shared<EchoWebSocketSSLClient>(service, client_context, uri);
+                client->Connect();
+                clients.emplace_back(client);
+            }
         }
         // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)

@@ -321,10 +321,13 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
         // Create a new client and connect
         if ((rand() % 100) == 0)
         {
-            // Create and connect Echo client
-            auto client = std::make_shared<EchoUDPClient>(service, address, port);
-            client->Connect();
-            clients.emplace_back(client);
+            if (clients.size() < 100)
+            {
+                // Create and connect Echo client
+                auto client = std::make_shared<EchoUDPClient>(service, address, port);
+                client->Connect();
+                clients.emplace_back(client);
+            }
         }
         // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)
@@ -415,13 +418,16 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
         // Create a new client and connect
         if ((rand() % 100) == 0)
         {
-            // Create and connect Echo client
-            auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
-            client->Connect();
-            while (!client->IsConnected())
-                Thread::Yield();
-            client->JoinMulticastGroup(multicast_address);
-            clients.emplace_back(client);
+            if (clients.size() < 100)
+            {
+                // Create and connect Echo client
+                auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+                client->Connect();
+                while (!client->IsConnected())
+                    Thread::Yield();
+                client->JoinMulticastGroup(multicast_address);
+                clients.emplace_back(client);
+            }
         }
         // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)

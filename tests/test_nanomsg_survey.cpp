@@ -162,10 +162,13 @@ TEST_CASE("Nanomsg survey random test", "[CppServer][Nanomsg]")
         // Create a new client and connect
         if ((rand() % 100) == 0)
         {
-            // Create and connect Nanomsg survey client
-            auto client = std::make_shared<TestSurveyClient>(address);
-            client->Connect();
-            clients.emplace_back(client);
+            if (clients.size() < 100)
+            {
+                // Create and connect Nanomsg survey client
+                auto client = std::make_shared<TestSurveyClient>(address);
+                client->Connect();
+                clients.emplace_back(client);
+            }
         }
         // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)
