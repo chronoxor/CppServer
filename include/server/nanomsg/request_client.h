@@ -63,7 +63,7 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \param message - Reply message
+        \return Reply message
     */
     Message Request(const void* buffer, size_t size)
     {
@@ -75,13 +75,13 @@ public:
     //! Request a text string to the server
     /*!
         \param text - Text string to send
-        \param message - Reply message
+        \return Reply message
     */
     Message Request(const std::string& text) { return Request(text.data(), text.size()); }
     //! Request a message to the server
     /*!
         \param message - Message to send
-        \param message - Reply message
+        \return Reply message
     */
     Message Request(const Message& message) { return Request(message.buffer(), message.size()); }
 };

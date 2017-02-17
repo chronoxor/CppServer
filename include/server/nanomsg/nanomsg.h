@@ -47,7 +47,7 @@ enum class Domain
 //! Stream output: Nanomsg domain
 /*!
     \param stream - Output stream
-    \param protocol - Nanomsg domain
+    \param domain - Nanomsg domain
     \return Output stream
 */
 std::ostream& operator<<(std::ostream& stream, Domain domain);
