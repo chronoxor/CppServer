@@ -116,6 +116,7 @@ TEST_CASE("Nanomsg pair server & client", "[CppServer][Nanomsg]")
     REQUIRE(!client->error);
 }
 
+/*
 TEST_CASE("Nanomsg pair random test", "[CppServer][Nanomsg]")
 {
     const std::string address = "tcp://127.0.0.1:6669";
@@ -193,3 +194,4 @@ TEST_CASE("Nanomsg pair random test", "[CppServer][Nanomsg]")
     REQUIRE(client->socket().bytes_received() > 0);
     REQUIRE(!client->error);
 }
+*/
