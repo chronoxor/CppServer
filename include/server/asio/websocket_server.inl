@@ -101,9 +101,6 @@ inline bool WebSocketServer<TServer, TSession>::Start()
         _core.set_access_channels(websocketpp::log::alevel::none);
         _core.set_error_channels(websocketpp::log::elevel::none);
 
-        // Setup the reuse address option
-        _core.set_reuse_addr(true);
-
         // Setup WebSocket server core handlers
         _core.set_open_handler([this](websocketpp::connection_hdl connection) { RegisterSession(connection); });
         _core.set_close_handler([this](websocketpp::connection_hdl connection) { UnregisterSession(connection); });
