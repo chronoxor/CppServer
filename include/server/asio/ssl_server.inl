@@ -70,6 +70,9 @@ inline bool SSLServer<TServer, TSession>::Start()
         // Create the server acceptor
         _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
 
+        // Setup the reuse address option
+        _acceptor.set_option(asio::ip::tcp::acceptor::reuse_address(true));
+
         // Reset statistic
         _bytes_sent = 0;
         _bytes_received = 0;

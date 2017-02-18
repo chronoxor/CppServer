@@ -70,6 +70,9 @@ bool UDPServer::Start()
         // Open the server socket
         _socket = asio::ip::udp::socket(_service->service(), _endpoint);
 
+        // Setup the reuse address option
+        _socket.set_option(asio::ip::tcp::acceptor::reuse_address(true));
+
         // Reset statistic
         _datagrams_sent = 0;
         _datagrams_received = 0;
