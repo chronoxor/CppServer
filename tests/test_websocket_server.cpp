@@ -1,21 +1,22 @@
 //
-// Created by Ivan Shynkarenka on 01.01.2016.
+// Created by Ivan Shynkarenka on 11.01.2016.
 //
 
 #include "catch.hpp"
 
-#include "server/asio/ssl_client.h"
-#include "server/asio/ssl_server.h"
+#include "server/asio/websocket_client.h"
+#include "server/asio/websocket_server.h"
 #include "threads/thread.h"
 
 #include <atomic>
 #include <chrono>
+#include <mutex>
 #include <vector>
 
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-class EchoSSLService : public Service
+class EchoWebSocketService : public Service
 {
 public:
     std::atomic<bool> thread_initialize;
@@ -25,7 +26,7 @@ public:
     std::atomic<bool> idle;
     std::atomic<bool> error;
 
-    explicit EchoSSLService()
+    explicit EchoWebSocketService()
         : thread_initialize(false),
           thread_cleanup(false),
           started(false),
@@ -44,52 +45,16 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-class EchoSSLClient : public SSLClient
+class EchoWebSocketClient : public WebSocketClient
 {
 public:
     std::atomic<bool> connected;
-    std::atomic<bool> handshaked;
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit EchoSSLClient(std::shared_ptr<EchoSSLService>& service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
-        : SSLClient(service, context, address, port),
+    explicit EchoWebSocketClient(std::shared_ptr<EchoWebSocketService>& service, const std::string& uri)
+        : WebSocketClient(service, uri),
           connected(false),
-          handshaked(false),
-          disconnected(false),
-          error(false)
-    {
-    }
-
-    static std::shared_ptr<asio::ssl::context> CreateContext()
-    {
-        std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
-        context->set_verify_mode(asio::ssl::verify_peer);
-        context->load_verify_file("../tools/certificates/ca.pem");
-        return context;
-    }
-
-protected:
-    void onConnected() override { connected = true; }
-    void onHandshaked() override { handshaked = true; }
-    void onDisconnected() override { disconnected = true; }
-    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
-};
-
-class EchoSSLServer;
-
-class EchoSSLSession : public SSLSession<EchoSSLServer, EchoSSLSession>
-{
-public:
-    std::atomic<bool> connected;
-    std::atomic<bool> handshaked;
-    std::atomic<bool> disconnected;
-    std::atomic<bool> error;
-
-    explicit EchoSSLSession(std::shared_ptr<SSLServer<EchoSSLServer, EchoSSLSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context)
-        : SSLSession<EchoSSLServer, EchoSSLSession>(server, std::move(socket), context),
-          connected(false),
-          handshaked(false),
           disconnected(false),
           error(false)
     {
@@ -97,13 +62,35 @@ public:
 
 protected:
     void onConnected() override { connected = true; }
-    void onHandshaked() override { handshaked = true; }
     void onDisconnected() override { disconnected = true; }
-    size_t onReceived(const void* buffer, size_t size) override { Send(buffer, size); return size; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-class EchoSSLServer : public SSLServer<EchoSSLServer, EchoSSLSession>
+class EchoWebSocketServer;
+
+class EchoWebSocketSession : public WebSocketSession<EchoWebSocketServer, EchoWebSocketSession>
+{
+public:
+    std::atomic<bool> connected;
+    std::atomic<bool> disconnected;
+    std::atomic<bool> error;
+
+    explicit EchoWebSocketSession(std::shared_ptr<WebSocketServer<EchoWebSocketServer, EchoWebSocketSession>> server)
+        : WebSocketSession<EchoWebSocketServer, EchoWebSocketSession>(server),
+          connected(false),
+          disconnected(false),
+          error(false)
+    {
+    }
+
+protected:
+    void onConnected() override { connected = true; }
+    void onDisconnected() override { disconnected = true; }
+    void onReceived(WebSocketMessage message) override { Send(message); }
+    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+};
+
+class EchoWebSocketServer : public WebSocketServer<EchoWebSocketServer, EchoWebSocketSession>
 {
 public:
     std::atomic<bool> started;
@@ -113,8 +100,8 @@ public:
     std::atomic<size_t> clients;
     std::atomic<bool> error;
 
-    explicit EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
-        : SSLServer<EchoSSLServer, EchoSSLSession>(service, context, protocol, port),
+    explicit EchoWebSocketServer(std::shared_ptr<EchoWebSocketService> service, InternetProtocol protocol, int port)
+        : WebSocketServer<EchoWebSocketServer, EchoWebSocketSession>(service, protocol, port),
           started(false),
           stopped(false),
           connected(false),
@@ -124,52 +111,36 @@ public:
     {
     }
 
-    static std::shared_ptr<asio::ssl::context> CreateContext()
-    {
-        std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
-        context->set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
-        context->set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
-        context->use_certificate_chain_file("../tools/certificates/server.pem");
-        context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
-        context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
-        return context;
-    }
-
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onConnected(std::shared_ptr<EchoSSLSession> session) override { connected = true; ++clients; }
-    void onDisconnected(std::shared_ptr<EchoSSLSession> session) override { disconnected = true; --clients; }
+    void onConnected(std::shared_ptr<EchoWebSocketSession> session) override { connected = true; ++clients; }
+    void onDisconnected(std::shared_ptr<EchoWebSocketSession> session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("SSL server & client", "[CppServer][Asio]")
+TEST_CASE("WebSocket server & client", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 3333;
+    const int port = 4444;
+    std::string uri = "ws://" + address + ":" + std::to_string(port);
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoSSLService>();
+    auto service = std::make_shared<EchoWebSocketService>();
     REQUIRE(service->Start());
     while (!service->IsStarted())
         Thread::Yield();
 
-    // Create and prepare a new SSL server context
-    std::shared_ptr<asio::ssl::context> server_context = EchoSSLServer::CreateContext();
-
     // Create and start Echo server
-    auto server = std::make_shared<EchoSSLServer>(service, server_context, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoWebSocketServer>(service, InternetProtocol::IPv4, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
-    // Create and prepare a new SSL client context
-    std::shared_ptr<asio::ssl::context> client_context = EchoSSLServer::CreateContext();
-
     // Create and connect Echo client
-    auto client = std::make_shared<EchoSSLClient>(service, client_context, address, port);
+    auto client = std::make_shared<EchoWebSocketClient>(service, uri);
     REQUIRE(client->Connect());
-    while (!client->IsConnected() || !client->IsHandshaked() || (server->clients != 1))
+    while (!client->IsConnected() || (server->clients != 1))
         Thread::Yield();
 
     // Send a message to the Echo server
@@ -181,7 +152,7 @@ TEST_CASE("SSL server & client", "[CppServer][Asio]")
 
     // Disconnect the Echo client
     REQUIRE(client->Disconnect());
-    while (client->IsConnected() || client->IsHandshaked() || (server->clients != 0))
+    while (client->IsConnected() || (server->clients != 0))
         Thread::Yield();
 
     // Stop the Echo server
@@ -213,40 +184,34 @@ TEST_CASE("SSL server & client", "[CppServer][Asio]")
 
     // Check the Echo client state
     REQUIRE(client->connected);
-    REQUIRE(client->handshaked);
     REQUIRE(client->disconnected);
     REQUIRE(client->bytes_sent() == 4);
     REQUIRE(client->bytes_received() == 4);
     REQUIRE(!client->error);
 }
 
-TEST_CASE("SSL server multicast", "[CppServer][Asio]")
+TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 3334;
+    const int port = 4445;
+    std::string uri = "ws://" + address + ":" + std::to_string(port);
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoSSLService>();
+    auto service = std::make_shared<EchoWebSocketService>();
     REQUIRE(service->Start(true));
     while (!service->IsStarted())
         Thread::Yield();
 
-    // Create and prepare a new SSL server context
-    std::shared_ptr<asio::ssl::context> server_context = EchoSSLServer::CreateContext();
-
     // Create and start Echo server
-    auto server = std::make_shared<EchoSSLServer>(service, server_context, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoWebSocketServer>(service, InternetProtocol::IPv4, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
-    // Create and prepare a new SSL client context
-    std::shared_ptr<asio::ssl::context> client_context = EchoSSLClient::CreateContext();
-
     // Create and connect Echo client
-    auto client1 = std::make_shared<EchoSSLClient>(service, client_context, address, port);
+    auto client1 = std::make_shared<EchoWebSocketClient>(service, uri);
     REQUIRE(client1->Connect());
-    while (!client1->IsConnected() || !client1->IsHandshaked() || (server->clients != 1))
+    while (!client1->IsConnected() || (server->clients != 1))
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -257,9 +222,9 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client2 = std::make_shared<EchoSSLClient>(service, client_context, address, port);
+    auto client2 = std::make_shared<EchoWebSocketClient>(service, uri);
     REQUIRE(client2->Connect());
-    while (!client2->IsConnected() || !client2->IsHandshaked() || (server->clients != 2))
+    while (!client2->IsConnected() || (server->clients != 2))
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -270,9 +235,9 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client3 = std::make_shared<EchoSSLClient>(service, client_context, address, port);
+    auto client3 = std::make_shared<EchoWebSocketClient>(service, uri);
     REQUIRE(client3->Connect());
-    while (!client3->IsConnected() || !client3->IsHandshaked() || (server->clients != 3))
+    while (!client3->IsConnected() || (server->clients != 3))
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -284,7 +249,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
 
     // Disconnect the Echo client
     REQUIRE(client1->Disconnect());
-    while (client1->IsConnected() || client1->IsHandshaked() || (server->clients != 2))
+    while (client1->IsConnected() || (server->clients != 2))
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -296,7 +261,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
 
     // Disconnect the Echo client
     REQUIRE(client2->Disconnect());
-    while (client2->IsConnected() || client2->IsHandshaked() || (server->clients != 1))
+    while (client2->IsConnected() || (server->clients != 1))
         Thread::Yield();
 
     // Multicast some data to all clients
@@ -308,7 +273,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
 
     // Disconnect the Echo client
     REQUIRE(client3->Disconnect());
-    while (client3->IsConnected() || client3->IsHandshaked() || (server->clients != 0))
+    while (client3->IsConnected() || (server->clients != 0))
         Thread::Yield();
 
     // Stop the Echo server
@@ -350,22 +315,20 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
     REQUIRE(!client3->error);
 }
 
-TEST_CASE("SSL server random test", "[CppServer][Asio]")
+TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 3335;
+    const int port = 4446;
+    std::string uri = "ws://" + address + ":" + std::to_string(port);
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoSSLService>();
+    auto service = std::make_shared<EchoWebSocketService>();
     REQUIRE(service->Start());
     while (!service->IsStarted())
         Thread::Yield();
 
-    // Create and prepare a new SSL server context
-    std::shared_ptr<asio::ssl::context> server_context = EchoSSLServer::CreateContext();
-
     // Create and start Echo server
-    auto server = std::make_shared<EchoSSLServer>(service, server_context, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoWebSocketServer>(service, InternetProtocol::IPv4, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -373,11 +336,8 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     // Test duration in seconds
     const int duration = 10;
 
-    // Create and prepare a new SSL client context
-    std::shared_ptr<asio::ssl::context> client_context = EchoSSLClient::CreateContext();
-
     // Clients collection
-    std::vector<std::shared_ptr<EchoSSLClient>> clients;
+    std::vector<std::shared_ptr<EchoWebSocketClient>> clients;
 
     // Start random test
     auto start = std::chrono::high_resolution_clock::now();
@@ -394,7 +354,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
             if (clients.size() < 100)
             {
                 // Create and connect Echo client
-                auto client = std::make_shared<EchoSSLClient>(service, client_context, address, port);
+                auto client = std::make_shared<EchoWebSocketClient>(service, uri);
                 client->Connect();
                 clients.emplace_back(client);
             }
@@ -435,7 +395,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                if (client->IsHandshaked())
+                if (client->IsConnected())
                     client->Send("test");
             }
         }
