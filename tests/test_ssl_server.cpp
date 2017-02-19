@@ -350,7 +350,6 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
     REQUIRE(!client3->error);
 }
 
-/*
 TEST_CASE("SSL server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
@@ -407,9 +406,9 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                if (client->IsConnected())
+                if (client->IsHandshaked())
                     client->Disconnect();
-                else
+                else if (!client->IsConnected())
                     client->Connect();
             }
         }
@@ -420,7 +419,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                if (client->IsConnected())
+                if (client->IsHandshaked())
                     client->Reconnect();
             }
         }
@@ -464,4 +463,3 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     REQUIRE(server->bytes_received() > 0);
     REQUIRE(!server->error);
 }
-*/
