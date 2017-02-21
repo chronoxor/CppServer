@@ -430,7 +430,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
         // Multicast a message to all clients
         else if ((rand() % 10) == 0)
         {
-            //server->Multicast("test");
+            server->Multicast("test");
         }
         // Send a message from the random client
         else if ((rand() % 1) == 0)
