@@ -154,7 +154,9 @@ int main(int argc, char** argv)
     auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Dispatch
     std::cout << "1 - Dispatch from the main thread with Id " << CppCommon::Thread::CurrentThreadId() << std::endl;
@@ -198,7 +200,9 @@ int main(int argc, char** argv)
     CppCommon::Thread::Sleep(1000);
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -296,19 +300,24 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "TCP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new TCP chat server
     auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -332,10 +341,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -398,19 +411,24 @@ int main(int argc, char** argv)
 
     std::cout << "TCP server address: " << address << std::endl;
     std::cout << "TCP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new TCP chat client
     auto client = std::make_shared<ChatClient>(service, address, port);
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -424,6 +442,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -432,10 +451,14 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -518,13 +541,14 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "SSL server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL server context
     std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
@@ -538,7 +562,11 @@ int main(int argc, char** argv)
     auto server = std::make_shared<ChatServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -562,10 +590,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -635,13 +667,14 @@ int main(int argc, char** argv)
 
     std::cout << "SSL server address: " << address << std::endl;
     std::cout << "SSL server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL client context
     std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
@@ -652,7 +685,11 @@ int main(int argc, char** argv)
     auto client = std::make_shared<ChatClient>(service, context, address, port);
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -666,6 +703,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -674,10 +712,14 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -722,19 +764,24 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "UDP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new UDP echo server
     auto server = std::make_shared<EchoServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -754,10 +801,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -819,19 +870,24 @@ int main(int argc, char** argv)
 
     std::cout << "UDP server address: " << address << std::endl;
     std::cout << "UDP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new UDP echo client
     auto client = std::make_shared<EchoClient>(service, address, port);
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -845,6 +901,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -853,10 +910,14 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -899,19 +960,24 @@ int main(int argc, char** argv)
 
     std::cout << "UDP multicast address: " << multicast_address << std::endl;
     std::cout << "UDP multicast port: " << multicast_port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new UDP multicast server
     auto server = std::make_shared<MulticastServer>(service, CppServer::Asio::InternetProtocol::IPv4, 0);
 
     // Start the multicast server
+    std::cout << "Server starting...";
     server->Start(multicast_address, multicast_port);
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -935,10 +1001,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1013,20 +1083,25 @@ int main(int argc, char** argv)
     std::cout << "UDP listen address: " << listen_address << std::endl;
     std::cout << "UDP multicast address: " << multicast_address << std::endl;
     std::cout << "UDP multicast port: " << multicast_port << std::endl;
-    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new UDP multicast client
     auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_port, true);
     client->multicast = multicast_address;
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -1040,15 +1115,20 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1125,19 +1205,24 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "WebSocket server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new WebSocket chat server
     auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -1161,10 +1246,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1231,19 +1320,24 @@ int main(int argc, char** argv)
     std::cout << "WebSocket server address: " << address << std::endl;
     std::cout << "WebSocket server port: " << port << std::endl;
     std::cout << "WebSocket server uri: " << uri << std::endl;
-    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new WebSocket chat client
     auto client = std::make_shared<ChatClient>(service, uri);
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -1257,6 +1351,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -1265,10 +1360,14 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1348,13 +1447,14 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "WebSocket server port: " << port << std::endl;
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL server context
     std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
@@ -1368,7 +1468,11 @@ int main(int argc, char** argv)
     auto server = std::make_shared<ChatServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -1392,10 +1496,14 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1465,13 +1573,14 @@ int main(int argc, char** argv)
     std::cout << "WebSocket SSL server address: " << address << std::endl;
     std::cout << "WebSocket SSL server port: " << port << std::endl;
     std::cout << "WebSocket SSL server uri: " << uri << std::endl;
-    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL client context
     std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
@@ -1482,7 +1591,11 @@ int main(int argc, char** argv)
     auto client = std::make_shared<ChatClient>(service, context, uri);
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -1496,6 +1609,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -1504,10 +1618,14 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
-              ..
+    std::cout << "Done!" << std::endl;..
+
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1614,7 +1732,9 @@ int main(int argc, char** argv)
     auto server = std::make_shared<ExamplePairServer>(address);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -1637,7 +1757,9 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1698,8 +1820,10 @@ int main(int argc, char** argv)
     // Create a new Nanomsg pair client
     auto client = std::make_shared<ExamplePairClient>(address);
 
-    // Start the client
+    // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -1713,6 +1837,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -1721,7 +1846,9 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1810,7 +1937,9 @@ int main(int argc, char** argv)
     auto server = std::make_shared<ExampleRequestServer>(address);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -1830,7 +1959,9 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1886,8 +2017,10 @@ int main(int argc, char** argv)
     // Create a new Nanomsg request client
     auto client = std::make_shared<ExampleRequestClient>(address);
 
-    // Start the client
+    // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -1901,6 +2034,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -1912,7 +2046,9 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -1980,7 +2116,9 @@ int main(int argc, char** argv)
     auto server = std::make_shared<ExamplePushServer>(address);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -2000,7 +2138,9 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -2056,8 +2196,10 @@ int main(int argc, char** argv)
     // Create a new Nanomsg push client
     auto client = std::make_shared<ExamplePushClient>(address);
 
-    // Start the client
+    // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -2071,6 +2213,7 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
 
@@ -2079,12 +2222,14 @@ int main(int argc, char** argv)
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
 ```
- ..
+
 ## Example: Publish/subscribe protocol
 Broadcasts messages to multiple destinations.
 
@@ -2171,7 +2316,9 @@ int main(int argc, char** argv)
     auto server = std::make_shared<ExampleSubscribeServer>(address);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -2194,7 +2341,9 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -2255,8 +2404,10 @@ int main(int argc, char** argv)
     // Create a new Nanomsg subscribe client
     auto client = std::make_shared<ExampleSubscribeClient>(address);
 
-    // Start the client
+    // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -2270,12 +2421,15 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -2343,7 +2497,9 @@ int main(int argc, char** argv)
     auto server = std::make_shared<ExampleSurveyServer>(address);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -2388,7 +2544,9 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -2453,8 +2611,10 @@ int main(int argc, char** argv)
     // Create a new Nanomsg survey client
     auto client = std::make_shared<ExampleSurveyClient>(address);
 
-    // Start the client
+    // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
 
     // Perform text input
     std::string line;
@@ -2468,15 +2628,18 @@ int main(int argc, char** argv)
         {
             std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     return 0;
-}..
+}
 ```
 
 ## Example: Bus protocol
@@ -2552,7 +2715,9 @@ int main(int argc, char** argv)
     auto server = std::make_shared<ExampleBus>(address);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
 
     // Link the bus node to another bus nodes
     for (int i = 2; i < argc; ++i)
@@ -2583,7 +2748,9 @@ int main(int argc, char** argv)
     }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -2691,4 +2858,3 @@ openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in client.p12 
 ```
 openssl dhparam -out dh4096.pem 4096
 ```
-  ..
