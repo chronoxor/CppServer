@@ -417,7 +417,6 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
         // Reconnect the random client
         else if ((rand() % 100) == 0)
         {
-            /*
             if (!clients.empty())
             {
                 size_t index = rand() % clients.size();
@@ -425,7 +424,6 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 if (client->IsHandshaked())
                     client->Reconnect();
             }
-            */
         }
         // Multicast a message to all clients
         else if ((rand() % 10) == 0)
