@@ -386,7 +386,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
         // Disconnect all clients
         if ((rand() % 1000) == 0)
         {
-            //server->DisconnectAll();
+            server->DisconnectAll();
         }
         // Create a new client and connect
         else if ((rand() % 100) == 0)
