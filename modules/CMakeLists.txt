@@ -1,7 +1,7 @@
+include("asio.cmake")
 include("catch.cmake")
 include("cpp-optparse.cmake")
 include("CppBenchmark.cmake")
 include("CppCommon.cmake")
-include("asio.cmake")
 include("nanomsg.cmake")
 include("websocketpp.cmake")
