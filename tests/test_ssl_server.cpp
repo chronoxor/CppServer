@@ -402,7 +402,6 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
         // Connect/Disconnect the random client
         else if ((rand() % 100) == 0)
         {
-            /*
             if (!clients.empty())
             {
                 size_t index = rand() % clients.size();
@@ -412,7 +411,6 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 else if (!client->IsConnected())
                     client->Connect();
             }
-            */
         }
         // Reconnect the random client
         else if ((rand() % 100) == 0)
@@ -460,7 +458,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
-    //REQUIRE(server->disconnected);
+    REQUIRE(server->disconnected);
     REQUIRE(server->bytes_sent() > 0);
     REQUIRE(server->bytes_received() > 0);
     REQUIRE(!server->error);
