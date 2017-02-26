@@ -82,6 +82,10 @@ before_install:
   - if [ "$OS" == "osx" ]; then brew install doxygen; fi
   # graphviz
   - if [ "$OS" == "osx" ]; then brew install graphviz; fi
+  # OpenSSL
+  - if [ "$OS" == "osx" ]; then brew install openssl; fi
+  - if [ "$OS" == "osx" ]; then export OPENSSL_INCLUDE_DIR=`brew --prefix openssl`/include; fi
+  - if [ "$OS" == "osx" ]; then export OPENSSL_LIB_DIR=`brew --prefix openssl`/lib; fi
 
 # Build scripts
 script: 
