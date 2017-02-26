@@ -57,7 +57,7 @@ git:
 # Scripts that run before install
 before_install:
   # cmake
-  - if [ "$OS" == "linux" ]; then curl -sSL https://cmake.org/files/v3.6/cmake-3.6.1-Linux-x86_64.sh -o install-cmake.sh; fi
+  - if [ "$OS" == "linux" ]; then curl -sSL https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh -o install-cmake.sh; fi
   - if [ "$OS" == "linux" ]; then chmod +x install-cmake.sh; fi
   - if [ "$OS" == "linux" ]; then sudo ./install-cmake.sh --prefix=/usr/local --skip-license; fi
   - cmake --version
@@ -83,9 +83,7 @@ before_install:
   # graphviz
   - if [ "$OS" == "osx" ]; then brew install graphviz; fi
   # OpenSSL
-  - if [ "$OS" == "osx" ]; then brew install openssl; fi
-  - if [ "$OS" == "osx" ]; then export OPENSSL_INCLUDE_DIR=`brew --prefix openssl`/include; fi
-  - if [ "$OS" == "osx" ]; then export OPENSSL_LIB_DIR=`brew --prefix openssl`/lib; fi
+  - if [ "$OS" == "osx" ]; then export OPENSSL_ROOT_DIR=$(brew --prefix openssl); fi
 
 # Build scripts
 script: 
