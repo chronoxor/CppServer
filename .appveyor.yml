@@ -40,7 +40,7 @@ install:
   # graphviz
   - choco install graphviz.portable
   # mingw
-  - if "%type%"=="MinGW" appveyor-retry appveyor DownloadFile "http://downloads.sourceforge.net/mingw-w64/x86_64-6.3.0-release-posix-seh-rt_v5-rev1.7z" -FileName "C:\mingw.7z"
+  - if "%type%"=="MinGW" if not exist "C:\mingw.7z" appveyor-retry appveyor DownloadFile "http://downloads.sourceforge.net/mingw-w64/x86_64-6.3.0-release-posix-seh-rt_v5-rev1.7z" -FileName "C:\mingw.7z"
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
   - if "%type%"=="MinGW" set PATH=C:\mingw64\bin;%PATH:C:\Program Files\Git\usr\bin;=%
   - if "%type%"=="MinGW" set INCLUDE=C:\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
