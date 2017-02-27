@@ -44,6 +44,7 @@ install:
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
   - if "%type%"=="MinGW" set PATH=C:\mingw64\bin;%PATH:C:\Program Files\Git\usr\bin;=%
   - if "%type%"=="MinGW" set INCLUDE=C:\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
+  - if "%type%"=="MinGW" copy /Y "modules\websocketpp.patch" "C:\mingw64\x86_64-w64-mingw32\include\c++\x86_64-w64-mingw32\bits\error_constants.h"
   # Visual Studio
   - if "%type%"=="VisualStudio" set INCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\um;%INCLUDE%
   - if "%type%"=="VisualStudio" set LIB=C:\Program Files (x86)\Windows Kits\10\Lib\10.0.14393.0\um\x64;%LIB%
