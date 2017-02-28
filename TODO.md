@@ -1,9 +1,3 @@
-# CppTemplate todo
+# CppServer todo
 
-General
-  * Library
-  * Examples
-  * Performance
-  * Tests
-  * Documentation
-  * Release
+ * HTTP Server
