@@ -1,9 +1,5 @@
 if(NOT TARGET restbed)
 
-<<<<<<< HEAD
-  # Module subdirectory
-  add_subdirectory("restbed")
-=======
   # Module library
   file(GLOB_RECURSE SOURCE_FILES "restbed/source/corvusoft/restbed/*.cpp")
   add_library(restbed ${SOURCE_FILES})
@@ -13,6 +9,5 @@ if(NOT TARGET restbed)
 
   # Module folder
   set_target_properties(restbed PROPERTIES FOLDER modules/restbed)
->>>>>>> d4e2175585fd79aa7c9264df236713c96a25140e
 
 endif()
