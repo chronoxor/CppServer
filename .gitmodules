@@ -8,7 +8,7 @@
 	branch = master
 [submodule "modules/asio"]
 	path = modules/asio
-	url = https://github.com/chriskohlhoff/asio.git
+	url = https://github.com/chronoxor/asio.git
 	branch = master
 [submodule "modules/catch"]
 	path = modules/catch
