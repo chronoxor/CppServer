@@ -2,8 +2,7 @@ var searchData=
 [
   ['asio',['Asio',['../namespace_cpp_server_1_1_asio.html',1,'CppServer']]],
   ['clear',['Clear',['../class_cpp_server_1_1_nanomsg_1_1_message.html#a0d320ff67a7648654836f62d7af021d2',1,'CppServer::Nanomsg::Message']]],
-  ['client',['Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html#add7f04384aa3a22d415ede004513e223',1,'CppServer::Nanomsg::Client::Client(Domain domain, Protocol protocol, const std::string &amp;address, bool threading=true)'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#a256d0d837eea3c769b0c4c3a8f6273bd',1,'CppServer::Nanomsg::Client::Client(const Client &amp;)=delete'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#abe67feb7613f1b39de4abb1d79afe286',1,'CppServer::Nanomsg::Client::Client(Client &amp;&amp;)=default']]],
-  ['client',['Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html',1,'CppServer::Nanomsg']]],
+  ['client',['Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html',1,'CppServer::Nanomsg::Client'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#add7f04384aa3a22d415ede004513e223',1,'CppServer::Nanomsg::Client::Client(Domain domain, Protocol protocol, const std::string &amp;address, bool threading=true)'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#a256d0d837eea3c769b0c4c3a8f6273bd',1,'CppServer::Nanomsg::Client::Client(const Client &amp;)=delete'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#abe67feb7613f1b39de4abb1d79afe286',1,'CppServer::Nanomsg::Client::Client(Client &amp;&amp;)=default']]],
   ['client_2ecpp',['client.cpp',['../client_8cpp.html',1,'']]],
   ['client_2eh',['client.h',['../client_8h.html',1,'']]],
   ['close',['Close',['../class_cpp_server_1_1_nanomsg_1_1_socket.html#a2fb8adf6bfe902195f01d6b5c2c54101',1,'CppServer::Nanomsg::Socket']]],
@@ -16,5 +15,6 @@ var searchData=
   ['current_5fconnections',['current_connections',['../class_cpp_server_1_1_nanomsg_1_1_socket.html#aef6b7c01c61519260a28e8845ca7572f',1,'CppServer::Nanomsg::Socket']]],
   ['current_5fsessions',['current_sessions',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a30cf4ff04ee61a72d6af2ed40c8229fc',1,'CppServer::Asio::SSLServer::current_sessions()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a19ead9d18180e912248fdd6c110aa0d0',1,'CppServer::Asio::TCPServer::current_sessions()'],['../class_cpp_server_1_1_asio_1_1_web_socket_server.html#a7246ec1499116c56400e2d718b48b9d9',1,'CppServer::Asio::WebSocketServer::current_sessions()'],['../class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_server.html#abd19aad73f64fe2a95e5122b6fa4cf5d',1,'CppServer::Asio::WebSocketSSLServer::current_sessions()']]],
   ['c_2b_2b_20server_20library',['C++ Server Library',['../index.html',1,'']]],
-  ['nanomsg',['Nanomsg',['../namespace_cpp_server_1_1_nanomsg.html',1,'CppServer']]]
+  ['nanomsg',['Nanomsg',['../namespace_cpp_server_1_1_nanomsg.html',1,'CppServer']]],
+  ['restbed',['Restbed',['../namespace_cpp_server_1_1_restbed.html',1,'CppServer']]]
 ];
