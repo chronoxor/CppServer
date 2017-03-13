@@ -34,6 +34,7 @@ public:
         // Create a resource
         auto resource = std::make_shared<restbed::Resource>();
         resource->set_path("/storage");
+        resource->set_method_handler("POST", [this](const std::shared_ptr<restbed::Session> session) { RestStoragePost(session); });
         resource->set_method_handler("GET", [this](const std::shared_ptr<restbed::Session> session) { RestStorageGet(session); });
         resource->set_method_handler("PUT", [this](const std::shared_ptr<restbed::Session> session) { RestStoragePut(session); });
         resource->set_method_handler("DELETE", [this](const std::shared_ptr<restbed::Session> session) { RestStorageDelete(session); });
@@ -45,12 +46,52 @@ public:
 private:
     Storage _storage;
 
+    void RestStoragePost(const std::shared_ptr<restbed::Session> session)
+    {
+        const auto request = session->get_request();
+        size_t request_content_length = request->get_header("Content-Length", 0);
+
+        session->fetch(request_content_length, [this, request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
+        {
+            std::string data = std::string((char*)body.data(), body.size());
+
+            std::cout << "POST /storage: " << data << std::endl;
+
+            // 400 (Bad Request): Request data is empty
+            if (data.empty())
+            {
+                session->close(restbed::BAD_REQUEST);
+                return;
+            }
+
+            // 409 (Conflict): Storage data is not empty
+            if (!_storage.GetData().empty())
+            {
+                session->close(restbed::CONFLICT);
+                return;
+            }
+
+            _storage.SetData(data);
+
+            // 201 (Created): Storage data created
+            session->close(restbed::CREATED);
+        });
+    }
+
     void RestStorageGet(const std::shared_ptr<restbed::Session> session)
     {
         std::string data = _storage.GetData();
 
         std::cout << "GET /storage: " << data << std::endl;
 
+        // 204 (No Content): Storage data is empty
+        if (data.empty())
+        {
+            session->close(restbed::NO_CONTENT);
+            return;
+        }
+
+        // 200 (OK): Storage data returned
         session->close(restbed::OK, data, { { "Content-Length", std::to_string(data.size()) } });
     }
 
@@ -65,8 +106,23 @@ private:
 
             std::cout << "PUT /storage: " << data << std::endl;
 
+            // 400 (Bad Request): Request data is empty
+            if (data.empty())
+            {
+                session->close(restbed::BAD_REQUEST);
+                return;
+            }
+
+            // 404 (Not Found): Storage data is empty
+            if (_storage.GetData().empty())
+            {
+                session->close(restbed::NOT_FOUND);
+                return;
+            }
+
             _storage.SetData(data);
 
+            // 200 (OK): Storage data updated
             session->close(restbed::OK);
         });
     }
@@ -75,20 +131,17 @@ private:
     {
         std::cout << "DELETE /storage" << std::endl;
 
+        // 404 (Not Found): Storage data is empty
+        if (_storage.GetData().empty())
+        {
+            session->close(restbed::NOT_FOUND);
+            return;
+        }
+
         _storage.SetData("");
 
+        // 200 (OK): Storage data deleted
         session->close(restbed::OK);
-    }
-
-    static void RestErrorHandler(const int status_code, const std::exception error, const std::shared_ptr<restbed::Session> session)
-    {
-        if ((session != nullptr) && session->is_open())
-        {
-            std::string message = error.what();
-            message.push_back('\n');
-
-            session->close(status_code, message, { { "Content-Length", std::to_string(message.length()) } });
-        }
     }
 };
 
