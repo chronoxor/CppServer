@@ -121,6 +121,10 @@ void Service::ServiceLoop(bool polling)
     {
         onError(ex.code().value(), ex.code().category().name(), ex.code().message());
     }
+    catch (std::exception& ex)
+    {
+        fatality(ex);
+    }
     catch (...)
     {
         fatality("Asio service thread terminated!");

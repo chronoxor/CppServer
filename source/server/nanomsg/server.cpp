@@ -119,6 +119,10 @@ void Server::ServerLoop()
     {
         onError(ex.system_error(), ex.system_message());
     }
+    catch (std::exception& ex)
+    {
+        fatality(ex);
+    }
     catch (...)
     {
         fatality("Nanomsg server thread terminated!");

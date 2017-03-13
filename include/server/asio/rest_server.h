@@ -54,6 +54,8 @@ public:
     std::shared_ptr<restbed::Service>& server() noexcept { return _server; }
     //! Get the Restbed settings
     std::shared_ptr<restbed::Settings>& settings() noexcept { return _settings; }
+    //! Get the Restbed SSL settings
+    std::shared_ptr<restbed::SSLSettings>& ssl_settings() noexcept { return _ssl_settings; }
 
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
@@ -86,6 +88,7 @@ private:
     // Restbed server & settings
     std::shared_ptr<restbed::Service> _server;
     std::shared_ptr<restbed::Settings> _settings;
+    std::shared_ptr<restbed::SSLSettings> _ssl_settings;
     std::atomic<bool> _started;
 };
 

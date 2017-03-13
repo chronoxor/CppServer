@@ -119,6 +119,10 @@ void Client::ClientLoop()
     {
         onError(ex.system_error(), ex.system_message());
     }
+    catch (std::exception& ex)
+    {
+        fatality(ex);
+    }
     catch (...)
     {
         fatality("Nanomsg client thread terminated!");

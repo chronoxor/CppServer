@@ -9,6 +9,8 @@
 #ifndef CPPSERVER_ASIO_REST_H
 #define CPPSERVER_ASIO_REST_H
 
+#define BUILD_SSL
+
 #include <restbed>
 
 #endif // CPPSERVER_ASIO_REST_H

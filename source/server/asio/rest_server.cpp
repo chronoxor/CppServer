@@ -15,31 +15,44 @@ RestServer::RestServer(std::shared_ptr<Service> service, int port)
     : _service(service),
       _server(std::make_shared<restbed::Service>()),
       _settings(std::make_shared<restbed::Settings>()),
+      _ssl_settings(std::make_shared<restbed::SSLSettings>()),
       _started(false)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("ASIO service is invalid!");
 
+    // Use external IO service
     _server->set_external_io_service(_service->service());
 
+    // Prepare settings
     _settings->set_port(port);
+
+    // Prepare SSL settings
+    _ssl_settings->set_port(port);
 }
 
 RestServer::RestServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _server(std::make_shared<restbed::Service>()),
       _settings(std::make_shared<restbed::Settings>()),
+      _ssl_settings(std::make_shared<restbed::SSLSettings>()),
       _started(false)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("ASIO service is invalid!");
 
+    // Use external IO service
     _server->set_external_io_service(_service->service());
 
+    // Prepare settings
     _settings->set_bind_address(address);
     _settings->set_port(port);
+
+    // Prepare SSL settings
+    _ssl_settings->set_bind_address(address);
+    _ssl_settings->set_port(port);
 }
 
 bool RestServer::Start()

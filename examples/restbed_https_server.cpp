@@ -1,6 +1,6 @@
 /*!
-    \file rest_http_server.cpp
-    \brief REST HTTP server example
+    \file rest_https_server.cpp
+    \brief REST HTTPS server example
     \author Ivan Shynkarenka
     \date 13.03.2017
     \copyright MIT License
@@ -14,10 +14,10 @@
 #include <memory>
 #include <map>
 
-class RestServer : public CppServer::Asio::RestServer
+class RestServerSSL : public CppServer::Asio::RestServer
 {
 public:
-    explicit RestServer(std::shared_ptr<CppServer::Asio::Service> service, int port)
+    explicit RestServerSSL(std::shared_ptr<CppServer::Asio::Service> service, int port)
         : CppServer::Asio::RestServer(service, port)
     {
         // Create a resource
@@ -30,6 +30,17 @@ public:
 
         // Publish the resource
         server()->publish(resource);
+
+        // Prepare SSL settings
+        ssl_settings()->set_http_disabled(true);
+        ssl_settings()->set_default_workarounds_enabled(true);
+        ssl_settings()->set_sslv2_enabled(false);
+        ssl_settings()->set_single_diffie_hellman_use_enabled(true);
+        ssl_settings()->set_passphrase("qwerty");
+        ssl_settings()->set_certificate_chain(restbed::Uri("file://../tools/certificates/server.pem"));
+        ssl_settings()->set_private_key(restbed::Uri("file://../tools/certificates/server.pem"));
+        ssl_settings()->set_temporary_diffie_hellman(restbed::Uri("file://../tools/certificates/dh4096.pem"));
+        settings()->set_ssl_settings(ssl_settings());
     }
 
 private:
@@ -96,12 +107,12 @@ private:
 
 int main(int argc, char** argv)
 {
-    // REST HTTP server port
-    int port = 8000;
+    // REST HTTPS server port
+    int port = 8001;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
-    std::cout << "REST HTTP server port: " << port << std::endl;
+    std::cout << "REST HTTPS server port: " << port << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
@@ -111,8 +122,8 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
-    // Create a new REST HTTP server
-    auto server = std::make_shared<RestServer>(service, port);
+    // Create a new REST HTTPS server
+    auto server = std::make_shared<RestServerSSL>(service, port);
 
     // Start the server
     std::cout << "Server starting...";
