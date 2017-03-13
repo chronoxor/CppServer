@@ -42,7 +42,7 @@ void WebSocketSSLClient::InitAsio()
 
     // Setup WebSocket client core Asio service
     websocketpp::lib::error_code ec;
-    _core.init_asio(&_service->service(), ec);
+    _core.init_asio(_service->service().get(), ec);
     if (ec)
     {
         onError(ec.value(), ec.category().name(), ec.message());
@@ -63,7 +63,7 @@ bool WebSocketSSLClient::Connect()
 
     // Post the connect routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
         websocketpp::lib::error_code ec;
 

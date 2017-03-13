@@ -13,7 +13,7 @@ namespace Asio {
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
-      _socket(_service->service()),
+      _socket(*_service->service()),
       _started(false),
       _reciving(false),
       _sending(false),
@@ -39,7 +39,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
-      _socket(_service->service()),
+      _socket(*_service->service()),
       _started(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -56,7 +56,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
 UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _service(service),
       _endpoint(endpoint),
-      _socket(_service->service()),
+      _socket(*_service->service()),
       _started(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -76,10 +76,10 @@ bool UDPServer::Start()
 
     // Post the start routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
         // Open the server socket
-        _socket = asio::ip::udp::socket(_service->service(), _endpoint);
+        _socket = asio::ip::udp::socket(*_service->service(), _endpoint);
 
         // Reset statistic
         _datagrams_sent = 0;
@@ -120,7 +120,7 @@ bool UDPServer::Stop()
 
     // Post the stopped routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
         // Close the server socket
         _socket.close();

@@ -15,7 +15,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
-      _socket(_service->service()),
+      _socket(*_service->service()),
       _connected(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -35,7 +35,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(endpoint),
-      _socket(_service->service()),
+      _socket(*_service->service()),
       _connected(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -55,7 +55,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
-      _socket(_service->service()),
+      _socket(*_service->service()),
       _connected(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -75,7 +75,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(endpoint),
-      _socket(_service->service()),
+      _socket(*_service->service()),
       _connected(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -98,7 +98,7 @@ bool UDPClient::Connect()
 
     // Post the connect routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
         // Open the client socket
         if (_multicast)

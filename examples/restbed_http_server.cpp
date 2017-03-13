@@ -1,12 +1,14 @@
 /*!
-    \file restbed_http_server.cpp
-    \brief Restbed HTTP server example
+    \file rest_http_server.cpp
+    \brief REST HTTP server example
     \author Ivan Shynkarenka
     \date 13.03.2017
     \copyright MIT License
 */
 
-#include "server/restbed/restbed.h"
+#include "asio_service.h"
+
+#include "server/asio/rest_server.h"
 
 #include <iostream>
 #include <memory>
@@ -23,49 +25,25 @@ private:
     std::string _data;
 };
 
-class RestServer : public std::enable_shared_from_this<RestServer>
+class RestServer : public CppServer::Asio::RestServer
 {
 public:
-    RestServer(int port)
+    explicit RestServer(std::shared_ptr<CppServer::Asio::Service> service, int port)
+        : CppServer::Asio::RestServer(service, port)
     {
-        // Create a Restbed resource
-        _resource = std::make_shared<restbed::Resource>();
-        _resource->set_path("/storage");
-        _resource->set_method_handler("GET", [this](const std::shared_ptr<restbed::Session> session) { RestStorageGet(session); });
-        _resource->set_method_handler("PUT", [this](const std::shared_ptr<restbed::Session> session) { RestStoragePut(session); });
-        _resource->set_method_handler("DELETE", [this](const std::shared_ptr<restbed::Session> session) { RestStorageDelete(session); });
+        // Create a resource
+        auto resource = std::make_shared<restbed::Resource>();
+        resource->set_path("/storage");
+        resource->set_method_handler("GET", [this](const std::shared_ptr<restbed::Session> session) { RestStorageGet(session); });
+        resource->set_method_handler("PUT", [this](const std::shared_ptr<restbed::Session> session) { RestStoragePut(session); });
+        resource->set_method_handler("DELETE", [this](const std::shared_ptr<restbed::Session> session) { RestStorageDelete(session); });
 
-        // Create a Restbed settings
-        _settings = std::make_shared<restbed::Settings>();
-        _settings->set_port(port);
-        _settings->set_default_header("Connection", "close");
-
-        // Create a Restbed service
-        _service = std::make_shared<restbed::Service>();
-        _service->publish(_resource);
-        _service->set_error_handler(RestErrorHandler);
-    }
-
-    void Start()
-    {
-        _service->start(_settings);
-    }
-
-    void Stop()
-    {
-        _service->stop();
-    }
-
-    void Restart()
-    {
-        _service->restart(_settings);
+        // Publish the resource
+        server()->publish(resource);
     }
 
 private:
     Storage _storage;
-    std::shared_ptr<restbed::Resource> _resource;
-    std::shared_ptr<restbed::Settings> _settings;
-    std::shared_ptr<restbed::Service> _service;
 
     void RestStorageGet(const std::shared_ptr<restbed::Session> session)
     {
@@ -116,15 +94,23 @@ private:
 
 int main(int argc, char** argv)
 {
-    // HTTP server port
+    // REST HTTP server port
     int port = 8000;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
-    std::cout << "REST server port: " << port << std::endl;
+    std::cout << "REST HTTP server port: " << port << std::endl;
 
-    // Create a new Restbed HTTP server
-    auto server = std::make_shared<RestServer>(port);
+    // Create a new Asio service
+    auto service = std::make_shared<AsioService>();
+
+    // Start the service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new REST HTTP server
+    auto server = std::make_shared<RestServer>(service, port);
 
     // Start the server
     std::cout << "Server starting...";
@@ -153,6 +139,11 @@ int main(int argc, char** argv)
     // Stop the server
     std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the service
+    std::cout << "Asio service stopping...";
+    service->Stop();
     std::cout << "Done!" << std::endl;
 
     return 0;

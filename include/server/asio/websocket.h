@@ -6,8 +6,8 @@
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_WEBSOCKET_H
-#define CPPSERVER_WEBSOCKET_H
+#ifndef CPPSERVER_ASIO_WEBSOCKET_H
+#define CPPSERVER_ASIO_WEBSOCKET_H
 
 #include "asio.hpp"
 
@@ -42,4 +42,4 @@ typedef WebSocketSSLConnection::message_ptr WebSocketSSLMessage;
 } // namespace Asio
 } // namespace CppServer
 
-#endif // CPPSERVER_WEBSOCKET_H
+#endif // CPPSERVER_ASIO_WEBSOCKET_H

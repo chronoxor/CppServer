@@ -32,7 +32,7 @@
 	branch = master
 [submodule "modules/restbed"]
 	path = modules/restbed
-	url = https://github.com/Corvusoft/restbed.git
+	url = https://github.com/chronoxor/restbed.git
 	branch = master
 [submodule "modules/websocketpp"]
 	path = modules/websocketpp

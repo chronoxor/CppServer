@@ -13,6 +13,26 @@
 namespace CppServer {
 namespace Asio {
 
+Service::Service()
+    : _service(std::make_shared<asio::io_service>()),
+      _started(false)
+{
+    assert((_service != nullptr) && "ASIO service is invalid!");
+    if (_service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
+}
+
+Service::Service(std::shared_ptr<asio::io_service> service)
+    : _service(service),
+      _started(false)
+{
+    assert((_service != nullptr) && "ASIO service is invalid!");
+    if (_service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
+
+    _started = !service->stopped();
+}
+
 bool Service::Start(bool polling)
 {
     assert(!IsStarted() && "Asio service is already started!");
@@ -21,7 +41,7 @@ bool Service::Start(bool polling)
 
     // Post the started routine
     auto self(this->shared_from_this());
-    _service.post([this, self]()
+    _service->post([this, self]()
     {
          // Update the started flag
         _started = true;
@@ -44,10 +64,10 @@ bool Service::Stop()
 
     // Post the stop routine
     auto self(this->shared_from_this());
-    _service.post([this, self]()
+    _service->post([this, self]()
     {
         // Stop the Asio service
-        _service.stop();
+        _service->stop();
 
         // Update the started flag
         _started = false;
@@ -77,7 +97,7 @@ void Service::ServiceLoop(bool polling)
 
     try
     {
-        asio::io_service::work work(_service);
+        asio::io_service::work work(*_service);
 
         if (polling)
         {
@@ -85,7 +105,7 @@ void Service::ServiceLoop(bool polling)
             do
             {
                 // Poll all pending handlers
-                _service.poll();
+                _service->poll();
 
                 // Call the idle handler
                 onIdle();
@@ -94,7 +114,7 @@ void Service::ServiceLoop(bool polling)
         else
         {
             // Run all pending handlers
-            _service.run();
+            _service->run();
         }
     }
     catch (asio::system_error& ex)

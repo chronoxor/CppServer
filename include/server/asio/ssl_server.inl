@@ -13,8 +13,8 @@ template <class TServer, class TSession>
 inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
     : _service(service),
       _context(context),
-      _acceptor(_service->service()),
-      _socket(_service->service()),
+      _acceptor(*_service->service()),
+      _socket(*_service->service()),
       _started(false),
       _bytes_sent(0),
       _bytes_received(0)
@@ -42,8 +42,8 @@ template <class TServer, class TSession>
 inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
     : _service(service),
       _context(context),
-      _acceptor(_service->service()),
-      _socket(_service->service()),
+      _acceptor(*_service->service()),
+      _socket(*_service->service()),
       _started(false),
       _bytes_sent(0),
       _bytes_received(0)
@@ -64,8 +64,8 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
     : _service(service),
       _context(context),
       _endpoint(endpoint),
-      _acceptor(_service->service()),
-      _socket(_service->service()),
+      _acceptor(*_service->service()),
+      _socket(*_service->service()),
       _started(false),
       _bytes_sent(0),
       _bytes_received(0)
@@ -88,10 +88,10 @@ inline bool SSLServer<TServer, TSession>::Start()
 
     // Post the start routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
         // Create the server acceptor
-        _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
+        _acceptor = asio::ip::tcp::acceptor(*_service->service(), _endpoint);
 
         // Reset statistic
         _bytes_sent = 0;
@@ -119,7 +119,7 @@ inline bool SSLServer<TServer, TSession>::Stop()
 
     // Post the stopped routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
         // Close the server acceptor
         _acceptor.close();

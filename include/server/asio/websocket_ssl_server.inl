@@ -97,7 +97,7 @@ inline void WebSocketSSLServer<TServer, TSession>::InitAsio()
 
     // Setup WebSocket server core Asio service
     websocketpp::lib::error_code ec;
-    _core.init_asio(&_service->service(), ec);
+    _core.init_asio(_service->service().get(), ec);
     if (ec)
     {
         onError(ec.value(), ec.category().name(), ec.message());
@@ -120,7 +120,7 @@ inline bool WebSocketSSLServer<TServer, TSession>::Start()
 
     // Post the start routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
         websocketpp::lib::error_code ec;
 
@@ -176,7 +176,7 @@ inline bool WebSocketSSLServer<TServer, TSession>::Stop()
 
     // Post the stopped routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
         // Stop WebSocket server
         websocketpp::lib::error_code ec;

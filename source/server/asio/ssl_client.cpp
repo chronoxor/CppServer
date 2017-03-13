@@ -24,7 +24,7 @@ public:
           _service(service),
           _context(context),
           _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
-          _stream(_service->service(), *_context),
+          _stream(*_service->service(), *_context),
           _connected(false),
           _handshaked(false),
           _bytes_sent(0),
@@ -46,7 +46,7 @@ public:
           _service(service),
           _context(context),
           _endpoint(endpoint),
-          _stream(_service->service(), *_context),
+          _stream(*_service->service(), *_context),
           _connected(false),
           _handshaked(false),
           _bytes_sent(0),
@@ -93,7 +93,7 @@ public:
 
         // Post the connect routine
         auto self(this->shared_from_this());
-        _service->service().post([this, self]()
+        _service->service()->post([this, self]()
         {
             // Connect the client socket
             socket().async_connect(_endpoint, [this, self](std::error_code ec)

@@ -15,7 +15,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
-      _socket(_service->service()),
+      _socket(*_service->service()),
       _connected(false),
       _bytes_sent(0),
       _bytes_received(0),
@@ -31,7 +31,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
     : _id(CppCommon::UUID::Generate()),
       _service(service),
       _endpoint(endpoint),
-      _socket(_service->service()),
+      _socket(*_service->service()),
       _connected(false),
       _bytes_sent(0),
       _bytes_received(0),
@@ -50,7 +50,7 @@ bool TCPClient::Connect()
 
     // Post the connect routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
         // Connect the client socket
         _socket.async_connect(_endpoint, [this, self](std::error_code ec)

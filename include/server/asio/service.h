@@ -34,7 +34,13 @@ namespace Asio {
 class Service : public std::enable_shared_from_this<Service>
 {
 public:
-    Service() : _started(false) {}
+    //! Initialize a new Asio service
+    Service();
+    //! Initialize Asio service with a given Asio service
+    /*!
+        \param service - Asio service
+    */
+    Service(std::shared_ptr<asio::io_service> service);
     Service(const Service&) = delete;
     Service(Service&&) = default;
     virtual ~Service() = default;
@@ -43,7 +49,7 @@ public:
     Service& operator=(Service&&) = default;
 
     //! Get the Asio service
-    asio::io_service& service() noexcept { return _service; }
+    std::shared_ptr<asio::io_service>& service() noexcept { return _service; }
 
     //! Is the service started?
     bool IsStarted() const noexcept { return _started; }
@@ -75,7 +81,7 @@ public:
     */
     template <typename CompletionHandler>
     ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Dispatch(ASIO_MOVE_ARG(CompletionHandler) handler)
-    { return _service.dispatch(handler); }
+    { return _service->dispatch(handler); }
 
     //! Post the given handler
     /*!
@@ -86,7 +92,7 @@ public:
     */
     template <typename CompletionHandler>
     ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Post(ASIO_MOVE_ARG(CompletionHandler) handler)
-    { return _service.post(handler); }
+    { return _service->post(handler); }
 
 protected:
     //! Initialize thread handler
@@ -118,7 +124,7 @@ protected:
 
 private:
     // Asio service
-    asio::io_service _service;
+    std::shared_ptr<asio::io_service> _service;
     std::thread _thread;
     std::atomic<bool> _started;
 
