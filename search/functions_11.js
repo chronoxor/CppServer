@@ -9,6 +9,7 @@ var searchData=
   ['_7epushserver',['~PushServer',['../class_cpp_server_1_1_nanomsg_1_1_push_server.html#a74a41b21f947b4d4b5d59f067edae128',1,'CppServer::Nanomsg::PushServer']]],
   ['_7erequestclient',['~RequestClient',['../class_cpp_server_1_1_nanomsg_1_1_request_client.html#a36670a1ce610b9f5a195260cf045aec5',1,'CppServer::Nanomsg::RequestClient']]],
   ['_7erequestserver',['~RequestServer',['../class_cpp_server_1_1_nanomsg_1_1_request_server.html#a22f00cc6983d3b6184f1ee3f20f57f54',1,'CppServer::Nanomsg::RequestServer']]],
+  ['_7erestserver',['~RestServer',['../class_cpp_server_1_1_asio_1_1_rest_server.html#a179720cae7f612292a3ad44b1b6e8f4a',1,'CppServer::Asio::RestServer']]],
   ['_7eserver',['~Server',['../class_cpp_server_1_1_nanomsg_1_1_server.html#a56515de3335f708399214449019b5c8f',1,'CppServer::Nanomsg::Server']]],
   ['_7eservice',['~Service',['../class_cpp_server_1_1_asio_1_1_service.html#a265e5f4ddab91bcbcff8ac0cdf9331c6',1,'CppServer::Asio::Service']]],
   ['_7esocket',['~Socket',['../class_cpp_server_1_1_nanomsg_1_1_socket.html#ab0378bf43aa62da7afcda09e09a7be56',1,'CppServer::Nanomsg::Socket']]],
