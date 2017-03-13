@@ -22,6 +22,9 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _reciving(false),
       _sending(false)
 {
+    assert((service != nullptr) && "ASIO service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
 }
 
 TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
@@ -35,6 +38,9 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _reciving(false),
       _sending(false)
 {
+    assert((service != nullptr) && "ASIO service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
 }
 
 bool TCPClient::Connect()

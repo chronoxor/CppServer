@@ -32,6 +32,13 @@ public:
           _reciving(false),
           _sending(false)
     {
+        assert((service != nullptr) && "ASIO service is invalid!");
+        if (service == nullptr)
+            throw CppCommon::ArgumentException("ASIO service is invalid!");
+
+        assert((context != nullptr) && "SSL context is invalid!");
+        if (context == nullptr)
+            throw CppCommon::ArgumentException("SSL context is invalid!");
     }
 
     Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
@@ -47,6 +54,13 @@ public:
           _reciving(false),
           _sending(false)
     {
+        assert((service != nullptr) && "ASIO service is invalid!");
+        if (service == nullptr)
+            throw CppCommon::ArgumentException("ASIO service is invalid!");
+
+        assert((context != nullptr) && "SSL context is invalid!");
+        if (context == nullptr)
+            throw CppCommon::ArgumentException("SSL context is invalid!");
     }
 
     Impl(const Impl&) = delete;

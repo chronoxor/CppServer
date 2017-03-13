@@ -9,7 +9,6 @@
 #include "server/asio/service.h"
 
 #include "errors/fatal.h"
-#include "threads/thread.h"
 
 namespace CppServer {
 namespace Asio {

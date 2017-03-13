@@ -22,6 +22,10 @@ WebSocketClient::WebSocketClient(std::shared_ptr<Service> service, const std::st
       _bytes_sent(0),
       _bytes_received(0)
 {
+    assert((service != nullptr) && "ASIO service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
+
     InitAsio();
 }
 
