@@ -95,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">{</div>
 <div class="line"><span class="keyword">public</span>:</div>
 <div class="line">    <span class="keyword">explicit</span> HttpsServer(std::shared_ptr&lt;CppServer::Asio::Service&gt; service, <span class="keywordtype">int</span> port)</div>
-<div class="line">        : <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html">CppServer::Asio::WebServer</a>(service, port)</div>
+<div class="line">        : <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html">CppServer::Asio::WebServer</a>(service, port, <span class="keyword">true</span>)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Create a resource</span></div>
 <div class="line">        <span class="keyword">auto</span> resource = std::make_shared&lt;restbed::Resource&gt;();</div>
@@ -117,7 +117,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">        <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a5ba32cdcd42b6c8acfacd64d61eb9240">ssl_settings</a>()-&gt;set_certificate_chain(restbed::Uri(<span class="stringliteral">&quot;file://../tools/certificates/server.pem&quot;</span>));</div>
 <div class="line">        <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a5ba32cdcd42b6c8acfacd64d61eb9240">ssl_settings</a>()-&gt;set_private_key(restbed::Uri(<span class="stringliteral">&quot;file://../tools/certificates/server.pem&quot;</span>));</div>
 <div class="line">        <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a5ba32cdcd42b6c8acfacd64d61eb9240">ssl_settings</a>()-&gt;set_temporary_diffie_hellman(restbed::Uri(<span class="stringliteral">&quot;file://../tools/certificates/dh4096.pem&quot;</span>));</div>
-<div class="line">        <a name="a3"></a><a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#aa82dbdada7b28e5dc5faf5a281d76ca3">settings</a>()-&gt;set_ssl_settings(<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a5ba32cdcd42b6c8acfacd64d61eb9240">ssl_settings</a>());</div>
 <div class="line">    }</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">private</span>:</div>
@@ -132,7 +131,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">            std::string key = request-&gt;get_path_parameter(<span class="stringliteral">&quot;key&quot;</span>);</div>
 <div class="line">            std::string data = std::string((<span class="keywordtype">char</span>*)body.data(), body.size());</div>
 <div class="line"></div>
-<div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;POST /storage/&quot;</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; data &lt;&lt; std::endl;</div>
+<div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;POST /storage/&quot;</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot; =&gt; &quot;</span> &lt;&lt; data &lt;&lt; std::endl;</div>
 <div class="line"></div>
 <div class="line">            _storage[key] = data;</div>
 <div class="line"></div>
@@ -146,7 +145,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">        std::string key = request-&gt;get_path_parameter(<span class="stringliteral">&quot;key&quot;</span>);</div>
 <div class="line">        std::string data = _storage[key];</div>
 <div class="line"></div>
-<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;GET /storage/&quot;</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; data &lt;&lt; std::endl;</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;GET /storage/&quot;</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot; =&gt; &quot;</span> &lt;&lt; data &lt;&lt; std::endl;</div>
 <div class="line"></div>
 <div class="line">        session-&gt;close(restbed::OK, data, { { <span class="stringliteral">&quot;Content-Length&quot;</span>, std::to_string(data.size()) } });</div>
 <div class="line">    }</div>
@@ -160,7 +159,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">            std::string key = request-&gt;get_path_parameter(<span class="stringliteral">&quot;key&quot;</span>);</div>
 <div class="line">            std::string data = std::string((<span class="keywordtype">char</span>*)body.data(), body.size());</div>
 <div class="line"></div>
-<div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;PUT /storage/&quot;</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; data &lt;&lt; std::endl;</div>
+<div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;PUT /storage/&quot;</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot; =&gt; &quot;</span> &lt;&lt; data &lt;&lt; std::endl;</div>
 <div class="line"></div>
 <div class="line">            _storage[key] = data;</div>
 <div class="line"></div>
@@ -174,7 +173,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">        std::string key = request-&gt;get_path_parameter(<span class="stringliteral">&quot;key&quot;</span>);</div>
 <div class="line">        std::string data = _storage[key];</div>
 <div class="line"></div>
-<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;DELETE /storage/&quot;</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; data &lt;&lt; std::endl;</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;DELETE /storage/&quot;</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot; =&gt; &quot;</span> &lt;&lt; data &lt;&lt; std::endl;</div>
 <div class="line"></div>
 <div class="line">        _storage[key] = <span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"></div>
@@ -202,7 +201,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Done!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Create a new HTTPS Web server</span></div>
-<div class="line">    <span class="keyword">auto</span> server = std::make_shared&lt;HttpsServer&gt;(<a name="a4"></a><a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a7bed99ee1b3715e70f9885a53992b089">service</a>, port);</div>
+<div class="line">    <span class="keyword">auto</span> server = std::make_shared&lt;HttpsServer&gt;(<a name="a3"></a><a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a7bed99ee1b3715e70f9885a53992b089">service</a>, port);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Start the server</span></div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Server starting...&quot;</span>;</div>

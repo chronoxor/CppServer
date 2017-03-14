@@ -97,118 +97,131 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>CppServer {</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>Asio {</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a42231560aaacd8bda53e0f9c8fc5f81e">   14</a></span>&#160;<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a42231560aaacd8bda53e0f9c8fc5f81e">WebServer::WebServer</a>(std::shared_ptr&lt;Service&gt; service, <span class="keywordtype">int</span> port)</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a5974d5d7cbe33ea35818fe447d57ff81">   14</a></span>&#160;<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a5974d5d7cbe33ea35818fe447d57ff81">WebServer::WebServer</a>(std::shared_ptr&lt;Service&gt; service, <span class="keywordtype">int</span> port, <span class="keywordtype">bool</span> ssl)</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    : _service(service),</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;      _server(std::make_shared&lt;restbed::<a class="code" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a>&gt;()),</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      _settings(std::make_shared&lt;restbed::Settings&gt;()),</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      _ssl_settings(std::make_shared&lt;restbed::SSLSettings&gt;()),</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      _started(false)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    assert((service != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;ASIO service is invalid!&quot;</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">if</span> (service == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">throw</span> CppCommon::ArgumentException(<span class="stringliteral">&quot;ASIO service is invalid!&quot;</span>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="comment">// Use external IO service</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    _server-&gt;set_external_io_service(_service-&gt;service());</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="comment">// Prepare settings</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    _settings-&gt;set_port(port);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">// Prepare SSL settings</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    _ssl_settings-&gt;set_port(port);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a89e0a4d8da43152542cb3511f1a7af46">   35</a></span>&#160;<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a42231560aaacd8bda53e0f9c8fc5f81e">WebServer::WebServer</a>(std::shared_ptr&lt;Service&gt; service, <span class="keyword">const</span> std::string&amp; address, <span class="keywordtype">int</span> port)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    : _service(service),</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      _server(std::make_shared&lt;restbed::<a class="code" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a>&gt;()),</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      _settings(std::make_shared&lt;restbed::Settings&gt;()),</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      _ssl_settings(std::make_shared&lt;restbed::SSLSettings&gt;()),</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      _started(false)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    assert((service != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;ASIO service is invalid!&quot;</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">if</span> (service == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">throw</span> CppCommon::ArgumentException(<span class="stringliteral">&quot;ASIO service is invalid!&quot;</span>);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// Use external IO service</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    _server-&gt;set_external_io_service(_service-&gt;service());</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// Prepare settings</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    _settings-&gt;set_bind_address(address);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    _settings-&gt;set_port(port);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      _started(false),</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;      _ssl(ssl)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    assert((service != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;ASIO service is invalid!&quot;</span>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">if</span> (service == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">throw</span> CppCommon::ArgumentException(<span class="stringliteral">&quot;ASIO service is invalid!&quot;</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">// Use external IO service</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    _server-&gt;set_external_io_service(_service-&gt;service());</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// Prepare Web server settings</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#ab936f005e0b0e0e484710bf6765202ac">IsSSL</a>())</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        _ssl_settings-&gt;set_port(port);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        _settings-&gt;set_ssl_settings(_ssl_settings);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        _settings-&gt;set_port(port);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a9f053e689650b78af470b75be8553d28">   41</a></span>&#160;<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a5974d5d7cbe33ea35818fe447d57ff81">WebServer::WebServer</a>(std::shared_ptr&lt;Service&gt; service, <span class="keyword">const</span> std::string&amp; address, <span class="keywordtype">int</span> port, <span class="keywordtype">bool</span> ssl)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    : _service(service),</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      _server(std::make_shared&lt;restbed::<a class="code" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a>&gt;()),</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      _settings(std::make_shared&lt;restbed::Settings&gt;()),</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      _ssl_settings(std::make_shared&lt;restbed::SSLSettings&gt;()),</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      _started(false),</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      _ssl(ssl)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    assert((service != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;ASIO service is invalid!&quot;</span>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (service == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">throw</span> CppCommon::ArgumentException(<span class="stringliteral">&quot;ASIO service is invalid!&quot;</span>);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// Prepare SSL settings</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    _ssl_settings-&gt;set_bind_address(address);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    _ssl_settings-&gt;set_port(port);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a95e9b4df40d7d162eb3ce278d742dcf0">   58</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a95e9b4df40d7d162eb3ce278d742dcf0">WebServer::Start</a>()</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    assert(!<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>() &amp;&amp; <span class="stringliteral">&quot;Web server is already started!&quot;</span>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>())</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// Post the start routine</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    _service-&gt;service()-&gt;post([<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="comment">// Start the Restbed server</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        _server-&gt;start(_settings);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment">// Update the started flag</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        _started = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">// Call the server started handler</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#ad0d36573950cc5699dbd6be7e0c81d2f">onStarted</a>();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    });</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a48479ff09601c92f893421725d8b366f">   81</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a48479ff09601c92f893421725d8b366f">WebServer::Stop</a>()</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;{</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    assert(<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>() &amp;&amp; <span class="stringliteral">&quot;Web server is not started!&quot;</span>);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>())</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="comment">// Post the stopped routine</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    _service-&gt;service()-&gt;post([<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    {</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment">// Stop the Restbed server</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        _server-&gt;stop();</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment">// Update the started flag</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        _started = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="comment">// Call the server stopped handler</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a8d4b5982dc70da590ab244317c7ffcd1">onStopped</a>();</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    });</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a0f1292a60601759b28851628d1c7814f">  104</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a0f1292a60601759b28851628d1c7814f">WebServer::Restart</a>()</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;{</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a48479ff09601c92f893421725d8b366f">Stop</a>())</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// Use external IO service</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    _server-&gt;set_external_io_service(_service-&gt;service());</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// Prepare Web server settings</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#ab936f005e0b0e0e484710bf6765202ac">IsSSL</a>())</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        _ssl_settings-&gt;set_bind_address(address);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        _ssl_settings-&gt;set_port(port);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        _settings-&gt;set_ssl_settings(_ssl_settings);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        _settings-&gt;set_bind_address(address);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        _settings-&gt;set_port(port);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a95e9b4df40d7d162eb3ce278d742dcf0">   70</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a95e9b4df40d7d162eb3ce278d742dcf0">WebServer::Start</a>()</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    assert(!<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>() &amp;&amp; <span class="stringliteral">&quot;Web server is already started!&quot;</span>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>())</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">// Post the start routine</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    _service-&gt;service()-&gt;post([<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="comment">// Start the Restbed server</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        _server-&gt;start(_settings);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment">// Update the started flag</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        _started = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment">// Call the server started handler</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#ad0d36573950cc5699dbd6be7e0c81d2f">onStarted</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    });</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a48479ff09601c92f893421725d8b366f">   93</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a48479ff09601c92f893421725d8b366f">WebServer::Stop</a>()</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    assert(<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>() &amp;&amp; <span class="stringliteral">&quot;Web server is not started!&quot;</span>);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>())</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">// Post the stopped routine</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    _service-&gt;service()-&gt;post([<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="comment">// Stop the Restbed server</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        _server-&gt;stop();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="comment">// Update the started flag</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        _started = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">while</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>())</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        CppCommon::Thread::Yield();</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a95e9b4df40d7d162eb3ce278d742dcf0">Start</a>();</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;} <span class="comment">// namespace Asio</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;} <span class="comment">// namespace CppServer</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="comment">// Call the server stopped handler</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a8d4b5982dc70da590ab244317c7ffcd1">onStopped</a>();</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    });</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_web_server.html#a0f1292a60601759b28851628d1c7814f">  116</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a0f1292a60601759b28851628d1c7814f">WebServer::Restart</a>()</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;{</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a48479ff09601c92f893421725d8b366f">Stop</a>())</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">while</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">IsStarted</a>())</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        CppCommon::Thread::Yield();</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_web_server.html#a95e9b4df40d7d162eb3ce278d742dcf0">Start</a>();</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;}</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;} <span class="comment">// namespace Asio</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;} <span class="comment">// namespace CppServer</span></div>
+<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a5974d5d7cbe33ea35818fe447d57ff81"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a5974d5d7cbe33ea35818fe447d57ff81">CppServer::Asio::WebServer::WebServer</a></div><div class="ttdeci">WebServer(std::shared_ptr&lt; Service &gt; service, int port, bool ssl=false)</div><div class="ttdoc">Initialize Web server with a given Asio service and port number. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8cpp_source.html#l00014">web_server.cpp:14</a></div></div>
 <div class="ttc" id="web__server_8h_html"><div class="ttname"><a href="web__server_8h.html">web_server.h</a></div><div class="ttdoc">Web server definition. </div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_service_html"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_service.html">CppServer::Asio::Service</a></div><div class="ttdoc">Asio service. </div><div class="ttdef"><b>Definition:</b> <a href="service_8h_source.html#l00034">service.h:34</a></div></div>
-<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_ad0d36573950cc5699dbd6be7e0c81d2f"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#ad0d36573950cc5699dbd6be7e0c81d2f">CppServer::Asio::WebServer::onStarted</a></div><div class="ttdeci">virtual void onStarted()</div><div class="ttdoc">Handle server started notification. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8h_source.html#l00081">web_server.h:81</a></div></div>
-<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a42231560aaacd8bda53e0f9c8fc5f81e"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a42231560aaacd8bda53e0f9c8fc5f81e">CppServer::Asio::WebServer::WebServer</a></div><div class="ttdeci">WebServer(std::shared_ptr&lt; Service &gt; service, int port)</div><div class="ttdoc">Initialize Web server with a given Asio service and port number. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8cpp_source.html#l00014">web_server.cpp:14</a></div></div>
-<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_abf8bece3c71f0f2283e6a07f1b8048b6"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">CppServer::Asio::WebServer::IsStarted</a></div><div class="ttdeci">bool IsStarted() const noexcept</div><div class="ttdoc">Is the server started? </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8h_source.html#l00061">web_server.h:61</a></div></div>
-<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a0f1292a60601759b28851628d1c7814f"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a0f1292a60601759b28851628d1c7814f">CppServer::Asio::WebServer::Restart</a></div><div class="ttdeci">bool Restart()</div><div class="ttdoc">Restart the server. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8cpp_source.html#l00104">web_server.cpp:104</a></div></div>
-<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a8d4b5982dc70da590ab244317c7ffcd1"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a8d4b5982dc70da590ab244317c7ffcd1">CppServer::Asio::WebServer::onStopped</a></div><div class="ttdeci">virtual void onStopped()</div><div class="ttdoc">Handle server stopped notification. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8h_source.html#l00083">web_server.h:83</a></div></div>
-<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a95e9b4df40d7d162eb3ce278d742dcf0"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a95e9b4df40d7d162eb3ce278d742dcf0">CppServer::Asio::WebServer::Start</a></div><div class="ttdeci">bool Start()</div><div class="ttdoc">Start the server. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8cpp_source.html#l00058">web_server.cpp:58</a></div></div>
-<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a48479ff09601c92f893421725d8b366f"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a48479ff09601c92f893421725d8b366f">CppServer::Asio::WebServer::Stop</a></div><div class="ttdeci">bool Stop()</div><div class="ttdoc">Stop the server. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8cpp_source.html#l00081">web_server.cpp:81</a></div></div>
+<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_ad0d36573950cc5699dbd6be7e0c81d2f"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#ad0d36573950cc5699dbd6be7e0c81d2f">CppServer::Asio::WebServer::onStarted</a></div><div class="ttdeci">virtual void onStarted()</div><div class="ttdoc">Handle server started notification. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8h_source.html#l00085">web_server.h:85</a></div></div>
+<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_abf8bece3c71f0f2283e6a07f1b8048b6"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#abf8bece3c71f0f2283e6a07f1b8048b6">CppServer::Asio::WebServer::IsStarted</a></div><div class="ttdeci">bool IsStarted() const noexcept</div><div class="ttdoc">Is the server started? </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8h_source.html#l00065">web_server.h:65</a></div></div>
+<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a0f1292a60601759b28851628d1c7814f"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a0f1292a60601759b28851628d1c7814f">CppServer::Asio::WebServer::Restart</a></div><div class="ttdeci">bool Restart()</div><div class="ttdoc">Restart the server. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8cpp_source.html#l00116">web_server.cpp:116</a></div></div>
+<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a8d4b5982dc70da590ab244317c7ffcd1"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a8d4b5982dc70da590ab244317c7ffcd1">CppServer::Asio::WebServer::onStopped</a></div><div class="ttdeci">virtual void onStopped()</div><div class="ttdoc">Handle server stopped notification. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8h_source.html#l00087">web_server.h:87</a></div></div>
+<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_ab936f005e0b0e0e484710bf6765202ac"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#ab936f005e0b0e0e484710bf6765202ac">CppServer::Asio::WebServer::IsSSL</a></div><div class="ttdeci">bool IsSSL() const noexcept</div><div class="ttdoc">Is the server SSL secured? </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8h_source.html#l00063">web_server.h:63</a></div></div>
+<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a95e9b4df40d7d162eb3ce278d742dcf0"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a95e9b4df40d7d162eb3ce278d742dcf0">CppServer::Asio::WebServer::Start</a></div><div class="ttdeci">bool Start()</div><div class="ttdoc">Start the server. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8cpp_source.html#l00070">web_server.cpp:70</a></div></div>
+<div class="ttc" id="class_cpp_server_1_1_asio_1_1_web_server_html_a48479ff09601c92f893421725d8b366f"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_web_server.html#a48479ff09601c92f893421725d8b366f">CppServer::Asio::WebServer::Stop</a></div><div class="ttdeci">bool Stop()</div><div class="ttdoc">Stop the server. </div><div class="ttdef"><b>Definition:</b> <a href="web__server_8cpp_source.html#l00093">web_server.cpp:93</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
