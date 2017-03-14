@@ -108,7 +108,7 @@ vs.bat
 
 # Asio
 
-##Asio service
+## Asio service
 Asio service is used to host all clients/servers based on Asio C++ library.
 It is implemented based on Asio C++ Library and use a separate thread to
 perform all asynchronous IO operations and communications.
@@ -1454,7 +1454,7 @@ int main(int argc, char** argv)
 }
 ```
 
-## Example: HTTP Web synchronous client
+## Example: HTTP/HTTPS Web synchronous client
 Here comes the example of the HTTP Web synchronous client. It send GET Web
 request and receive response from a Web server in synchronous mode.
 
@@ -1527,7 +1527,7 @@ int main(int argc, char** argv)
 }
 ```
 
-## Example: HTTP Web asynchronous client
+## Example: HTTP/HTTPS Web asynchronous client
 Here comes the example of the HTTP Web synchronous client. It send GET Web
 request and receive response from a Web server in asynchronous mode.
 
