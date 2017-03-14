@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nn_5fstatic_5flib',['NN_STATIC_LIB',['../nanomsg_8h.html#a0531c7aba215b47b6ffd197ad0f91b86',1,'nanomsg.h']]]
+  ['build_5fssl',['BUILD_SSL',['../rest_8h.html#a6099c708ec012fd5cbc4c6ec731a0ace',1,'rest.h']]]
 ];
