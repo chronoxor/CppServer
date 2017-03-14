@@ -23,10 +23,10 @@ public:
         // Create a resource
         auto resource = std::make_shared<restbed::Resource>();
         resource->set_path("/storage/{key: .*}");
-        resource->set_method_handler("POST", [this](const std::shared_ptr<restbed::Session> session) { RestStoragePost(session); });
-        resource->set_method_handler("GET", [this](const std::shared_ptr<restbed::Session> session) { RestStorageGet(session); });
-        resource->set_method_handler("PUT", [this](const std::shared_ptr<restbed::Session> session) { RestStoragePut(session); });
-        resource->set_method_handler("DELETE", [this](const std::shared_ptr<restbed::Session> session) { RestStorageDelete(session); });
+        resource->set_method_handler("POST", RestStoragePost);
+        resource->set_method_handler("GET", RestStorageGet);
+        resource->set_method_handler("PUT", RestStoragePut);
+        resource->set_method_handler("DELETE", RestStorageDelete);
 
         // Publish the resource
         server()->publish(resource);
@@ -44,13 +44,13 @@ public:
     }
 
 private:
-    std::map<std::string, std::string> _storage;
+    static std::map<std::string, std::string> _storage;
 
-    void RestStoragePost(const std::shared_ptr<restbed::Session> session)
+    static void RestStoragePost(const std::shared_ptr<restbed::Session> session)
     {
         auto request = session->get_request();
         size_t request_content_length = request->get_header("Content-Length", 0);
-        session->fetch(request_content_length, [this, request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
+        session->fetch(request_content_length, [request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
         {
             std::string key = request->get_path_parameter("key");
             std::string data = std::string((char*)body.data(), body.size());
@@ -63,7 +63,7 @@ private:
         });
     }
 
-    void RestStorageGet(const std::shared_ptr<restbed::Session> session)
+    static void RestStorageGet(const std::shared_ptr<restbed::Session> session)
     {
         auto request = session->get_request();
         std::string key = request->get_path_parameter("key");
@@ -74,11 +74,11 @@ private:
         session->close(restbed::OK, data, { { "Content-Length", std::to_string(data.size()) } });
     }
 
-    void RestStoragePut(const std::shared_ptr<restbed::Session> session)
+    static void RestStoragePut(const std::shared_ptr<restbed::Session> session)
     {
         const auto request = session->get_request();
         size_t request_content_length = request->get_header("Content-Length", 0);
-        session->fetch(request_content_length, [this, request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
+        session->fetch(request_content_length, [request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
         {
             std::string key = request->get_path_parameter("key");
             std::string data = std::string((char*)body.data(), body.size());
@@ -91,7 +91,7 @@ private:
         });
     }
 
-    void RestStorageDelete(const std::shared_ptr<restbed::Session> session)
+    static void RestStorageDelete(const std::shared_ptr<restbed::Session> session)
     {
         auto request = session->get_request();
         std::string key = request->get_path_parameter("key");
@@ -104,6 +104,8 @@ private:
         session->close(restbed::OK);
     }
 };
+
+std::map<std::string, std::string> RestServerSSL::_storage;
 
 int main(int argc, char** argv)
 {
