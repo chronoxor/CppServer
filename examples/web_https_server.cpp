@@ -109,7 +109,7 @@ std::map<std::string, std::string> HttpsServer::_storage;
 int main(int argc, char** argv)
 {
     // HTTPS Web server port
-    int port = 8001;
+    int port = 9000;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
