@@ -163,7 +163,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Done!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Create and prepare a new SSL server context</span></div>
-<div class="line">    std::shared_ptr&lt;asio::ssl::context&gt; context = std::make_shared&lt;asio::ssl::context&gt;(asio::ssl::context::sslv23);</div>
+<div class="line">    <span class="keyword">auto</span> context = std::make_shared&lt;asio::ssl::context&gt;(asio::ssl::context::sslv23);</div>
 <div class="line">    context-&gt;set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);</div>
 <div class="line">    context-&gt;set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -&gt; std::string { <span class="keywordflow">return</span> <span class="stringliteral">&quot;qwerty&quot;</span>; });</div>
 <div class="line">    context-&gt;use_certificate_chain_file(<span class="stringliteral">&quot;../tools/certificates/server.pem&quot;</span>);</div>

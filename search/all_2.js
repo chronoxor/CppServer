@@ -4,7 +4,7 @@ var searchData=
   ['bind_5ferrors',['bind_errors',['../class_cpp_server_1_1_nanomsg_1_1_socket.html#a128c9eb0d8bf52874f6cb2f93f6a6673',1,'CppServer::Nanomsg::Socket']]],
   ['broken_5fconnections',['broken_connections',['../class_cpp_server_1_1_nanomsg_1_1_socket.html#aeb8376822bc079e2b6d7251505caf7f4',1,'CppServer::Nanomsg::Socket']]],
   ['buffer',['buffer',['../class_cpp_server_1_1_nanomsg_1_1_message.html#ab903a34bd41a8e69ee1c4e45206cedda',1,'CppServer::Nanomsg::Message::buffer() noexcept'],['../class_cpp_server_1_1_nanomsg_1_1_message.html#af9b7768032d1332574946eff9f540f4a',1,'CppServer::Nanomsg::Message::buffer() const noexcept']]],
-  ['build_5fssl',['BUILD_SSL',['../rest_8h.html#a6099c708ec012fd5cbc4c6ec731a0ace',1,'rest.h']]],
+  ['build_5fssl',['BUILD_SSL',['../web_8h.html#a6099c708ec012fd5cbc4c6ec731a0ace',1,'web.h']]],
   ['bus',['Bus',['../class_cpp_server_1_1_nanomsg_1_1_bus.html#a5680037053e75dd1d7dd13dea666f82b',1,'CppServer::Nanomsg::Bus::Bus(const std::string &amp;address, bool threading=true)'],['../class_cpp_server_1_1_nanomsg_1_1_bus.html#afdfa814e41e722cf24e2644e0de5b077',1,'CppServer::Nanomsg::Bus::Bus(const Bus &amp;)=delete'],['../class_cpp_server_1_1_nanomsg_1_1_bus.html#ab9a14a57b35a38abe984d894a5fefa1e',1,'CppServer::Nanomsg::Bus::Bus(Bus &amp;&amp;)=default'],['../namespace_cpp_server_1_1_nanomsg.html#a47fb16247c7d3dba55ac8950b9954ff6a6e4b38bfd57741ac1597c440a1c98074',1,'CppServer::Nanomsg::Bus()']]],
   ['bus',['Bus',['../class_cpp_server_1_1_nanomsg_1_1_bus.html',1,'CppServer::Nanomsg']]],
   ['bus_2ecpp',['bus.cpp',['../bus_8cpp.html',1,'']]],

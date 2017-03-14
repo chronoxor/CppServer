@@ -181,12 +181,12 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a2975bdee09096c5ca162e48d48fe4903"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a2975bdee09096c5ca162e48d48fe4903">onStopped</a> ()</td></tr>
 <tr class="memdesc:a2975bdee09096c5ca162e48d48fe4903"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle server stopped notification.  <a href="#a2975bdee09096c5ca162e48d48fe4903">More...</a><br/></td></tr>
 <tr class="separator:a2975bdee09096c5ca162e48d48fe4903"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5d99c6147d189f87c404e0e991fbbf0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#af5d99c6147d189f87c404e0e991fbbf0">onConnected</a> (std::shared_ptr&lt; TSession &gt; session)</td></tr>
-<tr class="memdesc:af5d99c6147d189f87c404e0e991fbbf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle new session connected notification.  <a href="#af5d99c6147d189f87c404e0e991fbbf0">More...</a><br/></td></tr>
-<tr class="separator:af5d99c6147d189f87c404e0e991fbbf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a544f5289e206be18a05cfe4f17e22362"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a544f5289e206be18a05cfe4f17e22362">onDisconnected</a> (std::shared_ptr&lt; TSession &gt; session)</td></tr>
-<tr class="memdesc:a544f5289e206be18a05cfe4f17e22362"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnected notification.  <a href="#a544f5289e206be18a05cfe4f17e22362">More...</a><br/></td></tr>
-<tr class="separator:a544f5289e206be18a05cfe4f17e22362"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7385a015949626fb99287e20f64acb66"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a7385a015949626fb99287e20f64acb66">onConnected</a> (std::shared_ptr&lt; TSession &gt; &amp;session)</td></tr>
+<tr class="memdesc:a7385a015949626fb99287e20f64acb66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle new session connected notification.  <a href="#a7385a015949626fb99287e20f64acb66">More...</a><br/></td></tr>
+<tr class="separator:a7385a015949626fb99287e20f64acb66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace120163498a30685e1ec86121b6c111"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#ace120163498a30685e1ec86121b6c111">onDisconnected</a> (std::shared_ptr&lt; TSession &gt; &amp;session)</td></tr>
+<tr class="memdesc:ace120163498a30685e1ec86121b6c111"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnected notification.  <a href="#ace120163498a30685e1ec86121b6c111">More...</a><br/></td></tr>
+<tr class="separator:ace120163498a30685e1ec86121b6c111"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd5934fb983e0fd9c47fecd73338c1c1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#afd5934fb983e0fd9c47fecd73338c1c1">onError</a> (int error, const std::string &amp;category, const std::string &amp;message)</td></tr>
 <tr class="memdesc:afd5934fb983e0fd9c47fecd73338c1c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle error notification.  <a href="#afd5934fb983e0fd9c47fecd73338c1c1">More...</a><br/></td></tr>
 <tr class="separator:afd5934fb983e0fd9c47fecd73338c1c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -730,7 +730,7 @@ template&lt;class TServer , class TSession &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="af5d99c6147d189f87c404e0e991fbbf0"></a>
+<a class="anchor" id="a7385a015949626fb99287e20f64acb66"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -742,7 +742,7 @@ template&lt;class TServer , class TSession &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html">CppServer::Asio::TCPServer</a>&lt; TServer, TSession &gt;::onConnected </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; TSession &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; TSession &gt; &amp;&#160;</td>
           <td class="paramname"><em>session</em></td><td>)</td>
           <td></td>
         </tr>
@@ -766,7 +766,7 @@ template&lt;class TServer , class TSession &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a544f5289e206be18a05cfe4f17e22362"></a>
+<a class="anchor" id="ace120163498a30685e1ec86121b6c111"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -778,7 +778,7 @@ template&lt;class TServer , class TSession &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html">CppServer::Asio::TCPServer</a>&lt; TServer, TSession &gt;::onDisconnected </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; TSession &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; TSession &gt; &amp;&#160;</td>
           <td class="paramname"><em>session</em></td><td>)</td>
           <td></td>
         </tr>
