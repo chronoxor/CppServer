@@ -47,15 +47,15 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
+    // Create a new HTTP/HTTPS Web client
+    auto client = std::make_shared<CppServer::Asio::WebClient>(service, false);
+
+    // Create and fill Web request
+    auto request = std::make_shared<restbed::Request>(restbed::Uri(address));
+    request->set_header("Accept", "*/*");
+
     try
     {
-        // Create a new HTTP/HTTPS Web client
-        auto client = std::make_shared<CppServer::Asio::WebClient>(service, true);
-
-        // Create and fill Web request
-        auto request = std::make_shared<restbed::Request>(restbed::Uri(address));
-        request->set_header("Accept", "*/*");
-
         // Send synchronous Web request to the server
         auto response = client->Send(request);
 

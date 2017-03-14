@@ -48,7 +48,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new HTTP/HTTPS Web client
-    auto client = std::make_shared<CppServer::Asio::WebClient>(service, true);
+    auto client = std::make_shared<CppServer::Asio::WebClient>(service, false);
 
     // Create and fill Web request
     auto request = std::make_shared<restbed::Request>(restbed::Uri(address));

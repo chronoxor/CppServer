@@ -1,5 +1,5 @@
 //
-// Created by Ivan Shynkarenka on 11.01.2016
+// Created by Ivan Shynkarenka on 11.01.2017
 //
 
 #include "catch.hpp"
@@ -123,7 +123,7 @@ TEST_CASE("WebSocket server & client", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
     const int port = 4444;
-    std::string uri = "ws://" + address + ":" + std::to_string(port);
+    const std::string uri = "ws://" + address + ":" + std::to_string(port);
 
     // Create and start Asio service
     auto service = std::make_shared<EchoWebSocketService>();
@@ -194,7 +194,7 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
     const int port = 4445;
-    std::string uri = "ws://" + address + ":" + std::to_string(port);
+    const std::string uri = "ws://" + address + ":" + std::to_string(port);
 
     // Create and start Asio service
     auto service = std::make_shared<EchoWebSocketService>();
@@ -319,7 +319,7 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
     const int port = 4446;
-    std::string uri = "ws://" + address + ":" + std::to_string(port);
+    const std::string uri = "ws://" + address + ":" + std::to_string(port);
 
     // Create and start Asio service
     auto service = std::make_shared<EchoWebSocketService>();
