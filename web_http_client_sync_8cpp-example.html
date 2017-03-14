@@ -124,15 +124,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">    service-&gt;Start();</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Done!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"></div>
+<div class="line">    <span class="comment">// Create a new HTTP/HTTPS Web client</span></div>
+<div class="line">    <span class="keyword">auto</span> client = std::make_shared&lt;CppServer::Asio::WebClient&gt;(service, <span class="keyword">false</span>);</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// Create and fill Web request</span></div>
+<div class="line">    <span class="keyword">auto</span> request = std::make_shared&lt;restbed::Request&gt;(restbed::Uri(address));</div>
+<div class="line">    request-&gt;set_header(<span class="stringliteral">&quot;Accept&quot;</span>, <span class="stringliteral">&quot;*/*&quot;</span>);</div>
+<div class="line"></div>
 <div class="line">    <span class="keywordflow">try</span></div>
 <div class="line">    {</div>
-<div class="line">        <span class="comment">// Create a new HTTP/HTTPS Web client</span></div>
-<div class="line">        <span class="keyword">auto</span> client = std::make_shared&lt;CppServer::Asio::WebClient&gt;(service, <span class="keyword">true</span>);</div>
-<div class="line"></div>
-<div class="line">        <span class="comment">// Create and fill Web request</span></div>
-<div class="line">        <span class="keyword">auto</span> request = std::make_shared&lt;restbed::Request&gt;(restbed::Uri(address));</div>
-<div class="line">        request-&gt;set_header(<span class="stringliteral">&quot;Accept&quot;</span>, <span class="stringliteral">&quot;*/*&quot;</span>);</div>
-<div class="line"></div>
 <div class="line">        <span class="comment">// Send synchronous Web request to the server</span></div>
 <div class="line">        <span class="keyword">auto</span> response = client-&gt;Send(request);</div>
 <div class="line"></div>
