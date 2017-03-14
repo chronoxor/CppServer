@@ -52,7 +52,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit EchoSSLClient(std::shared_ptr<EchoSSLService>& service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
+    explicit EchoSSLClient(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
         : SSLClient(service, context, address, port),
           connected(false),
           handshaked(false),
@@ -63,7 +63,7 @@ public:
 
     static std::shared_ptr<asio::ssl::context> CreateContext()
     {
-        std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+        auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
         context->set_verify_mode(asio::ssl::verify_peer);
         context->load_verify_file("../tools/certificates/ca.pem");
         return context;
@@ -126,7 +126,7 @@ public:
 
     static std::shared_ptr<asio::ssl::context> CreateContext()
     {
-        std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+        auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
         context->set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
         context->set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
         context->use_certificate_chain_file("../tools/certificates/server.pem");
@@ -138,8 +138,8 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onConnected(std::shared_ptr<EchoSSLSession> session) override { connected = true; ++clients; }
-    void onDisconnected(std::shared_ptr<EchoSSLSession> session) override { disconnected = true; --clients; }
+    void onConnected(std::shared_ptr<EchoSSLSession>& session) override { connected = true; ++clients; }
+    void onDisconnected(std::shared_ptr<EchoSSLSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
@@ -155,7 +155,7 @@ TEST_CASE("SSL server & client", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and prepare a new SSL server context
-    std::shared_ptr<asio::ssl::context> server_context = EchoSSLServer::CreateContext();
+    auto server_context = EchoSSLServer::CreateContext();
 
     // Create and start Echo server
     auto server = std::make_shared<EchoSSLServer>(service, server_context, InternetProtocol::IPv4, port);
@@ -164,7 +164,7 @@ TEST_CASE("SSL server & client", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and prepare a new SSL client context
-    std::shared_ptr<asio::ssl::context> client_context = EchoSSLServer::CreateContext();
+    auto client_context = EchoSSLServer::CreateContext();
 
     // Create and connect Echo client
     auto client = std::make_shared<EchoSSLClient>(service, client_context, address, port);
@@ -232,7 +232,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and prepare a new SSL server context
-    std::shared_ptr<asio::ssl::context> server_context = EchoSSLServer::CreateContext();
+    auto server_context = EchoSSLServer::CreateContext();
 
     // Create and start Echo server
     auto server = std::make_shared<EchoSSLServer>(service, server_context, InternetProtocol::IPv4, port);
@@ -241,7 +241,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and prepare a new SSL client context
-    std::shared_ptr<asio::ssl::context> client_context = EchoSSLClient::CreateContext();
+    auto client_context = EchoSSLClient::CreateContext();
 
     // Create and connect Echo client
     auto client1 = std::make_shared<EchoSSLClient>(service, client_context, address, port);
@@ -362,7 +362,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and prepare a new SSL server context
-    std::shared_ptr<asio::ssl::context> server_context = EchoSSLServer::CreateContext();
+    auto server_context = EchoSSLServer::CreateContext();
 
     // Create and start Echo server
     auto server = std::make_shared<EchoSSLServer>(service, server_context, InternetProtocol::IPv4, port);
@@ -374,7 +374,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     const int duration = 10;
 
     // Create and prepare a new SSL client context
-    std::shared_ptr<asio::ssl::context> client_context = EchoSSLClient::CreateContext();
+    auto client_context = EchoSSLClient::CreateContext();
 
     // Clients collection
     std::vector<std::shared_ptr<EchoSSLClient>> clients;

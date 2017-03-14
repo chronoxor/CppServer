@@ -133,7 +133,7 @@ private:
     std::shared_ptr<asio::ssl::context> _context;
     std::string _uri;
     WebSocketSSLClientCore _core;
-	websocketpp::connection_hdl _connection;
+    websocketpp::connection_hdl _connection;
     std::atomic<bool> _initialized;
     std::atomic<bool> _connected;
     // Client statistic

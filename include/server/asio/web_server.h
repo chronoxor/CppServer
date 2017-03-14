@@ -1,52 +1,52 @@
 /*!
-    \file rest_server.h
-    \brief REST server definition
+    \file web_server.h
+    \brief Web server definition
     \author Ivan Shynkarenka
     \date 13.03.2017
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_ASIO_REST_SERVER_H
-#define CPPSERVER_ASIO_REST_SERVER_H
+#ifndef CPPSERVER_ASIO_WEB_SERVER_H
+#define CPPSERVER_ASIO_WEB_SERVER_H
 
 #include "asio.h"
-#include "rest.h"
 #include "service.h"
+#include "web.h"
 
 namespace CppServer {
 namespace Asio {
 
-//! REST server
+//! Web server
 /*!
-    REST server is used to provide HTTP/HTTPS interface to handle different kind
-    of web requests such as POST, GET, PUT, DELETE, etc.
+    Web server is used to provide HTTP/HTTPS interface to handle different kind
+    of Web requests such as POST, GET, PUT, DELETE, etc.
 
     Thread-safe.
 
     https://github.com/corvusoft/restbed
 */
-class RestServer : public std::enable_shared_from_this<RestServer>
+class WebServer : public std::enable_shared_from_this<WebServer>
 {
 public:
-    //! Initialize REST server with a given Asio service and port number
+    //! Initialize Web server with a given Asio service and port number
     /*!
         \param service - Asio service
         \param port - Port number
     */
-    explicit RestServer(std::shared_ptr<Service> service, int port);
-    //! Initialize REST server with a given Asio service, IP address and port number
+    explicit WebServer(std::shared_ptr<Service> service, int port);
+    //! Initialize Web server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
         \param address - IP address
         \param port - Port number
     */
-    explicit RestServer(std::shared_ptr<Service> service, const std::string& address, int port);
-    RestServer(const RestServer&) = delete;
-    RestServer(RestServer&&) = default;
-    virtual ~RestServer() = default;
+    explicit WebServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    WebServer(const WebServer&) = delete;
+    WebServer(WebServer&&) = default;
+    virtual ~WebServer() = default;
 
-    RestServer& operator=(const RestServer&) = delete;
-    RestServer& operator=(RestServer&&) = default;
+    WebServer& operator=(const WebServer&) = delete;
+    WebServer& operator=(WebServer&&) = default;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
@@ -92,10 +92,10 @@ private:
     std::atomic<bool> _started;
 };
 
-/*! \example rest_http_server.cpp REST HTTP server example */
-/*! \example rest_https_server.cpp REST HTTPS server example */
+/*! \example web_http_server.cpp HTTP Web server example */
+/*! \example web_https_server.cpp HTTPS Web server example */
 
 } // namespace Asio
 } // namespace CppServer
 
-#endif // CPPSERVER_ASIO_REST_SERVER_H
+#endif // CPPSERVER_ASIO_WEB_SERVER_H

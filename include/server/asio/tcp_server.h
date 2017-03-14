@@ -124,12 +124,12 @@ protected:
     /*!
         \param session - Connected session
     */
-    virtual void onConnected(std::shared_ptr<TSession> session) {}
+    virtual void onConnected(std::shared_ptr<TSession>& session) {}
     //! Handle session disconnected notification
     /*!
         \param session - Disconnected session
     */
-    virtual void onDisconnected(std::shared_ptr<TSession> session) {}
+    virtual void onDisconnected(std::shared_ptr<TSession>& session) {}
 
     //! Handle error notification
     /*!

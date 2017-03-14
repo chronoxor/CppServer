@@ -51,7 +51,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit EchoTCPClient(std::shared_ptr<EchoTCPService>& service, const std::string& address, int port)
+    explicit EchoTCPClient(std::shared_ptr<EchoTCPService> service, const std::string& address, int port)
         : TCPClient(service, address, port),
           connected(false),
           disconnected(false),
@@ -113,8 +113,8 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onConnected(std::shared_ptr<EchoTCPSession> session) override { connected = true; ++clients; }
-    void onDisconnected(std::shared_ptr<EchoTCPSession> session) override { disconnected = true; --clients; }
+    void onConnected(std::shared_ptr<EchoTCPSession>& session) override { connected = true; ++clients; }
+    void onDisconnected(std::shared_ptr<EchoTCPSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 

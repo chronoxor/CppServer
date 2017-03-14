@@ -1,17 +1,17 @@
 /*!
-    \file rest_server.cpp
-    \brief REST server implementation
+    \file web_server.cpp
+    \brief Web server implementation
     \author Ivan Shynkarenka
     \date 13.03.2017
     \copyright MIT License
 */
 
-#include "server/asio/rest_server.h"
+#include "server/asio/web_server.h"
 
 namespace CppServer {
 namespace Asio {
 
-RestServer::RestServer(std::shared_ptr<Service> service, int port)
+WebServer::WebServer(std::shared_ptr<Service> service, int port)
     : _service(service),
       _server(std::make_shared<restbed::Service>()),
       _settings(std::make_shared<restbed::Settings>()),
@@ -32,7 +32,7 @@ RestServer::RestServer(std::shared_ptr<Service> service, int port)
     _ssl_settings->set_port(port);
 }
 
-RestServer::RestServer(std::shared_ptr<Service> service, const std::string& address, int port)
+WebServer::WebServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _server(std::make_shared<restbed::Service>()),
       _settings(std::make_shared<restbed::Settings>()),
@@ -55,9 +55,9 @@ RestServer::RestServer(std::shared_ptr<Service> service, const std::string& addr
     _ssl_settings->set_port(port);
 }
 
-bool RestServer::Start()
+bool WebServer::Start()
 {
-    assert(!IsStarted() && "REST server is already started!");
+    assert(!IsStarted() && "Web server is already started!");
     if (IsStarted())
         return false;
 
@@ -78,9 +78,9 @@ bool RestServer::Start()
     return true;
 }
 
-bool RestServer::Stop()
+bool WebServer::Stop()
 {
-    assert(IsStarted() && "REST server is not started!");
+    assert(IsStarted() && "Web server is not started!");
     if (!IsStarted())
         return false;
 
@@ -101,7 +101,7 @@ bool RestServer::Stop()
     return true;
 }
 
-bool RestServer::Restart()
+bool WebServer::Restart()
 {
     if (!Stop())
         return false;

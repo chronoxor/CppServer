@@ -52,7 +52,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit EchoWebSocketClient(std::shared_ptr<EchoWebSocketService>& service, const std::string& uri)
+    explicit EchoWebSocketClient(std::shared_ptr<EchoWebSocketService> service, const std::string& uri)
         : WebSocketClient(service, uri),
           connected(false),
           disconnected(false),
@@ -114,8 +114,8 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onConnected(std::shared_ptr<EchoWebSocketSession> session) override { connected = true; ++clients; }
-    void onDisconnected(std::shared_ptr<EchoWebSocketSession> session) override { disconnected = true; --clients; }
+    void onConnected(std::shared_ptr<EchoWebSocketSession>& session) override { connected = true; ++clients; }
+    void onDisconnected(std::shared_ptr<EchoWebSocketSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 

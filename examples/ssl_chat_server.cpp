@@ -86,7 +86,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL server context
-    std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
     context->set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
     context->set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
     context->use_certificate_chain_file("../tools/certificates/server.pem");

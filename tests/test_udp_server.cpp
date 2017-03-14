@@ -51,14 +51,14 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit EchoUDPClient(std::shared_ptr<EchoUDPService>& service, const std::string& address, int port)
+    explicit EchoUDPClient(std::shared_ptr<EchoUDPService> service, const std::string& address, int port)
         : UDPClient(service, address, port),
           connected(false),
           disconnected(false),
           error(false)
     {
     }
-    explicit EchoUDPClient(std::shared_ptr<EchoUDPService>& service, const std::string& address, int port, bool reuse_address)
+    explicit EchoUDPClient(std::shared_ptr<EchoUDPService> service, const std::string& address, int port, bool reuse_address)
         : UDPClient(service, address, port, reuse_address),
           connected(false),
           disconnected(false),
