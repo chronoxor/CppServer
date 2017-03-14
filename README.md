@@ -30,6 +30,10 @@ client/server solutions.
     * [Example: UDP echo client](#example-udp-echo-client)
     * [Example: UDP multicast server](#example-udp-multicast-server)
     * [Example: UDP multicast client](#example-udp-multicast-client)
+    * [Example: HTTP Web server](#example-http-web-server)
+    * [Example: HTTPS Web server](#example-https-web-server)
+    * [Example: HTTP/HTTPS Web synchronous client](#example-http-https-web-synchronous-client)
+    * [Example: HTTP/HTTPS Web asynchronous client](#example-http-https-web-asynchronous-client)
     * [Example: WebSocket chat server](#example-websocket-chat-server)
     * [Example: WebSocket chat client](#example-websocket-chat-client)
     * [Example: WebSocket SSL chat server](#example-websocket-ssl-chat-server)
@@ -52,6 +56,7 @@ client/server solutions.
 * [Asynchronous communication](http://think-async.com)
 * Supported transport protocols: [TCP](#example-tcp-chat-server), [SSL](#example-ssl-chat-server),
   [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server),
+  [HTTP](#example-http-web-server), [HTTPS](#example-https-web-server),
   [WebSocket](#example-websocket-chat-server), [WebSocket SSL](#example-websocket-ssl-chat-server)
 
 # Requirements
@@ -1124,6 +1129,475 @@ int main(int argc, char** argv)
     std::cout << "Client disconnecting...";
     client->Disconnect();
     std::cout << "Done!" << std::endl;
+
+    // Stop the service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: HTTP Web server
+Here comes the example of the HTTP Web server. It handles RESTful Web requests
+to create, get, update and delete key/value storage data.
+
+```C++
+#include "server/asio/web_server.h"
+
+#include <iostream>
+#include <memory>
+#include <map>
+
+class HttpServer : public CppServer::Asio::WebServer
+{
+public:
+    explicit HttpServer(std::shared_ptr<CppServer::Asio::Service> service, int port)
+        : CppServer::Asio::WebServer(service, port, false)
+    {
+        // Create a resource
+        auto resource = std::make_shared<restbed::Resource>();
+        resource->set_path("/storage/{key: .*}");
+        resource->set_method_handler("POST", RestStoragePost);
+        resource->set_method_handler("GET", RestStorageGet);
+        resource->set_method_handler("PUT", RestStoragePut);
+        resource->set_method_handler("DELETE", RestStorageDelete);
+
+        // Publish the resource
+        server()->publish(resource);
+    }
+
+private:
+    static std::map<std::string, std::string> _storage;
+
+    static void RestStoragePost(const std::shared_ptr<restbed::Session>& session)
+    {
+        auto request = session->get_request();
+        size_t request_content_length = request->get_header("Content-Length", 0);
+        session->fetch(request_content_length, [request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
+        {
+            std::string key = request->get_path_parameter("key");
+            std::string data = std::string((char*)body.data(), body.size());
+
+            std::cout << "POST /storage/" << key << " => " << data << std::endl;
+
+            _storage[key] = data;
+
+            session->close(restbed::OK);
+        });
+    }
+
+    static void RestStorageGet(const std::shared_ptr<restbed::Session>& session)
+    {
+        auto request = session->get_request();
+        std::string key = request->get_path_parameter("key");
+        std::string data = _storage[key];
+
+        std::cout << "GET /storage/" << key << " => " << data << std::endl;
+
+        session->close(restbed::OK, data, { { "Content-Length", std::to_string(data.size()) } });
+    }
+
+    static void RestStoragePut(const std::shared_ptr<restbed::Session>& session)
+    {
+        const auto request = session->get_request();
+        size_t request_content_length = request->get_header("Content-Length", 0);
+        session->fetch(request_content_length, [request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
+        {
+            std::string key = request->get_path_parameter("key");
+            std::string data = std::string((char*)body.data(), body.size());
+
+            std::cout << "PUT /storage/" << key << " => " << data << std::endl;
+
+            _storage[key] = data;
+
+            session->close(restbed::OK);
+        });
+    }
+
+    static void RestStorageDelete(const std::shared_ptr<restbed::Session>& session)
+    {
+        auto request = session->get_request();
+        std::string key = request->get_path_parameter("key");
+        std::string data = _storage[key];
+
+        std::cout << "DELETE /storage/" << key << " => " << data << std::endl;
+
+        _storage[key] = "";
+
+        session->close(restbed::OK);
+    }
+};
+
+std::map<std::string, std::string> HttpServer::_storage;
+
+int main(int argc, char** argv)
+{
+    // HTTP Web server port
+    int port = 8000;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "HTTP Web server port: " << port << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new HTTP Web server
+    auto server = std::make_shared<HttpServer>(service, port);
+
+    // Start the server
+    std::cout << "Server starting...";
+    server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+    }
+
+    // Stop the server
+    std::cout << "Server stopping...";
+    server->Stop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: HTTPS Web server
+Here comes the example of the HTTPS Web server. It handles RESTful Web requests
+to create, get, update and delete key/value storage data.
+
+This example is very similar to the simple HTTP Web server one except the SSL
+secured transport is used.
+
+```C++
+#include "server/asio/web_server.h"
+
+#include <iostream>
+#include <memory>
+#include <map>
+
+class HttpsServer : public CppServer::Asio::WebServer
+{
+public:
+    explicit HttpsServer(std::shared_ptr<CppServer::Asio::Service> service, int port)
+        : CppServer::Asio::WebServer(service, port, true)
+    {
+        // Create a resource
+        auto resource = std::make_shared<restbed::Resource>();
+        resource->set_path("/storage/{key: .*}");
+        resource->set_method_handler("POST", RestStoragePost);
+        resource->set_method_handler("GET", RestStorageGet);
+        resource->set_method_handler("PUT", RestStoragePut);
+        resource->set_method_handler("DELETE", RestStorageDelete);
+
+        // Publish the resource
+        server()->publish(resource);
+
+        // Prepare SSL settings
+        ssl_settings()->set_http_disabled(true);
+        ssl_settings()->set_default_workarounds_enabled(true);
+        ssl_settings()->set_sslv2_enabled(false);
+        ssl_settings()->set_single_diffie_hellman_use_enabled(true);
+        ssl_settings()->set_passphrase("qwerty");
+        ssl_settings()->set_certificate_chain(restbed::Uri("file://../tools/certificates/server.pem"));
+        ssl_settings()->set_private_key(restbed::Uri("file://../tools/certificates/server.pem"));
+        ssl_settings()->set_temporary_diffie_hellman(restbed::Uri("file://../tools/certificates/dh4096.pem"));
+    }
+
+private:
+    static std::map<std::string, std::string> _storage;
+
+    static void RestStoragePost(const std::shared_ptr<restbed::Session>& session)
+    {
+        auto request = session->get_request();
+        size_t request_content_length = request->get_header("Content-Length", 0);
+        session->fetch(request_content_length, [request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
+        {
+            std::string key = request->get_path_parameter("key");
+            std::string data = std::string((char*)body.data(), body.size());
+
+            std::cout << "POST /storage/" << key << " => " << data << std::endl;
+
+            _storage[key] = data;
+
+            session->close(restbed::OK);
+        });
+    }
+
+    static void RestStorageGet(const std::shared_ptr<restbed::Session>& session)
+    {
+        auto request = session->get_request();
+        std::string key = request->get_path_parameter("key");
+        std::string data = _storage[key];
+
+        std::cout << "GET /storage/" << key << " => " << data << std::endl;
+
+        session->close(restbed::OK, data, { { "Content-Length", std::to_string(data.size()) } });
+    }
+
+    static void RestStoragePut(const std::shared_ptr<restbed::Session>& session)
+    {
+        const auto request = session->get_request();
+        size_t request_content_length = request->get_header("Content-Length", 0);
+        session->fetch(request_content_length, [request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
+        {
+            std::string key = request->get_path_parameter("key");
+            std::string data = std::string((char*)body.data(), body.size());
+
+            std::cout << "PUT /storage/" << key << " => " << data << std::endl;
+
+            _storage[key] = data;
+
+            session->close(restbed::OK);
+        });
+    }
+
+    static void RestStorageDelete(const std::shared_ptr<restbed::Session>& session)
+    {
+        auto request = session->get_request();
+        std::string key = request->get_path_parameter("key");
+        std::string data = _storage[key];
+
+        std::cout << "DELETE /storage/" << key << " => " << data << std::endl;
+
+        _storage[key] = "";
+
+        session->close(restbed::OK);
+    }
+};
+
+std::map<std::string, std::string> HttpsServer::_storage;
+
+int main(int argc, char** argv)
+{
+    // HTTPS Web server port
+    int port = 9000;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "HTTPS Web server port: " << port << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new HTTPS Web server
+    auto server = std::make_shared<HttpsServer>(service, port);
+
+    // Start the server
+    std::cout << "Server starting...";
+    server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+    }
+
+    // Stop the server
+    std::cout << "Server stopping...";
+    server->Stop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: HTTP Web synchronous client
+Here comes the example of the HTTP Web synchronous client. It send GET Web
+request and receive response from a Web server in synchronous mode.
+
+```C++
+#include "server/asio/web_client.h"
+
+#include <iostream>
+#include <memory>
+
+void Show(const std::shared_ptr<restbed::Response>& response)
+{
+    std::cout << "*** Response header ***" << std::endl;
+    std::cout << "Status Code:    " << response->get_status_code() << std::endl;
+    std::cout << "Status Message: " << response->get_status_message().data() << std::endl;
+    std::cout << "HTTP Version:   " << response->get_version() << std::endl;
+    std::cout << "HTTP Protocol:  " << response->get_protocol().data() << std::endl;
+    for (auto& header : response->get_headers())
+        std::cout << "Header ['" << header.first.data() << "'] = '" << header.second.data() << "'" << std::endl;
+
+    std::cout << "*** Response body ***" << std::endl;
+    auto length = response->get_header("Content-Length", 0);
+    auto content = CppServer::Asio::WebClient::Fetch(response, length);
+    std::cout.write((char*)content.data(), content.size());
+    std::cout << std::endl << "*** Response end ***" << std::endl;
+}
+
+int main(int argc, char** argv)
+{
+    // HTTP/HTTPS Web server address
+    std::string address = "https://www.google.com";
+    if (argc > 1)
+        address = argv[1];
+
+    std::cout << "HTTP/HTTPS Web server address: " << address << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new HTTP/HTTPS Web client
+    auto client = std::make_shared<CppServer::Asio::WebClient>(service, false);
+
+    // Create and fill Web request
+    auto request = std::make_shared<restbed::Request>(restbed::Uri(address));
+    request->set_header("Accept", "*/*");
+
+    try
+    {
+        // Send synchronous Web request to the server
+        auto response = client->Send(request);
+
+        // Show the Web response
+        Show(response);
+    }
+    catch (std::exception& ex)
+    {
+        std::cerr << "Exception caught: " << ex.what() << std::endl;
+    }
+
+    // Stop the service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: HTTP Web asynchronous client
+Here comes the example of the HTTP Web synchronous client. It send GET Web
+request and receive response from a Web server in asynchronous mode.
+
+```C++
+#include "server/asio/web_client.h"
+
+#include <iostream>
+#include <memory>
+
+void Show(const std::shared_ptr<restbed::Response>& response)
+{
+    std::cout << "*** Response header ***" << std::endl;
+    std::cout << "Status Code:    " << response->get_status_code() << std::endl;
+    std::cout << "Status Message: " << response->get_status_message().data() << std::endl;
+    std::cout << "HTTP Version:   " << response->get_version() << std::endl;
+    std::cout << "HTTP Protocol:  " << response->get_protocol().data() << std::endl;
+    for (auto& header : response->get_headers())
+        std::cout << "Header ['" << header.first.data() << "'] = '" << header.second.data() << "'" << std::endl;
+
+    std::cout << "*** Response body ***" << std::endl;
+    auto length = response->get_header("Content-Length", 0);
+    auto content = CppServer::Asio::WebClient::Fetch(response, length);
+    std::cout.write((char*)content.data(), content.size());
+    std::cout << std::endl << "*** Response end ***" << std::endl;
+}
+
+int main(int argc, char** argv)
+{
+    // HTTP/HTTPS Web server address
+    std::string address = "https://www.google.com";
+    if (argc > 1)
+        address = argv[1];
+
+    std::cout << "HTTP/HTTPS Web server address: " << address << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new HTTP/HTTPS Web client
+    auto client = std::make_shared<CppServer::Asio::WebClient>(service, false);
+
+    // Create and fill Web request
+    auto request = std::make_shared<restbed::Request>(restbed::Uri(address));
+    request->set_header("Accept", "*/*");
+
+    // Send synchronous Web request to the server
+    auto response = client->SendAsync(request, [](const std::shared_ptr<restbed::Request>& request, const std::shared_ptr<restbed::Response>& response)
+    {
+        // Show the Web response
+        Show(response);
+    });
+
+    std::cout << "Press Enter to stop the client..." << std::endl;
+    std::string line;
+    getline(std::cin, line);
+
+    try
+    {
+        if (response.valid())
+            response.get();
+    }
+    catch (std::exception& ex)
+    {
+        std::cerr << "Exception caught: " << ex.what() << std::endl;
+    }
 
     // Stop the service
     std::cout << "Asio service stopping...";
