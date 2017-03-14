@@ -65,6 +65,16 @@ int main(int argc, char** argv)
     std::string line;
     getline(std::cin, line);
 
+    try
+    {
+        if (response.valid())
+            response.get();
+    }
+    catch (std::exception& ex)
+    {
+        std::cerr << "Exception caught: " << ex.what() << std::endl;
+    }
+
     // Stop the service
     std::cout << "Asio service stopping...";
     service->Stop();

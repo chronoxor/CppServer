@@ -66,10 +66,10 @@ public:
     //! Send Web request to the server in asynchronous mode
     /*!
         \param request - Web request
-        \param callback - Callback function
+        \param callback - Callback function (default is empty callback)
         \return Web response future
     */
-    std::future<std::shared_ptr<restbed::Response>> SendAsync(const std::shared_ptr<restbed::Request>& request, const std::function<void (const std::shared_ptr<restbed::Request>&, const std::shared_ptr<restbed::Response>&)>& callback);
+    std::future<std::shared_ptr<restbed::Response>> SendAsync(const std::shared_ptr<restbed::Request>& request, const std::function<void (const std::shared_ptr<restbed::Request>&, const std::shared_ptr<restbed::Response>&)>& callback = [](const std::shared_ptr<restbed::Request>&, const std::shared_ptr<restbed::Response>&){});
 
     //! Is the given Web request opened?
     /*!

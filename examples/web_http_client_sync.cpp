@@ -47,18 +47,25 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
-    // Create a new HTTP/HTTPS Web client
-    auto client = std::make_shared<CppServer::Asio::WebClient>(service, true);
+    try
+    {
+        // Create a new HTTP/HTTPS Web client
+        auto client = std::make_shared<CppServer::Asio::WebClient>(service, true);
 
-    // Create and fill Web request
-    auto request = std::make_shared<restbed::Request>(restbed::Uri(address));
-    request->set_header("Accept", "*/*");
+        // Create and fill Web request
+        auto request = std::make_shared<restbed::Request>(restbed::Uri(address));
+        request->set_header("Accept", "*/*");
 
-    // Send synchronous Web request to the server
-    auto response = client->Send(request);
+        // Send synchronous Web request to the server
+        auto response = client->Send(request);
 
-    // Show the Web response
-    Show(response);
+        // Show the Web response
+        Show(response);
+    }
+    catch (std::exception& ex)
+    {
+        std::cerr << "Exception caught: " << ex.what() << std::endl;
+    }
 
     // Stop the service
     std::cout << "Asio service stopping...";
