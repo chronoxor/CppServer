@@ -18,7 +18,7 @@ class HttpsServer : public CppServer::Asio::WebServer
 {
 public:
     explicit HttpsServer(std::shared_ptr<CppServer::Asio::Service> service, int port)
-        : CppServer::Asio::WebServer(service, port)
+        : CppServer::Asio::WebServer(service, port, true)
     {
         // Create a resource
         auto resource = std::make_shared<restbed::Resource>();
@@ -40,7 +40,6 @@ public:
         ssl_settings()->set_certificate_chain(restbed::Uri("file://../tools/certificates/server.pem"));
         ssl_settings()->set_private_key(restbed::Uri("file://../tools/certificates/server.pem"));
         ssl_settings()->set_temporary_diffie_hellman(restbed::Uri("file://../tools/certificates/dh4096.pem"));
-        settings()->set_ssl_settings(ssl_settings());
     }
 
 private:
@@ -55,7 +54,7 @@ private:
             std::string key = request->get_path_parameter("key");
             std::string data = std::string((char*)body.data(), body.size());
 
-            std::cout << "POST /storage/" << key << ": " << data << std::endl;
+            std::cout << "POST /storage/" << key << " => " << data << std::endl;
 
             _storage[key] = data;
 
@@ -69,7 +68,7 @@ private:
         std::string key = request->get_path_parameter("key");
         std::string data = _storage[key];
 
-        std::cout << "GET /storage/" << key << ": " << data << std::endl;
+        std::cout << "GET /storage/" << key << " => " << data << std::endl;
 
         session->close(restbed::OK, data, { { "Content-Length", std::to_string(data.size()) } });
     }
@@ -83,7 +82,7 @@ private:
             std::string key = request->get_path_parameter("key");
             std::string data = std::string((char*)body.data(), body.size());
 
-            std::cout << "PUT /storage/" << key << ": " << data << std::endl;
+            std::cout << "PUT /storage/" << key << " => " << data << std::endl;
 
             _storage[key] = data;
 
@@ -97,7 +96,7 @@ private:
         std::string key = request->get_path_parameter("key");
         std::string data = _storage[key];
 
-        std::cout << "DELETE /storage/" << key << ": " << data << std::endl;
+        std::cout << "DELETE /storage/" << key << " => " << data << std::endl;
 
         _storage[key] = "";
 

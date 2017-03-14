@@ -32,15 +32,17 @@ public:
     /*!
         \param service - Asio service
         \param port - Port number
+        \param ssl - SSL flag (default is false)
     */
-    explicit WebServer(std::shared_ptr<Service> service, int port);
+    explicit WebServer(std::shared_ptr<Service> service, int port, bool ssl = false);
     //! Initialize Web server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
         \param address - IP address
         \param port - Port number
+        \param ssl - SSL flag (default is false)
     */
-    explicit WebServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    explicit WebServer(std::shared_ptr<Service> service, const std::string& address, int port, bool ssl = false);
     WebServer(const WebServer&) = delete;
     WebServer(WebServer&&) = default;
     virtual ~WebServer() = default;
@@ -57,6 +59,8 @@ public:
     //! Get the Restbed SSL settings
     std::shared_ptr<restbed::SSLSettings>& ssl_settings() noexcept { return _ssl_settings; }
 
+    //! Is the server SSL secured?
+    bool IsSSL() const noexcept { return _ssl; }
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
@@ -90,6 +94,7 @@ private:
     std::shared_ptr<restbed::Settings> _settings;
     std::shared_ptr<restbed::SSLSettings> _ssl_settings;
     std::atomic<bool> _started;
+    bool _ssl;
 };
 
 /*! \example web_http_server.cpp HTTP Web server example */

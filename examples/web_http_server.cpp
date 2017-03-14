@@ -18,7 +18,7 @@ class HttpServer : public CppServer::Asio::WebServer
 {
 public:
     explicit HttpServer(std::shared_ptr<CppServer::Asio::Service> service, int port)
-        : CppServer::Asio::WebServer(service, port)
+        : CppServer::Asio::WebServer(service, port, false)
     {
         // Create a resource
         auto resource = std::make_shared<restbed::Resource>();
@@ -44,7 +44,7 @@ private:
             std::string key = request->get_path_parameter("key");
             std::string data = std::string((char*)body.data(), body.size());
 
-            std::cout << "POST /storage/" << key << ": " << data << std::endl;
+            std::cout << "POST /storage/" << key << " => " << data << std::endl;
 
             _storage[key] = data;
 
@@ -58,7 +58,7 @@ private:
         std::string key = request->get_path_parameter("key");
         std::string data = _storage[key];
 
-        std::cout << "GET /storage/" << key << ": " << data << std::endl;
+        std::cout << "GET /storage/" << key << " => " << data << std::endl;
 
         session->close(restbed::OK, data, { { "Content-Length", std::to_string(data.size()) } });
     }
@@ -72,7 +72,7 @@ private:
             std::string key = request->get_path_parameter("key");
             std::string data = std::string((char*)body.data(), body.size());
 
-            std::cout << "PUT /storage/" << key << ": " << data << std::endl;
+            std::cout << "PUT /storage/" << key << " => " << data << std::endl;
 
             _storage[key] = data;
 
@@ -86,7 +86,7 @@ private:
         std::string key = request->get_path_parameter("key");
         std::string data = _storage[key];
 
-        std::cout << "DELETE /storage/" << key << ": " << data << std::endl;
+        std::cout << "DELETE /storage/" << key << " => " << data << std::endl;
 
         _storage[key] = "";
 

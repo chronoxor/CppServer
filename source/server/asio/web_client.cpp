@@ -11,14 +11,19 @@
 namespace CppServer {
 namespace Asio {
 
-WebClient::WebClient(std::shared_ptr<Service> service)
+WebClient::WebClient(std::shared_ptr<Service> service, bool ssl)
     : _service(service),
       _settings(std::make_shared<restbed::Settings>()),
-      _ssl_settings(std::make_shared<restbed::SSLSettings>())
+      _ssl_settings(std::make_shared<restbed::SSLSettings>()),
+      _ssl(ssl)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("ASIO service is invalid!");
+
+    // Prepare Web client settings
+    if (IsSSL())
+        _settings->set_ssl_settings(_ssl_settings);
 }
 
 const std::shared_ptr<restbed::Response> WebClient::Send(const std::shared_ptr<restbed::Request>& request)
