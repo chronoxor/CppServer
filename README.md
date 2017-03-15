@@ -73,7 +73,7 @@ Optional:
 * [MinGW](http://mingw-w64.org/doku.php)
 * [Visual Studio 2015](https://www.visualstudio.com)
 
-#How to build?
+# How to build?
 
 ## Clone repository with submodules
 ```
