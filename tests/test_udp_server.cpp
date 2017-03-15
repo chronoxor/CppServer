@@ -495,4 +495,3 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     REQUIRE(server->bytes_received() == 0);
     REQUIRE(!server->error);
 }
-
