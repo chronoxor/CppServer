@@ -161,7 +161,7 @@ TEST_CASE("UDP server & client", "[CppServer][Asio]")
     REQUIRE(client->bytes_received() == 4);
     REQUIRE(!client->error);
 }
-/*
+
 TEST_CASE("UDP server multicast", "[CppServer][Asio]")
 {
     const std::string listen_address = "0.0.0.0";
@@ -187,6 +187,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
     client1->JoinMulticastGroup(multicast_address);
 
+    // Wait for a while...
+    Thread::Sleep(100);
+
     // Multicast some data to all clients
     server->Multicast("test");
 
@@ -200,6 +203,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     while (!client2->IsConnected())
         Thread::Yield();
     client2->JoinMulticastGroup(multicast_address);
+
+    // Wait for a while...
+    Thread::Sleep(100);
 
     // Multicast some data to all clients
     server->Multicast("test");
@@ -215,6 +221,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
     client3->JoinMulticastGroup(multicast_address);
 
+    // Wait for a while...
+    Thread::Sleep(100);
+
     // Multicast some data to all clients
     server->Multicast("test");
 
@@ -227,6 +236,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(client1->Disconnect());
     while (client1->IsConnected())
         Thread::Yield();
+
+    // Wait for a while...
+    Thread::Sleep(100);
 
     // Multicast some data to all clients
     server->Multicast("test");
@@ -241,6 +253,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     while (client2->IsConnected())
         Thread::Yield();
 
+    // Wait for a while...
+    Thread::Sleep(100);
+
     // Multicast some data to all clients
     server->Multicast("test");
 
@@ -253,6 +268,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(client3->Disconnect());
     while (client3->IsConnected())
         Thread::Yield();
+
+    // Wait for a while...
+    Thread::Sleep(100);
 
     // Stop the Echo server
     REQUIRE(server->Stop());
@@ -290,7 +308,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(!client2->error);
     REQUIRE(!client3->error);
 }
-*/
+
 TEST_CASE("UDP server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
@@ -477,3 +495,4 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     REQUIRE(server->bytes_received() == 0);
     REQUIRE(!server->error);
 }
+
