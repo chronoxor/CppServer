@@ -213,9 +213,8 @@ public:
         auto self(this->shared_from_this());
         _service->Dispatch([this, self]()
         {
-            // Try to send the buffer if it is the first buffer to send
-            if (!_sending)
-                TrySend();
+            // Try to send the buffer
+            TrySend();
         });
 
         return _send_buffer.size();
@@ -293,7 +292,7 @@ private:
 
             // Try to receive again if the client is valid
             if (!ec || (ec == asio::error::would_block))
-                TryReceive();
+                service()->Post([this, self]() { TryReceive(); });
             else
             {
                 onError(ec.value(), ec.category().name(), ec.message());
@@ -342,7 +341,7 @@ private:
 
             // Try to send again if the client is valid
             if (!ec || (ec == asio::error::would_block))
-                TrySend();
+                service()->Post([this, self]() { TrySend(); });
             else
             {
                 onError(ec.value(), ec.category().name(), ec.message());

@@ -4,7 +4,7 @@
 
 #include "benchmark/reporter_console.h"
 #include "server/asio/service.h"
-#include "server/asio/tcp_client.h"
+#include "server/asio/udp_client.h"
 #include "system/cpu.h"
 #include "threads/thread.h"
 #include "time/timestamp.h"
@@ -23,17 +23,16 @@ std::atomic<size_t> total_errors(0);
 std::atomic<size_t> total_sent(0);
 std::atomic<size_t> total_received(0);
 
-class EchoClient : public CppServer::Asio::TCPClient
+class EchoClient : public CppServer::Asio::UDPClient
 {
 public:
-    using CppServer::Asio::TCPClient::TCPClient;
+    using CppServer::Asio::UDPClient::UDPClient;
 
 protected:
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
         timestamp_received = CppCommon::Timestamp::nano();
         total_received += size;
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -48,7 +47,7 @@ int main(int argc, char** argv)
 
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
     parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");

@@ -166,21 +166,27 @@ size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buff
         return 0;
 
     // Fill the send buffer
+    size_t pending = 0;
     {
         std::lock_guard<std::mutex> locker(_send_lock);
-        const uint8_t* bytes = (const uint8_t*)buffer;
-        _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
+        const uint8_t* bytes = (const uint8_t*)(&endpoint);
+        _send_buffer_input.insert(_send_buffer_input.end(), bytes, bytes + sizeof(asio::ip::udp::endpoint));
+        bytes = (const uint8_t*)(&size);
+        _send_buffer_input.insert(_send_buffer_input.end(), bytes, bytes + sizeof(size_t));
+        bytes = (const uint8_t*)buffer;
+        _send_buffer_input.insert(_send_buffer_input.end(), bytes, bytes + size);
+        pending = _send_buffer_input.size() + _send_buffer_output.size();
     }
 
     // Dispatch the send routine
     auto self(this->shared_from_this());
-    service()->Dispatch([this, self, endpoint, size]()
+    service()->Dispatch([this, self]()
     {
         // Try to send the datagram
-        TrySend(endpoint, size);
+        TrySend();
     });
 
-    return _send_buffer.size();
+    return pending;
 }
 
 void UDPServer::TryReceive()
@@ -221,20 +227,49 @@ void UDPServer::TryReceive()
 
         // Try to receive again if the session is valid
         if (!ec || (ec == asio::error::would_block))
-            TryReceive();
+            service()->Post([this, self]() { TryReceive(); });
         else
             onError(ec.value(), ec.category().name(), ec.message());
     });
 }
 
-void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
+void UDPServer::TrySend()
 {
     if (_sending)
         return;
 
+    // Update the output send buffer
+    {
+        std::lock_guard<std::mutex> locker(_send_lock);
+
+        // Copy the input send buffer into the output one
+        _send_buffer_output.insert(_send_buffer_output.begin(), _send_buffer_input.begin(), _send_buffer_input.end());
+
+        // Clear the input buffer
+        _send_buffer_input.clear();
+
+        // Stop sending if the output send buffer is empty
+        if (_send_buffer_output.empty())
+            return;
+    }
+
+    size_t offset = 0;
+
+    // Read endpoint from the buffer
+    asio::ip::udp::endpoint endpoint = *(asio::ip::udp::endpoint*)(_send_buffer_output.data() + offset);
+    offset += sizeof(asio::ip::udp::endpoint);
+
+    // Read datagram size from the buffer
+    size_t* size = (size_t*)(_send_buffer_output.data() + offset);
+    offset += sizeof(size_t);
+
+    // Read datagram address from the buffer
+    uint8_t* data = (uint8_t*)(_send_buffer_output.data() + offset);
+    offset += *size;
+
     _sending = true;
     auto self(this->shared_from_this());
-    _socket.async_send_to(asio::const_buffer(_send_buffer.data(), _send_buffer.size()), endpoint, [this, self, endpoint](std::error_code ec, size_t sent)
+    _socket.async_send_to(asio::const_buffer(data, *size), endpoint, [this, self, endpoint, offset](std::error_code ec, size_t sent)
     {
         _sending = false;
 
@@ -249,22 +284,16 @@ void UDPServer::TrySend(const asio::ip::udp::endpoint& endpoint, size_t size)
             ++_datagrams_sent;
             _bytes_sent += sent;
 
-            // Erase the sent buffer
-            {
-                std::lock_guard<std::mutex> locker(_send_lock);
-                _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + sent);
-            }
-
             // Call the datagram sent handler
             onSent(endpoint, sent, 0);
-
-            // Stop sending
-            return;
         }
+
+        // Erase datagram from the send buffer
+        _send_buffer_output.erase(_send_buffer_output.begin(), _send_buffer_output.begin() + offset);
 
         // Try to send again if the session is valid
         if (!ec || (ec == asio::error::would_block))
-            return;
+            service()->Post([this, self]() { TrySend(); });
         else
             onError(ec.value(), ec.category().name(), ec.message());
     });
@@ -274,7 +303,8 @@ void UDPServer::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_send_lock);
     _recive_buffer.clear();
-    _send_buffer.clear();
+    _send_buffer_input.clear();
+    _send_buffer_output.clear();
 }
 
 } // namespace Asio

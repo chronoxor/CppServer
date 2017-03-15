@@ -185,7 +185,8 @@ private:
     // Receive & send buffers
     std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
-    std::vector<uint8_t> _send_buffer;
+    std::vector<uint8_t> _send_buffer_input;
+    std::vector<uint8_t> _send_buffer_output;
     bool _reciving;
     bool _sending;
 
@@ -194,11 +195,7 @@ private:
     //! Try to receive new datagram
     void TryReceive();
     //! Try to send pending datagram
-    /*!
-        \param endpoint - Endpoint to send into
-        \param size - Buffer size to send
-    */
-    void TrySend(const asio::ip::udp::endpoint& endpoint, size_t size);
+    void TrySend();
 
     //! Clear receive & send buffers
     void ClearBuffers();
