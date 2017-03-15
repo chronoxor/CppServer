@@ -116,31 +116,31 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    size_t Send(const void* buffer, size_t size);
+    bool Send(const void* buffer, size_t size);
     //! Send a text string to the connected server
     /*!
         \param text - Text string to send
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
+    bool Send(const std::string& text) { return Send(text.data(), text.size()); }
 
     //! Send datagram to the given endpoint
     /*!
         \param endpoint - Endpoint to send
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    size_t Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
     //! Send a text string to the given endpoint
     /*!
         \param endpoint - Endpoint to send
         \param text - Text string to send
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
+    bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
 protected:
     //! Handle client connected notification
@@ -167,9 +167,8 @@ protected:
 
         \param endpoint - Endpoint of sent datagram
         \param sent - Size of sent datagram buffer
-        \param pending - Size of pending datagram buffer
     */
-    virtual void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent, size_t pending) {}
+    virtual void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) {}
 
     //! Handle error notification
     /*!
@@ -196,12 +195,8 @@ private:
     // Receive endpoint
     asio::ip::udp::endpoint _recive_endpoint;
     // Receive & send buffers
-    std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
-    std::vector<uint8_t> _send_buffer_input;
-    std::vector<uint8_t> _send_buffer_output;
     bool _reciving;
-    bool _sending;
     // Additional options
     bool _multicast;
     bool _reuse_address;
@@ -217,8 +212,6 @@ private:
 
     //! Try to receive new datagram
     void TryReceive();
-    //! Try to send pending datagram
-    void TrySend();
 
     //! Clear receive & send buffers
     void ClearBuffers();

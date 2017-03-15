@@ -104,31 +104,31 @@ public:
     /*!
         \param buffer - Datagram buffer to multicast
         \param size - Datagram buffer size
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    size_t Multicast(const void* buffer, size_t size);
+    bool Multicast(const void* buffer, size_t size);
     //! Multicast a text string to the prepared mulicast endpoint
     /*!
         \param text - Text string to multicast
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    size_t Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
+    bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
 
     //! Send a datagram into the given endpoint
     /*!
         \param endpoint - Endpoint to send
         \param buffer - Datagram buffer to send
         \param size - Datagram buffer size
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    size_t Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
     //! Send a text string into the given endpoint
     /*!
         \param endpoint - Endpoint to send
         \param text - Text string to send
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
+    bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
 protected:
     //! Handle server started notification
@@ -155,9 +155,8 @@ protected:
 
         \param endpoint - Endpoint of sent datagram
         \param sent - Size of sent datagram buffer
-        \param pending - Size of pending datagram buffer
     */
-    virtual void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent, size_t pending) {}
+    virtual void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) {}
 
     //! Handle error notification
     /*!
@@ -183,19 +182,13 @@ private:
     asio::ip::udp::endpoint _multicast_endpoint;
     asio::ip::udp::endpoint _recive_endpoint;
     // Receive & send buffers
-    std::mutex _send_lock;
     std::vector<uint8_t> _recive_buffer;
-    std::vector<uint8_t> _send_buffer_input;
-    std::vector<uint8_t> _send_buffer_output;
     bool _reciving;
-    bool _sending;
 
     static const size_t CHUNK = 8192;
 
     //! Try to receive new datagram
     void TryReceive();
-    //! Try to send pending datagram
-    void TrySend();
 
     //! Clear receive & send buffers
     void ClearBuffers();
