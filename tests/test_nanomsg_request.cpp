@@ -58,7 +58,7 @@ protected:
     void onReceived(Message& message) override { Send(message); }
     void onError(int error, const std::string& message) override { error = true; }
 };
-
+/*
 TEST_CASE("Nanomsg request server & client", "[CppServer][Nanomsg]")
 {
     const std::string address = "tcp://127.0.0.1:6670";
@@ -197,3 +197,4 @@ TEST_CASE("Nanomsg request random test", "[CppServer][Nanomsg]")
     REQUIRE(server->socket().bytes_received() > 0);
     REQUIRE(!server->error);
 }
+*/
