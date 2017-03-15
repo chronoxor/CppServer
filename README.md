@@ -1143,7 +1143,7 @@ int main(int argc, char** argv)
 Here comes the example of the HTTP Web server. It handles RESTful Web requests
 to create, get, update and delete key/value storage data.
 
-HTTP Web server is based on [Restbed library](https://github.com/Corvusoft/restbed).
+HTTP Web server is based on [Restbed library](https://github.com/Corvusoft/restbed)
 
 ```C++
 #include "server/asio/web_server.h"
@@ -1299,7 +1299,7 @@ to create, get, update and delete key/value storage data.
 This example is very similar to the simple HTTP Web server one except the SSL
 secured transport is used.
 
-HTTPS Web server is based on [Restbed library](https://github.com/Corvusoft/restbed).
+HTTPS Web server is based on [Restbed library](https://github.com/Corvusoft/restbed)
 
 ```C++
 #include "server/asio/web_server.h"
@@ -1462,7 +1462,7 @@ int main(int argc, char** argv)
 Here comes the example of the HTTP Web synchronous client. It send GET Web
 request and receive response from a Web server in synchronous mode.
 
-HTTP/HTTPS Web synchronous client is based on [Restbed library](https://github.com/Corvusoft/restbed).
+HTTP/HTTPS Web synchronous client is based on [Restbed library](https://github.com/Corvusoft/restbed)
 
 ```C++
 #include "server/asio/web_client.h"
@@ -1537,7 +1537,7 @@ int main(int argc, char** argv)
 Here comes the example of the HTTP Web synchronous client. It send GET Web
 request and receive response from a Web server in asynchronous mode.
 
-HTTP/HTTPS Web asynchronous client is based on [Restbed library](https://github.com/Corvusoft/restbed).
+HTTP/HTTPS Web asynchronous client is based on [Restbed library](https://github.com/Corvusoft/restbed)
 
 ```C++
 #include "server/asio/web_client.h"
@@ -1622,7 +1622,7 @@ WebSocket client sessions and multicast received message from any session
 to all ones. Also it is possible to send admin message directly from the
 server.
 
-WebSocket server is based on [WebSocket++ library](https://www.zaphoyd.com/websocketpp).
+WebSocket server is based on [WebSocket++ library](https://www.zaphoyd.com/websocketpp)
 
 ```C++
 #include "server/asio/websocket_server.h"
@@ -1748,7 +1748,7 @@ Here comes the example of the WebSocket chat client. It connects to the
 WebSocket chat server and allows to send message to it and receive new
 messages.
 
-WebSocket client is based on [WebSocket++ library](https://www.zaphoyd.com/websocketpp).
+WebSocket client is based on [WebSocket++ library](https://www.zaphoyd.com/websocketpp)
 
 ```C++
 #include "server/asio/websocket_client.h"
@@ -1868,7 +1868,7 @@ server.
 This example is very similar to the simple WebSocket one except the code that
 prepares SSL context.
 
-WebSocket server is based on [WebSocket++ library](https://www.zaphoyd.com/websocketpp).
+WebSocket server is based on [WebSocket++ library](https://www.zaphoyd.com/websocketpp)
 
 ```C++
 #include "server/asio/websocket_ssl_server.h"
@@ -2005,7 +2005,7 @@ messages.
 This example is very similar to the simple WebSocket one except the code that
 prepares SSL context.
 
-WebSocket client is based on [WebSocket++ library](https://www.zaphoyd.com/websocketpp).
+WebSocket client is based on [WebSocket++ library](https://www.zaphoyd.com/websocketpp)
 
 ```C++
 #include "server/asio/websocket_ssl_client.h"
