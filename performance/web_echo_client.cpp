@@ -4,7 +4,7 @@
 
 #include "benchmark/reporter_console.h"
 #include "server/asio/service.h"
-#include "server/asio/ssl_client.h"
+#include "server/asio/web_client.h"
 #include "system/cpu.h"
 #include "threads/thread.h"
 #include "time/timestamp.h"
@@ -27,41 +27,16 @@ std::atomic<size_t> total_sent_messages(0);
 std::atomic<size_t> total_received_bytes(0);
 std::atomic<size_t> total_received_messages(0);
 
-class EchoClient : public SSLClient
-{
-public:
-    using SSLClient::SSLClient;
-
-protected:
-    size_t onReceived(const void* buffer, size_t size) override
-    {
-        timestamp_received = CppCommon::Timestamp::nano();
-        total_received_bytes += size;
-        return size;
-    }
-
-    void onSent(size_t sent, size_t pending) override
-    {
-        total_sent_bytes += sent;
-    }
-
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        std::cout << "Client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
-        total_errors++;
-    }
-};
-
 int main(int argc, char** argv)
 {
     auto parser = optparse::OptionParser().version("1.0.0.0");
 
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(3333).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(8000).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
-    parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");
+    parser.add_option("-m", "--messages").action("store").type("int").set_default(10000).help("Count of messages to send. Default: %default");
     parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
@@ -81,8 +56,12 @@ int main(int argc, char** argv)
     int messages_count = options.get("messages");
     int message_size = options.get("size");
 
+    // Web server uri
+    const std::string uri = "http://" + address + ":" + std::to_string(port) + "/storage/test";
+
     std::cout << "Server address: " << address << std::endl;
     std::cout << "Server port: " << port << std::endl;
+    std::cout << "Server uri: " << uri << std::endl;
     std::cout << "Working threads: " << threads_count << std::endl;
     std::cout << "Working clients: " << clients_count << std::endl;
     std::cout << "Messages to send: " << messages_count << std::endl;
@@ -105,54 +84,42 @@ int main(int argc, char** argv)
         service->Start();
     std::cout << "Done!" << std::endl;
 
-    // Create and prepare a new SSL client context
-    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
-    context->set_verify_mode(asio::ssl::verify_peer);
-    context->load_verify_file("../tools/certificates/ca.pem");
-
     // Create echo clients
-    std::vector<std::shared_ptr<EchoClient>> clients;
+    std::vector<std::shared_ptr<WebClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
-        auto client = std::make_shared<EchoClient>(services[i % services.size()], context, address, port);
+        auto client = std::make_shared<WebClient>(services[i % services.size()]);
         clients.emplace_back(client);
     }
 
-    // Connect clients
-    std::cout << "Clients connecting...";
-    for (auto& client : clients)
-    {
-        client->Connect();
-        while (!client->IsConnected() || !client->IsHandshaked())
-            CppCommon::Thread::Yield();
-    }
-    std::cout << "Done!" << std::endl;
-
     timestamp_start = CppCommon::Timestamp::nano();
 
-    // Send messages to the server
-    for (int i = 0; i < messages_count; ++i)
-        clients[i % clients.size()]->Send(message.data(), message.size());
+    try
+    {
+        // Send messages to the server
+        for (int i = 0; i < messages_count; ++i)
+        {
+            // Create and fill Web request
+            auto request = std::make_shared<restbed::Request>(restbed::Uri(uri));
+            request->set_method("POST");
+            request->set_header("Content-Length", std::to_string(message.size()));
+            request->set_body(message);
+            total_sent_bytes += message.size();
+            total_sent_messages++;
+            auto response = clients[i % clients.size()]->Send(request);
+            auto length = response->get_header("Content-Length", 0);
+            WebClient::Fetch(response, length);
+            total_received_bytes += response->get_body().size();
+            total_received_messages++;
+        }
+    }
+    catch (std::exception& ex)
+    {
+        std::cerr << "Exception caught: " << ex.what() << std::endl;
+    }
 
     timestamp_sent = CppCommon::Timestamp::nano();
-
-    // Wait for received data
-    CppCommon::Thread::Sleep(20000);
-    size_t received = 0;
-    do
-    {
-        CppCommon::Thread::Sleep(100);
-        if (received < total_received_bytes)
-            received = total_received_bytes;
-        else
-            break;
-    } while (received < total_sent_bytes);
-
-    // Disconnect clients
-    std::cout << "Clients disconnecting...";
-    for (auto& client : clients)
-        client->Disconnect();
-    std::cout << "Done!" << std::endl;
+    timestamp_received = CppCommon::Timestamp::nano();
 
     // Stop Asio services
     std::cout << "Asio services stopping...";
@@ -161,9 +128,6 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     std::cout << std::endl;
-
-    total_sent_messages = total_sent_bytes / message_size;
-    total_received_messages = total_received_bytes / message_size;
 
     std::cout << "Send time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_sent - timestamp_start) << std::endl;
     std::cout << "Send bytes: " << total_sent_bytes << std::endl;

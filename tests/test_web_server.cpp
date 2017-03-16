@@ -19,7 +19,7 @@ class HttpServer : public WebServer
 {
 public:
     explicit HttpServer(std::shared_ptr<Service> service, int port)
-        : WebServer(service, port, false)
+        : WebServer(service, port)
     {
         // Create a resource
         auto resource = std::make_shared<restbed::Resource>();
@@ -108,7 +108,7 @@ TEST_CASE("HTTP Web server & client", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create a new HTTP Web client
-    auto client = std::make_shared<CppServer::Asio::WebClient>(service, false);
+    auto client = std::make_shared<CppServer::Asio::WebClient>(service);
 
     // Send a GET request to the HTTP Web server
     auto request = std::make_shared<restbed::Request>(restbed::Uri(uri));

@@ -10,12 +10,14 @@
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
+using namespace CppServer::Asio;
+
 class EchoSession;
 
-class EchoServer : public CppServer::Asio::WebSocketServer<EchoServer, EchoSession>
+class EchoServer : public WebSocketServer<EchoServer, EchoSession>
 {
 public:
-    using CppServer::Asio::WebSocketServer<EchoServer, EchoSession>::WebSocketServer;
+    using WebSocketServer<EchoServer, EchoSession>::WebSocketServer;
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
@@ -23,13 +25,13 @@ public:
     }
 };
 
-class EchoSession : public CppServer::Asio::WebSocketSession<EchoServer, EchoSession>
+class EchoSession : public WebSocketSession<EchoServer, EchoSession>
 {
 public:
-    using CppServer::Asio::WebSocketSession<EchoServer, EchoSession>::WebSocketSession;
+    using WebSocketSession<EchoServer, EchoSession>::WebSocketSession;
 
 protected:
-    void onReceived(CppServer::Asio::WebSocketMessage message) override
+    void onReceived(WebSocketMessage message) override
     {
         // Resend the message back to the client
         Send(message);
@@ -63,7 +65,7 @@ int main(int argc, char** argv)
     std::cout << "Server port: " << port << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<CppServer::Asio::Service>();
+    auto service = std::make_shared<Service>();
 
     // Start the service
     std::cout << "Asio service starting...";
@@ -71,7 +73,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new echo server
-    auto server = std::make_shared<EchoServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoServer>(service, InternetProtocol::IPv4, port);
 
     // Start the server
     std::cout << "Server starting...";

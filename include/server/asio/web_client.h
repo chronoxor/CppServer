@@ -1,6 +1,6 @@
 /*!
     \file web_client.h
-    \brief Web client definition
+    \brief HTTP Web client definition
     \author Ivan Shynkarenka
     \date 14.03.2017
     \copyright MIT License
@@ -20,12 +20,11 @@
 namespace CppServer {
 namespace Asio {
 
-//! Web client
+//! HTTP Web client
 /*!
-    Web client is used to send different kind of Web requests
-    such as POST, GET, PUT, DELETE, etc. to any HTTP/HTTPS Web
-    server and receive responses in synchronous and asynchronous
-    modes.
+    HTTP Web client is used to send different kind of Web requests
+    such as POST, GET, PUT, DELETE, etc. to any HTTP Web server and
+    receive responses in synchronous and asynchronous modes.
 
     Thread-safe.
 
@@ -34,12 +33,11 @@ namespace Asio {
 class WebClient
 {
 public:
-    //! Initialize Web server with a given Asio service
+    //! Initialize HTTP Web server with a given Asio service
     /*!
         \param service - Asio service
-        \param ssl - SSL flag (default is false)
     */
-    explicit WebClient(std::shared_ptr<Service> service, bool ssl = false);
+    explicit WebClient(std::shared_ptr<Service> service);
     WebClient(const WebClient&) = delete;
     WebClient(WebClient&&) = default;
     virtual ~WebClient() = default;
@@ -51,11 +49,6 @@ public:
     std::shared_ptr<Service>& service() noexcept { return _service; }
     //! Get the Restbed settings
     std::shared_ptr<restbed::Settings>& settings() noexcept { return _settings; }
-    //! Get the Restbed SSL settings
-    std::shared_ptr<restbed::SSLSettings>& ssl_settings() noexcept { return _ssl_settings; }
-
-    //! Is the client SSL secured?
-    bool IsSSL() const noexcept { return _ssl; }
 
     //! Send Web request to the server in synchronous mode
     /*!
@@ -117,12 +110,10 @@ private:
     std::shared_ptr<Service> _service;
     // Restbed server & settings
     std::shared_ptr<restbed::Settings> _settings;
-    std::shared_ptr<restbed::SSLSettings> _ssl_settings;
-    bool _ssl;
 };
 
-/*! \example web_http_client_sync.cpp HTTP/HTTPS Web synchronous client example */
-/*! \example web_http_client_async.cpp HTTP/HTTPS Web asynchronous client example */
+/*! \example web_client_sync.cpp HTTP Web synchronous client example */
+/*! \example web_client_async.cpp HTTP Web asynchronous client example */
 
 } // namespace Asio
 } // namespace CppServer

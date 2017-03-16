@@ -1,6 +1,6 @@
 /*!
-    \file web_http_client_async.cpp
-    \brief HTTP/HTTPS Web asynchronous client example
+    \file web_ssl_client_async.cpp
+    \brief HTTPS Web asynchronous client example
     \author Ivan Shynkarenka
     \date 14.03.2017
     \copyright MIT License
@@ -8,7 +8,7 @@
 
 #include "asio_service.h"
 
-#include "server/asio/web_client.h"
+#include "server/asio/web_ssl_client.h"
 
 #include <iostream>
 #include <memory>
@@ -32,12 +32,12 @@ void Show(const std::shared_ptr<restbed::Response>& response)
 
 int main(int argc, char** argv)
 {
-    // HTTP/HTTPS Web server address
+    // HTTPS Web server address
     std::string address = "https://www.google.com";
     if (argc > 1)
         address = argv[1];
 
-    std::cout << "HTTP/HTTPS Web server address: " << address << std::endl;
+    std::cout << "HTTPS Web server address: " << address << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
@@ -47,8 +47,8 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
-    // Create a new HTTP/HTTPS Web client
-    auto client = std::make_shared<CppServer::Asio::WebClient>(service, false);
+    // Create a new HTTPS Web client
+    auto client = std::make_shared<CppServer::Asio::WebClient>(service);
 
     // Create and fill Web request
     auto request = std::make_shared<restbed::Request>(restbed::Uri(address));

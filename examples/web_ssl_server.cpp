@@ -1,6 +1,6 @@
 /*!
-    \file web_http_server.cpp
-    \brief HTTP Web server example
+    \file web_ssl_server.cpp
+    \brief HTTPS Web server example
     \author Ivan Shynkarenka
     \date 13.03.2017
     \copyright MIT License
@@ -8,17 +8,17 @@
 
 #include "asio_service.h"
 
-#include "server/asio/web_server.h"
+#include "server/asio/web_ssl_server.h"
 
 #include <iostream>
 #include <memory>
 #include <map>
 
-class HttpServer : public CppServer::Asio::WebServer
+class HttpsServer : public CppServer::Asio::WebSSLServer
 {
 public:
-    explicit HttpServer(std::shared_ptr<CppServer::Asio::Service> service, int port)
-        : CppServer::Asio::WebServer(service, port, false)
+    explicit HttpsServer(std::shared_ptr<CppServer::Asio::Service> service, int port)
+        : CppServer::Asio::WebSSLServer(service, port)
     {
         // Create a resource
         auto resource = std::make_shared<restbed::Resource>();
@@ -30,6 +30,16 @@ public:
 
         // Publish the resource
         server()->publish(resource);
+
+        // Prepare SSL settings
+        ssl_settings()->set_http_disabled(true);
+        ssl_settings()->set_default_workarounds_enabled(true);
+        ssl_settings()->set_sslv2_enabled(false);
+        ssl_settings()->set_single_diffie_hellman_use_enabled(true);
+        ssl_settings()->set_passphrase("qwerty");
+        ssl_settings()->set_certificate_chain(restbed::Uri("file://../tools/certificates/server.pem"));
+        ssl_settings()->set_private_key(restbed::Uri("file://../tools/certificates/server.pem"));
+        ssl_settings()->set_temporary_diffie_hellman(restbed::Uri("file://../tools/certificates/dh4096.pem"));
     }
 
 private:
@@ -94,16 +104,16 @@ private:
     }
 };
 
-std::map<std::string, std::string> HttpServer::_storage;
+std::map<std::string, std::string> HttpsServer::_storage;
 
 int main(int argc, char** argv)
 {
-    // HTTP Web server port
-    int port = 8000;
+    // HTTPS Web server port
+    int port = 9000;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
-    std::cout << "HTTP Web server port: " << port << std::endl;
+    std::cout << "HTTPS Web server port: " << port << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
@@ -113,8 +123,8 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
-    // Create a new HTTP Web server
-    auto server = std::make_shared<HttpServer>(service, port);
+    // Create a new HTTPS Web server
+    auto server = std::make_shared<HttpsServer>(service, port);
 
     // Start the server
     std::cout << "Server starting...";

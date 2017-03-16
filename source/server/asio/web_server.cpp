@@ -11,13 +11,11 @@
 namespace CppServer {
 namespace Asio {
 
-WebServer::WebServer(std::shared_ptr<Service> service, int port, bool ssl)
+WebServer::WebServer(std::shared_ptr<Service> service, int port)
     : _service(service),
       _server(std::make_shared<restbed::Service>()),
       _settings(std::make_shared<restbed::Settings>()),
-      _ssl_settings(std::make_shared<restbed::SSLSettings>()),
-      _started(false),
-      _ssl(ssl)
+      _started(false)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
@@ -27,24 +25,14 @@ WebServer::WebServer(std::shared_ptr<Service> service, int port, bool ssl)
     _server->set_external_io_service(_service->service());
 
     // Prepare Web server settings
-    if (IsSSL())
-    {
-        _ssl_settings->set_port(port);
-        _settings->set_ssl_settings(_ssl_settings);
-    }
-    else
-    {
-        _settings->set_port(port);
-    }
+    _settings->set_port(port);
 }
 
-WebServer::WebServer(std::shared_ptr<Service> service, const std::string& address, int port, bool ssl)
+WebServer::WebServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _server(std::make_shared<restbed::Service>()),
       _settings(std::make_shared<restbed::Settings>()),
-      _ssl_settings(std::make_shared<restbed::SSLSettings>()),
-      _started(false),
-      _ssl(ssl)
+      _started(false)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
@@ -54,17 +42,8 @@ WebServer::WebServer(std::shared_ptr<Service> service, const std::string& addres
     _server->set_external_io_service(_service->service());
 
     // Prepare Web server settings
-    if (IsSSL())
-    {
-        _ssl_settings->set_bind_address(address);
-        _ssl_settings->set_port(port);
-        _settings->set_ssl_settings(_ssl_settings);
-    }
-    else
-    {
-        _settings->set_bind_address(address);
-        _settings->set_port(port);
-    }
+    _settings->set_bind_address(address);
+    _settings->set_port(port);
 }
 
 bool WebServer::Start()

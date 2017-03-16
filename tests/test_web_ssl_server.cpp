@@ -4,8 +4,8 @@
 
 #include "catch.hpp"
 
-#include "server/asio/web_client.h"
-#include "server/asio/web_server.h"
+#include "server/asio/web_ssl_client.h"
+#include "server/asio/web_ssl_server.h"
 #include "threads/thread.h"
 
 #include <memory>
@@ -14,11 +14,11 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-class HttpsServer : public WebServer
+class HttpsServer : public WebSSLServer
 {
 public:
     explicit HttpsServer(std::shared_ptr<Service> service, int port)
-        : WebServer(service, port, true)
+        : WebSSLServer(service, port)
     {
         // Create a resource
         auto resource = std::make_shared<restbed::Resource>();
@@ -117,7 +117,7 @@ TEST_CASE("HTTPS Web server & client", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create a new HTTPS Web client
-    auto client = std::make_shared<CppServer::Asio::WebClient>(service, false);
+    auto client = std::make_shared<CppServer::Asio::WebSSLClient>(service);
 
     // Send a GET request to the HTTPS Web server
     auto request = std::make_shared<restbed::Request>(restbed::Uri(uri));

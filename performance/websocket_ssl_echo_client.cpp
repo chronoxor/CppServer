@@ -15,6 +15,8 @@
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
+using namespace CppServer::Asio;
+
 uint64_t timestamp_start;
 uint64_t timestamp_sent;
 uint64_t timestamp_received;
@@ -25,13 +27,13 @@ std::atomic<size_t> total_sent_messages(0);
 std::atomic<size_t> total_received_bytes(0);
 std::atomic<size_t> total_received_messages(0);
 
-class EchoClient : public CppServer::Asio::WebSocketSSLClient
+class EchoClient : public WebSocketSSLClient
 {
 public:
-    using CppServer::Asio::WebSocketSSLClient::WebSocketSSLClient;
+    using WebSocketSSLClient::WebSocketSSLClient;
 
 protected:
-    void onReceived(CppServer::Asio::WebSocketSSLMessage message) override
+    void onReceived(WebSocketSSLMessage message) override
     {
         timestamp_received = CppCommon::Timestamp::nano();
         total_received_bytes += message->get_payload().size();
@@ -53,7 +55,7 @@ int main(int argc, char** argv)
     parser.add_option("-p", "--port").action("store").type("int").set_default(5555).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
-    parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");
+    parser.add_option("-m", "--messages").action("store").type("int").set_default(100000).help("Count of messages to send. Default: %default");
     parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
@@ -88,10 +90,10 @@ int main(int argc, char** argv)
     std::vector<uint8_t> message(message_size, 0);
 
     // Create Asio services
-    std::vector<std::shared_ptr<CppServer::Asio::Service>> services;
+    std::vector<std::shared_ptr<Service>> services;
     for (int i = 0; i < threads_count; ++i)
     {
-        auto service = std::make_shared<CppServer::Asio::Service>();
+        auto service = std::make_shared<Service>();
         services.emplace_back(service);
     }
 

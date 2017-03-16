@@ -15,6 +15,8 @@
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
+using namespace CppServer::Asio;
+
 uint64_t timestamp_start;
 uint64_t timestamp_sent;
 uint64_t timestamp_received;
@@ -25,10 +27,10 @@ std::atomic<size_t> total_sent_messages(0);
 std::atomic<size_t> total_received_bytes(0);
 std::atomic<size_t> total_received_messages(0);
 
-class EchoClient : public CppServer::Asio::TCPClient
+class EchoClient : public TCPClient
 {
 public:
-    using CppServer::Asio::TCPClient::TCPClient;
+    using TCPClient::TCPClient;
 
 protected:
     size_t onReceived(const void* buffer, size_t size) override
@@ -90,10 +92,10 @@ int main(int argc, char** argv)
     std::vector<uint8_t> message(message_size, 0);
 
     // Create Asio services
-    std::vector<std::shared_ptr<CppServer::Asio::Service>> services;
+    std::vector<std::shared_ptr<Service>> services;
     for (int i = 0; i < threads_count; ++i)
     {
-        auto service = std::make_shared<CppServer::Asio::Service>();
+        auto service = std::make_shared<Service>();
         services.emplace_back(service);
     }
 

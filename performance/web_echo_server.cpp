@@ -1,9 +1,9 @@
 //
-// Created by Ivan Shynkarenka on 15.03.2017
+// Created by Ivan Shynkarenka on 16.03.2017
 //
 
 #include "server/asio/service.h"
-#include "server/asio/udp_server.h"
+#include "server/asio/web_server.h"
 
 #include <atomic>
 #include <iostream>
@@ -12,21 +12,33 @@
 
 using namespace CppServer::Asio;
 
-class EchoServer : public UDPServer
+class EchoServer : public WebServer
 {
 public:
-    using UDPServer::UDPServer;
-
-protected:
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
+    explicit EchoServer(std::shared_ptr<Service> service, int port)
+        : WebServer(service, port)
     {
-        // Resend the message back to the client
-        Send(endpoint, buffer, size);
+        // Create a resource
+        auto resource = std::make_shared<restbed::Resource>();
+        resource->set_path("/storage/{key: .*}");
+        resource->set_method_handler("POST", RestStoragePost);
+
+        // Publish the resource
+        server()->publish(resource);
     }
 
-    void onError(int error, const std::string& category, const std::string& message) override
+private:
+    static void RestStoragePost(const std::shared_ptr<restbed::Session>& session)
     {
-        std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        auto request = session->get_request();
+        size_t request_content_length = request->get_header("Content-Length", 0);
+        session->fetch(request_content_length, [request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
+        {
+            std::string key = request->get_path_parameter("key");
+            std::string data = std::string((char*)body.data(), body.size());
+
+            session->close(restbed::OK, data, { { "Content-Length", std::to_string(data.size()) } });
+        });
     }
 };
 
@@ -35,7 +47,7 @@ int main(int argc, char** argv)
     auto parser = optparse::OptionParser().version("1.0.0.0");
 
     parser.add_option("-h", "--help").help("Show help");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(8000).help("Server port. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 
@@ -60,7 +72,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new echo server
-    auto server = std::make_shared<EchoServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoServer>(service, port);
 
     // Start the server
     std::cout << "Server starting...";

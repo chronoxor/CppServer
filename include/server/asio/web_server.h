@@ -1,6 +1,6 @@
 /*!
     \file web_server.h
-    \brief Web server definition
+    \brief HTTP Web server definition
     \author Ivan Shynkarenka
     \date 13.03.2017
     \copyright MIT License
@@ -16,10 +16,10 @@
 namespace CppServer {
 namespace Asio {
 
-//! Web server
+//! HTTP Web server
 /*!
-    Web server is used to provide HTTP/HTTPS interface to handle different kind
-    of Web requests such as POST, GET, PUT, DELETE, etc.
+    HTTP Web server is used to provide HTTP interface to handle different
+    kind of Web requests such as POST, GET, PUT, DELETE, etc.
 
     Thread-safe.
 
@@ -28,21 +28,19 @@ namespace Asio {
 class WebServer : public std::enable_shared_from_this<WebServer>
 {
 public:
-    //! Initialize Web server with a given Asio service and port number
+    //! Initialize HTTP Web server with a given Asio service and port number
     /*!
         \param service - Asio service
         \param port - Port number
-        \param ssl - SSL flag (default is false)
     */
-    explicit WebServer(std::shared_ptr<Service> service, int port, bool ssl = false);
-    //! Initialize Web server with a given Asio service, IP address and port number
+    explicit WebServer(std::shared_ptr<Service> service, int port);
+    //! Initialize HTTP Web server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
         \param address - IP address
         \param port - Port number
-        \param ssl - SSL flag (default is false)
     */
-    explicit WebServer(std::shared_ptr<Service> service, const std::string& address, int port, bool ssl = false);
+    explicit WebServer(std::shared_ptr<Service> service, const std::string& address, int port);
     WebServer(const WebServer&) = delete;
     WebServer(WebServer&&) = default;
     virtual ~WebServer() = default;
@@ -56,11 +54,7 @@ public:
     std::shared_ptr<restbed::Service>& server() noexcept { return _server; }
     //! Get the Restbed settings
     std::shared_ptr<restbed::Settings>& settings() noexcept { return _settings; }
-    //! Get the Restbed SSL settings
-    std::shared_ptr<restbed::SSLSettings>& ssl_settings() noexcept { return _ssl_settings; }
 
-    //! Is the server SSL secured?
-    bool IsSSL() const noexcept { return _ssl; }
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
@@ -92,13 +86,10 @@ private:
     // Restbed server & settings
     std::shared_ptr<restbed::Service> _server;
     std::shared_ptr<restbed::Settings> _settings;
-    std::shared_ptr<restbed::SSLSettings> _ssl_settings;
     std::atomic<bool> _started;
-    bool _ssl;
 };
 
-/*! \example web_http_server.cpp HTTP Web server example */
-/*! \example web_https_server.cpp HTTPS Web server example */
+/*! \example web_server.cpp HTTP Web server example */
 
 } // namespace Asio
 } // namespace CppServer

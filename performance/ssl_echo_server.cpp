@@ -10,12 +10,14 @@
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
+using namespace CppServer::Asio;
+
 class EchoSession;
 
-class EchoServer : public CppServer::Asio::SSLServer<EchoServer, EchoSession>
+class EchoServer : public SSLServer<EchoServer, EchoSession>
 {
 public:
-    using CppServer::Asio::SSLServer<EchoServer, EchoSession>::SSLServer;
+    using SSLServer<EchoServer, EchoSession>::SSLServer;
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
@@ -23,10 +25,10 @@ public:
     }
 };
 
-class EchoSession : public CppServer::Asio::SSLSession<EchoServer, EchoSession>
+class EchoSession : public SSLSession<EchoServer, EchoSession>
 {
 public:
-    using CppServer::Asio::SSLSession<EchoServer, EchoSession>::SSLSession;
+    using SSLSession<EchoServer, EchoSession>::SSLSession;
 
 protected:
     size_t onReceived(const void* buffer, size_t size) override
@@ -66,7 +68,7 @@ int main(int argc, char** argv)
     std::cout << "Server port: " << port << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<CppServer::Asio::Service>();
+    auto service = std::make_shared<Service>();
 
     // Start the service
     std::cout << "Asio service starting...";
@@ -82,7 +84,7 @@ int main(int argc, char** argv)
     context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
 
     // Create a new echo server
-    auto server = std::make_shared<EchoServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoServer>(service, context, InternetProtocol::IPv4, port);
 
     // Start the server
     std::cout << "Server starting...";

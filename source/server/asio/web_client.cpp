@@ -1,6 +1,6 @@
 /*!
     \file web_client.cpp
-    \brief Web client implementation
+    \brief HTTP Web client implementation
     \author Ivan Shynkarenka
     \date 14.03.2017
     \copyright MIT License
@@ -11,19 +11,13 @@
 namespace CppServer {
 namespace Asio {
 
-WebClient::WebClient(std::shared_ptr<Service> service, bool ssl)
+WebClient::WebClient(std::shared_ptr<Service> service)
     : _service(service),
-      _settings(std::make_shared<restbed::Settings>()),
-      _ssl_settings(std::make_shared<restbed::SSLSettings>()),
-      _ssl(ssl)
+      _settings(std::make_shared<restbed::Settings>())
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("ASIO service is invalid!");
-
-    // Prepare Web client settings
-    if (IsSSL())
-        _settings->set_ssl_settings(_ssl_settings);
 }
 
 const std::shared_ptr<restbed::Response> WebClient::Send(const std::shared_ptr<restbed::Request>& request)
