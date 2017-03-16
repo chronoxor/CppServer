@@ -199,7 +199,8 @@ void TCPClient::TryReceive()
             service()->Post([this, self]() { TryReceive(); });
         else
         {
-            onError(ec.value(), ec.category().name(), ec.message());
+            if (ec != asio::error::connection_reset)
+                onError(ec.value(), ec.category().name(), ec.message());
             Disconnect(true);
         }
     });
@@ -248,7 +249,8 @@ void TCPClient::TrySend()
             service()->Post([this, self]() { TrySend(); });
         else
         {
-            onError(ec.value(), ec.category().name(), ec.message());
+            if (ec != asio::error::connection_reset)
+                onError(ec.value(), ec.category().name(), ec.message());
             Disconnect(true);
         }
     });
