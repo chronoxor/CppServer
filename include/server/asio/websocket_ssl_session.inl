@@ -43,7 +43,7 @@ inline void WebSocketSSLSession<TServer, TSession>::Connect(websocketpp::connect
     {
         WebSocketSSLServerCore::connection_ptr con = _server->core().get_con_from_hdl(connection);
         websocketpp::lib::error_code ec = con->get_ec();
-        onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         Disconnected();
     });
 
@@ -76,7 +76,7 @@ inline bool WebSocketSSLSession<TServer, TSession>::Disconnect(bool dispatch, we
         websocketpp::lib::error_code ec;
         _server->core().close(_connection, code, reason, ec);
         if (ec)
-            onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
     };
 
     // Dispatch or post the disconnect routine
@@ -116,7 +116,7 @@ inline size_t WebSocketSSLSession<TServer, TSession>::Send(const void* buffer, s
     _server->core().send(_connection, buffer, size, opcode, ec);
     if (ec)
     {
-        onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         return 0;
     }
 
@@ -139,7 +139,7 @@ inline size_t WebSocketSSLSession<TServer, TSession>::Send(const std::string& te
     _server->core().send(_connection, text, opcode, ec);
     if (ec)
     {
-        onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         return 0;
     }
 
@@ -164,7 +164,7 @@ inline size_t WebSocketSSLSession<TServer, TSession>::Send(WebSocketSSLMessage m
     _server->core().send(_connection, message, ec);
     if (ec)
     {
-        onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         return 0;
     }
 
@@ -177,6 +177,12 @@ inline size_t WebSocketSSLSession<TServer, TSession>::Send(WebSocketSSLMessage m
     server()->_bytes_sent += size;
 
     return size;
+}
+
+template <class TServer, class TSession>
+inline void WebSocketSSLSession<TServer, TSession>::SendError(std::error_code ec)
+{
+    onError(ec.value(), ec.category().name(), ec.message());
 }
 
 } // namespace Asio

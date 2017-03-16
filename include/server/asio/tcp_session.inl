@@ -148,8 +148,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
             service()->Post([this, self]() { TryReceive(); });
         else
         {
-            if (ec != asio::error::connection_reset)
-                onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
             Disconnect(true);
         }
     });
@@ -200,8 +199,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
             service()->Post([this, self]() { TrySend(); });
         else
         {
-            if (ec != asio::error::connection_reset)
-                onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
             Disconnect(true);
         }
     });
@@ -213,6 +211,16 @@ inline void TCPSession<TServer, TSession>::ClearBuffers()
     std::lock_guard<std::mutex> locker(_send_lock);
     _recive_buffer.clear();
     _send_buffer.clear();
+}
+
+template <class TServer, class TSession>
+inline void TCPSession<TServer, TSession>::SendError(std::error_code ec)
+{
+    if (ec == asio::error::connection_reset)
+        return;
+    if (ec == asio::error::eof)
+        return;
+    onError(ec.value(), ec.category().name(), ec.message());
 }
 
 } // namespace Asio

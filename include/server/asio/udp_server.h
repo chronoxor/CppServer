@@ -192,6 +192,9 @@ private:
 
     //! Clear receive & send buffers
     void ClearBuffers();
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example udp_echo_server.cpp UDP echo server example */

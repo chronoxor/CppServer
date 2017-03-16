@@ -100,7 +100,7 @@ inline void WebSocketSSLServer<TServer, TSession>::InitAsio()
     _core.init_asio(_service->service().get(), ec);
     if (ec)
     {
-        onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         return;
     }
 
@@ -137,7 +137,7 @@ inline bool WebSocketSSLServer<TServer, TSession>::Start()
         _core.listen(_endpoint, ec);
         if (ec)
         {
-            onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
             onStopped();
             return;
         }
@@ -158,7 +158,7 @@ inline bool WebSocketSSLServer<TServer, TSession>::Start()
         _core.start_accept(ec);
         if (ec)
         {
-            onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
             Stop();
             return;
         }
@@ -182,7 +182,7 @@ inline bool WebSocketSSLServer<TServer, TSession>::Stop()
         websocketpp::lib::error_code ec;
         _core.stop_listening(ec);
         if (ec)
-            onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
 
         // Clear multicast buffer
         ClearBuffers();
@@ -366,6 +366,12 @@ inline void WebSocketSSLServer<TServer, TSession>::ClearBuffers()
     _multicast_buffer.clear();
     _multicast_text.clear();
     _multicast_messages.clear();
+}
+
+template <class TServer, class TSession>
+inline void WebSocketSSLServer<TServer, TSession>::SendError(std::error_code ec)
+{
+    onError(ec.value(), ec.category().name(), ec.message());
 }
 
 } // namespace Asio

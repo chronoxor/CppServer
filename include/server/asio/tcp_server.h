@@ -169,6 +169,9 @@ private:
 
     //! Clear multicast buffer
     void ClearBuffers();
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example tcp_chat_server.cpp TCP chat server example */

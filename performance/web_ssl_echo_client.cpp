@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(8001).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(9000).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
     parser.add_option("-m", "--messages").action("store").type("int").set_default(10000).help("Count of messages to send. Default: %default");
@@ -85,11 +85,10 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create echo clients
-    std::vector<std::shared_ptr<WebSSLClient>> clients;
+    std::vector<std::shared_ptr<WebClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
-        auto client = std::make_shared<WebSSLClient>(services[i % services.size()]);
-        client->ssl_settings()->set_certificate_authority_pool(restbed::Uri("file://../tools/certificates/ca.pem", restbed::Uri::Relative));
+        auto client = std::make_shared<WebClient>(services[i % services.size()]);
         clients.emplace_back(client);
     }
 

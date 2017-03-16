@@ -235,8 +235,7 @@ bool UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer
     // Check for error
     if (ec)
     {
-        if (ec != asio::error::connection_reset)
-            onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         Disconnect(true);
         return false;
     }
@@ -285,8 +284,7 @@ void UDPClient::TryReceive()
             service()->Post([this, self]() { TryReceive(); });
         else
         {
-            if (ec != asio::error::connection_reset)
-                onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
             Disconnect(true);
         }
     });
@@ -295,6 +293,15 @@ void UDPClient::TryReceive()
 void UDPClient::ClearBuffers()
 {
     _recive_buffer.clear();
+}
+
+void UDPClient::SendError(std::error_code ec)
+{
+    if (ec == asio::error::connection_reset)
+        return;
+    if (ec == asio::error::eof)
+        return;
+    onError(ec.value(), ec.category().name(), ec.message());
 }
 
 } // namespace Asio

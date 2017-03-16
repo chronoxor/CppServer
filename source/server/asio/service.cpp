@@ -119,7 +119,7 @@ void Service::ServiceLoop(bool polling)
     }
     catch (asio::system_error& ex)
     {
-        onError(ex.code().value(), ex.code().category().name(), ex.code().message());
+        SendError(ex.code());
     }
     catch (std::exception& ex)
     {
@@ -132,6 +132,11 @@ void Service::ServiceLoop(bool polling)
 
     // Call the cleanup thread handler
     onThreadCleanup();
+}
+
+void Service::SendError(std::error_code ec)
+{
+    onError(ec.value(), ec.category().name(), ec.message());
 }
 
 } // namespace Asio

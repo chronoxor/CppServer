@@ -130,6 +130,9 @@ private:
 
     //! Service loop
     void ServiceLoop(bool polling);
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example asio_service.cpp Asio service example */

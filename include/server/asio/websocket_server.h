@@ -198,6 +198,9 @@ private:
 
     //! Clear multicast buffer
     void ClearBuffers();
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example websocket_chat_server.cpp WebSocket chat server example */

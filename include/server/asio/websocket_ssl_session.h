@@ -146,6 +146,9 @@ private:
 
     //! Disconnected session handler
     void Disconnected();
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 } // namespace Asio

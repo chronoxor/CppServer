@@ -172,6 +172,9 @@ private:
 
     //! Clear receive & send buffers
     void ClearBuffers();
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example tcp_chat_client.cpp TCP chat client example */

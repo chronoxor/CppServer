@@ -106,11 +106,14 @@ int main(int argc, char** argv)
             request->set_body(message);
             total_sent_bytes += message.size();
             total_sent_messages++;
-            auto response = clients[i % clients.size()]->Send(request);
-            auto length = response->get_header("Content-Length", 0);
-            WebClient::Fetch(response, length);
-            total_received_bytes += response->get_body().size();
-            total_received_messages++;
+            auto response = clients[i % clients.size()]->SendAsync(request, [](const std::shared_ptr<restbed::Request>& request, const std::shared_ptr<restbed::Response>& response)
+            {
+                auto length = response->get_header("Content-Length", 0);
+                WebClient::Fetch(response, length);
+                timestamp_received = CppCommon::Timestamp::nano();
+                total_received_bytes += response->get_body().size();
+                total_received_messages++;
+            });
         }
     }
     catch (std::exception& ex)
@@ -119,7 +122,17 @@ int main(int argc, char** argv)
     }
 
     timestamp_sent = CppCommon::Timestamp::nano();
-    timestamp_received = CppCommon::Timestamp::nano();
+
+    // Wait for received data
+    size_t received = 0;
+    do
+    {
+        CppCommon::Thread::Sleep(100);
+        if (received < total_received_bytes)
+            received = total_received_bytes;
+        else
+            break;
+    } while (received < total_sent_bytes);
 
     // Stop Asio services
     std::cout << "Asio services stopping...";

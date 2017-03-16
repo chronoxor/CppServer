@@ -134,7 +134,7 @@ public:
                         else
                         {
                             // Disconnect on in case of the bad handshake
-                            onError(ec.value(), ec.category().name(), ec.message());
+                            SendError(ec);
                             Disconnect(true);
                         }
                     });
@@ -142,7 +142,7 @@ public:
                 else
                 {
                     // Call the client disconnected handler
-                    onError(ec.value(), ec.category().name(), ec.message());
+                    SendError(ec);
                     onDisconnected();
                 }
             });
@@ -295,8 +295,7 @@ private:
                 service()->Post([this, self]() { TryReceive(); });
             else
             {
-                if (ec != asio::error::connection_reset)
-                    onError(ec.value(), ec.category().name(), ec.message());
+                SendError(ec);
                 Disconnect(true);
             }
         });
@@ -345,8 +344,7 @@ private:
                 service()->Post([this, self]() { TrySend(); });
             else
             {
-                if (ec != asio::error::connection_reset)
-                    onError(ec.value(), ec.category().name(), ec.message());
+                SendError(ec);
                 Disconnect(true);
             }
         });
@@ -357,6 +355,15 @@ private:
         std::lock_guard<std::mutex> locker(_send_lock);
         _recive_buffer.clear();
         _send_buffer.clear();
+    }
+
+    void SendError(std::error_code ec)
+    {
+        if (ec == asio::error::connection_reset)
+            return;
+        if (ec == asio::error::eof)
+            return;
+        onError(ec.value(), ec.category().name(), ec.message());
     }
 };
 

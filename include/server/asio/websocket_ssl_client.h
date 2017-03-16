@@ -158,6 +158,9 @@ private:
     void Connected(websocketpp::connection_hdl connection);
     //! Disconnected session handler
     void Disconnected(websocketpp::connection_hdl connection);
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example websocket_ssl_chat_client.cpp WebSocket SSL chat client example */

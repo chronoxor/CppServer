@@ -171,7 +171,7 @@ inline void SSLServer<TServer, TSession>::Accept()
             if (!ec)
                 RegisterSession();
             else
-                onError(ec.value(), ec.category().name(), ec.message());
+                SendError(ec);
 
             // Perform the next server accept
             Accept();
@@ -273,6 +273,12 @@ inline void SSLServer<TServer, TSession>::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_multicast_lock);
     _multicast_buffer.clear();
+}
+
+template <class TServer, class TSession>
+inline void SSLServer<TServer, TSession>::SendError(std::error_code ec)
+{
+    onError(ec.value(), ec.category().name(), ec.message());
 }
 
 } // namespace Asio

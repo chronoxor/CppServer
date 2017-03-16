@@ -40,7 +40,7 @@ void WebSocketClient::InitAsio()
     _core.init_asio(_service->service().get(), ec);
     if (ec)
     {
-        onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         return;
     }
 
@@ -74,7 +74,7 @@ bool WebSocketClient::Connect()
         WebSocketClientCore::connection_ptr connection_ptr = _core.get_connection(_uri, ec);
         if (ec)
         {
-            onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
             onDisconnected();
             return;
         }
@@ -95,7 +95,7 @@ bool WebSocketClient::Connect()
         {
             WebSocketServerCore::connection_ptr con = _core.get_con_from_hdl(connection);
             websocketpp::lib::error_code ec = con->get_ec();
-            onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
             Disconnected(connection);
         });
 
@@ -135,7 +135,7 @@ bool WebSocketClient::Disconnect(bool dispatch, websocketpp::close::status::valu
         websocketpp::lib::error_code ec;
         _core.close(_connection, code, reason, ec);
         if (ec)
-            onError(ec.value(), ec.category().name(), ec.message());
+            SendError(ec);
     };
 
     // Dispatch or post the disconnect routine
@@ -182,7 +182,7 @@ size_t WebSocketClient::Send(const void* buffer, size_t size, websocketpp::frame
     _core.send(_connection, buffer, size, opcode, ec);
     if (ec)
     {
-        onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         return 0;
     }
 
@@ -202,7 +202,7 @@ size_t WebSocketClient::Send(const std::string& text, websocketpp::frame::opcode
     _core.send(_connection, text, opcode, ec);
     if (ec)
     {
-        onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         return 0;
     }
 
@@ -224,7 +224,7 @@ size_t WebSocketClient::Send(WebSocketMessage message)
     _core.send(_connection, message, ec);
     if (ec)
     {
-        onError(ec.value(), ec.category().name(), ec.message());
+        SendError(ec);
         return 0;
     }
 
@@ -235,6 +235,11 @@ size_t WebSocketClient::Send(WebSocketMessage message)
     _bytes_sent += size;
 
     return size;
+}
+
+void WebSocketClient::SendError(std::error_code ec)
+{
+    onError(ec.value(), ec.category().name(), ec.message());
 }
 
 } // namespace Asio
