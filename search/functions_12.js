@@ -31,5 +31,7 @@ var searchData=
   ['_7ewebsocketsession',['~WebSocketSession',['../class_cpp_server_1_1_asio_1_1_web_socket_session.html#aa1da4864c6244b5d01a81a73a4605ba6',1,'CppServer::Asio::WebSocketSession']]],
   ['_7ewebsocketsslclient',['~WebSocketSSLClient',['../class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_client.html#a9dc6e3fa11adc6e710389edf30a6d4b3',1,'CppServer::Asio::WebSocketSSLClient']]],
   ['_7ewebsocketsslserver',['~WebSocketSSLServer',['../class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_server.html#a62a3f2dcee38673d2e2434d372fc9d9e',1,'CppServer::Asio::WebSocketSSLServer']]],
-  ['_7ewebsocketsslsession',['~WebSocketSSLSession',['../class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_session.html#a2fe1a4a06f4d58426b582e038c2f79ad',1,'CppServer::Asio::WebSocketSSLSession']]]
+  ['_7ewebsocketsslsession',['~WebSocketSSLSession',['../class_cpp_server_1_1_asio_1_1_web_socket_s_s_l_session.html#a2fe1a4a06f4d58426b582e038c2f79ad',1,'CppServer::Asio::WebSocketSSLSession']]],
+  ['_7ewebsslclient',['~WebSSLClient',['../class_cpp_server_1_1_asio_1_1_web_s_s_l_client.html#ad37d9a9bdca627e15431f737b596e5da',1,'CppServer::Asio::WebSSLClient']]],
+  ['_7ewebsslserver',['~WebSSLServer',['../class_cpp_server_1_1_asio_1_1_web_s_s_l_server.html#a840065e5d710abd11501213ec50c1d38',1,'CppServer::Asio::WebSSLServer']]]
 ];

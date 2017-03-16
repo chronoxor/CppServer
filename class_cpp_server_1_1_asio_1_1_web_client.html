@@ -98,16 +98,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Web client.  
+<p>HTTP Web client.  
  <a href="class_cpp_server_1_1_asio_1_1_web_client.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="web__client_8h_source.html">web_client.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for CppServer::Asio::WebClient:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_cpp_server_1_1_asio_1_1_web_client.png" usemap="#CppServer::Asio::WebClient_map" alt=""/>
+  <map id="CppServer::Asio::WebClient_map" name="CppServer::Asio::WebClient_map">
+<area href="class_cpp_server_1_1_asio_1_1_web_s_s_l_client.html" title="HTTPS Web client. " alt="CppServer::Asio::WebSSLClient" shape="rect" coords="0,56,191,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a75368f7147bb61d74480414bb18a0165"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#a75368f7147bb61d74480414bb18a0165">WebClient</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#a0612d26218b8ccc7e0e7ed532fe771a5">service</a>, bool ssl=false)</td></tr>
-<tr class="memdesc:a75368f7147bb61d74480414bb18a0165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize Web server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service.  <a href="#a75368f7147bb61d74480414bb18a0165">More...</a><br/></td></tr>
-<tr class="separator:a75368f7147bb61d74480414bb18a0165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41e083d2de44988e5d07146f36f9ac4d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#a41e083d2de44988e5d07146f36f9ac4d">WebClient</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#a0612d26218b8ccc7e0e7ed532fe771a5">service</a>)</td></tr>
+<tr class="memdesc:a41e083d2de44988e5d07146f36f9ac4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize HTTP Web server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service.  <a href="#a41e083d2de44988e5d07146f36f9ac4d">More...</a><br/></td></tr>
+<tr class="separator:a41e083d2de44988e5d07146f36f9ac4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aade57668db444affa3476663a65f2b65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#aade57668db444affa3476663a65f2b65">WebClient</a> (const <a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html">WebClient</a> &amp;)=delete</td></tr>
 <tr class="separator:aade57668db444affa3476663a65f2b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af27d86aac9b35aae53f19c6a20785e9c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#af27d86aac9b35aae53f19c6a20785e9c">WebClient</a> (<a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html">WebClient</a> &amp;&amp;)=default</td></tr>
@@ -125,13 +134,6 @@ Public Member Functions</h2></td></tr>
 &lt; restbed::Settings &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#acfed3535589e62fcd63b3c4d5046b894">settings</a> () noexcept</td></tr>
 <tr class="memdesc:acfed3535589e62fcd63b3c4d5046b894"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Restbed settings.  <a href="#acfed3535589e62fcd63b3c4d5046b894">More...</a><br/></td></tr>
 <tr class="separator:acfed3535589e62fcd63b3c4d5046b894"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac492a35578bdaf9d333317b4e71a2995"><td class="memItemLeft" align="right" valign="top">std::shared_ptr<br class="typebreak"/>
-&lt; restbed::SSLSettings &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#ac492a35578bdaf9d333317b4e71a2995">ssl_settings</a> () noexcept</td></tr>
-<tr class="memdesc:ac492a35578bdaf9d333317b4e71a2995"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Restbed SSL settings.  <a href="#ac492a35578bdaf9d333317b4e71a2995">More...</a><br/></td></tr>
-<tr class="separator:ac492a35578bdaf9d333317b4e71a2995"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7632c0bb979a42d9f262b9b7cb0d9e6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#aa7632c0bb979a42d9f262b9b7cb0d9e6">IsSSL</a> () const noexcept</td></tr>
-<tr class="memdesc:aa7632c0bb979a42d9f262b9b7cb0d9e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the client SSL secured?  <a href="#aa7632c0bb979a42d9f262b9b7cb0d9e6">More...</a><br/></td></tr>
-<tr class="separator:aa7632c0bb979a42d9f262b9b7cb0d9e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afeebc7254b8f9d86d8810fa0ee64fb7e"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr<br class="typebreak"/>
 &lt; restbed::Response &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_web_client.html#afeebc7254b8f9d86d8810fa0ee64fb7e">Send</a> (const std::shared_ptr&lt; restbed::Request &gt; &amp;request)</td></tr>
 <tr class="memdesc:afeebc7254b8f9d86d8810fa0ee64fb7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send Web request to the server in synchronous mode.  <a href="#afeebc7254b8f9d86d8810fa0ee64fb7e">More...</a><br/></td></tr>
@@ -163,14 +165,14 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ac7d06b9dcf43c10d3fc15e7d1f337eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Web client. </p>
-<p>Web client is used to send different kind of Web requests such as POST, GET, PUT, DELETE, etc. to any HTTP/HTTPS Web server and receive responses in synchronous and asynchronous modes.</p>
+<div class="textblock"><p>HTTP Web client. </p>
+<p>HTTP Web client is used to send different kind of Web requests such as POST, GET, PUT, DELETE, etc. to any HTTP Web server and receive responses in synchronous and asynchronous modes.</p>
 <p>Thread-safe.</p>
 <p><a href="https://github.com/corvusoft/restbed">https://github.com/corvusoft/restbed</a> </p>
 
-<p>Definition at line <a class="el" href="web__client_8h_source.html#l00034">34</a> of file <a class="el" href="web__client_8h_source.html">web_client.h</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8h_source.html#l00033">33</a> of file <a class="el" href="web__client_8h_source.html">web_client.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a75368f7147bb61d74480414bb18a0165"></a>
+<a class="anchor" id="a41e083d2de44988e5d07146f36f9ac4d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -181,18 +183,8 @@ Static Public Member Functions</h2></td></tr>
           <td class="memname">CppServer::Asio::WebClient::WebClient </td>
           <td>(</td>
           <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt;&#160;</td>
-          <td class="paramname"><em>service</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>service</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>ssl</em> = <code>false</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -202,11 +194,10 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Initialize Web server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service. </p>
+<p>Initialize HTTP Web server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">service</td><td>- <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service </td></tr>
-    <tr><td class="paramname">ssl</td><td>- SSL flag (default is false) </td></tr>
   </table>
   </dd>
 </dl>
@@ -317,7 +308,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00044">44</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00038">38</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -352,7 +343,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Bytes buffer </dd></dl>
 
-<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00059">59</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00053">53</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -387,7 +378,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Bytes buffer </dd></dl>
 
-<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00064">64</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00058">58</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -432,9 +423,9 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Bytes buffer </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="web_http_client_async_8cpp-example.html#a0">web_http_client_async.cpp</a>, and <a class="el" href="web_http_client_sync_8cpp-example.html#a0">web_http_client_sync.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="web_client_async_8cpp-example.html#a0">web_client_async.cpp</a>, <a class="el" href="web_client_sync_8cpp-example.html#a0">web_client_sync.cpp</a>, <a class="el" href="web_ssl_client_async_8cpp-example.html#a0">web_ssl_client_async.cpp</a>, and <a class="el" href="web_ssl_client_sync_8cpp-example.html#a0">web_ssl_client_sync.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00049">49</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00043">43</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -480,7 +471,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Bytes buffer </dd></dl>
 
-<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00054">54</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00048">48</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -515,34 +506,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the given Web request opened, 'false' if the given Web request closed </dd></dl>
 
-<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00039">39</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa7632c0bb979a42d9f262b9b7cb0d9e6"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool CppServer::Asio::WebClient::IsSSL </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Is the client SSL secured? </p>
-
-<p>Definition at line <a class="el" href="web__client_8h_source.html#l00058">58</a> of file <a class="el" href="web__client_8h_source.html">web_client.h</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00033">33</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -617,7 +581,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Web response </dd></dl>
 
-<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00029">29</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00023">23</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -655,7 +619,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Web response future </dd></dl>
 
-<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00034">34</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8cpp_source.html#l00028">28</a> of file <a class="el" href="web__client_8cpp_source.html">web_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -682,7 +646,7 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service. </p>
 
-<p>Definition at line <a class="el" href="web__client_8h_source.html#l00051">51</a> of file <a class="el" href="web__client_8h_source.html">web_client.h</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8h_source.html#l00049">49</a> of file <a class="el" href="web__client_8h_source.html">web_client.h</a>.</p>
 
 </div>
 </div>
@@ -709,34 +673,7 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Get the Restbed settings. </p>
 
-<p>Definition at line <a class="el" href="web__client_8h_source.html#l00053">53</a> of file <a class="el" href="web__client_8h_source.html">web_client.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac492a35578bdaf9d333317b4e71a2995"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;restbed::SSLSettings&gt;&amp; CppServer::Asio::WebClient::ssl_settings </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the Restbed SSL settings. </p>
-
-<p>Definition at line <a class="el" href="web__client_8h_source.html#l00055">55</a> of file <a class="el" href="web__client_8h_source.html">web_client.h</a>.</p>
+<p>Definition at line <a class="el" href="web__client_8h_source.html#l00051">51</a> of file <a class="el" href="web__client_8h_source.html">web_client.h</a>.</p>
 
 </div>
 </div>
