@@ -1,30 +1,43 @@
 //
-// Created by Ivan Shynkarenka on 15.03.2017
+// Created by Ivan Shynkarenka on 16.03.2017
 //
 
 #include "server/asio/service.h"
-#include "server/asio/udp_server.h"
+#include "server/asio/websocket_server.h"
 
 #include <atomic>
 #include <iostream>
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
-class EchoServer : public CppServer::Asio::UDPServer
+class EchoSession;
+
+class EchoServer : public CppServer::Asio::WebSocketServer<EchoServer, EchoSession>
 {
 public:
-    using CppServer::Asio::UDPServer::UDPServer;
-
-protected:
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
-    {
-        // Resend the message back to the client
-        Send(endpoint, buffer, size);
-    }
+    using CppServer::Asio::WebSocketServer<EchoServer, EchoSession>::WebSocketServer;
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class EchoSession : public CppServer::Asio::WebSocketSession<EchoServer, EchoSession>
+{
+public:
+    using CppServer::Asio::WebSocketSession<EchoServer, EchoSession>::WebSocketSession;
+
+protected:
+    void onReceived(CppServer::Asio::WebSocketMessage message) override
+    {
+        // Resend the message back to the client
+        Send(message);
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
@@ -33,7 +46,7 @@ int main(int argc, char** argv)
     auto parser = optparse::OptionParser().version("1.0.0.0");
 
     parser.add_option("-h", "--help").help("Show help");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(4444).help("Server port. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 

@@ -1,30 +1,43 @@
 //
-// Created by Ivan Shynkarenka on 15.03.2017
+// Created by Ivan Shynkarenka on 16.03.2017
 //
 
 #include "server/asio/service.h"
-#include "server/asio/udp_server.h"
+#include "server/asio/websocket_ssl_server.h"
 
 #include <atomic>
 #include <iostream>
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
-class EchoServer : public CppServer::Asio::UDPServer
+class EchoSession;
+
+class EchoServer : public CppServer::Asio::WebSocketSSLServer<EchoServer, EchoSession>
 {
 public:
-    using CppServer::Asio::UDPServer::UDPServer;
-
-protected:
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
-    {
-        // Resend the message back to the client
-        Send(endpoint, buffer, size);
-    }
+    using CppServer::Asio::WebSocketSSLServer<EchoServer, EchoSession>::WebSocketSSLServer;
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class EchoSession : public CppServer::Asio::WebSocketSSLSession<EchoServer, EchoSession>
+{
+public:
+    using CppServer::Asio::WebSocketSSLSession<EchoServer, EchoSession>::WebSocketSSLSession;
+
+protected:
+    void onReceived(CppServer::Asio::WebSocketSSLMessage message) override
+    {
+        // Resend the message back to the client
+        Send(message);
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
@@ -33,7 +46,7 @@ int main(int argc, char** argv)
     auto parser = optparse::OptionParser().version("1.0.0.0");
 
     parser.add_option("-h", "--help").help("Show help");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(5555).help("Server port. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 
@@ -57,8 +70,16 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
+    // Create and prepare a new SSL server context
+    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    context->set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
+    context->set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
+    context->use_certificate_chain_file("../tools/certificates/server.pem");
+    context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
+    context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
+
     // Create a new echo server
-    auto server = std::make_shared<EchoServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
     std::cout << "Server starting...";

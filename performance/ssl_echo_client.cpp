@@ -1,10 +1,10 @@
 //
-// Created by Ivan Shynkarenka on 15.03.2017
+// Created by Ivan Shynkarenka on 16.03.2017
 //
 
 #include "benchmark/reporter_console.h"
 #include "server/asio/service.h"
-#include "server/asio/tcp_client.h"
+#include "server/asio/ssl_client.h"
 #include "system/cpu.h"
 #include "threads/thread.h"
 #include "time/timestamp.h"
@@ -25,10 +25,10 @@ std::atomic<size_t> total_sent_messages(0);
 std::atomic<size_t> total_received_bytes(0);
 std::atomic<size_t> total_received_messages(0);
 
-class EchoClient : public CppServer::Asio::TCPClient
+class EchoClient : public CppServer::Asio::SSLClient
 {
 public:
-    using CppServer::Asio::TCPClient::TCPClient;
+    using CppServer::Asio::SSLClient::SSLClient;
 
 protected:
     size_t onReceived(const void* buffer, size_t size) override
@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(3333).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
     parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");
@@ -103,11 +103,16 @@ int main(int argc, char** argv)
         service->Start();
     std::cout << "Done!" << std::endl;
 
+    // Create and prepare a new SSL client context
+    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    context->set_verify_mode(asio::ssl::verify_peer);
+    context->load_verify_file("../tools/certificates/ca.pem");
+
     // Create echo clients
     std::vector<std::shared_ptr<EchoClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
-        auto client = std::make_shared<EchoClient>(services[i % services.size()], address, port);
+        auto client = std::make_shared<EchoClient>(services[i % services.size()], context, address, port);
         clients.emplace_back(client);
     }
 
@@ -116,7 +121,7 @@ int main(int argc, char** argv)
     for (auto& client : clients)
     {
         client->Connect();
-        while (!client->IsConnected())
+        while (!client->IsConnected() || !client->IsHandshaked())
             CppCommon::Thread::Yield();
     }
     std::cout << "Done!" << std::endl;

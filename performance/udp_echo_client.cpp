@@ -20,8 +20,10 @@ uint64_t timestamp_sent;
 uint64_t timestamp_received;
 
 std::atomic<size_t> total_errors(0);
-std::atomic<size_t> total_sent(0);
-std::atomic<size_t> total_received(0);
+std::atomic<size_t> total_sent_bytes(0);
+std::atomic<size_t> total_sent_messages(0);
+std::atomic<size_t> total_received_bytes(0);
+std::atomic<size_t> total_received_messages(0);
 
 class EchoClient : public CppServer::Asio::UDPClient
 {
@@ -32,12 +34,20 @@ protected:
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
         timestamp_received = CppCommon::Timestamp::nano();
-        total_received += size;
+        total_received_bytes += size;
+        total_received_messages++;
+    }
+
+    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) override
+    {
+        total_sent_bytes += sent;
+        total_sent_messages++;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        ++total_errors;
+        std::cout << "Client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        total_errors++;
     }
 };
 
@@ -116,23 +126,20 @@ int main(int argc, char** argv)
 
     // Send messages to the server
     for (int i = 0; i < messages_count; ++i)
-    {
         clients[i % clients.size()]->Send(message.data(), message.size());
-        total_sent += message.size();
-    }
 
     timestamp_sent = CppCommon::Timestamp::nano();
 
     // Wait for received data
     size_t received = 0;
-    while (received < total_sent)
+    do
     {
         CppCommon::Thread::Sleep(100);
-        if (received < total_received)
-            received = total_received;
+        if (received < total_received_bytes)
+            received = total_received_bytes;
         else
             break;
-    }
+    } while (received < total_sent_bytes);
 
     // Disconnect clients
     std::cout << "Clients disconnecting...";
@@ -149,15 +156,15 @@ int main(int argc, char** argv)
     std::cout << std::endl;
 
     std::cout << "Send time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_sent - timestamp_start) << std::endl;
-    std::cout << "Send bytes: " << total_sent << std::endl;
-    std::cout << "Send messages: " << total_sent / message_size << std::endl;
-    std::cout << "Send bytes throughput: " << total_sent * 1000000000 / (timestamp_sent - timestamp_start) << " bytes per second" << std::endl;
-    std::cout << "Send messages throughput: " << (total_sent / message_size) * 1000000000 / (timestamp_sent - timestamp_start) << " messages per second" << std::endl;
+    std::cout << "Send bytes: " << total_sent_bytes << std::endl;
+    std::cout << "Send messages: " << total_sent_messages << std::endl;
+    std::cout << "Send bytes throughput: " << total_sent_bytes * 1000000000 / (timestamp_sent - timestamp_start) << " bytes per second" << std::endl;
+    std::cout << "Send messages throughput: " << total_sent_messages * 1000000000 / (timestamp_sent - timestamp_start) << " messages per second" << std::endl;
     std::cout << "Receive time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_received - timestamp_start) << std::endl;
-    std::cout << "Receive bytes: " << total_received << std::endl;
-    std::cout << "Receive messages: " << total_received / message_size << std::endl;
-    std::cout << "Receive bytes throughput: " << total_received * 1000000000 / (timestamp_received - timestamp_start) << " bytes per second" << std::endl;
-    std::cout << "Receive messages throughput: " << (total_received / message_size) * 1000000000 / (timestamp_received - timestamp_start) << " messages per second" << std::endl;
+    std::cout << "Receive bytes: " << total_received_bytes << std::endl;
+    std::cout << "Receive messages: " << total_received_messages << std::endl;
+    std::cout << "Receive bytes throughput: " << total_received_bytes * 1000000000 / (timestamp_received - timestamp_start) << " bytes per second" << std::endl;
+    std::cout << "Receive messages throughput: " << total_received_messages * 1000000000 / (timestamp_received - timestamp_start) << " messages per second" << std::endl;
     std::cout << "Errors: " << total_errors << std::endl;
 
     return 0;

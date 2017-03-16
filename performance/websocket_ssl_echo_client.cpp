@@ -1,10 +1,10 @@
 //
-// Created by Ivan Shynkarenka on 15.03.2017
+// Created by Ivan Shynkarenka on 16.03.2017
 //
 
 #include "benchmark/reporter_console.h"
 #include "server/asio/service.h"
-#include "server/asio/tcp_client.h"
+#include "server/asio/websocket_ssl_client.h"
 #include "system/cpu.h"
 #include "threads/thread.h"
 #include "time/timestamp.h"
@@ -25,22 +25,16 @@ std::atomic<size_t> total_sent_messages(0);
 std::atomic<size_t> total_received_bytes(0);
 std::atomic<size_t> total_received_messages(0);
 
-class EchoClient : public CppServer::Asio::TCPClient
+class EchoClient : public CppServer::Asio::WebSocketSSLClient
 {
 public:
-    using CppServer::Asio::TCPClient::TCPClient;
+    using CppServer::Asio::WebSocketSSLClient::WebSocketSSLClient;
 
 protected:
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(CppServer::Asio::WebSocketSSLMessage message) override
     {
         timestamp_received = CppCommon::Timestamp::nano();
-        total_received_bytes += size;
-        return size;
-    }
-
-    void onSent(size_t sent, size_t pending) override
-    {
-        total_sent_bytes += sent;
+        total_received_bytes += message->get_payload().size();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -56,7 +50,7 @@ int main(int argc, char** argv)
 
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(5555).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
     parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");
@@ -79,8 +73,12 @@ int main(int argc, char** argv)
     int messages_count = options.get("messages");
     int message_size = options.get("size");
 
+    // WebSocket server uri
+    std::string uri = "wss://" + address + ":" + std::to_string(port);
+
     std::cout << "Server address: " << address << std::endl;
     std::cout << "Server port: " << port << std::endl;
+    std::cout << "Server uri: " << uri << std::endl;
     std::cout << "Working threads: " << threads_count << std::endl;
     std::cout << "Working clients: " << clients_count << std::endl;
     std::cout << "Messages to send: " << messages_count << std::endl;
@@ -103,11 +101,16 @@ int main(int argc, char** argv)
         service->Start();
     std::cout << "Done!" << std::endl;
 
+    // Create and prepare a new SSL client context
+    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    context->set_verify_mode(asio::ssl::verify_peer);
+    context->load_verify_file("../tools/certificates/ca.pem");
+
     // Create echo clients
     std::vector<std::shared_ptr<EchoClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
-        auto client = std::make_shared<EchoClient>(services[i % services.size()], address, port);
+        auto client = std::make_shared<EchoClient>(services[i % services.size()], context, uri);
         clients.emplace_back(client);
     }
 
@@ -125,7 +128,10 @@ int main(int argc, char** argv)
 
     // Send messages to the server
     for (int i = 0; i < messages_count; ++i)
+    {
         clients[i % clients.size()]->Send(message.data(), message.size());
+        total_sent_bytes += message.size();
+    }
 
     timestamp_sent = CppCommon::Timestamp::nano();
 

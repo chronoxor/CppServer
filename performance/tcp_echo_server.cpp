@@ -16,6 +16,11 @@ class EchoServer : public CppServer::Asio::TCPServer<EchoServer, EchoSession>
 {
 public:
     using CppServer::Asio::TCPServer<EchoServer, EchoSession>::TCPServer;
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
 };
 
 class EchoSession : public CppServer::Asio::TCPSession<EchoServer, EchoSession>
@@ -31,6 +36,11 @@ protected:
 
         // Inform that we handled the whole buffer
         return size;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
