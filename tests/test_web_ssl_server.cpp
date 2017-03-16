@@ -117,7 +117,7 @@ TEST_CASE("HTTPS Web server & client", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create a new HTTPS Web client
-    auto client = std::make_shared<CppServer::Asio::WebSSLClient>(service);
+    auto client = std::make_shared<CppServer::Asio::WebClient>(service);
 
     // Send a GET request to the HTTPS Web server
     auto request = std::make_shared<restbed::Request>(restbed::Uri(uri));
