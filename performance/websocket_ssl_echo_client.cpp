@@ -17,9 +17,11 @@
 
 using namespace CppServer::Asio;
 
-uint64_t timestamp_start;
-uint64_t timestamp_sent;
-uint64_t timestamp_received;
+std::vector<uint8_t> message;
+
+uint64_t timestamp_start = 0;
+uint64_t timestamp_sent = 0;
+uint64_t timestamp_received = 0;
 
 std::atomic<size_t> total_errors(0);
 std::atomic<size_t> total_sent_bytes(0);
@@ -30,19 +32,46 @@ std::atomic<size_t> total_received_messages(0);
 class EchoClient : public WebSocketSSLClient
 {
 public:
-    using WebSocketSSLClient::WebSocketSSLClient;
+    explicit EchoClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& uri, int messages)
+        : WebSocketSSLClient(service, context, uri)
+    {
+        _messages = messages;
+    }
 
 protected:
+    void onConnected() override
+    {
+        SendMessage();
+    }
+
     void onReceived(WebSocketSSLMessage message) override
     {
         timestamp_received = CppCommon::Timestamp::nano();
         total_received_bytes += message->get_payload().size();
+
+        SendMessage();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
         total_errors++;
+    }
+
+private:
+    int _messages;
+
+    void SendMessage()
+    {
+        if (_messages-- > 0)
+        {
+            Send(message.data(), message.size());
+
+            timestamp_sent = CppCommon::Timestamp::nano();
+            total_sent_bytes += message.size();
+        }
+        else
+            Disconnect();
     }
 };
 
@@ -55,7 +84,7 @@ int main(int argc, char** argv)
     parser.add_option("-p", "--port").action("store").type("int").set_default(5555).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
-    parser.add_option("-m", "--messages").action("store").type("int").set_default(100000).help("Count of messages to send. Default: %default");
+    parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");
     parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
@@ -87,7 +116,7 @@ int main(int argc, char** argv)
     std::cout << "Message size: " << message_size << std::endl;
 
     // Prepare a message to send
-    std::vector<uint8_t> message(message_size, 0);
+    message.resize(message_size, 0);
 
     // Create Asio services
     std::vector<std::shared_ptr<Service>> services;
@@ -112,9 +141,11 @@ int main(int argc, char** argv)
     std::vector<std::shared_ptr<EchoClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
-        auto client = std::make_shared<EchoClient>(services[i % services.size()], context, uri);
+        auto client = std::make_shared<EchoClient>(services[i % services.size()], context, uri, messages_count / clients_count);
         clients.emplace_back(client);
     }
+
+    timestamp_start = CppCommon::Timestamp::nano();
 
     // Connect clients
     std::cout << "Clients connecting...";
@@ -126,32 +157,13 @@ int main(int argc, char** argv)
     }
     std::cout << "Done!" << std::endl;
 
-    timestamp_start = CppCommon::Timestamp::nano();
-
-    // Send messages to the server
-    for (int i = 0; i < messages_count; ++i)
-    {
-        clients[i % clients.size()]->Send(message.data(), message.size());
-        total_sent_bytes += message.size();
-    }
-
-    timestamp_sent = CppCommon::Timestamp::nano();
-
-    // Wait for received data
-    size_t received = 0;
-    do
-    {
-        CppCommon::Thread::Sleep(100);
-        if (received < total_received_bytes)
-            received = total_received_bytes;
-        else
-            break;
-    } while (received < total_sent_bytes);
-
-    // Disconnect clients
-    std::cout << "Clients disconnecting...";
+    // Wait for processing all messages
+    std::cout << "Processing...";
     for (auto& client : clients)
-        client->Disconnect();
+    {
+        while (client->IsConnected())
+            CppCommon::Thread::Yield();
+    }
     std::cout << "Done!" << std::endl;
 
     // Stop Asio services
