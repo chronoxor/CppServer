@@ -383,14 +383,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="keywordtype">void</span> UDPClient::SendError(std::error_code ec)</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;{</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="keywordflow">if</span> ((ec == asio::error::connection_reset) ||</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        (ec == asio::error::eof))</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a6e9d8cc64f910d66a75bd9ea6b046b0e">onError</a>(ec.value(), ec.category().name(), ec.message());</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;}</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;} <span class="comment">// namespace Asio</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;} <span class="comment">// namespace CppServer</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="comment">// Skip Asio disconnect errors</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <span class="keywordflow">if</span> ((ec == asio::error::connection_aborted) ||</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        (ec == asio::error::connection_refused) ||</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        (ec == asio::error::connection_reset) ||</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        (ec == asio::error::eof))</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="comment">// Skip OpenSSL annoying errors</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="keywordflow">if</span> (ec == asio::ssl::error::stream_truncated)</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <span class="keywordflow">if</span> (ec.category() == asio::error::get_ssl_category())</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    {</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="keywordflow">if</span> ((ERR_GET_REASON(ec.value()) == SSL_R_DECRYPTION_FAILED_OR_BAD_RECORD_MAC) ||</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            (ERR_GET_REASON(ec.value()) == SSL_R_PROTOCOL_IS_SHUTDOWN) ||</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            (ERR_GET_REASON(ec.value()) == SSL_R_WRONG_VERSION_NUMBER))</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    }</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a6e9d8cc64f910d66a75bd9ea6b046b0e">onError</a>(ec.value(), ec.category().name(), ec.message());</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;}</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;} <span class="comment">// namespace Asio</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;} <span class="comment">// namespace CppServer</span></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_u_d_p_client_html_a932b183b4f26daeabd610361e725f4a5"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a932b183b4f26daeabd610361e725f4a5">CppServer::Asio::UDPClient::Send</a></div><div class="ttdeci">bool Send(const void *buffer, size_t size)</div><div class="ttdoc">Send datagram to the connected server. </div><div class="ttdef"><b>Definition:</b> <a href="udp__client_8cpp_source.html#l00205">udp_client.cpp:205</a></div></div>
 <div class="ttc" id="udp__client_8h_html"><div class="ttname"><a href="udp__client_8h.html">udp_client.h</a></div><div class="ttdoc">UDP client definition. </div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_u_d_p_client_html_a4772db8a2fa153eada420ff271304d85"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a4772db8a2fa153eada420ff271304d85">CppServer::Asio::UDPClient::IsConnected</a></div><div class="ttdeci">bool IsConnected() const noexcept</div><div class="ttdoc">Is the client connected? </div><div class="ttdef"><b>Definition:</b> <a href="udp__client_8h_source.html#l00086">udp_client.h:86</a></div></div>

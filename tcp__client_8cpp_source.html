@@ -349,14 +349,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="keywordtype">void</span> TCPClient::SendError(std::error_code ec)</div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;{</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="keywordflow">if</span> ((ec == asio::error::connection_reset) ||</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        (ec == asio::error::eof))</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a97467407caf5569d42c21b4709282f6a">onError</a>(ec.value(), ec.category().name(), ec.message());</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;}</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;} <span class="comment">// namespace Asio</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;} <span class="comment">// namespace CppServer</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="comment">// Skip Asio disconnect errors</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordflow">if</span> ((ec == asio::error::connection_aborted) ||</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        (ec == asio::error::connection_refused) ||</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        (ec == asio::error::connection_reset) ||</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        (ec == asio::error::eof))</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="comment">// Skip OpenSSL annoying errors</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keywordflow">if</span> (ec == asio::ssl::error::stream_truncated)</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordflow">if</span> (ec.category() == asio::error::get_ssl_category())</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    {</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <span class="keywordflow">if</span> ((ERR_GET_REASON(ec.value()) == SSL_R_DECRYPTION_FAILED_OR_BAD_RECORD_MAC) ||</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            (ERR_GET_REASON(ec.value()) == SSL_R_PROTOCOL_IS_SHUTDOWN) ||</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            (ERR_GET_REASON(ec.value()) == SSL_R_WRONG_VERSION_NUMBER))</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    }</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a97467407caf5569d42c21b4709282f6a">onError</a>(ec.value(), ec.category().name(), ec.message());</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;}</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;} <span class="comment">// namespace Asio</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;} <span class="comment">// namespace CppServer</span></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_t_c_p_client_html_afe309507092ca4b3e5c3c6c37c4e02a3"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#afe309507092ca4b3e5c3c6c37c4e02a3">CppServer::Asio::TCPClient::Reconnect</a></div><div class="ttdeci">bool Reconnect()</div><div class="ttdoc">Reconnect the client. </div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8cpp_source.html#l00122">tcp_client.cpp:122</a></div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_t_c_p_client_html_a081a6105230cc8753acf20e0e3039a2e"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a081a6105230cc8753acf20e0e3039a2e">CppServer::Asio::TCPClient::IsConnected</a></div><div class="ttdeci">bool IsConnected() const noexcept</div><div class="ttdoc">Is the client connected? </div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8h_source.html#l00067">tcp_client.h:67</a></div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_t_c_p_client_html_a9a59ddcf14b6eafa13647a7fc5045383"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a9a59ddcf14b6eafa13647a7fc5045383">CppServer::Asio::TCPClient::service</a></div><div class="ttdeci">std::shared_ptr&lt; Service &gt; &amp; service() noexcept</div><div class="ttdoc">Get the Asio service. </div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8h_source.html#l00055">tcp_client.h:55</a></div></div>
