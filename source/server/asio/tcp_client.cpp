@@ -263,9 +263,9 @@ void TCPClient::ClearBuffers()
 
 void TCPClient::SendError(std::error_code ec)
 {
-    if (ec == asio::error::connection_reset)
-        return;
-    if (ec == asio::error::eof)
+    if ((ec == asio::error::operation_aborted) ||
+        (ec == asio::error::connection_reset) ||
+        (ec == asio::error::eof))
         return;
     onError(ec.value(), ec.category().name(), ec.message());
 }
