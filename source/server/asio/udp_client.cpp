@@ -297,9 +297,24 @@ void UDPClient::ClearBuffers()
 
 void UDPClient::SendError(std::error_code ec)
 {
-    if ((ec == asio::error::connection_reset) ||
+    // Skip Asio disconnect errors
+    if ((ec == asio::error::connection_aborted) ||
+        (ec == asio::error::connection_refused) ||
+        (ec == asio::error::connection_reset) ||
         (ec == asio::error::eof))
         return;
+
+    // Skip OpenSSL annoying errors
+    if (ec == asio::ssl::error::stream_truncated)
+        return;
+    if (ec.category() == asio::error::get_ssl_category())
+    {
+        if ((ERR_GET_REASON(ec.value()) == SSL_R_DECRYPTION_FAILED_OR_BAD_RECORD_MAC) ||
+            (ERR_GET_REASON(ec.value()) == SSL_R_PROTOCOL_IS_SHUTDOWN) ||
+            (ERR_GET_REASON(ec.value()) == SSL_R_WRONG_VERSION_NUMBER))
+            return;
+    }
+
     onError(ec.value(), ec.category().name(), ec.message());
 }
 
