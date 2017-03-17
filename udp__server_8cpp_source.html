@@ -325,15 +325,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="keywordtype">void</span> UDPServer::SendError(std::error_code ec)</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;{</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordflow">if</span> ((ec == asio::error::operation_aborted) ||</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        (ec == asio::error::connection_reset) ||</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        (ec == asio::error::eof))</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a7817add6d0afccaa470eeda65cfe6a22">onError</a>(ec.value(), ec.category().name(), ec.message());</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;}</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;} <span class="comment">// namespace Asio</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;} <span class="comment">// namespace CppServer</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordflow">if</span> ((ec == asio::error::connection_reset) ||</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        (ec == asio::error::eof))</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a7817add6d0afccaa470eeda65cfe6a22">onError</a>(ec.value(), ec.category().name(), ec.message());</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;}</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;} <span class="comment">// namespace Asio</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;} <span class="comment">// namespace CppServer</span></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_u_d_p_server_html_aff82bd1e287939d1043fb66e79875199"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#aff82bd1e287939d1043fb66e79875199">CppServer::Asio::UDPServer::onStopped</a></div><div class="ttdeci">virtual void onStopped()</div><div class="ttdoc">Handle server stopped notification. </div><div class="ttdef"><b>Definition:</b> <a href="udp__server_8h_source.html#l00137">udp_server.h:137</a></div></div>
 <div class="ttc" id="namespace_cpp_server_1_1_asio_html_aac39dbbace10e6ff08eb6d2febbf1ff4"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">CppServer::Asio::InternetProtocol</a></div><div class="ttdeci">InternetProtocol</div><div class="ttdoc">Internet protocol. </div><div class="ttdef"><b>Definition:</b> <a href="asio_8h_source.html#l00033">asio.h:33</a></div></div>
 <div class="ttc" id="namespace_cpp_server_1_1_asio_html_aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626">CppServer::Asio::InternetProtocol::IPv4</a></div><div class="ttdoc">Internet Protocol version 4. </div></div>
