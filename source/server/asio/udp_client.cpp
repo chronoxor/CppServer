@@ -297,8 +297,7 @@ void UDPClient::ClearBuffers()
 
 void UDPClient::SendError(std::error_code ec)
 {
-    if ((ec == asio::error::operation_aborted) ||
-        (ec == asio::error::connection_reset) ||
+    if ((ec == asio::error::connection_reset) ||
         (ec == asio::error::eof))
         return;
     onError(ec.value(), ec.category().name(), ec.message());

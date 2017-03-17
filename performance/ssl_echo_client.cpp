@@ -151,7 +151,11 @@ int main(int argc, char** argv)
     // Disconnect clients
     std::cout << "Clients disconnecting...";
     for (auto& client : clients)
+    {
         client->Disconnect();
+        while (client->IsConnected() || client->IsHandshaked())
+            CppCommon::Thread::Yield();
+    }
     std::cout << "Done!" << std::endl;
 
     // Stop Asio services
