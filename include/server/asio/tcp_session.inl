@@ -10,6 +10,9 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
+const size_t TCPSession<TServer, TSession>::CHUNK;
+
+template <class TServer, class TSession>
 inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
@@ -50,9 +53,6 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
     {
         if (!IsConnected())
             return;
-
-        // Shutdown the session socket
-        _socket.shutdown(asio::ip::tcp::socket::shutdown_both);
 
         // Close the session socket
         _socket.close();
@@ -239,8 +239,8 @@ inline void TCPSession<TServer, TSession>::SendError(std::error_code ec)
     // Skip Asio disconnect errors
     if ((ec == asio::error::connection_aborted) ||
         (ec == asio::error::connection_refused) ||
-        (ec == asio::error::connection_reset) ||
-        (ec == asio::error::eof))
+        (ec == asio::error::eof) ||
+        (ec == asio::error::operation_aborted))
         return;
 
     onError(ec.value(), ec.category().name(), ec.message());

@@ -276,6 +276,14 @@ inline void TCPServer<TServer, TSession>::ClearBuffers()
 template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::SendError(std::error_code ec)
 {
+    // Skip Asio disconnect errors
+    if ((ec == asio::error::connection_aborted) ||
+        (ec == asio::error::connection_refused) ||
+        (ec == asio::error::connection_reset) ||
+        (ec == asio::error::eof) ||
+        (ec == asio::error::operation_aborted))
+        return;
+
     // Skip Winsock error 995: The I/O operation has been aborted because of either a thread exit or an application request
     if (ec.value() == 995)
         return;

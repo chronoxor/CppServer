@@ -11,6 +11,8 @@
 namespace CppServer {
 namespace Asio {
 
+const size_t UDPClient::CHUNK;
+
 UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
@@ -142,9 +144,6 @@ bool UDPClient::Disconnect(bool dispatch)
     {
         if (!IsConnected())
             return;
-
-        // Shutdown the client socket
-        _socket.shutdown(asio::ip::tcp::socket::shutdown_both);
 
         // Close the client socket
         _socket.close();
@@ -301,8 +300,8 @@ void UDPClient::SendError(std::error_code ec)
     // Skip Asio disconnect errors
     if ((ec == asio::error::connection_aborted) ||
         (ec == asio::error::connection_refused) ||
-        (ec == asio::error::connection_reset) ||
-        (ec == asio::error::eof))
+        (ec == asio::error::eof) ||
+        (ec == asio::error::operation_aborted))
         return;
 
     onError(ec.value(), ec.category().name(), ec.message());

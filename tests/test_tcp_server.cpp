@@ -340,9 +340,11 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
         // Restart the server
-        if ((rand() % 1000) == 0)
+        if ((rand() % 10000) == 0)
         {
             server->Restart();
+            while (!server->IsStarted())
+                Thread::Yield();
         }
         // Disconnect all clients
         else if ((rand() % 1000) == 0)
@@ -356,8 +358,10 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
             {
                 // Create and connect Echo client
                 auto client = std::make_shared<EchoTCPClient>(service, address, port);
-                client->Connect();
                 clients.emplace_back(client);
+                client->Connect();
+                while (!client->IsConnected())
+                    Thread::Yield();
             }
         }
         // Connect/Disconnect the random client
@@ -368,9 +372,17 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
                 if (client->IsConnected())
+                {
                     client->Disconnect();
+                    while (client->IsConnected())
+                        Thread::Yield();
+                }
                 else
+                {
                     client->Connect();
+                    while (!client->IsConnected())
+                        Thread::Yield();
+                }
             }
         }
         // Reconnect the random client
@@ -381,7 +393,11 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
                 if (client->IsConnected())
+                {
                     client->Reconnect();
+                    while (!client->IsConnected())
+                        Thread::Yield();
+                }
             }
         }
         // Multicast a message to all clients

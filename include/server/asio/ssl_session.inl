@@ -10,6 +10,9 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
+const size_t SSLSession<TServer, TSession>::CHUNK;
+
+template <class TServer, class TSession>
 inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
@@ -275,7 +278,8 @@ inline void SSLSession<TServer, TSession>::SendError(std::error_code ec)
     if ((ec == asio::error::connection_aborted) ||
         (ec == asio::error::connection_refused) ||
         (ec == asio::error::connection_reset) ||
-        (ec == asio::error::eof))
+        (ec == asio::error::eof) ||
+        (ec == asio::error::operation_aborted))
         return;
 
     // Skip OpenSSL annoying errors
