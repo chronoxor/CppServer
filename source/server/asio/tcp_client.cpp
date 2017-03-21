@@ -290,8 +290,8 @@ void TCPClient::SendError(std::error_code ec)
     // Skip Asio disconnect errors
     if ((ec == asio::error::connection_aborted) ||
         (ec == asio::error::connection_refused) ||
-        (ec == asio::error::connection_reset) ||
-        (ec == asio::error::eof))
+        (ec == asio::error::eof) ||
+        (ec == asio::error::operation_aborted))
         return;
 
     onError(ec.value(), ec.category().name(), ec.message());

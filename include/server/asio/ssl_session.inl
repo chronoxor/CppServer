@@ -275,7 +275,8 @@ inline void SSLSession<TServer, TSession>::SendError(std::error_code ec)
     if ((ec == asio::error::connection_aborted) ||
         (ec == asio::error::connection_refused) ||
         (ec == asio::error::connection_reset) ||
-        (ec == asio::error::eof))
+        (ec == asio::error::eof) ||
+        (ec == asio::error::operation_aborted))
         return;
 
     // Skip OpenSSL annoying errors
