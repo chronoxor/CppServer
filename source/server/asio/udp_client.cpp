@@ -145,9 +145,6 @@ bool UDPClient::Disconnect(bool dispatch)
         if (!IsConnected())
             return;
 
-        // Shutdown the client socket
-        _socket.shutdown(asio::ip::tcp::socket::shutdown_both);
-
         // Close the client socket
         _socket.close();
 

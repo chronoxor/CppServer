@@ -54,9 +54,6 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
         if (!IsConnected())
             return;
 
-        // Shutdown the session socket
-        _socket.shutdown(asio::ip::tcp::socket::shutdown_both);
-
         // Close the session socket
         _socket.close();
 

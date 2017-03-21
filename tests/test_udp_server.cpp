@@ -433,8 +433,13 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
+        // Restart the server
+        if ((rand() % 1000) == 0)
+        {
+            server->Restart();
+        }
         // Create a new client and connect
-        if ((rand() % 100) == 0)
+        else if ((rand() % 100) == 0)
         {
             if (clients.size() < 100)
             {

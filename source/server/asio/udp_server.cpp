@@ -127,9 +127,6 @@ bool UDPServer::Stop()
         if (!IsStarted())
             return;
 
-        // Shutdown the server socket
-        _socket.shutdown(asio::ip::tcp::socket::shutdown_both);
-
         // Close the server socket
         _socket.close();
 
