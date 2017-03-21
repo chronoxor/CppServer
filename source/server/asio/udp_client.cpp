@@ -11,6 +11,8 @@
 namespace CppServer {
 namespace Asio {
 
+const size_t UDPClient::CHUNK;
+
 UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),

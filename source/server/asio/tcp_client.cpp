@@ -11,6 +11,8 @@
 namespace CppServer {
 namespace Asio {
 
+const size_t TCPClient::CHUNK;
+
 TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
