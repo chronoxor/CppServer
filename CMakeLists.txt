@@ -120,7 +120,7 @@ if(NOT CPPSERVER_MODULE)
 
   # CTest
   enable_testing()
-  add_test(cppserver-tests cppserver-tests)
+  add_test(cppserver-tests cppserver-tests --durations yes)
 
   # Install
   install(TARGETS ${INSTALL_TARGETS}
