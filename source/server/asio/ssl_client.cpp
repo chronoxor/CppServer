@@ -423,6 +423,8 @@ private:
     }
 };
 
+const size_t SSLClient::Impl::CHUNK;
+
 //! @endcond
 
 SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
