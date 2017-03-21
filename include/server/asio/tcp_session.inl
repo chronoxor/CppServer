@@ -10,6 +10,9 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
+const size_t TCPSession<TServer, TSession>::CHUNK;
+
+template <class TServer, class TSession>
 inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
