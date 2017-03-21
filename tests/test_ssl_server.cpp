@@ -383,15 +383,8 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
-        // Restart the server
-        if ((rand() % 10000) == 0)
-        {
-            server->Restart();
-            while (!server->IsStarted())
-                Thread::Yield();
-        }
         // Disconnect all clients
-        else if ((rand() % 1000) == 0)
+        if ((rand() % 1000) == 0)
         {
             server->DisconnectAll();
         }

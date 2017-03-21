@@ -4,8 +4,10 @@
 
 #include "catch.hpp"
 
+#include "errors/exceptions_handler.h"
 #include "server/asio/websocket_client.h"
 #include "server/asio/websocket_server.h"
+#include "system/stack_trace_manager.h"
 #include "threads/thread.h"
 
 #include <atomic>
@@ -317,6 +319,11 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
 
 TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
 {
+    // Initialize stack trace manager of the current process
+    CppCommon::StackTraceManager::Initialize();
+    // Setup exceptions handler for the current process
+    CppCommon::ExceptionsHandler::SetupProcess();
+
     const std::string address = "127.0.0.1";
     const int port = 4446;
     const std::string uri = "ws://" + address + ":" + std::to_string(port);
@@ -343,15 +350,8 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
-        // Restart the server
-        if ((rand() % 10000) == 0)
-        {
-            server->Restart();
-            while (!server->IsStarted())
-                Thread::Yield();
-        }
         // Disconnect all clients
-        else if ((rand() % 1000) == 0)
+        if ((rand() % 1000) == 0)
         {
             server->DisconnectAll();
         }
