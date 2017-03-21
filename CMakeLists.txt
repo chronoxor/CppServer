@@ -120,7 +120,7 @@ if(NOT CPPSERVER_MODULE)
 
   # CTest
   enable_testing()
-  add_test(cppserver-tests cppserver-tests --durations yes --order lex --success)
+  add_test(cppserver-tests cppserver-tests --durations yes --order lex)
 
   # Install
   install(TARGETS ${INSTALL_TARGETS}
