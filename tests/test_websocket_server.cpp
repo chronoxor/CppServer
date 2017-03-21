@@ -1,21 +1,22 @@
 //
-// Created by Ivan Shynkarenka on 27.12.2016
+// Created by Ivan Shynkarenka on 11.01.2017
 //
 
 #include "catch.hpp"
 
-#include "server/asio/udp_client.h"
-#include "server/asio/udp_server.h"
+#include "server/asio/websocket_client.h"
+#include "server/asio/websocket_server.h"
 #include "threads/thread.h"
 
 #include <atomic>
 #include <chrono>
+#include <mutex>
 #include <vector>
 
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-class EchoUDPService : public Service
+class EchoWebSocketService : public Service
 {
 public:
     std::atomic<bool> thread_initialize;
@@ -25,7 +26,7 @@ public:
     std::atomic<bool> idle;
     std::atomic<bool> error;
 
-    explicit EchoUDPService()
+    explicit EchoWebSocketService()
         : thread_initialize(false),
           thread_cleanup(false),
           started(false),
@@ -44,22 +45,15 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-class EchoUDPClient : public UDPClient
+class EchoWebSocketClient : public WebSocketClient
 {
 public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit EchoUDPClient(std::shared_ptr<EchoUDPService> service, const std::string& address, int port)
-        : UDPClient(service, address, port),
-          connected(false),
-          disconnected(false),
-          error(false)
-    {
-    }
-    explicit EchoUDPClient(std::shared_ptr<EchoUDPService> service, const std::string& address, int port, bool reuse_address)
-        : UDPClient(service, address, port, reuse_address),
+    explicit EchoWebSocketClient(std::shared_ptr<EchoWebSocketService> service, const std::string& uri)
+        : WebSocketClient(service, uri),
           connected(false),
           disconnected(false),
           error(false)
@@ -72,17 +66,47 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-class EchoUDPServer : public UDPServer
+class EchoWebSocketServer;
+
+class EchoWebSocketSession : public WebSocketSession<EchoWebSocketServer, EchoWebSocketSession>
+{
+public:
+    std::atomic<bool> connected;
+    std::atomic<bool> disconnected;
+    std::atomic<bool> error;
+
+    explicit EchoWebSocketSession(std::shared_ptr<WebSocketServer<EchoWebSocketServer, EchoWebSocketSession>> server)
+        : WebSocketSession<EchoWebSocketServer, EchoWebSocketSession>(server),
+          connected(false),
+          disconnected(false),
+          error(false)
+    {
+    }
+
+protected:
+    void onConnected() override { connected = true; }
+    void onDisconnected() override { disconnected = true; }
+    void onReceived(WebSocketMessage message) override { Send(message); }
+    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+};
+
+class EchoWebSocketServer : public WebSocketServer<EchoWebSocketServer, EchoWebSocketSession>
 {
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
+    std::atomic<bool> connected;
+    std::atomic<bool> disconnected;
+    std::atomic<size_t> clients;
     std::atomic<bool> error;
 
-    explicit EchoUDPServer(std::shared_ptr<EchoUDPService> service, InternetProtocol protocol, int port)
-        : UDPServer(service, protocol, port),
+    explicit EchoWebSocketServer(std::shared_ptr<EchoWebSocketService> service, InternetProtocol protocol, int port)
+        : WebSocketServer<EchoWebSocketServer, EchoWebSocketSession>(service, protocol, port),
           started(false),
           stopped(false),
+          connected(false),
+          disconnected(false),
+          clients(0),
           error(false)
     {
     }
@@ -90,31 +114,33 @@ public:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Send(endpoint, buffer, size); }
+    void onConnected(std::shared_ptr<EchoWebSocketSession>& session) override { connected = true; ++clients; }
+    void onDisconnected(std::shared_ptr<EchoWebSocketSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("UDP server & client", "[CppServer][Asio]")
+TEST_CASE("WebSocket server & client", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 2222;
+    const int port = 4444;
+    const std::string uri = "ws://" + address + ":" + std::to_string(port);
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoUDPService>();
+    auto service = std::make_shared<EchoWebSocketService>();
     REQUIRE(service->Start());
     while (!service->IsStarted())
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoWebSocketServer>(service, InternetProtocol::IPv4, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client = std::make_shared<EchoUDPClient>(service, address, port);
+    auto client = std::make_shared<EchoWebSocketClient>(service, uri);
     REQUIRE(client->Connect());
-    while (!client->IsConnected())
+    while (!client->IsConnected() || (server->clients != 1))
         Thread::Yield();
 
     // Send a message to the Echo server
@@ -126,7 +152,7 @@ TEST_CASE("UDP server & client", "[CppServer][Asio]")
 
     // Disconnect the Echo client
     REQUIRE(client->Disconnect());
-    while (client->IsConnected())
+    while (client->IsConnected() || (server->clients != 0))
         Thread::Yield();
 
     // Stop the Echo server
@@ -150,6 +176,8 @@ TEST_CASE("UDP server & client", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
+    REQUIRE(server->connected);
+    REQUIRE(server->disconnected);
     REQUIRE(server->bytes_sent() == 4);
     REQUIRE(server->bytes_received() == 4);
     REQUIRE(!server->error);
@@ -162,33 +190,29 @@ TEST_CASE("UDP server & client", "[CppServer][Asio]")
     REQUIRE(!client->error);
 }
 
-TEST_CASE("UDP server multicast", "[CppServer][Asio]")
+TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
 {
-    const std::string listen_address = "0.0.0.0";
-    const std::string multicast_address = "239.255.0.1";
-    const int multicast_port = 2223;
+    const std::string address = "127.0.0.1";
+    const int port = 4445;
+    const std::string uri = "ws://" + address + ":" + std::to_string(port);
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoUDPService>();
+    auto service = std::make_shared<EchoWebSocketService>();
     REQUIRE(service->Start(true));
     while (!service->IsStarted())
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, 0);
-    REQUIRE(server->Start(multicast_address, multicast_port));
+    auto server = std::make_shared<EchoWebSocketServer>(service, InternetProtocol::IPv4, port);
+    REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client1 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+    auto client1 = std::make_shared<EchoWebSocketClient>(service, uri);
     REQUIRE(client1->Connect());
-    while (!client1->IsConnected())
+    while (!client1->IsConnected() || (server->clients != 1))
         Thread::Yield();
-    client1->JoinMulticastGroup(multicast_address);
-
-    // Wait for a while...
-    Thread::Sleep(100);
 
     // Multicast some data to all clients
     server->Multicast("test");
@@ -198,14 +222,10 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client2 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+    auto client2 = std::make_shared<EchoWebSocketClient>(service, uri);
     REQUIRE(client2->Connect());
-    while (!client2->IsConnected())
+    while (!client2->IsConnected() || (server->clients != 2))
         Thread::Yield();
-    client2->JoinMulticastGroup(multicast_address);
-
-    // Wait for a while...
-    Thread::Sleep(100);
 
     // Multicast some data to all clients
     server->Multicast("test");
@@ -215,14 +235,10 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect Echo client
-    auto client3 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+    auto client3 = std::make_shared<EchoWebSocketClient>(service, uri);
     REQUIRE(client3->Connect());
-    while (!client3->IsConnected())
+    while (!client3->IsConnected() || (server->clients != 3))
         Thread::Yield();
-    client3->JoinMulticastGroup(multicast_address);
-
-    // Wait for a while...
-    Thread::Sleep(100);
 
     // Multicast some data to all clients
     server->Multicast("test");
@@ -232,13 +248,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
-    client1->LeaveMulticastGroup(multicast_address);
     REQUIRE(client1->Disconnect());
-    while (client1->IsConnected())
+    while (client1->IsConnected() || (server->clients != 2))
         Thread::Yield();
-
-    // Wait for a while...
-    Thread::Sleep(100);
 
     // Multicast some data to all clients
     server->Multicast("test");
@@ -248,13 +260,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
-    client2->LeaveMulticastGroup(multicast_address);
     REQUIRE(client2->Disconnect());
-    while (client2->IsConnected())
+    while (client2->IsConnected() || (server->clients != 1))
         Thread::Yield();
-
-    // Wait for a while...
-    Thread::Sleep(100);
 
     // Multicast some data to all clients
     server->Multicast("test");
@@ -264,13 +272,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
-    client3->LeaveMulticastGroup(multicast_address);
     REQUIRE(client3->Disconnect());
-    while (client3->IsConnected())
+    while (client3->IsConnected() || (server->clients != 0))
         Thread::Yield();
-
-    // Wait for a while...
-    Thread::Sleep(100);
 
     // Stop the Echo server
     REQUIRE(server->Stop());
@@ -293,7 +297,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
-    REQUIRE(server->bytes_sent() == 20);
+    REQUIRE(server->connected);
+    REQUIRE(server->disconnected);
+    REQUIRE(server->bytes_sent() == 36);
     REQUIRE(server->bytes_received() == 0);
     REQUIRE(!server->error);
 
@@ -309,19 +315,20 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(!client3->error);
 }
 
-TEST_CASE("UDP server random test", "[CppServer][Asio]")
+TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 2224;
+    const int port = 4446;
+    const std::string uri = "ws://" + address + ":" + std::to_string(port);
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoUDPService>();
+    auto service = std::make_shared<EchoWebSocketService>();
     REQUIRE(service->Start());
     while (!service->IsStarted())
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoWebSocketServer>(service, InternetProtocol::IPv4, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -330,7 +337,7 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     const int duration = 10;
 
     // Clients collection
-    std::vector<std::shared_ptr<EchoUDPClient>> clients;
+    std::vector<std::shared_ptr<EchoWebSocketClient>> clients;
 
     // Start random test
     auto start = std::chrono::high_resolution_clock::now();
@@ -343,13 +350,18 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
             while (!server->IsStarted())
                 Thread::Yield();
         }
+        // Disconnect all clients
+        else if ((rand() % 1000) == 0)
+        {
+            server->DisconnectAll();
+        }
         // Create a new client and connect
         else if ((rand() % 100) == 0)
         {
             if (clients.size() < 100)
             {
                 // Create and connect Echo client
-                auto client = std::make_shared<EchoUDPClient>(service, address, port);
+                auto client = std::make_shared<EchoWebSocketClient>(service, uri);
                 clients.emplace_back(client);
                 client->Connect();
                 while (!client->IsConnected())
@@ -392,6 +404,11 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
                 }
             }
         }
+        // Multicast a message to all clients
+        else if ((rand() % 10) == 0)
+        {
+            server->Multicast("test");
+        }
         // Send a message from the random client
         else if ((rand() % 1) == 0)
         {
@@ -421,118 +438,9 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     // Check the Echo server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
+    REQUIRE(server->connected);
+    REQUIRE(server->disconnected);
     REQUIRE(server->bytes_sent() > 0);
     REQUIRE(server->bytes_received() > 0);
-    REQUIRE(!server->error);
-}
-
-TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
-{
-    const std::string listen_address = "0.0.0.0";
-    const std::string multicast_address = "239.255.0.1";
-    const int multicast_port = 2225;
-
-    // Create and start Asio service
-    auto service = std::make_shared<EchoUDPService>();
-    REQUIRE(service->Start());
-    while (!service->IsStarted())
-        Thread::Yield();
-
-    // Create and start Echo server
-    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, 0);
-    REQUIRE(server->Start(multicast_address, multicast_port));
-    while (!server->IsStarted())
-        Thread::Yield();
-
-    // Test duration in seconds
-    const int duration = 10;
-
-    // Clients collection
-    std::vector<std::shared_ptr<EchoUDPClient>> clients;
-
-    // Start random test
-    auto start = std::chrono::high_resolution_clock::now();
-    while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
-    {
-        // Restart the server
-        if ((rand() % 10000) == 0)
-        {
-            server->Restart();
-            while (!server->IsStarted())
-                Thread::Yield();
-        }
-        // Create a new client and connect
-        else if ((rand() % 100) == 0)
-        {
-            if (clients.size() < 100)
-            {
-                // Create and connect Echo client
-                auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
-                clients.emplace_back(client);
-                client->Connect();
-                while (!client->IsConnected())
-                    Thread::Yield();
-                client->JoinMulticastGroup(multicast_address);
-
-                // Wait for a while...
-                Thread::Sleep(100);
-            }
-        }
-        // Connect/Disconnect the random client
-        else if ((rand() % 100) == 0)
-        {
-            if (!clients.empty())
-            {
-                size_t index = rand() % clients.size();
-                auto client = clients.at(index);
-                if (client->IsConnected())
-                {
-                    client->LeaveMulticastGroup(multicast_address);
-
-                    // Wait for a while...
-                    Thread::Sleep(100);
-
-                    client->Disconnect();
-                    while (client->IsConnected())
-                        Thread::Yield();
-                }
-                else
-                {
-                    client->Connect();
-                    while (!client->IsConnected())
-                        Thread::Yield();
-
-                    client->JoinMulticastGroup(multicast_address);
-
-                    // Wait for a while...
-                    Thread::Sleep(100);
-                }
-            }
-        }
-        // Multicast a message to all clients
-        else if ((rand() % 10) == 0)
-        {
-            server->Multicast("test");
-        }
-
-        // Sleep for a while...
-        Thread::Sleep(1);
-    }
-
-    // Stop the Echo server
-    REQUIRE(server->Stop());
-    while (server->IsStarted())
-        Thread::Yield();
-
-    // Stop the Asio service
-    REQUIRE(service->Stop());
-    while (service->IsStarted())
-        Thread::Yield();
-
-    // Check the Echo server state
-    REQUIRE(server->started);
-    REQUIRE(server->stopped);
-    REQUIRE(server->bytes_sent() > 0);
-    REQUIRE(server->bytes_received() == 0);
     REQUIRE(!server->error);
 }
