@@ -194,8 +194,6 @@ private:
     uint64_t _bytes_received;
     // Receive endpoint
     asio::ip::udp::endpoint _recive_endpoint;
-    // Receive & send buffers
-    std::vector<uint8_t> _recive_buffer;
     bool _reciving;
     // Additional options
     bool _multicast;
@@ -212,9 +210,6 @@ private:
 
     //! Try to receive new datagram
     void TryReceive();
-
-    //! Clear receive & send buffers
-    void ClearBuffers();
 
     //! Send error notification
     void SendError(std::error_code ec);

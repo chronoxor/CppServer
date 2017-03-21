@@ -90,6 +90,9 @@ inline bool SSLServer<TServer, TSession>::Start()
     auto self(this->shared_from_this());
     _service->service()->post([this, self]()
     {
+        if (IsStarted())
+            return;
+
         // Create the server acceptor
         _acceptor = asio::ip::tcp::acceptor(*_service->service(), _endpoint);
 
@@ -121,6 +124,9 @@ inline bool SSLServer<TServer, TSession>::Stop()
     auto self(this->shared_from_this());
     _service->service()->post([this, self]()
     {
+        if (!IsStarted())
+            return;
+
         // Close the server acceptor
         _acceptor.close();
 
@@ -162,12 +168,11 @@ inline void SSLServer<TServer, TSession>::Accept()
     auto self(this->shared_from_this());
     _service->Dispatch([this, self]()
     {
+        if (!IsStarted())
+            return;
+
         _acceptor.async_accept(_socket, [this, self](std::error_code ec)
         {
-            // Check if the server is stopped
-            if (!IsStarted())
-                return;
-
             if (!ec)
                 RegisterSession();
             else
@@ -190,9 +195,10 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
     if (!IsStarted())
         return false;
 
-    // Fill the multicast buffer
     {
         std::lock_guard<std::mutex> locker(_multicast_lock);
+
+        // Fill the multicast buffer
         const uint8_t* bytes = (const uint8_t*)buffer;
         _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
     }
@@ -228,6 +234,9 @@ inline bool SSLServer<TServer, TSession>::DisconnectAll()
     auto self(this->shared_from_this());
     _service->Dispatch([this, self]()
     {
+        if (!IsStarted())
+            return;
+
         // Disconnect all sessions
         for (auto& session : _sessions)
             session.second->Disconnect();
@@ -272,12 +281,17 @@ template <class TServer, class TSession>
 inline void SSLServer<TServer, TSession>::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_multicast_lock);
+
     _multicast_buffer.clear();
 }
 
 template <class TServer, class TSession>
 inline void SSLServer<TServer, TSession>::SendError(std::error_code ec)
 {
+    // Skip Winsock error 995: The I/O operation has been aborted because of either a thread exit or an application request
+    if (ec.value() == 995)
+        return;
+
     onError(ec.value(), ec.category().name(), ec.message());
 }
 

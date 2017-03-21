@@ -145,6 +145,7 @@ private:
     // Server endpoint & client socket
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::socket _socket;
+    std::atomic<bool> _connecting;
     std::atomic<bool> _connected;
     // Client statistic
     uint64_t _bytes_sent;

@@ -181,17 +181,13 @@ private:
     // Multicast & receive endpoint
     asio::ip::udp::endpoint _multicast_endpoint;
     asio::ip::udp::endpoint _recive_endpoint;
-    // Receive & send buffers
-    std::vector<uint8_t> _recive_buffer;
+    // Receive flag
     bool _reciving;
 
     static const size_t CHUNK = 8192;
 
     //! Try to receive new datagram
     void TryReceive();
-
-    //! Clear receive & send buffers
-    void ClearBuffers();
 
     //! Send error notification
     void SendError(std::error_code ec);

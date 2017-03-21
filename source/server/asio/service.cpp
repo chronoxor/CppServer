@@ -43,6 +43,9 @@ bool Service::Start(bool polling)
     auto self(this->shared_from_this());
     _service->post([this, self]()
     {
+        if (IsStarted())
+            return;
+
          // Update the started flag
         _started = true;
 
@@ -66,6 +69,9 @@ bool Service::Stop()
     auto self(this->shared_from_this());
     _service->post([this, self]()
     {
+        if (!IsStarted())
+            return;
+
         // Stop the Asio service
         _service->stop();
 

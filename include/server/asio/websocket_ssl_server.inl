@@ -223,9 +223,10 @@ inline bool WebSocketSSLServer<TServer, TSession>::Multicast(const void* buffer,
     if (!IsStarted())
         return false;
 
-    // Fill the multicast buffer
     {
         std::lock_guard<std::mutex> locker(_multicast_lock);
+
+        // Fill the multicast buffer
         std::vector<uint8_t> message((const uint8_t*)buffer, ((const uint8_t*)buffer) + size);
         _multicast_buffer.emplace_back(std::make_tuple(message, opcode));
     }
@@ -240,9 +241,10 @@ inline bool WebSocketSSLServer<TServer, TSession>::Multicast(const std::string& 
     if (!IsStarted())
         return false;
 
-    // Fill the multicast buffer
     {
         std::lock_guard<std::mutex> locker(_multicast_lock);
+
+        // Fill the multicast buffer
         _multicast_text.emplace_back(std::make_tuple(text, opcode));
     }
 
@@ -256,9 +258,10 @@ inline bool WebSocketSSLServer<TServer, TSession>::Multicast(WebSocketSSLMessage
     if (!IsStarted())
         return false;
 
-    // Fill the multicast buffer
     {
         std::lock_guard<std::mutex> locker(_multicast_lock);
+
+        // Fill the multicast buffer
         _multicast_messages.push_back(message);
     }
 
@@ -363,6 +366,7 @@ template <class TServer, class TSession>
 inline void WebSocketSSLServer<TServer, TSession>::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_multicast_lock);
+
     _multicast_buffer.clear();
     _multicast_text.clear();
     _multicast_messages.clear();

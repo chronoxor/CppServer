@@ -96,6 +96,9 @@ bool UDPClient::Connect()
     auto self(this->shared_from_this());
     _service->service()->post([this, self]()
     {
+        if (IsConnected())
+            return;
+
         // Open the client socket
         if (_multicast)
         {
@@ -137,11 +140,14 @@ bool UDPClient::Disconnect(bool dispatch)
     auto self(this->shared_from_this());
     auto disconnect = [this, self]()
     {
+        if (!IsConnected())
+            return;
+
+        // Shutdown the client socket
+        _socket.shutdown(asio::ip::tcp::socket::shutdown_both);
+
         // Close the client socket
         _socket.close();
-
-        // Clear receive/send buffers
-        ClearBuffers();
 
         // Update the connected flag
         _connected = false;
@@ -179,8 +185,11 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
 
     // Dispatch the join multicast group routine
     auto self(this->shared_from_this());
-    service()->Dispatch([this, self, muticast_address]()
+    _service->Dispatch([this, self, muticast_address]()
     {
+        if (!IsConnected())
+            return;
+
         asio::ip::multicast::join_group join(muticast_address);
         _socket.set_option(join);
     });
@@ -195,8 +204,11 @@ void UDPClient::LeaveMulticastGroup(const std::string& address)
 
     // Dispatch the leave multicast group routine
     auto self(this->shared_from_this());
-    service()->Dispatch([this, self, muticast_address]()
+    _service->Dispatch([this, self, muticast_address]()
     {
+        if (!IsConnected())
+            return;
+
         asio::ip::multicast::leave_group leave(muticast_address);
         _socket.set_option(leave);
     });
@@ -248,51 +260,40 @@ void UDPClient::TryReceive()
     if (_reciving)
         return;
 
-    // Prepare receive buffer
-    size_t old_size = _recive_buffer.size();
-    _recive_buffer.resize(_recive_buffer.size() + CHUNK);
+    if (!IsConnected())
+        return;
+
+    uint8_t buffer[CHUNK];
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, [this, self](std::error_code ec, size_t received)
+    _socket.async_receive_from(asio::buffer(buffer), _recive_endpoint, [this, self, &buffer](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
-        // Check for disconnect
         if (!IsConnected())
             return;
 
-        // Received datagram from the server
-        if (received > 0)
+        // Received some data from the client
+        if (size > 0)
         {
             // Update statistic
             ++_datagrams_received;
-            _bytes_received += received;
-
-            // Prepare receive buffer
-            _recive_buffer.resize(_recive_buffer.size() - (CHUNK - received));
+            _bytes_received += size;
 
             // Call the datagram received handler
-            onReceived(_recive_endpoint, _recive_buffer.data(), _recive_buffer.size());
-
-            // Clear the handled buffer
-            _recive_buffer.clear();
+            onReceived(_recive_endpoint, buffer, size);
         }
 
         // Try to receive again if the session is valid
-        if (!ec || (ec == asio::error::would_block))
-            service()->Post([this, self]() { TryReceive(); });
+        if (!ec)
+            TryReceive();
         else
         {
             SendError(ec);
             Disconnect(true);
         }
     });
-}
-
-void UDPClient::ClearBuffers()
-{
-    _recive_buffer.clear();
 }
 
 void UDPClient::SendError(std::error_code ec)
@@ -303,17 +304,6 @@ void UDPClient::SendError(std::error_code ec)
         (ec == asio::error::connection_reset) ||
         (ec == asio::error::eof))
         return;
-
-    // Skip OpenSSL annoying errors
-    if (ec == asio::ssl::error::stream_truncated)
-        return;
-    if (ec.category() == asio::error::get_ssl_category())
-    {
-        if ((ERR_GET_REASON(ec.value()) == SSL_R_DECRYPTION_FAILED_OR_BAD_RECORD_MAC) ||
-            (ERR_GET_REASON(ec.value()) == SSL_R_PROTOCOL_IS_SHUTDOWN) ||
-            (ERR_GET_REASON(ec.value()) == SSL_R_WRONG_VERSION_NUMBER))
-            return;
-    }
 
     onError(ec.value(), ec.category().name(), ec.message());
 }

@@ -32,9 +32,9 @@ inline void WebSocketSession<TServer, TSession>::Connect(websocketpp::connection
 
         // Update statistic
         ++_messages_received;
-        ++server()->_messages_received;
+        ++_server->_messages_received;
         _bytes_received += size;
-        server()->_bytes_received += size;
+        _server->_bytes_received += size;
 
         // Call the message received handler
         onReceived(message);
@@ -122,9 +122,9 @@ inline size_t WebSocketSession<TServer, TSession>::Send(const void* buffer, size
 
     // Update statistic
     ++_messages_sent;
-    ++server()->_messages_sent;
+    ++_server->_messages_sent;
     _bytes_sent += size;
-    server()->_bytes_sent += size;
+    _server->_bytes_sent += size;
 
     return size;
 }
@@ -147,9 +147,9 @@ inline size_t WebSocketSession<TServer, TSession>::Send(const std::string& text,
 
     // Update statistic
     ++_messages_sent;
-    ++server()->_messages_sent;
+    ++_server->_messages_sent;
     _bytes_sent += size;
-    server()->_bytes_sent += size;
+    _server->_bytes_sent += size;
 
     return size;
 }
@@ -172,9 +172,9 @@ inline size_t WebSocketSession<TServer, TSession>::Send(WebSocketMessage message
 
     // Update statistic
     ++_messages_sent;
-    ++server()->_messages_sent;
+    ++_server->_messages_sent;
     _bytes_sent += size;
-    server()->_bytes_sent += size;
+    _server->_bytes_sent += size;
 
     return size;
 }

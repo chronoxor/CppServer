@@ -339,8 +339,13 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
-        // Disconnect all clients
+        // Restart the server
         if ((rand() % 1000) == 0)
+        {
+            server->Restart();
+        }
+        // Disconnect all clients
+        else if ((rand() % 1000) == 0)
         {
             server->DisconnectAll();
         }
