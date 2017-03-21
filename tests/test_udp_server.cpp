@@ -336,15 +336,24 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     auto start = std::chrono::high_resolution_clock::now();
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
+        // Restart the server
+        if ((rand() % 1000) == 0)
+        {
+            server->Restart();
+            while (!server->IsStarted())
+                Thread::Yield();
+        }
         // Create a new client and connect
-        if ((rand() % 100) == 0)
+        else if ((rand() % 100) == 0)
         {
             if (clients.size() < 100)
             {
                 // Create and connect Echo client
                 auto client = std::make_shared<EchoUDPClient>(service, address, port);
-                client->Connect();
                 clients.emplace_back(client);
+                client->Connect();
+                while (!client->IsConnected())
+                    Thread::Yield();
             }
         }
         // Connect/Disconnect the random client
@@ -355,9 +364,17 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
                 if (client->IsConnected())
+                {
                     client->Disconnect();
+                    while (client->IsConnected())
+                        Thread::Yield();
+                }
                 else
+                {
                     client->Connect();
+                    while (!client->IsConnected())
+                        Thread::Yield();
+                }
             }
         }
         // Reconnect the random client
@@ -368,7 +385,11 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
                 if (client->IsConnected())
+                {
                     client->Reconnect();
+                    while (!client->IsConnected())
+                        Thread::Yield();
+                }
             }
         }
         // Send a message from the random client
@@ -437,6 +458,8 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
         if ((rand() % 1000) == 0)
         {
             server->Restart();
+            while (!server->IsStarted())
+                Thread::Yield();
         }
         // Create a new client and connect
         else if ((rand() % 100) == 0)
@@ -445,11 +468,14 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
             {
                 // Create and connect Echo client
                 auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+                clients.emplace_back(client);
                 client->Connect();
                 while (!client->IsConnected())
                     Thread::Yield();
                 client->JoinMulticastGroup(multicast_address);
-                clients.emplace_back(client);
+
+                // Wait for a while...
+                Thread::Sleep(100);
             }
         }
         // Connect/Disconnect the random client
@@ -462,14 +488,24 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
                 if (client->IsConnected())
                 {
                     client->LeaveMulticastGroup(multicast_address);
+
+                    // Wait for a while...
+                    Thread::Sleep(100);
+
                     client->Disconnect();
+                    while (client->IsConnected())
+                        Thread::Yield();
                 }
                 else
                 {
                     client->Connect();
                     while (!client->IsConnected())
                         Thread::Yield();
+
                     client->JoinMulticastGroup(multicast_address);
+
+                    // Wait for a while...
+                    Thread::Sleep(100);
                 }
             }
         }

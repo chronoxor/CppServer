@@ -387,6 +387,8 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
         if ((rand() % 1000) == 0)
         {
             server->Restart();
+            while (!server->IsStarted())
+                Thread::Yield();
         }
         // Disconnect all clients
         else if ((rand() % 1000) == 0)
@@ -400,8 +402,10 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
             {
                 // Create and connect Echo client
                 auto client = std::make_shared<EchoSSLClient>(service, client_context, address, port);
-                client->Connect();
                 clients.emplace_back(client);
+                client->Connect();
+                while (!client->IsHandshaked())
+                    Thread::Yield();
             }
         }
         // Connect/Disconnect the random client
@@ -412,9 +416,17 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
                 if (client->IsHandshaked())
+                {
                     client->Disconnect();
+                    while (client->IsConnected())
+                        Thread::Yield();
+                }
                 else if (!client->IsConnected())
+                {
                     client->Connect();
+                    while (!client->IsHandshaked())
+                        Thread::Yield();
+                }
             }
         }
         // Reconnect the random client
@@ -425,7 +437,11 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
                 if (client->IsHandshaked())
+                {
                     client->Reconnect();
+                    while (!client->IsHandshaked())
+                        Thread::Yield();
+                }
             }
         }
         // Multicast a message to all clients
