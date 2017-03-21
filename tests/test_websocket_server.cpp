@@ -344,7 +344,7 @@ TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
     while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < duration)
     {
         // Restart the server
-        if ((rand() % 1000) == 0)
+        if ((rand() % 10000) == 0)
         {
             server->Restart();
             while (!server->IsStarted())

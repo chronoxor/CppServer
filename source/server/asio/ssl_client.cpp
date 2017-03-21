@@ -29,6 +29,7 @@ public:
           _connected(false),
           _handshaking(false),
           _handshaked(false),
+          _disconnecting(false),
           _bytes_sent(0),
           _bytes_received(0),
           _reciving(false),
@@ -53,6 +54,7 @@ public:
           _connected(false),
           _handshaking(false),
           _handshaked(false),
+          _disconnecting(false),
           _bytes_sent(0),
           _bytes_received(0),
           _reciving(false),
@@ -92,14 +94,14 @@ public:
     {
         _client = client;
 
-        if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
+        if (IsConnected() || IsHandshaked() || _connecting || _handshaking || _disconnecting)
             return false;
 
         // Post the connect routine
         auto self(this->shared_from_this());
         _service->service()->post([this, self]()
         {
-            if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
+            if (IsConnected() || IsHandshaked() || _connecting || _handshaking || _disconnecting)
                 return;
 
             // Connect the client socket
@@ -108,7 +110,7 @@ public:
             {
                 _connecting = false;
 
-                if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
+                if (IsConnected() || IsHandshaked() || _connecting || _handshaking || _disconnecting)
                     return;
 
                 if (!ec)
@@ -129,7 +131,7 @@ public:
                     {
                         _handshaking = false;
 
-                        if (IsHandshaked() || _handshaking)
+                        if (IsHandshaked() || _handshaking || _disconnecting)
                             return;
 
                         if (!ec)
@@ -165,32 +167,42 @@ public:
 
     bool Disconnect(bool dispatch)
     {
-        if (!IsConnected() || _connecting || _handshaking)
+        if (!IsConnected() || _connecting || _handshaking || _disconnecting)
             return false;
 
         auto self(this->shared_from_this());
         auto disconnect = [this, self]()
         {
-            if (!IsConnected() || _connecting || _handshaking)
+            if (!IsConnected() || _connecting || _handshaking || _disconnecting)
                 return;
 
-            // Close the client socket
-            socket().close();
+            // Shutdown the client stream
+            _disconnecting = true;
+            _stream.async_shutdown([this, self](std::error_code ec)
+            {
+                _disconnecting = false;
 
-            // Clear receive/send buffers
-            ClearBuffers();
+                if (!IsConnected() || _connecting || _handshaking || _disconnecting)
+                    return;
 
-            // Update the handshaked flag
-            _handshaked = false;
+                // Close the client socket
+                socket().close();
 
-            // Update the connected flag
-            _connected = false;
+                // Clear receive/send buffers
+                ClearBuffers();
 
-            // Call the client reset handler
-            onReset();
+                // Update the handshaked flag
+                _handshaked = false;
 
-            // Call the client disconnected handler
-            onDisconnected();
+                // Update the connected flag
+                _connected = false;
+
+                // Call the client reset handler
+                onReset();
+
+                // Call the client disconnected handler
+                onDisconnected();
+            });
         };
 
         // Dispatch or post the disconnect routine
@@ -255,6 +267,7 @@ private:
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaking;
     std::atomic<bool> _handshaked;
+    std::atomic<bool> _disconnecting;
     // Client statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
@@ -526,3 +539,4 @@ void SSLClient::onReset()
 
 } // namespace Asio
 } // namespace CppServer
+
