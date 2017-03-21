@@ -105,23 +105,38 @@ void Service::ServiceLoop(bool polling)
     {
         asio::io_service::work work(*_service);
 
-        if (polling)
+        // Service loop...
+        do
         {
-            // Run the Asio service in a polling loop
-            do
+            // ...with handling some specific Asio errors
+            try
             {
-                // Poll all pending handlers
-                _service->poll();
+                if (polling)
+                {
+                    // Poll all pending handlers
+                    _service->poll();
 
-                // Call the idle handler
-                onIdle();
-            } while (_started);
-        }
-        else
-        {
-            // Run all pending handlers
-            _service->run();
-        }
+                    // Call the idle handler
+                    onIdle();
+                }
+                else
+                {
+                    // Run all pending handlers
+                    _service->run();
+                    break;
+                }
+            }
+            catch (asio::system_error& ex)
+            {
+                std::error_code ec = ex.code();
+
+                // Skip Asio disconnect errors
+                if (ec == asio::error::not_connected)
+                    continue;
+
+                throw;
+            }
+        } while (_started);
     }
     catch (asio::system_error& ex)
     {
