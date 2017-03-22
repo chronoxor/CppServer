@@ -51,7 +51,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> error;
 
-    explicit MulticastUDPClient(std::shared_ptr<EchoUDPService> service, const std::string& address, int port, bool reuse_address)
+    explicit MulticastUDPClient(std::shared_ptr<MulticastUDPService> service, const std::string& address, int port, bool reuse_address)
         : UDPClient(service, address, port, reuse_address),
           connected(false),
           disconnected(false),
@@ -72,7 +72,7 @@ public:
     std::atomic<bool> stopped;
     std::atomic<bool> error;
 
-    explicit MulticastUDPServer(std::shared_ptr<EchoUDPService> service, InternetProtocol protocol, int port)
+    explicit MulticastUDPServer(std::shared_ptr<MulticastUDPService> service, InternetProtocol protocol, int port)
         : UDPServer(service, protocol, port),
           started(false),
           stopped(false),
@@ -93,19 +93,19 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     const int multicast_port = 2223;
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoUDPService>();
+    auto service = std::make_shared<MulticastUDPService>();
     REQUIRE(service->Start(true));
     while (!service->IsStarted())
         Thread::Yield();
 
     // Create and start multicast server
-    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, 0);
+    auto server = std::make_shared<MulticastUDPServer>(service, InternetProtocol::IPv4, 0);
     REQUIRE(server->Start(multicast_address, multicast_port));
     while (!server->IsStarted())
         Thread::Yield();
 
     // Create and connect multicast client
-    auto client1 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+    auto client1 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port, true);
     REQUIRE(client1->Connect());
     while (!client1->IsConnected())
         Thread::Yield();
@@ -122,7 +122,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect multicast client
-    auto client2 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+    auto client2 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port, true);
     REQUIRE(client2->Connect());
     while (!client2->IsConnected())
         Thread::Yield();
@@ -139,7 +139,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect multicast client
-    auto client3 = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+    auto client3 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port, true);
     REQUIRE(client3->Connect());
     while (!client3->IsConnected())
         Thread::Yield();
@@ -240,13 +240,13 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     const int multicast_port = 2225;
 
     // Create and start Asio service
-    auto service = std::make_shared<EchoUDPService>();
+    auto service = std::make_shared<MulticastUDPService>();
     REQUIRE(service->Start());
     while (!service->IsStarted())
         Thread::Yield();
 
     // Create and start multicast server
-    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, 0);
+    auto server = std::make_shared<MulticastUDPServer>(service, InternetProtocol::IPv4, 0);
     REQUIRE(server->Start(multicast_address, multicast_port));
     while (!server->IsStarted())
         Thread::Yield();
@@ -255,7 +255,7 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
     const int duration = 10;
 
     // Clients collection
-    std::vector<std::shared_ptr<EchoUDPClient>> clients;
+    std::vector<std::shared_ptr<MulticastUDPClient>> clients;
 
     // Start random test
     auto start = std::chrono::high_resolution_clock::now();
@@ -266,8 +266,8 @@ TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
         {
             if (clients.size() < 100)
             {
-                // Create and connect Echo client
-                auto client = std::make_shared<EchoUDPClient>(service, listen_address, multicast_port, true);
+                // Create and connect multicast client
+                auto client = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port, true);
                 clients.emplace_back(client);
                 client->Connect();
                 while (!client->IsConnected())
