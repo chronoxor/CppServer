@@ -151,7 +151,7 @@ size_t TCPClient::Send(const void* buffer, size_t size)
 
         // Fill the send buffer
         const uint8_t* bytes = (const uint8_t*)buffer;
-        _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
+        _send_cache.insert(_send_cache.end(), bytes, bytes + size);
     }
 
     // Dispatch the send routine
@@ -162,7 +162,7 @@ size_t TCPClient::Send(const void* buffer, size_t size)
         TrySend();
     });
 
-    return _send_buffer.size();
+    return _send_cache.size();
 }
 
 void TCPClient::TryReceive()
@@ -173,11 +173,9 @@ void TCPClient::TryReceive()
     if (!IsConnected())
         return;
 
-    uint8_t buffer[CHUNK];
-
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_read_some(asio::buffer(buffer), [this, self, &buffer](std::error_code ec, std::size_t size)
+    _socket.async_read_some(asio::buffer(_recive_buffer), [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -191,13 +189,13 @@ void TCPClient::TryReceive()
             _bytes_received += size;
 
             // Fill receive buffer
-            _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
+            _recive_cache.insert(_recive_cache.end(), _recive_buffer, _recive_buffer + size);
 
             // Call the buffer received handler
-            size_t handled = onReceived(_recive_buffer.data(), _recive_buffer.size());
+            size_t handled = onReceived(_recive_cache.data(), _recive_cache.size());
 
             // Erase the handled buffer
-            _recive_buffer.erase(_recive_buffer.begin(), _recive_buffer.begin() + handled);
+            _recive_cache.erase(_recive_cache.begin(), _recive_cache.begin() + handled);
         }
 
         // Try to receive again if the session is valid
@@ -219,20 +217,18 @@ void TCPClient::TrySend()
     if (!IsConnected())
         return;
 
-    uint8_t buffer[CHUNK];
     size_t size;
-
     {
         std::lock_guard<std::mutex> locker(_send_lock);
 
         // Fill the send buffer
-        size = std::min(_send_buffer.size(), CHUNK);
-        std::memcpy(buffer, _send_buffer.data(), size);
+        size = std::min(_send_cache.size(), CHUNK);
+        std::memcpy(_send_buffer, _send_cache.data(), size);
     }
 
     _sending = true;
     auto self(this->shared_from_this());
-    asio::async_write(_socket, asio::buffer(buffer, size), [this, self](std::error_code ec, std::size_t size)
+    asio::async_write(_socket, asio::buffer(_send_buffer, size), [this, self](std::error_code ec, std::size_t size)
     {
         _sending = false;
 
@@ -248,16 +244,16 @@ void TCPClient::TrySend()
             _bytes_sent += size;
 
             // Call the buffer sent handler
-            onSent(size, _send_buffer.size());
+            onSent(size, _send_cache.size());
 
             {
                 std::lock_guard<std::mutex> locker(_send_lock);
 
                 // Erase the sent buffer
-                _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
+                _send_cache.erase(_send_cache.begin(), _send_cache.begin() + size);
 
                 // Stop sending if the send buffer is empty
-                if (_send_buffer.empty())
+                if (_send_cache.empty())
                     resume = false;
             }
         }
@@ -280,8 +276,8 @@ void TCPClient::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_send_lock);
 
-    _recive_buffer.clear();
-    _send_buffer.clear();
+    _recive_cache.clear();
+    _send_cache.clear();
 }
 
 void TCPClient::SendError(std::error_code ec)

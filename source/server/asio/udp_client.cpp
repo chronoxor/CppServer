@@ -262,11 +262,9 @@ void UDPClient::TryReceive()
     if (!IsConnected())
         return;
 
-    uint8_t buffer[CHUNK];
-
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_receive_from(asio::buffer(buffer), _recive_endpoint, [this, self, &buffer](std::error_code ec, std::size_t size)
+    _socket.async_receive_from(asio::buffer(_recive_buffer), _recive_endpoint, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -281,7 +279,7 @@ void UDPClient::TryReceive()
             _bytes_received += size;
 
             // Call the datagram received handler
-            onReceived(_recive_endpoint, buffer, size);
+            onReceived(_recive_endpoint, _recive_buffer, size);
         }
 
         // Try to receive again if the session is valid

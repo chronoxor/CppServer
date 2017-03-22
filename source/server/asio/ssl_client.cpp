@@ -217,7 +217,7 @@ public:
 
             // Fill the send buffer
             const uint8_t* bytes = (const uint8_t*)buffer;
-            _send_buffer.insert(_send_buffer.end(), bytes, bytes + size);
+            _send_cache.insert(_send_cache.end(), bytes, bytes + size);
         }
 
         // Dispatch the send routine
@@ -228,7 +228,7 @@ public:
             TrySend();
         });
 
-        return _send_buffer.size();
+        return _send_cache.size();
     }
 
 protected:
@@ -241,6 +241,8 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) { _client->onError(error, category, message); }
 
 private:
+    static const size_t CHUNK = 8192;
+
     // Client Id
     CppCommon::UUID _id;
     // SSL client
@@ -258,14 +260,15 @@ private:
     // Client statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
-    // Receive & send buffers
-    std::mutex _send_lock;
-    std::vector<uint8_t> _recive_buffer;
-    std::vector<uint8_t> _send_buffer;
+    // Receive buffer & cache
     bool _reciving;
+    uint8_t _recive_buffer[CHUNK];
+    std::vector<uint8_t> _recive_cache;
+    // Send buffer & cache
     bool _sending;
-
-    static const size_t CHUNK = 8192;
+    std::mutex _send_lock;
+    uint8_t _send_buffer[CHUNK];
+    std::vector<uint8_t> _send_cache;
 
     void TryReceive()
     {
@@ -275,11 +278,9 @@ private:
         if (!IsHandshaked())
             return;
 
-        uint8_t buffer[CHUNK];
-
         _reciving = true;
         auto self(this->shared_from_this());
-        _stream.async_read_some(asio::buffer(buffer), [this, self, &buffer](std::error_code ec, std::size_t size)
+        _stream.async_read_some(asio::buffer(_recive_buffer), [this, self](std::error_code ec, std::size_t size)
         {
             _reciving = false;
 
@@ -293,13 +294,13 @@ private:
                 _bytes_received += size;
 
                 // Fill receive buffer
-                _recive_buffer.insert(_recive_buffer.end(), buffer, buffer + size);
+                _recive_cache.insert(_recive_cache.end(), _recive_buffer, _recive_buffer + size);
 
                 // Call the buffer received handler
-                size_t handled = onReceived(_recive_buffer.data(), _recive_buffer.size());
+                size_t handled = onReceived(_recive_cache.data(), _recive_cache.size());
 
                 // Erase the handled buffer
-                _recive_buffer.erase(_recive_buffer.begin(), _recive_buffer.begin() + handled);
+                _recive_cache.erase(_recive_cache.begin(), _recive_cache.begin() + handled);
             }
 
             // Try to receive again if the session is valid
@@ -321,20 +322,18 @@ private:
         if (!IsHandshaked())
             return;
 
-        uint8_t buffer[CHUNK];
         size_t size;
-
         {
             std::lock_guard<std::mutex> locker(_send_lock);
 
             // Fill the send buffer
-            size = std::min(_send_buffer.size(), CHUNK);
-            std::memcpy(buffer, _send_buffer.data(), size);
+            size = std::min(_send_cache.size(), CHUNK);
+            std::memcpy(_send_buffer, _send_cache.data(), size);
         }
 
         _sending = true;
         auto self(this->shared_from_this());
-        asio::async_write(_stream, asio::buffer(buffer, size), [this, self](std::error_code ec, std::size_t size)
+        asio::async_write(_stream, asio::buffer(_send_buffer, size), [this, self](std::error_code ec, std::size_t size)
         {
             _sending = false;
 
@@ -350,16 +349,16 @@ private:
                 _bytes_sent += size;
 
                 // Call the buffer sent handler
-                onSent(size, _send_buffer.size());
+                onSent(size, _send_cache.size());
 
                 {
                     std::lock_guard<std::mutex> locker(_send_lock);
 
                     // Erase the sent buffer
-                    _send_buffer.erase(_send_buffer.begin(), _send_buffer.begin() + size);
+                    _send_cache.erase(_send_cache.begin(), _send_cache.begin() + size);
 
                     // Stop sending if the send buffer is empty
-                    if (_send_buffer.empty())
+                    if (_send_cache.empty())
                         resume = false;
                 }
             }
@@ -382,8 +381,8 @@ private:
     {
         std::lock_guard<std::mutex> locker(_send_lock);
 
-        _recive_buffer.clear();
-        _send_buffer.clear();
+        _recive_cache.clear();
+        _send_cache.clear();
     }
 
     void SendError(std::error_code ec)

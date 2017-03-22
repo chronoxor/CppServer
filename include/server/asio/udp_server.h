@@ -167,6 +167,8 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
+    static const size_t CHUNK = 8192;
+
     // Asio service
     std::shared_ptr<Service> _service;
     // Server endpoint & socket
@@ -181,10 +183,9 @@ private:
     // Multicast & receive endpoint
     asio::ip::udp::endpoint _multicast_endpoint;
     asio::ip::udp::endpoint _recive_endpoint;
-    // Receive flag
+    // Receive buffer
     bool _reciving;
-
-    static const size_t CHUNK = 8192;
+    uint8_t _recive_buffer[CHUNK];
 
     //! Try to receive new datagram
     void TryReceive();

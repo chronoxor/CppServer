@@ -138,6 +138,8 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
+    static const size_t CHUNK = 8192;
+
     // Client Id
     CppCommon::UUID _id;
     // Asio service
@@ -150,14 +152,15 @@ private:
     // Client statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
-    // Receive & send buffers
-    std::mutex _send_lock;
-    std::vector<uint8_t> _recive_buffer;
-    std::vector<uint8_t> _send_buffer;
+    // Receive buffer & cache
     bool _reciving;
+    uint8_t _recive_buffer[CHUNK];
+    std::vector<uint8_t> _recive_cache;
+    // Send buffer & cache
     bool _sending;
-
-    static const size_t CHUNK = 8192;
+    std::mutex _send_lock;
+    uint8_t _send_buffer[CHUNK];
+    std::vector<uint8_t> _send_cache;
 
     //! Disconnect the client
     /*!
