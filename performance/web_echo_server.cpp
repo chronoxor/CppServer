@@ -5,7 +5,6 @@
 #include "server/asio/service.h"
 #include "server/asio/web_server.h"
 
-#include <atomic>
 #include <iostream>
 
 #include "../../modules/cpp-optparse/OptionParser.h"
