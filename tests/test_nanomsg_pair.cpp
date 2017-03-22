@@ -59,7 +59,7 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("Nanomsg pair server & client", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg pair", "[CppServer][Nanomsg]")
 {
     const std::string address = "tcp://127.0.0.1:6668";
 

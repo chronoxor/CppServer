@@ -118,7 +118,7 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("TCP server & client", "[CppServer][Asio]")
+TEST_CASE("TCP server", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
     const int port = 1111;

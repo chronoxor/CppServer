@@ -98,7 +98,7 @@ private:
 
 std::map<std::string, std::string> HttpsServer::_storage;
 
-TEST_CASE("HTTPS Web server & client", "[CppServer][Asio]")
+TEST_CASE("HTTPS Web server", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
     const int port = 9000;

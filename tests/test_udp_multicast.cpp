@@ -233,7 +233,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(!client3->error);
 }
 
-TEST_CASE("UDP multicast server random test", "[CppServer][Asio]")
+TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
 {
     const std::string listen_address = "0.0.0.0";
     const std::string multicast_address = "239.255.0.1";

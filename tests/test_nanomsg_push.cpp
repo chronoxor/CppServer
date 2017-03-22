@@ -58,7 +58,7 @@ protected:
     void onError(int error, const std::string& message) override { error = true; }
 };
 
-TEST_CASE("Nanomsg push server & client", "[CppServer][Nanomsg]")
+TEST_CASE("Nanomsg push", "[CppServer][Nanomsg]")
 {
     const std::string address = "tcp://127.0.0.1:6666";
 
