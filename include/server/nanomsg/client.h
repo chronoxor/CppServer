@@ -163,6 +163,7 @@ private:
     bool _threading;
     std::thread _thread;
     std::atomic<bool> _joining;
+    std::atomic<bool> _receiving;
 
     //! Client loop
     void ClientLoop();

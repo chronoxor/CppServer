@@ -21,7 +21,8 @@ Client::Client(Domain domain, Protocol protocol, const std::string& address, boo
       _socket(domain, protocol),
       _connected(false),
       _threading(threading),
-      _joining(false)
+      _joining(false),
+      _receiving(false)
 {
     // Start the client thread
     if (_threading)
@@ -101,6 +102,9 @@ bool Client::Reconnect()
     if (!Disconnect())
         return false;
 
+    // Reopen Nanomsg socket
+    _socket.Reopen();
+
     return Connect();
 }
 
@@ -113,9 +117,11 @@ void Client::ClientLoop()
     {
         while (!_joining)
         {
-            // Run Nanomsg client in a loop
+            // Run Nanomsg receive loop
             while (IsConnected())
             {
+                _receiving = true;
+
                 // Try to receive a new message from the server
                 Message message;
                 if (TryReceive(message) == 0)
@@ -123,6 +129,8 @@ void Client::ClientLoop()
                     // Call the idle handler
                     onIdle();
                 }
+
+                _receiving = false;
             }
 
             // Switch to another thread...

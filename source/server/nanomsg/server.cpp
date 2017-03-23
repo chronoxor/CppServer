@@ -21,7 +21,8 @@ Server::Server(Domain domain, Protocol protocol, const std::string& address, boo
       _socket(domain, protocol),
       _connected(false),
       _threading(threading),
-      _joining(false)
+      _joining(false),
+      _receiving(false)
 {
     // Start the server thread
     if (_threading)
@@ -101,6 +102,9 @@ bool Server::Restart()
     if (!Stop())
         return false;
 
+    // Reopen Nanomsg socket
+    _socket.Reopen();
+
     return Start();
 }
 
@@ -113,9 +117,11 @@ void Server::ServerLoop()
     {
         while (!_joining)
         {
-            // Run Nanomsg server in a loop
+            // Run Nanomsg receive loop
             while (IsStarted())
             {
+                _receiving = true;
+
                 // Try to receive a new message from the client
                 Message message;
                 if (TryReceive(message) == 0)
@@ -123,6 +129,8 @@ void Server::ServerLoop()
                     // Call the idle handler
                     onIdle();
                 }
+
+                _receiving = false;
             }
 
             // Switch to another thread...

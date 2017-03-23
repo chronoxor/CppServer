@@ -23,9 +23,7 @@ Socket::Socket(Domain domain, Protocol protocol)
       _socket(-1),
       _endpoint(-1)
 {
-    _socket = nn_socket((int)domain, (int)protocol);
-    if (!IsOpened())
-        throwex CppCommon::SystemException("Failed to create a new nanomsg socket (domain={}, protocol={})! Nanomsg error: {}"_format(domain, protocol, nn_strerror(nn_errno())));
+    Open();
 }
 
 Socket::~Socket()
@@ -101,6 +99,39 @@ uint64_t Socket::bytes_sent() const noexcept
 uint64_t Socket::bytes_received() const noexcept
 {
     return nn_get_statistic(_socket, NN_STAT_BYTES_RECEIVED);
+}
+
+bool Socket::Open()
+{
+    if (IsOpened())
+        return false;
+
+    _socket = nn_socket((int)_domain, (int)_protocol);
+    if (!IsOpened())
+        throwex CppCommon::SystemException("Failed to open a new nanomsg socket (domain={}, protocol={})! Nanomsg error: {}"_format(_domain, _protocol, nn_strerror(nn_errno())));
+    return true;
+}
+
+bool Socket::Close()
+{
+    if (!IsOpened())
+        return false;
+
+    int result = nn_close(_socket);
+    if (result != 0)
+        throwex CppCommon::SystemException("Cannot close the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(nn_errno())));
+    _socket = -1;
+    _endpoint = -1;
+    _address = "";
+    return true;
+}
+
+bool Socket::Reopen()
+{
+    if (IsOpened())
+        Close();
+
+    return Open();
 }
 
 bool Socket::SetSocketOption(int level, int option, const void* value, size_t size)
@@ -374,20 +405,6 @@ std::tuple<size_t, bool> Socket::TryReceiveSurvey(Message& message)
     message._buffer = (uint8_t*)data;
     message._size = result;
     return std::make_tuple(message.size(), false);
-}
-
-bool Socket::Close()
-{
-    if (!IsOpened())
-        return false;
-
-    int result = nn_close(_socket);
-    if (result != 0)
-        throwex CppCommon::SystemException("Cannot close the nanomsg socket! Nanomsg error: {}"_format(nn_strerror(nn_errno())));
-    _socket = -1;
-    _endpoint = -1;
-    _address = "";
-    return true;
 }
 
 void Socket::Terminate()

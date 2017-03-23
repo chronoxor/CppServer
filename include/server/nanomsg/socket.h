@@ -83,6 +83,22 @@ public:
     //! Is socket connected?
     bool IsConnected() const noexcept { return (_endpoint >= 0); }
 
+    //! Open the socket
+    /*!
+        \return 'true' if the socket was successfully opened, 'false' if the socket was already opened
+    */
+    bool Open();
+    //! Close the socket
+    /*!
+        \return 'true' if the socket was successfully closed, 'false' if the socket was already closed
+    */
+    bool Close();
+    //! Reopen the socket
+    /*!
+        \return 'true' if the socket was successfully reopened, 'false' if the socket was not reopened
+    */
+    bool Reopen();
+
     //! Set the socket option
     /*!
         \param level - Protocol level
@@ -211,12 +227,6 @@ public:
         \return Count of received bytes and survey complete flag
     */
     std::tuple<size_t, bool> TryReceiveSurvey(Message& message);
-
-    //! Close the socket
-    /*!
-        \return 'true' if the socket was successfully closed, 'false' if the socket was already closed
-    */
-    bool Close();
 
     //! Terminate all socket operations
     static void Terminate();
