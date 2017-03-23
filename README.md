@@ -3268,7 +3268,7 @@ messages and receive all responses, messages & bytes throughput, count
 of errors.
 
 Benchmark environment is the following:
-'''
+```
 CPU architecutre: Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz
 CPU logical cores: 8
 CPU physical cores: 4
@@ -3282,11 +3282,11 @@ OS bits: 64-bit
 Process bits: 64-bit
 Process configuaraion: release
 ===============================================================================
-'''
+```
 
 ### TCP echo server
 
-'''
+```
 Server address: 127.0.0.1
 Server port: 1111
 Working threads: 1
@@ -3300,9 +3300,9 @@ Total messages: 1000000
 Bytes throughput: 1934835 bytes per second
 Messages throughput: 60463 messages per second
 Errors: 0
-'''
+```
 
-'''
+```
 Server address: 127.0.0.1
 Server port: 1111
 Working threads: 8
@@ -3316,7 +3316,7 @@ Total messages: 1000000
 Bytes throughput: 4319590 bytes per second
 Messages throughput: 134987 messages per second
 Errors: 0
-'''
+```
 
 ### SSL echo server
 
