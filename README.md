@@ -46,7 +46,7 @@ client/server solutions.
     * [Example: Survey protocol](#example-survey-protocol)
     * [Example: Bus protocol](#example-bus-protocol)
   * [Performance](#performance)
-    * [Benchmark: Round-trip time](#benchmark-round-trip-time)
+    * [Benchmark: Round-Trip Time](#benchmark-round-trip-time)
       * [TCP echo server](#tcp-echo-server)
       * [SSL echo server](#ssl-echo-server)
       * [UDP echo server](#udp-echo-server)
@@ -3259,7 +3259,7 @@ int main(int argc, char** argv)
 
 Here comes several communication scenarios with timing measurements.
 
-## Benchmark: Round-trip time
+## Benchmark: Round-Trip Time
 
 This scenario sends lots of messages from several clients to a server.
 The server responses to each message and resend the similar response to
@@ -3480,25 +3480,81 @@ Errors: 0
 ### HTTP echo server
 
 * [cppserver-performance-web_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_server.cpp)
-* [cppserver-performance-web_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_client.cpp) -c 1 -m 1000000 -t 1
+* [cppserver-performance-web_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_client.cpp) -c 1 -m 10000 -t 1
 ```
+Server address: 127.0.0.1
+Server port: 8000
+Server uri: http://127.0.0.1:8000/storage/test
+Working threads: 1
+Working clients: 1
+Messages to send: 10000
+Message size: 32
+
+Round-trip time: 11.196 s
+Total bytes: 320000
+Total messages: 10000
+Bytes throughput: 28580 bytes per second
+Messages throughput: 893 messages per second
+Errors: 0
 ```
 
 * [cppserver-performance-web_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_server.cpp)
-* [cppserver-performance-web_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_client.cpp) -c 100 -m 1000000 -t 8
+* [cppserver-performance-web_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_client.cpp) -c 100 -m 10000 -t 8
 ```
+Server address: 127.0.0.1
+Server port: 8000
+Server uri: http://127.0.0.1:8000/storage/test
+Working threads: 8
+Working clients: 100
+Messages to send: 10000
+Message size: 32
+
+Round-trip time: 3.911 s
+Total bytes: 320000
+Total messages: 10000
+Bytes throughput: 81817 bytes per second
+Messages throughput: 2556 messages per second
+Errors: 0
 ```
 
 ### HTTPS echo server
 
 * [cppserver-performance-web_ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_server.cpp)
-* [cppserver-performance-web_ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_client.cpp) -c 1 -m 1000000 -t 1
+* [cppserver-performance-web_ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_client.cpp) -c 1 -m 1000 -t 1
 ```
+Server address: 127.0.0.1
+Server port: 9000
+Server uri: https://127.0.0.1:9000/storage/test
+Working threads: 1
+Working clients: 1
+Messages to send: 1000
+Message size: 32
+
+Round-trip time: 8.854 s
+Total bytes: 32000
+Total messages: 1000
+Bytes throughput: 3614 bytes per second
+Messages throughput: 112 messages per second
+Errors: 0
 ```
 
 * [cppserver-performance-web_ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_server.cpp)
-* [cppserver-performance-web_ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_client.cpp) -c 100 -m 1000000 -t 8
+* [cppserver-performance-web_ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_client.cpp) -c 100 -m 1000 -t 8
 ```
+Server address: 127.0.0.1
+Server port: 9000
+Server uri: https://127.0.0.1:9000/storage/test
+Working threads: 8
+Working clients: 100
+Messages to send: 1000
+Message size: 32
+
+Round-trip time: 6.862 s
+Total bytes: 32000
+Total messages: 1000
+Bytes throughput: 4663 bytes per second
+Messages throughput: 145 messages per second
+Errors: 0
 ```
 
 # OpenSSL certificates

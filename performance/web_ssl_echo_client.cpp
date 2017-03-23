@@ -44,7 +44,8 @@ void SendRequest(std::shared_ptr<WebClient>& client, const std::string& uri, int
         total_bytes += response->get_body().size();
         ++total_messages;
 
-        SendRequest(client, uri, messages);
+        // Dispatch a next request
+        client->service()->Dispatch([&client, &uri, messages]() { SendRequest(client, uri, messages); });
     });
 }
 

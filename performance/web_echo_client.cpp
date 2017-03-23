@@ -44,7 +44,8 @@ void SendRequest(std::shared_ptr<WebClient>& client, const std::string& uri, int
         total_bytes += response->get_body().size();
         ++total_messages;
 
-        SendRequest(client, uri, messages);
+        // Dispatch a next request
+        client->service()->Dispatch([&client, &uri, messages]() { SendRequest(client, uri, messages); });
     });
 }
 
@@ -57,7 +58,7 @@ int main(int argc, char** argv)
     parser.add_option("-p", "--port").action("store").type("int").set_default(8000).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
-    parser.add_option("-m", "--messages").action("store").type("int").set_default(1000).help("Count of messages to send. Default: %default");
+    parser.add_option("-m", "--messages").action("store").type("int").set_default(10000).help("Count of messages to send. Default: %default");
     parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
