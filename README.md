@@ -3257,7 +3257,7 @@ int main(int argc, char** argv)
 
 # Performance
 
-Here comes several communication scenarios with measurements
+Here comes several communication scenarios with timing measurements.
 
 ## Benchmark: Round-trip time
 
@@ -3276,16 +3276,16 @@ CPU clock speed: 3.998 GHz
 CPU Hyper-Threading: enabled
 RAM total: 31.962 GiB
 RAM free: 21.623 GiB
-===============================================================================
+
 OS version: Microsoft Windows 8 Enterprise Edition (build 9200), 64-bit
 OS bits: 64-bit
 Process bits: 64-bit
 Process configuaraion: release
-===============================================================================
 ```
 
 ### TCP echo server
 
+[cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 1 -m 1000000 -t 1
 ```
 Server address: 127.0.0.1
 Server port: 1111
@@ -3302,6 +3302,7 @@ Messages throughput: 60463 messages per second
 Errors: 0
 ```
 
+[cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 100 -m 1000000 -t 8
 ```
 Server address: 127.0.0.1
 Server port: 1111
@@ -3319,6 +3320,40 @@ Errors: 0
 ```
 
 ### SSL echo server
+
+[cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 1 -m 1000000 -t 1
+```
+Server address: 127.0.0.1
+Server port: 3333
+Working threads: 1
+Working clients: 1
+Messages to send: 1000000
+Message size: 32
+
+Round-trip time: 24.928 s
+Total bytes: 32000000
+Total messages: 1000000
+Bytes throughput: 1283650 bytes per second
+Messages throughput: 40114 messages per second
+Errors: 0
+```
+
+[cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 100 -m 1000000 -t 8
+```
+Server address: 127.0.0.1
+Server port: 3333
+Working threads: 8
+Working clients: 100
+Messages to send: 1000000
+Message size: 32
+
+Round-trip time: 10.854 s
+Total bytes: 32000000
+Total messages: 1000000
+Bytes throughput: 2948127 bytes per second
+Messages throughput: 92128 messages per second
+Errors: 0
+```
 
 ### UDP echo server
 
