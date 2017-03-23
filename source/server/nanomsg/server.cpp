@@ -19,14 +19,27 @@ namespace Nanomsg {
 Server::Server(Domain domain, Protocol protocol, const std::string& address, bool threading)
     : _address(address),
       _socket(domain, protocol),
-      _threading(threading)
+      _connected(false),
+      _threading(threading),
+      _joining(false)
 {
+    // Start the server thread
+    if (_threading)
+        _thread = CppCommon::Thread::Start([this]() { ServerLoop(); });
 }
 
 Server::~Server()
 {
     if (IsStarted())
         Stop();
+
+    // Wait for server thread
+    if (_threading)
+    {
+        _joining = true;
+        if (_thread.joinable())
+            _thread.join();
+    }
 }
 
 bool Server::Start()
@@ -39,12 +52,10 @@ bool Server::Start()
     {
         if (_socket.Bind(_address))
         {
+            _connected = true;
+
             // Call the server started handler
             onStarted();
-
-            // Start the server thread
-            if (_threading)
-                _thread = CppCommon::Thread::Start([this]() { ServerLoop(); });
 
             return true;
         }
@@ -53,7 +64,7 @@ bool Server::Start()
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return false;
     }
 }
@@ -68,10 +79,7 @@ bool Server::Stop()
     {
         if (_socket.Disconnect())
         {
-            // Wait for server thread
-            if (_threading)
-                if (_thread.joinable())
-                    _thread.join();
+            _connected = false;
 
             // Call the server stopped handler
             onStopped();
@@ -83,7 +91,7 @@ bool Server::Stop()
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return false;
     }
 }
@@ -103,21 +111,27 @@ void Server::ServerLoop()
 
     try
     {
-        // Run Nanomsg server in a loop
-        do
+        while (!_joining)
         {
-            // Try to receive a new message from the client
-            Message message;
-            if (TryReceive(message) == 0)
+            // Run Nanomsg server in a loop
+            while (IsStarted())
             {
-                // Call the idle handler
-                onIdle();
+                // Try to receive a new message from the client
+                Message message;
+                if (TryReceive(message) == 0)
+                {
+                    // Call the idle handler
+                    onIdle();
+                }
             }
-        } while (IsStarted());
+
+            // Switch to another thread...
+            CppCommon::Thread::Yield();
+        }
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
     }
     catch (std::exception& ex)
     {
@@ -143,7 +157,7 @@ size_t Server::Send(const void* buffer, size_t size)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return 0;
     }
 }
@@ -159,7 +173,7 @@ size_t Server::TrySend(const void* buffer, size_t size)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return 0;
     }
 }
@@ -181,7 +195,7 @@ size_t Server::Receive(Message& message)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return 0;
     }
 }
@@ -203,7 +217,7 @@ size_t Server::TryReceive(Message& message)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return 0;
     }
 }

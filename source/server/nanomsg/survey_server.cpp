@@ -24,7 +24,7 @@ std::tuple<size_t, bool> SurveyServer::ReceiveSurvey(Message& message)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return std::make_tuple(0, true);
     }
 }
@@ -40,7 +40,7 @@ std::tuple<size_t, bool> SurveyServer::TryReceiveSurvey(Message& message)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return std::make_tuple(0, true);
     }
 }

@@ -13,6 +13,7 @@
 
 #include "threads/thread.h"
 
+#include <atomic>
 #include <thread>
 
 namespace CppServer {
@@ -157,9 +158,11 @@ private:
     std::string _address;
     // Nanomsg socket
     Socket _socket;
+    std::atomic<bool> _connected;
     // Nanomsg server thread
     bool _threading;
     std::thread _thread;
+    std::atomic<bool> _joining;
 
     //! Server loop
     void ServerLoop();

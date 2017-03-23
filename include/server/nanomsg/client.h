@@ -13,6 +13,7 @@
 
 #include "threads/thread.h"
 
+#include <atomic>
 #include <thread>
 
 namespace CppServer {
@@ -47,7 +48,7 @@ public:
     Socket& socket() noexcept { return _socket; }
 
     //! Is the client connected?
-    bool IsConnected() const noexcept { return _socket.IsOpened() && _socket.IsConnected(); }
+    bool IsConnected() const noexcept { return _socket.IsOpened() && _socket.IsConnected() && _connected; }
 
     //! Connect the client
     /*!
@@ -157,9 +158,11 @@ private:
     std::string _address;
     // Nanomsg socket
     Socket _socket;
+    std::atomic<bool> _connected;
     // Nanomsg client thread
     bool _threading;
     std::thread _thread;
+    std::atomic<bool> _joining;
 
     //! Client loop
     void ClientLoop();

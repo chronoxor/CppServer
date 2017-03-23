@@ -19,14 +19,27 @@ namespace Nanomsg {
 Client::Client(Domain domain, Protocol protocol, const std::string& address, bool threading)
     : _address(address),
       _socket(domain, protocol),
-      _threading(threading)
+      _connected(false),
+      _threading(threading),
+      _joining(false)
 {
+    // Start the client thread
+    if (_threading)
+        _thread = CppCommon::Thread::Start([this]() { ClientLoop(); });
 }
 
 Client::~Client()
 {
     if (IsConnected())
         Disconnect();
+
+    // Wait for client thread
+    if (_threading)
+    {
+        _joining = true;
+        if (_thread.joinable())
+            _thread.join();
+    }
 }
 
 bool Client::Connect()
@@ -39,12 +52,10 @@ bool Client::Connect()
     {
         if (_socket.Connect(_address))
         {
+            _connected = true;
+
             // Call the client connected handler
             onConnected();
-
-            // Start the client thread
-            if (_threading)
-                _thread = CppCommon::Thread::Start([this]() { ClientLoop(); });
 
             return true;
         }
@@ -53,7 +64,7 @@ bool Client::Connect()
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return false;
     }
 }
@@ -68,10 +79,7 @@ bool Client::Disconnect()
     {
         if (_socket.Disconnect())
         {
-            // Wait for client thread
-            if (_threading)
-                if (_thread.joinable())
-                    _thread.join();
+            _connected = false;
 
             // Call the client disconnected handler
             onDisconnected();
@@ -83,7 +91,7 @@ bool Client::Disconnect()
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return false;
     }
 }
@@ -103,21 +111,27 @@ void Client::ClientLoop()
 
     try
     {
-        // Run Nanomsg client in a loop
-        do
+        while (!_joining)
         {
-            // Try to receive a new message from the server
-            Message message;
-            if (TryReceive(message) == 0)
+            // Run Nanomsg client in a loop
+            while (IsConnected())
             {
-                // Call the idle handler
-                onIdle();
+                // Try to receive a new message from the server
+                Message message;
+                if (TryReceive(message) == 0)
+                {
+                    // Call the idle handler
+                    onIdle();
+                }
             }
-        } while (IsConnected());
+
+            // Switch to another thread...
+            CppCommon::Thread::Yield();
+        }
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
     }
     catch (std::exception& ex)
     {
@@ -143,7 +157,7 @@ size_t Client::Send(const void* buffer, size_t size)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return 0;
     }
 }
@@ -159,7 +173,7 @@ size_t Client::TrySend(const void* buffer, size_t size)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return 0;
     }
 }
@@ -181,7 +195,7 @@ size_t Client::Receive(Message& message)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return 0;
     }
 }
@@ -203,7 +217,7 @@ size_t Client::TryReceive(Message& message)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return 0;
     }
 }

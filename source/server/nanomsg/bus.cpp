@@ -22,7 +22,7 @@ bool Bus::Link(const std::string& address)
     }
     catch (CppCommon::SystemException& ex)
     {
-        onError(ex.system_error(), ex.system_message());
+        onError(ex.system_error(), ex.string());
         return false;
     }
 }
