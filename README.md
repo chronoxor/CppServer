@@ -3285,6 +3285,7 @@ Process configuaraion: release
 
 ### TCP echo server
 
+[cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
 [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 1 -m 1000000 -t 1
 ```
 Server address: 127.0.0.1
@@ -3302,6 +3303,7 @@ Messages throughput: 60463 messages per second
 Errors: 0
 ```
 
+[cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
 [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 100 -m 1000000 -t 8
 ```
 Server address: 127.0.0.1
@@ -3321,6 +3323,7 @@ Errors: 0
 
 ### SSL echo server
 
+[cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
 [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 1 -m 1000000 -t 1
 ```
 Server address: 127.0.0.1
@@ -3338,6 +3341,7 @@ Messages throughput: 40114 messages per second
 Errors: 0
 ```
 
+[cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
 [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 100 -m 1000000 -t 8
 ```
 Server address: 127.0.0.1
@@ -3356,6 +3360,42 @@ Errors: 0
 ```
 
 ### UDP echo server
+
+[cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
+[cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 1 -m 1000000 -t 1
+```
+Server address: 127.0.0.1
+Server port: 2222
+Working threads: 1
+Working clients: 1
+Messages to send: 1000000
+Message size: 32
+
+Round-trip time: 15.037 s
+Total bytes: 32000000
+Total messages: 1000000
+Bytes throughput: 2128070 bytes per second
+Messages throughput: 66502 messages per second
+Errors: 0
+```
+
+[cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
+[cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 100 -m 1000000 -t 8
+```
+Server address: 127.0.0.1
+Server port: 2222
+Working threads: 8
+Working clients: 100
+Messages to send: 1000000
+Message size: 32
+
+Round-trip time: 4.694 s
+Total bytes: 32000000
+Total messages: 1000000
+Bytes throughput: 6816977 bytes per second
+Messages throughput: 213030 messages per second
+Errors: 0
+```
 
 ### WebSocket echo server
 
