@@ -253,7 +253,7 @@ inline bool WebSocketSSLServer<TServer, TSession>::Multicast(const std::string& 
 }
 
 template <class TServer, class TSession>
-inline bool WebSocketSSLServer<TServer, TSession>::Multicast(WebSocketSSLMessage message)
+inline bool WebSocketSSLServer<TServer, TSession>::Multicast(const WebSocketSSLMessage& message)
 {
     if (!IsStarted())
         return false;

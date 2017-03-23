@@ -35,7 +35,7 @@ protected:
         Connect();
     }
 
-    void onReceived(CppServer::Asio::WebSocketSSLMessage message) override
+    void onReceived(const CppServer::Asio::WebSocketSSLMessage& message) override
     {
         std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
     }

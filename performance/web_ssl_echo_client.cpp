@@ -20,14 +20,11 @@ using namespace CppServer::Asio;
 std::vector<uint8_t> message;
 
 uint64_t timestamp_start = 0;
-uint64_t timestamp_sent = 0;
-uint64_t timestamp_received = 0;
+uint64_t timestamp_stop = 0;
 
 std::atomic<size_t> total_errors(0);
-std::atomic<size_t> total_sent_bytes(0);
-std::atomic<size_t> total_sent_messages(0);
-std::atomic<size_t> total_received_bytes(0);
-std::atomic<size_t> total_received_messages(0);
+std::atomic<size_t> total_bytes(0);
+std::atomic<size_t> total_messages(0);
 
 void SendRequest(std::shared_ptr<WebClient>& client, const std::string& uri, int messages)
 {
@@ -39,18 +36,15 @@ void SendRequest(std::shared_ptr<WebClient>& client, const std::string& uri, int
     request->set_method("POST");
     request->set_header("Content-Length", std::to_string(message.size()));
     request->set_body(message);
-    timestamp_sent = CppCommon::Timestamp::nano();
-    total_sent_bytes += message.size();
-    total_sent_messages++;
     auto response = client->SendAsync(request, [&client, &uri, messages](const std::shared_ptr<restbed::Request>& request, const std::shared_ptr<restbed::Response>& response)
     {
         auto length = response->get_header("Content-Length", 0);
         WebClient::Fetch(response, length);
-        timestamp_received = CppCommon::Timestamp::nano();
-        total_received_bytes += response->get_body().size();
-        total_received_messages++;
+        timestamp_stop = CppCommon::Timestamp::nano();
+        total_bytes += response->get_body().size();
+        ++total_messages;
 
-        client->service()->Dispatch([&client, &uri, messages]() { SendRequest(client, uri, messages); });
+        SendRequest(client, uri, messages);
     });
 }
 
@@ -125,7 +119,7 @@ int main(int argc, char** argv)
     std::cout << "Processing...";
     for (auto& client : clients)
         SendRequest(client, uri, messages_count / clients_count);
-    while (total_received_messages < messages_count)
+    while (total_messages < messages_count)
         CppCommon::Thread::Yield();
     std::cout << "Done!" << std::endl;
 
@@ -137,16 +131,11 @@ int main(int argc, char** argv)
 
     std::cout << std::endl;
 
-    std::cout << "Send time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_sent - timestamp_start) << std::endl;
-    std::cout << "Send bytes: " << total_sent_bytes << std::endl;
-    std::cout << "Send messages: " << total_sent_messages << std::endl;
-    std::cout << "Send bytes throughput: " << total_sent_bytes * 1000000000 / (timestamp_sent - timestamp_start) << " bytes per second" << std::endl;
-    std::cout << "Send messages throughput: " << total_sent_messages * 1000000000 / (timestamp_sent - timestamp_start) << " messages per second" << std::endl;
-    std::cout << "Receive time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_received - timestamp_start) << std::endl;
-    std::cout << "Receive bytes: " << total_received_bytes << std::endl;
-    std::cout << "Receive messages: " << total_received_messages << std::endl;
-    std::cout << "Receive bytes throughput: " << total_received_bytes * 1000000000 / (timestamp_received - timestamp_start) << " bytes per second" << std::endl;
-    std::cout << "Receive messages throughput: " << total_received_messages * 1000000000 / (timestamp_received - timestamp_start) << " messages per second" << std::endl;
+    std::cout << "Round-trip time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
+    std::cout << "Total bytes: " << total_bytes << std::endl;
+    std::cout << "Total messages: " << total_messages << std::endl;
+    std::cout << "Bytes throughput: " << total_bytes * 1000000000 / (timestamp_stop - timestamp_start) << " bytes per second" << std::endl;
+    std::cout << "Messages throughput: " << total_messages * 1000000000 / (timestamp_stop - timestamp_start) << " messages per second" << std::endl;
     std::cout << "Errors: " << total_errors << std::endl;
 
     return 0;

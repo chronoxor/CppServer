@@ -155,7 +155,7 @@ inline size_t WebSocketSession<TServer, TSession>::Send(const std::string& text,
 }
 
 template <class TServer, class TSession>
-inline size_t WebSocketSession<TServer, TSession>::Send(WebSocketMessage message)
+inline size_t WebSocketSession<TServer, TSession>::Send(const WebSocketMessage& message)
 {
     if (!IsConnected())
         return 0;

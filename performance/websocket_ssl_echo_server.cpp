@@ -30,7 +30,7 @@ public:
     using WebSocketSSLSession<EchoServer, EchoSession>::WebSocketSSLSession;
 
 protected:
-    void onReceived(WebSocketSSLMessage message) override
+    void onReceived(const WebSocketSSLMessage& message) override
     {
         // Resend the message back to the client
         Send(message);

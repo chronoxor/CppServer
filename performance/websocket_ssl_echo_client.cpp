@@ -20,14 +20,11 @@ using namespace CppServer::Asio;
 std::vector<uint8_t> message;
 
 uint64_t timestamp_start = 0;
-uint64_t timestamp_sent = 0;
-uint64_t timestamp_received = 0;
+uint64_t timestamp_stop = 0;
 
 std::atomic<size_t> total_errors(0);
-std::atomic<size_t> total_sent_bytes(0);
-std::atomic<size_t> total_sent_messages(0);
-std::atomic<size_t> total_received_bytes(0);
-std::atomic<size_t> total_received_messages(0);
+std::atomic<size_t> total_bytes(0);
+std::atomic<size_t> total_messages(0);
 
 class EchoClient : public WebSocketSSLClient
 {
@@ -44,10 +41,11 @@ protected:
         SendMessage();
     }
 
-    void onReceived(WebSocketSSLMessage message) override
+    void onReceived(const WebSocketSSLMessage& message) override
     {
-        timestamp_received = CppCommon::Timestamp::nano();
-        total_received_bytes += message->get_payload().size();
+        timestamp_stop = CppCommon::Timestamp::nano();
+        total_bytes += message->get_payload().size();
+        ++total_messages;
 
         SendMessage();
     }
@@ -55,7 +53,7 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
-        total_errors++;
+        ++total_errors;
     }
 
 private:
@@ -64,12 +62,7 @@ private:
     void SendMessage()
     {
         if (_messages-- > 0)
-        {
             Send(message.data(), message.size());
-
-            timestamp_sent = CppCommon::Timestamp::nano();
-            total_sent_bytes += message.size();
-        }
         else
             Disconnect();
     }
@@ -162,7 +155,7 @@ int main(int argc, char** argv)
     for (auto& client : clients)
     {
         while (client->IsConnected())
-            CppCommon::Thread::Yield();
+            CppCommon::Thread::Sleep(100);
     }
     std::cout << "Done!" << std::endl;
 
@@ -174,19 +167,11 @@ int main(int argc, char** argv)
 
     std::cout << std::endl;
 
-    total_sent_messages = total_sent_bytes / message_size;
-    total_received_messages = total_received_bytes / message_size;
-
-    std::cout << "Send time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_sent - timestamp_start) << std::endl;
-    std::cout << "Send bytes: " << total_sent_bytes << std::endl;
-    std::cout << "Send messages: " << total_sent_messages << std::endl;
-    std::cout << "Send bytes throughput: " << total_sent_bytes * 1000000000 / (timestamp_sent - timestamp_start) << " bytes per second" << std::endl;
-    std::cout << "Send messages throughput: " << total_sent_messages * 1000000000 / (timestamp_sent - timestamp_start) << " messages per second" << std::endl;
-    std::cout << "Receive time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_received - timestamp_start) << std::endl;
-    std::cout << "Receive bytes: " << total_received_bytes << std::endl;
-    std::cout << "Receive messages: " << total_received_messages << std::endl;
-    std::cout << "Receive bytes throughput: " << total_received_bytes * 1000000000 / (timestamp_received - timestamp_start) << " bytes per second" << std::endl;
-    std::cout << "Receive messages throughput: " << total_received_messages * 1000000000 / (timestamp_received - timestamp_start) << " messages per second" << std::endl;
+    std::cout << "Round-trip time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
+    std::cout << "Total bytes: " << total_bytes << std::endl;
+    std::cout << "Total messages: " << total_messages << std::endl;
+    std::cout << "Bytes throughput: " << total_bytes * 1000000000 / (timestamp_stop - timestamp_start) << " bytes per second" << std::endl;
+    std::cout << "Messages throughput: " << total_messages * 1000000000 / (timestamp_stop - timestamp_start) << " messages per second" << std::endl;
     std::cout << "Errors: " << total_errors << std::endl;
 
     return 0;

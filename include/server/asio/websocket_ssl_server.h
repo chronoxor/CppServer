@@ -124,7 +124,7 @@ public:
         \param message - Message to send
         \return 'true' if the message was successfully multicast, 'false' if the server it not started
     */
-    bool Multicast(WebSocketSSLMessage message);
+    bool Multicast(const WebSocketSSLMessage& message);
 
     //! Disconnect all connected sessions
     /*!

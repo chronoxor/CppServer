@@ -215,7 +215,7 @@ size_t WebSocketClient::Send(const std::string& text, websocketpp::frame::opcode
     return size;
 }
 
-size_t WebSocketClient::Send(WebSocketMessage message)
+size_t WebSocketClient::Send(const WebSocketMessage& message)
 {
     if (!IsConnected())
         return 0;

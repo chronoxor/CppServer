@@ -94,7 +94,7 @@ public:
 protected:
     void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; }
-    void onReceived(WebSocketSSLMessage message) override { Send(message); }
+    void onReceived(const WebSocketSSLMessage& message) override { Send(message); }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 

@@ -46,7 +46,7 @@ protected:
         std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;
     }
 
-    void onReceived(CppServer::Asio::WebSocketMessage message) override
+    void onReceived(const CppServer::Asio::WebSocketMessage& message) override
     {
         std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
 

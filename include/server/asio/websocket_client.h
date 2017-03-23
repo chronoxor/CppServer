@@ -99,7 +99,7 @@ public:
         \param message - Message to send
         \return Count of sent bytes
     */
-    size_t Send(WebSocketMessage message);
+    size_t Send(const WebSocketMessage& message);
 
 protected:
     //! Handle client connected notification
@@ -111,7 +111,7 @@ protected:
     /*!
         \param message - Received message
     */
-    virtual void onReceived(WebSocketMessage message) {}
+    virtual void onReceived(const WebSocketMessage& message) {}
 
     //! Handle error notification
     /*!

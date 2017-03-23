@@ -1195,7 +1195,7 @@ protected:
         std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;
     }
 
-    void onReceived(CppServer::Asio::WebSocketMessage message) override
+    void onReceived(const CppServer::Asio::WebSocketMessage& message) override
     {
         std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
 
@@ -1309,7 +1309,7 @@ protected:
         Connect();
     }
 
-    void onReceived(CppServer::Asio::WebSocketMessage message) override
+    void onReceived(const CppServer::Asio::WebSocketMessage& message) override
     {
         std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
     }
@@ -1441,7 +1441,7 @@ protected:
         std::cout << "Chat WebSocket SSL session with Id " << id() << " disconnected!" << std::endl;
     }
 
-    void onReceived(CppServer::Asio::WebSocketSSLMessage message) override
+    void onReceived(const CppServer::Asio::WebSocketSSLMessage& message) override
     {
         std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
 
@@ -1566,7 +1566,7 @@ protected:
         Connect();
     }
 
-    void onReceived(CppServer::Asio::WebSocketSSLMessage message) override
+    void onReceived(const CppServer::Asio::WebSocketSSLMessage& message) override
     {
         std::cout << "Incoming: " << message->get_raw_payload() << std::endl;
     }
@@ -3285,8 +3285,8 @@ Process configuaraion: release
 
 ### TCP echo server
 
-[cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
-[cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 1 -m 1000000 -t 1
+* [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
+* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 1 -m 1000000 -t 1
 ```
 Server address: 127.0.0.1
 Server port: 1111
@@ -3303,8 +3303,8 @@ Messages throughput: 60463 messages per second
 Errors: 0
 ```
 
-[cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
-[cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 100 -m 1000000 -t 8
+* [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
+* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 100 -m 1000000 -t 8
 ```
 Server address: 127.0.0.1
 Server port: 1111
@@ -3323,8 +3323,8 @@ Errors: 0
 
 ### SSL echo server
 
-[cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
-[cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 1 -m 1000000 -t 1
+* [cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
+* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 1 -m 1000000 -t 1
 ```
 Server address: 127.0.0.1
 Server port: 3333
@@ -3341,8 +3341,8 @@ Messages throughput: 40114 messages per second
 Errors: 0
 ```
 
-[cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
-[cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 100 -m 1000000 -t 8
+* [cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
+* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 100 -m 1000000 -t 8
 ```
 Server address: 127.0.0.1
 Server port: 3333
@@ -3361,8 +3361,8 @@ Errors: 0
 
 ### UDP echo server
 
-[cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
-[cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 1 -m 1000000 -t 1
+* [cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
+* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 1 -m 1000000 -t 1
 ```
 Server address: 127.0.0.1
 Server port: 2222
@@ -3379,8 +3379,8 @@ Messages throughput: 66502 messages per second
 Errors: 0
 ```
 
-[cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
-[cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 100 -m 1000000 -t 8
+* [cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
+* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 100 -m 1000000 -t 8
 ```
 Server address: 127.0.0.1
 Server port: 2222
@@ -3399,11 +3399,107 @@ Errors: 0
 
 ### WebSocket echo server
 
+* [cppserver-performance-websocket_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_echo_server.cpp)
+* [cppserver-performance-websocket_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_echo_client.cpp) -c 1 -m 1000000 -t 1
+```
+Server address: 127.0.0.1
+Server port: 4444
+Server uri: ws://127.0.0.1:4444
+Working threads: 1
+Working clients: 1
+Messages to send: 1000000
+Message size: 32
+
+Round-trip time: 35.323 s
+Total bytes: 32000000
+Total messages: 1000000
+Bytes throughput: 905916 bytes per second
+Messages throughput: 28309 messages per second
+Errors: 0
+```
+
+* [cppserver-performance-websocket_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_echo_server.cpp)
+* [cppserver-performance-websocket_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_echo_client.cpp) -c 100 -m 1000000 -t 8
+```
+Server address: 127.0.0.1
+Server port: 4444
+Server uri: ws://127.0.0.1:4444
+Working threads: 8
+Working clients: 100
+Messages to send: 1000000
+Message size: 32
+
+Round-trip time: 10.117 s
+Total bytes: 32000000
+Total messages: 1000000
+Bytes throughput: 3162890 bytes per second
+Messages throughput: 98840 messages per second
+Errors: 0
+```
+
 ### WebSocket SSL echo server
+
+* [cppserver-performance-websocket_ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_ssl_echo_server.cpp)
+* [cppserver-performance-websocket_ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_ssl_echo_client.cpp) -c 1 -m 1000000 -t 1
+```
+Server address: 127.0.0.1
+Server port: 5555
+Server uri: wss://127.0.0.1:5555
+Working threads: 1
+Working clients: 1
+Messages to send: 1000000
+Message size: 32
+
+Round-trip time: 1:10.267 m
+Total bytes: 32000000
+Total messages: 1000000
+Bytes throughput: 455401 bytes per second
+Messages throughput: 14231 messages per second
+Errors: 0
+```
+
+* [cppserver-performance-websocket_ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_ssl_echo_server.cpp)
+* [cppserver-performance-websocket_ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_ssl_echo_client.cpp) -c 100 -m 1000000 -t 8
+```
+Server address: 127.0.0.1
+Server port: 5555
+Server uri: wss://127.0.0.1:5555
+Working threads: 8
+Working clients: 100
+Messages to send: 1000000
+Message size: 32
+
+Round-trip time: 36.551 s
+Total bytes: 32000000
+Total messages: 1000000
+Bytes throughput: 875468 bytes per second
+Messages throughput: 27358 messages per second
+Errors: 0
+```
 
 ### HTTP echo server
 
+* [cppserver-performance-web_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_server.cpp)
+* [cppserver-performance-web_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_client.cpp) -c 1 -m 1000000 -t 1
+```
+```
+
+* [cppserver-performance-web_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_server.cpp)
+* [cppserver-performance-web_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_client.cpp) -c 100 -m 1000000 -t 8
+```
+```
+
 ### HTTPS echo server
+
+* [cppserver-performance-web_ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_server.cpp)
+* [cppserver-performance-web_ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_client.cpp) -c 1 -m 1000000 -t 1
+```
+```
+
+* [cppserver-performance-web_ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_server.cpp)
+* [cppserver-performance-web_ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_client.cpp) -c 100 -m 1000000 -t 8
+```
+```
 
 # OpenSSL certificates
 In order to create OpenSSL based server and client you should prepare a set of
