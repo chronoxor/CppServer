@@ -28,41 +28,19 @@ std::atomic<size_t> total_messages(0);
 class EchoClient : public PairClient
 {
 public:
-    explicit EchoClient(const std::string& address, bool threading, int messages)
-        : PairClient(address, threading)
-    {
-        _messages = messages;
-    }
+    using PairClient::PairClient;
 
 protected:
-    void onConnected() override
-    {
-        SendMessage();
-    }
-
     void onReceived(Message& message) override
     {
         timestamp_stop = CppCommon::Timestamp::nano();
         total_bytes += message.size();
-
-        SendMessage();
     }
 
     void onError(int error, const std::string& message) override
     {
         std::cout << "Client caught an error with code " << error << "': " << message << std::endl;
         ++total_errors;
-    }
-
-private:
-    int _messages;
-
-    void SendMessage()
-    {
-        if (_messages-- > 0)
-            Send(message.data(), message.size());
-        else
-            Disconnect();
     }
 };
 
@@ -97,7 +75,7 @@ int main(int argc, char** argv)
     message.resize(message_size, 0);
 
     // Create echo client
-    auto client = std::make_shared<EchoClient>(address, true, messages_count);
+    auto client = std::make_shared<EchoClient>(address, true);
 
     timestamp_start = CppCommon::Timestamp::nano();
 
@@ -110,8 +88,17 @@ int main(int argc, char** argv)
 
     // Wait for processing all messages
     std::cout << "Processing...";
+    for (int i = 0; i < messages_count; ++i)
+        client->Send(message.data(), message.size());
+    while (total_bytes < (messages_count * message_size))
+        CppCommon::Thread::Yield();
+    std::cout << "Done!" << std::endl;
+
+    // Disconnect client
+    std::cout << "Client disconnecting...";
+    client->Disconnect();
     while (client->IsConnected())
-        CppCommon::Thread::Sleep(100);
+        CppCommon::Thread::Yield();
     std::cout << "Done!" << std::endl;
 
     std::cout << std::endl;
