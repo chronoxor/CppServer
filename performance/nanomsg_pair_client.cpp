@@ -84,7 +84,7 @@ int main(int argc, char** argv)
         parser.exit();
     }
 
-    // Server address and port
+    // Client parameters
     std::string address(options.get("address"));
     int messages_count = options.get("messages");
     int message_size = options.get("size");

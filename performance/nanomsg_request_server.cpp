@@ -42,8 +42,8 @@ int main(int argc, char** argv)
         parser.exit();
     }
 
-    // Server port
-    std::string address = options.get("address");
+    // Server address
+    std::string address(options.get("address"));
 
     std::cout << "Server address: " << address << std::endl;
 

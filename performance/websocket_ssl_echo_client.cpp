@@ -96,7 +96,7 @@ int main(int argc, char** argv)
         parser.exit();
     }
 
-    // Server address and port
+    // Client parameters
     std::string address(options.get("address"));
     int port = options.get("port");
     int threads_count = options.get("threads");
