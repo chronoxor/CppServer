@@ -77,6 +77,9 @@ bool TCPClient::Connect()
                 // Call the client connected handler
                 onConnected();
 
+                // Call the empty send buffer handler
+                onEmpty();
+
                 // Try to receive something from the server
                 TryReceive();
             }
@@ -263,6 +266,8 @@ void TCPClient::TrySend()
         {
             if (resume)
                 TrySend();
+            else
+                onEmpty();
         }
         else
         {

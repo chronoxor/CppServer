@@ -129,6 +129,15 @@ protected:
     */
     virtual void onSent(size_t sent, size_t pending) {}
 
+    //! Handle empty send buffer notification
+    /*!
+        Notification is called when the send buffer is empty and ready
+        for a new data to send.
+
+        This handler could be used to send another buffer to the server.
+    */
+    virtual void onEmpty() {}
+
     //! Handle error notification
     /*!
         \param error - Error code

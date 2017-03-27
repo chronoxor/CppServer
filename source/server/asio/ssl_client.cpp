@@ -140,6 +140,9 @@ public:
                             // Call the client handshaked handler
                             onHandshaked();
 
+                            // Call the empty send buffer handler
+                            onEmpty();
+
                             // Try to receive something from the server
                             TryReceive();
                         }
@@ -368,6 +371,8 @@ private:
             {
                 if (resume)
                     TrySend();
+                else
+                    onEmpty();
             }
             else
             {

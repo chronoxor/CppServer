@@ -38,6 +38,9 @@ inline void TCPSession<TServer, TSession>::Connect()
     // Call the session connected handler
     onConnected();
 
+    // Call the empty send buffer handler
+    onEmpty();
+
     // Try to receive something from the client
     TryReceive();
 }
@@ -211,6 +214,8 @@ inline void TCPSession<TServer, TSession>::TrySend()
         {
             if (resume)
                 TrySend();
+            else
+                onEmpty();
         }
         else
         {

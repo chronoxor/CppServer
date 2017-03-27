@@ -58,6 +58,9 @@ inline void SSLSession<TServer, TSession>::Connect()
             // Call the session handshaked handler
             onHandshaked();
 
+            // Call the empty send buffer handler
+            onEmpty();
+
             // Try to receive something from the client
             TryReceive();
         }
@@ -249,6 +252,8 @@ inline void SSLSession<TServer, TSession>::TrySend()
         {
             if (resume)
                 TrySend();
+            else
+                onEmpty();
         }
         else
         {
