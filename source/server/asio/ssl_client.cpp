@@ -241,6 +241,7 @@ protected:
     void onReset() { _client->onReset(); }
     size_t onReceived(const void* buffer, size_t size) { return _client->onReceived(buffer, size); }
     void onSent(size_t sent, size_t pending) { _client->onSent(sent, pending); }
+    void onEmpty() { _client->onEmpty(); }
     void onError(int error, const std::string& category, const std::string& message) { _client->onError(error, category, message); }
 
 private:
