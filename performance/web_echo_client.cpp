@@ -22,9 +22,9 @@ std::vector<uint8_t> message;
 uint64_t timestamp_start = 0;
 uint64_t timestamp_stop = 0;
 
-std::atomic<size_t> total_errors(0);
-std::atomic<size_t> total_bytes(0);
-std::atomic<size_t> total_messages(0);
+std::atomic<uint64_t> total_errors(0);
+std::atomic<uint64_t> total_bytes(0);
+std::atomic<uint64_t> total_messages(0);
 
 void SendRequest(std::shared_ptr<WebClient>& client, const std::string& uri, int messages)
 {
@@ -79,7 +79,7 @@ int main(int argc, char** argv)
     int message_size = options.get("size");
 
     // Web server uri
-    const std::string uri = "http://" + address + ":" + std::to_string(port) + "/storage/test";
+    const std::string uri = "http://" + address + ":" + std::to_string(port) + "/storage";
 
     std::cout << "Server address: " << address << std::endl;
     std::cout << "Server port: " << port << std::endl;

@@ -22,9 +22,9 @@ std::vector<uint8_t> message;
 uint64_t timestamp_start = 0;
 uint64_t timestamp_stop = 0;
 
-std::atomic<size_t> total_errors(0);
-std::atomic<size_t> total_bytes(0);
-std::atomic<size_t> total_messages(0);
+std::atomic<uint64_t> total_errors(0);
+std::atomic<uint64_t> total_bytes(0);
+std::atomic<uint64_t> total_messages(0);
 
 class EchoClient : public WebSocketSSLClient
 {
