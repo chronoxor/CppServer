@@ -26,13 +26,13 @@ std::atomic<uint64_t> total_errors(0);
 std::atomic<uint64_t> total_bytes(0);
 std::atomic<uint64_t> total_messages(0);
 
-void SendRequest(std::shared_ptr<WebClient>& client, const std::string& uri, int messages)
+void SendRequest(std::shared_ptr<WebClient>& client, const restbed::Uri& uri, int messages)
 {
     if (messages-- <= 0)
         return;
 
     // Create and fill Web request
-    auto request = std::make_shared<restbed::Request>(restbed::Uri(uri));
+    auto request = std::make_shared<restbed::Request>(uri);
     request->set_method("POST");
     request->set_header("Content-Length", std::to_string(message.size()));
     request->set_body(message);
@@ -79,11 +79,11 @@ int main(int argc, char** argv)
     int message_size = options.get("size");
 
     // Web server uri
-    const std::string uri = "https://" + address + ":" + std::to_string(port) + "/storage/test";
+    const restbed::Uri uri("https://" + address + ":" + std::to_string(port) + "/storage");
 
     std::cout << "Server address: " << address << std::endl;
     std::cout << "Server port: " << port << std::endl;
-    std::cout << "Server uri: " << uri << std::endl;
+    std::cout << "Server uri: " << uri.to_string() << std::endl;
     std::cout << "Working threads: " << threads_count << std::endl;
     std::cout << "Working clients: " << clients_count << std::endl;
     std::cout << "Messages to send: " << messages_count << std::endl;
@@ -121,7 +121,7 @@ int main(int argc, char** argv)
     for (auto& client : clients)
         SendRequest(client, uri, messages_count / clients_count);
     while (total_messages < messages_count)
-        CppCommon::Thread::Yield();
+        CppCommon::Thread::Sleep(100);
     std::cout << "Done!" << std::endl;
 
     // Stop Asio services

@@ -91,7 +91,7 @@ int main(int argc, char** argv)
     for (int i = 0; i < messages_count; ++i)
         client->Send(message.data(), message.size());
     while (total_bytes < (messages_count * message_size))
-        CppCommon::Thread::Yield();
+        CppCommon::Thread::Sleep(100);
     std::cout << "Done!" << std::endl;
 
     // Disconnect client

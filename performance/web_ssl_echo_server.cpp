@@ -19,7 +19,7 @@ public:
     {
         // Create a resource
         auto resource = std::make_shared<restbed::Resource>();
-        resource->set_path("/storage/{key: .*}");
+        resource->set_path("/storage");
         resource->set_method_handler("POST", RestStoragePost);
 
         // Publish the resource
@@ -43,9 +43,7 @@ private:
         size_t request_content_length = request->get_header("Content-Length", 0);
         session->fetch(request_content_length, [request](const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body)
         {
-            std::string key = request->get_path_parameter("key");
             std::string data = std::string((char*)body.data(), body.size());
-
             session->close(restbed::OK, data, { { "Content-Length", std::to_string(data.size()) } });
         });
     }
