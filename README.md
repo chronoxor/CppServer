@@ -3484,17 +3484,17 @@ Errors: 0
 ```
 Server address: 127.0.0.1
 Server port: 8000
-Server uri: http://127.0.0.1:8000/storage/test
+Server uri: http://127.0.0.1:8000/storage
 Working threads: 1
 Working clients: 1
 Messages to send: 10000
 Message size: 32
 
-Round-trip time: 11.196 s
+Round-trip time: 7.197 s
 Total bytes: 320000
 Total messages: 10000
-Bytes throughput: 28580 bytes per second
-Messages throughput: 893 messages per second
+Bytes throughput: 44462 bytes per second
+Messages throughput: 1389 messages per second
 Errors: 0
 ```
 
@@ -3503,17 +3503,17 @@ Errors: 0
 ```
 Server address: 127.0.0.1
 Server port: 8000
-Server uri: http://127.0.0.1:8000/storage/test
+Server uri: http://127.0.0.1:8000/storage
 Working threads: 8
 Working clients: 100
 Messages to send: 10000
 Message size: 32
 
-Round-trip time: 3.911 s
+Round-trip time: 2.780 s
 Total bytes: 320000
 Total messages: 10000
-Bytes throughput: 81817 bytes per second
-Messages throughput: 2556 messages per second
+Bytes throughput: 115085 bytes per second
+Messages throughput: 3596 messages per second
 Errors: 0
 ```
 
@@ -3524,17 +3524,17 @@ Errors: 0
 ```
 Server address: 127.0.0.1
 Server port: 9000
-Server uri: https://127.0.0.1:9000/storage/test
+Server uri: https://127.0.0.1:9000/storage
 Working threads: 1
 Working clients: 1
-Messages to send: 1000
+Messages to send: 10000
 Message size: 32
 
-Round-trip time: 8.854 s
-Total bytes: 32000
-Total messages: 1000
-Bytes throughput: 3614 bytes per second
-Messages throughput: 112 messages per second
+Round-trip time: 1:22.615 m
+Total bytes: 320000
+Total messages: 10000
+Bytes throughput: 3873 bytes per second
+Messages throughput: 121 messages per second
 Errors: 0
 ```
 
@@ -3543,17 +3543,17 @@ Errors: 0
 ```
 Server address: 127.0.0.1
 Server port: 9000
-Server uri: https://127.0.0.1:9000/storage/test
+Server uri: https://127.0.0.1:9000/storage
 Working threads: 8
 Working clients: 100
 Messages to send: 1000
 Message size: 32
 
-Round-trip time: 6.862 s
+Round-trip time: 6.814 s
 Total bytes: 32000
 Total messages: 1000
-Bytes throughput: 4663 bytes per second
-Messages throughput: 145 messages per second
+Bytes throughput: 4696 bytes per second
+Messages throughput: 146 messages per second
 Errors: 0
 ```
 
