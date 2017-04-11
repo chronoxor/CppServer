@@ -1,6 +1,9 @@
 # Specify version format
 version: "1.0.0.{build}"
 
+# Image
+image: Visual Studio 2017
+
 # Branches to build
 branches:
   only: 
