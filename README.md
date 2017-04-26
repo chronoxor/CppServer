@@ -3567,9 +3567,6 @@ Errors: 0
 Server address: tcp://127.0.0.1:6666
 Messages to send: 100000
 Message size: 32
-Client connecting...Done!
-Processing...Done!
-Client disconnecting...Done!
 
 Round-trip time: 2.716 s
 Total bytes: 3200000
@@ -3588,9 +3585,6 @@ Server address: tcp://127.0.0.1:6666
 Working clients: 1
 Messages to send: 100000
 Message size: 32
-Clients connecting...Done!
-Processing...Done!
-Clients disconnecting...Done!
 
 Round-trip time: 6.038 s
 Total bytes: 3200000
