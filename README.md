@@ -54,6 +54,8 @@ client/server solutions.
       * [WebSocket SSL echo server](#websocket-ssl-echo-server)
       * [HTTP echo server](#http-echo-server)
       * [HTTPS echo server](#http-echo-server)
+      * [Nanomsg pair protocol](#nanomsg-pair-protocol)
+      * [Nanomsg request/reply protocol](#nanomsg-requestreply-protocol)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -3554,6 +3556,41 @@ Total bytes: 32000
 Total messages: 1000
 Bytes throughput: 4696 bytes per second
 Messages throughput: 146 messages per second
+Errors: 0
+```
+
+### Nanomsg pair protocol
+
+* [cppserver-performance-nanomsg_pair_server](https://github.com/chronoxor/CppServer/blob/master/performance/nanomsg_pair_server.cpp)
+* [cppserver-performance-nanomsg_pair_client](https://github.com/chronoxor/CppServer/blob/master/performance/nanomsg_pair_client.cpp) -m 100000
+```
+Server address: tcp://127.0.0.1:6666
+Messages to send: 100000
+Message size: 32
+
+Round-trip time: 2.716 s
+Total bytes: 3200000
+Total messages: 100000
+Bytes throughput: 1178111 bytes per second
+Messages throughput: 36815 messages per second
+Errors: 0
+```
+
+### Nanomsg request/reply protocol
+
+* [cppserver-performance-nanomsg_request_server](https://github.com/chronoxor/CppServer/blob/master/performance/nanomsg_request_server.cpp)
+* [cppserver-performance-nanomsg_request_client](https://github.com/chronoxor/CppServer/blob/master/performance/nanomsg_request_client.cpp) -c 1 -m 100000
+```
+Server address: tcp://127.0.0.1:6666
+Working clients: 1
+Messages to send: 100000
+Message size: 32
+
+Round-trip time: 6.038 s
+Total bytes: 3200000
+Total messages: 100000
+Bytes throughput: 529927 bytes per second
+Messages throughput: 16560 messages per second
 Errors: 0
 ```
 
