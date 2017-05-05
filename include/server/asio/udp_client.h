@@ -148,6 +148,17 @@ protected:
     //! Handle client disconnected notification
     virtual void onDisconnected() {}
 
+    //! Handle client joined multicast group notification
+    /*!
+        \param address - IP address
+    */
+    virtual void onJoinedMulticastGroup(const std::string& address) {}
+    //! Handle client left multicast group notification
+    /*!
+        \param address - IP address
+    */
+    virtual void onLeftMulticastGroup(const std::string& address) {}
+
     //! Handle datagram received notification
     /*!
         Notification is called when another datagram was received

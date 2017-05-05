@@ -184,17 +184,20 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
     if (!IsConnected())
         return;
 
-    asio::ip::address muticast_address = asio::ip::address::from_string(address);
-
     // Dispatch the join multicast group routine
     auto self(this->shared_from_this());
-    _service->Dispatch([this, self, muticast_address]()
+    _service->Dispatch([this, self, address]()
     {
         if (!IsConnected())
             return;
 
+        asio::ip::address muticast_address = asio::ip::address::from_string(address);
+
         asio::ip::multicast::join_group join(muticast_address);
         _socket.set_option(join);
+
+        // Call the client joined multicast group notification
+        onJoinedMulticastGroup(address);
     });
 }
 
@@ -203,17 +206,20 @@ void UDPClient::LeaveMulticastGroup(const std::string& address)
     if (!IsConnected())
         return;
 
-    asio::ip::address muticast_address = asio::ip::address::from_string(address);
-
     // Dispatch the leave multicast group routine
     auto self(this->shared_from_this());
-    _service->Dispatch([this, self, muticast_address]()
+    _service->Dispatch([this, self, address]()
     {
         if (!IsConnected())
             return;
 
+        asio::ip::address muticast_address = asio::ip::address::from_string(address);
+
         asio::ip::multicast::leave_group leave(muticast_address);
         _socket.set_option(leave);
+
+        // Call the client left multicast group notification
+        onLeftMulticastGroup(address);
     });
 }
 

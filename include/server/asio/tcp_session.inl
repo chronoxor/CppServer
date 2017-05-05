@@ -23,7 +23,6 @@ inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServ
       _reciving(false),
       _sending(false),
       _recive_buffer(CHUNK),
-      _send_buffer_main(CHUNK),
       _send_buffer_flush_offset(0)
 {
 }

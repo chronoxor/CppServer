@@ -25,7 +25,6 @@ inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServ
       _reciving(false),
       _sending(false),
       _recive_buffer(CHUNK),
-      _send_buffer_main(CHUNK),
       _send_buffer_flush_offset(0)
 {
 }
