@@ -85,7 +85,7 @@ public:
 protected:
     void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; }
-    size_t onReceived(const void* buffer, size_t size) override { Send(buffer, size); return size; }
+    void onReceived(const void* buffer, size_t size) override { Send(buffer, size); }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
 

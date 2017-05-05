@@ -21,7 +21,8 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
-      _reciving(false)
+      _reciving(false),
+      _recive_buffer(CHUNK)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
@@ -46,7 +47,8 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
       _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
-      _reciving(false)
+      _reciving(false),
+      _recive_buffer(CHUNK)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
@@ -64,7 +66,8 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
-      _reciving(false)
+      _reciving(false),
+      _recive_buffer(CHUNK)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
@@ -205,7 +208,7 @@ void UDPServer::TryReceive()
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_receive_from(asio::buffer(_recive_buffer), _recive_endpoint, [this, self](std::error_code ec, std::size_t size)
+    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -220,7 +223,11 @@ void UDPServer::TryReceive()
             _bytes_received += size;
 
             // Call the datagram received handler
-            onReceived(_recive_endpoint, _recive_buffer, size);
+            onReceived(_recive_endpoint, _recive_buffer.data(), size);
+
+            // If the receive buffer is full increase its size twice
+            if (_recive_buffer.size() == size)
+                _recive_buffer.resize(2 * size);
         }
 
         // Try to receive again if the session is valid

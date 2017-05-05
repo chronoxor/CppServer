@@ -116,15 +116,10 @@ protected:
         Notification is called when another chunk of buffer was received
         from the server.
 
-        Default behavior is to handle all bytes from the received buffer.
-        If you want to wait for some more bytes from the server return the
-        size of the buffer you want to keep until another chunk is received.
-
         \param buffer - Received buffer
         \param size - Received buffer size
-        \return Count of handled bytes
     */
-    virtual size_t onReceived(const void* buffer, size_t size) { return size; }
+    virtual void onReceived(const void* buffer, size_t size) {}
     //! Handle buffer sent notification
     /*!
         Notification is called when another chunk of buffer was sent

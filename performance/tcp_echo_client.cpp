@@ -41,14 +41,12 @@ protected:
         SendMessage();
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         timestamp_stop = CppCommon::Timestamp::nano();
         total_bytes += size;
 
         SendMessage();
-
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override

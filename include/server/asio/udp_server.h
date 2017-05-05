@@ -185,7 +185,7 @@ private:
     asio::ip::udp::endpoint _recive_endpoint;
     // Receive buffer
     bool _reciving;
-    uint8_t _recive_buffer[CHUNK];
+    std::vector<uint8_t> _recive_buffer;
 
     //! Try to receive new datagram
     void TryReceive();

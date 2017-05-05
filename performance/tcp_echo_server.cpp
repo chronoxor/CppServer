@@ -30,13 +30,10 @@ public:
     using TCPSession<EchoServer, EchoSession>::TCPSession;
 
 protected:
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         // Resend the message back to the client
         Send(buffer, size);
-
-        // Inform that we handled the whole buffer
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override

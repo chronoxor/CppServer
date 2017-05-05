@@ -198,7 +198,7 @@ private:
     asio::ip::udp::endpoint _recive_endpoint;
     // Receive buffer
     bool _reciving;
-    uint8_t _recive_buffer[CHUNK];
+    std::vector<uint8_t> _recive_buffer;
     // Additional options
     bool _multicast;
     bool _reuse_address;

@@ -94,15 +94,10 @@ protected:
         Notification is called when another chunk of buffer was received
         from the client.
 
-        Default behavior is to handle all bytes from the received buffer.
-        If you want to wait for some more bytes from the client return the
-        size of the buffer you want to keep until another chunk is received.
-
         \param buffer - Received buffer
         \param size - Received buffer size
-        \return Count of handled bytes
     */
-    virtual size_t onReceived(const void* buffer, size_t size) { return size; }
+    virtual void onReceived(const void* buffer, size_t size) {}
     //! Handle buffer sent notification
     /*!
         Notification is called when another chunk of buffer was sent
@@ -147,13 +142,13 @@ private:
     uint64_t _bytes_received;
     // Receive buffer & cache
     bool _reciving;
-    uint8_t _recive_buffer[CHUNK];
-    std::vector<uint8_t> _recive_cache;
+    std::vector<uint8_t> _recive_buffer;
     // Send buffer & cache
     bool _sending;
     std::mutex _send_lock;
-    uint8_t _send_buffer[CHUNK];
-    std::vector<uint8_t> _send_cache;
+    std::vector<uint8_t> _send_buffer_main;
+    std::vector<uint8_t> _send_buffer_flush;
+    size_t _send_buffer_flush_offset;
 
     //! Connect the session
     void Connect();

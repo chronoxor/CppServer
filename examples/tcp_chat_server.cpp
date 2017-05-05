@@ -46,7 +46,7 @@ protected:
         std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         std::string message((const char*)buffer, size);
         std::cout << "Incoming: " << message << std::endl;
@@ -57,9 +57,6 @@ protected:
         // If the buffer starts with '!' the disconnect the current session
         if (message == "!")
             Disconnect();
-
-        // Inform that we handled the whole buffer
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override

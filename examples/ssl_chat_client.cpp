@@ -40,10 +40,9 @@ protected:
         Connect();
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
