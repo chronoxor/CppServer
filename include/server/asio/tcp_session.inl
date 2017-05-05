@@ -10,9 +10,6 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-const size_t TCPSession<TServer, TSession>::CHUNK;
-
-template <class TServer, class TSession>
 inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
@@ -22,7 +19,7 @@ inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServ
       _bytes_received(0),
       _reciving(false),
       _sending(false),
-      _recive_buffer(CHUNK),
+      _recive_buffer(CHUNK + 1),
       _send_buffer_flush_offset(0)
 {
 }
@@ -144,7 +141,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
             // Call the buffer received handler
             onReceived(_recive_buffer.data(), size);
 
-            // If the receive buffer is full increase its size twice
+            // If the receive buffer is full increase its size
             if (_recive_buffer.size() == size)
                 _recive_buffer.resize(2 * size);
         }

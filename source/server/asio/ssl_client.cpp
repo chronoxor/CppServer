@@ -33,7 +33,7 @@ public:
           _bytes_received(0),
           _reciving(false),
           _sending(false),
-          _recive_buffer(CHUNK),
+          _recive_buffer(CHUNK + 1),
           _send_buffer_flush_offset(0)
     {
         assert((service != nullptr) && "ASIO service is invalid!");
@@ -59,7 +59,7 @@ public:
           _bytes_received(0),
           _reciving(false),
           _sending(false),
-          _recive_buffer(CHUNK),
+          _recive_buffer(CHUNK + 1),
           _send_buffer_flush_offset(0)
     {
         assert((service != nullptr) && "ASIO service is invalid!");
@@ -251,8 +251,6 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) { _client->onError(error, category, message); }
 
 private:
-    static const size_t CHUNK = 8192;
-
     // Client Id
     CppCommon::UUID _id;
     // SSL client
@@ -306,7 +304,7 @@ private:
                 // Call the buffer received handler
                 onReceived(_recive_buffer.data(), size);
 
-                // If the receive buffer is full increase its size twice
+                // If the receive buffer is full increase its size
                 if (_recive_buffer.size() == size)
                     _recive_buffer.resize(2 * size);
             }
@@ -434,8 +432,6 @@ private:
         onError(ec.value(), ec.category().name(), ec.message());
     }
 };
-
-const size_t SSLClient::Impl::CHUNK;
 
 //! @endcond
 

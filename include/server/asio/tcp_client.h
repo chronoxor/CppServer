@@ -142,8 +142,6 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    static const size_t CHUNK = 8192;
-
     // Client Id
     CppCommon::UUID _id;
     // Asio service

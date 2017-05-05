@@ -11,8 +11,6 @@
 namespace CppServer {
 namespace Asio {
 
-const size_t UDPServer::CHUNK;
-
 UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
       _socket(*_service->service()),
@@ -22,7 +20,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK)
+      _recive_buffer(CHUNK + 1)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
@@ -48,7 +46,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK)
+      _recive_buffer(CHUNK + 1)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
@@ -67,7 +65,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK)
+      _recive_buffer(CHUNK + 1)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
     if (service == nullptr)
@@ -225,7 +223,7 @@ void UDPServer::TryReceive()
             // Call the datagram received handler
             onReceived(_recive_endpoint, _recive_buffer.data(), size);
 
-            // If the receive buffer is full increase its size twice
+            // If the receive buffer is full increase its size
             if (_recive_buffer.size() == size)
                 _recive_buffer.resize(2 * size);
         }

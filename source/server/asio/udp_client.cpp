@@ -11,8 +11,6 @@
 namespace CppServer {
 namespace Asio {
 
-const size_t UDPClient::CHUNK;
-
 UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
@@ -24,7 +22,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK),
+      _recive_buffer(CHUNK + 1),
       _multicast(false),
       _reuse_address(false)
 {
@@ -44,7 +42,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK),
+      _recive_buffer(CHUNK + 1),
       _multicast(false),
       _reuse_address(false)
 {
@@ -64,7 +62,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK),
+      _recive_buffer(CHUNK + 1),
       _multicast(true),
       _reuse_address(reuse_address)
 {
@@ -84,7 +82,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK),
+      _recive_buffer(CHUNK + 1),
       _multicast(true),
       _reuse_address(reuse_address)
 {
@@ -291,7 +289,7 @@ void UDPClient::TryReceive()
             // Call the datagram received handler
             onReceived(_recive_endpoint, _recive_buffer.data(), size);
 
-            // If the receive buffer is full increase its size twice
+            // If the receive buffer is full increase its size
             if (_recive_buffer.size() == size)
                 _recive_buffer.resize(2 * size);
         }

@@ -11,8 +11,6 @@
 namespace CppServer {
 namespace Asio {
 
-const size_t TCPClient::CHUNK;
-
 TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
@@ -24,7 +22,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _bytes_received(0),
       _reciving(false),
       _sending(false),
-      _recive_buffer(CHUNK),
+      _recive_buffer(CHUNK + 1),
       _send_buffer_flush_offset(0)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
@@ -43,7 +41,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _bytes_received(0),
       _reciving(false),
       _sending(false),
-      _recive_buffer(CHUNK),
+      _recive_buffer(CHUNK + 1),
       _send_buffer_flush_offset(0)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
@@ -200,7 +198,7 @@ void TCPClient::TryReceive()
             // Call the buffer received handler
             onReceived(_recive_buffer.data(), size);
 
-            // If the receive buffer is full increase its size twice
+            // If the receive buffer is full increase its size
             if (_recive_buffer.size() == size)
                 _recive_buffer.resize(2 * size);
         }
