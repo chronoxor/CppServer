@@ -8,8 +8,6 @@
 
 #include "server/nanomsg/survey_server.h"
 
-#include "errors/exceptions.h"
-
 namespace CppServer {
 namespace Nanomsg {
 

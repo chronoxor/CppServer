@@ -8,7 +8,6 @@
 
 #include "server/nanomsg/socket.h"
 
-#include "errors/exceptions.h"
 #include "errors/fatal.h"
 #include "string/format.h"
 

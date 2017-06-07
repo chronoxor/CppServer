@@ -11,6 +11,8 @@
 
 #include "nanomsg.h"
 
+#include "errors/exceptions.h"
+
 #include <iostream>
 #include <string>
 
