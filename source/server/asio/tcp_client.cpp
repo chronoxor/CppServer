@@ -195,12 +195,12 @@ void TCPClient::TryReceive()
             // Update statistic
             _bytes_received += size;
 
-            // Call the buffer received handler
-            onReceived(_recive_buffer.data(), size);
-
             // If the receive buffer is full increase its size
             if (_recive_buffer.size() == size)
                 _recive_buffer.resize(2 * size);
+
+            // Call the buffer received handler
+            onReceived(_recive_buffer.data(), size);
         }
 
         // Try to receive again if the session is valid
@@ -235,7 +235,8 @@ void TCPClient::TrySend()
     // Check if the flush buffer is empty
     if (_send_buffer_flush.empty())
     {
-        // Nothing to send...
+        // Call the empty send buffer handler
+        onEmpty();
         return;
     }
 
@@ -248,16 +249,11 @@ void TCPClient::TrySend()
         if (!IsConnected())
             return;
 
-        bool resume = true;
-
         // Send some data to the client
         if (size > 0)
         {
             // Update statistic
             _bytes_sent += size;
-
-            // Call the buffer sent handler
-            onSent(size, _send_buffer_flush.size() - size);
 
             // Increase the flush buffer offset
             _send_buffer_flush_offset += size;
@@ -268,19 +264,16 @@ void TCPClient::TrySend()
                 // Clear the flush buffer
                 _send_buffer_flush.clear();
                 _send_buffer_flush_offset = 0;
-
-                // Stop sending operation
-                resume = false;
             }
+
+            // Call the buffer sent handler
+            onSent(size, _send_buffer_flush.size() - _send_buffer_flush_offset);
         }
 
         // Try to send again if the session is valid
         if (!ec)
         {
-            if (resume)
-                TrySend();
-            else
-                onEmpty();
+            TrySend();
         }
         else
         {

@@ -286,12 +286,12 @@ void UDPClient::TryReceive()
             ++_datagrams_received;
             _bytes_received += size;
 
-            // Call the datagram received handler
-            onReceived(_recive_endpoint, _recive_buffer.data(), size);
-
             // If the receive buffer is full increase its size
             if (_recive_buffer.size() == size)
                 _recive_buffer.resize(2 * size);
+
+            // Call the datagram received handler
+            onReceived(_recive_endpoint, _recive_buffer.data(), size);
         }
 
         // Try to receive again if the session is valid

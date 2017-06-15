@@ -30,6 +30,12 @@ public:
     using TCPSession<EchoServer, EchoSession>::TCPSession;
 
 protected:
+    void onConnected() override
+    {
+        // Disable Nagle's algorithm
+        socket().set_option(asio::ip::tcp::no_delay(true));
+    }
+
     void onReceived(const void* buffer, size_t size) override
     {
         // Resend the message back to the client

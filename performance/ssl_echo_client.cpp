@@ -30,23 +30,47 @@ class EchoClient : public SSLClient
 {
 public:
     explicit EchoClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port, int messages)
-        : SSLClient(service, context, address, port)
+        : SSLClient(service, context, address, port),
+          _messages_output(messages),
+          _messages_input(messages),
+          _sent(0),
+          _received(0)
     {
-        _messages = messages;
     }
 
 protected:
+    void onConnected() override
+    {
+        // Disable Nagle's algorithm
+        socket().set_option(asio::ip::tcp::no_delay(true));
+    }
+
     void onHandshaked() override
     {
         SendMessage();
     }
 
+    void onSent(size_t sent, size_t pending) override
+    {
+        _sent += sent;
+        while (_sent >= message.size())
+        {
+            SendMessage();
+            _sent -= message.size();
+        }
+    }
+
     void onReceived(const void* buffer, size_t size) override
     {
+        _received += size;
+        while (_received >= message.size())
+        {
+            ReceiveMessage();
+            _received -= message.size();
+        }
+
         timestamp_stop = CppCommon::Timestamp::nano();
         total_bytes += size;
-
-        SendMessage();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -56,13 +80,20 @@ protected:
     }
 
 private:
-    int _messages;
+    int _messages_output;
+    int _messages_input;
+    size_t _sent;
+    size_t _received;
 
     void SendMessage()
     {
-        if (_messages-- > 0)
+        if (_messages_output-- > 0)
             Send(message.data(), message.size());
-        else
+    }
+
+    void ReceiveMessage()
+    {
+        if (--_messages_input == 0)
             Disconnect();
     }
 };
