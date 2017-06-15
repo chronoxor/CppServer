@@ -17,7 +17,7 @@ matrix:
             - cmake
             - doxygen
             - graphviz
-            - libbfd-dev
+            - binutils-dev
             - uuid-dev
     - os: linux
       compiler: clang
@@ -34,7 +34,7 @@ matrix:
             - cmake
             - doxygen
             - graphviz
-            - libbfd-dev
+            - binutils-dev
             - uuid-dev
     - os: osx
       compiler: clang
