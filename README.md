@@ -3297,11 +3297,11 @@ Working clients: 1
 Messages to send: 1000000
 Message size: 32
 
-Round-trip time: 3.881 s
+Round-trip time: 3.723 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 8243732 bytes per second
-Messages throughput: 257616 messages per second
+Bytes throughput: 8594664 bytes per second
+Messages throughput: 268583 messages per second
 Errors: 0
 ```
 
@@ -3315,11 +3315,11 @@ Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
-Round-trip time: 2.101 s
+Round-trip time: 1.996 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 15224894 bytes per second
-Messages throughput: 475777 messages per second
+Bytes throughput: 16025152 bytes per second
+Messages throughput: 500786 messages per second
 Errors: 0
 ```
 
