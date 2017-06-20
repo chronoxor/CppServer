@@ -3297,11 +3297,11 @@ Working clients: 1
 Messages to send: 1000000
 Message size: 32
 
-Round-trip time: 16.538 s
+Round-trip time: 3.723 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 1934835 bytes per second
-Messages throughput: 60463 messages per second
+Bytes throughput: 8594664 bytes per second
+Messages throughput: 268583 messages per second
 Errors: 0
 ```
 
@@ -3315,11 +3315,11 @@ Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
-Round-trip time: 7.408 s
+Round-trip time: 1.996 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 4319590 bytes per second
-Messages throughput: 134987 messages per second
+Bytes throughput: 16025152 bytes per second
+Messages throughput: 500786 messages per second
 Errors: 0
 ```
 
@@ -3335,11 +3335,11 @@ Working clients: 1
 Messages to send: 1000000
 Message size: 32
 
-Round-trip time: 24.928 s
+Round-trip time: 7.917 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 1283650 bytes per second
-Messages throughput: 40114 messages per second
+Bytes throughput: 4041891 bytes per second
+Messages throughput: 126309 messages per second
 Errors: 0
 ```
 
@@ -3353,11 +3353,11 @@ Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
-Round-trip time: 10.854 s
+Round-trip time: 9.679 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 2948127 bytes per second
-Messages throughput: 92128 messages per second
+Bytes throughput: 3305832 bytes per second
+Messages throughput: 103307 messages per second
 Errors: 0
 ```
 
@@ -3391,11 +3391,11 @@ Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
-Round-trip time: 4.694 s
+Round-trip time: 4.648 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 6816977 bytes per second
-Messages throughput: 213030 messages per second
+Bytes throughput: 6884430 bytes per second
+Messages throughput: 215138 messages per second
 Errors: 0
 ```
 
