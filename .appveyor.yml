@@ -37,9 +37,7 @@ matrix:
 # Scripts that run after cloning repository
 install:
   # doxygen
-  - choco install doxygen.portable
-  # graphviz
-  - choco install graphviz.portable
+  - choco install doxygen.portable ghostscript graphviz miktex 
   # mingw
   - if "%type%"=="MinGW" if not exist "C:\mingw.7z" appveyor-retry appveyor DownloadFile "http://downloads.sourceforge.net/mingw-w64/x86_64-6.3.0-release-posix-seh-rt_v5-rev1.7z" -FileName "C:\mingw.7z"
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
@@ -47,8 +45,10 @@ install:
   - if "%type%"=="MinGW" set INCLUDE=C:\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
   - if "%type%"=="MinGW" copy /Y "modules\websocketpp.patch" "C:\mingw64\lib\gcc\x86_64-w64-mingw32\6.3.0\include\c++\x86_64-w64-mingw32\bits\error_constants.h"
   # Visual Studio
+  - if "%type%"=="VisualStudio" set PATH=C:\Program Files\MiKTeX 2.9\miktex\bin\x64;C:\Program Files\gs\gs9.21\bin;%PATH%
   - if "%type%"=="VisualStudio" set INCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\um;%INCLUDE%
   - if "%type%"=="VisualStudio" set LIB=C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64;%LIB%
+  - if "%type%"=="VisualStudio" copy "C:\Program Files\gs\gs9.21\bin\gswin64c.exe" "C:\Program Files\gs\gs9.21\bin\gswin32c.exe"
   # git
   - '%command% "cmake --version"'
   - '%command% "git config --global user.name "AppVeyor""'
