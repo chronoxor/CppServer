@@ -40,7 +40,7 @@ public:
     /*!
         \param service - Asio service
     */
-    Service(std::shared_ptr<asio::io_service> service);
+    explicit Service(std::shared_ptr<asio::io_service> service);
     Service(const Service&) = delete;
     Service(Service&&) = default;
     virtual ~Service() = default;
