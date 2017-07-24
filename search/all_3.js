@@ -3,7 +3,7 @@ var searchData=
   ['asio',['Asio',['../namespace_cpp_server_1_1_asio.html',1,'CppServer']]],
   ['chunk',['CHUNK',['../namespace_cpp_server_1_1_asio.html#af2d93e8eaa42908b197901296d31b6b5',1,'CppServer::Asio']]],
   ['clear',['Clear',['../class_cpp_server_1_1_nanomsg_1_1_message.html#a0d320ff67a7648654836f62d7af021d2',1,'CppServer::Nanomsg::Message']]],
-  ['client',['Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html#add7f04384aa3a22d415ede004513e223',1,'CppServer::Nanomsg::Client::Client(Domain domain, Protocol protocol, const std::string &amp;address, bool threading=true)'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#a256d0d837eea3c769b0c4c3a8f6273bd',1,'CppServer::Nanomsg::Client::Client(const Client &amp;)=delete'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#abe67feb7613f1b39de4abb1d79afe286',1,'CppServer::Nanomsg::Client::Client(Client &amp;&amp;)=default']]],
+  ['client',['Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html#add7f04384aa3a22d415ede004513e223',1,'CppServer::Nanomsg::Client::Client(Domain domain, Protocol protocol, const std::string &amp;address, bool threading=true)'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#a256d0d837eea3c769b0c4c3a8f6273bd',1,'CppServer::Nanomsg::Client::Client(const Client &amp;)=delete'],['../class_cpp_server_1_1_nanomsg_1_1_client.html#aab3af9ed681d66a760918e2cddedac24',1,'CppServer::Nanomsg::Client::Client(Client &amp;&amp;) noexcept=default']]],
   ['client',['Client',['../class_cpp_server_1_1_nanomsg_1_1_client.html',1,'CppServer::Nanomsg']]],
   ['client_2ecpp',['client.cpp',['../client_8cpp.html',1,'']]],
   ['client_2eh',['client.h',['../client_8h.html',1,'']]],
