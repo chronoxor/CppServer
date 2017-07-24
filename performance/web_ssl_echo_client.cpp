@@ -2,9 +2,10 @@
 // Created by Ivan Shynkarenka on 16.03.2017
 //
 
-#include "benchmark/reporter_console.h"
 #include "server/asio/service.h"
 #include "server/asio/web_ssl_client.h"
+
+#include "benchmark/reporter_console.h"
 #include "system/cpu.h"
 #include "threads/thread.h"
 #include "time/timestamp.h"
@@ -15,6 +16,8 @@
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
+using namespace CppBenchmark;
+using namespace CppCommon;
 using namespace CppServer::Asio;
 
 std::vector<uint8_t> message;
@@ -40,7 +43,7 @@ void SendRequest(std::shared_ptr<WebClient>& client, const restbed::Uri& uri, in
     {
         auto length = response->get_header("Content-Length", 0);
         WebClient::Fetch(response, length);
-        timestamp_stop = CppCommon::Timestamp::nano();
+        timestamp_stop = Timestamp::nano();
         total_bytes += response->get_body().size();
         ++total_messages;
 
@@ -56,7 +59,7 @@ int main(int argc, char** argv)
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
     parser.add_option("-p", "--port").action("store").type("int").set_default(9000).help("Server port. Default: %default");
-    parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
+    parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
     parser.add_option("-m", "--messages").action("store").type("int").set_default(1000).help("Count of messages to send. Default: %default");
     parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
@@ -114,14 +117,14 @@ int main(int argc, char** argv)
         clients.emplace_back(client);
     }
 
-    timestamp_start = CppCommon::Timestamp::nano();
+    timestamp_start = Timestamp::nano();
 
     // Wait for processing all messages
     std::cout << "Processing...";
     for (auto& client : clients)
         SendRequest(client, uri, messages_count / clients_count);
     while (total_messages < messages_count)
-        CppCommon::Thread::Sleep(100);
+        Thread::Sleep(100);
     std::cout << "Done!" << std::endl;
 
     // Stop Asio services
@@ -132,7 +135,7 @@ int main(int argc, char** argv)
 
     std::cout << std::endl;
 
-    std::cout << "Round-trip time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
+    std::cout << "Round-trip time: " << ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
     std::cout << "Total bytes: " << total_bytes << std::endl;
     std::cout << "Total messages: " << total_messages << std::endl;
     std::cout << "Bytes throughput: " << total_bytes * 1000000000 / (timestamp_stop - timestamp_start) << " bytes per second" << std::endl;

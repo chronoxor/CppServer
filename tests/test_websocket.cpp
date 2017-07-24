@@ -320,9 +320,9 @@ TEST_CASE("WebSocket server multicast", "[CppServer][Asio]")
 TEST_CASE("WebSocket server random test", "[CppServer][Asio]")
 {
     // Initialize stack trace manager of the current process
-    CppCommon::StackTraceManager::Initialize();
+    StackTraceManager::Initialize();
     // Setup exceptions handler for the current process
-    CppCommon::ExceptionsHandler::SetupProcess();
+    ExceptionsHandler::SetupProcess();
 
     const std::string address = "127.0.0.1";
     const int port = 4446;

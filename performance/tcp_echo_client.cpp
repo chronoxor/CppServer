@@ -2,9 +2,10 @@
 // Created by Ivan Shynkarenka on 15.03.2017
 //
 
-#include "benchmark/reporter_console.h"
 #include "server/asio/service.h"
 #include "server/asio/tcp_client.h"
+
+#include "benchmark/reporter_console.h"
 #include "system/cpu.h"
 #include "threads/thread.h"
 #include "time/timestamp.h"
@@ -15,6 +16,8 @@
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
+using namespace CppBenchmark;
+using namespace CppCommon;
 using namespace CppServer::Asio;
 
 std::vector<uint8_t> message;
@@ -66,7 +69,7 @@ protected:
             _received -= message.size();
         }
 
-        timestamp_stop = CppCommon::Timestamp::nano();
+        timestamp_stop = Timestamp::nano();
         total_bytes += size;
     }
 
@@ -102,7 +105,7 @@ int main(int argc, char** argv)
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
     parser.add_option("-p", "--port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
-    parser.add_option("-t", "--threads").action("store").type("int").set_default(CppCommon::CPU::LogicalCores()).help("Count of working threads. Default: %default");
+    parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::LogicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
     parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");
     parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
@@ -156,7 +159,7 @@ int main(int argc, char** argv)
         clients.emplace_back(client);
     }
 
-    timestamp_start = CppCommon::Timestamp::nano();
+    timestamp_start = Timestamp::nano();
 
     // Connect clients
     std::cout << "Clients connecting...";
@@ -164,7 +167,7 @@ int main(int argc, char** argv)
     {
         client->Connect();
         while (!client->IsConnected())
-            CppCommon::Thread::Yield();
+            Thread::Yield();
     }
     std::cout << "Done!" << std::endl;
 
@@ -173,7 +176,7 @@ int main(int argc, char** argv)
     for (auto& client : clients)
     {
         while (client->IsConnected())
-            CppCommon::Thread::Sleep(100);
+            Thread::Sleep(100);
     }
     std::cout << "Done!" << std::endl;
 
@@ -187,7 +190,7 @@ int main(int argc, char** argv)
 
     total_messages = total_bytes / message_size;
 
-    std::cout << "Round-trip time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
+    std::cout << "Round-trip time: " << ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
     std::cout << "Total bytes: " << total_bytes << std::endl;
     std::cout << "Total messages: " << total_messages << std::endl;
     std::cout << "Bytes throughput: " << total_bytes * 1000000000 / (timestamp_stop - timestamp_start) << " bytes per second" << std::endl;

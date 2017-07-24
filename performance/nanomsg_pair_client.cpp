@@ -2,8 +2,9 @@
 // Created by Ivan Shynkarenka on 15.03.2017
 //
 
-#include "benchmark/reporter_console.h"
 #include "server/nanomsg/pair_client.h"
+
+#include "benchmark/reporter_console.h"
 #include "system/cpu.h"
 #include "threads/thread.h"
 #include "time/timestamp.h"
@@ -14,6 +15,8 @@
 
 #include "../../modules/cpp-optparse/OptionParser.h"
 
+using namespace CppBenchmark;
+using namespace CppCommon;
 using namespace CppServer::Nanomsg;
 
 std::vector<uint8_t> message;
@@ -33,7 +36,7 @@ public:
 protected:
     void onReceived(Message& message) override
     {
-        timestamp_stop = CppCommon::Timestamp::nano();
+        timestamp_stop = Timestamp::nano();
         total_bytes += message.size();
     }
 
@@ -77,13 +80,13 @@ int main(int argc, char** argv)
     // Create echo client
     auto client = std::make_shared<EchoClient>(address, true);
 
-    timestamp_start = CppCommon::Timestamp::nano();
+    timestamp_start = Timestamp::nano();
 
     // Connect client
     std::cout << "Client connecting...";
     client->Connect();
     while (!client->IsConnected())
-        CppCommon::Thread::Yield();
+        Thread::Yield();
     std::cout << "Done!" << std::endl;
 
     // Wait for processing all messages
@@ -91,21 +94,21 @@ int main(int argc, char** argv)
     for (int i = 0; i < messages_count; ++i)
         client->Send(message.data(), message.size());
     while (total_bytes < (messages_count * message_size))
-        CppCommon::Thread::Sleep(100);
+        Thread::Sleep(100);
     std::cout << "Done!" << std::endl;
 
     // Disconnect client
     std::cout << "Client disconnecting...";
     client->Disconnect();
     while (client->IsConnected())
-        CppCommon::Thread::Yield();
+        Thread::Yield();
     std::cout << "Done!" << std::endl;
 
     std::cout << std::endl;
 
     total_messages = total_bytes / message_size;
 
-    std::cout << "Round-trip time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
+    std::cout << "Round-trip time: " << ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
     std::cout << "Total bytes: " << total_bytes << std::endl;
     std::cout << "Total messages: " << total_messages << std::endl;
     std::cout << "Bytes throughput: " << total_bytes * 1000000000 / (timestamp_stop - timestamp_start) << " bytes per second" << std::endl;
