@@ -53,11 +53,11 @@ public:
         : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Reply, address, threading)
     {}
     RequestServer(const RequestServer&) = delete;
-    RequestServer(RequestServer&&) = default;
+    RequestServer(RequestServer&&) noexcept = default;
     virtual ~RequestServer() = default;
 
     RequestServer& operator=(const RequestServer&) = delete;
-    RequestServer& operator=(RequestServer&&) = default;
+    RequestServer& operator=(RequestServer&&) noexcept = default;
 };
 
 /*! \example nanomsg_request_server.cpp Nanomsg request server example */

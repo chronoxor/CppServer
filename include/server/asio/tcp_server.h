@@ -55,11 +55,11 @@ public:
     */
     explicit TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPServer(const TCPServer&) = delete;
-    TCPServer(TCPServer&&) = default;
+    TCPServer(TCPServer&&) noexcept = default;
     virtual ~TCPServer() = default;
 
     TCPServer& operator=(const TCPServer&) = delete;
-    TCPServer& operator=(TCPServer&&) = default;
+    TCPServer& operator=(TCPServer&&) noexcept = default;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

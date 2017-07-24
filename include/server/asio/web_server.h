@@ -42,11 +42,11 @@ public:
     */
     explicit WebServer(std::shared_ptr<Service> service, const std::string& address, int port);
     WebServer(const WebServer&) = delete;
-    WebServer(WebServer&&) = default;
+    WebServer(WebServer&&) noexcept = default;
     virtual ~WebServer() = default;
 
     WebServer& operator=(const WebServer&) = delete;
-    WebServer& operator=(WebServer&&) = default;
+    WebServer& operator=(WebServer&&) noexcept = default;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

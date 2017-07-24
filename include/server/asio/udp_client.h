@@ -57,11 +57,11 @@ public:
     */
     explicit UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address);
     UDPClient(const UDPClient&) = delete;
-    UDPClient(UDPClient&&) = default;
+    UDPClient(UDPClient&&) noexcept = default;
     virtual ~UDPClient() = default;
 
     UDPClient& operator=(const UDPClient&) = delete;
-    UDPClient& operator=(UDPClient&&) = default;
+    UDPClient& operator=(UDPClient&&) noexcept = default;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }

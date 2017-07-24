@@ -41,11 +41,11 @@ public:
         socket().SetSocketOption(NN_SUB, NN_SUB_SUBSCRIBE, topic.data(), topic.size());
     }
     SubscribeClient(const SubscribeClient&) = delete;
-    SubscribeClient(SubscribeClient&&) = default;
+    SubscribeClient(SubscribeClient&&) noexcept = default;
     virtual ~SubscribeClient() = default;
 
     SubscribeClient& operator=(const SubscribeClient&) = delete;
-    SubscribeClient& operator=(SubscribeClient&&) = default;
+    SubscribeClient& operator=(SubscribeClient&&) noexcept = default;
 
 private:
     using Client::Send;

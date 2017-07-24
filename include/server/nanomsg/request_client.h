@@ -53,11 +53,11 @@ public:
         : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Request, address, threading)
     {}
     RequestClient(const RequestClient&) = delete;
-    RequestClient(RequestClient&&) = default;
+    RequestClient(RequestClient&&) noexcept = default;
     virtual ~RequestClient() = default;
 
     RequestClient& operator=(const RequestClient&) = delete;
-    RequestClient& operator=(RequestClient&&) = default;
+    RequestClient& operator=(RequestClient&&) noexcept = default;
 
     //! Request data to the server
     /*!

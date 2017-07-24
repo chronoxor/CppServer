@@ -40,11 +40,11 @@ public:
     */
     explicit WebSSLServer(std::shared_ptr<Service> service, const std::string& address, int port);
     WebSSLServer(const WebSSLServer&) = delete;
-    WebSSLServer(WebSSLServer&&) = default;
+    WebSSLServer(WebSSLServer&&) noexcept = default;
     virtual ~WebSSLServer() = default;
 
     WebSSLServer& operator=(const WebSSLServer&) = delete;
-    WebSSLServer& operator=(WebSSLServer&&) = default;
+    WebSSLServer& operator=(WebSSLServer&&) noexcept = default;
 
     //! Get the Restbed SSL settings
     std::shared_ptr<restbed::SSLSettings>& ssl_settings() noexcept { return _ssl_settings; }

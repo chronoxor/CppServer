@@ -37,11 +37,11 @@ public:
         : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Respondent, address, threading)
     {}
     SurveyClient(const SurveyClient&) = delete;
-    SurveyClient(SurveyClient&&) = default;
+    SurveyClient(SurveyClient&&) noexcept = default;
     virtual ~SurveyClient() = default;
 
     SurveyClient& operator=(const SurveyClient&) = delete;
-    SurveyClient& operator=(SurveyClient&&) = default;
+    SurveyClient& operator=(SurveyClient&&) noexcept = default;
 };
 
 /*! \example nanomsg_survey_client.cpp Nanomsg survey client example */

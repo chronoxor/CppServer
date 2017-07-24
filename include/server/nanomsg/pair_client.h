@@ -46,11 +46,11 @@ public:
         : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pair, address, threading)
     {}
     PairClient(const PairClient&) = delete;
-    PairClient(PairClient&&) = default;
+    PairClient(PairClient&&) noexcept = default;
     virtual ~PairClient() = default;
 
     PairClient& operator=(const PairClient&) = delete;
-    PairClient& operator=(PairClient&&) = default;
+    PairClient& operator=(PairClient&&) noexcept = default;
 };
 
 /*! \example nanomsg_pair_client.cpp Nanomsg pair client example */

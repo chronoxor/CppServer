@@ -38,11 +38,11 @@ public:
     */
     explicit Server(Domain domain, Protocol protocol, const std::string& address, bool threading = true);
     Server(const Server&) = delete;
-    Server(Server&&) = default;
+    Server(Server&&) noexcept = default;
     virtual ~Server();
 
     Server& operator=(const Server&) = delete;
-    Server& operator=(Server&&) = default;
+    Server& operator=(Server&&) noexcept = default;
 
     //! Get the Nanomsg socket
     Socket& socket() noexcept { return _socket; }

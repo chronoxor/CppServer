@@ -34,11 +34,11 @@ public:
     */
     explicit WebSocketSSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& uri);
     WebSocketSSLClient(const WebSocketSSLClient&) = delete;
-    WebSocketSSLClient(WebSocketSSLClient&&) = default;
+    WebSocketSSLClient(WebSocketSSLClient&&) noexcept = default;
     virtual ~WebSocketSSLClient() = default;
 
     WebSocketSSLClient& operator=(const WebSocketSSLClient&) = delete;
-    WebSocketSSLClient& operator=(WebSocketSSLClient&&) = default;
+    WebSocketSSLClient& operator=(WebSocketSSLClient&&) noexcept = default;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }

@@ -36,11 +36,11 @@ public:
     */
     explicit Socket(Domain domain, Protocol protocol);
     Socket(const Socket&) = delete;
-    Socket(Socket&&) = default;
+    Socket(Socket&&) noexcept = default;
     ~Socket();
 
     Socket& operator=(const Socket&) = delete;
-    Socket& operator=(Socket&&) = default;
+    Socket& operator=(Socket&&) noexcept = default;
 
     //! Get the socket domain
     Domain domain() const noexcept { return _domain; }

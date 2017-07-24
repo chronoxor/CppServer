@@ -48,11 +48,11 @@ public:
         : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Bus, address, threading)
     {}
     Bus(const Bus&) = delete;
-    Bus(Bus&&) = default;
+    Bus(Bus&&) noexcept = default;
     virtual ~Bus() = default;
 
     Bus& operator=(const Bus&) = delete;
-    Bus& operator=(Bus&&) = default;
+    Bus& operator=(Bus&&) noexcept = default;
 
     //! Link the current bus node to another one
     /*!

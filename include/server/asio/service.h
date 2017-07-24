@@ -42,11 +42,11 @@ public:
     */
     explicit Service(std::shared_ptr<asio::io_service> service);
     Service(const Service&) = delete;
-    Service(Service&&) = default;
+    Service(Service&&) noexcept = default;
     virtual ~Service() = default;
 
     Service& operator=(const Service&) = delete;
-    Service& operator=(Service&&) = default;
+    Service& operator=(Service&&) noexcept = default;
 
     //! Get the Asio service
     std::shared_ptr<asio::io_service>& service() noexcept { return _service; }

@@ -34,11 +34,11 @@ public:
         : Client(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Push, address, false)
     {}
     PushClient(const PushClient&) = delete;
-    PushClient(PushClient&&) = default;
+    PushClient(PushClient&&) noexcept = default;
     virtual ~PushClient() = default;
 
     PushClient& operator=(const PushClient&) = delete;
-    PushClient& operator=(PushClient&&) = default;
+    PushClient& operator=(PushClient&&) noexcept = default;
 
 private:
     using Client::Receive;

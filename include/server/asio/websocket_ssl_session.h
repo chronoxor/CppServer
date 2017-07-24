@@ -39,11 +39,11 @@ public:
     */
     explicit WebSocketSSLSession(std::shared_ptr<WebSocketSSLServer<TServer, TSession>> server);
     WebSocketSSLSession(const WebSocketSSLSession&) = delete;
-    WebSocketSSLSession(WebSocketSSLSession&&) = default;
+    WebSocketSSLSession(WebSocketSSLSession&&) noexcept = default;
     virtual ~WebSocketSSLSession() = default;
 
     WebSocketSSLSession& operator=(const WebSocketSSLSession&) = delete;
-    WebSocketSSLSession& operator=(WebSocketSSLSession&&) = default;
+    WebSocketSSLSession& operator=(WebSocketSSLSession&&) noexcept = default;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }

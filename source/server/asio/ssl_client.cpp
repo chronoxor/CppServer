@@ -72,11 +72,11 @@ public:
     }
 
     Impl(const Impl&) = delete;
-    Impl(Impl&&) = default;
+    Impl(Impl&&) noexcept = default;
     ~Impl() = default;
 
     Impl& operator=(const Impl&) = delete;
-    Impl& operator=(Impl&&) = default;
+    Impl& operator=(Impl&&) noexcept = default;
 
     const CppCommon::UUID& id() const noexcept { return _id; }
 
@@ -440,7 +440,7 @@ SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
 {
 }
 
-SSLClient::SSLClient(SSLClient&& client)
+SSLClient::SSLClient(SSLClient&& client) noexcept
     : _id(std::move(client._id)),
       _pimpl(std::move(client._pimpl))
 {
@@ -450,7 +450,7 @@ SSLClient::~SSLClient()
 {
 }
 
-SSLClient& SSLClient::operator=(SSLClient&& client)
+SSLClient& SSLClient::operator=(SSLClient&& client) noexcept
 {
     _id = std::move(client._id);
     _pimpl = std::move(client._pimpl);

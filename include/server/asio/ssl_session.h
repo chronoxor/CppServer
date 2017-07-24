@@ -38,11 +38,11 @@ public:
     */
     explicit SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context);
     SSLSession(const SSLSession&) = delete;
-    SSLSession(SSLSession&&) = default;
+    SSLSession(SSLSession&&) noexcept = default;
     virtual ~SSLSession() = default;
 
     SSLSession& operator=(const SSLSession&) = delete;
-    SSLSession& operator=(SSLSession&&) = default;
+    SSLSession& operator=(SSLSession&&) noexcept = default;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }

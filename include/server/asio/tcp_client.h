@@ -42,11 +42,11 @@ public:
     */
     explicit TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPClient(const TCPClient&) = delete;
-    TCPClient(TCPClient&&) = default;
+    TCPClient(TCPClient&&) noexcept = default;
     virtual ~TCPClient() = default;
 
     TCPClient& operator=(const TCPClient&) = delete;
-    TCPClient& operator=(TCPClient&&) = default;
+    TCPClient& operator=(TCPClient&&) noexcept = default;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }

@@ -54,11 +54,11 @@ public:
     */
     explicit Message(const void* data, size_t size, int type = 0);
     Message(const Message& message);
-    Message(Message&&) = default;
+    Message(Message&&) noexcept = default;
     ~Message();
 
     Message& operator=(const Message& message);
-    Message& operator=(Message&&) = default;
+    Message& operator=(Message&&) noexcept = default;
 
     //! Check if the message is valid
     explicit operator bool() const { return (_buffer == nullptr); }

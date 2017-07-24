@@ -33,11 +33,11 @@ public:
     */
     explicit WebSSLClient(std::shared_ptr<Service> service);
     WebSSLClient(const WebSSLClient&) = delete;
-    WebSSLClient(WebSSLClient&&) = default;
+    WebSSLClient(WebSSLClient&&) noexcept = default;
     virtual ~WebSSLClient() = default;
 
     WebSSLClient& operator=(const WebSSLClient&) = delete;
-    WebSSLClient& operator=(WebSSLClient&&) = default;
+    WebSSLClient& operator=(WebSSLClient&&) noexcept = default;
 
     //! Get the Restbed SSL settings
     std::shared_ptr<restbed::SSLSettings>& ssl_settings() noexcept { return _ssl_settings; }
