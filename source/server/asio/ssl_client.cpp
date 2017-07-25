@@ -435,7 +435,7 @@ SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
 {
 }
 
-SSLClient::SSLClient(SSLClient&& client) noexcept
+SSLClient::SSLClient(SSLClient&& client)
     : _id(std::move(client._id)),
       _pimpl(std::move(client._pimpl))
 {
@@ -445,7 +445,7 @@ SSLClient::~SSLClient()
 {
 }
 
-SSLClient& SSLClient::operator=(SSLClient&& client) noexcept
+SSLClient& SSLClient::operator=(SSLClient&& client)
 {
     _id = std::move(client._id);
     _pimpl = std::move(client._pimpl);
