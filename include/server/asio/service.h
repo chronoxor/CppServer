@@ -76,8 +76,7 @@ public:
         The given handler may be executed immediately if this function is called from IO service thread.
         Otherwise it will be enqueued to the IO service pending operations queue.
 
-        \param handler - Handler to dispatch
-        \return Async result of the handler
+        Method takes a handler to dispatch as a parameter and returns async result of the handler.
     */
     template <typename CompletionHandler>
     ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Dispatch(ASIO_MOVE_ARG(CompletionHandler) handler)
@@ -87,8 +86,7 @@ public:
     /*!
         The given handler will be enqueued to the IO service pending operations queue.
 
-        \param handler - Handler to dispatch
-        \return Async result of the handler
+        Method takes a handler to dispatch as a parameter and returns async result of the handler.
     */
     template <typename CompletionHandler>
     ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Post(ASIO_MOVE_ARG(CompletionHandler) handler)
