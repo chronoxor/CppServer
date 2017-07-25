@@ -36,5 +36,5 @@
 	branch = master
 [submodule "modules/websocketpp"]
 	path = modules/websocketpp
-	url = https://github.com/zaphoyd/websocketpp.git
+	url = https://github.com/chronoxor/websocketpp.git
 	branch = develop

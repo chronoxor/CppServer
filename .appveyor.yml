@@ -21,6 +21,7 @@ cache:
     - C:\mingw.7z -> .appveyor.yml
     - C:\ProgramData\chocolatey\bin -> .appveyor.yml
     - C:\ProgramData\chocolatey\lib -> .appveyor.yml
+    - C:\ProgramData\chocolatey\cache -> .appveyor.yml
 
 # Build matrix
 environment:
@@ -39,7 +40,10 @@ matrix:
 # Scripts that run after cloning repository
 install:
   # Doxygen
-  - choco install --force doxygen.portable ghostscript graphviz miktex
+  - choco install --cache "C:\ProgramData\chocolatey\cache" --force doxygen.portable
+  - choco install --cache "C:\ProgramData\chocolatey\cache" --force ghostscript
+  - choco install --cache "C:\ProgramData\chocolatey\cache" --force graphviz
+  - choco install --cache "C:\ProgramData\chocolatey\cache" --force miktex
   # MinGW
   - if "%type%"=="MinGW" if not exist "C:\mingw.7z" appveyor-retry appveyor DownloadFile "http://downloads.sourceforge.net/mingw-w64/x86_64-6.3.0-release-posix-seh-rt_v5-rev1.7z" -FileName "C:\mingw.7z"
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
