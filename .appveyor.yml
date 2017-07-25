@@ -1,6 +1,9 @@
 # Specify version format
 version: "1.0.0.{build}"
 
+# Image to use
+image: Visual Studio 2017
+
 # Branches to build
 branches:
   only: 
@@ -28,7 +31,6 @@ environment:
     - type: VisualStudio
       build: call vs.bat
       command: cmd /C
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 
 # Allow to fail on first error in matrix
 matrix:

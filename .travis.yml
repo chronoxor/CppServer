@@ -6,14 +6,14 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      env: OS=linux COMPILER=gcc GCC_VERSION=6
+      env: OS=linux COMPILER=gcc GCC_VERSION=7
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-6
-            - g++-6
+            - gcc-7
+            - g++-7
             - cmake
             - doxygen
             - graphviz
@@ -21,14 +21,14 @@ matrix:
             - uuid-dev
     - os: linux
       compiler: clang
-      env: OS=linux COMPILER=clang CLANG_VERSION=3.9
+      env: OS=linux COMPILER=clang CLANG_VERSION=4.0
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.9
+            - llvm-toolchain-trusty-4.0
           packages:
-            - clang-3.9
+            - clang-4.0
             - libc++-dev
             - libc++abi-dev
             - cmake
@@ -39,7 +39,7 @@ matrix:
     - os: osx
       compiler: clang
       env: OS=osx COMPILER=clang
-      osx_image: xcode8.2
+      osx_image: xcode9
 
 # Using Trusty environment
 sudo: required
