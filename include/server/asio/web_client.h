@@ -39,11 +39,11 @@ public:
     */
     explicit WebClient(std::shared_ptr<Service> service);
     WebClient(const WebClient&) = delete;
-    WebClient(WebClient&&) noexcept = default;
+    WebClient(WebClient&&) = default;
     virtual ~WebClient() = default;
 
     WebClient& operator=(const WebClient&) = delete;
-    WebClient& operator=(WebClient&&) noexcept = default;
+    WebClient& operator=(WebClient&&) = default;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

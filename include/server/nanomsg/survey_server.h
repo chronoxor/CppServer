@@ -40,11 +40,11 @@ public:
         socket().SetSocketOption(NN_SURVEYOR, NN_SURVEYOR_DEADLINE, &deadline, sizeof(deadline));
     }
     SurveyServer(const SurveyServer&) = delete;
-    SurveyServer(SurveyServer&&) noexcept = default;
+    SurveyServer(SurveyServer&&) = default;
     virtual ~SurveyServer() = default;
 
     SurveyServer& operator=(const SurveyServer&) = delete;
-    SurveyServer& operator=(SurveyServer&&) noexcept = default;
+    SurveyServer& operator=(SurveyServer&&) = default;
 
     //! Receive a respond to the survey from the clients in non-blocking mode
     /*!

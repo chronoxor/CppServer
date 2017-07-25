@@ -33,11 +33,11 @@ public:
     */
     explicit WebSocketClient(std::shared_ptr<Service> service, const std::string& uri);
     WebSocketClient(const WebSocketClient&) = delete;
-    WebSocketClient(WebSocketClient&&) noexcept = default;
+    WebSocketClient(WebSocketClient&&) = default;
     virtual ~WebSocketClient() = default;
 
     WebSocketClient& operator=(const WebSocketClient&) = delete;
-    WebSocketClient& operator=(WebSocketClient&&) noexcept = default;
+    WebSocketClient& operator=(WebSocketClient&&) = default;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }

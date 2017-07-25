@@ -59,11 +59,11 @@ public:
     */
     explicit WebSocketSSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
     WebSocketSSLServer(const WebSocketSSLServer&) = delete;
-    WebSocketSSLServer(WebSocketSSLServer&&) noexcept = default;
+    WebSocketSSLServer(WebSocketSSLServer&&) = default;
     virtual ~WebSocketSSLServer() = default;
 
     WebSocketSSLServer& operator=(const WebSocketSSLServer&) = delete;
-    WebSocketSSLServer& operator=(WebSocketSSLServer&&) noexcept = default;
+    WebSocketSSLServer& operator=(WebSocketSSLServer&&) = default;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

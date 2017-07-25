@@ -46,11 +46,11 @@ public:
         : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pair, address, threading)
     {}
     PairServer(const PairServer&) = delete;
-    PairServer(PairServer&&) noexcept = default;
+    PairServer(PairServer&&) = default;
     virtual ~PairServer() = default;
 
     PairServer& operator=(const PairServer&) = delete;
-    PairServer& operator=(PairServer&&) noexcept = default;
+    PairServer& operator=(PairServer&&) = default;
 };
 
 /*! \example nanomsg_pair_server.cpp Nanomsg pair server example */

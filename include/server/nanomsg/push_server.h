@@ -36,11 +36,11 @@ public:
         : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Pull, address, threading)
     {}
     PushServer(const PushServer&) = delete;
-    PushServer(PushServer&&) noexcept = default;
+    PushServer(PushServer&&) = default;
     virtual ~PushServer() = default;
 
     PushServer& operator=(const PushServer&) = delete;
-    PushServer& operator=(PushServer&&) noexcept = default;
+    PushServer& operator=(PushServer&&) = default;
 
 private:
     using Server::Send;

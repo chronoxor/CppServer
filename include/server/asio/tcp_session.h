@@ -39,11 +39,11 @@ public:
     */
     explicit TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket);
     TCPSession(const TCPSession&) = delete;
-    TCPSession(TCPSession&&) noexcept = default;
+    TCPSession(TCPSession&&) = default;
     virtual ~TCPSession() = default;
 
     TCPSession& operator=(const TCPSession&) = delete;
-    TCPSession& operator=(TCPSession&&) noexcept = default;
+    TCPSession& operator=(TCPSession&&) = default;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }

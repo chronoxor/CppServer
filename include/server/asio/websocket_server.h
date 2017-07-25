@@ -56,11 +56,11 @@ public:
     */
     explicit WebSocketServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     WebSocketServer(const WebSocketServer&) = delete;
-    WebSocketServer(WebSocketServer&&) noexcept = default;
+    WebSocketServer(WebSocketServer&&) = default;
     virtual ~WebSocketServer() = default;
 
     WebSocketServer& operator=(const WebSocketServer&) = delete;
-    WebSocketServer& operator=(WebSocketServer&&) noexcept = default;
+    WebSocketServer& operator=(WebSocketServer&&) = default;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

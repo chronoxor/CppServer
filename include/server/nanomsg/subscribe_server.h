@@ -35,11 +35,11 @@ public:
         : Server(CppServer::Nanomsg::Domain::Std, CppServer::Nanomsg::Protocol::Publisher, address, false)
     {}
     SubscribeServer(const SubscribeServer&) = delete;
-    SubscribeServer(SubscribeServer&&) noexcept = default;
+    SubscribeServer(SubscribeServer&&) = default;
     virtual ~SubscribeServer() = default;
 
     SubscribeServer& operator=(const SubscribeServer&) = delete;
-    SubscribeServer& operator=(SubscribeServer&&) noexcept = default;
+    SubscribeServer& operator=(SubscribeServer&&) = default;
 
 private:
     using Server::Receive;
