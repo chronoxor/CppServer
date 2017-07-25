@@ -344,15 +344,9 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Dispatch the given handler. </p>
 <p>The given handler may be executed immediately if this function is called from IO service thread. Otherwise it will be enqueued to the IO service pending operations queue.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">handler</td><td>- Handler to dispatch </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Async result of the handler </dd></dl>
+<p>Method takes a handler to dispatch as a parameter and returns async result of the handler. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00083">83</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00082">82</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -392,15 +386,9 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Post the given handler. </p>
 <p>The given handler will be enqueued to the IO service pending operations queue.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">handler</td><td>- Handler to dispatch </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Async result of the handler </dd></dl>
+<p>Method takes a handler to dispatch as a parameter and returns async result of the handler. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00094">94</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00092">92</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -479,7 +467,7 @@ template&lt;typename CompletionHandler &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00123">123</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00121">121</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -506,7 +494,7 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Handle service idle notification. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00115">115</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00113">113</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -533,7 +521,7 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Handle service started notification. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00110">110</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00108">108</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -560,7 +548,7 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Handle service stopped notification. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00112">112</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00110">110</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -588,7 +576,7 @@ template&lt;typename CompletionHandler &gt; </div>
 <p>Cleanup thread handler. </p>
 <p>This handler can be used to cleanup priority or affinity of the service thread. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00107">107</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00105">105</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -616,7 +604,7 @@ template&lt;typename CompletionHandler &gt; </div>
 <p>Initialize thread handler. </p>
 <p>This handler can be used to initialize priority or affinity of the service thread. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00102">102</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00100">100</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
