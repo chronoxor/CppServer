@@ -1,7 +1,7 @@
 //
 // Created by Ivan Shynkarenka on 15.03.2017
 //
-
+/*
 #include "catch.hpp"
 
 #include "server/asio/web_ssl_client.h"
@@ -187,3 +187,4 @@ TEST_CASE("HTTPS Web server", "[CppServer][Asio]")
     while (service->IsStarted())
         Thread::Yield();
 }
+*/

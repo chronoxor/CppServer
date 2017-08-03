@@ -1,7 +1,7 @@
 //
 // Created by Ivan Shynkarenka on 15.03.2017
 //
-
+/*
 #include "catch.hpp"
 
 #include "server/asio/web_client.h"
@@ -178,3 +178,4 @@ TEST_CASE("HTTP Web server", "[CppServer][Asio]")
     while (service->IsStarted())
         Thread::Yield();
 }
+*/
