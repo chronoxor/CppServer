@@ -15,7 +15,7 @@ class EchoServer : public RequestServer
 public:
     using RequestServer::RequestServer;
 
-    void onReceived(CppServer::Nanomsg::Message& message) override
+    void onReceived(Message& message) override
     {
         Send(message);
     }

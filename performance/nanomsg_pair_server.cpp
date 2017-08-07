@@ -15,7 +15,7 @@ class EchoServer : public PairServer
 public:
     using PairServer::PairServer;
 
-    void onReceived(CppServer::Nanomsg::Message& message) override
+    void onReceived(Message& message) override
     {
         Send(message);
     }
