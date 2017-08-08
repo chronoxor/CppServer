@@ -166,6 +166,9 @@ int main(int argc, char** argv)
     std::cout << std::endl;
 
     std::cout << "Errors: " << total_errors << std::endl;
+
+    std::cout << std::endl;
+
     std::cout << "Round-trip time: " << ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
     std::cout << "Total bytes: " << total_bytes << std::endl;
     std::cout << "Total messages: " << total_messages << std::endl;

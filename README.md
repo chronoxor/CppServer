@@ -3297,12 +3297,14 @@ Working clients: 1
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 3.723 s
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 8594664 bytes per second
+Messages latency: 3.723 mcs
 Messages throughput: 268583 messages per second
-Errors: 0
 ```
 
 * [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
@@ -3315,12 +3317,14 @@ Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 1.996 s
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 16025152 bytes per second
+Messages latency: 1.996 mcs
 Messages throughput: 500786 messages per second
-Errors: 0
 ```
 
 ### SSL echo server
@@ -3335,12 +3339,14 @@ Working clients: 1
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 7.917 s
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 4041891 bytes per second
+Messages latency: 7.917 mcs
 Messages throughput: 126309 messages per second
-Errors: 0
 ```
 
 * [cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
@@ -3353,12 +3359,14 @@ Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 9.679 s
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 3305832 bytes per second
+Messages latency: 9.679 mcs
 Messages throughput: 103307 messages per second
-Errors: 0
 ```
 
 ### UDP echo server
@@ -3373,12 +3381,14 @@ Working clients: 1
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 15.037 s
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 2128070 bytes per second
+Messages latency: 15.037 mcs
 Messages throughput: 66502 messages per second
-Errors: 0
 ```
 
 * [cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
@@ -3391,12 +3401,14 @@ Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 4.648 s
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 6884430 bytes per second
+Messages latency: 4.648 mcs
 Messages throughput: 215138 messages per second
-Errors: 0
 ```
 
 ### WebSocket echo server
@@ -3412,12 +3424,14 @@ Working clients: 1
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 35.323 s
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 905916 bytes per second
+Messages latency: 35.323 mcs
 Messages throughput: 28309 messages per second
-Errors: 0
 ```
 
 * [cppserver-performance-websocket_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_echo_server.cpp)
@@ -3431,12 +3445,14 @@ Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 10.117 s
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 3162890 bytes per second
+Messages latency: 10.117 mcs
 Messages throughput: 98840 messages per second
-Errors: 0
 ```
 
 ### WebSocket SSL echo server
@@ -3452,12 +3468,14 @@ Working clients: 1
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 1:10.267 m
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 455401 bytes per second
+Messages latency: 70.267 mcs
 Messages throughput: 14231 messages per second
-Errors: 0
 ```
 
 * [cppserver-performance-websocket_ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/websocket_ssl_echo_server.cpp)
@@ -3471,12 +3489,14 @@ Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 36.551 s
 Total bytes: 32000000
 Total messages: 1000000
 Bytes throughput: 875468 bytes per second
+Messages latency: 36.551 mcs
 Messages throughput: 27358 messages per second
-Errors: 0
 ```
 
 ### HTTP echo server
@@ -3492,12 +3512,14 @@ Working clients: 1
 Messages to send: 10000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 7.197 s
 Total bytes: 320000
 Total messages: 10000
 Bytes throughput: 44462 bytes per second
+Messages latency: 719.732 mcs
 Messages throughput: 1389 messages per second
-Errors: 0
 ```
 
 * [cppserver-performance-web_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_echo_server.cpp)
@@ -3511,12 +3533,14 @@ Working clients: 100
 Messages to send: 10000
 Message size: 32
 
+Errors: 0
+
 Round-trip time: 2.780 s
 Total bytes: 320000
 Total messages: 10000
 Bytes throughput: 115085 bytes per second
+Messages latency: 278.027 mcs
 Messages throughput: 3596 messages per second
-Errors: 0
 ```
 
 ### HTTPS echo server
@@ -3529,15 +3553,17 @@ Server port: 9000
 Server uri: https://127.0.0.1:9000/storage
 Working threads: 1
 Working clients: 1
-Messages to send: 10000
+Messages to send: 1000
 Message size: 32
 
-Round-trip time: 1:22.615 m
-Total bytes: 320000
-Total messages: 10000
-Bytes throughput: 3873 bytes per second
-Messages throughput: 121 messages per second
 Errors: 0
+
+Round-trip time: 8.105 s
+Total bytes: 32000
+Total messages: 1000
+Bytes throughput: 3947 bytes per second
+Messages latency: 8.105 ms
+Messages throughput: 123 messages per second
 ```
 
 * [cppserver-performance-web_ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/web_ssl_echo_server.cpp)
@@ -3551,12 +3577,14 @@ Working clients: 100
 Messages to send: 1000
 Message size: 32
 
-Round-trip time: 6.814 s
+Errors: 0
+
+Round-trip time: 6.823 s
 Total bytes: 32000
 Total messages: 1000
-Bytes throughput: 4696 bytes per second
+Bytes throughput: 4689 bytes per second
+Messages latency: 6.823 ms
 Messages throughput: 146 messages per second
-Errors: 0
 ```
 
 ### Nanomsg pair protocol
@@ -3568,12 +3596,14 @@ Server address: tcp://127.0.0.1:6666
 Messages to send: 100000
 Message size: 32
 
-Round-trip time: 2.716 s
+Errors: 0
+
+Round-trip time: 2.158 s
 Total bytes: 3200000
 Total messages: 100000
-Bytes throughput: 1178111 bytes per second
-Messages throughput: 36815 messages per second
-Errors: 0
+Bytes throughput: 1482697 bytes per second
+Messages latency: 21.582 mcs
+Messages throughput: 46334 messages per second
 ```
 
 ### Nanomsg request/reply protocol
@@ -3586,12 +3616,32 @@ Working clients: 1
 Messages to send: 100000
 Message size: 32
 
-Round-trip time: 6.038 s
+Errors: 0
+
+Round-trip time: 5.401 s
 Total bytes: 3200000
 Total messages: 100000
-Bytes throughput: 529927 bytes per second
-Messages throughput: 16560 messages per second
+Bytes throughput: 592387 bytes per second
+Messages latency: 54.018 mcs
+Messages throughput: 18512 messages per second
+```
+
+* [cppserver-performance-nanomsg_request_server](https://github.com/chronoxor/CppServer/blob/master/performance/nanomsg_request_server.cpp)
+* [cppserver-performance-nanomsg_request_client](https://github.com/chronoxor/CppServer/blob/master/performance/nanomsg_request_client.cpp) -c 100 -m 100000
+```
+Server address: tcp://127.0.0.1:6666
+Working clients: 100
+Messages to send: 100000
+Message size: 32
+
 Errors: 0
+
+Round-trip time: 6.159 s
+Total bytes: 3200000
+Total messages: 100000
+Bytes throughput: 519542 bytes per second
+Messages latency: 61.592 mcs
+Messages throughput: 16235 messages per second
 ```
 
 # OpenSSL certificates
