@@ -19,7 +19,7 @@ client/server solutions.
     * [OSX](#osx)
     * [Windows (MinGW)](#windows-mingw)
     * [Windows (MinGW with MSYS)](#windows-mingw-with-msys)
-    * [Windows (Visaul Studio)](#windows-visaul-studio)
+    * [Windows (Visual Studio)](#windows-visual-studio)
   * [Asio](#asio)
     * [Asio service](#asio-service)
     * [Example: TCP chat server](#example-tcp-chat-server)
@@ -111,7 +111,7 @@ cd build
 mingw.bat
 ```
 
-## Windows (Visaul Studio)
+## Windows (Visual Studio)
 ```
 cd build
 vs.bat
@@ -3261,14 +3261,6 @@ int main(int argc, char** argv)
 
 Here comes several communication scenarios with timing measurements.
 
-## Benchmark: Round-Trip Time
-
-This scenario sends lots of messages from several clients to a server.
-The server responses to each message and resend the similar response to
-the client. The benchmark measures total Round-trip time to send all
-messages and receive all responses, messages & bytes throughput, count
-of errors.
-
 Benchmark environment is the following:
 ```
 CPU architecutre: Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz
@@ -3284,6 +3276,14 @@ OS bits: 64-bit
 Process bits: 64-bit
 Process configuaraion: release
 ```
+
+## Benchmark: Round-Trip Time
+
+This scenario sends lots of messages from several clients to a server.
+The server responses to each message and resend the similar response to
+the client. The benchmark measures total Round-trip time to send all
+messages and receive all responses, messages & bytes throughput, count
+of errors.
 
 ### TCP echo server
 
