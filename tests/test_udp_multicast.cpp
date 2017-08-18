@@ -15,6 +15,8 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
+namespace {
+
 class MulticastUDPService : public Service
 {
 public:
@@ -85,6 +87,8 @@ protected:
     void onStopped() override { stopped = true; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
+
+} // namespace
 
 TEST_CASE("UDP server multicast", "[CppServer][Asio]")
 {

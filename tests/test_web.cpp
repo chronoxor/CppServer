@@ -15,6 +15,8 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
+namespace {
+
 class HttpServer : public WebServer
 {
 public:
@@ -88,6 +90,8 @@ private:
 };
 
 std::map<std::string, std::string> HttpServer::_storage;
+
+} // namespace
 
 TEST_CASE("HTTP Web server", "[CppServer][Asio]")
 {

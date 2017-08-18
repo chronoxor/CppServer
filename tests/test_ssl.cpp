@@ -15,6 +15,8 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
+namespace {
+
 class EchoSSLService : public Service
 {
 public:
@@ -142,6 +144,8 @@ protected:
     void onDisconnected(std::shared_ptr<EchoSSLSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
+
+} // namespace
 
 TEST_CASE("SSL server", "[CppServer][Asio]")
 {

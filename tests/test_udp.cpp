@@ -15,6 +15,8 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
+namespace {
+
 class EchoUDPService : public Service
 {
 public:
@@ -86,6 +88,8 @@ protected:
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Send(endpoint, buffer, size); }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
+
+} // namespace
 
 TEST_CASE("UDP server", "[CppServer][Asio]")
 {

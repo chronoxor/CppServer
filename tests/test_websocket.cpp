@@ -18,6 +18,8 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
+namespace {
+
 class EchoWebSocketService : public Service
 {
 public:
@@ -120,6 +122,8 @@ protected:
     void onDisconnected(std::shared_ptr<EchoWebSocketSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
+
+} // namespace
 
 TEST_CASE("WebSocket server", "[CppServer][Asio]")
 {

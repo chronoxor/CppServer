@@ -16,6 +16,8 @@
 using namespace CppCommon;
 using namespace CppServer::Nanomsg;
 
+namespace {
+
 class TestSurveyClient : public SurveyClient
 {
 public:
@@ -58,6 +60,8 @@ protected:
     void onStopped() override { stopped = true; }
     void onError(int error, const std::string& message) override { error = true; }
 };
+
+} // namespace
 
 TEST_CASE("Nanomsg survey", "[CppServer][Nanomsg]")
 {

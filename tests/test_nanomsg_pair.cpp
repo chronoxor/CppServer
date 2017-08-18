@@ -16,6 +16,8 @@
 using namespace CppCommon;
 using namespace CppServer::Nanomsg;
 
+namespace {
+
 class TestPairClient : public PairClient
 {
 public:
@@ -58,6 +60,8 @@ protected:
     void onReceived(Message& message) override { Send(message); }
     void onError(int error, const std::string& message) override { error = true; }
 };
+
+} // namespace
 
 TEST_CASE("Nanomsg pair", "[CppServer][Nanomsg]")
 {

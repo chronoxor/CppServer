@@ -16,6 +16,8 @@
 using namespace CppCommon;
 using namespace CppServer::Nanomsg;
 
+namespace {
+
 class TestPushClient : public PushClient
 {
 public:
@@ -57,6 +59,8 @@ protected:
     void onStopped() override { stopped = true; }
     void onError(int error, const std::string& message) override { error = true; }
 };
+
+} // namespace
 
 TEST_CASE("Nanomsg push", "[CppServer][Nanomsg]")
 {

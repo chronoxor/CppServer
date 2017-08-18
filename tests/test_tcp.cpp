@@ -15,6 +15,8 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
+namespace {
+
 class EchoTCPService : public Service
 {
 public:
@@ -117,6 +119,8 @@ protected:
     void onDisconnected(std::shared_ptr<EchoTCPSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { error = true; }
 };
+
+} // namespace
 
 TEST_CASE("TCP server", "[CppServer][Asio]")
 {

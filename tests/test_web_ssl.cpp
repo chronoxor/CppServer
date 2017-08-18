@@ -14,6 +14,8 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
+namespace {
+
 class HttpsServer : public WebSSLServer
 {
 public:
@@ -97,6 +99,8 @@ private:
 };
 
 std::map<std::string, std::string> HttpsServer::_storage;
+
+} // namespace
 
 TEST_CASE("HTTPS Web server", "[CppServer][Asio]")
 {
