@@ -3299,12 +3299,12 @@ Message size: 32
 
 Errors: 0
 
-Round-trip time: 3.723 s
+Round-trip time: 3.208 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 8594664 bytes per second
-Messages latency: 3.723 mcs
-Messages throughput: 268583 messages per second
+Bytes throughput: 9974318 bytes per second
+Message latency: 3.208 mcs
+Message throughput: 311697 messages per second
 ```
 
 * [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
@@ -3319,12 +3319,12 @@ Message size: 32
 
 Errors: 0
 
-Round-trip time: 1.996 s
+Round-trip time: 1.625 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 16025152 bytes per second
-Messages latency: 1.996 mcs
-Messages throughput: 500786 messages per second
+Bytes throughput: 19691928 bytes per second
+Message latency: 1.625 mcs
+Message throughput: 615372 messages per second
 ```
 
 ### SSL echo server
