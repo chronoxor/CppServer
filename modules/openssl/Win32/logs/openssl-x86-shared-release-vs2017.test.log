@@ -1,0 +1,116 @@
+
+Microsoft (R) Program Maintenance Utility Version 14.10.25019.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+	D:\dev\vs2017\VC\Tools\MSVC\14.10.25017\bin\HostX86\x86\nmake.exe depend && D:\dev\vs2017\VC\Tools\MSVC\14.10.25017\bin\HostX86\x86\nmake.exe _tests
+
+Microsoft (R) Program Maintenance Utility Version 14.10.25019.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Microsoft (R) Program Maintenance Utility Version 14.10.25019.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+	set SRCTOP=..\..\openssl-1.1.0f
+	set BLDTOP=.
+	set PERL=D:\dev\perl\perl\bin\perl.exe
+	set OPENSSL_DEBUG_MEMORY=on
+	"D:\dev\perl\perl\bin\perl.exe" "..\..\openssl-1.1.0f\test\run_tests.pl" 
+..\..\openssl-1.1.0f\test\recipes\01-test_abort.t ............ ok
+..\..\openssl-1.1.0f\test\recipes\01-test_sanity.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\01-test_symbol_presence.t .. ok
+..\..\openssl-1.1.0f\test\recipes\02-test_ordinals.t ......... ok
+..\..\openssl-1.1.0f\test\recipes\03-test_exdata.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\03-test_ui.t ............... ok
+..\..\openssl-1.1.0f\test\recipes\04-test_pem.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_bf.t ............... ok
+..\..\openssl-1.1.0f\test\recipes\05-test_cast.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_des.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_hmac.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_idea.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_md2.t .............. skipped: md2 is not supported by this OpenSSL build
+..\..\openssl-1.1.0f\test\recipes\05-test_md4.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_md5.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_mdc2.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_rand.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_rc2.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_rc4.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_rc5.t .............. skipped: rc5 is not supported by this OpenSSL build
+..\..\openssl-1.1.0f\test\recipes\05-test_rmd.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_sha1.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\05-test_sha256.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\05-test_sha512.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\05-test_wp.t ............... ok
+..\..\openssl-1.1.0f\test\recipes\10-test_bn.t ............... ok
+..\..\openssl-1.1.0f\test\recipes\10-test_exp.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\15-test_dh.t ............... ok
+..\..\openssl-1.1.0f\test\recipes\15-test_dsa.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\15-test_ec.t ............... ok
+..\..\openssl-1.1.0f\test\recipes\15-test_ecdsa.t ............ ok
+..\..\openssl-1.1.0f\test\recipes\15-test_genrsa.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\15-test_rsa.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\15-test_rsapss.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\20-test_enc.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\20-test_passwd.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\25-test_crl.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\25-test_d2i.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\25-test_pkcs7.t ............ ok
+..\..\openssl-1.1.0f\test\recipes\25-test_req.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\25-test_sid.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\25-test_verify.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\25-test_x509.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\30-test_afalg.t ............ skipped: test_afalg not supported for this build
+..\..\openssl-1.1.0f\test\recipes\30-test_engine.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\30-test_evp.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\30-test_evp_extra.t ........ ok
+..\..\openssl-1.1.0f\test\recipes\30-test_pbelu.t ............ ok
+..\..\openssl-1.1.0f\test\recipes\40-test_rehash.t ........... skipped: test_rehash is not available on this platform
+..\..\openssl-1.1.0f\test\recipes\60-test_x509_store.t ....... skipped: test_rehash is not available on this platform
+..\..\openssl-1.1.0f\test\recipes\70-test_asyncio.t .......... ok
+..\..\openssl-1.1.0f\test\recipes\70-test_bad_dtls.t ......... ok
+..\..\openssl-1.1.0f\test\recipes\70-test_clienthello.t ...... ok
+..\..\openssl-1.1.0f\test\recipes\70-test_packet.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\70-test_sslcbcpadding.t .... skipped: TLSProxy isn't usable on MSWin32
+..\..\openssl-1.1.0f\test\recipes\70-test_sslcertstatus.t .... skipped: TLSProxy isn't usable on MSWin32
+..\..\openssl-1.1.0f\test\recipes\70-test_sslextension.t ..... skipped: TLSProxy isn't usable on MSWin32
+..\..\openssl-1.1.0f\test\recipes\70-test_sslmessages.t ...... skipped: TLSProxy isn't usable on MSWin32
+..\..\openssl-1.1.0f\test\recipes\70-test_sslrecords.t ....... skipped: TLSProxy isn't usable on MSWin32
+..\..\openssl-1.1.0f\test\recipes\70-test_sslsessiontick.t ... skipped: TLSProxy isn't usable on MSWin32
+..\..\openssl-1.1.0f\test\recipes\70-test_sslskewith0p.t ..... skipped: TLSProxy isn't usable on MSWin32
+..\..\openssl-1.1.0f\test\recipes\70-test_sslvertol.t ........ skipped: TLSProxy isn't usable on MSWin32
+..\..\openssl-1.1.0f\test\recipes\70-test_tlsextms.t ......... skipped: TLSProxy isn't usable on MSWin32
+..\..\openssl-1.1.0f\test\recipes\70-test_verify_extra.t ..... ok
+..\..\openssl-1.1.0f\test\recipes\80-test_ca.t ............... ok
+..\..\openssl-1.1.0f\test\recipes\80-test_cipherlist.t ....... ok
+..\..\openssl-1.1.0f\test\recipes\80-test_cms.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\80-test_ct.t ............... ok
+..\..\openssl-1.1.0f\test\recipes\80-test_dane.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\80-test_dtls.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\80-test_dtlsv1listen.t ..... ok
+..\..\openssl-1.1.0f\test\recipes\80-test_ocsp.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\80-test_pkcs12.t ........... skipped: Non-Greek system locale
+..\..\openssl-1.1.0f\test\recipes\80-test_ssl_new.t .......... ok
+..\..\openssl-1.1.0f\test\recipes\80-test_ssl_old.t .......... ok
+..\..\openssl-1.1.0f\test\recipes\80-test_ssl_test_ctx.t ..... ok
+..\..\openssl-1.1.0f\test\recipes\80-test_sslcorrupt.t ....... ok
+..\..\openssl-1.1.0f\test\recipes\80-test_tsa.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\80-test_x509aux.t .......... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_async.t ............ ok
+..\..\openssl-1.1.0f\test\recipes\90-test_bio_enc.t .......... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_bioprint.t ......... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_constant_time.t .... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_fuzz.t ............. ok
+..\..\openssl-1.1.0f\test\recipes\90-test_gmdiff.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_heartbeat.t ........ skipped: heartbeats is not supported by this OpenSSL build
+..\..\openssl-1.1.0f\test\recipes\90-test_ige.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\90-test_memleak.t .......... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_p5_crpt2.t ......... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_secmem.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_shlibload.t ........ ok
+..\..\openssl-1.1.0f\test\recipes\90-test_srp.t .............. ok
+..\..\openssl-1.1.0f\test\recipes\90-test_sslapi.t ........... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_threads.t .......... ok
+..\..\openssl-1.1.0f\test\recipes\90-test_v3name.t ........... ok
+All tests successful.
+Files=95, Tests=491, 59 wallclock secs ( 0.30 usr +  0.05 sys =  0.34 CPU)
+Result: PASS
