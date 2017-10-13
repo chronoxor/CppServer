@@ -51,10 +51,10 @@ install:
   - if "%type%"=="MinGW" set INCLUDE=C:\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
   - if "%type%"=="MinGW" copy /Y "modules\websocketpp.patch" "C:\mingw64\lib\gcc\x86_64-w64-mingw32\6.3.0\include\c++\x86_64-w64-mingw32\bits\error_constants.h"
   # Visual Studio
-  - if "%type%"=="VisualStudio" set PATH=C:\Program Files\MiKTeX 2.9\miktex\bin\x64;C:\Program Files\gs\gs9.21\bin;%PATH%
+  - if "%type%"=="VisualStudio" set PATH=C:\Program Files\MiKTeX 2.9\miktex\bin\x64;C:\Program Files\gs\gs9.22\bin;%PATH%
   - if "%type%"=="VisualStudio" set INCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\um;%INCLUDE%
   - if "%type%"=="VisualStudio" set LIB=C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64;%LIB%
-  - if "%type%"=="VisualStudio" copy "C:\Program Files\gs\gs9.21\bin\gswin64c.exe" "C:\Program Files\gs\gs9.21\bin\gswin32c.exe"
+  #- if "%type%"=="VisualStudio" copy "C:\Program Files\gs\gs9.22\bin\gswin64c.exe" "C:\Program Files\gs\gs9.22\bin\gswin32c.exe"
   # git
   - '%command% "cmake --version"'
   - '%command% "git config --global user.name "AppVeyor""'
