@@ -25,8 +25,10 @@ include(SetCompilerFeatures)
 include(SetPlatformFeatures)
 if(MSVC)
   # C4267: 'var' : conversion from 'size_t' to 'type', possible loss of data
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4267")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4267")
+  # C4503: 'identifier' : decorated name length exceeded, name was truncated
+  # C4996: The compiler encountered a deprecated declaration
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4267 /wd4503 /wd4996")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4267 /wd4503 /wd4996")
 endif()
 
 # External packages
