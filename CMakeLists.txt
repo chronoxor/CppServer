@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.6)
 
 # Global properties
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -31,7 +31,7 @@ endif()
 
 # External packages
 if(MSVC)
-  set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/openssl")
+  set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/openssl/Win64")
 endif()
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 find_package(OpenSSL REQUIRED)
