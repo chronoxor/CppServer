@@ -13,15 +13,39 @@
 namespace CppServer {
 namespace Asio {
 
+Service::Service()
+    : _service(std::make_shared<asio::io_service>()),
+      _started(false)
+{
+    assert((_service != nullptr) && "ASIO service is invalid!");
+    if (_service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
+}
+
+Service::Service(std::shared_ptr<asio::io_service> service)
+    : _service(service),
+      _started(false)
+{
+    assert((_service != nullptr) && "ASIO service is invalid!");
+    if (_service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
+
+    _started = !service->stopped();
+}
+
 bool Service::Start(bool polling)
 {
+    assert(!IsStarted() && "Asio service is already started!");
     if (IsStarted())
         return false;
 
     // Post the started routine
     auto self(this->shared_from_this());
-    _service.post([this, self]()
+    _service->post([this, self]()
     {
+        if (IsStarted())
+            return;
+
          // Update the started flag
         _started = true;
 
@@ -30,34 +54,46 @@ bool Service::Start(bool polling)
     });
 
     // Start the service thread
-    _thread = std::thread([this, polling]() { ServiceLoop(polling); });
+    _thread = CppCommon::Thread::Start([this, polling]() { ServiceLoop(polling); });
 
     return true;
 }
 
 bool Service::Stop()
 {
+    assert(IsStarted() && "Asio service is not started!");
     if (!IsStarted())
         return false;
 
     // Post the stop routine
     auto self(this->shared_from_this());
-    _service.post([this, self]()
+    _service->post([this, self]()
     {
+        if (!IsStarted())
+            return;
+
+        // Stop the Asio service
+        _service->stop();
+
         // Update the started flag
         _started = false;
 
         // Call the service stopped handler
         onStopped();
-
-        // Stop the Asio service
-        _service.stop();
     });
 
     // Wait for service thread
     _thread.join();
 
     return true;
+}
+
+bool Service::Restart()
+{
+    if (!Stop())
+        return false;
+
+    return Start();
 }
 
 void Service::ServiceLoop(bool polling)
@@ -67,37 +103,61 @@ void Service::ServiceLoop(bool polling)
 
     try
     {
-        asio::io_service::work work(_service);
+        asio::io_service::work work(*_service);
 
-        if (polling)
+        // Service loop...
+        do
         {
-            // Run the Asio service in a polling loop
-            do
+            // ...with handling some specific Asio errors
+            try
             {
-                // Poll all pending handlers
-                _service.poll();
+                if (polling)
+                {
+                    // Poll all pending handlers
+                    _service->poll();
 
-                // Call the idle handler
-                onIdle();
-            } while (_started);
-        }
-        else
-        {
-            // Run all pending handlers
-            _service.run();
-        }
+                    // Call the idle handler
+                    onIdle();
+                }
+                else
+                {
+                    // Run all pending handlers
+                    _service->run();
+                    break;
+                }
+            }
+            catch (asio::system_error& ex)
+            {
+                std::error_code ec = ex.code();
+
+                // Skip Asio disconnect errors
+                if (ec == asio::error::not_connected)
+                    continue;
+
+                throw;
+            }
+        } while (_started);
     }
     catch (asio::system_error& ex)
     {
-        onError(ex.code().value(), ex.code().category().name(), ex.code().message());
+        SendError(ex.code());
+    }
+    catch (std::exception& ex)
+    {
+        fatality(ex);
     }
     catch (...)
     {
-        fatality("TCP service thread terminated!");
+        fatality("Asio service thread terminated!");
     }
 
     // Call the cleanup thread handler
     onThreadCleanup();
+}
+
+void Service::SendError(std::error_code ec)
+{
+    onError(ec.value(), ec.category().name(), ec.message());
 }
 
 } // namespace Asio

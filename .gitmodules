@@ -6,23 +6,35 @@
 	path = cmake
 	url = https://github.com/chronoxor/CppCMakeScripts.git
 	branch = master
+[submodule "modules/asio"]
+	path = modules/asio
+	url = https://github.com/chriskohlhoff/asio.git
+	branch = master
 [submodule "modules/catch"]
 	path = modules/catch
 	url = https://github.com/philsquared/Catch.git
+	branch = master
+[submodule "modules/cpp-optparse"]
+	path = modules/cpp-optparse
+	url = https://github.com/weisslj/cpp-optparse.git
 	branch = master
 [submodule "modules/CppBenchmark"]
 	path = modules/CppBenchmark
 	url = https://github.com/chronoxor/CppBenchmark.git
 	branch = master
-[submodule "modules/asio"]
-	path = modules/asio
-	url = https://github.com/chriskohlhoff/asio.git
+[submodule "modules/CppCommon"]
+	path = modules/CppCommon
+	url = https://github.com/chronoxor/CppCommon.git
 	branch = master
 [submodule "modules/nanomsg"]
 	path = modules/nanomsg
 	url = https://github.com/nanomsg/nanomsg.git
 	branch = master
-[submodule "modules/CppCommon"]
-	path = modules/CppCommon
-	url = https://github.com/chronoxor/CppCommon.git
+[submodule "modules/restbed"]
+	path = modules/restbed
+	url = https://github.com/chronoxor/restbed.git
 	branch = master
+[submodule "modules/websocketpp"]
+	path = modules/websocketpp
+	url = https://github.com/chronoxor/websocketpp.git
+	branch = develop

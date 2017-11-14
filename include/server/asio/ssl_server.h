@@ -41,7 +41,7 @@ public:
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, InternetProtocol protocol, int port);
+    explicit SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port);
     //! Initialize SSL server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
@@ -49,17 +49,17 @@ public:
         \param address - IP address
         \param port - Port number
     */
-    explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, const std::string& address, int port);
-    //! Initialize SSL server with a given SSL endpoint
+    explicit SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
+    //! Initialize SSL server with a given a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param context - SSL context
         \param endpoint - Server SSL endpoint
     */
-    explicit SSLServer(std::shared_ptr<Service> service, asio::ssl::context& context, const asio::ip::tcp::endpoint& endpoint);
+    explicit SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
     SSLServer(const SSLServer&) = delete;
     SSLServer(SSLServer&&) = default;
-    virtual ~SSLServer() { Stop(); }
+    virtual ~SSLServer() = default;
 
     SSLServer& operator=(const SSLServer&) = delete;
     SSLServer& operator=(SSLServer&&) = default;
@@ -67,13 +67,20 @@ public:
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
     //! Get the server SSL context
-    asio::ssl::context& context() noexcept { return _context; }
+    std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
     //! Get the server endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
 
-    //! Is the service started?
+    //! Get the number of sessions currently connected to this server
+    uint64_t current_sessions() const noexcept { return _sessions.size(); }
+    //! Get the number of bytes sent by this server
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
+    //! Get the number of bytes received by this server
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
+
+    //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
     //! Start the server
@@ -86,14 +93,25 @@ public:
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
     */
     bool Stop();
+    //! Restart the server
+    /*!
+        \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
+    */
+    bool Restart();
 
     //! Multicast data to all connected sessions
     /*!
-        \param buffer - Buffer to send
+        \param buffer - Buffer to multicast
         \param size - Buffer size
         \return 'true' if the data was successfully multicast, 'false' if the server it not started
     */
     bool Multicast(const void* buffer, size_t size);
+    //! Multicast a text string to all connected sessions
+    /*!
+        \param text - Text string to multicast
+        \return 'true' if the text string was successfully multicast, 'false' if the server it not started
+    */
+    bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
 
     //! Disconnect all connected sessions
     /*!
@@ -111,12 +129,12 @@ protected:
     /*!
         \param session - Connected session
     */
-    virtual void onConnected(std::shared_ptr<TSession> session) {}
+    virtual void onConnected(std::shared_ptr<TSession>& session) {}
     //! Handle session disconnected notification
     /*!
         \param session - Disconnected session
     */
-    virtual void onDisconnected(std::shared_ptr<TSession> session) {}
+    virtual void onDisconnected(std::shared_ptr<TSession>& session) {}
 
     //! Handle error notification
     /*!
@@ -130,11 +148,14 @@ private:
     // Asio service
     std::shared_ptr<Service> _service;
     // Server SSL context, endpoint, acceptor and socket
-    asio::ssl::context& _context;
+    std::shared_ptr<asio::ssl::context> _context;
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
+    // Server statistic
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
     // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Multicast buffer
@@ -147,7 +168,16 @@ private:
     //! Register a new session
     std::shared_ptr<TSession> RegisterSession();
     //! Unregister the given session
+    /*!
+        \param id - Session Id
+    */
     void UnregisterSession(const CppCommon::UUID& id);
+
+    //! Clear multicast buffer
+    void ClearBuffers();
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example ssl_chat_server.cpp SSL chat server example */

@@ -6,43 +6,43 @@
     \copyright MIT License
 */
 
+#include "asio_service.h"
+
 #include "server/asio/ssl_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
 class ChatClient : public CppServer::Asio::SSLClient
 {
 public:
-    explicit ChatClient(std::shared_ptr<CppServer::Asio::Service> service, asio::ssl::context& context, const std::string& address, int port)
-        : SSLClient(service, context, address, port)
-    {
-        stream().set_verify_mode(asio::ssl::verify_none);
-    }
+    using CppServer::Asio::SSLClient::SSLClient;
 
 protected:
     void onConnected() override
     {
         std::cout << "Chat SSL client connected a new session with Id " << id() << std::endl;
     }
+
     void onHandshaked() override
     {
         std::cout << "Chat SSL client handshaked a new session with Id " << id() << std::endl;
     }
+
     void onDisconnected() override
     {
         std::cout << "Chat SSL client disconnected a session with Id " << id() << std::endl;
 
-        // Try to wait for a while
+        // Wait for a while...
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again
         Connect();
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -59,28 +59,35 @@ int main(int argc, char** argv)
         address = argv[1];
 
     // SSL server port
-    int port = 1112;
+    int port = 3333;
     if (argc > 2)
         port = std::atoi(argv[2]);
 
     std::cout << "SSL server address: " << address << std::endl;
     std::cout << "SSL server port: " << port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<CppServer::Asio::Service>();
+    auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
-    // Create and prepare a new SSL context
-    asio::ssl::context context(asio::ssl::context::sslv23);
+    // Create and prepare a new SSL client context
+    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    context->set_verify_mode(asio::ssl::verify_peer);
+    context->load_verify_file("../tools/certificates/ca.pem");
 
     // Create a new SSL chat client
     auto client = std::make_shared<ChatClient>(service, context, address, port);
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -89,15 +96,28 @@ int main(int argc, char** argv)
         if (line.empty())
             break;
 
+        // Disconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client disconnecting...";
+            client->Disconnect();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
         // Send the entered text to the chat server
-        client->Send(line.data(), line.size());
+        client->Send(line);
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

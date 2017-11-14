@@ -32,14 +32,15 @@ class TCPSession : public std::enable_shared_from_this<TCPSession<TServer, TSess
     friend class TCPServer;
 
 public:
-    //! Initialize TCP session with a given connected socket
+    //! Initialize the session with a given server
     /*!
+        \param server - Connected server
         \param socket - Connected socket
     */
-    TCPSession(asio::ip::tcp::socket&& socket);
+    explicit TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
-    virtual ~TCPSession() { Disconnect(); }
+    virtual ~TCPSession() = default;
 
     TCPSession& operator=(const TCPSession&) = delete;
     TCPSession& operator=(TCPSession&&) = default;
@@ -48,20 +49,25 @@ public:
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Get the Asio service
-    std::shared_ptr<Service>& service() noexcept { return _server.service(); }
+    std::shared_ptr<Service>& service() noexcept { return _server->service(); }
     //! Get the session server
     std::shared_ptr<TCPServer<TServer, TSession>>& server() noexcept { return _server; }
     //! Get the session socket
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
+    //! Get the number of bytes sent by this session
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
+    //! Get the number of bytes received by this session
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
+
     //! Is the session connected?
-    bool IsConnected() const noexcept { return _connected; };
+    bool IsConnected() const noexcept { return _connected; }
 
     //! Disconnect the session
     /*!
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    bool Disconnect();
+    bool Disconnect() { return Disconnect(false); }
 
     //! Send data into the session
     /*!
@@ -70,6 +76,12 @@ public:
         \return Count of pending bytes in the send buffer
     */
     size_t Send(const void* buffer, size_t size);
+    //! Send a text string into the session
+    /*!
+        \param text - Text string to send
+        \return Count of pending bytes in the send buffer
+    */
+    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
 
 protected:
     //! Handle session connected notification
@@ -82,15 +94,10 @@ protected:
         Notification is called when another chunk of buffer was received
         from the client.
 
-        Default behavior is to handle all bytes from the received buffer.
-        If you want to wait for some more bytes from the client return the
-        size of the buffer you want to keep until another chunk is received.
-
         \param buffer - Received buffer
         \param size - Received buffer size
-        \return Count of handled bytes
     */
-    virtual size_t onReceived(const void* buffer, size_t size) { return size; }
+    virtual void onReceived(const void* buffer, size_t size) {}
     //! Handle buffer sent notification
     /*!
         Notification is called when another chunk of buffer was sent
@@ -103,6 +110,15 @@ protected:
         \param pending - Size of pending buffer
     */
     virtual void onSent(size_t sent, size_t pending) {}
+
+    //! Handle empty send buffer notification
+    /*!
+        Notification is called when the send buffer is empty and ready
+        for a new data to send.
+
+        This handler could be used to send another buffer to the client.
+    */
+    virtual void onEmpty() {}
 
     //! Handle error notification
     /*!
@@ -119,25 +135,38 @@ private:
     std::shared_ptr<TCPServer<TServer, TSession>> _server;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
-    // Receive & send buffers
-    std::mutex _send_lock;
-    std::vector<uint8_t> _recive_buffer;
-    std::vector<uint8_t> _send_buffer;
+    // Session statistic
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
+    // Receive buffer & cache
     bool _reciving;
+    std::vector<uint8_t> _recive_buffer;
+    // Send buffer & cache
     bool _sending;
-
-    static const size_t CHUNK = 8192;
+    std::mutex _send_lock;
+    std::vector<uint8_t> _send_buffer_main;
+    std::vector<uint8_t> _send_buffer_flush;
+    size_t _send_buffer_flush_offset;
 
     //! Connect the session
+    void Connect();
+    //! Disconnect the session
     /*!
-        \param server - Connected server
+        \param dispatch - Dispatch flag
+        \return 'true' if the session was successfully disconnected, 'false' if the session is already disconnected
     */
-    void Connect(std::shared_ptr<TCPServer<TServer, TSession>> server);
+    bool Disconnect(bool dispatch);
 
     //! Try to receive new data
     void TryReceive();
     //! Try to send pending data
     void TrySend();
+
+    //! Clear receive & send buffers
+    void ClearBuffers();
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 } // namespace Asio

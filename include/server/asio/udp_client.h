@@ -28,20 +28,20 @@ namespace Asio {
 class UDPClient : public std::enable_shared_from_this<UDPClient>
 {
 public:
-    //! Initialize UDP client with a server IP address and port number
+    //! Initialize UDP client with a given Asio service, server IP address and port number
     /*!
         \param service - Asio service
         \param address - Server IP address
         \param port - Server port number
     */
     explicit UDPClient(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize UDP client with a given UDP endpoint
+    //! Initialize UDP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server UDP endpoint
     */
     explicit UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
-    //! Initialize UDP client with a server IP address and port number (bind the socket to the multicast UDP server)
+    //! Initialize UDP client with a given Asio service, server IP address and port number (bind the socket to the multicast UDP server)
     /*!
         \param service - Asio service
         \param address - Server IP address
@@ -49,7 +49,7 @@ public:
         \param reuse_address - Reuse address socket option
     */
     explicit UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address);
-    //! Initialize UDP client with a given UDP endpoint (bind the socket to the multicast UDP server)
+    //! Initialize UDP client with a given Asio service and endpoint (bind the socket to the multicast UDP server)
     /*!
         \param service - Asio service
         \param endpoint - Server UDP endpoint
@@ -73,8 +73,17 @@ public:
     //! Get the client socket
     asio::ip::udp::socket& socket() noexcept { return _socket; }
 
+    //! Get the number datagrams sent by this client
+    uint64_t datagrams_sent() const noexcept { return _datagrams_sent; }
+    //! Get the number datagrams received by this client
+    uint64_t datagrams_received() const noexcept { return _datagrams_received; }
+    //! Get the number of bytes sent by this client
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
+    //! Get the number of bytes received by this client
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
+
     //! Is the client connected?
-    bool IsConnected() const noexcept { return _connected; };
+    bool IsConnected() const noexcept { return _connected; }
 
     //! Connect the client
     /*!
@@ -85,7 +94,12 @@ public:
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Disconnect();
+    bool Disconnect() { return Disconnect(false); }
+    //! Reconnect the client
+    /*!
+        \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
+    */
+    bool Reconnect();
 
     //! Join multicast group with a given IP address
     /*!
@@ -102,24 +116,48 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    size_t Send(const void* buffer, size_t size);
+    bool Send(const void* buffer, size_t size);
+    //! Send a text string to the connected server
+    /*!
+        \param text - Text string to send
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+    */
+    bool Send(const std::string& text) { return Send(text.data(), text.size()); }
 
     //! Send datagram to the given endpoint
     /*!
         \param endpoint - Endpoint to send
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    size_t Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    //! Send a text string to the given endpoint
+    /*!
+        \param endpoint - Endpoint to send
+        \param text - Text string to send
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+    */
+    bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
 protected:
     //! Handle client connected notification
     virtual void onConnected() {}
     //! Handle client disconnected notification
     virtual void onDisconnected() {}
+
+    //! Handle client joined multicast group notification
+    /*!
+        \param address - IP address
+    */
+    virtual void onJoinedMulticastGroup(const std::string& address) {}
+    //! Handle client left multicast group notification
+    /*!
+        \param address - IP address
+    */
+    virtual void onLeftMulticastGroup(const std::string& address) {}
 
     //! Handle datagram received notification
     /*!
@@ -140,9 +178,8 @@ protected:
 
         \param endpoint - Endpoint of sent datagram
         \param sent - Size of sent datagram buffer
-        \param pending - Size of pending datagram buffer
     */
-    virtual void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent, size_t pending) {}
+    virtual void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) {}
 
     //! Handle error notification
     /*!
@@ -153,7 +190,7 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    // Session Id
+    // Client Id
     CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;
@@ -161,24 +198,32 @@ private:
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;
     std::atomic<bool> _connected;
+    // Client statistic
+    uint64_t _datagrams_sent;
+    uint64_t _datagrams_received;
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
     // Receive endpoint
     asio::ip::udp::endpoint _recive_endpoint;
-    // Receive & send buffers
-    std::mutex _send_lock;
-    std::vector<uint8_t> _recive_buffer;
-    std::vector<uint8_t> _send_buffer;
+    // Receive buffer
     bool _reciving;
-    bool _sending;
+    std::vector<uint8_t> _recive_buffer;
     // Additional options
     bool _multicast;
     bool _reuse_address;
 
-    static const size_t CHUNK = 8192;
+    //! Disconnect the client
+    /*!
+        \param dispatch - Dispatch flag
+        \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
+    */
+    bool Disconnect(bool dispatch);
 
     //! Try to receive new datagram
     void TryReceive();
-    //! Try to send pending datagram
-    void TrySend(const asio::ip::udp::endpoint& endpoint, size_t size);
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example udp_echo_client.cpp UDP echo client example */
@@ -186,7 +231,5 @@ private:
 
 } // namespace Asio
 } // namespace CppServer
-
-#include "udp_client.inl"
 
 #endif // CPPSERVER_ASIO_UDP_CLIENT_H

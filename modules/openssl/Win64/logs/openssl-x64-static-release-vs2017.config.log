@@ -1,0 +1,185 @@
+Configured with: perl D:\opensource\openssl-1.1.0f\Configure VC-WIN64A enable-static-engine --prefix=D:\opensource\openssl-dist-1.1.0f-vs2017\openssl-x64-static-release-vs2017 --openssldir=./ssl no-shared -static no-asm  
+Configuring OpenSSL version 1.1.0f (0x1010006fL)
+    no-asan         [default]  OPENSSL_NO_ASAN
+    no-asm          [option]   OPENSSL_NO_ASM
+    no-crypto-mdebug [default]  OPENSSL_NO_CRYPTO_MDEBUG
+    no-crypto-mdebug-backtrace [default]  OPENSSL_NO_CRYPTO_MDEBUG_BACKTRACE
+    no-dso          [forced]  
+    no-dynamic-engine [option]  
+    no-ec_nistp_64_gcc_128 [default]  OPENSSL_NO_EC_NISTP_64_GCC_128
+    no-egd          [default]  OPENSSL_NO_EGD
+    no-fuzz-afl     [default]  OPENSSL_NO_FUZZ_AFL
+    no-fuzz-libfuzzer [default]  OPENSSL_NO_FUZZ_LIBFUZZER
+    no-heartbeats   [default]  OPENSSL_NO_HEARTBEATS
+    no-md2          [default]  OPENSSL_NO_MD2 (skip dir)
+    no-msan         [default]  OPENSSL_NO_MSAN
+    no-pic          [forced]  
+    no-rc5          [default]  OPENSSL_NO_RC5 (skip dir)
+    no-sctp         [default]  OPENSSL_NO_SCTP
+    no-shared       [forced]  
+    no-ssl-trace    [default]  OPENSSL_NO_SSL_TRACE
+    no-ssl3         [default]  OPENSSL_NO_SSL3
+    no-ssl3-method  [default]  OPENSSL_NO_SSL3_METHOD
+    no-threads      [forced]  
+    no-ubsan        [default]  OPENSSL_NO_UBSAN
+    no-unit-test    [default]  OPENSSL_NO_UNIT_TEST
+    no-weak-ssl-ciphers [default]  OPENSSL_NO_WEAK_SSL_CIPHERS
+    no-zlib         [default] 
+    no-zlib-dynamic [default] 
+Configuring for VC-WIN64A
+==================================================
+afalgeng                       
+b32                            0
+b64                            1
+b64l                           0
+baseaddr                       0xFB00000
+bn_ll                          0
+build_file                     makefile
+build_file_templates           ARRAY(0x2ef3970)
+build_infos                    ARRAY(0x33d9448)
+build_type                     release
+builddir                       .
+cc                             cl
+cflags                         
+conf_files                     ARRAY(0x2af4570)
+cross_compile_prefix           
+defines                        ARRAY(0x2eecbb8)
+dirs                           ARRAY(0x2a8aa10)
+dynamic_engines                0
+engdirs                        ARRAY(0x2ef3700)
+ex_libs                        -static 
+export_var_as_fn               1
+fips                           0
+fipslibdir                     /usr/local/ssl/fips-2.0/lib/
+hashbangperl                   /usr/bin/env perl
+libdir                         
+major                          1
+makedepprog                    
+minor                          1.0
+openssl_algorithm_defines      ARRAY(0x27b5a38)
+openssl_api_defines            ARRAY(0x27b6088)
+openssl_other_defines          ARRAY(0x27b90e8)
+openssl_sys_defines            ARRAY(0x27b8ef0)
+openssl_thread_defines         ARRAY(0x27b6250)
+openssldir                     ./ssl
+options                        enable-static-engine --prefix=D:\opensource\openssl-dist-1.1.0f-vs2017\openssl-x64-static-release-vs2017 --openssldir=./ssl -static no-asan no-asm no-crypto-mdebug no-crypto-mdebug-backtrace no-dso no-dynamic-engine no-ec_nistp_64_gcc_128 no-egd no-fuzz-afl no-fuzz-libfuzzer no-heartbeats no-md2 no-msan no-pic no-rc5 no-sctp no-shared no-ssl-trace no-ssl3 no-ssl3-method no-threads no-ubsan no-unit-test no-weak-ssl-ciphers no-zlib no-zlib-dynamic
+perl                           D:\dev\perl\perl\bin\perl.exe
+perlargv                       ARRAY(0x24f9758)
+prefix                         D:\opensource\openssl-dist-1.1.0f-vs2017\openssl-x64-static-release-vs2017
+processor                      
+rc4_int                        unsigned int
+sdirs                          ARRAY(0x27b87f8)
+shared_ldflag                  
+shlib_major                    1
+shlib_minor                    1
+shlib_version_history          
+shlib_version_number           1.1
+sourcedir                      ..\..\openssl-1.1.0f
+suffix                         MT
+target                         VC-WIN64A
+version                        1.1.0f
+version_num                    0x1010006fL
+==================================================
+_conf_fname_int                ARRAY(0x27a4040)
+aes_asm_src                    aes_core.c aes_cbc.c
+apps_aux_src                   win32_init.c
+ar                             lib
+arflags                        /nologo
+aroutflag                      /out:
+as                             nasm
+asflags                        -f win64 -DNEAR -Ox -g
+asoutflag                      -o
+bf_asm_src                     bf_enc.c
+bin_cflags                     /Zi /Fdapp /MT
+bin_lflags                     /subsystem:console /opt:ref
+bn_asm_src                     bn_asm.c
+bn_ops                         SIXTY_FOUR_BIT EXPORT_VAR_AS_FN
+build_file                     makefile
+build_scheme                   ARRAY(0x2845580)
+cast_asm_src                   c_enc.c
+cc                             cl
+cflags                         -W3 -wd4090 -Gs0 -GF -Gy -nologo -DOPENSSL_SYS_WIN32 -DWIN32_LEAN_AND_MEAN -DL_ENDIAN -D_CRT_SECURE_NO_DEPRECATE -DUNICODE -D_UNICODE  /O2
+chacha_asm_src                 chacha_enc.c
+cmll_asm_src                   camellia.c cmll_misc.c cmll_cbc.c
+coutflag                       /Fo
+cpuid_asm_src                  mem_clr.c
+defines                        ARRAY(0x2af24d8)
+des_asm_src                    des_enc.c fcrypt_b.c
+dso_cflags                     /Zi /Fddso
+dso_extension                  
+dso_scheme                     win32
+ec_asm_src                     
+ex_libs                        ws2_32.lib gdi32.lib advapi32.lib crypt32.lib user32.lib
+exe_extension                  
+ld                             link
+lflags                         /nologo /debug
+lib_cflags                     /Zi /Fdossl_static /MT /Zl
+loutflag                       /out:
+md5_asm_src                    
+modes_asm_src                  
+mt                             mt
+mtflags                        -nologo
+mtinflag                       -manifest 
+mtoutflag                      -outputresource:
+multilib                       -x64
+nm                             nm
+padlock_asm_src                
+perlasm_scheme                 auto
+poly1305_asm_src               
+ranlib                         $(CROSS_COMPILE)ranlib
+rc                             rc
+rc4_asm_src                    rc4_enc.c rc4_skey.c
+rc5_asm_src                    rc5_enc.c
+rcoutflag                      /fo
+rmd160_asm_src                 
+shared_cflag                   
+shared_defines                 ARRAY(0x27a74a8)
+shared_extension               
+shared_extension_simple        
+shared_ldflag                  
+shared_rcflag                  
+shared_target                  win-shared
+suffix                         
+sys_id                         WIN64A
+template                       1
+thread_defines                 ARRAY(0x27a7478)
+thread_scheme                  winthreads
+unistd                         <unistd.h>
+uplink_aux_src                 
+wp_asm_src                     wp_block.c
+==================================================
+CC            =cl
+CFLAG         =-W3 -wd4090 -Gs0 -GF -Gy -nologo -DOPENSSL_SYS_WIN32 -DWIN32_LEAN_AND_MEAN -DL_ENDIAN -D_CRT_SECURE_NO_DEPRECATE -DUNICODE -D_UNICODE  /O2 
+SHARED_CFLAG  =
+DEFINES       =NDEBUG OPENSSL_NO_DYNAMIC_ENGINE
+LFLAG         =/nologo /debug
+PLIB_LFLAG    =
+EX_LIBS       =ws2_32.lib gdi32.lib advapi32.lib crypt32.lib user32.lib -static 
+APPS_OBJ      =win32_init.o
+CPUID_OBJ     =mem_clr.o
+UPLINK_OBJ    =
+BN_ASM        =bn_asm.o
+EC_ASM        =
+DES_ENC       =des_enc.o fcrypt_b.o
+AES_ENC       =aes_core.o aes_cbc.o
+BF_ENC        =bf_enc.o
+CAST_ENC      =c_enc.o
+RC4_ENC       =rc4_enc.o rc4_skey.o
+RC5_ENC       =rc5_enc.o
+MD5_OBJ_ASM   =
+SHA1_OBJ_ASM  =
+RMD160_OBJ_ASM=
+CMLL_ENC      =camellia.o cmll_misc.o cmll_cbc.o
+MODES_OBJ     =
+PADLOCK_OBJ   =
+CHACHA_ENC    =chacha_enc.o
+POLY1305_OBJ  =
+BLAKE2_OBJ    =
+PROCESSOR     =
+RANLIB        =ranlib
+ARFLAGS       =/nologo
+PERL          =D:\dev\perl\perl\bin\perl.exe
+
+SIXTY_FOUR_BIT mode
+
+Configured for VC-WIN64A.

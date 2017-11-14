@@ -37,7 +37,7 @@ public:
         \param port - Port number
     */
     explicit UDPServer(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize UDP server with a given UDP endpoint
+    //! Initialize UDP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server UDP endpoint
@@ -45,7 +45,7 @@ public:
     explicit UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
     UDPServer(const UDPServer&) = delete;
     UDPServer(UDPServer&&) = default;
-    virtual ~UDPServer() { Stop(); }
+    virtual ~UDPServer() = default;
 
     UDPServer& operator=(const UDPServer&) = delete;
     UDPServer& operator=(UDPServer&&) = default;
@@ -57,7 +57,16 @@ public:
     //! Get the server multicast endpoint
     asio::ip::udp::endpoint& multicast_endpoint() noexcept { return _multicast_endpoint; }
 
-    //! Is the service started?
+    //! Get the number datagrams sent by this server
+    uint64_t datagrams_sent() const noexcept { return _datagrams_sent; }
+    //! Get the number datagrams received by this server
+    uint64_t datagrams_received() const noexcept { return _datagrams_received; }
+    //! Get the number of bytes sent by this server
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
+    //! Get the number of bytes received by this server
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
+
+    //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
     //! Start the server
@@ -85,23 +94,41 @@ public:
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
     */
     bool Stop();
+    //! Restart the server
+    /*!
+        \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
+    */
+    bool Restart();
 
     //! Multicast a datagram to the prepared mulicast endpoint
     /*!
-        \param buffer - Datagram buffer to send
+        \param buffer - Datagram buffer to multicast
         \param size - Datagram buffer size
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    size_t Multicast(const void* buffer, size_t size);
+    bool Multicast(const void* buffer, size_t size);
+    //! Multicast a text string to the prepared mulicast endpoint
+    /*!
+        \param text - Text string to multicast
+        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
+    */
+    bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
 
     //! Send a datagram into the given endpoint
     /*!
         \param endpoint - Endpoint to send
         \param buffer - Datagram buffer to send
         \param size - Datagram buffer size
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    size_t Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    //! Send a text string into the given endpoint
+    /*!
+        \param endpoint - Endpoint to send
+        \param text - Text string to send
+        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
+    */
+    bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
 protected:
     //! Handle server started notification
@@ -128,9 +155,8 @@ protected:
 
         \param endpoint - Endpoint of sent datagram
         \param sent - Size of sent datagram buffer
-        \param pending - Size of pending datagram buffer
     */
-    virtual void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent, size_t pending) {}
+    virtual void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) {}
 
     //! Handle error notification
     /*!
@@ -147,22 +173,23 @@ private:
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;
     std::atomic<bool> _started;
+    // Server statistic
+    uint64_t _datagrams_sent;
+    uint64_t _datagrams_received;
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
     // Multicast & receive endpoint
     asio::ip::udp::endpoint _multicast_endpoint;
     asio::ip::udp::endpoint _recive_endpoint;
-    // Receive & send buffers
-    std::mutex _send_lock;
-    std::vector<uint8_t> _recive_buffer;
-    std::vector<uint8_t> _send_buffer;
+    // Receive buffer
     bool _reciving;
-    bool _sending;
-
-    static const size_t CHUNK = 8192;
+    std::vector<uint8_t> _recive_buffer;
 
     //! Try to receive new datagram
     void TryReceive();
-    //! Try to send pending datagram
-    void TrySend(const asio::ip::udp::endpoint& endpoint, size_t size);
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example udp_echo_server.cpp UDP echo server example */
@@ -170,7 +197,5 @@ private:
 
 } // namespace Asio
 } // namespace CppServer
-
-#include "udp_server.inl"
 
 #endif // CPPSERVER_ASIO_UDP_SERVER_H

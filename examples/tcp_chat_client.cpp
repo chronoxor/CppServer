@@ -6,7 +6,10 @@
     \copyright MIT License
 */
 
+#include "asio_service.h"
+
 #include "server/asio/tcp_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -20,21 +23,21 @@ protected:
     {
         std::cout << "Chat TCP client connected a new session with Id " << id() << std::endl;
     }
+
     void onDisconnected() override
     {
         std::cout << "Chat TCP client disconnected a session with Id " << id() << std::endl;
 
-        // Try to wait for a while
+        // Wait for a while...
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again
         Connect();
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -57,19 +60,24 @@ int main(int argc, char** argv)
 
     std::cout << "TCP server address: " << address << std::endl;
     std::cout << "TCP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<CppServer::Asio::Service>();
+    auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new TCP chat client
     auto client = std::make_shared<ChatClient>(service, address, port);
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -78,15 +86,28 @@ int main(int argc, char** argv)
         if (line.empty())
             break;
 
+        // Disconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client disconnecting...";
+            client->Disconnect();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
         // Send the entered text to the chat server
-        client->Send(line.data(), line.size());
+        client->Send(line);
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

@@ -12,10 +12,16 @@ namespace Asio {
 template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
-      _acceptor(_service->service()),
-      _socket(_service->service()),
-      _started(false)
+      _acceptor(*_service->service()),
+      _socket(*_service->service()),
+      _started(false),
+      _bytes_sent(0),
+      _bytes_received(0)
 {
+    assert((service != nullptr) && "ASIO service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
+
     switch (protocol)
     {
         case InternetProtocol::IPv4:
@@ -30,10 +36,16 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
 template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
-      _acceptor(_service->service()),
-      _socket(_service->service()),
-      _started(false)
+      _acceptor(*_service->service()),
+      _socket(*_service->service()),
+      _started(false),
+      _bytes_sent(0),
+      _bytes_received(0)
 {
+    assert((service != nullptr) && "ASIO service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
+
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
 }
 
@@ -41,27 +53,37 @@ template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
     : _service(service),
       _endpoint(endpoint),
-      _acceptor(_service->service()),
-      _socket(_service->service()),
-      _started(false)
+      _acceptor(*_service->service()),
+      _socket(*_service->service()),
+      _started(false),
+      _bytes_sent(0),
+      _bytes_received(0)
 {
+    assert((service != nullptr) && "ASIO service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("ASIO service is invalid!");
 }
 
 template <class TServer, class TSession>
 inline bool TCPServer<TServer, TSession>::Start()
 {
-    if (!_service->IsStarted())
-        return false;
-
+    assert(!IsStarted() && "TCP server is already started!");
     if (IsStarted())
         return false;
 
     // Post the start routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
+        if (IsStarted())
+            return;
+
         // Create the server acceptor
-        _acceptor = asio::ip::tcp::acceptor(_service->service(), _endpoint);
+        _acceptor = asio::ip::tcp::acceptor(*_service->service(), _endpoint);
+
+        // Reset statistic
+        _bytes_sent = 0;
+        _bytes_received = 0;
 
         // Update the started flag
         _started = true;
@@ -79,27 +101,46 @@ inline bool TCPServer<TServer, TSession>::Start()
 template <class TServer, class TSession>
 inline bool TCPServer<TServer, TSession>::Stop()
 {
+    assert(IsStarted() && "TCP server is not started!");
     if (!IsStarted())
         return false;
 
     // Post the stopped routine
     auto self(this->shared_from_this());
-    _service->service().post([this, self]()
+    _service->service()->post([this, self]()
     {
+        if (!IsStarted())
+            return;
+
+        // Close the server acceptor
+        _acceptor.close();
+
+        // Clear multicast buffer
+        ClearBuffers();
+
         // Disconnect all sessions
         DisconnectAll();
 
         // Update the started flag
         _started = false;
 
-        // Close the server acceptor
-        _acceptor.close();
-
         // Call the server stopped handler
         onStopped();
     });
 
     return true;
+}
+
+template <class TServer, class TSession>
+inline bool TCPServer<TServer, TSession>::Restart()
+{
+    if (!Stop())
+        return false;
+
+    while (IsStarted())
+        CppCommon::Thread::Yield();
+
+    return Start();
 }
 
 template <class TServer, class TSession>
@@ -110,18 +151,17 @@ inline void TCPServer<TServer, TSession>::Accept()
 
     // Dispatch the disconnect routine
     auto self(this->shared_from_this());
-    _service->service().dispatch([this, self]()
+    _service->Dispatch([this, self]()
     {
+        if (!IsStarted())
+            return;
+
         _acceptor.async_accept(_socket, [this, self](std::error_code ec)
         {
-            // Check if the server is stopped
-            if (!IsStarted())
-                return;
-
             if (!ec)
                 RegisterSession();
             else
-                onError(ec.value(), ec.category().name(), ec.message());
+                SendError(ec);
 
             // Perform the next server accept
             Accept();
@@ -132,18 +172,35 @@ inline void TCPServer<TServer, TSession>::Accept()
 template <class TServer, class TSession>
 inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t size)
 {
+    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((size > 0) && "Buffer size should be greater than zero!");
+    if ((buffer == nullptr) || (size == 0))
+        return false;
+
     if (!IsStarted())
         return false;
 
-    std::lock_guard<std::mutex> locker(_multicast_lock);
+    {
+        std::lock_guard<std::mutex> locker(_multicast_lock);
 
-    const uint8_t* bytes = (const uint8_t*)buffer;
-    _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
+        // Fill the multicast buffer
+        const uint8_t* bytes = (const uint8_t*)buffer;
+        _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
+    }
 
     // Dispatch the multicast routine
     auto self(this->shared_from_this());
-    _service->service().dispatch([this, self]()
+    _service->Dispatch([this, self]()
     {
+        if (!IsStarted())
+            return;
+
+        std::lock_guard<std::mutex> locker(_multicast_lock);
+
+        // Check for empty multicast buffer
+        if (_multicast_buffer.empty())
+            return;
+
         // Multicast all sessions
         for (auto& session : _sessions)
             session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
@@ -163,13 +220,10 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
 
     // Dispatch the disconnect routine
     auto self(this->shared_from_this());
-    _service->service().dispatch([this, self]()
+    _service->Dispatch([this, self]()
     {
-        // Clear the multicast buffer
-        {
-            std::lock_guard<std::mutex> locker(_multicast_lock);
-            _multicast_buffer.clear();
-        }
+        if (!IsStarted())
+            return;
 
         // Disconnect all sessions
         for (auto& session : _sessions)
@@ -183,12 +237,12 @@ template <class TServer, class TSession>
 inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
 {
     // Create and register a new session
-    auto session = std::make_shared<TSession>(std::move(_socket));
+    auto self(this->shared_from_this());
+    auto session = std::make_shared<TSession>(self, std::move(_socket));
     _sessions.emplace(session->id(), session);
 
     // Connect a new session
-    auto self(this->shared_from_this());
-    session->Connect(self);
+    session->Connect();
 
     // Call a new session connected handler
     onConnected(session);
@@ -209,6 +263,32 @@ inline void TCPServer<TServer, TSession>::UnregisterSession(const CppCommon::UUI
         // Erase the session
         _sessions.erase(it);
     }
+}
+
+template <class TServer, class TSession>
+inline void TCPServer<TServer, TSession>::ClearBuffers()
+{
+    std::lock_guard<std::mutex> locker(_multicast_lock);
+
+    _multicast_buffer.clear();
+}
+
+template <class TServer, class TSession>
+inline void TCPServer<TServer, TSession>::SendError(std::error_code ec)
+{
+    // Skip Asio disconnect errors
+    if ((ec == asio::error::connection_aborted) ||
+        (ec == asio::error::connection_refused) ||
+        (ec == asio::error::connection_reset) ||
+        (ec == asio::error::eof) ||
+        (ec == asio::error::operation_aborted))
+        return;
+
+    // Skip Winsock error 995: The I/O operation has been aborted because of either a thread exit or an application request
+    if (ec.value() == 995)
+        return;
+
+    onError(ec.value(), ec.category().name(), ec.message());
 }
 
 } // namespace Asio

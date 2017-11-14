@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" buildAllGenerated="true">
+    <generated>
+      <config projectName="cppserver" targetName="cppserver-example-ssl_chat_client" />
+      <config projectName="cppserver" targetName="fmt" />
+      <config projectName="cppserver" targetName="cppserver-tests" />
+      <config projectName="cppserver" targetName="cppbenchmark" />
+      <config projectName="cppserver" targetName="cppserver-example-udp_multicast_client" />
+      <config projectName="cppserver" targetName="nanomsg" />
+      <config projectName="cppserver" targetName="zlib" />
+      <config projectName="cppserver" targetName="cppserver-example-udp_echo_server" />
+      <config projectName="cppserver" targetName="asio" />
+      <config projectName="cppserver" targetName="doxygen" />
+      <config projectName="cppserver" targetName="cpp-optparse" />
+      <config projectName="cppserver" targetName="cppserver-example-ssl_chat_server" />
+      <config projectName="cppserver" targetName="HdrHistogram" />
+      <config projectName="cppserver" targetName="cppserver-example-udp_multicast_server" />
+      <config projectName="cppserver" targetName="cppcommon" />
+      <config projectName="cppserver" targetName="cppserver-example-websocket_chat_server" />
+      <config projectName="cppserver" targetName="cppserver" />
+      <config projectName="cppserver" targetName="nanocat" />
+      <config projectName="cppserver" targetName="cppserver-example-udp_echo_client" />
+      <config projectName="cppserver" targetName="dist" />
+      <config projectName="cppserver" targetName="cppserver-example-tcp_chat_server" />
+      <config projectName="cppserver" targetName="cppserver-example-tcp_chat_client" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration CONFIG_NAME="Debug" GENERATION_DIR="temp" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2ae92bd5-1c15-4805-8771-2352ad46d684" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/websocket_chat_server.cpp" afterPath="$PROJECT_DIR$/examples/websocket_chat_server.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/server/asio/ssl_server.h" afterPath="$PROJECT_DIR$/include/server/asio/ssl_server.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/server/asio/tcp_server.h" afterPath="$PROJECT_DIR$/include/server/asio/tcp_server.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/server/asio/udp_server.h" afterPath="$PROJECT_DIR$/include/server/asio/udp_server.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/server/asio/websocket.h" afterPath="$PROJECT_DIR$/include/server/asio/websocket.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/server/asio/websocket_server.h" afterPath="$PROJECT_DIR$/include/server/asio/websocket_server.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/server/asio/websocket_server.inl" afterPath="$PROJECT_DIR$/include/server/asio/websocket_server.inl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/server/asio/websocket_session.h" afterPath="$PROJECT_DIR$/include/server/asio/websocket_session.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/server/asio/websocket_session.inl" afterPath="$PROJECT_DIR$/include/server/asio/websocket_session.inl" />
+    </list>
+    <ignored path="CppServer.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="CppServer" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/include/server/asio/ssl_server.h" />
+        <option value="$PROJECT_DIR$/include/server/asio/tcp_server.h" />
+        <option value="$PROJECT_DIR$/include/server/asio/udp_server.h" />
+        <option value="$PROJECT_DIR$/include/server/asio/websocket.h" />
+        <option value="$PROJECT_DIR$/include/server/asio/websocket_server.h" />
+        <option value="$PROJECT_DIR$/include/server/asio/websocket_server.inl" />
+        <option value="$PROJECT_DIR$/include/server/asio/websocket_session.h" />
+        <option value="$PROJECT_DIR$/include/server/asio/websocket_session.inl" />
+        <option value="$PROJECT_DIR$/examples/websocket_chat_server.cpp" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="65" />
+    <option name="y" value="24" />
+    <option name="width" value="1615" />
+    <option name="height" value="1026" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cppserver" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CppServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
+    <property name="js.eslint.eslintPackage" value="" />
+  </component>
+  <component name="RunManager" selected="Application.Build All">
+    <configuration default="true" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CppServer" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CppServer" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CppServer" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CppServer" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CppServer" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CppServer" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CppServer" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Build All" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-ssl_chat_client" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-ssl_chat_client" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-ssl_chat_client">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-ssl_chat_server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-ssl_chat_server" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-ssl_chat_server">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-tcp_chat_client" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-tcp_chat_client" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-tcp_chat_client">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-tcp_chat_server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-tcp_chat_server" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-tcp_chat_server">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-udp_echo_client" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-udp_echo_client" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-udp_echo_client">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-udp_echo_server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-udp_echo_server" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-udp_echo_server">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-udp_multicast_client" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-udp_multicast_client" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-udp_multicast_client">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-udp_multicast_server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-udp_multicast_server" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-udp_multicast_server">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-tests" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-tests" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-tests">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="doxygen" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="doxygen" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="asio" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="asio" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppbenchmark" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppbenchmark" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cpp-optparse" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cpp-optparse" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="HdrHistogram" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="HdrHistogram" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="zlib" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="zlib" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppcommon" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppcommon" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="fmt" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="fmt" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="dist" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="dist" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="nanocat" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="nanocat" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="nanocat">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="nanomsg" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="nanomsg" CONFIG_NAME="Release">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="cppserver-example-websocket_chat_server" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cppserver" TARGET_NAME="cppserver-example-websocket_chat_server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cppserver" RUN_TARGET_NAME="cppserver-example-websocket_chat_server">
+      <envs />
+      <method />
+    </configuration>
+    <list size="23">
+      <item index="0" class="java.lang.String" itemvalue="Application.Build All" />
+      <item index="1" class="java.lang.String" itemvalue="Application.cppserver" />
+      <item index="2" class="java.lang.String" itemvalue="Application.cppserver-example-ssl_chat_client" />
+      <item index="3" class="java.lang.String" itemvalue="Application.cppserver-example-ssl_chat_server" />
+      <item index="4" class="java.lang.String" itemvalue="Application.cppserver-example-tcp_chat_client" />
+      <item index="5" class="java.lang.String" itemvalue="Application.cppserver-example-tcp_chat_server" />
+      <item index="6" class="java.lang.String" itemvalue="Application.cppserver-example-udp_echo_client" />
+      <item index="7" class="java.lang.String" itemvalue="Application.cppserver-example-udp_echo_server" />
+      <item index="8" class="java.lang.String" itemvalue="Application.cppserver-example-udp_multicast_client" />
+      <item index="9" class="java.lang.String" itemvalue="Application.cppserver-example-udp_multicast_server" />
+      <item index="10" class="java.lang.String" itemvalue="Application.cppserver-tests" />
+      <item index="11" class="java.lang.String" itemvalue="Application.doxygen" />
+      <item index="12" class="java.lang.String" itemvalue="Application.asio" />
+      <item index="13" class="java.lang.String" itemvalue="Application.cppbenchmark" />
+      <item index="14" class="java.lang.String" itemvalue="Application.cpp-optparse" />
+      <item index="15" class="java.lang.String" itemvalue="Application.HdrHistogram" />
+      <item index="16" class="java.lang.String" itemvalue="Application.zlib" />
+      <item index="17" class="java.lang.String" itemvalue="Application.cppcommon" />
+      <item index="18" class="java.lang.String" itemvalue="Application.fmt" />
+      <item index="19" class="java.lang.String" itemvalue="Application.dist" />
+      <item index="20" class="java.lang.String" itemvalue="Application.nanocat" />
+      <item index="21" class="java.lang.String" itemvalue="Application.nanomsg" />
+      <item index="22" class="java.lang.String" itemvalue="Application.cppserver-example-websocket_chat_server" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ae92bd5-1c15-4805-8771-2352ad46d684" name="Default" comment="" />
+      <created>1484076684393</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1484076684393</updated>
+      <workItem from="1484076685709" duration="1064000" />
+      <workItem from="1484079441285" duration="170000" />
+      <workItem from="1484079990376" duration="14250000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="15484000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="65" y="24" width="1615" height="1026" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2495356" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32912722" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912722" sideWeight="0.50216717" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39957938" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <option name="time" value="5" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/tcp_session.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="138" column="35" lean-forward="true" selection-start-line="133" selection-start-column="0" selection-end-line="138" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/service.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-135">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/tcp_server.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="144" column="1" lean-forward="true" selection-start-line="119" selection-start-column="0" selection-end-line="144" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/ssl_client.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1845">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/ssl_server.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="156" column="6" lean-forward="false" selection-start-line="154" selection-start-column="0" selection-end-line="156" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/ssl_session.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1890">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/udp_server.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="171" column="8" lean-forward="false" selection-start-line="171" selection-start-column="8" selection-end-line="171" selection-end-column="8" />
+          <folding>
+            <marker date="1484090672836" expanded="true" signature="256:6150" ph="{...}" />
+            <marker date="1484090672836" expanded="true" signature="273:6130" ph="{...}" />
+            <marker date="1484090672836" expanded="true" signature="453:5995" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/tcp_server.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="150" column="6" lean-forward="false" selection-start-line="148" selection-start-column="0" selection-end-line="150" selection-end-column="6" />
+          <folding>
+            <marker date="1484090672816" expanded="true" signature="311:4804" ph="{...}" />
+            <marker date="1484090672816" expanded="true" signature="328:4784" ph="{...}" />
+            <marker date="1484090672816" expanded="true" signature="627:4719" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/websocket.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="74" lean-forward="false" selection-start-line="22" selection-start-column="55" selection-end-line="22" selection-end-column="74" />
+          <folding>
+            <element signature="e#266#311#0" expanded="false" />
+            <marker date="1484093732621" expanded="true" signature="384:677" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/websocket_server.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="90" column="27" lean-forward="false" selection-start-line="90" selection-start-column="27" selection-end-line="90" selection-end-column="27" />
+          <folding>
+            <element signature="e#238#268#0" expanded="false" />
+            <element signature="e#5484#5516#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/websocket_session.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+          <folding>
+            <element signature="e#242#262#0" expanded="false" />
+            <marker date="1484094684080" expanded="true" signature="333:3636" ph="{...}" />
+            <marker date="1484094684080" expanded="true" signature="350:3616" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/websocket_session.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+          <folding>
+            <marker date="1484094684092" expanded="true" signature="457:460" ph="{...}" />
+            <marker date="1484094684092" expanded="true" signature="600:1358" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/mutex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="134" column="0" lean-forward="false" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/x86_64-linux-gnu/c++/5/bits/gthr-default.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="746" column="0" lean-forward="false" selection-start-line="746" selection-start-column="0" selection-end-line="746" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/websocketpp/websocketpp/logger/basic.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="124" column="0" lean-forward="false" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/websocketpp/websocketpp/endpoint.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="221" column="0" lean-forward="false" selection-start-line="221" selection-start-column="0" selection-end-line="221" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/server/asio/websocket_server.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/websocket_chat_server.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="826">
+          <caret line="112" column="0" lean-forward="false" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+          <folding>
+            <element signature="e#162#203#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/websocketpp/websocketpp/connection.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="371" column="0" lean-forward="false" selection-start-line="371" selection-start-column="0" selection-end-line="371" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

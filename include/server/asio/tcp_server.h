@@ -48,7 +48,7 @@ public:
         \param port - Port number
     */
     explicit TCPServer(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize TCP server with a given TCP endpoint
+    //! Initialize TCP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server TCP endpoint
@@ -56,7 +56,7 @@ public:
     explicit TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = default;
-    virtual ~TCPServer() { Stop(); }
+    virtual ~TCPServer() = default;
 
     TCPServer& operator=(const TCPServer&) = delete;
     TCPServer& operator=(TCPServer&&) = default;
@@ -68,7 +68,14 @@ public:
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
 
-    //! Is the service started?
+    //! Get the number of sessions currently connected to this server
+    uint64_t current_sessions() const noexcept { return _sessions.size(); }
+    //! Get the number of bytes sent by this server
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
+    //! Get the number of bytes received by this server
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
+
+    //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
     //! Start the server
@@ -81,14 +88,25 @@ public:
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
     */
     bool Stop();
+    //! Restart the server
+    /*!
+        \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
+    */
+    bool Restart();
 
     //! Multicast data to all connected sessions
     /*!
-        \param buffer - Buffer to send
+        \param buffer - Buffer to multicast
         \param size - Buffer size
         \return 'true' if the data was successfully multicast, 'false' if the server it not started
     */
     bool Multicast(const void* buffer, size_t size);
+    //! Multicast a text string to all connected sessions
+    /*!
+        \param text - Text string to multicast
+        \return 'true' if the text string was successfully multicast, 'false' if the server it not started
+    */
+    bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
 
     //! Disconnect all connected sessions
     /*!
@@ -106,12 +124,12 @@ protected:
     /*!
         \param session - Connected session
     */
-    virtual void onConnected(std::shared_ptr<TSession> session) {}
+    virtual void onConnected(std::shared_ptr<TSession>& session) {}
     //! Handle session disconnected notification
     /*!
         \param session - Disconnected session
     */
-    virtual void onDisconnected(std::shared_ptr<TSession> session) {}
+    virtual void onDisconnected(std::shared_ptr<TSession>& session) {}
 
     //! Handle error notification
     /*!
@@ -129,6 +147,9 @@ private:
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
+    // Server statistic
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
     // Server sessions
     std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
     // Multicast buffer
@@ -141,7 +162,16 @@ private:
     //! Register a new session
     std::shared_ptr<TSession> RegisterSession();
     //! Unregister the given session
+    /*!
+        \param id - Session Id
+    */
     void UnregisterSession(const CppCommon::UUID& id);
+
+    //! Clear multicast buffer
+    void ClearBuffers();
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example tcp_chat_server.cpp TCP chat server example */

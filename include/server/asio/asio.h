@@ -12,8 +12,10 @@
 #define ASIO_STANDALONE
 #define ASIO_SEPARATE_COMPILATION
 
-#include "../../../modules/asio/asio/include/asio.hpp"
-#include "../../../modules/asio/asio/include/asio/ssl.hpp"
+#include <iostream>
+
+#include <asio.hpp>
+#include <asio/ssl.hpp>
 
 #if defined(_WIN32) || defined(_WIN64)
 #undef Yield
@@ -22,17 +24,28 @@
 namespace CppServer {
 
 /*!
-    \namespace Asio
+    \namespace CppServer::Asio
     \brief Asio definitions
 */
 namespace Asio {
 
-//! Internet protocols
+//! Socket buffer chunk
+const size_t CHUNK = 8192;
+
+//! Internet protocol
 enum class InternetProtocol
 {
     IPv4,               //!< Internet Protocol version 4
     IPv6                //!< Internet Protocol version 6
 };
+
+//! Stream output: Internet protocol
+/*!
+    \param stream - Output stream
+    \param protocol - Internet protocol
+    \return Output stream
+*/
+std::ostream& operator<<(std::ostream& stream, InternetProtocol protocol);
 
 } // namespace Asio
 

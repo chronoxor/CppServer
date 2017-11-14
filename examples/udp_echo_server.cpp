@@ -6,6 +6,8 @@
     \copyright MIT License
 */
 
+#include "asio_service.h"
+
 #include "server/asio/udp_server.h"
 
 #include <iostream>
@@ -18,11 +20,11 @@ public:
 protected:
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
-        std::string messsage((const char*)buffer, size);
-        std::cout << "Incoming: " << messsage << std::endl;
+        std::string message((const char*)buffer, size);
+        std::cout << "Incoming: " << message << std::endl;
 
         // Echo the message back to the sender
-        Send(endpoint, buffer, size);
+        Send(endpoint, message);
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -39,28 +41,51 @@ int main(int argc, char** argv)
         port = std::atoi(argv[1]);
 
     std::cout << "UDP server port: " << port << std::endl;
-    std::cout << "Press Enter to stop..." << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<CppServer::Asio::Service>();
+    auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new UDP echo server
     auto server = std::make_shared<EchoServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
 
     // Start the server
+    std::cout << "Server starting...";
     server->Start();
+    std::cout << "Done!" << std::endl;
 
-    // Wait for input
-    std::cin.get();
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+    }
 
     // Stop the server
+    std::cout << "Server stopping...";
     server->Stop();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

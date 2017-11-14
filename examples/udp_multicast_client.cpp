@@ -6,7 +6,10 @@
     \copyright MIT License
 */
 
+#include "asio_service.h"
+
 #include "server/asio/udp_client.h"
+#include "threads/thread.h"
 
 #include <iostream>
 
@@ -26,11 +29,12 @@ protected:
         // Join UDP multicast group
         JoinMulticastGroup(multicast);
     }
+
     void onDisconnected() override
     {
         std::cout << "Multicast UDP client disconnected a session with Id " << id() << std::endl;
 
-        // Try to wait for a while
+        // Wait for a while...
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again
@@ -68,20 +72,25 @@ int main(int argc, char** argv)
     std::cout << "UDP listen address: " << listen_address << std::endl;
     std::cout << "UDP multicast address: " << multicast_address << std::endl;
     std::cout << "UDP multicast port: " << multicast_port << std::endl;
-    std::cout << "Press Enter to stop or '!' for disconnect..." << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<CppServer::Asio::Service>();
+    auto service = std::make_shared<AsioService>();
 
     // Start the service
+    std::cout << "Asio service starting...";
     service->Start();
+    std::cout << "Done!" << std::endl;
 
     // Create a new UDP multicast client
     auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_port, true);
     client->multicast = multicast_address;
 
     // Connect the client
+    std::cout << "Client connecting...";
     client->Connect();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -93,16 +102,22 @@ int main(int argc, char** argv)
         // Disconnect the client
         if (line == "!")
         {
+            std::cout << "Client disconnecting...";
             client->Disconnect();
+            std::cout << "Done!" << std::endl;
             continue;
         }
     }
 
     // Disconnect the client
+    std::cout << "Client disconnecting...";
     client->Disconnect();
+    std::cout << "Done!" << std::endl;
 
     // Stop the service
+    std::cout << "Asio service stopping...";
     service->Stop();
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }

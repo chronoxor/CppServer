@@ -23,7 +23,7 @@ GitHub: https://github.com/chronoxor/CppServer
 
 /*!
     \namespace CppServer
-    \brief C++ server project definitions
+    \brief C++ Server project definitions
 */
 namespace CppServer {
 
