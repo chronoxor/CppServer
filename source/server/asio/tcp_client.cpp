@@ -21,8 +21,8 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _sending(false),
       _recive_buffer(CHUNK + 1),
+      _sending(false),
       _send_buffer_flush_offset(0)
 {
     assert((service != nullptr) && "ASIO service is invalid!");
@@ -40,8 +40,8 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _sending(false),
       _recive_buffer(CHUNK + 1),
+      _sending(false),
       _send_buffer_flush_offset(0)
 {
     assert((service != nullptr) && "ASIO service is invalid!");

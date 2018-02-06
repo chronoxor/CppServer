@@ -18,8 +18,8 @@ inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServ
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _sending(false),
       _recive_buffer(CHUNK + 1),
+      _sending(false),
       _send_buffer_flush_offset(0)
 {
 }
