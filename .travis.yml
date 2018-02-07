@@ -21,14 +21,14 @@ matrix:
             - uuid-dev
     - os: linux
       compiler: clang
-      env: OS=linux COMPILER=clang CLANG_VERSION=4.0
+      env: OS=linux COMPILER=clang CLANG_VERSION=5.0
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-4.0
+            - llvm-toolchain-trusty-5.0
           packages:
-            - clang-4.0
+            - clang-5.0
             - libc++-dev
             - libc++abi-dev
             - cmake
@@ -39,7 +39,7 @@ matrix:
     - os: osx
       compiler: clang
       env: OS=osx COMPILER=clang
-      osx_image: xcode9
+      osx_image: xcode9.2
 
 # Using Trusty environment
 sudo: required
@@ -58,7 +58,7 @@ git:
 # Scripts that run before install
 before_install:
   # cmake
-  - if [ "$OS" == "linux" ]; then curl -sSL https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh -o install-cmake.sh; fi
+  - if [ "$OS" == "linux" ]; then curl -sSL https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -o install-cmake.sh; fi
   - if [ "$OS" == "linux" ]; then chmod +x install-cmake.sh; fi
   - if [ "$OS" == "linux" ]; then sudo ./install-cmake.sh --prefix=/usr/local --skip-license; fi
   - cmake --version
