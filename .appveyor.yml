@@ -9,9 +9,6 @@ branches:
   only: 
     - master
 
-# Clone depth
-clone_depth: 1
-
 # Including commits with 'build' comment
 only_commits:
   message: build

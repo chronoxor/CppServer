@@ -51,10 +51,6 @@ branches:
   only:
     - master
 
-# Clone depth
-git:
-  depth: 1
-
 # Scripts that run before install
 before_install:
   # cmake
