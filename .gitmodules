@@ -26,10 +26,6 @@
 	path = modules/nanomsg
 	url = https://github.com/nanomsg/nanomsg.git
 	branch = master
-[submodule "modules/restbed"]
-	path = modules/restbed
-	url = https://github.com/chronoxor/restbed.git
-	branch = master
 [submodule "modules/websocketpp"]
 	path = modules/websocketpp
 	url = https://github.com/chronoxor/websocketpp.git
