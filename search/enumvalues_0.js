@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['bus',['Bus',['../namespace_cpp_server_1_1_nanomsg.html#a47fb16247c7d3dba55ac8950b9954ff6a6e4b38bfd57741ac1597c440a1c98074',1,'CppServer::Nanomsg']]]
+  ['ipv4',['IPv4',['../namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626',1,'CppServer::Asio']]],
+  ['ipv6',['IPv6',['../namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4afdb7cb8f657426e7c409bfd6d1a36ce4',1,'CppServer::Asio']]]
 ];
