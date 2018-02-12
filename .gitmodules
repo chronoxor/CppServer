@@ -26,7 +26,3 @@
 	path = modules/CppCommon
 	url = https://github.com/chronoxor/CppCommon.git
 	branch = master
-[submodule "modules/websocketpp"]
-	path = modules/websocketpp
-	url = https://github.com/chronoxor/websocketpp.git
-	branch = develop
