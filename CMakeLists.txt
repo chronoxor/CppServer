@@ -22,14 +22,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Compiler features
 include(SetCompilerFeatures)
+include(SetCompilerWarnings)
 include(SetPlatformFeatures)
-if(MSVC)
-  # C4267: 'var' : conversion from 'size_t' to 'type', possible loss of data
-  # C4503: 'identifier' : decorated name length exceeded, name was truncated
-  # C4996: The compiler encountered a deprecated declaration
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4267 /wd4503 /wd4996")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4267 /wd4503 /wd4996")
-endif()
 
 # External packages
 set(OPENSSL_USE_STATIC_LIBS TRUE)
@@ -78,8 +72,8 @@ list(APPEND LINKLIBS cppcommon)
 file(GLOB_RECURSE SOURCE_FILES "source/*.cpp")
 set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
 add_library(cppserver ${SOURCE_FILES})
-target_include_directories(cppserver PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/modules/asio/asio/include" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/modules/nanomsg/src" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/modules/restbed/source" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/modules/websocketpp" PUBLIC ${OPENSSL_INCLUDE_DIR})
-target_link_libraries(cppserver ${LINKLIBS} asio nanomsg restbed)
+target_include_directories(cppserver PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/modules/asio/asio/include" PUBLIC ${OPENSSL_INCLUDE_DIR})
+target_link_libraries(cppserver ${LINKLIBS} asio)
 set_target_properties(cppserver PROPERTIES FOLDER libraries)
 list(APPEND INSTALL_TARGETS cppserver)
 list(APPEND LINKLIBS cppserver)

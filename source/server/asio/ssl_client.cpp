@@ -23,7 +23,7 @@ public:
         : _id(id),
           _service(service),
           _context(context),
-          _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
+          _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
           _stream(*_service->service(), *_context),
           _connecting(false),
           _connected(false),

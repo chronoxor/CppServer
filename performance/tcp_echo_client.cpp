@@ -14,13 +14,13 @@
 #include <iostream>
 #include <vector>
 
-#include "../../modules/cpp-optparse/OptionParser.h"
+#include "../modules/cpp-optparse/OptionParser.h"
 
 using namespace CppBenchmark;
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-std::vector<uint8_t> message;
+std::vector<uint8_t> message_to_send;
 
 uint64_t timestamp_start = 0;
 uint64_t timestamp_stop = 0;
@@ -53,20 +53,20 @@ protected:
     void onSent(size_t sent, size_t pending) override
     {
         _sent += sent;
-        while (_sent >= message.size())
+        while (_sent >= message_to_send.size())
         {
             SendMessage();
-            _sent -= message.size();
+            _sent -= message_to_send.size();
         }
     }
 
     void onReceived(const void* buffer, size_t size) override
     {
         _received += size;
-        while (_received >= message.size())
+        while (_received >= message_to_send.size())
         {
             ReceiveMessage();
-            _received -= message.size();
+            _received -= message_to_send.size();
         }
 
         timestamp_stop = Timestamp::nano();
@@ -88,7 +88,7 @@ private:
     void SendMessage()
     {
         if (_messages_output-- > 0)
-            Send(message.data(), message.size());
+            Send(message_to_send.data(), message_to_send.size());
     }
 
     void ReceiveMessage()
@@ -135,7 +135,7 @@ int main(int argc, char** argv)
     std::cout << "Message size: " << message_size << std::endl;
 
     // Prepare a message to send
-    message.resize(message_size, 0);
+    message_to_send.resize(message_size, 0);
 
     // Create Asio services
     std::vector<std::shared_ptr<Service>> services;

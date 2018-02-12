@@ -14,13 +14,13 @@
 #include <iostream>
 #include <vector>
 
-#include "../../modules/cpp-optparse/OptionParser.h"
+#include "../modules/cpp-optparse/OptionParser.h"
 
 using namespace CppBenchmark;
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-std::vector<uint8_t> message;
+std::vector<uint8_t> message_to_send;
 
 uint64_t timestamp_start = 0;
 uint64_t timestamp_stop = 0;
@@ -65,7 +65,7 @@ private:
     void SendMessage()
     {
         if (_messages-- > 0)
-            Send(message.data(), message.size());
+            Send(message_to_send.data(), message_to_send.size());
         else
             Disconnect();
     }
@@ -108,7 +108,7 @@ int main(int argc, char** argv)
     std::cout << "Message size: " << message_size << std::endl;
 
     // Prepare a message to send
-    message.resize(message_size, 0);
+    message_to_send.resize(message_size, 0);
 
     // Create Asio services
     std::vector<std::shared_ptr<Service>> services;

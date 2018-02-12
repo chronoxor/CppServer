@@ -14,7 +14,7 @@ namespace Asio {
 TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
-      _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port)),
+      _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
       _socket(*_service->service()),
       _connecting(false),
       _connected(false),

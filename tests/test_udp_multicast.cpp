@@ -25,7 +25,7 @@ public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
     std::atomic<bool> idle;
-    std::atomic<bool> error;
+    std::atomic<bool> errors;
 
     explicit MulticastUDPService()
         : thread_initialize(false),
@@ -33,7 +33,7 @@ public:
           started(false),
           stopped(false),
           idle(false),
-          error(false)
+          errors(false)
     {
     }
 
@@ -43,7 +43,7 @@ protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
     void onIdle() override { idle = true; }
-    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+    void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
 class MulticastUDPClient : public UDPClient
@@ -51,20 +51,20 @@ class MulticastUDPClient : public UDPClient
 public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
-    std::atomic<bool> error;
+    std::atomic<bool> errors;
 
     explicit MulticastUDPClient(std::shared_ptr<MulticastUDPService> service, const std::string& address, int port, bool reuse_address)
         : UDPClient(service, address, port, reuse_address),
           connected(false),
           disconnected(false),
-          error(false)
+          errors(false)
     {
     }
 
 protected:
     void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; }
-    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+    void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
 class MulticastUDPServer : public UDPServer
@@ -72,20 +72,20 @@ class MulticastUDPServer : public UDPServer
 public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
-    std::atomic<bool> error;
+    std::atomic<bool> errors;
 
     explicit MulticastUDPServer(std::shared_ptr<MulticastUDPService> service, InternetProtocol protocol, int port)
         : UDPServer(service, protocol, port),
           started(false),
           stopped(false),
-          error(false)
+          errors(false)
     {
     }
 
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+    void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
 } // namespace
@@ -216,14 +216,14 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(service->started);
     REQUIRE(service->stopped);
     REQUIRE(service->idle);
-    REQUIRE(!service->error);
+    REQUIRE(!service->errors);
 
     // Check the multicast server state
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->bytes_sent() == 20);
     REQUIRE(server->bytes_received() == 0);
-    REQUIRE(!server->error);
+    REQUIRE(!server->errors);
 
     // Check the multicast client state
     REQUIRE(client1->bytes_sent() == 0);
@@ -232,9 +232,9 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     REQUIRE(client1->bytes_received() == 12);
     REQUIRE(client2->bytes_received() == 12);
     REQUIRE(client3->bytes_received() == 12);
-    REQUIRE(!client1->error);
-    REQUIRE(!client2->error);
-    REQUIRE(!client3->error);
+    REQUIRE(!client1->errors);
+    REQUIRE(!client2->errors);
+    REQUIRE(!client3->errors);
 }
 
 TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
@@ -336,5 +336,5 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
     REQUIRE(server->stopped);
     REQUIRE(server->bytes_sent() > 0);
     REQUIRE(server->bytes_received() == 0);
-    REQUIRE(!server->error);
+    REQUIRE(!server->errors);
 }

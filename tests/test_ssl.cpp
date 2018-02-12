@@ -4,6 +4,8 @@
 
 #include "catch.hpp"
 
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS 1
+
 #include "server/asio/ssl_client.h"
 #include "server/asio/ssl_server.h"
 #include "threads/thread.h"
@@ -25,7 +27,7 @@ public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
     std::atomic<bool> idle;
-    std::atomic<bool> error;
+    std::atomic<bool> errors;
 
     explicit EchoSSLService()
         : thread_initialize(false),
@@ -33,7 +35,7 @@ public:
           started(false),
           stopped(false),
           idle(false),
-          error(false)
+          errors(false)
     {
     }
 
@@ -43,7 +45,7 @@ protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
     void onIdle() override { idle = true; }
-    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+    void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
 class EchoSSLClient : public SSLClient
@@ -52,14 +54,14 @@ public:
     std::atomic<bool> connected;
     std::atomic<bool> handshaked;
     std::atomic<bool> disconnected;
-    std::atomic<bool> error;
+    std::atomic<bool> errors;
 
     explicit EchoSSLClient(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
         : SSLClient(service, context, address, port),
           connected(false),
           handshaked(false),
           disconnected(false),
-          error(false)
+          errors(false)
     {
     }
 
@@ -75,7 +77,7 @@ protected:
     void onConnected() override { connected = true; }
     void onHandshaked() override { handshaked = true; }
     void onDisconnected() override { disconnected = true; }
-    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+    void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
 class EchoSSLServer;
@@ -86,14 +88,14 @@ public:
     std::atomic<bool> connected;
     std::atomic<bool> handshaked;
     std::atomic<bool> disconnected;
-    std::atomic<bool> error;
+    std::atomic<bool> errors;
 
     explicit EchoSSLSession(std::shared_ptr<SSLServer<EchoSSLServer, EchoSSLSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context)
         : SSLSession<EchoSSLServer, EchoSSLSession>(server, std::move(socket), context),
           connected(false),
           handshaked(false),
           disconnected(false),
-          error(false)
+          errors(false)
     {
     }
 
@@ -102,7 +104,7 @@ protected:
     void onHandshaked() override { handshaked = true; }
     void onDisconnected() override { disconnected = true; }
     void onReceived(const void* buffer, size_t size) override { Send(buffer, size); }
-    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+    void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
 class EchoSSLServer : public SSLServer<EchoSSLServer, EchoSSLSession>
@@ -113,7 +115,7 @@ public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
     std::atomic<size_t> clients;
-    std::atomic<bool> error;
+    std::atomic<bool> errors;
 
     explicit EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
         : SSLServer<EchoSSLServer, EchoSSLSession>(service, context, protocol, port),
@@ -122,7 +124,7 @@ public:
           connected(false),
           disconnected(false),
           clients(0),
-          error(false)
+          errors(false)
     {
     }
 
@@ -142,7 +144,7 @@ protected:
     void onStopped() override { stopped = true; }
     void onConnected(std::shared_ptr<EchoSSLSession>& session) override { connected = true; ++clients; }
     void onDisconnected(std::shared_ptr<EchoSSLSession>& session) override { disconnected = true; --clients; }
-    void onError(int error, const std::string& category, const std::string& message) override { error = true; }
+    void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
 } // namespace
@@ -204,7 +206,7 @@ TEST_CASE("SSL server", "[CppServer][Asio]")
     REQUIRE(service->started);
     REQUIRE(service->stopped);
     REQUIRE(!service->idle);
-    REQUIRE(!service->error);
+    REQUIRE(!service->errors);
 
     // Check the Echo server state
     REQUIRE(server->started);
@@ -213,7 +215,7 @@ TEST_CASE("SSL server", "[CppServer][Asio]")
     REQUIRE(server->disconnected);
     REQUIRE(server->bytes_sent() == 4);
     REQUIRE(server->bytes_received() == 4);
-    REQUIRE(!server->error);
+    REQUIRE(!server->errors);
 
     // Check the Echo client state
     REQUIRE(client->connected);
@@ -221,7 +223,7 @@ TEST_CASE("SSL server", "[CppServer][Asio]")
     REQUIRE(client->disconnected);
     REQUIRE(client->bytes_sent() == 4);
     REQUIRE(client->bytes_received() == 4);
-    REQUIRE(!client->error);
+    REQUIRE(!client->errors);
 }
 
 TEST_CASE("SSL server multicast", "[CppServer][Asio]")
@@ -331,7 +333,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
     REQUIRE(service->started);
     REQUIRE(service->stopped);
     REQUIRE(service->idle);
-    REQUIRE(!service->error);
+    REQUIRE(!service->errors);
 
     // Check the Echo server state
     REQUIRE(server->started);
@@ -340,7 +342,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
     REQUIRE(server->disconnected);
     REQUIRE(server->bytes_sent() == 36);
     REQUIRE(server->bytes_received() == 0);
-    REQUIRE(!server->error);
+    REQUIRE(!server->errors);
 
     // Check the Echo client state
     REQUIRE(client1->bytes_sent() == 0);
@@ -349,9 +351,9 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
     REQUIRE(client1->bytes_received() == 12);
     REQUIRE(client2->bytes_received() == 12);
     REQUIRE(client3->bytes_received() == 12);
-    REQUIRE(!client1->error);
-    REQUIRE(!client2->error);
-    REQUIRE(!client3->error);
+    REQUIRE(!client1->errors);
+    REQUIRE(!client2->errors);
+    REQUIRE(!client3->errors);
 }
 
 TEST_CASE("SSL server random test", "[CppServer][Asio]")
@@ -479,5 +481,5 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     REQUIRE(server->disconnected);
     REQUIRE(server->bytes_sent() > 0);
     REQUIRE(server->bytes_received() > 0);
-    REQUIRE(!server->error);
+    REQUIRE(!server->errors);
 }

@@ -25,10 +25,10 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
     switch (protocol)
     {
         case InternetProtocol::IPv4:
-            _endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port);
+            _endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v4(), (unsigned short)port);
             break;
         case InternetProtocol::IPv6:
-            _endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v6(), port);
+            _endpoint = asio::ip::tcp::endpoint(asio::ip::tcp::v6(), (unsigned short)port);
             break;
     }
 }
@@ -46,7 +46,7 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
     if (service == nullptr)
         throw CppCommon::ArgumentException("ASIO service is invalid!");
 
-    _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), port);
+    _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
 }
 
 template <class TServer, class TSession>

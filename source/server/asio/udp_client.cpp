@@ -14,7 +14,7 @@ namespace Asio {
 UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
-      _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
+      _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
       _socket(*_service->service()),
       _connected(false),
       _datagrams_sent(0),
@@ -54,7 +54,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
 UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
-      _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), port)),
+      _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
       _socket(*_service->service()),
       _connected(false),
       _datagrams_sent(0),
