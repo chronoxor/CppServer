@@ -10,10 +10,6 @@
 	path = modules/asio
 	url = https://github.com/chronoxor/asio.git
 	branch = master
-[submodule "modules/catch"]
-	path = modules/catch
-	url = https://github.com/philsquared/Catch.git
-	branch = master
 [submodule "modules/cpp-optparse"]
 	path = modules/cpp-optparse
 	url = https://github.com/weisslj/cpp-optparse.git
