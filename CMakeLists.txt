@@ -113,7 +113,7 @@ if(NOT CPPSERVER_MODULE)
   # Tests
   file(GLOB TESTS_SOURCE_FILES "tests/*.cpp")
   set_source_files_properties(${TESTS_SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
-  add_executable(cppserver-tests ${CATCH2} ${TESTS_SOURCE_FILES})
+  add_executable(cppserver-tests ${Catch2} ${TESTS_SOURCE_FILES})
   target_link_libraries(cppserver-tests ${LINKLIBS})
   set_target_properties(cppserver-tests PROPERTIES FOLDER tests)
   list(APPEND INSTALL_TARGETS cppserver-tests)
