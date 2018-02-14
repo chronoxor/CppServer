@@ -9,10 +9,18 @@
 #ifndef CPPSERVER_ASIO_H
 #define CPPSERVER_ASIO_H
 
+#include <iostream>
+
+#if defined(__clang__)
+#pragma clang system_header
+#elif defined(__GNUC__)
+#pragma GCC system_header
+#elif defined(_MSC_VER)
+#pragma system_header
+#endif
+
 #define ASIO_STANDALONE
 #define ASIO_SEPARATE_COMPILATION
-
-#include <iostream>
 
 #include <asio.hpp>
 #include <asio/ssl.hpp>
