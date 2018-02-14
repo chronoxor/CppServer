@@ -68,6 +68,9 @@ if(WIN32)
 endif()
 list(APPEND LINKLIBS cppcommon)
 
+# System directories
+include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/modules")
+
 # Library
 file(GLOB_RECURSE SOURCE_FILES "source/*.cpp")
 set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
@@ -110,8 +113,7 @@ if(NOT CPPSERVER_MODULE)
   # Tests
   file(GLOB TESTS_SOURCE_FILES "tests/*.cpp")
   set_source_files_properties(${TESTS_SOURCE_FILES} PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
-  add_executable(cppserver-tests ${CATCH} ${TESTS_SOURCE_FILES})
-  target_include_directories(cppserver-tests PRIVATE "modules/catch/single_include")
+  add_executable(cppserver-tests ${CATCH2} ${TESTS_SOURCE_FILES})
   target_link_libraries(cppserver-tests ${LINKLIBS})
   set_target_properties(cppserver-tests PROPERTIES FOLDER tests)
   list(APPEND INSTALL_TARGETS cppserver-tests)

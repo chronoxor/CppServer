@@ -2,9 +2,7 @@
 // Created by Ivan Shynkarenka on 01.01.2017
 //
 
-#include "catch.hpp"
-
-#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS 1
+#include "test.h"
 
 #include "server/asio/ssl_client.h"
 #include "server/asio/ssl_server.h"

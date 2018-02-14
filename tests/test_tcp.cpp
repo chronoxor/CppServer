@@ -2,7 +2,7 @@
 // Created by Ivan Shynkarenka on 16.12.2016
 //
 
-#include "catch.hpp"
+#include "test.h"
 
 #include "server/asio/tcp_client.h"
 #include "server/asio/tcp_server.h"

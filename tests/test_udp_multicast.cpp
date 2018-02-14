@@ -2,7 +2,7 @@
 // Created by Ivan Shynkarenka on 27.12.2016
 //
 
-#include "catch.hpp"
+#include "test.h"
 
 #include "server/asio/udp_client.h"
 #include "server/asio/udp_server.h"

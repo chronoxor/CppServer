@@ -22,3 +22,7 @@
 	path = modules/CppCommon
 	url = https://github.com/chronoxor/CppCommon.git
 	branch = master
+[submodule "modules/Catch2"]
+	path = modules/Catch2
+	url = https://github.com/catchorg/Catch2.git
+	branch = master

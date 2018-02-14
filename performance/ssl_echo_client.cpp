@@ -14,7 +14,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../modules/cpp-optparse/OptionParser.h"
+#include <cpp-optparse/OptionParser.h>
 
 using namespace CppBenchmark;
 using namespace CppCommon;
