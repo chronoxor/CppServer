@@ -63,6 +63,9 @@ public:
     //! Get the number of bytes received by this client
     uint64_t bytes_received() const noexcept { return _bytes_received; }
 
+    //! Get the option: no delay
+    bool option_no_delay() const noexcept { return _option_no_delay; }
+
     //! Is the client connected?
     bool IsConnected() const noexcept { return _connected; }
 
@@ -95,6 +98,16 @@ public:
         \return Count of pending bytes in the send buffer
     */
     size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
+
+    //! Setup option: no delay
+    /*!
+        This option will enable/disable Nagle's algorithm for TCP protocol.
+
+        https://en.wikipedia.org/wiki/Nagle%27s_algorithm
+
+        \param enable - Enable/disable option
+    */
+    void SetupNoDelay(bool enable) { _option_no_delay = enable; }
 
 protected:
     //! Handle client connected notification
@@ -163,6 +176,8 @@ private:
     std::vector<uint8_t> _send_buffer_main;
     std::vector<uint8_t> _send_buffer_flush;
     size_t _send_buffer_flush_offset;
+    // Options
+    bool _option_no_delay;
 
     //! Disconnect the client
     /*!

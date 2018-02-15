@@ -20,7 +20,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK + 1)
+      _recive_buffer(CHUNK + 1),
+      _option_reuse_address(false),
+      _option_reuse_port(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -46,7 +48,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK + 1)
+      _recive_buffer(CHUNK + 1),
+      _option_reuse_address(false),
+      _option_reuse_port(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -65,7 +69,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK + 1)
+      _recive_buffer(CHUNK + 1),
+      _option_reuse_address(false),
+      _option_reuse_port(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -85,8 +91,14 @@ bool UDPServer::Start()
         if (IsStarted())
             return;
 
-        // Open the server socket
-        _socket = asio::ip::udp::socket(*_service->service(), _endpoint);
+        // Open a server socket
+        _socket.open(_endpoint.protocol());
+        _socket.set_option(asio::ip::udp::socket::reuse_address(option_reuse_address()));
+#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
+        typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
+        _socket.set_option(reuse_port(option_reuse_port()));
+#endif
+        _socket.bind(_endpoint);
 
         // Reset statistic
         _datagrams_sent = 0;

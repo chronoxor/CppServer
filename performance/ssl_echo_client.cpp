@@ -42,12 +42,6 @@ public:
     }
 
 protected:
-    void onConnected() override
-    {
-        // Disable Nagle's algorithm
-        socket().set_option(asio::ip::tcp::no_delay(true));
-    }
-
     void onHandshaked() override
     {
         SendMessage();
@@ -164,6 +158,7 @@ int main(int argc, char** argv)
     for (int i = 0; i < clients_count; ++i)
     {
         auto client = std::make_shared<EchoClient>(services[i % services.size()], context, address, port, messages_count / clients_count);
+        client->SetupNoDelay(true);
         clients.emplace_back(client);
     }
 

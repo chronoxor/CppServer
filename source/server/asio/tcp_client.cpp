@@ -23,7 +23,8 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _reciving(false),
       _recive_buffer(CHUNK + 1),
       _sending(false),
-      _send_buffer_flush_offset(0)
+      _send_buffer_flush_offset(0),
+      _option_no_delay(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -42,7 +43,8 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _reciving(false),
       _recive_buffer(CHUNK + 1),
       _sending(false),
-      _send_buffer_flush_offset(0)
+      _send_buffer_flush_offset(0),
+      _option_no_delay(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -69,6 +71,9 @@ bool TCPClient::Connect()
 
             if (!ec)
             {
+                // Apply the option: no delay
+                _socket.set_option(asio::ip::tcp::no_delay(option_no_delay()));
+
                 // Reset statistic
                 _bytes_sent = 0;
                 _bytes_received = 0;

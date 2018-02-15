@@ -66,6 +66,11 @@ public:
     //! Get the number of bytes received by the server
     uint64_t bytes_received() const noexcept { return _bytes_received; }
 
+    //! Get the option: reuse address
+    bool option_reuse_address() const noexcept { return _option_reuse_address; }
+    //! Get the option: reuse port
+    bool option_reuse_port() const noexcept { return _option_reuse_port; }
+
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
@@ -130,6 +135,21 @@ public:
     */
     bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
+    //! Setup option: reuse address
+    /*!
+        This option will enable/disable SO_REUSEADDR if the OS support this feature.
+
+        \param enable - Enable/disable option
+    */
+    void SetupReuseAddress(bool enable) { _option_reuse_address = enable; }
+    //! Setup option: reuse port
+    /*!
+        This option will enable/disable SO_REUSEPORT if the OS support this feature.
+
+        \param enable - Enable/disable option
+    */
+    void SetupReusePort(bool enable) { _option_reuse_port = enable; }
+
 protected:
     //! Handle server started notification
     virtual void onStarted() {}
@@ -184,6 +204,9 @@ private:
     // Receive buffer
     bool _reciving;
     std::vector<uint8_t> _recive_buffer;
+    // Options
+    bool _option_reuse_address;
+    bool _option_reuse_port;
 
     //! Try to receive new datagram
     void TryReceive();

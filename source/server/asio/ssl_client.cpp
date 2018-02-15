@@ -34,7 +34,8 @@ public:
           _reciving(false),
           _recive_buffer(CHUNK + 1),
           _sending(false),
-          _send_buffer_flush_offset(0)
+          _send_buffer_flush_offset(0),
+          _option_no_delay(false)
     {
         assert((service != nullptr) && "Asio service is invalid!");
         if (service == nullptr)
@@ -60,7 +61,8 @@ public:
           _reciving(false),
           _recive_buffer(CHUNK + 1),
           _sending(false),
-          _send_buffer_flush_offset(0)
+          _send_buffer_flush_offset(0),
+          _option_no_delay(false)
     {
         assert((service != nullptr) && "Asio service is invalid!");
         if (service == nullptr)
@@ -83,6 +85,8 @@ public:
 
     uint64_t& bytes_sent() noexcept { return _bytes_sent; }
     uint64_t& bytes_received() noexcept { return _bytes_received; }
+
+    bool option_no_delay() const noexcept { return _option_no_delay; }
 
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
@@ -112,6 +116,9 @@ public:
 
                 if (!ec1)
                 {
+                    // Apply the option: no delay
+                    socket().set_option(asio::ip::tcp::no_delay(option_no_delay()));
+
                     // Reset statistic
                     _bytes_sent = 0;
                     _bytes_received = 0;
@@ -235,6 +242,8 @@ public:
         return result;
     }
 
+    void SetupNoDelay(bool enable) { _option_no_delay = enable; }
+
 protected:
     void onConnected() { _client->onConnected(); }
     void onHandshaked() { _client->onHandshaked(); }
@@ -272,6 +281,8 @@ private:
     std::vector<uint8_t> _send_buffer_main;
     std::vector<uint8_t> _send_buffer_flush;
     size_t _send_buffer_flush_offset;
+    // Options
+    bool _option_no_delay;
 
     void TryReceive()
     {
@@ -487,6 +498,11 @@ uint64_t SSLClient::bytes_received() const noexcept
     return _pimpl->bytes_received();
 }
 
+bool SSLClient::option_no_delay() const noexcept
+{
+    return _pimpl->option_no_delay();
+}
+
 bool SSLClient::IsConnected() const noexcept
 {
     return _pimpl->IsConnected();
@@ -522,6 +538,11 @@ bool SSLClient::Reconnect()
 size_t SSLClient::Send(const void* buffer, size_t size)
 {
     return _pimpl->Send(buffer, size);
+}
+
+void SSLClient::SetupNoDelay(bool enable)
+{
+    return _pimpl->SetupNoDelay(enable);
 }
 
 void SSLClient::onReset()

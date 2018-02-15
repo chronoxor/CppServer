@@ -16,7 +16,10 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _socket(*_service->service()),
       _started(false),
       _bytes_sent(0),
-      _bytes_received(0)
+      _bytes_received(0),
+      _option_no_delay(false),
+      _option_reuse_address(false),
+      _option_reuse_port(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -40,7 +43,10 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _socket(*_service->service()),
       _started(false),
       _bytes_sent(0),
-      _bytes_received(0)
+      _bytes_received(0),
+      _option_no_delay(false),
+      _option_reuse_address(false),
+      _option_reuse_port(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -57,7 +63,10 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _socket(*_service->service()),
       _started(false),
       _bytes_sent(0),
-      _bytes_received(0)
+      _bytes_received(0),
+      _option_no_delay(false),
+      _option_reuse_address(false),
+      _option_reuse_port(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -78,8 +87,16 @@ inline bool TCPServer<TServer, TSession>::Start()
         if (IsStarted())
             return;
 
-        // Create the server acceptor
-        _acceptor = asio::ip::tcp::acceptor(*_service->service(), _endpoint);
+        // Create a server acceptor
+        _acceptor = asio::ip::tcp::acceptor(*_service->service());
+        _acceptor.open(_endpoint.protocol());
+        _acceptor.set_option(asio::ip::tcp::acceptor::reuse_address(option_reuse_address()));
+#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
+        typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
+        _acceptor.set_option(reuse_port(option_reuse_port()));
+#endif
+        _acceptor.bind(_endpoint);
+        _acceptor.listen();
 
         // Reset statistic
         _bytes_sent = 0;

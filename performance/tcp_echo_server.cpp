@@ -24,8 +24,6 @@ public:
     {
         std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
-
-    uint64_t thread = 0;
 };
 
 class EchoSession : public TCPSession<EchoServer, EchoSession>
@@ -34,16 +32,8 @@ public:
     using TCPSession<EchoServer, EchoSession>::TCPSession;
 
 protected:
-    void onConnected() override
-    {
-        // Disable Nagle's algorithm
-        socket().set_option(asio::ip::tcp::no_delay(true));
-    }
-
     void onReceived(const void* buffer, size_t size) override
     {
-        ((EchoServer*)server().get())->thread = Thread::CurrentThreadId();
-
         // Resend the message back to the client
         Send(buffer, size);
     }
@@ -85,6 +75,9 @@ int main(int argc, char** argv)
 
     // Create a new echo server
     auto server = std::make_shared<EchoServer>(service, InternetProtocol::IPv4, port);
+    // server->SetupNoDelay(true);
+    server->SetupReuseAddress(true);
+    server->SetupReusePort(true);
 
     // Start the server
     std::cout << "Server starting...";

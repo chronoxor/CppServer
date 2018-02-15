@@ -41,21 +41,6 @@ public:
         \param endpoint - Server UDP endpoint
     */
     explicit UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
-    //! Initialize UDP client with a given Asio service, server IP address and port number (bind the socket to the multicast UDP server)
-    /*!
-        \param service - Asio service
-        \param address - Server IP address
-        \param port - Server port number
-        \param reuse_address - Reuse address socket option
-    */
-    explicit UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address);
-    //! Initialize UDP client with a given Asio service and endpoint (bind the socket to the multicast UDP server)
-    /*!
-        \param service - Asio service
-        \param endpoint - Server UDP endpoint
-        \param reuse_address - Reuse address socket option
-    */
-    explicit UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address);
     UDPClient(const UDPClient&) = delete;
     UDPClient(UDPClient&&) = default;
     virtual ~UDPClient() = default;
@@ -81,6 +66,13 @@ public:
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by this client
     uint64_t bytes_received() const noexcept { return _bytes_received; }
+
+    //! Get the option: reuse address
+    bool option_reuse_address() const noexcept { return _option_reuse_address; }
+    //! Get the option: reuse port
+    bool option_reuse_port() const noexcept { return _option_reuse_port; }
+    //! Get the option: bind the socket to the multicast UDP server
+    bool option_multicast() const noexcept { return _option_multicast; }
 
     //! Is the client connected?
     bool IsConnected() const noexcept { return _connected; }
@@ -141,6 +133,26 @@ public:
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
     bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
+
+    //! Setup option: reuse address
+    /*!
+        This option will enable/disable SO_REUSEADDR if the OS support this feature.
+
+        \param enable - Enable/disable option
+    */
+    void SetupReuseAddress(bool enable) { _option_reuse_address = enable; }
+    //! Setup option: reuse port
+    /*!
+        This option will enable/disable SO_REUSEPORT if the OS support this feature.
+
+        \param enable - Enable/disable option
+    */
+    void SetupReusePort(bool enable) { _option_reuse_port = enable; }
+    //! Setup option: bind the socket to the multicast UDP server
+    /*!
+        \param enable - Enable/disable option
+    */
+    void SetupMulticast(bool enable) { _option_multicast = enable; }
 
 protected:
     //! Handle client connected notification
@@ -208,9 +220,10 @@ private:
     // Receive buffer
     bool _reciving;
     std::vector<uint8_t> _recive_buffer;
-    // Additional options
-    bool _multicast;
-    bool _reuse_address;
+    // Options
+    bool _option_reuse_address;
+    bool _option_reuse_port;
+    bool _option_multicast;
 
     //! Disconnect the client
     /*!

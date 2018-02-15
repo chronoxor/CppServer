@@ -60,6 +60,8 @@ int main(int argc, char** argv)
 
     // Create a new echo server
     auto server = std::make_shared<EchoServer>(service, InternetProtocol::IPv4, port);
+    server->SetupReuseAddress(true);
+    server->SetupReusePort(true);
 
     // Start the server
     std::cout << "Server starting...";

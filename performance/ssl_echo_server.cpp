@@ -30,12 +30,6 @@ public:
     using SSLSession<EchoServer, EchoSession>::SSLSession;
 
 protected:
-    void onConnected() override
-    {
-        // Disable Nagle's algorithm
-        socket().set_option(asio::ip::tcp::no_delay(true));
-    }
-
     void onReceived(const void* buffer, size_t size) override
     {
         // Resend the message back to the client
@@ -87,6 +81,9 @@ int main(int argc, char** argv)
 
     // Create a new echo server
     auto server = std::make_shared<EchoServer>(service, context, InternetProtocol::IPv4, port);
+    server->SetupNoDelay(true);
+    server->SetupReuseAddress(true);
+    server->SetupReusePort(true);
 
     // Start the server
     std::cout << "Server starting...";

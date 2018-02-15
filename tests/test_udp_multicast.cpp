@@ -53,8 +53,8 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    explicit MulticastUDPClient(std::shared_ptr<MulticastUDPService> service, const std::string& address, int port, bool reuse_address)
-        : UDPClient(service, address, port, reuse_address),
+    explicit MulticastUDPClient(std::shared_ptr<MulticastUDPService> service, const std::string& address, int port)
+        : UDPClient(service, address, port),
           connected(false),
           disconnected(false),
           errors(false)
@@ -109,7 +109,8 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect multicast client
-    auto client1 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port, true);
+    auto client1 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port);
+    client1->SetupMulticast(true);
     REQUIRE(client1->Connect());
     while (!client1->IsConnected())
         Thread::Yield();
@@ -126,7 +127,8 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect multicast client
-    auto client2 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port, true);
+    auto client2 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port);
+    client2->SetupMulticast(true);
     REQUIRE(client2->Connect());
     while (!client2->IsConnected())
         Thread::Yield();
@@ -143,7 +145,8 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and connect multicast client
-    auto client3 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port, true);
+    auto client3 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port);
+    client3->SetupMulticast(true);
     REQUIRE(client3->Connect());
     while (!client3->IsConnected())
         Thread::Yield();
@@ -271,7 +274,8 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
             if (clients.size() < 100)
             {
                 // Create and connect multicast client
-                auto client = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port, true);
+                auto client = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port);
+                client->SetupMulticast(true);
                 clients.emplace_back(client);
                 client->Connect();
                 while (!client->IsConnected())

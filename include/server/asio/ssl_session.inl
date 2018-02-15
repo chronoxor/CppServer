@@ -32,6 +32,9 @@ inline void SSLSession<TServer, TSession>::Connect()
     if (IsConnected() || IsHandshaked())
         return;
 
+    // Apply the option: no delay
+    socket().set_option(asio::ip::tcp::no_delay(_server->option_no_delay()));
+
     // Reset statistic
     _bytes_sent = 0;
     _bytes_received = 0;

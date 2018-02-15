@@ -23,8 +23,9 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _bytes_received(0),
       _reciving(false),
       _recive_buffer(CHUNK + 1),
-      _multicast(false),
-      _reuse_address(false)
+      _option_reuse_address(false),
+      _option_reuse_port(false),
+      _option_multicast(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -43,48 +44,9 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _bytes_received(0),
       _reciving(false),
       _recive_buffer(CHUNK + 1),
-      _multicast(false),
-      _reuse_address(false)
-{
-    assert((service != nullptr) && "Asio service is invalid!");
-    if (service == nullptr)
-        throw CppCommon::ArgumentException("Asio service is invalid!");
-}
-
-UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address)
-    : _id(CppCommon::UUID::Generate()),
-      _service(service),
-      _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
-      _socket(*_service->service()),
-      _connected(false),
-      _datagrams_sent(0),
-      _datagrams_received(0),
-      _bytes_sent(0),
-      _bytes_received(0),
-      _reciving(false),
-      _recive_buffer(CHUNK + 1),
-      _multicast(true),
-      _reuse_address(reuse_address)
-{
-    assert((service != nullptr) && "Asio service is invalid!");
-    if (service == nullptr)
-        throw CppCommon::ArgumentException("Asio service is invalid!");
-}
-
-UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address)
-    : _id(CppCommon::UUID::Generate()),
-      _service(service),
-      _endpoint(endpoint),
-      _socket(*_service->service()),
-      _connected(false),
-      _datagrams_sent(0),
-      _datagrams_received(0),
-      _bytes_sent(0),
-      _bytes_received(0),
-      _reciving(false),
-      _recive_buffer(CHUNK + 1),
-      _multicast(true),
-      _reuse_address(reuse_address)
+      _option_reuse_address(false),
+      _option_reuse_port(false),
+      _option_multicast(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -103,18 +65,17 @@ bool UDPClient::Connect()
         if (IsConnected())
             return;
 
-        // Open the client socket
-        if (_multicast)
-        {
-            _socket.open(_endpoint.protocol()),
-            _socket.set_option(asio::ip::udp::socket::reuse_address(_reuse_address));
+        // Open a client socket
+        _socket.open(_endpoint.protocol());
+        _socket.set_option(asio::ip::udp::socket::reuse_address(option_reuse_address()));
+#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
+        typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
+        _socket.set_option(reuse_port(option_reuse_port()));
+#endif
+        if (_option_multicast)
             _socket.bind(_endpoint);
-        }
         else
-        {
-            _socket.open(_endpoint.protocol());
             _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
-        }
 
         // Reset statistic
         _datagrams_sent = 0;
