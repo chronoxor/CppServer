@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
@@ -63,7 +63,7 @@ int main(int argc, char** argv)
     // Wait for a while...
     CppCommon::Thread::Sleep(1000);
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;

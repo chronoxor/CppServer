@@ -53,7 +53,7 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
@@ -90,7 +90,7 @@ int main(int argc, char** argv)
     server->Stop();
     std::cout << "Done!" << std::endl;
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
