@@ -141,14 +141,14 @@ public:
 
         \param enable - Enable/disable option
     */
-    void SetupReuseAddress(bool enable) { _option_reuse_address = enable; }
+    void SetupReuseAddress(bool enable) noexcept { _option_reuse_address = enable; }
     //! Setup option: reuse port
     /*!
         This option will enable/disable SO_REUSEPORT if the OS support this feature.
 
         \param enable - Enable/disable option
     */
-    void SetupReusePort(bool enable) { _option_reuse_port = enable; }
+    void SetupReusePort(bool enable) noexcept { _option_reuse_port = enable; }
 
 protected:
     //! Handle server started notification

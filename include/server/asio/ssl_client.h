@@ -50,7 +50,7 @@ public:
     SSLClient& operator=(SSLClient&& client);
 
     //! Get the client Id
-    const CppCommon::UUID& id() const noexcept { return _id; }
+    const CppCommon::UUID& id() const noexcept;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept;
@@ -114,7 +114,7 @@ public:
 
         \param enable - Enable/disable option
     */
-    void SetupNoDelay(bool enable);
+    void SetupNoDelay(bool enable) noexcept;
 
 protected:
     //! Handle client connected notification
@@ -164,9 +164,6 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    // Client Id
-    CppCommon::UUID _id;
-
     friend class Impl;
     class Impl;
     std::shared_ptr<Impl> _pimpl;

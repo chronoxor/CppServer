@@ -242,7 +242,7 @@ public:
         return result;
     }
 
-    void SetupNoDelay(bool enable) { _option_no_delay = enable; }
+    void SetupNoDelay(bool enable) noexcept { _option_no_delay = enable; }
 
 protected:
     void onConnected() { _client->onConnected(); }
@@ -435,20 +435,17 @@ private:
 //! @endcond
 
 SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
-    : _id(CppCommon::UUID::Generate()),
-      _pimpl(std::make_shared<Impl>(_id, service, context, address, port))
+    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Generate(), service, context, address, port))
 {
 }
 
 SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
-    : _id(CppCommon::UUID::Generate()),
-      _pimpl(std::make_shared<Impl>(_id, service, context, endpoint))
+    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Generate(), service, context, endpoint))
 {
 }
 
 SSLClient::SSLClient(SSLClient&& client)
-    : _id(std::move(client._id)),
-      _pimpl(std::move(client._pimpl))
+    : _pimpl(std::move(client._pimpl))
 {
 }
 
@@ -458,9 +455,13 @@ SSLClient::~SSLClient()
 
 SSLClient& SSLClient::operator=(SSLClient&& client)
 {
-    _id = std::move(client._id);
     _pimpl = std::move(client._pimpl);
     return *this;
+}
+
+const CppCommon::UUID& SSLClient::id() const noexcept
+{
+    return _pimpl->id();
 }
 
 std::shared_ptr<Service>& SSLClient::service() noexcept
@@ -540,7 +541,7 @@ size_t SSLClient::Send(const void* buffer, size_t size)
     return _pimpl->Send(buffer, size);
 }
 
-void SSLClient::SetupNoDelay(bool enable)
+void SSLClient::SetupNoDelay(bool enable) noexcept
 {
     return _pimpl->SetupNoDelay(enable);
 }

@@ -107,7 +107,7 @@ public:
 
         \param enable - Enable/disable option
     */
-    void SetupNoDelay(bool enable) { _option_no_delay = enable; }
+    void SetupNoDelay(bool enable) noexcept { _option_no_delay = enable; }
 
 protected:
     //! Handle client connected notification
