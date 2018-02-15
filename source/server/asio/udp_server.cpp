@@ -22,9 +22,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _reciving(false),
       _recive_buffer(CHUNK + 1)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 
     switch (protocol)
     {
@@ -48,9 +48,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
       _reciving(false),
       _recive_buffer(CHUNK + 1)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 
     _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
 }
@@ -67,9 +67,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _reciving(false),
       _recive_buffer(CHUNK + 1)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
 bool UDPServer::Start()

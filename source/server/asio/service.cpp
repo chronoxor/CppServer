@@ -17,18 +17,18 @@ Service::Service()
     : _service(std::make_shared<asio::io_service>()),
       _started(false)
 {
-    assert((_service != nullptr) && "ASIO service is invalid!");
+    assert((_service != nullptr) && "Asio service is invalid!");
     if (_service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
 Service::Service(std::shared_ptr<asio::io_service> service)
     : _service(service),
       _started(false)
 {
-    assert((_service != nullptr) && "ASIO service is invalid!");
+    assert((_service != nullptr) && "Asio service is invalid!");
     if (_service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 
     _started = !service->stopped();
 }
@@ -53,8 +53,8 @@ bool Service::Start(bool polling)
         onStarted();
     });
 
-    // Start the service thread
-    _thread = CppCommon::Thread::Start([this, polling]() { ServiceLoop(polling); });
+    // Start the service working thread
+    _thread = CppCommon::Thread::Start([this, self, polling]() { ServiceLoop(self, polling); });
 
     return true;
 }
@@ -82,7 +82,7 @@ bool Service::Stop()
         onStopped();
     });
 
-    // Wait for service thread
+    // Wait for the service working thread
     _thread.join();
 
     return true;
@@ -96,14 +96,14 @@ bool Service::Restart()
     return Start();
 }
 
-void Service::ServiceLoop(bool polling)
+void Service::ServiceLoop(std::shared_ptr<Service> service, bool polling)
 {
     // Call the initialize thread handler
-    onThreadInitialize();
+    service->onThreadInitialize();
 
     try
     {
-        asio::io_service::work work(*_service);
+        asio::io_service::work work(*service->service());
 
         // Service loop...
         do
@@ -114,15 +114,15 @@ void Service::ServiceLoop(bool polling)
                 if (polling)
                 {
                     // Poll all pending handlers
-                    _service->poll();
+                    service->service()->poll();
 
                     // Call the idle handler
-                    onIdle();
+                    service->onIdle();
                 }
                 else
                 {
                     // Run all pending handlers
-                    _service->run();
+                    service->service()->run();
                     break;
                 }
             }
@@ -136,11 +136,11 @@ void Service::ServiceLoop(bool polling)
 
                 throw;
             }
-        } while (_started);
+        } while (service->IsStarted());
     }
     catch (asio::system_error& ex)
     {
-        SendError(ex.code());
+        service->SendError(ex.code());
     }
     catch (std::exception& ex)
     {
@@ -152,7 +152,7 @@ void Service::ServiceLoop(bool polling)
     }
 
     // Call the cleanup thread handler
-    onThreadCleanup();
+    service->onThreadCleanup();
 }
 
 void Service::SendError(std::error_code ec)

@@ -36,9 +36,9 @@ public:
           _sending(false),
           _send_buffer_flush_offset(0)
     {
-        assert((service != nullptr) && "ASIO service is invalid!");
+        assert((service != nullptr) && "Asio service is invalid!");
         if (service == nullptr)
-            throw CppCommon::ArgumentException("ASIO service is invalid!");
+            throw CppCommon::ArgumentException("Asio service is invalid!");
 
         assert((context != nullptr) && "SSL context is invalid!");
         if (context == nullptr)
@@ -62,9 +62,9 @@ public:
           _sending(false),
           _send_buffer_flush_offset(0)
     {
-        assert((service != nullptr) && "ASIO service is invalid!");
+        assert((service != nullptr) && "Asio service is invalid!");
         if (service == nullptr)
-            throw CppCommon::ArgumentException("ASIO service is invalid!");
+            throw CppCommon::ArgumentException("Asio service is invalid!");
 
         assert((context != nullptr) && "SSL context is invalid!");
         if (context == nullptr)

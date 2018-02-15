@@ -127,7 +127,7 @@ private:
     std::atomic<bool> _started;
 
     //! Service loop
-    void ServiceLoop(bool polling);
+    static void ServiceLoop(std::shared_ptr<Service> service, bool polling);
 
     //! Send error notification
     void SendError(std::error_code ec);

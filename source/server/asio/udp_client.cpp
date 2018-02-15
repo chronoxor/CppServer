@@ -26,9 +26,9 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _multicast(false),
       _reuse_address(false)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
 UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
@@ -46,9 +46,9 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _multicast(false),
       _reuse_address(false)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
 UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, bool reuse_address)
@@ -66,9 +66,9 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _multicast(true),
       _reuse_address(reuse_address)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
 UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint, bool reuse_address)
@@ -86,9 +86,9 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _multicast(true),
       _reuse_address(reuse_address)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
 bool UDPClient::Connect()

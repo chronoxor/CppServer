@@ -18,9 +18,9 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _bytes_sent(0),
       _bytes_received(0)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 
     switch (protocol)
     {
@@ -42,9 +42,9 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _bytes_sent(0),
       _bytes_received(0)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
 }
@@ -59,9 +59,9 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
       _bytes_sent(0),
       _bytes_received(0)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
 template <class TServer, class TSession>

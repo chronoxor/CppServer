@@ -4,11 +4,13 @@
 
 #include "server/asio/service.h"
 #include "server/asio/tcp_server.h"
+#include "system/cpu.h"
 
 #include <iostream>
 
 #include <OptionParser.h>
 
+using namespace CppCommon;
 using namespace CppServer::Asio;
 
 class EchoSession;
@@ -22,6 +24,8 @@ public:
     {
         std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
+
+    uint64_t thread = 0;
 };
 
 class EchoSession : public TCPSession<EchoServer, EchoSession>
@@ -38,6 +42,8 @@ protected:
 
     void onReceived(const void* buffer, size_t size) override
     {
+        ((EchoServer*)server().get())->thread = Thread::CurrentThreadId();
+
         // Resend the message back to the client
         Send(buffer, size);
     }

@@ -19,9 +19,9 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _bytes_sent(0),
       _bytes_received(0)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 
     assert((context != nullptr) && "SSL context is invalid!");
     if (context == nullptr)
@@ -48,9 +48,9 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _bytes_sent(0),
       _bytes_received(0)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 
     assert((context != nullptr) && "SSL context is invalid!");
     if (context == nullptr)
@@ -70,9 +70,9 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _bytes_sent(0),
       _bytes_received(0)
 {
-    assert((service != nullptr) && "ASIO service is invalid!");
+    assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
-        throw CppCommon::ArgumentException("ASIO service is invalid!");
+        throw CppCommon::ArgumentException("Asio service is invalid!");
 
     assert((context != nullptr) && "SSL context is invalid!");
     if (context == nullptr)
