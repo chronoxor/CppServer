@@ -54,7 +54,7 @@ bool Service::Start(bool polling)
     });
 
     // Start the service working thread
-    _thread = CppCommon::Thread::Start([this, self, polling]() { ServiceLoop(self, polling); });
+    _thread = CppCommon::Thread::Start([self, polling]() { ServiceLoop(self, polling); });
 
     return true;
 }
