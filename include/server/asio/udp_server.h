@@ -57,13 +57,13 @@ public:
     //! Get the server multicast endpoint
     asio::ip::udp::endpoint& multicast_endpoint() noexcept { return _multicast_endpoint; }
 
-    //! Get the number datagrams sent by this server
+    //! Get the number datagrams sent by the server
     uint64_t datagrams_sent() const noexcept { return _datagrams_sent; }
-    //! Get the number datagrams received by this server
+    //! Get the number datagrams received by the server
     uint64_t datagrams_received() const noexcept { return _datagrams_received; }
-    //! Get the number of bytes sent by this server
+    //! Get the number of bytes sent by the server
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
-    //! Get the number of bytes received by this server
+    //! Get the number of bytes received by the server
     uint64_t bytes_received() const noexcept { return _bytes_received; }
 
     //! Is the server started?
