@@ -103,14 +103,14 @@ public:
 
             // Connect the client socket
             _connecting = true;
-            socket().async_connect(_endpoint, [this, self](std::error_code ec)
+            socket().async_connect(_endpoint, [this, self](std::error_code ec1)
             {
                 _connecting = false;
 
                 if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
                     return;
 
-                if (!ec)
+                if (!ec1)
                 {
                     // Reset statistic
                     _bytes_sent = 0;
@@ -124,14 +124,14 @@ public:
 
                     // Perform SSL handshake
                     _handshaking = true;
-                    _stream.async_handshake(asio::ssl::stream_base::client, [this, self](std::error_code ec)
+                    _stream.async_handshake(asio::ssl::stream_base::client, [this, self](std::error_code ec2)
                     {
                         _handshaking = false;
 
                         if (IsHandshaked() || _handshaking)
                             return;
 
-                        if (!ec)
+                        if (!ec2)
                         {
                             // Update the handshaked flag
                             _handshaked = true;
@@ -148,7 +148,7 @@ public:
                         else
                         {
                             // Disconnect on in case of the bad handshake
-                            SendError(ec);
+                            SendError(ec2);
                             Disconnect(true);
                         }
                     });
@@ -156,7 +156,7 @@ public:
                 else
                 {
                     // Call the client disconnected handler
-                    SendError(ec);
+                    SendError(ec1);
                     onDisconnected();
                 }
             });
