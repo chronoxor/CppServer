@@ -94,7 +94,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
 {
     const std::string listen_address = "0.0.0.0";
     const std::string multicast_address = "239.255.0.1";
-    const int multicast_port = 2223;
+    const int multicast_port = 3334;
 
     // Create and start Asio service
     auto service = std::make_shared<MulticastUDPService>();
@@ -241,7 +241,7 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
 {
     const std::string listen_address = "0.0.0.0";
     const std::string multicast_address = "239.255.0.1";
-    const int multicast_port = 2225;
+    const int multicast_port = 3335;
 
     // Create and start Asio service
     auto service = std::make_shared<MulticastUDPService>();

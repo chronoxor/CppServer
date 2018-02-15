@@ -150,7 +150,7 @@ protected:
 TEST_CASE("SSL server", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 3333;
+    const int port = 2222;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoSSLService>();

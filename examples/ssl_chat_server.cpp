@@ -68,7 +68,7 @@ protected:
 int main(int argc, char** argv)
 {
     // SSL server port
-    int port = 3333;
+    int port = 2222;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
