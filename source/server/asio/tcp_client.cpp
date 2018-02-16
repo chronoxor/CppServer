@@ -72,7 +72,8 @@ bool TCPClient::Connect()
             if (!ec)
             {
                 // Apply the option: no delay
-                _socket.set_option(asio::ip::tcp::no_delay(option_no_delay()));
+                if (option_no_delay())
+                    _socket.set_option(asio::ip::tcp::no_delay(true));
 
                 // Reset statistic
                 _bytes_sent = 0;
