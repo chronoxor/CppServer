@@ -152,7 +152,7 @@ public:
     /*!
         \param enable - Enable/disable option
     */
-    void SetupMulticast(bool enable) noexcept { _option_multicast = enable; }
+    void SetupMulticast(bool enable) noexcept { _option_reuse_address = enable; _option_multicast = enable; }
 
 protected:
     //! Handle client connected notification

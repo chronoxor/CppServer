@@ -72,7 +72,7 @@ bool UDPClient::Connect()
         typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
         _socket.set_option(reuse_port(option_reuse_port()));
 #endif
-        if (_option_multicast)
+        if (option_multicast())
             _socket.bind(_endpoint);
         else
             _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));

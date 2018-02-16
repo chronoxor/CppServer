@@ -227,7 +227,7 @@ TEST_CASE("SSL server", "[CppServer][Asio]")
 TEST_CASE("SSL server multicast", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 3334;
+    const int port = 2223;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoSSLService>();
@@ -357,7 +357,7 @@ TEST_CASE("SSL server multicast", "[CppServer][Asio]")
 TEST_CASE("SSL server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 3335;
+    const int port = 2224;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoSSLService>();

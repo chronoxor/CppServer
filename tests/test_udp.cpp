@@ -162,7 +162,7 @@ TEST_CASE("UDP server", "[CppServer][Asio]")
 TEST_CASE("UDP server random test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 2224;
+    const int port = 3334;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoUDPService>();
