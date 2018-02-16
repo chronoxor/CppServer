@@ -81,7 +81,7 @@ set_target_properties(cppserver PROPERTIES FOLDER libraries)
 list(APPEND INSTALL_TARGETS cppserver)
 list(APPEND LINKLIBS cppserver)
 
-# Additional module components: examples, performance benchmarks, tests, tools and install
+# Additional module components: benchmarks, examples, plugins, tests, tools and install
 if(NOT CPPSERVER_MODULE)
 
   # Examples
@@ -97,7 +97,7 @@ if(NOT CPPSERVER_MODULE)
     list(APPEND INSTALL_TARGETS_PDB ${EXAMPLE_TARGET})
   endforeach()
 
-  # Performance benchmarks
+  # Benchmarks
   file(GLOB BENCHMARK_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/performance" "performance/*.cpp")
   foreach(BENCHMARK_FILE ${BENCHMARK_FILES})
     string(REGEX REPLACE "(.*)\\.cpp" "\\1" BENCHMARK_NAME ${BENCHMARK_FILE})
