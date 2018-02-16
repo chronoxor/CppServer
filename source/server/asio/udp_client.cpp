@@ -69,8 +69,8 @@ bool UDPClient::Connect()
         _socket.open(_endpoint.protocol());
         _socket.set_option(asio::ip::udp::socket::reuse_address(option_reuse_address()));
 #if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
-        typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
-        _socket.set_option(reuse_port(option_reuse_port()));
+        //typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
+        //_socket.set_option(reuse_port(option_reuse_port()));
 #endif
         if (option_multicast())
             _socket.bind(_endpoint);
