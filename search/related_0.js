@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['impl',['Impl',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#ae708b2c3f144ba0c31bb444c4efe8ccf',1,'CppServer::Asio::SSLClient']]]
+  ['handlerallocator',['HandlerAllocator',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#acee75256efb232f7a5f2c43477331435',1,'CppServer::Asio::HandlerAllocator']]]
 ];
