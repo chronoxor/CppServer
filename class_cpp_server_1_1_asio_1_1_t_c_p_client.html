@@ -147,6 +147,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aba06c848a82395b470a97476e5a0ab98"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aba06c848a82395b470a97476e5a0ab98">bytes_received</a> () const noexcept</td></tr>
 <tr class="memdesc:aba06c848a82395b470a97476e5a0ab98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes received by this client.  <a href="#aba06c848a82395b470a97476e5a0ab98">More...</a><br/></td></tr>
 <tr class="separator:aba06c848a82395b470a97476e5a0ab98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1dd70f0d265e8c8c73c8da3140cac93"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#ac1dd70f0d265e8c8c73c8da3140cac93">option_no_delay</a> () const noexcept</td></tr>
+<tr class="memdesc:ac1dd70f0d265e8c8c73c8da3140cac93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the option: no delay.  <a href="#ac1dd70f0d265e8c8c73c8da3140cac93">More...</a><br/></td></tr>
+<tr class="separator:ac1dd70f0d265e8c8c73c8da3140cac93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a081a6105230cc8753acf20e0e3039a2e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a081a6105230cc8753acf20e0e3039a2e">IsConnected</a> () const noexcept</td></tr>
 <tr class="memdesc:a081a6105230cc8753acf20e0e3039a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the client connected?  <a href="#a081a6105230cc8753acf20e0e3039a2e">More...</a><br/></td></tr>
 <tr class="separator:a081a6105230cc8753acf20e0e3039a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,6 +168,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acd061375515f4707236cc23b46046dcf"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#acd061375515f4707236cc23b46046dcf">Send</a> (const std::string &amp;text)</td></tr>
 <tr class="memdesc:acd061375515f4707236cc23b46046dcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a text string to the server.  <a href="#acd061375515f4707236cc23b46046dcf">More...</a><br/></td></tr>
 <tr class="separator:acd061375515f4707236cc23b46046dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65cee475edab27b9f289a44403f200b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a65cee475edab27b9f289a44403f200b6">SetupNoDelay</a> (bool enable) noexcept</td></tr>
+<tr class="memdesc:a65cee475edab27b9f289a44403f200b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup option: no delay.  <a href="#a65cee475edab27b9f289a44403f200b6">More...</a><br/></td></tr>
+<tr class="separator:a65cee475edab27b9f289a44403f200b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -289,7 +295,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00033">33</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00034">34</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -436,7 +442,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a5">tcp_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00052">52</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00054">54</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -464,7 +470,7 @@ Protected Member Functions</h2></td></tr>
 <p>Disconnect the client. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully disconnected, 'false' if the client is already disconnected </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00078">78</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00081">81</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -546,7 +552,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Is the client connected? </p>
 
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00067">67</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00070">70</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -574,7 +580,7 @@ Protected Member Functions</h2></td></tr>
 <p>Handle client connected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a2">tcp_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00101">101</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00114">114</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -602,7 +608,7 @@ Protected Member Functions</h2></td></tr>
 <p>Handle client disconnected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a4">tcp_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00103">103</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00116">116</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -631,7 +637,7 @@ Protected Member Functions</h2></td></tr>
 <p>Notification is called when the send buffer is empty and ready for a new data to send.</p>
 <p>This handler could be used to send another buffer to the server. </p>
 
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00134">134</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00147">147</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -684,7 +690,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a7">tcp_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00142">142</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00155">155</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -731,7 +737,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a6">tcp_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00113">113</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00126">126</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -778,7 +784,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00125">125</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00138">138</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -830,6 +836,33 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac1dd70f0d265e8c8c73c8da3140cac93"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CppServer::Asio::TCPClient::option_no_delay </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the option: no delay. </p>
+
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00067">67</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="afe309507092ca4b3e5c3c6c37c4e02a3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -846,7 +879,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00133">133</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00138">138</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -884,7 +917,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Count of pending bytes in the send buffer </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00144">144</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00149">149</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -919,7 +952,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Count of pending bytes in the send buffer </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00097">97</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00100">100</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -947,6 +980,42 @@ Protected Member Functions</h2></td></tr>
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service. </p>
 
 <p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00055">55</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a65cee475edab27b9f289a44403f200b6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::Asio::TCPClient::SetupNoDelay </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Setup option: no delay. </p>
+<p>This option will enable/disable Nagle's algorithm for TCP protocol.</p>
+<p><a href="https://en.wikipedia.org/wiki/Nagle%27s_algorithm">https://en.wikipedia.org/wiki/Nagle%27s_algorithm</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enable</td><td>- Enable/disable option </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00110">110</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>

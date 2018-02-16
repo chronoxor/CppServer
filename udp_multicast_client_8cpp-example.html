@@ -159,7 +159,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Done!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Create a new UDP multicast client</span></div>
-<div class="line">    <span class="keyword">auto</span> client = std::make_shared&lt;MulticastClient&gt;(service, listen_address, multicast_port, <span class="keyword">true</span>);</div>
+<div class="line">    <span class="keyword">auto</span> client = std::make_shared&lt;MulticastClient&gt;(service, listen_address, multicast_port);</div>
+<div class="line">    client-&gt;SetupMulticast(<span class="keyword">true</span>);</div>
 <div class="line">    client-&gt;multicast = multicast_address;</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Connect the client</span></div>
