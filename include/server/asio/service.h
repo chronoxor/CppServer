@@ -10,6 +10,7 @@
 #define CPPSERVER_ASIO_SERVICE_H
 
 #include "asio.h"
+#include "memory.h"
 
 #include "threads/thread.h"
 

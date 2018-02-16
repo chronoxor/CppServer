@@ -141,12 +141,14 @@ private:
     // Receive buffer & cache
     bool _reciving;
     std::vector<uint8_t> _recive_buffer;
+    HandlerStorage _recive_storage;
     // Send buffer & cache
     bool _sending;
     std::mutex _send_lock;
     std::vector<uint8_t> _send_buffer_main;
     std::vector<uint8_t> _send_buffer_flush;
     size_t _send_buffer_flush_offset;
+    HandlerStorage _send_storage;
 
     //! Connect the session
     void Connect();

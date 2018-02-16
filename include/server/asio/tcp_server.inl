@@ -177,7 +177,7 @@ inline void TCPServer<TServer, TSession>::Accept()
         if (!IsStarted())
             return;
 
-        _acceptor.async_accept(_socket, [this, self](std::error_code ec)
+        _acceptor.async_accept(_socket, make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
             if (!ec)
                 RegisterSession();
@@ -186,7 +186,7 @@ inline void TCPServer<TServer, TSession>::Accept()
 
             // Perform the next server accept
             Accept();
-        });
+        }));
     });
 }
 

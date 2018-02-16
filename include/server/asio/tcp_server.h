@@ -178,6 +178,7 @@ private:
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
+    HandlerStorage _acceptor_storage;
     // Server statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;

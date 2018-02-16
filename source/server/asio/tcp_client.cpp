@@ -188,7 +188,7 @@ void TCPClient::TryReceive()
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), [this, self](std::error_code ec, std::size_t size)
+    _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -217,7 +217,7 @@ void TCPClient::TryReceive()
             SendError(ec);
             Disconnect(true);
         }
-    });
+    }));
 }
 
 void TCPClient::TrySend()
@@ -248,7 +248,7 @@ void TCPClient::TrySend()
 
     _sending = true;
     auto self(this->shared_from_this());
-    asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), [this, self](std::error_code ec, std::size_t size)
+    asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _sending = false;
 
@@ -286,7 +286,7 @@ void TCPClient::TrySend()
             SendError(ec);
             Disconnect(true);
         }
-    });
+    }));
 }
 
 void TCPClient::ClearBuffers()
