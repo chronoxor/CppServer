@@ -276,12 +276,14 @@ private:
     // Receive buffer & cache
     bool _reciving;
     std::vector<uint8_t> _recive_buffer;
+    HandlerStorage _recive_storage;
     // Send buffer & cache
     bool _sending;
     std::mutex _send_lock;
     std::vector<uint8_t> _send_buffer_main;
     std::vector<uint8_t> _send_buffer_flush;
     size_t _send_buffer_flush_offset;
+    HandlerStorage _send_storage;
     // Options
     bool _option_no_delay;
 
@@ -295,7 +297,7 @@ private:
 
         _reciving = true;
         auto self(this->shared_from_this());
-        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), [this, self](std::error_code ec, std::size_t size)
+        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
         {
             _reciving = false;
 
@@ -324,7 +326,7 @@ private:
                 SendError(ec);
                 Disconnect(true);
             }
-        });
+        }));
     }
 
     void TrySend()
@@ -355,7 +357,7 @@ private:
 
         _sending = true;
         auto self(this->shared_from_this());
-        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), [this, self](std::error_code ec, std::size_t size)
+        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
         {
             _sending = false;
 
@@ -393,7 +395,7 @@ private:
                 SendError(ec);
                 Disconnect(true);
             }
-        });
+        }));
     }
 
     void ClearBuffers()

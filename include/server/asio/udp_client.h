@@ -220,6 +220,7 @@ private:
     // Receive buffer
     bool _reciving;
     std::vector<uint8_t> _recive_buffer;
+    HandlerStorage _recive_storage;
     // Options
     bool _option_reuse_address;
     bool _option_reuse_port;

@@ -144,18 +144,21 @@ private:
     std::shared_ptr<asio::ssl::context> _context;
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
+    HandlerStorage _handshake_storage;
     // Session statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Receive buffer & cache
     bool _reciving;
     std::vector<uint8_t> _recive_buffer;
+    HandlerStorage _recive_storage;
     // Send buffer & cache
     bool _sending;
     std::mutex _send_lock;
     std::vector<uint8_t> _send_buffer_main;
     std::vector<uint8_t> _send_buffer_flush;
     size_t _send_buffer_flush_offset;
+    HandlerStorage _send_storage;
 
     //! Connect the session
     void Connect();

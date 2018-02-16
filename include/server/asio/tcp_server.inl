@@ -211,7 +211,7 @@ inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
     // Dispatch the multicast routine
     auto self(this->shared_from_this());
-    _service->Dispatch([this, self]()
+    _service->Dispatch(make_alloc_handler(_multicast_storage, [this, self]()
     {
         if (!IsStarted())
             return;
@@ -228,7 +228,7 @@ inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
         // Clear the multicast buffer
         _multicast_buffer.clear();
-    });
+    }));
 
     return true;
 }

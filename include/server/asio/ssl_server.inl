@@ -192,7 +192,7 @@ inline void SSLServer<TServer, TSession>::Accept()
         if (!IsStarted())
             return;
 
-        _acceptor.async_accept(_socket, [this, self](std::error_code ec)
+        _acceptor.async_accept(_socket, make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
             if (!ec)
                 RegisterSession();
@@ -201,7 +201,7 @@ inline void SSLServer<TServer, TSession>::Accept()
 
             // Perform the next server accept
             Accept();
-        });
+        }));
     });
 }
 
@@ -226,7 +226,7 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
     // Dispatch the multicast routine
     auto self(this->shared_from_this());
-    _service->Dispatch([this, self]()
+    _service->Dispatch(make_alloc_handler(_multicast_storage, [this, self]()
     {
         std::lock_guard<std::mutex> locker(_multicast_lock);
 
@@ -240,7 +240,7 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
         // Clear the multicast buffer
         _multicast_buffer.clear();
-    });
+    }));
 
     return true;
 }

@@ -237,7 +237,7 @@ void UDPClient::TryReceive()
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, [this, self](std::error_code ec, std::size_t size)
+    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -267,7 +267,7 @@ void UDPClient::TryReceive()
             SendError(ec);
             Disconnect(true);
         }
-    });
+    }));
 }
 
 void UDPClient::SendError(std::error_code ec)

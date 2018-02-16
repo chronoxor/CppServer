@@ -184,6 +184,7 @@ private:
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
+    HandlerStorage _acceptor_storage;
     // Server statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
@@ -192,6 +193,7 @@ private:
     // Multicast buffer
     std::mutex _multicast_lock;
     std::vector<uint8_t> _multicast_buffer;
+    HandlerStorage _multicast_storage;
     // Options
     bool _option_no_delay;
     bool _option_reuse_address;

@@ -9,7 +9,7 @@
 namespace CppServer {
 namespace Asio {
 
-inline void* HandlerStorage::allocate(std::size_t size)
+inline void* HandlerStorage::allocate(size_t size)
 {
     // Check if the storage is not already used and has enough capacity
     if (!_in_use && (size < sizeof(_storage)))

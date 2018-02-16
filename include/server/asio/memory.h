@@ -39,7 +39,7 @@ public:
         \param size - Size of allocated block in bytes
         \return Pointer to the allocated buffer
     */
-    void* allocate(std::size_t size);
+    void* allocate(size_t size);
     //! Deallocate memory buffer
     /*!
         \param ptr - Pointer to the allocated buffer
@@ -141,11 +141,11 @@ public:
         \param handler - Handler to allocate
     */
     AllocateHandler(HandlerStorage& storage, THandler handler) noexcept : _storage(storage), _handler(handler) {}
-    AllocateHandler(const AllocateHandler&) noexcept = delete;
+    AllocateHandler(const AllocateHandler&) noexcept = default;
     AllocateHandler(AllocateHandler&&) noexcept = default;
     ~AllocateHandler() noexcept = default;
 
-    AllocateHandler& operator=(const AllocateHandler&) noexcept = delete;
+    AllocateHandler& operator=(const AllocateHandler&) noexcept = default;
     AllocateHandler& operator=(AllocateHandler&&) noexcept = default;
 
     //! Get the handler allocator

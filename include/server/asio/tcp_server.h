@@ -187,6 +187,7 @@ private:
     // Multicast buffer
     std::mutex _multicast_lock;
     std::vector<uint8_t> _multicast_buffer;
+    HandlerStorage _multicast_storage;
     // Options
     bool _option_no_delay;
     bool _option_reuse_address;
