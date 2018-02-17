@@ -1178,23 +1178,23 @@ Message throughput: 311697 messages per second
 ```
 
 * [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
-* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 100 -m 1000000 -t 8
+* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 100 -m 1000000 -t 4
 ```
 Server address: 127.0.0.1
 Server port: 1111
-Working threads: 8
+Working threads: 4
 Working clients: 100
 Messages to send: 1000000
 Message size: 32
 
 Errors: 0
 
-Round-trip time: 1.625 s
+Round-trip time: 1.186 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 19691928 bytes per second
-Message latency: 1.625 mcs
-Message throughput: 615372 messages per second
+Bytes throughput: 26972410 bytes per second
+Message latency: 1.186 mcs
+Message throughput: 842887 messages per second
 ```
 
 ### SSL echo server
@@ -1203,7 +1203,7 @@ Message throughput: 615372 messages per second
 * [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 1 -m 1000000 -t 1
 ```
 Server address: 127.0.0.1
-Server port: 3333
+Server port: 2222
 Working threads: 1
 Working clients: 1
 Messages to send: 1000000
@@ -1220,11 +1220,11 @@ Messages throughput: 126309 messages per second
 ```
 
 * [cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
-* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 100 -m 1000000 -t 8
+* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 100 -m 1000000 -t 4
 ```
 Server address: 127.0.0.1
-Server port: 3333
-Working threads: 8
+Server port: 2222
+Working threads: 4
 Working clients: 100
 Messages to send: 1000000
 Message size: 32
@@ -1245,7 +1245,7 @@ Messages throughput: 103307 messages per second
 * [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 1 -m 1000000 -t 1
 ```
 Server address: 127.0.0.1
-Server port: 2222
+Server port: 3333
 Working threads: 1
 Working clients: 1
 Messages to send: 1000000
@@ -1262,11 +1262,11 @@ Messages throughput: 66502 messages per second
 ```
 
 * [cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
-* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 100 -m 1000000 -t 8
+* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 100 -m 1000000 -t 4
 ```
 Server address: 127.0.0.1
-Server port: 2222
-Working threads: 8
+Server port: 3333
+Working threads: 4
 Working clients: 100
 Messages to send: 1000000
 Message size: 32
