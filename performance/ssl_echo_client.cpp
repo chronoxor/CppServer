@@ -22,8 +22,8 @@ using namespace CppServer::Asio;
 
 std::vector<uint8_t> message_to_send;
 
-std::atomic<uint64_t> timestamp_start = 0;
-std::atomic<uint64_t> timestamp_stop = 0;
+std::atomic<uint64_t> timestamp_start(0);
+std::atomic<uint64_t> timestamp_stop(0);
 
 std::atomic<uint64_t> total_errors(0);
 std::atomic<uint64_t> total_bytes(0);
