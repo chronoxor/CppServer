@@ -22,8 +22,8 @@ using namespace CppServer::Asio;
 
 std::vector<uint8_t> message_to_send;
 
-uint64_t timestamp_start = 0;
-uint64_t timestamp_stop = 0;
+std::atomic<uint64_t> timestamp_start = 0;
+std::atomic<uint64_t> timestamp_stop = 0;
 
 std::atomic<uint64_t> total_errors(0);
 std::atomic<uint64_t> total_bytes(0);
@@ -162,12 +162,12 @@ int main(int argc, char** argv)
     // Connect clients
     std::cout << "Clients connecting...";
     for (auto& client : clients)
-    {
         client->Connect();
+    std::cout << "Done!" << std::endl;
+    for (auto& client : clients)
         while (!client->IsConnected())
             Thread::Yield();
-    }
-    std::cout << "Done!" << std::endl;
+    std::cout << "All clients connected!" << std::endl;
 
     // Wait for processing all messages
     std::cout << "Processing...";
