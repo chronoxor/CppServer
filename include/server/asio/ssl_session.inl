@@ -13,7 +13,6 @@ template <class TServer, class TSession>
 inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
-      _strand(*service()->service()),
       _stream(std::move(socket), *context),
       _context(context),
       _connected(false),
@@ -49,7 +48,7 @@ inline void SSLSession<TServer, TSession>::Connect()
 
     // Perform SSL handshake
     auto self(this->shared_from_this());
-    _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_strand, make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
+    _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_server->strand(), make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
     {
         if (IsHandshaked())
             return;
@@ -90,7 +89,7 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
             return;
 
         // Shutdown the client stream
-        _stream.async_shutdown(bind_executor(_strand, make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
+        _stream.async_shutdown(bind_executor(_server->strand(), make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
         {
             if (!IsConnected())
                 return;
@@ -111,15 +110,15 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
             onDisconnected();
 
             // Unregister the session
-            _server->strand().dispatch([this, self]() { _server->UnregisterSession(id()); });
+            _server->UnregisterSession(id());
         })));
     };
 
     // Dispatch or post the disconnect routine
     if (dispatch)
-        _strand.dispatch(disconnect);
+        _server->strand().dispatch(disconnect);
     else
-        _strand.post(disconnect);
+        _server->strand().post(disconnect);
 
     return true;
 }
@@ -147,7 +146,7 @@ inline size_t SSLSession<TServer, TSession>::Send(const void* buffer, size_t siz
 
     // Dispatch the send routine
     auto self(this->shared_from_this());
-    _strand.dispatch([this, self]()
+    _server->strand().dispatch([this, self]()
     {
         // Try to send the main buffer
         TrySend();
@@ -167,7 +166,7 @@ inline void SSLSession<TServer, TSession>::TryReceive()
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+    _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_server->strand(), make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -229,7 +228,7 @@ inline void SSLSession<TServer, TSession>::TrySend()
 
     _sending = true;
     auto self(this->shared_from_this());
-    asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
+    asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_server->strand(), make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _sending = false;
 

@@ -51,8 +51,6 @@ public:
     std::shared_ptr<Service>& service() noexcept { return _server->service(); }
     //! Get the session server
     std::shared_ptr<SSLServer<TServer, TSession>>& server() noexcept { return _server; }
-    //! Get the Asio service strand for serialised handler execution
-    asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the session SSL stream
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     //! Get the session socket
@@ -142,7 +140,6 @@ private:
     CppCommon::UUID _id;
     // Session server, SSL stream and SSL context
     std::shared_ptr<SSLServer<TServer, TSession>> _server;
-    asio::io_service::strand _strand;
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
     std::shared_ptr<asio::ssl::context> _context;
     std::atomic<bool> _connected;
