@@ -134,7 +134,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// Perform SSL handshake</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    _stream.async_handshake(asio::ssl::stream_base::server, <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_handshake_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_server-&gt;strand(), <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_handshake_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec)</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">if</span> (IsHandshaked())</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">return</span>;</div>
@@ -159,7 +159,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            SendError(ec);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            Disconnect(<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }));</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    })));</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> TServer, <span class="keyword">class</span> TSession&gt;</div>
@@ -175,7 +175,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment">// Shutdown the client stream</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        _stream.async_shutdown(<a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_handshake_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        _stream.async_shutdown(bind_executor(_server-&gt;strand(), <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_handshake_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec)</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        {</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">if</span> (!IsConnected())</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keywordflow">return</span>;</div>
@@ -197,14 +197,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="comment">// Unregister the session</span></div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            _server-&gt;UnregisterSession(<span class="keywordtype">id</span>());</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        }));</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        })));</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    };</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="comment">// Dispatch or post the disconnect routine</span></div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">if</span> (dispatch)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        service()-&gt;Dispatch(disconnect);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        _server-&gt;strand().dispatch(disconnect);</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        service()-&gt;Post(disconnect);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        _server-&gt;strand().post(disconnect);</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}</div>
@@ -232,7 +232,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="comment">// Dispatch the send routine</span></div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    service()-&gt;Dispatch([<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    _server-&gt;strand().dispatch([<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    {</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="comment">// Try to send the main buffer</span></div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        TrySend();</div>
@@ -252,7 +252,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    _reciving = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_recive_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec, std::size_t size)</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_server-&gt;strand(), <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_recive_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec, std::size_t size)</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    {</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        _reciving = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
@@ -282,7 +282,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            SendError(ec);</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            Disconnect(<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        }</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    }));</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    })));</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> TServer, <span class="keyword">class</span> TSession&gt;</div>
@@ -314,7 +314,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    _sending = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_send_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec, std::size_t size)</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_server-&gt;strand(), <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_send_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec, std::size_t size)</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    {</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        _sending = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;</div>
@@ -353,7 +353,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            SendError(ec);</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            Disconnect(<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        }</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    }));</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    })));</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;}</div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;</div>
 <div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> TServer, <span class="keyword">class</span> TSession&gt;</div>

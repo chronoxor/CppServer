@@ -136,9 +136,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a770d2a41a4ee672522b075baa14aaa7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#a770d2a41a4ee672522b075baa14aaa7b">IsStarted</a> () const noexcept</td></tr>
 <tr class="memdesc:a770d2a41a4ee672522b075baa14aaa7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the service started?  <a href="#a770d2a41a4ee672522b075baa14aaa7b">More...</a><br/></td></tr>
 <tr class="separator:a770d2a41a4ee672522b075baa14aaa7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa85bf639de313817cea8673a700d16d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#aa85bf639de313817cea8673a700d16d2">Start</a> (bool polling=false)</td></tr>
-<tr class="memdesc:aa85bf639de313817cea8673a700d16d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the service.  <a href="#aa85bf639de313817cea8673a700d16d2">More...</a><br/></td></tr>
-<tr class="separator:aa85bf639de313817cea8673a700d16d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e32e7f2aec0c2a5e743fdbeee8ceaf9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#a0e32e7f2aec0c2a5e743fdbeee8ceaf9">Start</a> (bool polling=false, int threads=1)</td></tr>
+<tr class="memdesc:a0e32e7f2aec0c2a5e743fdbeee8ceaf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the service.  <a href="#a0e32e7f2aec0c2a5e743fdbeee8ceaf9">More...</a><br/></td></tr>
+<tr class="separator:a0e32e7f2aec0c2a5e743fdbeee8ceaf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a920a43e459a1de2859393bb27fc2686c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#a920a43e459a1de2859393bb27fc2686c">Stop</a> ()</td></tr>
 <tr class="memdesc:a920a43e459a1de2859393bb27fc2686c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the service.  <a href="#a920a43e459a1de2859393bb27fc2686c">More...</a><br/></td></tr>
 <tr class="separator:a920a43e459a1de2859393bb27fc2686c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,11 +177,11 @@ Protected Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service. </p>
-<p><a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service is used to host all clients/servers based on <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> C++ library. It is implemented based on <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> C++ Library and use a separate thread to perform all asynchronous IO operations and communications.</p>
+<p><a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service is used to host all clients/servers based on <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> C++ library. It is implemented based on <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> C++ Library and use one or more threads to perform all asynchronous IO operations and communications.</p>
 <p>Thread-safe.</p>
 <p><a href="http://think-async.com">http://think-async.com</a> </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00035">35</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00036">36</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a1888890d636746ccff2b44604929660e"></a>
 <div class="memitem">
@@ -346,7 +346,7 @@ template&lt;typename CompletionHandler &gt; </div>
 <p>The given handler may be executed immediately if this function is called from IO service thread. Otherwise it will be enqueued to the IO service pending operations queue.</p>
 <p>Method takes a handler to dispatch as a parameter and returns async result of the handler. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00083">83</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00085">85</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -388,7 +388,7 @@ template&lt;typename CompletionHandler &gt; </div>
 <p>The given handler will be enqueued to the IO service pending operations queue.</p>
 <p>Method takes a handler to dispatch as a parameter and returns async result of the handler. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00093">93</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00095">95</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -415,7 +415,7 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Is the service started? </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00056">56</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00057">57</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -467,7 +467,7 @@ template&lt;typename CompletionHandler &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00122">122</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00124">124</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -494,7 +494,7 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Handle service idle notification. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00114">114</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00116">116</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -521,7 +521,7 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Handle service started notification. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00109">109</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00111">111</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -548,7 +548,7 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Handle service stopped notification. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00111">111</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00113">113</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -576,7 +576,7 @@ template&lt;typename CompletionHandler &gt; </div>
 <p>Cleanup thread handler. </p>
 <p>This handler can be used to cleanup priority or affinity of the service thread. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00106">106</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00108">108</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -604,7 +604,7 @@ template&lt;typename CompletionHandler &gt; </div>
 <p>Initialize thread handler. </p>
 <p>This handler can be used to initialize priority or affinity of the service thread. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00101">101</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00103">103</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
@@ -672,7 +672,7 @@ template&lt;typename CompletionHandler &gt; </div>
 <p>Restart the service. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the service was successfully restarted, 'false' if the service failed to restart </dd></dl>
 
-<p>Definition at line <a class="el" href="service_8cpp_source.html#l00091">91</a> of file <a class="el" href="service_8cpp_source.html">service.cpp</a>.</p>
+<p>Definition at line <a class="el" href="service_8cpp_source.html#l00095">95</a> of file <a class="el" href="service_8cpp_source.html">service.cpp</a>.</p>
 
 </div>
 </div>
@@ -699,11 +699,11 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service. </p>
 
-<p>Definition at line <a class="el" href="service_8h_source.html#l00053">53</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
+<p>Definition at line <a class="el" href="service_8h_source.html#l00054">54</a> of file <a class="el" href="service_8h_source.html">service.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa85bf639de313817cea8673a700d16d2"></a>
+<a class="anchor" id="a0e32e7f2aec0c2a5e743fdbeee8ceaf9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -711,8 +711,18 @@ template&lt;typename CompletionHandler &gt; </div>
           <td class="memname">bool CppServer::Asio::Service::Start </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>polling</em> = <code>false</code></td><td>)</td>
+          <td class="paramname"><em>polling</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>threads</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -721,6 +731,7 @@ template&lt;typename CompletionHandler &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">polling</td><td>- Polling loop mode with idle handler call (default is false) </td></tr>
+    <tr><td class="paramname">threads</td><td>- Count of working threads (default is 1) </td></tr>
   </table>
   </dd>
 </dl>
@@ -746,7 +757,7 @@ template&lt;typename CompletionHandler &gt; </div>
 <p>Stop the service. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the service was successfully stopped, 'false' if the service is already stopped </dd></dl>
 
-<p>Definition at line <a class="el" href="service_8cpp_source.html#l00062">62</a> of file <a class="el" href="service_8cpp_source.html">service.cpp</a>.</p>
+<p>Definition at line <a class="el" href="service_8cpp_source.html#l00065">65</a> of file <a class="el" href="service_8cpp_source.html">service.cpp</a>.</p>
 
 </div>
 </div>

@@ -135,6 +135,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1f922b649fd97735ed92aca5353e8f42"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a1f922b649fd97735ed92aca5353e8f42">service</a> () noexcept</td></tr>
 <tr class="memdesc:a1f922b649fd97735ed92aca5353e8f42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service.  <a href="#a1f922b649fd97735ed92aca5353e8f42">More...</a><br/></td></tr>
 <tr class="separator:a1f922b649fd97735ed92aca5353e8f42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c06ac575e280335fbbb014f53d9ba31"><td class="memItemLeft" align="right" valign="top">asio::io_service::strand &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a7c06ac575e280335fbbb014f53d9ba31">strand</a> () noexcept</td></tr>
+<tr class="memdesc:a7c06ac575e280335fbbb014f53d9ba31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service strand for serialised handler execution.  <a href="#a7c06ac575e280335fbbb014f53d9ba31">More...</a><br/></td></tr>
+<tr class="separator:a7c06ac575e280335fbbb014f53d9ba31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ade78f179eef5bedc1567f3672ea807"><td class="memItemLeft" align="right" valign="top">asio::ip::udp::endpoint &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a> () noexcept</td></tr>
 <tr class="memdesc:a0ade78f179eef5bedc1567f3672ea807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the server endpoint.  <a href="#a0ade78f179eef5bedc1567f3672ea807">More...</a><br/></td></tr>
 <tr class="separator:a0ade78f179eef5bedc1567f3672ea807"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -323,7 +326,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00042">42</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00043">43</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -368,7 +371,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00062">62</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00064">64</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -467,7 +470,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the number of bytes received by the server. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00067">67</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00069">69</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -494,7 +497,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the number of bytes sent by the server. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00065">65</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00067">67</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -521,7 +524,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the number datagrams received by the server. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00063">63</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00065">65</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -548,7 +551,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the number datagrams sent by the server. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00061">61</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00063">63</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -575,7 +578,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the server endpoint. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00056">56</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00058">58</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -602,7 +605,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Is the server started? </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00075">75</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00077">77</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -640,7 +643,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00175">175</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00178">178</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -675,7 +678,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00120">120</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00122">122</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -702,7 +705,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the server multicast endpoint. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00058">58</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00060">60</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -755,7 +758,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a4">udp_echo_server.cpp</a>, and <a class="el" href="udp_multicast_server_8cpp-example.html#a2">udp_multicast_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00187">187</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00189">189</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -809,7 +812,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a2">udp_echo_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00168">168</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00170">170</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -856,7 +859,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00179">179</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00181">181</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -883,7 +886,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Handle server started notification. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00155">155</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00157">157</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -910,7 +913,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Handle server stopped notification. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00157">157</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00159">159</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -985,7 +988,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the option: reuse address. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00070">70</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00072">72</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1012,7 +1015,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the option: reuse port. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00072">72</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00074">74</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1032,7 +1035,7 @@ Protected Member Functions</h2></td></tr>
 <p>Restart the server. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully restarted, 'false' if the server failed to restart </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00164">164</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00167">167</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1078,7 +1081,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a3">udp_echo_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00181">181</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00184">184</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1124,7 +1127,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00136">136</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00138">138</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1186,7 +1189,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00144">144</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00146">146</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1221,7 +1224,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00151">151</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00153">153</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1241,7 +1244,7 @@ Protected Member Functions</h2></td></tr>
 <p>Start the server. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully started, 'false' if the server failed to start </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00081">81</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00084">84</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1279,7 +1282,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully started, 'false' if the server failed to start </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00126">126</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00129">129</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1306,7 +1309,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully started, 'false' if the server failed to start </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00132">132</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00135">135</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1326,7 +1329,34 @@ Protected Member Functions</h2></td></tr>
 <p>Stop the server. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully stopped, 'false' if the server is already stopped </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00138">138</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00141">141</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c06ac575e280335fbbb014f53d9ba31"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">asio::io_service::strand&amp; CppServer::Asio::UDPServer::strand </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service strand for serialised handler execution. </p>
+
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00056">56</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
