@@ -34,8 +34,6 @@ public:
 protected:
     void onReceived(const void* buffer, size_t size) override
     {
-		Sleep(1);
-
         // Resend the message back to the client
         Send(buffer, size);
     }
