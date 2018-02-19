@@ -14,6 +14,7 @@ namespace Asio {
 UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
+      _strand(*_service->service()),
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
       _socket(*_service->service()),
       _connected(false),
@@ -35,6 +36,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
 UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
+      _strand(*_service->service()),
       _endpoint(endpoint),
       _socket(*_service->service()),
       _connected(false),
@@ -60,7 +62,7 @@ bool UDPClient::Connect()
 
     // Post the connect routine
     auto self(this->shared_from_this());
-    _service->service()->post([this, self]()
+    _strand.post([this, self]()
     {
         if (IsConnected())
             return;
@@ -124,9 +126,9 @@ bool UDPClient::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect routine
     if (dispatch)
-        _service->Dispatch(disconnect);
+        _strand.dispatch(disconnect);
     else
-        _service->Post(disconnect);
+        _strand.post(disconnect);
 
     return true;
 }
@@ -149,7 +151,7 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
 
     // Dispatch the join multicast group routine
     auto self(this->shared_from_this());
-    _service->Dispatch([this, self, address]()
+    _strand.dispatch([this, self, address]()
     {
         if (!IsConnected())
             return;
@@ -171,7 +173,7 @@ void UDPClient::LeaveMulticastGroup(const std::string& address)
 
     // Dispatch the leave multicast group routine
     auto self(this->shared_from_this());
-    _service->Dispatch([this, self, address]()
+    _strand.dispatch([this, self, address]()
     {
         if (!IsConnected())
             return;
@@ -237,7 +239,7 @@ void UDPClient::TryReceive()
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -267,7 +269,7 @@ void UDPClient::TryReceive()
             SendError(ec);
             Disconnect(true);
         }
-    }));
+    })));
 }
 
 void UDPClient::SendError(std::error_code ec)

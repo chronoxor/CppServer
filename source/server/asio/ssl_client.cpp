@@ -102,7 +102,7 @@ public:
 
         // Post the connect routine
         auto self(this->shared_from_this());
-        _service->service()->post(bind_executor(_strand, [this, self]()
+        _strand.post([this, self]()
         {
             if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
                 return;
@@ -170,7 +170,7 @@ public:
                     onDisconnected();
                 }
             }));
-        }));
+        });
 
         return true;
     }
@@ -181,7 +181,7 @@ public:
             return false;
 
         auto self(this->shared_from_this());
-        auto disconnect = bind_executor(_strand, [this, self]()
+        auto disconnect = [this, self]()
         {
             if (!IsConnected() || _connecting || _handshaking)
                 return;
@@ -203,13 +203,13 @@ public:
 
             // Call the client disconnected handler
             onDisconnected();
-        });
+        };
 
         // Dispatch or post the disconnect routine
         if (dispatch)
-            _service->Dispatch(disconnect);
+            _strand.dispatch(disconnect);
         else
-            _service->Post(disconnect);
+            _strand.post(disconnect);
 
         return true;
     }
@@ -264,6 +264,7 @@ private:
     std::shared_ptr<SSLClient> _client;
     // Asio service
     std::shared_ptr<Service> _service;
+    // Asio service strand for serialised handler execution
     asio::io_service::strand _strand;
     // Server SSL context, endpoint & client stream
     std::shared_ptr<asio::ssl::context> _context;

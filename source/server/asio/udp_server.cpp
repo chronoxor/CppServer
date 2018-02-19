@@ -13,6 +13,7 @@ namespace Asio {
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
+      _strand(*_service->service()),
       _socket(*_service->service()),
       _started(false),
       _datagrams_sent(0),
@@ -41,6 +42,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
+      _strand(*_service->service()),
       _socket(*_service->service()),
       _started(false),
       _datagrams_sent(0),
@@ -61,6 +63,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _service(service),
+      _strand(*_service->service()),
       _endpoint(endpoint),
       _socket(*_service->service()),
       _started(false),
@@ -86,7 +89,7 @@ bool UDPServer::Start()
 
     // Post the start routine
     auto self(this->shared_from_this());
-    _service->service()->post([this, self]()
+    _strand.post([this, self]()
     {
         if (IsStarted())
             return;
@@ -143,7 +146,7 @@ bool UDPServer::Stop()
 
     // Post the stopped routine
     auto self(this->shared_from_this());
-    _service->service()->post([this, self]()
+    _strand.post([this, self]()
     {
         if (!IsStarted())
             return;
@@ -222,7 +225,7 @@ void UDPServer::TryReceive()
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -249,7 +252,7 @@ void UDPServer::TryReceive()
             TryReceive();
         else
             SendError(ec);
-    }));
+    })));
 }
 
 void UDPServer::SendError(std::error_code ec)

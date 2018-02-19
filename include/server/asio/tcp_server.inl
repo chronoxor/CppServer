@@ -85,7 +85,7 @@ inline bool TCPServer<TServer, TSession>::Start()
 
     // Post the start routine
     auto self(this->shared_from_this());
-    _service->service()->post(bind_executor(_strand, [this, self]()
+    _strand.post([this, self]()
     {
         if (IsStarted())
             return;
@@ -117,7 +117,7 @@ inline bool TCPServer<TServer, TSession>::Start()
 
         // Perform the first server accept
         Accept();
-    }));
+    });
 
     return true;
 }
@@ -131,7 +131,7 @@ inline bool TCPServer<TServer, TSession>::Stop()
 
     // Post the stopped routine
     auto self(this->shared_from_this());
-    _service->service()->post(bind_executor(_strand, [this, self]()
+    _strand.post([this, self]()
     {
         if (!IsStarted())
             return;
@@ -150,7 +150,7 @@ inline bool TCPServer<TServer, TSession>::Stop()
 
         // Call the server stopped handler
         onStopped();
-    }));
+    });
 
     return true;
 }
@@ -175,7 +175,7 @@ inline void TCPServer<TServer, TSession>::Accept()
 
     // Dispatch the disconnect routine
     auto self(this->shared_from_this());
-    _service->Dispatch(bind_executor(_strand, [this, self]()
+    _strand.dispatch([this, self]()
     {
         if (!IsStarted())
             return;
@@ -190,7 +190,7 @@ inline void TCPServer<TServer, TSession>::Accept()
             // Perform the next server accept
             Accept();
         })));
-    }));
+    });
 }
 
 template <class TServer, class TSession>
@@ -214,7 +214,7 @@ inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
     // Dispatch the multicast routine
     auto self(this->shared_from_this());
-    _service->Dispatch(bind_executor(_strand, make_alloc_handler(_multicast_storage, [this, self]()
+    _strand.dispatch(make_alloc_handler(_multicast_storage, [this, self]()
     {
         if (!IsStarted())
             return;
@@ -231,7 +231,7 @@ inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
         // Clear the multicast buffer
         _multicast_buffer.clear();
-    })));
+    }));
 
     return true;
 }
@@ -244,7 +244,7 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
 
     // Dispatch the disconnect routine
     auto self(this->shared_from_this());
-    _service->Dispatch(bind_executor(_strand, [this, self]()
+    _strand.dispatch([this, self]()
     {
         if (!IsStarted())
             return;
@@ -252,7 +252,7 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
         // Disconnect all sessions
         for (auto& session : _sessions)
             session.second->Disconnect();
-    }));
+    });
 
     return true;
 }

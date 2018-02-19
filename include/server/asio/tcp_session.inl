@@ -56,7 +56,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
         return false;
 
     auto self(this->shared_from_this());
-    auto disconnect = bind_executor(_strand, [this, self]()
+    auto disconnect = [this, self]()
     {
         if (!IsConnected())
             return;
@@ -75,13 +75,13 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
 
         // Unregister the session
         _server->UnregisterSession(id());
-    });
+    };
 
     // Dispatch or post the disconnect routine
     if (dispatch)
-        service()->Dispatch(disconnect);
+        _strand.dispatch(disconnect);
     else
-        service()->Post(disconnect);
+        _strand.post(disconnect);
 
     return true;
 }
@@ -109,11 +109,11 @@ inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t siz
 
     // Dispatch the send routine
     auto self(this->shared_from_this());
-    service()->Dispatch(bind_executor(_strand, [this, self]()
+    _strand.dispatch([this, self]()
     {
         // Try to send the main buffer
         TrySend();
-    }));
+    });
 
     return result;
 }
