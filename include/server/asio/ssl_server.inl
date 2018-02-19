@@ -12,6 +12,7 @@ namespace Asio {
 template <class TServer, class TSession>
 inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
     : _service(service),
+      _strand(*_service->service()),
       _context(context),
       _acceptor(*_service->service()),
       _socket(*_service->service()),
@@ -44,6 +45,7 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
 template <class TServer, class TSession>
 inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
     : _service(service),
+      _strand(*_service->service()),
       _context(context),
       _acceptor(*_service->service()),
       _socket(*_service->service()),
@@ -68,6 +70,7 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
 template <class TServer, class TSession>
 inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
     : _service(service),
+      _strand(*_service->service()),
       _context(context),
       _endpoint(endpoint),
       _acceptor(*_service->service()),
@@ -97,7 +100,7 @@ inline bool SSLServer<TServer, TSession>::Start()
 
     // Post the start routine
     auto self(this->shared_from_this());
-    _service->service()->post([this, self]()
+    _service->service()->post(bind_executor(_strand, [this, self]()
     {
         if (IsStarted())
             return;
@@ -129,7 +132,7 @@ inline bool SSLServer<TServer, TSession>::Start()
 
         // Perform the first server accept
         Accept();
-    });
+    }));
 
     return true;
 }
@@ -143,7 +146,7 @@ inline bool SSLServer<TServer, TSession>::Stop()
 
     // Post the stopped routine
     auto self(this->shared_from_this());
-    _service->service()->post([this, self]()
+    _service->service()->post(bind_executor(_strand, [this, self]()
     {
         if (!IsStarted())
             return;
@@ -162,7 +165,7 @@ inline bool SSLServer<TServer, TSession>::Stop()
 
         // Call the server stopped handler
         onStopped();
-    });
+    }));
 
     return true;
 }
@@ -187,12 +190,12 @@ inline void SSLServer<TServer, TSession>::Accept()
 
     // Dispatch the disconnect routine
     auto self(this->shared_from_this());
-    _service->Dispatch([this, self]()
+    _service->Dispatch(bind_executor(_strand, [this, self]()
     {
         if (!IsStarted())
             return;
 
-        _acceptor.async_accept(_socket, make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
+        _acceptor.async_accept(_socket, bind_executor(_strand, make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
             if (!ec)
                 RegisterSession();
@@ -201,8 +204,8 @@ inline void SSLServer<TServer, TSession>::Accept()
 
             // Perform the next server accept
             Accept();
-        }));
-    });
+        })));
+    }));
 }
 
 template <class TServer, class TSession>
@@ -226,7 +229,7 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
     // Dispatch the multicast routine
     auto self(this->shared_from_this());
-    _service->Dispatch(make_alloc_handler(_multicast_storage, [this, self]()
+    _service->Dispatch(bind_executor(_strand, make_alloc_handler(_multicast_storage, [this, self]()
     {
         std::lock_guard<std::mutex> locker(_multicast_lock);
 
@@ -240,7 +243,7 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
         // Clear the multicast buffer
         _multicast_buffer.clear();
-    }));
+    })));
 
     return true;
 }
@@ -253,7 +256,7 @@ inline bool SSLServer<TServer, TSession>::DisconnectAll()
 
     // Dispatch the disconnect routine
     auto self(this->shared_from_this());
-    _service->Dispatch([this, self]()
+    _service->Dispatch(bind_executor(_strand, [this, self]()
     {
         if (!IsStarted())
             return;
@@ -261,7 +264,7 @@ inline bool SSLServer<TServer, TSession>::DisconnectAll()
         // Disconnect all sessions
         for (auto& session : _sessions)
             session.second->Disconnect();
-    });
+    }));
 
     return true;
 }

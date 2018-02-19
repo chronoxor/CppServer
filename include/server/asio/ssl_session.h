@@ -140,6 +140,7 @@ private:
     CppCommon::UUID _id;
     // Session server, SSL stream and SSL context
     std::shared_ptr<SSLServer<TServer, TSession>> _server;
+    asio::io_service::strand _strand;
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
     std::shared_ptr<asio::ssl::context> _context;
     std::atomic<bool> _connected;

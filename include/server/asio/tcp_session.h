@@ -133,6 +133,7 @@ private:
     CppCommon::UUID _id;
     // Session server & socket
     std::shared_ptr<TCPServer<TServer, TSession>> _server;
+    asio::io_service::strand _strand;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
     // Session statistic

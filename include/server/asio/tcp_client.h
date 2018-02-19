@@ -159,6 +159,7 @@ private:
     CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;
+    asio::io_service::strand _strand;
     // Server endpoint & client socket
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::socket _socket;

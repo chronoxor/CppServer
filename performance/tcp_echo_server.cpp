@@ -34,6 +34,8 @@ public:
 protected:
     void onReceived(const void* buffer, size_t size) override
     {
+		Sleep(1);
+
         // Resend the message back to the client
         Send(buffer, size);
     }
@@ -50,6 +52,7 @@ int main(int argc, char** argv)
 
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-p", "--port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
+    parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::LogicalCores()).help("Count of working threads. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 
@@ -62,15 +65,17 @@ int main(int argc, char** argv)
 
     // Server port
     int port = options.get("port");
+    int threads_count = options.get("threads");
 
     std::cout << "Server port: " << port << std::endl;
+    std::cout << "Working threads: " << threads_count << std::endl;
 
     // Create a new Asio service
     auto service = std::make_shared<Service>();
 
     // Start the Asio service
     std::cout << "Asio service starting...";
-    service->Start();
+    service->Start(false, threads_count);
     std::cout << "Done!" << std::endl;
 
     // Create a new echo server

@@ -33,8 +33,10 @@ Service::Service(std::shared_ptr<asio::io_service> service)
     _started = !service->stopped();
 }
 
-bool Service::Start(bool polling)
+bool Service::Start(bool polling, int threads)
 {
+    assert((threads > 0) && "Working threads counter must be greater than zero!");
+
     assert(!IsStarted() && "Asio service is already started!");
     if (IsStarted())
         return false;
@@ -53,8 +55,9 @@ bool Service::Start(bool polling)
         onStarted();
     });
 
-    // Start the service working thread
-    _thread = CppCommon::Thread::Start([self, polling]() { ServiceLoop(self, polling); });
+    // Start service working threads
+    for (int thread = 0; thread < threads; ++thread)
+        _threads.push_back(CppCommon::Thread::Start([self, polling]() { ServiceLoop(self, polling); }));
 
     return true;
 }
@@ -82,8 +85,9 @@ bool Service::Stop()
         onStopped();
     });
 
-    // Wait for the service working thread
-    _thread.join();
+    // Wait for all service working threads
+    for (auto& thread : _threads)
+        thread.join();
 
     return true;
 }

@@ -14,6 +14,7 @@ namespace Asio {
 TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
+      _strand(*_service->service()),
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
       _socket(*_service->service()),
       _connecting(false),
@@ -34,6 +35,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
 TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
+      _strand(*_service->service()),
       _endpoint(endpoint),
       _socket(*_service->service()),
       _connecting(false),
@@ -58,14 +60,14 @@ bool TCPClient::Connect()
 
     // Post the connect routine
     auto self(this->shared_from_this());
-    _service->service()->post([this, self]()
+    _service->service()->post(bind_executor(_strand, [this, self]()
     {
         if (IsConnected() || _connecting)
             return;
 
         // Connect the client socket
         _connecting = true;
-        _socket.async_connect(_endpoint, [this, self](std::error_code ec)
+        _socket.async_connect(_endpoint, bind_executor(_strand, [this, self](std::error_code ec)
         {
             _connecting = false;
 
@@ -97,8 +99,8 @@ bool TCPClient::Connect()
                 SendError(ec);
                 onDisconnected();
             }
-        });
-    });
+        }));
+    }));
 
     return true;
 }
@@ -109,7 +111,7 @@ bool TCPClient::Disconnect(bool dispatch)
         return false;
 
     auto self(this->shared_from_this());
-    auto disconnect = [this, self]()
+    auto disconnect = bind_executor(_strand, [this, self]()
     {
         if (!IsConnected())
             return;
@@ -125,7 +127,7 @@ bool TCPClient::Disconnect(bool dispatch)
 
         // Call the client disconnected handler
         onDisconnected();
-    };
+    });
 
     // Dispatch or post the disconnect routine
     if (dispatch)
@@ -169,11 +171,11 @@ size_t TCPClient::Send(const void* buffer, size_t size)
 
     // Dispatch the send routine
     auto self(this->shared_from_this());
-    _service->Dispatch([this, self]()
+    _service->Dispatch(bind_executor(_strand, [this, self]()
     {
         // Try to send the main buffer
         TrySend();
-    });
+    }));
 
     return result;
 }
@@ -188,7 +190,7 @@ void TCPClient::TryReceive()
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+    _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -217,7 +219,7 @@ void TCPClient::TryReceive()
             SendError(ec);
             Disconnect(true);
         }
-    }));
+    })));
 }
 
 void TCPClient::TrySend()
@@ -248,7 +250,7 @@ void TCPClient::TrySend()
 
     _sending = true;
     auto self(this->shared_from_this());
-    asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
+    asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _sending = false;
 
@@ -286,7 +288,7 @@ void TCPClient::TrySend()
             SendError(ec);
             Disconnect(true);
         }
-    }));
+    })));
 }
 
 void TCPClient::ClearBuffers()

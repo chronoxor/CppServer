@@ -18,6 +18,7 @@
 #include <cassert>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace CppServer {
 namespace Asio {
@@ -25,7 +26,7 @@ namespace Asio {
 //! Asio service
 /*!
     Asio service is used to host all clients/servers based on Asio C++ library.
-    It is implemented based on Asio C++ Library and use a separate thread to
+    It is implemented based on Asio C++ Library and use one or more threads to
     perform all asynchronous IO operations and communications.
 
     Thread-safe.
@@ -58,9 +59,10 @@ public:
     //! Start the service
     /*!
         \param polling - Polling loop mode with idle handler call (default is false)
+        \param threads - Count of working threads (default is 1)
         \return 'true' if the service was successfully started, 'false' if the service failed to start
     */
-    bool Start(bool polling = false);
+    bool Start(bool polling = false, int threads = 1);
     //! Stop the service
     /*!
         \return 'true' if the service was successfully stopped, 'false' if the service is already stopped
@@ -124,7 +126,7 @@ protected:
 private:
     // Asio service
     std::shared_ptr<asio::io_service> _service;
-    std::thread _thread;
+    std::vector<std::thread> _threads;
     std::atomic<bool> _started;
 
     //! Service loop

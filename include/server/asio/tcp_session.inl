@@ -13,6 +13,7 @@ template <class TServer, class TSession>
 inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
+      _strand(*service()->service()),
       _socket(std::move(socket)),
       _connected(false),
       _bytes_sent(0),
@@ -55,7 +56,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
         return false;
 
     auto self(this->shared_from_this());
-    auto disconnect = [this, self]()
+    auto disconnect = bind_executor(_strand, [this, self]()
     {
         if (!IsConnected())
             return;
@@ -74,7 +75,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
 
         // Unregister the session
         _server->UnregisterSession(id());
-    };
+    });
 
     // Dispatch or post the disconnect routine
     if (dispatch)
@@ -108,11 +109,11 @@ inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t siz
 
     // Dispatch the send routine
     auto self(this->shared_from_this());
-    service()->Dispatch([this, self]()
+    service()->Dispatch(bind_executor(_strand, [this, self]()
     {
         // Try to send the main buffer
         TrySend();
-    });
+    }));
 
     return result;
 }
@@ -128,7 +129,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
 
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+    _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -158,7 +159,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
             SendError(ec);
             Disconnect(true);
         }
-    }));
+    })));
 }
 
 template <class TServer, class TSession>
@@ -190,7 +191,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
 
     _sending = true;
     auto self(this->shared_from_this());
-    asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
+    asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _sending = false;
 
@@ -229,7 +230,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
             SendError(ec);
             Disconnect(true);
         }
-    }));
+    })));
 }
 
 template <class TServer, class TSession>

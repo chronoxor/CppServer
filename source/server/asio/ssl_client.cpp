@@ -22,6 +22,7 @@ public:
     Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
         : _id(id),
           _service(service),
+          _strand(*_service->service()),
           _context(context),
           _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
           _stream(*_service->service(), *_context),
@@ -49,6 +50,7 @@ public:
     Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
         : _id(id),
           _service(service),
+          _strand(*_service->service()),
           _context(context),
           _endpoint(endpoint),
           _stream(*_service->service(), *_context),
@@ -100,14 +102,14 @@ public:
 
         // Post the connect routine
         auto self(this->shared_from_this());
-        _service->service()->post([this, self]()
+        _service->service()->post(bind_executor(_strand, [this, self]()
         {
             if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
                 return;
 
             // Connect the client socket
             _connecting = true;
-            socket().async_connect(_endpoint, [this, self](std::error_code ec1)
+            socket().async_connect(_endpoint, bind_executor(_strand, [this, self](std::error_code ec1)
             {
                 _connecting = false;
 
@@ -132,7 +134,7 @@ public:
 
                     // Perform SSL handshake
                     _handshaking = true;
-                    _stream.async_handshake(asio::ssl::stream_base::client, [this, self](std::error_code ec2)
+                    _stream.async_handshake(asio::ssl::stream_base::client, bind_executor(_strand, [this, self](std::error_code ec2)
                     {
                         _handshaking = false;
 
@@ -159,7 +161,7 @@ public:
                             SendError(ec2);
                             Disconnect(true);
                         }
-                    });
+                    }));
                 }
                 else
                 {
@@ -167,8 +169,8 @@ public:
                     SendError(ec1);
                     onDisconnected();
                 }
-            });
-        });
+            }));
+        }));
 
         return true;
     }
@@ -179,7 +181,7 @@ public:
             return false;
 
         auto self(this->shared_from_this());
-        auto disconnect = [this, self]()
+        auto disconnect = bind_executor(_strand, [this, self]()
         {
             if (!IsConnected() || _connecting || _handshaking)
                 return;
@@ -201,7 +203,7 @@ public:
 
             // Call the client disconnected handler
             onDisconnected();
-        };
+        });
 
         // Dispatch or post the disconnect routine
         if (dispatch)
@@ -234,11 +236,11 @@ public:
 
         // Dispatch the send routine
         auto self(this->shared_from_this());
-        _service->Dispatch([this, self]()
+        _service->Dispatch(bind_executor(_strand, [this, self]()
         {
             // Try to send the main buffer
             TrySend();
-        });
+        }));
 
         return result;
     }
@@ -262,6 +264,7 @@ private:
     std::shared_ptr<SSLClient> _client;
     // Asio service
     std::shared_ptr<Service> _service;
+    asio::io_service::strand _strand;
     // Server SSL context, endpoint & client stream
     std::shared_ptr<asio::ssl::context> _context;
     asio::ip::tcp::endpoint _endpoint;
@@ -297,7 +300,7 @@ private:
 
         _reciving = true;
         auto self(this->shared_from_this());
-        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
         {
             _reciving = false;
 
@@ -326,7 +329,7 @@ private:
                 SendError(ec);
                 Disconnect(true);
             }
-        }));
+        })));
     }
 
     void TrySend()
@@ -357,7 +360,7 @@ private:
 
         _sending = true;
         auto self(this->shared_from_this());
-        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
+        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
         {
             _sending = false;
 
@@ -395,7 +398,7 @@ private:
                 SendError(ec);
                 Disconnect(true);
             }
-        }));
+        })));
     }
 
     void ClearBuffers()

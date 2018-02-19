@@ -173,6 +173,7 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
+    asio::io_service::strand _strand;
     // Server endpoint, acceptor & socket
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;

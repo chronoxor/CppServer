@@ -178,6 +178,7 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
+    asio::io_service::strand _strand;
     // Server SSL context, endpoint, acceptor and socket
     std::shared_ptr<asio::ssl::context> _context;
     asio::ip::tcp::endpoint _endpoint;
