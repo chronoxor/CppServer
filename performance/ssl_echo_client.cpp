@@ -34,6 +34,7 @@ class EchoClient : public SSLClient
 public:
     explicit EchoClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port, int messages)
         : SSLClient(service, context, address, port),
+          _handshaked(false),
           _messages_output(messages),
           _messages_input(messages),
           _sent(0),
@@ -41,9 +42,13 @@ public:
     {
     }
 
+    bool handshaked() const noexcept { return _handshaked; }
+
 protected:
     void onHandshaked() override
     {
+        _handshaked = true;
+
         SendMessage();
     }
 
@@ -77,6 +82,7 @@ protected:
     }
 
 private:
+    std::atomic<bool> _handshaked;
     int _messages_output;
     int _messages_input;
     size_t _sent;
@@ -170,7 +176,7 @@ int main(int argc, char** argv)
         client->Connect();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
-        while (!client->IsHandshaked())
+        while (!client->handshaked())
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 

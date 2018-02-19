@@ -80,6 +80,7 @@ public:
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     std::shared_ptr<Service>& service() noexcept { return _service; }
+    asio::io_service::strand& strand() noexcept { return _strand; }
     std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
@@ -474,6 +475,11 @@ const CppCommon::UUID& SSLClient::id() const noexcept
 std::shared_ptr<Service>& SSLClient::service() noexcept
 {
     return _pimpl->service();
+}
+
+asio::io_service::strand& SSLClient::strand() noexcept
+{
+    return _pimpl->strand();
 }
 
 std::shared_ptr<asio::ssl::context>& SSLClient::context() noexcept

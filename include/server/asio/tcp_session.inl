@@ -74,7 +74,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
         onDisconnected();
 
         // Unregister the session
-        _server->UnregisterSession(id());
+        _server->strand().dispatch([this, self]() { _server->UnregisterSession(id()); });
     };
 
     // Dispatch or post the disconnect routine

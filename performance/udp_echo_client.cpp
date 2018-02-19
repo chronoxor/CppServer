@@ -33,14 +33,19 @@ class EchoClient : public UDPClient
 {
 public:
     explicit EchoClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
-        : UDPClient(service, address, port)
+        : UDPClient(service, address, port),
+          _connected(false)
     {
         _messages = messages;
     }
 
+    bool connected() const noexcept { return _connected; }
+
 protected:
     void onConnected() override
     {
+        _connected = true;
+
         SendMessage();
     }
 
@@ -60,6 +65,7 @@ protected:
     }
 
 private:
+    std::atomic<bool> _connected;
     int _messages;
 
     void SendMessage()
@@ -142,7 +148,7 @@ int main(int argc, char** argv)
         client->Connect();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
-        while (!client->IsConnected())
+        while (!client->connected())
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 

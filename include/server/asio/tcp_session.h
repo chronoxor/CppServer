@@ -52,6 +52,8 @@ public:
     std::shared_ptr<Service>& service() noexcept { return _server->service(); }
     //! Get the session server
     std::shared_ptr<TCPServer<TServer, TSession>>& server() noexcept { return _server; }
+    //! Get the Asio service strand for serialised handler execution
+    asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the session socket
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 

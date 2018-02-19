@@ -34,6 +34,7 @@ class EchoClient : public TCPClient
 public:
     explicit EchoClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
         : TCPClient(service, address, port),
+          _connected(false),
           _messages_output(messages),
           _messages_input(messages),
           _sent(0),
@@ -41,9 +42,13 @@ public:
     {
     }
 
+    bool connected() const noexcept { return _connected; }
+
 protected:
     void onConnected() override
     {
+        _connected = true;
+
         SendMessage();
     }
 
@@ -77,6 +82,7 @@ protected:
     }
 
 private:
+    std::atomic<bool> _connected;
     int _messages_output;
     int _messages_input;
     size_t _sent;
@@ -165,7 +171,7 @@ int main(int argc, char** argv)
         client->Connect();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
-        while (!client->IsConnected())
+        while (!client->connected())
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 
