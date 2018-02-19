@@ -55,7 +55,7 @@ protected:
     void onSent(size_t sent, size_t pending) override
     {
         _sent += sent;
-        while (_sent >= message_to_send.size())
+        if (_sent >= message_to_send.size())
         {
             SendMessage();
             _sent -= message_to_send.size();
