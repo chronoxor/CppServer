@@ -237,11 +237,11 @@ public:
 
         // Dispatch the send routine
         auto self(this->shared_from_this());
-        _service->Dispatch(bind_executor(_strand, [this, self]()
+        _strand.dispatch([this, self]()
         {
             // Try to send the main buffer
             TrySend();
-        }));
+        });
 
         return result;
     }
