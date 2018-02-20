@@ -114,8 +114,15 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
             // Call the session disconnected handler
             onDisconnected();
 
-            // Unregister the session
-            _server->UnregisterSession(id());
+            // Dispatch the unregister session handler
+            auto unregister_session_handler = [this, self]()
+            {
+                _server->UnregisterSession(id());
+            };
+            if (_server->service()->IsMultithread())
+                _server->strand().dispatch(unregister_session_handler);
+            else
+                _server->service()->service()->dispatch(unregister_session_handler);
         });
         if (_server->service()->IsMultithread())
             _stream.async_shutdown(bind_executor(_server->strand(), shutdown_handler));

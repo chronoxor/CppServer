@@ -13,6 +13,7 @@ template <class TServer, class TSession>
 inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
+      _strand(*server->service()->service()),
       _socket(std::move(socket)),
       _connected(false),
       _bytes_sent(0),
@@ -73,15 +74,22 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
         // Call the session disconnected handler
         onDisconnected();
 
-        // Unregister the session
-        _server->UnregisterSession(id());
+        // Dispatch the unregister session handler
+        auto unregister_session_handler = [this, self]()
+        {
+            _server->UnregisterSession(id());
+        };
+        if (_server->service()->IsMultithread())
+            _server->strand().dispatch(unregister_session_handler);
+        else
+            _server->service()->service()->dispatch(unregister_session_handler);
     };
     if (_server->service()->IsMultithread())
     {
         if (dispatch)
-            _server->strand().dispatch(disconnect_handler);
+            _strand.dispatch(disconnect_handler);
         else
-            _server->strand().post(disconnect_handler);
+            _strand.post(disconnect_handler);
     }
     else
     {
@@ -123,7 +131,7 @@ inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t siz
         TrySend();
     };
     if (_server->service()->IsMultithread())
-        _server->strand().dispatch(send_handler);
+        _strand.dispatch(send_handler);
     else
         _server->service()->service()->dispatch(send_handler);
 
@@ -174,7 +182,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
         }
     });
     if (_server->service()->IsMultithread())
-        _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_server->strand(), async_receive_handler));
+        _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, async_receive_handler));
     else
         _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), async_receive_handler);
 }
@@ -250,7 +258,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
         }
     });
     if (_server->service()->IsMultithread())
-        asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_server->strand(), async_write_handler));
+        asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));
     else
         asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);
 }
