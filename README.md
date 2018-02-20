@@ -1169,12 +1169,12 @@ Message size: 32
 
 Errors: 0
 
-Round-trip time: 3.208 s
+Round-trip time: 3.047 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 9974318 bytes per second
-Message latency: 3.208 mcs
-Message throughput: 311697 messages per second
+Bytes throughput: 10500047 bytes per second
+Message latency: 3.047 mcs
+Message throughput: 328126 messages per second
 ```
 
 * [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
@@ -1273,12 +1273,12 @@ Message size: 32
 
 Errors: 0
 
-Round-trip time: 4.648 s
+Round-trip time: 4.499 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 6884430 bytes per second
-Messages latency: 4.648 mcs
-Messages throughput: 215138 messages per second
+Bytes throughput: 7111553 bytes per second
+Message latency: 4.499 mcs
+Message throughput: 222236 messages per second
 ```
 
 # OpenSSL certificates
@@ -1383,3 +1383,4 @@ openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in client.p12 
 ```
 openssl dhparam -out dh4096.pem 4096
 ```
+..
