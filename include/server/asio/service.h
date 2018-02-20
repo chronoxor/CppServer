@@ -83,7 +83,7 @@ public:
     */
     template <typename CompletionHandler>
     ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Dispatch(ASIO_MOVE_ARG(CompletionHandler) handler)
-    { return _service->dispatch(handler); }
+    { return _strand.dispatch(handler); }
 
     //! Post the given handler
     /*!
@@ -93,7 +93,7 @@ public:
     */
     template <typename CompletionHandler>
     ASIO_INITFN_RESULT_TYPE(CompletionHandler, void()) Post(ASIO_MOVE_ARG(CompletionHandler) handler)
-    { return _service->post(handler); }
+    { return _strand.post(handler); }
 
 protected:
     //! Initialize thread handler
@@ -126,7 +126,11 @@ protected:
 private:
     // Asio service
     std::shared_ptr<asio::io_service> _service;
+    // Asio service strand for serialised handler execution
+    asio::io_service::strand _strand;
+    // Asio service working threads
     std::vector<std::thread> _threads;
+    // Asio service start flag
     std::atomic<bool> _started;
 
     //! Service loop

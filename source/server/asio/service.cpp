@@ -15,6 +15,7 @@ namespace Asio {
 
 Service::Service()
     : _service(std::make_shared<asio::io_service>()),
+      _strand(*_service),
       _started(false)
 {
     assert((_service != nullptr) && "Asio service is invalid!");
@@ -24,6 +25,7 @@ Service::Service()
 
 Service::Service(std::shared_ptr<asio::io_service> service)
     : _service(service),
+      _strand(*_service),
       _started(false)
 {
     assert((_service != nullptr) && "Asio service is invalid!");
@@ -43,7 +45,7 @@ bool Service::Start(bool polling, int threads)
 
     // Post the started routine
     auto self(this->shared_from_this());
-    _service->post([this, self]()
+    _strand.post([this, self]()
     {
         if (IsStarted())
             return;
@@ -70,7 +72,7 @@ bool Service::Stop()
 
     // Post the stop routine
     auto self(this->shared_from_this());
-    _service->post([this, self]()
+    _strand.post([this, self]()
     {
         if (!IsStarted())
             return;
