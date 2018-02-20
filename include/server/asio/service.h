@@ -41,8 +41,9 @@ public:
     //! Initialize Asio service with a given Asio service
     /*!
         \param service - Asio service
+        \param multithread - Asio service multithread flag (default is false)
     */
-    explicit Service(std::shared_ptr<asio::io_service> service);
+    explicit Service(std::shared_ptr<asio::io_service> service, bool multithread = false);
     Service(const Service&) = delete;
     Service(Service&&) = default;
     virtual ~Service() = default;
@@ -53,6 +54,10 @@ public:
     //! Get the Asio service
     std::shared_ptr<asio::io_service>& service() noexcept { return _service; }
 
+    //! Is the service started with multiple threads?
+    bool IsMultithread() const noexcept { return _multithread; }
+    //! Is the service started with polling loop mode?
+    bool IsPolling() const noexcept { return _polling; }
     //! Is the service started?
     bool IsStarted() const noexcept { return _started; }
 
@@ -130,11 +135,15 @@ private:
     asio::io_service::strand _strand;
     // Asio service working threads
     std::vector<std::thread> _threads;
+    // Asio service multithread flag
+    std::atomic<bool> _multithread;
+    // Asio service polling loop mode flag
+    std::atomic<bool> _polling;
     // Asio service start flag
     std::atomic<bool> _started;
 
     //! Service loop
-    static void ServiceLoop(std::shared_ptr<Service> service, bool polling);
+    static void ServiceLoop(std::shared_ptr<Service> service);
 
     //! Send error notification
     void SendError(std::error_code ec);

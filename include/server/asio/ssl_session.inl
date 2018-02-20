@@ -46,9 +46,9 @@ inline void SSLSession<TServer, TSession>::Connect()
     // Call the session connected handler
     onConnected();
 
-    // Perform SSL handshake
+    // Async SSL handshake with the handshake handler
     auto self(this->shared_from_this());
-    _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_server->strand(), make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
+    auto async_handshake_handler = make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
     {
         if (IsHandshaked())
             return;
@@ -73,7 +73,11 @@ inline void SSLSession<TServer, TSession>::Connect()
             SendError(ec);
             Disconnect(true);
         }
-    })));
+    });
+    if (_server->service()->IsMultithread())
+        _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_server->strand(), async_handshake_handler));
+    else
+        _stream.async_handshake(asio::ssl::stream_base::server, async_handshake_handler);
 }
 
 template <class TServer, class TSession>
@@ -82,14 +86,15 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
     if (!IsConnected())
         return false;
 
+    // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect = [this, self]()
+    auto disconnect_handler = [this, self]()
     {
         if (!IsConnected())
             return;
 
-        // Shutdown the client stream
-        _stream.async_shutdown(bind_executor(_server->strand(), make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
+        // Async SSL shutdown with the shutdown handler
+        auto shutdown_handler = make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
         {
             if (!IsConnected())
                 return;
@@ -111,14 +116,26 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
 
             // Unregister the session
             _server->UnregisterSession(id());
-        })));
+        });
+        if (_server->service()->IsMultithread())
+            _stream.async_shutdown(bind_executor(_server->strand(), shutdown_handler));
+        else
+            _stream.async_shutdown(shutdown_handler);
     };
-
-    // Dispatch or post the disconnect routine
-    if (dispatch)
-        _server->strand().dispatch(disconnect);
+    if (_server->service()->IsMultithread())
+    {
+        if (dispatch)
+            _server->strand().dispatch(disconnect_handler);
+        else
+            _server->strand().post(disconnect_handler);
+    }
     else
-        _server->strand().post(disconnect);
+    {
+        if (dispatch)
+            _server->service()->service()->dispatch(disconnect_handler);
+        else
+            _server->service()->service()->post(disconnect_handler);
+    }
 
     return true;
 }
@@ -144,13 +161,17 @@ inline size_t SSLSession<TServer, TSession>::Send(const void* buffer, size_t siz
         result = _send_buffer_main.size();
     }
 
-    // Dispatch the send routine
+    // Dispatch the send handler
     auto self(this->shared_from_this());
-    _server->strand().dispatch([this, self]()
+    auto send_handler = [this, self]()
     {
         // Try to send the main buffer
         TrySend();
-    });
+    };
+    if (_server->service()->IsMultithread())
+        _server->strand().dispatch(send_handler);
+    else
+        _server->service()->service()->dispatch(send_handler);
 
     return result;
 }
@@ -164,9 +185,10 @@ inline void SSLSession<TServer, TSession>::TryReceive()
     if (!IsHandshaked())
         return;
 
+    // Async receive with the receive handler
     _reciving = true;
     auto self(this->shared_from_this());
-    _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_server->strand(), make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+    auto async_receive_handler = make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -196,7 +218,11 @@ inline void SSLSession<TServer, TSession>::TryReceive()
             SendError(ec);
             Disconnect(true);
         }
-    })));
+    });
+    if (_server->service()->IsMultithread())
+        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_server->strand(), async_receive_handler));
+    else
+        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), async_receive_handler);
 }
 
 template <class TServer, class TSession>
@@ -226,9 +252,10 @@ inline void SSLSession<TServer, TSession>::TrySend()
         return;
     }
 
+    // Async write with the write handler
     _sending = true;
     auto self(this->shared_from_this());
-    asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_server->strand(), make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
+    auto async_write_handler = make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _sending = false;
 
@@ -267,7 +294,11 @@ inline void SSLSession<TServer, TSession>::TrySend()
             SendError(ec);
             Disconnect(true);
         }
-    })));
+    });
+    if (_server->service()->IsMultithread())
+        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_server->strand(), async_write_handler));
+    else
+        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);
 }
 
 template <class TServer, class TSession>

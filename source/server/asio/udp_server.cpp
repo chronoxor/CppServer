@@ -87,9 +87,9 @@ bool UDPServer::Start()
     if (IsStarted())
         return false;
 
-    // Post the start routine
+    // Post the start handler
     auto self(this->shared_from_this());
-    _strand.post([this, self]()
+    auto start_handler = [this, self]()
     {
         if (IsStarted())
             return;
@@ -121,7 +121,11 @@ bool UDPServer::Start()
 
         // Try to receive datagrams from the clients
         TryReceive();
-    });
+    };
+    if (_service->IsMultithread())
+        _strand.post(start_handler);
+    else
+        _service->service()->post(start_handler);
 
     return true;
 }
@@ -144,9 +148,9 @@ bool UDPServer::Stop()
     if (!IsStarted())
         return false;
 
-    // Post the stopped routine
+    // Post the stop handler
     auto self(this->shared_from_this());
-    _strand.post([this, self]()
+    auto stop_handler = [this, self]()
     {
         if (!IsStarted())
             return;
@@ -159,7 +163,11 @@ bool UDPServer::Stop()
 
         // Call the server stopped handler
         onStopped();
-    });
+    };
+    if (_service->IsMultithread())
+        _strand.post(stop_handler);
+    else
+        _service->service()->post(stop_handler);
 
     return true;
 }
@@ -223,9 +231,10 @@ void UDPServer::TryReceive()
     if (!IsStarted())
         return;
 
+    // Async receive with the receive handler
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+    auto async_receive_handler = make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -252,7 +261,11 @@ void UDPServer::TryReceive()
             TryReceive();
         else
             SendError(ec);
-    })));
+    });
+    if (_service->IsMultithread())
+        _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, async_receive_handler));
+    else
+        _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, async_receive_handler);
 }
 
 void UDPServer::SendError(std::error_code ec)

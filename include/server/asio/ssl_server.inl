@@ -98,9 +98,9 @@ inline bool SSLServer<TServer, TSession>::Start()
     if (IsStarted())
         return false;
 
-    // Post the start routine
+    // Post the start handler
     auto self(this->shared_from_this());
-    _strand.post([this, self]()
+    auto start_handler = [this, self]()
     {
         if (IsStarted())
             return;
@@ -132,7 +132,11 @@ inline bool SSLServer<TServer, TSession>::Start()
 
         // Perform the first server accept
         Accept();
-    });
+    };
+    if (_service->IsMultithread())
+        _strand.post(start_handler);
+    else
+        _service->service()->post(start_handler);
 
     return true;
 }
@@ -144,9 +148,9 @@ inline bool SSLServer<TServer, TSession>::Stop()
     if (!IsStarted())
         return false;
 
-    // Post the stopped routine
+    // Post the stop handler
     auto self(this->shared_from_this());
-    _strand.post([this, self]()
+    auto stop_handler = [this, self]()
     {
         if (!IsStarted())
             return;
@@ -165,7 +169,11 @@ inline bool SSLServer<TServer, TSession>::Stop()
 
         // Call the server stopped handler
         onStopped();
-    });
+    };
+    if (_service->IsMultithread())
+        _strand.post(stop_handler);
+    else
+        _service->service()->post(stop_handler);
 
     return true;
 }
@@ -188,14 +196,14 @@ inline void SSLServer<TServer, TSession>::Accept()
     if (!IsStarted())
         return;
 
-    // Dispatch the disconnect routine
+    // Dispatch the accept handler
     auto self(this->shared_from_this());
-    _strand.dispatch([this, self]()
+    auto accept_handler = [this, self]()
     {
         if (!IsStarted())
             return;
 
-        _acceptor.async_accept(_socket, bind_executor(_strand, make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
+        auto async_accept_handler = make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
             if (!ec)
                 RegisterSession();
@@ -204,8 +212,16 @@ inline void SSLServer<TServer, TSession>::Accept()
 
             // Perform the next server accept
             Accept();
-        })));
-    });
+        });
+        if (_service->IsMultithread())
+            _acceptor.async_accept(_socket, bind_executor(_strand, async_accept_handler));
+        else
+            _acceptor.async_accept(_socket, async_accept_handler);
+    };
+    if (_service->IsMultithread())
+        _strand.dispatch(accept_handler);
+    else
+        _service->service()->dispatch(accept_handler);
 }
 
 template <class TServer, class TSession>
@@ -227,9 +243,9 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
         _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
     }
 
-    // Dispatch the multicast routine
+    // Dispatch the multicast handler
     auto self(this->shared_from_this());
-    _strand.dispatch(make_alloc_handler(_multicast_storage, [this, self]()
+    auto multicast_handler = make_alloc_handler(_multicast_storage, [this, self]()
     {
         std::lock_guard<std::mutex> locker(_multicast_lock);
 
@@ -243,7 +259,11 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
 
         // Clear the multicast buffer
         _multicast_buffer.clear();
-    }));
+    });
+    if (_service->IsMultithread())
+        _strand.dispatch(multicast_handler);
+    else
+        _service->service()->dispatch(multicast_handler);
 
     return true;
 }
@@ -254,9 +274,9 @@ inline bool SSLServer<TServer, TSession>::DisconnectAll()
     if (!IsStarted())
         return false;
 
-    // Dispatch the disconnect routine
+    // Dispatch the disconnect all handler
     auto self(this->shared_from_this());
-    _strand.dispatch([this, self]()
+    auto disconnect_all_handler = [this, self]()
     {
         if (!IsStarted())
             return;
@@ -264,7 +284,11 @@ inline bool SSLServer<TServer, TSession>::DisconnectAll()
         // Disconnect all sessions
         for (auto& session : _sessions)
             session.second->Disconnect();
-    });
+    };
+    if (_service->IsMultithread())
+        _strand.dispatch(disconnect_all_handler);
+    else
+        _service->service()->dispatch(disconnect_all_handler);
 
     return true;
 }

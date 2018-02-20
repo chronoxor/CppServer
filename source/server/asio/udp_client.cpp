@@ -60,9 +60,9 @@ bool UDPClient::Connect()
     if (IsConnected())
         return false;
 
-    // Post the connect routine
+    // Post the connect handler
     auto self(this->shared_from_this());
-    _strand.post([this, self]()
+    auto connect_handler = [this, self]()
     {
         if (IsConnected())
             return;
@@ -97,7 +97,11 @@ bool UDPClient::Connect()
 
         // Try to receive something from the server
         TryReceive();
-    });
+    };
+    if (_service->IsMultithread())
+        _strand.post(connect_handler);
+    else
+        _service->service()->post(connect_handler);
 
     return true;
 }
@@ -107,9 +111,9 @@ bool UDPClient::Disconnect(bool dispatch)
     if (!IsConnected())
         return false;
 
-    // Post the disconnect routine
+    // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect = [this, self]()
+    auto disconnect_handler = [this, self]()
     {
         if (!IsConnected())
             return;
@@ -123,12 +127,20 @@ bool UDPClient::Disconnect(bool dispatch)
         // Call the client disconnected handler
         onDisconnected();
     };
-
-    // Dispatch or post the disconnect routine
-    if (dispatch)
-        _strand.dispatch(disconnect);
+    if (_service->IsMultithread())
+    {
+        if (dispatch)
+            _strand.dispatch(disconnect_handler);
+        else
+            _strand.post(disconnect_handler);
+    }
     else
-        _strand.post(disconnect);
+    {
+        if (dispatch)
+            _service->service()->dispatch(disconnect_handler);
+        else
+            _service->service()->post(disconnect_handler);
+    }
 
     return true;
 }
@@ -149,9 +161,9 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
     if (!IsConnected())
         return;
 
-    // Dispatch the join multicast group routine
+    // Dispatch the join multicast group handler
     auto self(this->shared_from_this());
-    _strand.dispatch([this, self, address]()
+    auto join_multicast_group_handler = [this, self, address]()
     {
         if (!IsConnected())
             return;
@@ -163,7 +175,11 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
 
         // Call the client joined multicast group notification
         onJoinedMulticastGroup(address);
-    });
+    };
+    if (_service->IsMultithread())
+        _strand.dispatch(join_multicast_group_handler);
+    else
+        _service->service()->dispatch(join_multicast_group_handler);
 }
 
 void UDPClient::LeaveMulticastGroup(const std::string& address)
@@ -171,9 +187,9 @@ void UDPClient::LeaveMulticastGroup(const std::string& address)
     if (!IsConnected())
         return;
 
-    // Dispatch the leave multicast group routine
+    // Dispatch the leave multicast group handler
     auto self(this->shared_from_this());
-    _strand.dispatch([this, self, address]()
+    auto leave_multicast_group_handler = [this, self, address]()
     {
         if (!IsConnected())
             return;
@@ -185,7 +201,11 @@ void UDPClient::LeaveMulticastGroup(const std::string& address)
 
         // Call the client left multicast group notification
         onLeftMulticastGroup(address);
-    });
+    };
+    if (_service->IsMultithread())
+        _strand.dispatch(leave_multicast_group_handler);
+    else
+        _service->service()->dispatch(leave_multicast_group_handler);
 }
 
 bool UDPClient::Send(const void* buffer, size_t size)
@@ -237,9 +257,10 @@ void UDPClient::TryReceive()
     if (!IsConnected())
         return;
 
+    // Async receive with the receive handler
     _reciving = true;
     auto self(this->shared_from_this());
-    _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+    auto async_receive_handler = make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
 
@@ -269,7 +290,11 @@ void UDPClient::TryReceive()
             SendError(ec);
             Disconnect(true);
         }
-    })));
+    });
+    if (_service->IsMultithread())
+        _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, async_receive_handler));
+    else
+        _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, async_receive_handler);
 }
 
 void UDPClient::SendError(std::error_code ec)

@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-p", "--port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
-    parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::LogicalCores()).help("Count of working threads. Default: %default");
+    parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 

@@ -16,6 +16,8 @@ namespace Asio {
 Service::Service()
     : _service(std::make_shared<asio::io_service>()),
       _strand(*_service),
+      _multithread(false),
+      _polling(false),
       _started(false)
 {
     assert((_service != nullptr) && "Asio service is invalid!");
@@ -23,9 +25,11 @@ Service::Service()
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-Service::Service(std::shared_ptr<asio::io_service> service)
+Service::Service(std::shared_ptr<asio::io_service> service, bool multithread)
     : _service(service),
       _strand(*_service),
+      _multithread(multithread),
+      _polling(false),
       _started(false)
 {
     assert((_service != nullptr) && "Asio service is invalid!");
@@ -43,6 +47,12 @@ bool Service::Start(bool polling, int threads)
     if (IsStarted())
         return false;
 
+    // Update multithread flag
+    _multithread = threads > 1;
+
+    // Update polling loop mode flag
+    _polling = polling;
+
     // Post the started routine
     auto self(this->shared_from_this());
     _strand.post([this, self]()
@@ -59,7 +69,7 @@ bool Service::Start(bool polling, int threads)
 
     // Start service working threads
     for (int thread = 0; thread < threads; ++thread)
-        _threads.push_back(CppCommon::Thread::Start([self, polling]() { ServiceLoop(self, polling); }));
+        _threads.push_back(CppCommon::Thread::Start([self]() { ServiceLoop(self); }));
 
     return true;
 }
@@ -91,6 +101,12 @@ bool Service::Stop()
     for (auto& thread : _threads)
         thread.join();
 
+    // Update multithread flag
+    _multithread = false;
+
+    // Update polling loop mode flag
+    _polling = false;
+
     return true;
 }
 
@@ -102,13 +118,16 @@ bool Service::Restart()
     return Start();
 }
 
-void Service::ServiceLoop(std::shared_ptr<Service> service, bool polling)
+void Service::ServiceLoop(std::shared_ptr<Service> service)
 {
+    bool polling = service->IsPolling();
+
     // Call the initialize thread handler
     service->onThreadInitialize();
 
     try
     {
+        // Attach the current working thread to the Asio service
         asio::io_service::work work(*service->service());
 
         // Service loop...

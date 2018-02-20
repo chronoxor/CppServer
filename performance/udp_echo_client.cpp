@@ -84,7 +84,7 @@ int main(int argc, char** argv)
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
     parser.add_option("-p", "--port").action("store").type("int").set_default(3333).help("Server port. Default: %default");
-    parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::LogicalCores()).help("Count of working threads. Default: %default");
+    parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
     parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");
     parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
