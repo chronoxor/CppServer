@@ -56,7 +56,7 @@ public:
     std::shared_ptr<Service>& service() noexcept;
     //! Get the Asio IO service
     std::shared_ptr<asio::io_service>& io_service() noexcept;
-    //! Get the Asio service strand for serialised handler execution
+    //! Get the Asio service strand for serialized handler execution
     asio::io_service::strand& strand() noexcept;
     //! Get the client SSL context
     std::shared_ptr<asio::ssl::context>& context() noexcept;

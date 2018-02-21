@@ -65,7 +65,7 @@ public:
     std::shared_ptr<Service>& service() noexcept { return _service; }
     //! Get the Asio IO service
     std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
-    //! Get the Asio service strand for serialised handler execution
+    //! Get the Asio service strand for serialized handler execution
     asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the server endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
@@ -179,7 +179,7 @@ private:
     std::shared_ptr<Service> _service;
     // Asio IO service
     std::shared_ptr<asio::io_service> _io_service;
-    // Asio service strand for serialised handler execution
+    // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
     // Server endpoint, acceptor & socket

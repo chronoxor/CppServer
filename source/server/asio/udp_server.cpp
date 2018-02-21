@@ -13,9 +13,9 @@ namespace Asio {
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
-      _io_service(_service->service()),
+      _io_service(_service->GetAsioService()),
       _strand(*_io_service),
-      _strand_required(_service->IsMultithread()),
+      _strand_required(_service->IsStrandRequired()),
       _socket(*_io_service),
       _started(false),
       _datagrams_sent(0),
@@ -44,9 +44,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
-      _io_service(_service->service()),
+      _io_service(_service->GetAsioService()),
       _strand(*_io_service),
-      _strand_required(_service->IsMultithread()),
+      _strand_required(_service->IsStrandRequired()),
       _socket(*_io_service),
       _started(false),
       _datagrams_sent(0),
@@ -67,9 +67,9 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _service(service),
-      _io_service(_service->service()),
+      _io_service(_service->GetAsioService()),
       _strand(*_io_service),
-      _strand_required(_service->IsMultithread()),
+      _strand_required(_service->IsStrandRequired()),
       _endpoint(endpoint),
       _socket(*_io_service),
       _started(false),

@@ -69,11 +69,11 @@ int main(int argc, char** argv)
     std::cout << "Working threads: " << threads_count << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<Service>();
+    auto service = std::make_shared<Service>(threads_count, true);
 
     // Start the Asio service
     std::cout << "Asio service starting...";
-    service->Start(false, threads_count);
+    service->Start();
     std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL server context

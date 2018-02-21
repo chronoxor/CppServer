@@ -12,9 +12,9 @@ namespace Asio {
 template <class TServer, class TSession>
 inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
     : _service(service),
-      _io_service(_service->service()),
+      _io_service(_service->GetAsioService()),
       _strand(*_io_service),
-      _strand_required(_service->IsMultithread()),
+      _strand_required(_service->IsStrandRequired()),
       _context(context),
       _acceptor(*_io_service),
       _socket(*_io_service),
@@ -47,9 +47,9 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
 template <class TServer, class TSession>
 inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
     : _service(service),
-      _io_service(_service->service()),
+      _io_service(_service->GetAsioService()),
       _strand(*_io_service),
-      _strand_required(_service->IsMultithread()),
+      _strand_required(_service->IsStrandRequired()),
       _context(context),
       _acceptor(*_io_service),
       _socket(*_io_service),
@@ -74,9 +74,9 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
 template <class TServer, class TSession>
 inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
     : _service(service),
-      _io_service(_service->service()),
+      _io_service(_service->GetAsioService()),
       _strand(*_io_service),
-      _strand_required(_service->IsMultithread()),
+      _strand_required(_service->IsStrandRequired()),
       _context(context),
       _endpoint(endpoint),
       _acceptor(*_io_service),
@@ -304,7 +304,7 @@ inline std::shared_ptr<TSession> SSLServer<TServer, TSession>::RegisterSession()
 {
     // Create and register a new session
     auto self(this->shared_from_this());
-    auto session = std::make_shared<TSession>(self, _service->service(), _context, std::move(_socket));
+    auto session = std::make_shared<TSession>(self, _service->GetAsioService(), _context, std::move(_socket));
     _sessions.emplace(session->id(), session);
 
     // Connect a new session

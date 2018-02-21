@@ -140,18 +140,12 @@ int main(int argc, char** argv)
     // Prepare a message to send
     message_to_send.resize(message_size, 0);
 
-    // Create Asio services
-    std::vector<std::shared_ptr<Service>> services;
-    for (int i = 0; i < threads_count; ++i)
-    {
-        auto service = std::make_shared<Service>();
-        services.emplace_back(service);
-    }
+    // Create a new Asio service
+    auto service = std::make_shared<Service>(threads_count, true);
 
-    // Start Asio services
-    std::cout << "Asio services starting...";
-    for (auto& service : services)
-        service->Start();
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
     std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL client context
@@ -163,7 +157,7 @@ int main(int argc, char** argv)
     std::vector<std::shared_ptr<EchoClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
-        auto client = std::make_shared<EchoClient>(services[i % services.size()], context, address, port, messages_count / clients_count);
+        auto client = std::make_shared<EchoClient>(service, context, address, port, messages_count / clients_count);
         client->SetupNoDelay(true);
         clients.emplace_back(client);
     }
@@ -189,10 +183,9 @@ int main(int argc, char** argv)
     }
     std::cout << "Done!" << std::endl;
 
-    // Stop Asio services
-    std::cout << "Asio services stopping...";
-    for (auto& service : services)
-        service->Stop();
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
     std::cout << "Done!" << std::endl;
 
     std::cout << std::endl;

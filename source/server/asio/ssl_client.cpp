@@ -22,9 +22,9 @@ public:
     Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
         : _id(id),
           _service(service),
-          _io_service(_service->service()),
+          _io_service(_service->GetAsioService()),
           _strand(*_io_service),
-          _strand_required(_service->IsMultithread()),
+          _strand_required(_service->IsStrandRequired()),
           _context(context),
           _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
           _stream(*_io_service, *_context),
@@ -52,9 +52,9 @@ public:
     Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
         : _id(id),
           _service(service),
-          _io_service(_service->service()),
+          _io_service(_service->GetAsioService()),
           _strand(*_io_service),
-          _strand_required(_service->IsMultithread()),
+          _strand_required(_service->IsStrandRequired()),
           _context(context),
           _endpoint(endpoint),
           _stream(*_io_service, *_context),
@@ -180,7 +180,7 @@ public:
                     onDisconnected();
                 }
             });
-            if (_service->IsMultithread())
+            if (_strand_required)
                 socket().async_connect(_endpoint, bind_executor(_strand, async_connect_handler));
             else
                 socket().async_connect(_endpoint, async_connect_handler);
