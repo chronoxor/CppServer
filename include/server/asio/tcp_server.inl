@@ -292,7 +292,7 @@ inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
 {
     // Create and register a new session
     auto self(this->shared_from_this());
-    auto session = std::make_shared<TSession>(self, _service->GetAsioService(), std::move(_socket));
+    auto session = std::make_shared<TSession>(self, _io_service, std::move(_socket));
     _sessions.emplace(session->id(), session);
 
     // Connect a new session

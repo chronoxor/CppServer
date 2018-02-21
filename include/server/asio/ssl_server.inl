@@ -304,7 +304,7 @@ inline std::shared_ptr<TSession> SSLServer<TServer, TSession>::RegisterSession()
 {
     // Create and register a new session
     auto self(this->shared_from_this());
-    auto session = std::make_shared<TSession>(self, _service->GetAsioService(), _context, std::move(_socket));
+    auto session = std::make_shared<TSession>(self, _io_service, _context, std::move(_socket));
     _sessions.emplace(session->id(), session);
 
     // Connect a new session
