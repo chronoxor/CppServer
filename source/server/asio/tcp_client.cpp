@@ -14,9 +14,11 @@ namespace Asio {
 TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
-      _strand(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
       _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
-      _socket(*_service->service()),
+      _socket(*_io_service),
       _connecting(false),
       _connected(false),
       _bytes_sent(0),
@@ -35,9 +37,11 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
 TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
-      _strand(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
       _endpoint(endpoint),
-      _socket(*_service->service()),
+      _socket(*_io_service),
       _connecting(false),
       _connected(false),
       _bytes_sent(0),
@@ -60,14 +64,14 @@ bool TCPClient::Connect()
 
     // Post the connect handler
     auto self(this->shared_from_this());
-    auto connect_handler = [this, self]()
+    auto connect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
         if (IsConnected() || _connecting)
             return;
 
         // Async connect with the connect handler
         _connecting = true;
-        auto async_connect_handler = [this, self](std::error_code ec)
+        auto async_connect_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec)
         {
             _connecting = false;
 
@@ -99,16 +103,16 @@ bool TCPClient::Connect()
                 SendError(ec);
                 onDisconnected();
             }
-        };
-        if (_service->IsMultithread())
+        });
+        if (_strand_required)
             _socket.async_connect(_endpoint, bind_executor(_strand, async_connect_handler));
         else
             _socket.async_connect(_endpoint, async_connect_handler);
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
         _strand.post(connect_handler);
     else
-        _service->service()->post(connect_handler);
+        _io_service->post(connect_handler);
 
     return true;
 }
@@ -120,7 +124,7 @@ bool TCPClient::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = [this, self]()
+    auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
         if (!IsConnected())
             return;
@@ -136,8 +140,8 @@ bool TCPClient::Disconnect(bool dispatch)
 
         // Call the client disconnected handler
         onDisconnected();
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
     {
         if (dispatch)
             _strand.dispatch(disconnect_handler);
@@ -147,9 +151,9 @@ bool TCPClient::Disconnect(bool dispatch)
     else
     {
         if (dispatch)
-            _service->service()->dispatch(disconnect_handler);
+            _io_service->dispatch(disconnect_handler);
         else
-            _service->service()->post(disconnect_handler);
+            _io_service->post(disconnect_handler);
     }
 
     return true;
@@ -188,15 +192,15 @@ size_t TCPClient::Send(const void* buffer, size_t size)
 
     // Dispatch the send handler
     auto self(this->shared_from_this());
-    auto send_handler = [this, self]()
+    auto send_handler = make_alloc_handler(_send_storage, [this, self]()
     {
         // Try to send the main buffer
         TrySend();
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
         _strand.dispatch(send_handler);
     else
-        _service->service()->dispatch(send_handler);
+        _io_service->dispatch(send_handler);
 
     return result;
 }
@@ -242,7 +246,7 @@ void TCPClient::TryReceive()
             Disconnect(true);
         }
     });
-    if (_service->IsMultithread())
+    if (_strand_required)
         _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, async_receive_handler));
     else
         _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), async_receive_handler);
@@ -316,7 +320,7 @@ void TCPClient::TrySend()
             Disconnect(true);
         }
     });
-    if (_service->IsMultithread())
+    if (_strand_required)
         asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));
     else
         asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);

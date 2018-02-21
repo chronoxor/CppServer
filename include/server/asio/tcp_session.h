@@ -35,9 +35,10 @@ public:
     //! Initialize the session with a given server
     /*!
         \param server - Connected server
+        \param service - Connected service
         \param socket - Connected socket
     */
-    explicit TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket);
+    TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, std::shared_ptr<asio::io_service> service, asio::ip::tcp::socket&& socket);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
     virtual ~TCPSession() = default;
@@ -48,10 +49,10 @@ public:
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
 
-    //! Get the Asio service
-    std::shared_ptr<Service>& service() noexcept { return _server->service(); }
-    //! Get the session server
+    //! Get the server
     std::shared_ptr<TCPServer<TServer, TSession>>& server() noexcept { return _server; }
+    //! Get the Asio IO service
+    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialised handler execution
     asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the session socket
@@ -133,11 +134,17 @@ protected:
 private:
     // Session Id
     CppCommon::UUID _id;
-    // Session server & socket
+    // Server
     std::shared_ptr<TCPServer<TServer, TSession>> _server;
+    // Asio IO service
+    std::shared_ptr<asio::io_service> _io_service;
+    // Asio service strand for serialised handler execution
     asio::io_service::strand _strand;
+    bool _strand_required;
+    // Session socket
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
+    HandlerStorage _connect_storage;
     // Session statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;

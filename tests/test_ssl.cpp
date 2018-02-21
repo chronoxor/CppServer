@@ -88,8 +88,8 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    explicit EchoSSLSession(std::shared_ptr<SSLServer<EchoSSLServer, EchoSSLSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context)
-        : SSLSession<EchoSSLServer, EchoSSLSession>(server, std::move(socket), context),
+    explicit EchoSSLSession(std::shared_ptr<SSLServer<EchoSSLServer, EchoSSLSession>> server, std::shared_ptr<asio::io_service> service, std::shared_ptr<asio::ssl::context> context, asio::ip::tcp::socket&& socket)
+        : SSLSession<EchoSSLServer, EchoSSLSession>(server, service, context, std::move(socket)),
           connected(false),
           handshaked(false),
           disconnected(false),

@@ -22,10 +22,12 @@ public:
     Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
         : _id(id),
           _service(service),
-          _strand(*_service->service()),
+          _io_service(_service->service()),
+          _strand(*_io_service),
+          _strand_required(_service->IsMultithread()),
           _context(context),
           _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
-          _stream(*_service->service(), *_context),
+          _stream(*_io_service, *_context),
           _connecting(false),
           _connected(false),
           _handshaking(false),
@@ -50,10 +52,12 @@ public:
     Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
         : _id(id),
           _service(service),
-          _strand(*_service->service()),
+          _io_service(_service->service()),
+          _strand(*_io_service),
+          _strand_required(_service->IsMultithread()),
           _context(context),
           _endpoint(endpoint),
-          _stream(*_service->service(), *_context),
+          _stream(*_io_service, *_context),
           _connecting(false),
           _connected(false),
           _handshaking(false),
@@ -80,6 +84,7 @@ public:
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     std::shared_ptr<Service>& service() noexcept { return _service; }
+    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     asio::io_service::strand& strand() noexcept { return _strand; }
     std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
@@ -103,14 +108,14 @@ public:
 
         // Post the connect handler
         auto self(this->shared_from_this());
-        auto connect_handler = [this, self]()
+        auto connect_handler = make_alloc_handler(_connect_storage, [this, self]()
         {
             if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
                 return;
 
             // Async connect with the connect handler
             _connecting = true;
-            auto async_connect_handler = [this, self](std::error_code ec1)
+            auto async_connect_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec1)
             {
                 _connecting = false;
 
@@ -135,7 +140,7 @@ public:
 
                     // Async SSL handshake with the handshake handler
                     _handshaking = true;
-                    auto async_handshake_handler = [this, self](std::error_code ec2)
+                    auto async_handshake_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2)
                     {
                         _handshaking = false;
 
@@ -162,8 +167,8 @@ public:
                             SendError(ec2);
                             Disconnect(true);
                         }
-                    };
-                    if (_service->IsMultithread())
+                    });
+                    if (_strand_required)
                         _stream.async_handshake(asio::ssl::stream_base::client, bind_executor(_strand, async_handshake_handler));
                     else
                         _stream.async_handshake(asio::ssl::stream_base::client, async_handshake_handler);
@@ -174,16 +179,16 @@ public:
                     SendError(ec1);
                     onDisconnected();
                 }
-            };
+            });
             if (_service->IsMultithread())
                 socket().async_connect(_endpoint, bind_executor(_strand, async_connect_handler));
             else
                 socket().async_connect(_endpoint, async_connect_handler);
-        };
-        if (_service->IsMultithread())
+        });
+        if (_strand_required)
             _strand.post(connect_handler);
         else
-            _service->service()->post(connect_handler);
+            _io_service->post(connect_handler);
 
         return true;
     }
@@ -195,7 +200,7 @@ public:
 
         // Dispatch or post the disconnect handler
         auto self(this->shared_from_this());
-        auto disconnect_handler = [this, self]()
+        auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
         {
             if (!IsConnected() || _connecting || _handshaking)
                 return;
@@ -217,8 +222,8 @@ public:
 
             // Call the client disconnected handler
             onDisconnected();
-        };
-        if (_service->IsMultithread())
+        });
+        if (_strand_required)
         {
             if (dispatch)
                 _strand.dispatch(disconnect_handler);
@@ -228,9 +233,9 @@ public:
         else
         {
             if (dispatch)
-                _service->service()->dispatch(disconnect_handler);
+                _io_service->dispatch(disconnect_handler);
             else
-                _service->service()->post(disconnect_handler);
+                _io_service->post(disconnect_handler);
         }
 
         return true;
@@ -258,15 +263,15 @@ public:
 
         // Dispatch the send handler
         auto self(this->shared_from_this());
-        auto send_handler = [this, self]()
+        auto send_handler = make_alloc_handler(_send_storage, [this, self]()
         {
             // Try to send the main buffer
             TrySend();
-        };
-        if (_service->IsMultithread())
+        });
+        if (_strand_required)
             _strand.dispatch(send_handler);
         else
-            _service->service()->dispatch(send_handler);
+            _io_service->dispatch(send_handler);
 
         return result;
     }
@@ -290,8 +295,11 @@ private:
     std::shared_ptr<SSLClient> _client;
     // Asio service
     std::shared_ptr<Service> _service;
+    // Asio IO service
+    std::shared_ptr<asio::io_service> _io_service;
     // Asio service strand for serialised handler execution
     asio::io_service::strand _strand;
+    bool _strand_required;
     // Server SSL context, endpoint & client stream
     std::shared_ptr<asio::ssl::context> _context;
     asio::ip::tcp::endpoint _endpoint;
@@ -300,6 +308,7 @@ private:
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaking;
     std::atomic<bool> _handshaked;
+    HandlerStorage _connect_storage;
     // Client statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
@@ -358,7 +367,7 @@ private:
                 Disconnect(true);
             }
         });
-        if (_service->IsMultithread())
+        if (_strand_required)
             _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, async_receive_handler));
         else
             _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), async_receive_handler);
@@ -432,7 +441,7 @@ private:
                 Disconnect(true);
             }
         });
-        if (_service->IsMultithread())
+        if (_strand_required)
             asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));
         else
             asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);
@@ -510,6 +519,11 @@ const CppCommon::UUID& SSLClient::id() const noexcept
 std::shared_ptr<Service>& SSLClient::service() noexcept
 {
     return _pimpl->service();
+}
+
+std::shared_ptr<asio::io_service>& SSLClient::io_service() noexcept
+{
+    return _pimpl->io_service();
 }
 
 asio::io_service::strand& SSLClient::strand() noexcept

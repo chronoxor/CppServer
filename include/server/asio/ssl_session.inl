@@ -10,11 +10,12 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context)
+inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, std::shared_ptr<asio::io_service> service, std::shared_ptr<asio::ssl::context> context, asio::ip::tcp::socket&& socket)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
-      _stream(std::move(socket), *context),
+      _io_service(service),
       _context(context),
+      _stream(std::move(socket), *context),
       _connected(false),
       _handshaked(false),
       _bytes_sent(0),
@@ -29,9 +30,6 @@ inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServ
 template <class TServer, class TSession>
 inline void SSLSession<TServer, TSession>::Connect()
 {
-    if (IsConnected() || IsHandshaked())
-        return;
-
     // Apply the option: no delay
     if (_server->option_no_delay())
         socket().set_option(asio::ip::tcp::no_delay(true));
@@ -48,7 +46,7 @@ inline void SSLSession<TServer, TSession>::Connect()
 
     // Async SSL handshake with the handshake handler
     auto self(this->shared_from_this());
-    auto async_handshake_handler = make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
+    auto async_handshake_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec)
     {
         if (IsHandshaked())
             return;
@@ -74,8 +72,8 @@ inline void SSLSession<TServer, TSession>::Connect()
             Disconnect(true);
         }
     });
-    if (_server->service()->IsMultithread())
-        _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_server->strand(), async_handshake_handler));
+    if (_server->_strand_required)
+        _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_server->_strand, async_handshake_handler));
     else
         _stream.async_handshake(asio::ssl::stream_base::server, async_handshake_handler);
 }
@@ -88,13 +86,13 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = [this, self]()
+    auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
         if (!IsConnected())
             return;
 
         // Async SSL shutdown with the shutdown handler
-        auto shutdown_handler = make_alloc_handler(_handshake_storage, [this, self](std::error_code ec)
+        auto async_shutdown_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec)
         {
             if (!IsConnected())
                 return;
@@ -115,33 +113,33 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
             onDisconnected();
 
             // Dispatch the unregister session handler
-            auto unregister_session_handler = [this, self]()
+            auto unregister_session_handler = make_alloc_handler(_connect_storage, [this, self]()
             {
                 _server->UnregisterSession(id());
-            };
-            if (_server->service()->IsMultithread())
-                _server->strand().dispatch(unregister_session_handler);
+            });
+            if (_server->_strand_required)
+                _server->_strand.dispatch(unregister_session_handler);
             else
-                _server->service()->service()->dispatch(unregister_session_handler);
+                _server->_io_service->dispatch(unregister_session_handler);
         });
-        if (_server->service()->IsMultithread())
-            _stream.async_shutdown(bind_executor(_server->strand(), shutdown_handler));
+        if (_server->_strand_required)
+            _stream.async_shutdown(bind_executor(_server->_strand, async_shutdown_handler));
         else
-            _stream.async_shutdown(shutdown_handler);
-    };
-    if (_server->service()->IsMultithread())
+            _stream.async_shutdown(async_shutdown_handler);
+    });
+    if (_server->_strand_required)
     {
         if (dispatch)
-            _server->strand().dispatch(disconnect_handler);
+            _server->_strand.dispatch(disconnect_handler);
         else
-            _server->strand().post(disconnect_handler);
+            _server->_strand.post(disconnect_handler);
     }
     else
     {
         if (dispatch)
-            _server->service()->service()->dispatch(disconnect_handler);
+            _server->_io_service->dispatch(disconnect_handler);
         else
-            _server->service()->service()->post(disconnect_handler);
+            _server->_io_service->post(disconnect_handler);
     }
 
     return true;
@@ -170,15 +168,15 @@ inline size_t SSLSession<TServer, TSession>::Send(const void* buffer, size_t siz
 
     // Dispatch the send handler
     auto self(this->shared_from_this());
-    auto send_handler = [this, self]()
+    auto send_handler = make_alloc_handler(_send_storage, [this, self]()
     {
         // Try to send the main buffer
         TrySend();
-    };
-    if (_server->service()->IsMultithread())
-        _server->strand().dispatch(send_handler);
+    });
+    if (_server->_strand_required)
+        _server->_strand.dispatch(send_handler);
     else
-        _server->service()->service()->dispatch(send_handler);
+        _server->_io_service->dispatch(send_handler);
 
     return result;
 }
@@ -226,8 +224,8 @@ inline void SSLSession<TServer, TSession>::TryReceive()
             Disconnect(true);
         }
     });
-    if (_server->service()->IsMultithread())
-        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_server->strand(), async_receive_handler));
+    if (_server->_strand_required)
+        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_server->_strand, async_receive_handler));
     else
         _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), async_receive_handler);
 }
@@ -302,8 +300,8 @@ inline void SSLSession<TServer, TSession>::TrySend()
             Disconnect(true);
         }
     });
-    if (_server->service()->IsMultithread())
-        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_server->strand(), async_write_handler));
+    if (_server->_strand_required)
+        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_server->_strand, async_write_handler));
     else
         asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);
 }

@@ -34,14 +34,14 @@ public:
         \param address - Server IP address
         \param port - Server port number
     */
-    explicit SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
+    SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
     //! Initialize SSL client with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param context - SSL context
         \param endpoint - Server SSL endpoint
     */
-    explicit SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
+    SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
     SSLClient(const SSLClient&) = delete;
     SSLClient(SSLClient&& client);
     virtual ~SSLClient();
@@ -54,6 +54,8 @@ public:
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept;
+    //! Get the Asio IO service
+    std::shared_ptr<asio::io_service>& io_service() noexcept;
     //! Get the Asio service strand for serialised handler execution
     asio::io_service::strand& strand() noexcept;
     //! Get the client SSL context

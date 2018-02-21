@@ -33,10 +33,11 @@ public:
     //! Initialize the session with a given server, socket and SSL context
     /*!
         \param server - Connected server
+        \param service - Connected service
+        \param context - Connected SSL context
         \param socket - Connected socket
-        \param context - SSL context
     */
-    explicit SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket, std::shared_ptr<asio::ssl::context> context);
+    SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, std::shared_ptr<asio::io_service> service, std::shared_ptr<asio::ssl::context> context, asio::ip::tcp::socket&& socket);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
     virtual ~SSLSession() = default;
@@ -47,16 +48,16 @@ public:
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }
 
-    //! Get the Asio service
-    std::shared_ptr<Service>& service() noexcept { return _server->service(); }
-    //! Get the session server
+    //! Get the server
     std::shared_ptr<SSLServer<TServer, TSession>>& server() noexcept { return _server; }
+    //! Get the Asio IO service
+    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
+    //! Get the session SSL context
+    std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
     //! Get the session SSL stream
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     //! Get the session socket
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
-    //! Get the session SSL context
-    std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
 
     //! Get the number of bytes sent by this session
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
@@ -138,13 +139,16 @@ protected:
 private:
     // Session Id
     CppCommon::UUID _id;
-    // Session server, SSL stream and SSL context
+    // Server
     std::shared_ptr<SSLServer<TServer, TSession>> _server;
-    asio::ssl::stream<asio::ip::tcp::socket> _stream;
+    // Asio IO service
+    std::shared_ptr<asio::io_service> _io_service;
+    // Session SSL context and stream
     std::shared_ptr<asio::ssl::context> _context;
+    asio::ssl::stream<asio::ip::tcp::socket> _stream;
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
-    HandlerStorage _handshake_storage;
+    HandlerStorage _connect_storage;
     // Session statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;

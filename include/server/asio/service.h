@@ -141,6 +141,7 @@ private:
     std::atomic<bool> _polling;
     // Asio service start flag
     std::atomic<bool> _started;
+    HandlerStorage _start_storage;
 
     //! Service loop
     static void ServiceLoop(std::shared_ptr<Service> service);

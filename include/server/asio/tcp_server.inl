@@ -12,9 +12,11 @@ namespace Asio {
 template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
-      _strand(*_service->service()),
-      _acceptor(*_service->service()),
-      _socket(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
+      _acceptor(*_io_service),
+      _socket(*_io_service),
       _started(false),
       _bytes_sent(0),
       _bytes_received(0),
@@ -40,9 +42,11 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
 template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
-      _strand(*_service->service()),
-      _acceptor(*_service->service()),
-      _socket(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
+      _acceptor(*_io_service),
+      _socket(*_io_service),
       _started(false),
       _bytes_sent(0),
       _bytes_received(0),
@@ -60,10 +64,12 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
 template <class TServer, class TSession>
 inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
     : _service(service),
-      _strand(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
       _endpoint(endpoint),
-      _acceptor(*_service->service()),
-      _socket(*_service->service()),
+      _acceptor(*_io_service),
+      _socket(*_io_service),
       _started(false),
       _bytes_sent(0),
       _bytes_received(0),
@@ -85,13 +91,13 @@ inline bool TCPServer<TServer, TSession>::Start()
 
     // Post the start handler
     auto self(this->shared_from_this());
-    auto start_handler = [this, self]()
+    auto start_handler = make_alloc_handler(_start_storage, [this, self]()
     {
         if (IsStarted())
             return;
 
         // Create a server acceptor
-        _acceptor = asio::ip::tcp::acceptor(*_service->service());
+        _acceptor = asio::ip::tcp::acceptor(*_io_service);
         _acceptor.open(_endpoint.protocol());
         if (option_reuse_address())
             _acceptor.set_option(asio::ip::tcp::acceptor::reuse_address(true));
@@ -117,11 +123,11 @@ inline bool TCPServer<TServer, TSession>::Start()
 
         // Perform the first server accept
         Accept();
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
         _strand.post(start_handler);
     else
-        _service->service()->post(start_handler);
+        _io_service->post(start_handler);
 
     return true;
 }
@@ -135,7 +141,7 @@ inline bool TCPServer<TServer, TSession>::Stop()
 
     // Post the stop handler
     auto self(this->shared_from_this());
-    auto stop_handler = [this, self]()
+    auto stop_handler = make_alloc_handler(_start_storage, [this, self]()
     {
         if (!IsStarted())
             return;
@@ -154,11 +160,11 @@ inline bool TCPServer<TServer, TSession>::Stop()
 
         // Call the server stopped handler
         onStopped();
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
         _strand.post(stop_handler);
     else
-        _service->service()->post(stop_handler);
+        _io_service->post(stop_handler);
 
     return true;
 }
@@ -183,7 +189,7 @@ inline void TCPServer<TServer, TSession>::Accept()
 
     // Dispatch the accept handler
     auto self(this->shared_from_this());
-    auto accept_handler = [this, self]()
+    auto accept_handler = make_alloc_handler(_acceptor_storage, [this, self]()
     {
         if (!IsStarted())
             return;
@@ -198,15 +204,15 @@ inline void TCPServer<TServer, TSession>::Accept()
             // Perform the next server accept
             Accept();
         });
-        if (_service->IsMultithread())
+        if (_strand_required)
             _acceptor.async_accept(_socket, bind_executor(_strand, async_accept_handler));
         else
             _acceptor.async_accept(_socket, async_accept_handler);
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
         _strand.dispatch(accept_handler);
     else
-        _service->service()->dispatch(accept_handler);
+        _io_service->dispatch(accept_handler);
 }
 
 template <class TServer, class TSession>
@@ -248,10 +254,10 @@ inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t s
         // Clear the multicast buffer
         _multicast_buffer.clear();
     });
-    if (_service->IsMultithread())
+    if (_strand_required)
         _strand.dispatch(multicast_handler);
     else
-        _service->service()->dispatch(multicast_handler);
+        _io_service->dispatch(multicast_handler);
 
     return true;
 }
@@ -264,7 +270,7 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
 
     // Dispatch the disconnect all handler
     auto self(this->shared_from_this());
-    auto disconnect_all_handler = [this, self]()
+    auto disconnect_all_handler = make_alloc_handler(_start_storage, [this, self]()
     {
         if (!IsStarted())
             return;
@@ -272,11 +278,11 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
         // Disconnect all sessions
         for (auto& session : _sessions)
             session.second->Disconnect();
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
         _strand.dispatch(disconnect_all_handler);
     else
-        _service->service()->dispatch(disconnect_all_handler);
+        _io_service->dispatch(disconnect_all_handler);
 
     return true;
 }
@@ -286,7 +292,7 @@ inline std::shared_ptr<TSession> TCPServer<TServer, TSession>::RegisterSession()
 {
     // Create and register a new session
     auto self(this->shared_from_this());
-    auto session = std::make_shared<TSession>(self, std::move(_socket));
+    auto session = std::make_shared<TSession>(self, _service->service(), std::move(_socket));
     _sessions.emplace(session->id(), session);
 
     // Connect a new session

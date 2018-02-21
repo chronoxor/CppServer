@@ -40,20 +40,20 @@ public:
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port);
+    TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port);
     //! Initialize TCP server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
         \param address - IP address
         \param port - Port number
     */
-    explicit TCPServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    TCPServer(std::shared_ptr<Service> service, const std::string& address, int port);
     //! Initialize TCP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server TCP endpoint
     */
-    explicit TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
+    TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = default;
     virtual ~TCPServer() = default;
@@ -63,6 +63,8 @@ public:
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
+    //! Get the Asio IO service
+    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialised handler execution
     asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the server endpoint
@@ -175,13 +177,17 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
+    // Asio IO service
+    std::shared_ptr<asio::io_service> _io_service;
     // Asio service strand for serialised handler execution
     asio::io_service::strand _strand;
+    bool _strand_required;
     // Server endpoint, acceptor & socket
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
+    HandlerStorage _start_storage;
     HandlerStorage _acceptor_storage;
     // Server statistic
     uint64_t _bytes_sent;

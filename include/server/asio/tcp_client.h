@@ -34,13 +34,13 @@ public:
         \param address - Server IP address
         \param port - Server port number
     */
-    explicit TCPClient(std::shared_ptr<Service> service, const std::string& address, int port);
+    TCPClient(std::shared_ptr<Service> service, const std::string& address, int port);
     //! Initialize TCP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server TCP endpoint
     */
-    explicit TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
+    TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPClient(const TCPClient&) = delete;
     TCPClient(TCPClient&&) = default;
     virtual ~TCPClient() = default;
@@ -53,6 +53,8 @@ public:
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
+    //! Get the Asio IO service
+    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialised handler execution
     asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the client endpoint
@@ -161,13 +163,17 @@ private:
     CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;
+    // Asio IO service
+    std::shared_ptr<asio::io_service> _io_service;
     // Asio service strand for serialised handler execution
     asio::io_service::strand _strand;
+    bool _strand_required;
     // Server endpoint & client socket
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connecting;
     std::atomic<bool> _connected;
+    HandlerStorage _connect_storage;
     // Client statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;

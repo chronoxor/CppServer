@@ -41,7 +41,7 @@ public:
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port);
+    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port);
     //! Initialize SSL server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
@@ -49,14 +49,14 @@ public:
         \param address - IP address
         \param port - Port number
     */
-    explicit SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
+    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
     //! Initialize SSL server with a given a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param context - SSL context
         \param endpoint - Server SSL endpoint
     */
-    explicit SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
+    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
     SSLServer(const SSLServer&) = delete;
     SSLServer(SSLServer&&) = default;
     virtual ~SSLServer() = default;
@@ -66,6 +66,8 @@ public:
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
+    //! Get the Asio IO service
+    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialised handler execution
     asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the server SSL context
@@ -180,14 +182,18 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
+    // Asio IO service
+    std::shared_ptr<asio::io_service> _io_service;
     // Asio service strand for serialised handler execution
     asio::io_service::strand _strand;
+    bool _strand_required;
     // Server SSL context, endpoint, acceptor and socket
     std::shared_ptr<asio::ssl::context> _context;
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
+    HandlerStorage _start_storage;
     HandlerStorage _acceptor_storage;
     // Server statistic
     uint64_t _bytes_sent;

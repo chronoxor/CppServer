@@ -13,8 +13,10 @@ namespace Asio {
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
-      _strand(*_service->service()),
-      _socket(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
+      _socket(*_io_service),
       _started(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -42,8 +44,10 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
-      _strand(*_service->service()),
-      _socket(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
+      _socket(*_io_service),
       _started(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -63,9 +67,11 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _service(service),
-      _strand(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
       _endpoint(endpoint),
-      _socket(*_service->service()),
+      _socket(*_io_service),
       _started(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -89,7 +95,7 @@ bool UDPServer::Start()
 
     // Post the start handler
     auto self(this->shared_from_this());
-    auto start_handler = [this, self]()
+    auto start_handler = make_alloc_handler(_start_storage, [this, self]()
     {
         if (IsStarted())
             return;
@@ -121,11 +127,11 @@ bool UDPServer::Start()
 
         // Try to receive datagrams from the clients
         TryReceive();
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
         _strand.post(start_handler);
     else
-        _service->service()->post(start_handler);
+        _io_service->post(start_handler);
 
     return true;
 }
@@ -150,7 +156,7 @@ bool UDPServer::Stop()
 
     // Post the stop handler
     auto self(this->shared_from_this());
-    auto stop_handler = [this, self]()
+    auto stop_handler = make_alloc_handler(_start_storage, [this, self]()
     {
         if (!IsStarted())
             return;
@@ -163,11 +169,11 @@ bool UDPServer::Stop()
 
         // Call the server stopped handler
         onStopped();
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
         _strand.post(stop_handler);
     else
-        _service->service()->post(stop_handler);
+        _io_service->post(stop_handler);
 
     return true;
 }
@@ -262,7 +268,7 @@ void UDPServer::TryReceive()
         else
             SendError(ec);
     });
-    if (_service->IsMultithread())
+    if (_strand_required)
         _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, async_receive_handler));
     else
         _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, async_receive_handler);

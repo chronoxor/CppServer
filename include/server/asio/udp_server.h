@@ -29,20 +29,20 @@ public:
         \param protocol - Protocol type
         \param port - Port number
     */
-    explicit UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port);
+    UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port);
     //! Initialize UDP server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
         \param address - IP address
         \param port - Port number
     */
-    explicit UDPServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    UDPServer(std::shared_ptr<Service> service, const std::string& address, int port);
     //! Initialize UDP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server UDP endpoint
     */
-    explicit UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
+    UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
     UDPServer(const UDPServer&) = delete;
     UDPServer(UDPServer&&) = default;
     virtual ~UDPServer() = default;
@@ -52,6 +52,8 @@ public:
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
+    //! Get the Asio IO service
+    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialised handler execution
     asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the server endpoint
@@ -191,12 +193,16 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
+    // Asio IO service
+    std::shared_ptr<asio::io_service> _io_service;
     // Asio service strand for serialised handler execution
     asio::io_service::strand _strand;
+    bool _strand_required;
     // Server endpoint & socket
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;
     std::atomic<bool> _started;
+    HandlerStorage _start_storage;
     // Server statistic
     uint64_t _datagrams_sent;
     uint64_t _datagrams_received;

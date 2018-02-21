@@ -10,10 +10,12 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, asio::ip::tcp::socket&& socket)
+inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, std::shared_ptr<asio::io_service> service, asio::ip::tcp::socket&& socket)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
-      _strand(*server->service()->service()),
+      _io_service(service),
+      _strand(*_io_service),
+      _strand_required(_server->_strand_required),
       _socket(std::move(socket)),
       _connected(false),
       _bytes_sent(0),
@@ -57,7 +59,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = [this, self]()
+    auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
         if (!IsConnected())
             return;
@@ -75,16 +77,16 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
         onDisconnected();
 
         // Dispatch the unregister session handler
-        auto unregister_session_handler = [this, self]()
+        auto unregister_session_handler = make_alloc_handler(_connect_storage, [this, self]()
         {
             _server->UnregisterSession(id());
-        };
-        if (_server->service()->IsMultithread())
-            _server->strand().dispatch(unregister_session_handler);
+        });
+        if (_server->_strand_required)
+            _server->_strand.dispatch(unregister_session_handler);
         else
-            _server->service()->service()->dispatch(unregister_session_handler);
-    };
-    if (_server->service()->IsMultithread())
+            _server->_io_service->dispatch(unregister_session_handler);
+    });
+    if (_strand_required)
     {
         if (dispatch)
             _strand.dispatch(disconnect_handler);
@@ -94,9 +96,9 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
     else
     {
         if (dispatch)
-            _server->service()->service()->dispatch(disconnect_handler);
+            _io_service->dispatch(disconnect_handler);
         else
-            _server->service()->service()->post(disconnect_handler);
+            _io_service->post(disconnect_handler);
     }
 
     return true;
@@ -125,15 +127,15 @@ inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t siz
 
     // Dispatch the send handler
     auto self(this->shared_from_this());
-    auto send_handler = [this, self]()
+    auto send_handler = make_alloc_handler(_send_storage, [this, self]()
     {
         // Try to send the main buffer
         TrySend();
-    };
-    if (_server->service()->IsMultithread())
+    });
+    if (_strand_required)
         _strand.dispatch(send_handler);
     else
-        _server->service()->service()->dispatch(send_handler);
+        _io_service->dispatch(send_handler);
 
     return result;
 }
@@ -181,7 +183,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
             Disconnect(true);
         }
     });
-    if (_server->service()->IsMultithread())
+    if (_strand_required)
         _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, async_receive_handler));
     else
         _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), async_receive_handler);
@@ -257,7 +259,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
             Disconnect(true);
         }
     });
-    if (_server->service()->IsMultithread())
+    if (_strand_required)
         asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));
     else
         asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);

@@ -14,9 +14,11 @@ namespace Asio {
 UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
-      _strand(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
-      _socket(*_service->service()),
+      _socket(*_io_service),
       _connected(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -36,9 +38,11 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
 UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
     : _id(CppCommon::UUID::Generate()),
       _service(service),
-      _strand(*_service->service()),
+      _io_service(_service->service()),
+      _strand(*_io_service),
+      _strand_required(_service->IsMultithread()),
       _endpoint(endpoint),
-      _socket(*_service->service()),
+      _socket(*_io_service),
       _connected(false),
       _datagrams_sent(0),
       _datagrams_received(0),
@@ -62,7 +66,7 @@ bool UDPClient::Connect()
 
     // Post the connect handler
     auto self(this->shared_from_this());
-    auto connect_handler = [this, self]()
+    auto connect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
         if (IsConnected())
             return;
@@ -97,11 +101,11 @@ bool UDPClient::Connect()
 
         // Try to receive something from the server
         TryReceive();
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
         _strand.post(connect_handler);
     else
-        _service->service()->post(connect_handler);
+        _io_service->post(connect_handler);
 
     return true;
 }
@@ -113,7 +117,7 @@ bool UDPClient::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = [this, self]()
+    auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
         if (!IsConnected())
             return;
@@ -126,8 +130,8 @@ bool UDPClient::Disconnect(bool dispatch)
 
         // Call the client disconnected handler
         onDisconnected();
-    };
-    if (_service->IsMultithread())
+    });
+    if (_strand_required)
     {
         if (dispatch)
             _strand.dispatch(disconnect_handler);
@@ -137,9 +141,9 @@ bool UDPClient::Disconnect(bool dispatch)
     else
     {
         if (dispatch)
-            _service->service()->dispatch(disconnect_handler);
+            _io_service->dispatch(disconnect_handler);
         else
-            _service->service()->post(disconnect_handler);
+            _io_service->post(disconnect_handler);
     }
 
     return true;
@@ -176,10 +180,10 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
         // Call the client joined multicast group notification
         onJoinedMulticastGroup(address);
     };
-    if (_service->IsMultithread())
+    if (_strand_required)
         _strand.dispatch(join_multicast_group_handler);
     else
-        _service->service()->dispatch(join_multicast_group_handler);
+        _io_service->dispatch(join_multicast_group_handler);
 }
 
 void UDPClient::LeaveMulticastGroup(const std::string& address)
@@ -202,10 +206,10 @@ void UDPClient::LeaveMulticastGroup(const std::string& address)
         // Call the client left multicast group notification
         onLeftMulticastGroup(address);
     };
-    if (_service->IsMultithread())
+    if (_strand_required)
         _strand.dispatch(leave_multicast_group_handler);
     else
-        _service->service()->dispatch(leave_multicast_group_handler);
+        _io_service->dispatch(leave_multicast_group_handler);
 }
 
 bool UDPClient::Send(const void* buffer, size_t size)
@@ -291,7 +295,7 @@ void UDPClient::TryReceive()
             Disconnect(true);
         }
     });
-    if (_service->IsMultithread())
+    if (_strand_required)
         _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, async_receive_handler));
     else
         _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, async_receive_handler);
