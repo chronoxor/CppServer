@@ -378,7 +378,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;{</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="comment">// Create and register a new session</span></div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keyword">auto</span> session = std::make_shared&lt;TSession&gt;(<span class="keyword">self</span>, _service-&gt;GetAsioService(), std::move(_socket));</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keyword">auto</span> session = std::make_shared&lt;TSession&gt;(<span class="keyword">self</span>, _io_service, std::move(_socket));</div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    _sessions.emplace(session-&gt;id(), session);</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="comment">// Connect a new session</span></div>
