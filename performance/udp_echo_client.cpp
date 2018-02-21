@@ -117,7 +117,7 @@ int main(int argc, char** argv)
     message_to_send.resize(message_size, 0);
 
     // Create a new Asio service
-    auto service = std::make_shared<Service>(threads_count, true);
+    auto service = std::make_shared<Service>(threads_count);
 
     // Start the Asio service
     std::cout << "Asio service starting...";
