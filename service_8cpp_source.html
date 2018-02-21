@@ -141,7 +141,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// Post the started routine</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    _strand.post([<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    _strand.post(<a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_start_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    {</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_service.html#a770d2a41a4ee672522b075baa14aaa7b">IsStarted</a>())</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">return</span>;</div>
@@ -151,7 +151,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">// Call the service started handler</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_service.html#aee3c2638430d5a2980ee685f30adeccc">onStarted</a>();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    });</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }));</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">// Start service working threads</span></div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> thread = 0; thread &lt; threads; ++thread)</div>
@@ -168,7 +168,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">// Post the stop routine</span></div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    _strand.post([<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    _strand.post(<a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_start_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    {</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">if</span> (!IsStarted())</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="keywordflow">return</span>;</div>
@@ -181,7 +181,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="comment">// Call the service stopped handler</span></div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        onStopped();</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    });</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    }));</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">// Wait for all service working threads</span></div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; thread : _threads)</div>
@@ -274,6 +274,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;} <span class="comment">// namespace Asio</span></div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;} <span class="comment">// namespace CppServer</span></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_service_html_a0e32e7f2aec0c2a5e743fdbeee8ceaf9"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_service.html#a0e32e7f2aec0c2a5e743fdbeee8ceaf9">CppServer::Asio::Service::Start</a></div><div class="ttdeci">bool Start(bool polling=false, int threads=1)</div><div class="ttdoc">Start the service. </div><div class="ttdef"><b>Definition:</b> <a href="service_8cpp_source.html#l00042">service.cpp:42</a></div></div>
+<div class="ttc" id="namespace_cpp_server_1_1_asio_html_a5a9899def2e680af872640662636c133"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">CppServer::Asio::make_alloc_handler</a></div><div class="ttdeci">AllocateHandler&lt; THandler &gt; make_alloc_handler(HandlerStorage &amp;storage, THandler handler)</div><div class="ttdoc">Helper function to wrap a handler object to add custom allocation. </div><div class="ttdef"><b>Definition:</b> <a href="memory_8inl_source.html#l00039">memory.inl:39</a></div></div>
 <div class="ttc" id="service_8h_html"><div class="ttname"><a href="service_8h.html">service.h</a></div><div class="ttdoc">Asio service definition. </div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_service_html_a770d2a41a4ee672522b075baa14aaa7b"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_service.html#a770d2a41a4ee672522b075baa14aaa7b">CppServer::Asio::Service::IsStarted</a></div><div class="ttdeci">bool IsStarted() const noexcept</div><div class="ttdoc">Is the service started? </div><div class="ttdef"><b>Definition:</b> <a href="service_8h_source.html#l00062">service.h:62</a></div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_service_html_a1888890d636746ccff2b44604929660e"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_service.html#a1888890d636746ccff2b44604929660e">CppServer::Asio::Service::Service</a></div><div class="ttdeci">Service()</div><div class="ttdoc">Initialize a new Asio service. </div><div class="ttdef"><b>Definition:</b> <a href="service_8cpp_source.html#l00016">service.cpp:16</a></div></div>
