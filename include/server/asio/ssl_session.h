@@ -33,11 +33,9 @@ public:
     //! Initialize the session with a given server, socket and SSL context
     /*!
         \param server - Connected server
-        \param service - Connected service
         \param context - Connected SSL context
-        \param socket - Connected socket
     */
-    SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, std::shared_ptr<asio::io_service> service, std::shared_ptr<asio::ssl::context> context, asio::ip::tcp::socket&& socket);
+    SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, std::shared_ptr<asio::ssl::context> context);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
     virtual ~SSLSession() = default;
@@ -52,6 +50,8 @@ public:
     std::shared_ptr<SSLServer<TServer, TSession>>& server() noexcept { return _server; }
     //! Get the Asio IO service
     std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
+    //! Get the Asio service strand for serialized handler execution
+    asio::io_service::strand& strand() noexcept { return _server->_strand; }
     //! Get the session SSL context
     std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
     //! Get the session SSL stream

@@ -10,12 +10,12 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, std::shared_ptr<asio::io_service> service, std::shared_ptr<asio::ssl::context> context, asio::ip::tcp::socket&& socket)
+inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, std::shared_ptr<asio::ssl::context> context)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
-      _io_service(service),
+      _io_service(server->_io_service),
       _context(context),
-      _stream(std::move(socket), *context),
+      _stream(*_io_service, *context),
       _connected(false),
       _handshaked(false),
       _bytes_sent(0),
@@ -44,6 +44,9 @@ inline void SSLSession<TServer, TSession>::Connect()
     // Call the session connected handler
     onConnected();
 
+    // Call the session connected handler in the server
+    //_server->onConnected(self);
+
     // Async SSL handshake with the handshake handler
     auto self(this->shared_from_this());
     auto async_handshake_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec)
@@ -58,6 +61,9 @@ inline void SSLSession<TServer, TSession>::Connect()
 
             // Call the session handshaked handler
             onHandshaked();
+
+            // Call the session handshaked handler in the server
+            //_server->onHandshaked(self);
 
             // Call the empty send buffer handler
             onEmpty();
@@ -111,6 +117,9 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
 
             // Call the session disconnected handler
             onDisconnected();
+
+            // Call the session disconnected handler in the server
+            //_server->onDisconnected(self);
 
             // Dispatch the unregister session handler
             auto unregister_session_handler = make_alloc_handler(_connect_storage, [this, self]()

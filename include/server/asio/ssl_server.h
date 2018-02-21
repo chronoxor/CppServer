@@ -160,11 +160,16 @@ protected:
     //! Handle server stopped notification
     virtual void onStopped() {}
 
-    //! Handle new session connected notification
+    //! Handle session connected notification
     /*!
         \param session - Connected session
     */
     virtual void onConnected(std::shared_ptr<TSession>& session) {}
+    //! Handle session handshaked notification
+    /*!
+        \param session - Handshaked session
+    */
+    virtual void onHandshaked(std::shared_ptr<TSession>& session) {}
     //! Handle session disconnected notification
     /*!
         \param session - Disconnected session
@@ -189,9 +194,9 @@ private:
     bool _strand_required;
     // Server SSL context, endpoint, acceptor and socket
     std::shared_ptr<asio::ssl::context> _context;
+    std::shared_ptr<TSession> _session;
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
-    asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
     HandlerStorage _start_storage;
     HandlerStorage _acceptor_storage;
@@ -213,7 +218,7 @@ private:
     void Accept();
 
     //! Register a new session
-    std::shared_ptr<TSession> RegisterSession();
+    void RegisterSession();
     //! Unregister the given session
     /*!
         \param id - Session Id

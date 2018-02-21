@@ -10,13 +10,13 @@ namespace CppServer {
 namespace Asio {
 
 template <class TServer, class TSession>
-inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, std::shared_ptr<asio::io_service> service, asio::ip::tcp::socket&& socket)
+inline TCPSession<TServer, TSession>::TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
-      _io_service(service),
+      _io_service(server->service()->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_server->_strand_required),
-      _socket(std::move(socket)),
+      _socket(*_io_service),
       _connected(false),
       _bytes_sent(0),
       _bytes_received(0),
@@ -43,6 +43,9 @@ inline void TCPSession<TServer, TSession>::Connect()
 
     // Call the session connected handler
     onConnected();
+
+    // Call the session connected handler in the server
+    //_server->onConnected(self);
 
     // Call the empty send buffer handler
     onEmpty();
@@ -75,6 +78,9 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
 
         // Call the session disconnected handler
         onDisconnected();
+
+        // Call the session disconnected handler in the server
+        //_server->onDisconnected(self);
 
         // Dispatch the unregister session handler
         auto unregister_session_handler = make_alloc_handler(_connect_storage, [this, self]()

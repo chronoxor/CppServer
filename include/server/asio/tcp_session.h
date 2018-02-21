@@ -35,10 +35,8 @@ public:
     //! Initialize the session with a given server
     /*!
         \param server - Connected server
-        \param service - Connected service
-        \param socket - Connected socket
     */
-    TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server, std::shared_ptr<asio::io_service> service, asio::ip::tcp::socket&& socket);
+    TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
     virtual ~TCPSession() = default;

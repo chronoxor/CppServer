@@ -17,7 +17,6 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _strand_required(_service->IsStrandRequired()),
       _context(context),
       _acceptor(*_io_service),
-      _socket(*_io_service),
       _started(false),
       _bytes_sent(0),
       _bytes_received(0),
@@ -52,7 +51,6 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _strand_required(_service->IsStrandRequired()),
       _context(context),
       _acceptor(*_io_service),
-      _socket(*_io_service),
       _started(false),
       _bytes_sent(0),
       _bytes_received(0),
@@ -80,7 +78,6 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
       _context(context),
       _endpoint(endpoint),
       _acceptor(*_io_service),
-      _socket(*_io_service),
       _started(false),
       _bytes_sent(0),
       _bytes_received(0),
@@ -209,6 +206,9 @@ inline void SSLServer<TServer, TSession>::Accept()
         if (!IsStarted())
             return;
 
+        // Create a new session to accept
+        _session = std::make_shared<TSession>(self, _context);
+
         auto async_accept_handler = make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
             if (!ec)
@@ -220,9 +220,9 @@ inline void SSLServer<TServer, TSession>::Accept()
             Accept();
         });
         if (_strand_required)
-            _acceptor.async_accept(_socket, bind_executor(_strand, async_accept_handler));
+            _acceptor.async_accept(_session->socket(), bind_executor(_strand, async_accept_handler));
         else
-            _acceptor.async_accept(_socket, async_accept_handler);
+            _acceptor.async_accept(_session->socket(), async_accept_handler);
     });
     if (_strand_required)
         _strand.dispatch(accept_handler);
@@ -300,20 +300,13 @@ inline bool SSLServer<TServer, TSession>::DisconnectAll()
 }
 
 template <class TServer, class TSession>
-inline std::shared_ptr<TSession> SSLServer<TServer, TSession>::RegisterSession()
+inline void SSLServer<TServer, TSession>::RegisterSession()
 {
-    // Create and register a new session
-    auto self(this->shared_from_this());
-    auto session = std::make_shared<TSession>(self, _io_service, _context, std::move(_socket));
-    _sessions.emplace(session->id(), session);
+    // Register a new session
+    _sessions.emplace(_session->id(), _session);
 
     // Connect a new session
-    session->Connect();
-
-    // Call a new session connected handler
-    onConnected(session);
-
-    return session;
+    _session->Connect();
 }
 
 template <class TServer, class TSession>
@@ -323,9 +316,6 @@ inline void SSLServer<TServer, TSession>::UnregisterSession(const CppCommon::UUI
     auto it = _sessions.find(id);
     if (it != _sessions.end())
     {
-        // Call the session disconnected handler
-        onDisconnected(it->second);
-
         // Erase the session
         _sessions.erase(it);
     }

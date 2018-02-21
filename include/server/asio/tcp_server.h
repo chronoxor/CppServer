@@ -155,7 +155,7 @@ protected:
     //! Handle server stopped notification
     virtual void onStopped() {}
 
-    //! Handle new session connected notification
+    //! Handle session connected notification
     /*!
         \param session - Connected session
     */
@@ -183,9 +183,9 @@ private:
     asio::io_service::strand _strand;
     bool _strand_required;
     // Server endpoint, acceptor & socket
+    std::shared_ptr<TSession> _session;
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
-    asio::ip::tcp::socket _socket;
     std::atomic<bool> _started;
     HandlerStorage _start_storage;
     HandlerStorage _acceptor_storage;
@@ -207,7 +207,7 @@ private:
     void Accept();
 
     //! Register a new session
-    std::shared_ptr<TSession> RegisterSession();
+    void RegisterSession();
     //! Unregister the given session
     /*!
         \param id - Session Id

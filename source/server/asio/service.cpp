@@ -29,7 +29,7 @@ Service::Service(int threads, bool pool)
     else if (!pool)
     {
         // Io-service-per-thread design
-        for (int thread = 0; thread < threads; ++thread)
+        for (size_t thread = 0; thread < threads; ++thread)
         {
             _services.emplace_back(std::make_shared<asio::io_service>());
             _threads.emplace_back(std::thread());
@@ -39,7 +39,7 @@ Service::Service(int threads, bool pool)
     {
         // Thread-pool design
         _services.emplace_back(std::make_shared<asio::io_service>());
-        for (int thread = 0; thread < threads; ++thread)
+        for (size_t thread = 0; thread < threads; ++thread)
             _threads.emplace_back(std::thread());
         _strand = std::make_shared<asio::io_service::strand>(*_services[0]);
         _strand_required = true;
@@ -92,7 +92,7 @@ bool Service::Start(bool polling)
         _services[0]->post(start_handler);
 
     // Start service working threads
-    for (int thread = 0; thread < _threads.size(); ++thread)
+    for (size_t thread = 0; thread < _threads.size(); ++thread)
         _threads[thread] = CppCommon::Thread::Start([this, self, thread]() { ServiceLoop(self, _services[thread % _services.size()]); });
 
     return true;
@@ -144,7 +144,7 @@ bool Service::Restart()
         return false;
 
     // Reinitialize new Asio IO services
-    for (int service = 0; service < _services.size(); ++service)
+    for (size_t service = 0; service < _services.size(); ++service)
         _services[service] = std::make_shared<asio::io_service>();
     if (_strand_required)
         _strand = std::make_shared<asio::io_service::strand>(*_services[0]);

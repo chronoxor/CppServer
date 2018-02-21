@@ -76,8 +76,8 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    explicit EchoTCPSession(std::shared_ptr<TCPServer<EchoTCPServer, EchoTCPSession>> server, std::shared_ptr<asio::io_service> service, asio::ip::tcp::socket&& socket)
-        : TCPSession<EchoTCPServer, EchoTCPSession>(server, service, std::move(socket)),
+    explicit EchoTCPSession(std::shared_ptr<TCPServer<EchoTCPServer, EchoTCPSession>> server)
+        : TCPSession<EchoTCPServer, EchoTCPSession>(server),
           connected(false),
           disconnected(false),
           errors(false)
