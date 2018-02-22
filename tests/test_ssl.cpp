@@ -377,9 +377,6 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     // Test duration in seconds
     const int duration = 10;
 
-    // Create and prepare a new SSL client context
-    auto client_context = EchoSSLClient::CreateContext();
-
     // Clients collection
     std::vector<std::shared_ptr<EchoSSLClient>> clients;
 
@@ -397,6 +394,9 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
         {
             if (clients.size() < 100)
             {
+                // Create and prepare a new SSL client context
+                auto client_context = EchoSSLClient::CreateContext();
+
                 // Create and connect Echo client
                 auto client = std::make_shared<EchoSSLClient>(service, client_context, address, port);
                 clients.emplace_back(client);

@@ -148,15 +148,16 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
-    // Create and prepare a new SSL client context
-    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
-    context->set_verify_mode(asio::ssl::verify_peer);
-    context->load_verify_file("../tools/certificates/ca.pem");
-
     // Create echo clients
     std::vector<std::shared_ptr<EchoClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
+        // Create and prepare a new SSL client context
+        auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+        context->set_verify_mode(asio::ssl::verify_peer);
+        context->load_verify_file("../tools/certificates/ca.pem");
+
+        // Create echo client
         auto client = std::make_shared<EchoClient>(service, context, address, port, messages_count / clients_count);
         client->SetupNoDelay(true);
         clients.emplace_back(client);
