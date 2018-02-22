@@ -26,7 +26,7 @@ class TCPServer;
     Thread-safe.
 */
 template <class TServer, class TSession>
-class TCPSession : public std::enable_shared_from_this<TCPSession<TServer, TSession>>
+class TCPSession
 {
     template <class TSomeServer, class TSomeSession>
     friend class TCPServer;
@@ -132,8 +132,9 @@ protected:
 private:
     // Session Id
     CppCommon::UUID _id;
-    // Server
+    // Server & session
     std::shared_ptr<TCPServer<TServer, TSession>> _server;
+    std::shared_ptr<TSession> _session;
     // Asio IO service
     std::shared_ptr<asio::io_service> _io_service;
     // Asio service strand for serialized handler execution

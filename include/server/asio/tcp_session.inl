@@ -45,7 +45,7 @@ inline void TCPSession<TServer, TSession>::Connect()
     onConnected();
 
     // Call the session connected handler in the server
-    //_server->onConnected(self);
+    _server->onConnected(_session);
 
     // Call the empty send buffer handler
     onEmpty();
@@ -61,7 +61,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
         return false;
 
     // Dispatch or post the disconnect handler
-    auto self(this->shared_from_this());
+    auto self(_session);
     auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
         if (!IsConnected())
@@ -80,7 +80,7 @@ inline bool TCPSession<TServer, TSession>::Disconnect(bool dispatch)
         onDisconnected();
 
         // Call the session disconnected handler in the server
-        //_server->onDisconnected(self);
+        _server->onDisconnected(_session);
 
         // Dispatch the unregister session handler
         auto unregister_session_handler = make_alloc_handler(_connect_storage, [this, self]()
@@ -132,7 +132,7 @@ inline size_t TCPSession<TServer, TSession>::Send(const void* buffer, size_t siz
     }
 
     // Dispatch the send handler
-    auto self(this->shared_from_this());
+    auto self(_session);
     auto send_handler = make_alloc_handler(_send_storage, [this, self]()
     {
         // Try to send the main buffer
@@ -157,7 +157,7 @@ inline void TCPSession<TServer, TSession>::TryReceive()
 
     // Async receive with the receive handler
     _reciving = true;
-    auto self(this->shared_from_this());
+    auto self(_session);
     auto async_receive_handler = make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _reciving = false;
@@ -224,7 +224,7 @@ inline void TCPSession<TServer, TSession>::TrySend()
 
     // Async write with the write handler
     _sending = true;
-    auto self(this->shared_from_this());
+    auto self(_session);
     auto async_write_handler = make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
     {
         _sending = false;

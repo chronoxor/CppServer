@@ -208,6 +208,7 @@ inline void SSLServer<TServer, TSession>::Accept()
 
         // Create a new session to accept
         _session = std::make_shared<TSession>(self, _context);
+        _session->_session = _session;
 
         auto async_accept_handler = make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {

@@ -24,7 +24,7 @@ class SSLServer;
     Thread-safe.
 */
 template <class TServer, class TSession>
-class SSLSession : public std::enable_shared_from_this<SSLSession<TServer, TSession>>
+class SSLSession
 {
     template <class TSomeServer, class TSomeSession>
     friend class SSLServer;
@@ -139,8 +139,9 @@ protected:
 private:
     // Session Id
     CppCommon::UUID _id;
-    // Server
+    // Server & session
     std::shared_ptr<SSLServer<TServer, TSession>> _server;
+    std::shared_ptr<TSession> _session;
     // Asio IO service
     std::shared_ptr<asio::io_service> _io_service;
     // Session SSL context and stream
