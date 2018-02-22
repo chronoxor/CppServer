@@ -187,8 +187,11 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a319ede4197d5d6021e56584fa4abccd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle server stopped notification.  <a href="#a319ede4197d5d6021e56584fa4abccd0">More...</a><br /></td></tr>
 <tr class="separator:a319ede4197d5d6021e56584fa4abccd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16f4c7d13af56aa1bf34d520726bbf86"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a16f4c7d13af56aa1bf34d520726bbf86">onConnected</a> (std::shared_ptr&lt; TSession &gt; &amp;session)</td></tr>
-<tr class="memdesc:a16f4c7d13af56aa1bf34d520726bbf86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle new session connected notification.  <a href="#a16f4c7d13af56aa1bf34d520726bbf86">More...</a><br /></td></tr>
+<tr class="memdesc:a16f4c7d13af56aa1bf34d520726bbf86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session connected notification.  <a href="#a16f4c7d13af56aa1bf34d520726bbf86">More...</a><br /></td></tr>
 <tr class="separator:a16f4c7d13af56aa1bf34d520726bbf86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3e9582bc1a62a9cd88232c7b510440b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#ac3e9582bc1a62a9cd88232c7b510440b">onHandshaked</a> (std::shared_ptr&lt; TSession &gt; &amp;session)</td></tr>
+<tr class="memdesc:ac3e9582bc1a62a9cd88232c7b510440b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session handshaked notification.  <a href="#ac3e9582bc1a62a9cd88232c7b510440b">More...</a><br /></td></tr>
+<tr class="separator:ac3e9582bc1a62a9cd88232c7b510440b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14a57a805d85f975844b3ca29b859c03"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a14a57a805d85f975844b3ca29b859c03">onDisconnected</a> (std::shared_ptr&lt; TSession &gt; &amp;session)</td></tr>
 <tr class="memdesc:a14a57a805d85f975844b3ca29b859c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnected notification.  <a href="#a14a57a805d85f975844b3ca29b859c03">More...</a><br /></td></tr>
 <tr class="separator:a14a57a805d85f975844b3ca29b859c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -335,7 +338,7 @@ template&lt;class TServer , class TSession &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00048">48</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00047">47</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
 
 </div>
 </div>
@@ -391,7 +394,7 @@ template&lt;class TServer , class TSession &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00075">75</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00073">73</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
 
 </div>
 </div>
@@ -662,7 +665,7 @@ template&lt;class TServer , class TSession &gt; </div>
 <p>Disconnect all connected sessions. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if all sessions were successfully disconnected, 'false' if the server it not started </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00278">278</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00279">279</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
 
 </div>
 </div>
@@ -805,7 +808,7 @@ template&lt;class TServer , class TSession &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the data was successfully multicast, 'false' if the server it not started </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00234">234</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00235">235</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
 
 </div>
 </div>
@@ -874,7 +877,7 @@ template&lt;class TServer , class TSession &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Handle new session connected notification. </p>
+<p>Handle session connected notification. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">session</td><td>- Connected session </td></tr>
@@ -920,7 +923,7 @@ template&lt;class TServer , class TSession &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00172">172</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00177">177</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -977,7 +980,45 @@ template&lt;class TServer , class TSession &gt; </div>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a1">ssl_chat_server.cpp</a>.</dd>
 </dl>
-<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00180">180</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00185">185</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+
+</div>
+</div>
+<a id="ac3e9582bc1a62a9cd88232c7b510440b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3e9582bc1a62a9cd88232c7b510440b">&#9670;&nbsp;</a></span>onHandshaked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class TServer , class TSession &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html">CppServer::Asio::SSLServer</a>&lt; TServer, TSession &gt;::onHandshaked </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; TSession &gt; &amp;&#160;</td>
+          <td class="paramname"><em>session</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle session handshaked notification. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">session</td><td>- Handshaked session </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00172">172</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -1220,7 +1261,7 @@ template&lt;class TServer , class TSession &gt; </div>
 <p>Restart the server. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully restarted, 'false' if the server failed to restart </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00188">188</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00185">185</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
 
 </div>
 </div>
@@ -1401,7 +1442,7 @@ template&lt;class TServer , class TSession &gt; </div>
 <p>Start the server. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully started, 'false' if the server failed to start </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00101">101</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00098">98</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
 
 </div>
 </div>
@@ -1433,7 +1474,7 @@ template&lt;class TServer , class TSession &gt; </div>
 <p>Stop the server. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully stopped, 'false' if the server is already stopped </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00151">151</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8inl_source.html#l00148">148</a> of file <a class="el" href="ssl__server_8inl_source.html">ssl_server.inl</a>.</p>
 
 </div>
 </div>
