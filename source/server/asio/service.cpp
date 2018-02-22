@@ -29,7 +29,7 @@ Service::Service(int threads, bool pool)
     else if (!pool)
     {
         // Io-service-per-thread design
-        for (size_t thread = 0; thread < threads; ++thread)
+        for (int thread = 0; thread < threads; ++thread)
         {
             _services.emplace_back(std::make_shared<asio::io_service>());
             _threads.emplace_back(std::thread());
@@ -39,7 +39,7 @@ Service::Service(int threads, bool pool)
     {
         // Thread-pool design
         _services.emplace_back(std::make_shared<asio::io_service>());
-        for (size_t thread = 0; thread < threads; ++thread)
+        for (int thread = 0; thread < threads; ++thread)
             _threads.emplace_back(std::thread());
         _strand = std::make_shared<asio::io_service::strand>(*_services[0]);
         _strand_required = true;
