@@ -57,7 +57,7 @@ public:
         \param threads - Working threads count (default is 1)
         \param pool - Asio service thread pool flag (default is false)
     */
-    explicit Service(int threads = 1, bool pool = true);
+    explicit Service(int threads = 1, bool pool = false);
     //! Initialize Asio service manually with a given Asio IO service
     /*!
         \param service - Asio IO service
