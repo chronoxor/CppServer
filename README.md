@@ -1231,12 +1231,12 @@ Message size: 32
 
 Errors: 0
 
-Round-trip time: 9.679 s
+Round-trip time: 4.741 s
 Total bytes: 32000000
 Total messages: 1000000
-Bytes throughput: 3305832 bytes per second
-Messages latency: 9.679 mcs
-Messages throughput: 103307 messages per second
+Bytes throughput: 6749203 bytes per second
+Message latency: 4.741 mcs
+Message throughput: 210912 messages per second
 ```
 
 ### UDP echo server
