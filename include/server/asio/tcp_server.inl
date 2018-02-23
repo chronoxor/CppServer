@@ -143,6 +143,9 @@ inline bool TCPServer<TServer, TSession>::Stop()
         if (!IsStarted())
             return;
 
+        // Reset the session
+        _session.reset();
+
         // Close the server acceptor
         _acceptor.close();
 
@@ -290,7 +293,7 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
 template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::RegisterSession()
 {
-    // Link the session
+    // Set the session
     _session->_session = _session;
 
     // Register a new session
@@ -307,8 +310,8 @@ inline void TCPServer<TServer, TSession>::UnregisterSession(const CppCommon::UUI
     auto it = _sessions.find(id);
     if (it != _sessions.end())
     {
-        // Unlink the session
-        it->second->_session = nullptr;
+        // Reset the session
+        it->second->_session.reset();
 
         // Erase the session
         _sessions.erase(it);
