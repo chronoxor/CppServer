@@ -193,7 +193,6 @@ inline void TCPServer<TServer, TSession>::Accept()
 
         // Create a new session to accept
         _session = std::make_shared<TSession>(self);
-        _session->_session = _session;
 
         auto async_accept_handler = make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
@@ -291,6 +290,9 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
 template <class TServer, class TSession>
 inline void TCPServer<TServer, TSession>::RegisterSession()
 {
+    // Link the session
+    _session->_session = _session;
+
     // Register a new session
     _sessions.emplace(_session->id(), _session);
 
@@ -305,6 +307,9 @@ inline void TCPServer<TServer, TSession>::UnregisterSession(const CppCommon::UUI
     auto it = _sessions.find(id);
     if (it != _sessions.end())
     {
+        // Unlink the session
+        it->second->_session = nullptr;
+
         // Erase the session
         _sessions.erase(it);
     }
