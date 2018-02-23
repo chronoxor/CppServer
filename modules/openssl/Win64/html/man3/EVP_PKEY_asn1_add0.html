@@ -1,0 +1,300 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>EVP_PKEY_ASN1_METHOD</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a>
+    <ul>
+      <li><a href="#Methods">Methods</a></li>
+      <li><a href="#Functions">Functions</a></li>
+    </ul>
+  </li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>EVP_PKEY_ASN1_METHOD, EVP_PKEY_asn1_new, EVP_PKEY_asn1_copy, EVP_PKEY_asn1_free, EVP_PKEY_asn1_add0, EVP_PKEY_asn1_add_alias, EVP_PKEY_asn1_set_public, EVP_PKEY_asn1_set_private, EVP_PKEY_asn1_set_param, EVP_PKEY_asn1_set_free, EVP_PKEY_asn1_set_ctrl, EVP_PKEY_asn1_set_item, EVP_PKEY_asn1_set_security_bits, EVP_PKEY_get0_asn1 - manipulating and registering EVP_PKEY_ASN1_METHOD structure</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
+ 
+ <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">evp_pkey_asn1_method_st</span> <span class="variable">EVP_PKEY_ASN1_METHOD</span><span class="operator">;</span>
+ 
+ <span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*EVP_PKEY_asn1_new</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">id</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">,</span>
+                                         <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*pem_str</span><span class="operator">,</span>
+                                         <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*info</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">EVP_PKEY_asn1_copy</span><span class="operator">(</span><span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*dst</span><span class="operator">,</span>
+                         <span class="variable">const</span> <span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*src</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">EVP_PKEY_asn1_free</span><span class="operator">(</span><span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*ameth</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EVP_PKEY_asn1_add0</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*ameth</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EVP_PKEY_asn1_add_alias</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">from</span><span class="operator">);</span>
+ 
+ <span class="variable">void</span> <span class="variable">EVP_PKEY_asn1_set_public</span><span class="operator">(</span><span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*ameth</span><span class="operator">,</span>
+                               <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_decode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">,</span>
+                                                  <span class="variable">X509_PUBKEY</span> <span class="variable">*pub</span><span class="operator">),</span>
+                               <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_encode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">X509_PUBKEY</span> <span class="variable">*pub</span><span class="operator">,</span>
+                                                  <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">),</span>
+                               <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_cmp</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span>
+                                               <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*b</span><span class="operator">),</span>
+                               <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_print</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span>
+                                                 <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span>
+                                                 <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span> <span class="variable">ASN1_PCTX</span> <span class="variable">*pctx</span><span class="operator">),</span>
+                               <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pkey_size</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">),</span>
+                               <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pkey_bits</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">));</span>
+ <span class="variable">void</span> <span class="variable">EVP_PKEY_asn1_set_private</span><span class="operator">(</span><span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*ameth</span><span class="operator">,</span>
+                                <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*priv_decode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">,</span>
+                                                    <span class="variable">const</span> <span class="variable">PKCS8_PRIV_KEY_INFO</span>
+                                                    <span class="variable">*p8inf</span><span class="operator">),</span>
+                                <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*priv_encode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">PKCS8_PRIV_KEY_INFO</span> <span class="variable">*p8</span><span class="operator">,</span>
+                                                    <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">),</span>
+                                <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*priv_print</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span>
+                                                   <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span>
+                                                   <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span>
+                                                   <span class="variable">ASN1_PCTX</span> <span class="variable">*pctx</span><span class="operator">));</span>
+ <span class="variable">void</span> <span class="variable">EVP_PKEY_asn1_set_param</span><span class="operator">(</span><span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*ameth</span><span class="operator">,</span>
+                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_decode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span>
+                                                   <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pder</span><span class="operator">,</span>
+                                                   <span class="keyword">int</span> <span class="variable">derlen</span><span class="operator">),</span>
+                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_encode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span>
+                                                   <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pder</span><span class="operator">),</span>
+                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_missing</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">),</span>
+                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_copy</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*to</span><span class="operator">,</span>
+                                                 <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*from</span><span class="operator">),</span>
+                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_cmp</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span>
+                                                <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*b</span><span class="operator">),</span>
+                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_print</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span>
+                                                  <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span>
+                                                  <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span>
+                                                  <span class="variable">ASN1_PCTX</span> <span class="variable">*pctx</span><span class="operator">));</span>
+ 
+ <span class="variable">void</span> <span class="variable">EVP_PKEY_asn1_set_free</span><span class="operator">(</span><span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*ameth</span><span class="operator">,</span>
+                             <span class="variable">void</span> <span class="operator">(</span><span class="variable">*pkey_free</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">));</span>
+ <span class="variable">void</span> <span class="variable">EVP_PKEY_asn1_set_ctrl</span><span class="operator">(</span><span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*ameth</span><span class="operator">,</span>
+                             <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pkey_ctrl</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span>
+                                               <span class="variable">long</span> <span class="variable">arg1</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg2</span><span class="operator">));</span>
+ <span class="variable">void</span> <span class="variable">EVP_PKEY_asn1_set_item</span><span class="operator">(</span><span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*ameth</span><span class="operator">,</span>
+                             <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*item_verify</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                                                 <span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">*it</span><span class="operator">,</span>
+                                                 <span class="variable">void</span> <span class="variable">*asn</span><span class="operator">,</span>
+                                                 <span class="variable">X509_ALGOR</span> <span class="variable">*a</span><span class="operator">,</span>
+                                                 <span class="variable">ASN1_BIT_STRING</span> <span class="variable">*sig</span><span class="operator">,</span>
+                                                 <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">),</span>
+                             <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*item_sign</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                                               <span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">*it</span><span class="operator">,</span>
+                                               <span class="variable">void</span> <span class="variable">*asn</span><span class="operator">,</span>
+                                               <span class="variable">X509_ALGOR</span> <span class="variable">*alg1</span><span class="operator">,</span>
+                                               <span class="variable">X509_ALGOR</span> <span class="variable">*alg2</span><span class="operator">,</span>
+                                               <span class="variable">ASN1_BIT_STRING</span> <span class="variable">*sig</span><span class="operator">));</span>
+ 
+ <span class="variable">void</span> <span class="variable">EVP_PKEY_asn1_set_security_bits</span><span class="operator">(</span><span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*ameth</span><span class="operator">,</span>
+                                      <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pkey_security_bits</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span>
+                                                                 <span class="variable">*pk</span><span class="operator">));</span>
+ 
+ <span class="variable">const</span> <span class="variable">EVP_PKEY_ASN1_METHOD</span> <span class="variable">*EVP_PKEY_get0_asn1</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
+</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p><b>EVP_PKEY_ASN1_METHOD</b> is a structure which holds a set of ASN.1 conversion, printing and information methods for a specific public key algorithm.</p>
+
+<p>There are two places where the <b>EVP_PKEY_ASN1_METHOD</b> objects are stored: one is a built-in array representing the standard methods for different algorithms, and the other one is a stack of user-defined application-specific methods, which can be manipulated by using <a href="../man3/EVP_PKEY_asn1_add0.html>EVP_PKEY_asn1_add0(3)</a>.</p>
+
+<h2 id="Methods">Methods</h2>
+
+<p>The methods are the underlying implementations of a particular public key algorithm present by the <b>EVP_PKEY</b> object.</p>
+
+<pre><code> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_decode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">,</span> <span class="variable">X509_PUBKEY</span> <span class="variable">*pub</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_encode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">X509_PUBKEY</span> <span class="variable">*pub</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_cmp</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*b</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_print</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span>
+                   <span class="variable">ASN1_PCTX</span> <span class="variable">*pctx</span><span class="operator">);</span>
+</code></pre>
+
+<p>The pub_decode() and pub_encode() methods are called to decode / encode <b>X509_PUBKEY</b> ASN.1 parameters to / from <b>pk</b>. They MUST return 0 on error, 1 on success. They&#39;re called by <a href="../man3/X509_PUBKEY_get0.html>X509_PUBKEY_get0(3)</a> and <a href="../man3/X509_PUBKEY_set.html>X509_PUBKEY_set(3)</a>.</p>
+
+<p>The pub_cmp() method is called when two public keys are to be compared. It MUST return 1 when the keys are equal, 0 otherwise. It&#39;s called by <a href="../man3/EVP_PKEY_cmp.html>EVP_PKEY_cmp(3)</a>.</p>
+
+<p>The pub_print() method is called to print a public key in humanly readable text to <b>out</b>, indented <b>indent</b> spaces. It MUST return 0 on error, 1 on success. It&#39;s called by <a href="../man3/EVP_PKEY_print_public.html>EVP_PKEY_print_public(3)</a>.</p>
+
+<pre><code> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*priv_decode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">PKCS8_PRIV_KEY_INFO</span> <span class="variable">*p8inf</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*priv_encode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">PKCS8_PRIV_KEY_INFO</span> <span class="variable">*p8</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*priv_print</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span>
+                    <span class="variable">ASN1_PCTX</span> <span class="variable">*pctx</span><span class="operator">);</span>
+</code></pre>
+
+<p>The priv_decode() and priv_encode() methods are called to decode / encode <b>PKCS8_PRIV_KEY_INFO</b> form private key to / from <b>pk</b>. They MUST return 0 on error, 1 on success. They&#39;re called by <a href="../man3/EVP_PKCS82PKEY.html>EVP_PKCS82PKEY(3)</a> and <a href="../man3/EVP_PKEY2PKCS8.html>EVP_PKEY2PKCS8(3)</a>.</p>
+
+<p>The priv_print() method is called to print a private key in humanly readable text to <b>out</b>, indented <b>indent</b> spaces. It MUST return 0 on error, 1 on success. It&#39;s called by <a href="../man3/EVP_PKEY_print_private.html>EVP_PKEY_print_private(3)</a>.</p>
+
+<pre><code> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pkey_size</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pkey_bits</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pkey_security_bits</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">);</span>
+</code></pre>
+
+<p>The pkey_size() method returns the key size in bytes. It&#39;s called by <a href="../man3/EVP_PKEY_size.html>EVP_PKEY_size(3)</a>.</p>
+
+<p>The pkey_bits() method returns the key size in bits. It&#39;s called by <a href="../man3/EVP_PKEY_bits.html>EVP_PKEY_bits(3)</a>.</p>
+
+<pre><code> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_decode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span>
+                      <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pder</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">derlen</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_encode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pder</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_missing</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pk</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_copy</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*from</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_cmp</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*b</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*param_print</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span>
+                     <span class="variable">ASN1_PCTX</span> <span class="variable">*pctx</span><span class="operator">);</span>
+</code></pre>
+
+<p>The param_decode() and param_encode() methods are called to decode / encode DER formatted parameters to / from <b>pk</b>. They MUST return 0 on error, 1 on success. They&#39;re called by <a href="../man3/PEM_read_bio_Parameters.html>PEM_read_bio_Parameters(3)</a> and the <b>file:</b> <a href="../man3/OSSL_STORE_LOADER.html>OSSL_STORE_LOADER(3)</a>.</p>
+
+<p>The param_missing() method returns 0 if a key parameter is missing, otherwise 1. It&#39;s called by <a href="../man3/EVP_PKEY_missing_parameters.html>EVP_PKEY_missing_parameters(3)</a>.</p>
+
+<p>The param_copy() method copies key parameters from <b>from</b> to <b>to</b>. It MUST return 0 on error, 1 on success. It&#39;s called by <a href="../man3/EVP_PKEY_copy_parameters.html>EVP_PKEY_copy_parameters(3)</a>.</p>
+
+<p>The param_cmp() method compares the parameters of keys <b>a</b> and <b>b</b>. It MUST return 1 when the keys are equal, 0 when not equal, or a negative number on error. It&#39;s called by <a href="../man3/EVP_PKEY_cmp_parameters.html>EVP_PKEY_cmp_parameters(3)</a>.</p>
+
+<p>The param_print() method prints the private key parameters in humanly readable text to <b>out</b>, indented <b>indent</b> spaces. It MUST return 0 on error, 1 on success. It&#39;s called by <a href="../man3/EVP_PKEY_print_params.html>EVP_PKEY_print_params(3)</a>.</p>
+
+<pre><code> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*sig_print</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span>
+                   <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*sigalg</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_STRING</span> <span class="variable">*sig</span><span class="operator">,</span>
+                   <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span> <span class="variable">ASN1_PCTX</span> <span class="variable">*pctx</span><span class="operator">);</span>
+</code></pre>
+
+<p>The sig_print() method prints a signature in humanly readable text to <b>out</b>, indented <b>indent</b> spaces. <b>sigalg</b> contains the exact signature algorithm. If the signature in <b>sig</b> doesn&#39;t correspond to what this method expects, X509_signature_dump() must be used as a last resort. It MUST return 0 on error, 1 on success. It&#39;s called by <a href="../man3/X509_signature_print.html>X509_signature_print(3)</a>.</p>
+
+<pre><code> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*pkey_free</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
+</code></pre>
+
+<p>The pkey_free() method helps freeing the internals of <b>pkey</b>. It&#39;s called by <a href="../man3/EVP_PKEY_free.html>EVP_PKEY_free(3)</a>, <a href="../man3/EVP_PKEY_set_type.html>EVP_PKEY_set_type(3)</a>, <a href="../man3/EVP_PKEY_set_type_str.html>EVP_PKEY_set_type_str(3)</a>, and <a href="../man3/EVP_PKEY_assign.html>EVP_PKEY_assign(3)</a>.</p>
+
+<pre><code> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pkey_ctrl</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">arg1</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg2</span><span class="operator">);</span>
+</code></pre>
+
+<p>The pkey_ctrl() method adds extra algorithm specific control. It&#39;s called by <a href="../man3/EVP_PKEY_get_default_digest_nid.html>EVP_PKEY_get_default_digest_nid(3)</a>, <a href="../man3/EVP_PKEY_set1_tls_encodedpoint.html>EVP_PKEY_set1_tls_encodedpoint(3)</a>, <a href="../man3/EVP_PKEY_get1_tls_encodedpoint.html>EVP_PKEY_get1_tls_encodedpoint(3)</a>, <a href="../man3/PKCS7_SIGNER_INFO_set.html>PKCS7_SIGNER_INFO_set(3)</a>, <a href="../man3/PKCS7_RECIP_INFO_set.html>PKCS7_RECIP_INFO_set(3)</a>, ...</p>
+
+<pre><code> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*old_priv_decode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span>
+                         <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pder</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">derlen</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*old_priv_encode</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pder</span><span class="operator">);</span>
+</code></pre>
+
+<p>The old_priv_decode() and old_priv_encode() methods decode / encode they private key <b>pkey</b> from / to a DER formatted array. These are exclusively used to help decoding / encoding older (pre PKCS#8) PEM formatted encrypted private keys. old_priv_decode() MUST return 0 on error, 1 on success. old_priv_encode() MUST the return same kind of values as i2d_PrivateKey(). They&#39;re called by <a href="../man3/d2i_PrivateKey.html>d2i_PrivateKey(3)</a> and <a href="../man3/i2d_PrivateKey.html>i2d_PrivateKey(3)</a>.</p>
+
+<pre><code> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*item_verify</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">*it</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*asn</span><span class="operator">,</span>
+                     <span class="variable">X509_ALGOR</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">ASN1_BIT_STRING</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*item_sign</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">*it</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*asn</span><span class="operator">,</span>
+                   <span class="variable">X509_ALGOR</span> <span class="variable">*alg1</span><span class="operator">,</span> <span class="variable">X509_ALGOR</span> <span class="variable">*alg2</span><span class="operator">,</span>
+                   <span class="variable">ASN1_BIT_STRING</span> <span class="variable">*sig</span><span class="operator">);</span>
+</code></pre>
+
+<p>The item_sign() and item_verify() methods make it possible to have algorithm specific signatures and verification of them.</p>
+
+<p>item_sign() MUST return one of:</p>
+
+<dl>
+
+<dt id="pod-0">&lt;=0</dt>
+<dd>
+
+<p>error</p>
+
+</dd>
+<dt id="pod1">1</dt>
+<dd>
+
+<p>item_sign() did everything, OpenSSL internals just needs to pass the signature length back.</p>
+
+</dd>
+<dt id="pod2">2</dt>
+<dd>
+
+<p>item_sign() did nothing, OpenSSL internal standard routines are expected to continue with the default signature production.</p>
+
+</dd>
+<dt id="pod3">3</dt>
+<dd>
+
+<p>item_sign() set the algorithm identifier <b>algor1</b> and <b>algor2</b>, OpenSSL internals should just sign using those algorithms.</p>
+
+</dd>
+</dl>
+
+<p>item_verify() MUST return one of:</p>
+
+<dl>
+
+<dt id="pod-01">&lt;=0</dt>
+<dd>
+
+<p>error</p>
+
+</dd>
+<dt id="pod11">1</dt>
+<dd>
+
+<p>item_sign() did everything, OpenSSL internals just needs to pass the signature length back.</p>
+
+</dd>
+<dt id="pod21">2</dt>
+<dd>
+
+<p>item_sign() did nothing, OpenSSL internal standard routines are expected to continue with the default signature production.</p>
+
+</dd>
+</dl>
+
+<p>item_verify() and item_sign() are called by <a href="../man3/ASN1_item_verify.html>ASN1_item_verify(3)</a> and <a href="../man3/ASN1_item_sign.html>ASN1_item_sign(3)</a>, and by extension, <a href="../man3/X509_verify.html>X509_verify(3)</a>, <a href="../man3/X509_REQ_verify.html>X509_REQ_verify(3)</a>, <a href="../man3/X509_sign.html>X509_sign(3)</a>, <a href="../man3/X509_REQ_sign.html>X509_REQ_sign(3)</a>, ...</p>
+
+<h2 id="Functions">Functions</h2>
+
+<p>EVP_PKEY_asn1_new() creates and returns a new <b>EVP_PKEY_ASN1_METHOD</b> object, and associates the given <b>id</b>, <b>flags</b>, <b>pem_str</b> and <b>info</b>. <b>id</b> is a NID, <b>pem_str</b> is the PEM type string, <b>info</b> is a descriptive string. The following <b>flags</b> are supported:</p>
+
+<pre><code> ASN1_PKEY_SIGPARAM_NULL</code></pre>
+
+<p>If <b>ASN1_PKEY_SIGPARAM_NULL</b> is set, then the signature algorithm parameters are given the type <b>V_ASN1_NULL</b> by default, otherwise they will be given the type <b>V_ASN1_UNDEF</b> (i.e. the parameter is omitted). See <a href="../man3/X509_ALGOR_set0.html>X509_ALGOR_set0(3)</a> for more information.</p>
+
+<p>EVP_PKEY_asn1_copy() copies an <b>EVP_PKEY_ASN1_METHOD</b> object from <b>src</b> to <b>dst</b>. This function is not thread safe, it&#39;s recommended to only use this when initializing the application.</p>
+
+<p>EVP_PKEY_asn1_free() frees an existing <b>EVP_PKEY_ASN1_METHOD</b> pointed by <b>ameth</b>.</p>
+
+<p>EVP_PKEY_asn1_add0() adds <b>ameth</b> to the user defined stack of methods unless another <b>EVP_PKEY_ASN1_METHOD</b> with the same NID is already there. This function is not thread safe, it&#39;s recommended to only use this when initializing the application.</p>
+
+<p>EVP_PKEY_asn1_add_alias() creates an alias with the NID <b>to</b> for the <b>EVP_PKEY_ASN1_METHOD</b> with NID <b>from</b> unless another <b>EVP_PKEY_ASN1_METHOD</b> with the same NID is already added. This function is not thread safe, it&#39;s recommended to only use this when initializing the application.</p>
+
+<p>EVP_PKEY_asn1_set_public(), EVP_PKEY_asn1_set_private(), EVP_PKEY_asn1_set_param(), EVP_PKEY_asn1_set_free(), EVP_PKEY_asn1_set_ctrl(), EVP_PKEY_asn1_set_item(), and EVP_PKEY_asn1_set_security_bits() set the diverse methods of the given <b>EVP_PKEY_ASN1_METHOD</b> object.</p>
+
+<p>EVP_PKEY_get0_asn1() finds the <b>EVP_PKEY_ASN1_METHOD</b> associated with the key <b>pkey</b>.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>EVP_PKEY_asn1_new() returns NULL on error, or a pointer to an <b>EVP_PKEY_ASN1_METHOD</b> object otherwise.</p>
+
+<p>EVP_PKEY_asn1_add0() and EVP_PKEY_asn1_add_alias() return 0 on error, or 1 on success.</p>
+
+<p>EVP_PKEY_get0_asn1() returns NULL on error, or a pointer to a constant <b>EVP_PKEY_ASN1_METHOD</b> object otherwise.</p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+

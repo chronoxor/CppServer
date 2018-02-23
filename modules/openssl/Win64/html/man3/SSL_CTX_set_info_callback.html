@@ -1,0 +1,195 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SSL_CTX_set_info_callback</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#EXAMPLES">EXAMPLES</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>SSL_CTX_set_info_callback, SSL_CTX_get_info_callback, SSL_set_info_callback, SSL_get_info_callback - handle information callback for SSL connections</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
+ 
+ <span class="variable">void</span> <span class="variable">SSL_CTX_set_info_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)());</span>
+ <span class="variable">void</span> <span class="operator">(</span><span class="variable">*SSL_CTX_get_info_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">))();</span>
+ 
+ <span class="variable">void</span> <span class="variable">SSL_set_info_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)());</span>
+ <span class="variable">void</span> <span class="operator">(</span><span class="variable">*SSL_get_info_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">))();</span>
+</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>SSL_CTX_set_info_callback() sets the <b>callback</b> function, that can be used to obtain state information for SSL objects created from <b>ctx</b> during connection setup and use. The setting for <b>ctx</b> is overridden from the setting for a specific SSL object, if specified. When <b>callback</b> is NULL, no callback function is used.</p>
+
+<p>SSL_set_info_callback() sets the <b>callback</b> function, that can be used to obtain state information for <b>ssl</b> during connection setup and use. When <b>callback</b> is NULL, the callback setting currently valid for <b>ctx</b> is used.</p>
+
+<p>SSL_CTX_get_info_callback() returns a pointer to the currently set information callback function for <b>ctx</b>.</p>
+
+<p>SSL_get_info_callback() returns a pointer to the currently set information callback function for <b>ssl</b>.</p>
+
+<h1 id="NOTES">NOTES</h1>
+
+<p>When setting up a connection and during use, it is possible to obtain state information from the SSL/TLS engine. When set, an information callback function is called whenever the state changes, an alert appears, or an error occurs.</p>
+
+<p>The callback function is called as <b>callback(SSL *ssl, int where, int ret)</b>. The <b>where</b> argument specifies information about where (in which context) the callback function was called. If <b>ret</b> is 0, an error condition occurred. If an alert is handled, SSL_CB_ALERT is set and <b>ret</b> specifies the alert information.</p>
+
+<p><b>where</b> is a bitmask made up of the following bits:</p>
+
+<dl>
+
+<dt id="SSL_CB_LOOP">SSL_CB_LOOP</dt>
+<dd>
+
+<p>Callback has been called to indicate state change inside a loop.</p>
+
+</dd>
+<dt id="SSL_CB_EXIT">SSL_CB_EXIT</dt>
+<dd>
+
+<p>Callback has been called to indicate error exit of a handshake function. (May be soft error with retry option for non-blocking setups.)</p>
+
+</dd>
+<dt id="SSL_CB_READ">SSL_CB_READ</dt>
+<dd>
+
+<p>Callback has been called during read operation.</p>
+
+</dd>
+<dt id="SSL_CB_WRITE">SSL_CB_WRITE</dt>
+<dd>
+
+<p>Callback has been called during write operation.</p>
+
+</dd>
+<dt id="SSL_CB_ALERT">SSL_CB_ALERT</dt>
+<dd>
+
+<p>Callback has been called due to an alert being sent or received.</p>
+
+</dd>
+<dt id="SSL_CB_READ_ALERT-SSL_CB_ALERT-SSL_CB_READ">SSL_CB_READ_ALERT (SSL_CB_ALERT|SSL_CB_READ)</dt>
+<dd>
+
+</dd>
+<dt id="SSL_CB_WRITE_ALERT-SSL_CB_ALERT-SSL_CB_WRITE">SSL_CB_WRITE_ALERT (SSL_CB_ALERT|SSL_CB_WRITE)</dt>
+<dd>
+
+</dd>
+<dt id="SSL_CB_ACCEPT_LOOP-SSL_ST_ACCEPT-SSL_CB_LOOP">SSL_CB_ACCEPT_LOOP (SSL_ST_ACCEPT|SSL_CB_LOOP)</dt>
+<dd>
+
+</dd>
+<dt id="SSL_CB_ACCEPT_EXIT-SSL_ST_ACCEPT-SSL_CB_EXIT">SSL_CB_ACCEPT_EXIT (SSL_ST_ACCEPT|SSL_CB_EXIT)</dt>
+<dd>
+
+</dd>
+<dt id="SSL_CB_CONNECT_LOOP-SSL_ST_CONNECT-SSL_CB_LOOP">SSL_CB_CONNECT_LOOP (SSL_ST_CONNECT|SSL_CB_LOOP)</dt>
+<dd>
+
+</dd>
+<dt id="SSL_CB_CONNECT_EXIT-SSL_ST_CONNECT-SSL_CB_EXIT">SSL_CB_CONNECT_EXIT (SSL_ST_CONNECT|SSL_CB_EXIT)</dt>
+<dd>
+
+</dd>
+<dt id="SSL_CB_HANDSHAKE_START">SSL_CB_HANDSHAKE_START</dt>
+<dd>
+
+<p>Callback has been called because a new handshake is started.</p>
+
+</dd>
+<dt id="SSL_CB_HANDSHAKE_DONE-0x20">SSL_CB_HANDSHAKE_DONE 0x20</dt>
+<dd>
+
+<p>Callback has been called because a handshake is finished.</p>
+
+</dd>
+</dl>
+
+<p>The current state information can be obtained using the <a href="../man3/SSL_state_string.html>SSL_state_string(3)</a> family of functions.</p>
+
+<p>The <b>ret</b> information can be evaluated using the <a href="../man3/SSL_alert_type_string.html>SSL_alert_type_string(3)</a> family of functions.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>SSL_set_info_callback() does not provide diagnostic information.</p>
+
+<p>SSL_get_info_callback() returns the current setting.</p>
+
+<h1 id="EXAMPLES">EXAMPLES</h1>
+
+<p>The following example callback function prints state strings, information about alerts being handled and error messages to the <b>bio_err</b> BIO.</p>
+
+<pre><code> <span class="variable">void</span> <span class="variable">apps_ssl_info_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">where</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">ret</span><span class="operator">)</span>
+        <span class="operator">{</span>
+        <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">;</span>
+        <span class="keyword">int</span> <span class="variable">w</span><span class="operator">;</span>
+ 
+        <span class="variable">w</span> <span class="operator">=</span> <span class="variable">where</span> <span class="operator">&amp;</span> <span class="operator">~</span><span class="variable">SSL_ST_MASK</span><span class="operator">;</span>
+ 
+        <span class="keyword">if</span> <span class="operator">(</span><span class="variable">w</span> <span class="operator">&amp;</span> <span class="variable">SSL_ST_CONNECT</span><span class="operator">)</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">"SSL_connect"</span><span class="operator">;</span>
+        <span class="keyword">else</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">w</span> <span class="operator">&amp;</span> <span class="variable">SSL_ST_ACCEPT</span><span class="operator">)</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">"SSL_accept"</span><span class="operator">;</span>
+        <span class="keyword">else</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">"undefined"</span><span class="operator">;</span>
+ 
+        <span class="keyword">if</span> <span class="operator">(</span><span class="variable">where</span> <span class="operator">&amp;</span> <span class="variable">SSL_CB_LOOP</span><span class="operator">)</span>
+                <span class="operator">{</span>
+                <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_err</span><span class="operator">,</span> <span class="string">"%s:%s\n"</span><span class="operator">,</span> <span class="variable">str</span><span class="operator">,</span> <span class="variable">SSL_state_string_long</span><span class="operator">(</span><span class="regex">s));
+                }
+        else if (where &amp; SSL_CB_ALERT)</span>
+                <span class="operator">{</span>
+                <span class="variable">str</span> <span class="operator">=</span> <span class="operator">(</span><span class="variable">where</span> <span class="operator">&amp;</span> <span class="variable">SSL_CB_READ</span><span class="operator">)</span> <span class="operator">?</span> <span class="string">"read"</span> <span class="operator">:</span> <span class="string">"write"</span><span class="operator">;</span>
+                <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_err</span><span class="operator">,</span> <span class="string">"SSL3 alert %s:%s:%s\n"</span><span class="operator">,</span>
+                        <span class="variable">str</span><span class="operator">,</span>
+                        <span class="variable">SSL_alert_type_string_long</span><span class="operator">(</span><span class="variable">ret</span><span class="operator">),</span>
+                        <span class="variable">SSL_alert_desc_string_long</span><span class="operator">(</span><span class="variable">ret</span><span class="operator">));</span>
+                <span class="operator">}</span>
+        <span class="keyword">else</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">where</span> <span class="operator">&amp;</span> <span class="variable">SSL_CB_EXIT</span><span class="operator">)</span>
+                <span class="operator">{</span>
+                <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ret</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span>
+                        <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_err</span><span class="operator">,</span> <span class="string">"%s:failed in %s\n"</span><span class="operator">,</span>
+                                <span class="variable">str</span><span class="operator">,</span> <span class="variable">SSL_state_string_long</span><span class="operator">(</span><span class="regex">s));
+                else if (ret &lt; 0)</span>
+                        <span class="operator">{</span>
+                        <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_err</span><span class="operator">,</span> <span class="string">"%s:error in %s\n"</span><span class="operator">,</span>
+                                <span class="variable">str</span><span class="operator">,</span> <span class="variable">SSL_state_string_long</span><span class="operator">(</span><span class="regex">s));
+                        }
+                }
+        }
+ </span>
+</code></pre>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_state_string.html>SSL_state_string(3)</a>, <a href="../man3/SSL_alert_type_string.html>SSL_alert_type_string(3)</a></p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2001-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+

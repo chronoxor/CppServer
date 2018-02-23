@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>EVP_PKEY_sign</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#EXAMPLE">EXAMPLE</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#HISTORY">HISTORY</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>EVP_PKEY_sign_init, EVP_PKEY_sign - sign using a public key algorithm</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
+ 
+ <span class="keyword">int</span> <span class="variable">EVP_PKEY_sign_init</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EVP_PKEY_sign</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*siglen</span><span class="operator">,</span>
+                        <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*tbs</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">tbslen</span><span class="operator">);</span>
+</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The EVP_PKEY_sign_init() function initializes a public key algorithm context using key <b>pkey</b> for a signing operation.</p>
+
+<p>The EVP_PKEY_sign() function performs a public key signing operation using <b>ctx</b>. The data to be signed is specified using the <b>tbs</b> and <b>tbslen</b> parameters. If <b>sig</b> is <b>NULL</b> then the maximum size of the output buffer is written to the <b>siglen</b> parameter. If <b>sig</b> is not <b>NULL</b> then before the call the <b>siglen</b> parameter should contain the length of the <b>sig</b> buffer, if the call is successful the signature is written to <b>sig</b> and the amount of data written to <b>siglen</b>.</p>
+
+<h1 id="NOTES">NOTES</h1>
+
+<p>EVP_PKEY_sign() does not hash the data to be signed, and therefore is normally used to sign digests. For signing arbitrary messages, see the <a href="../man3/EVP_DigestSignInit.html>EVP_DigestSignInit(3)</a> and <a href="../man3/EVP_SignInit.html>EVP_SignInit(3)</a> signing interfaces instead.</p>
+
+<p>After the call to EVP_PKEY_sign_init() algorithm specific control operations can be performed to set any appropriate parameters for the operation (see <a href="../man3/EVP_PKEY_CTX_ctrl.html>EVP_PKEY_CTX_ctrl(3)</a>).</p>
+
+<p>The function EVP_PKEY_sign() can be called more than once on the same context if several operations are performed using the same parameters.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>EVP_PKEY_sign_init() and EVP_PKEY_sign() return 1 for success and 0 or a negative value for failure. In particular a return value of -2 indicates the operation is not supported by the public key algorithm.</p>
+
+<h1 id="EXAMPLE">EXAMPLE</h1>
+
+<p>Sign data using RSA with PKCS#1 padding and SHA256 digest:</p>
+
+<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
+ <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
+ 
+ <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
+ <span class="regex">/* md is a SHA-256 digest in this example. */</span>
+ <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">*sig</span><span class="operator">;</span>
+ <span class="variable">size_t</span> <span class="variable">mdlen</span> <span class="operator">=</span> <span class="number">32</span><span class="operator">,</span> <span class="variable">siglen</span><span class="operator">;</span>
+ <span class="variable">EVP_PKEY</span> <span class="variable">*signing_key</span><span class="operator">;</span>
+ 
+ <span class="regex">/*
+  * NB: assumes signing_key and md are set up before the next
+  * step. signing_key must be an RSA private key and md must
+  * point to the SHA-256 digest to be signed.
+  */</span>
+ <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new</span><span class="operator">(</span><span class="variable">signing_key</span><span class="operator">,</span> <span class="variable">NULL</span> <span class="operator">/*</span> <span class="keyword">no</span> <span class="variable">engine</span> <span class="operator">*/);</span>
+ <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ctx</span><span class="operator">)</span>
+        <span class="operator">/*</span> <span class="variable">Error</span> <span class="variable">occurred</span> <span class="operator">*/</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_sign_init</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
+        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_rsa_padding</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">RSA_PKCS1_PADDING</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
+        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_signature_md</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">())</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
+        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+ 
+ <span class="regex">/* Determine buffer length */</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_sign</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">siglen</span><span class="operator">,</span> <span class="variable">md</span><span class="operator">,</span> <span class="variable">mdlen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
+        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+ 
+ <span class="variable">sig</span> <span class="operator">=</span> <span class="variable">OPENSSL_malloc</span><span class="operator">(</span><span class="variable">siglen</span><span class="operator">);</span>
+ 
+ <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">sig</span><span class="operator">)</span>
+        <span class="operator">/*</span> <span class="variable">malloc</span> <span class="variable">failure</span> <span class="operator">*/</span>
+ 
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_sign</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">sig</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">siglen</span><span class="operator">,</span> <span class="variable">md</span><span class="operator">,</span> <span class="variable">mdlen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
+        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+ 
+ <span class="regex">/* Signature is siglen bytes written to buffer sig */</span>
+</code></pre>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man3/EVP_PKEY_CTX_new.html>EVP_PKEY_CTX_new(3)</a>, <a href="../man3/EVP_PKEY_CTX_ctrl.html>EVP_PKEY_CTX_ctrl(3)</a>, <a href="../man3/EVP_PKEY_encrypt.html>EVP_PKEY_encrypt(3)</a>, <a href="../man3/EVP_PKEY_decrypt.html>EVP_PKEY_decrypt(3)</a>, <a href="../man3/EVP_PKEY_verify.html>EVP_PKEY_verify(3)</a>, <a href="../man3/EVP_PKEY_verify_recover.html>EVP_PKEY_verify_recover(3)</a>, <a href="../man3/EVP_PKEY_derive.html>EVP_PKEY_derive(3)</a></p>
+
+<h1 id="HISTORY">HISTORY</h1>
+
+<p>These functions were first added to OpenSSL 1.0.0.</p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2006-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+
