@@ -32,7 +32,7 @@ std::atomic<uint64_t> total_messages(0);
 class EchoClient : public SSLClient
 {
 public:
-    explicit EchoClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port, int messages)
+    EchoClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port, int messages)
         : SSLClient(service, context, address, port),
           _handshaked(false),
           _messages_output(messages),

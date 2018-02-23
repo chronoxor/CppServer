@@ -27,7 +27,7 @@ public:
     std::atomic<bool> idle;
     std::atomic<bool> errors;
 
-    explicit MulticastUDPService()
+    MulticastUDPService()
         : thread_initialize(false),
           thread_cleanup(false),
           started(false),
@@ -53,7 +53,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    explicit MulticastUDPClient(std::shared_ptr<MulticastUDPService> service, const std::string& address, int port)
+    MulticastUDPClient(std::shared_ptr<MulticastUDPService> service, const std::string& address, int port)
         : UDPClient(service, address, port),
           connected(false),
           disconnected(false),
@@ -74,7 +74,7 @@ public:
     std::atomic<bool> stopped;
     std::atomic<bool> errors;
 
-    explicit MulticastUDPServer(std::shared_ptr<MulticastUDPService> service, InternetProtocol protocol, int port)
+    MulticastUDPServer(std::shared_ptr<MulticastUDPService> service, InternetProtocol protocol, int port)
         : UDPServer(service, protocol, port),
           started(false),
           stopped(false),

@@ -27,7 +27,7 @@ public:
     std::atomic<bool> idle;
     std::atomic<bool> errors;
 
-    explicit EchoTCPService()
+    EchoTCPService()
         : thread_initialize(false),
           thread_cleanup(false),
           started(false),
@@ -53,7 +53,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    explicit EchoTCPClient(std::shared_ptr<EchoTCPService> service, const std::string& address, int port)
+    EchoTCPClient(std::shared_ptr<EchoTCPService> service, const std::string& address, int port)
         : TCPClient(service, address, port),
           connected(false),
           disconnected(false),
@@ -76,7 +76,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    explicit EchoTCPSession(std::shared_ptr<TCPServer<EchoTCPServer, EchoTCPSession>> server)
+    EchoTCPSession(std::shared_ptr<TCPServer<EchoTCPServer, EchoTCPSession>> server)
         : TCPSession<EchoTCPServer, EchoTCPSession>(server),
           connected(false),
           disconnected(false),
@@ -101,7 +101,7 @@ public:
     std::atomic<size_t> clients;
     std::atomic<bool> errors;
 
-    explicit EchoTCPServer(std::shared_ptr<EchoTCPService> service, InternetProtocol protocol, int port)
+    EchoTCPServer(std::shared_ptr<EchoTCPService> service, InternetProtocol protocol, int port)
         : TCPServer<EchoTCPServer, EchoTCPSession>(service, protocol, port),
           started(false),
           stopped(false),

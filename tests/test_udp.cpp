@@ -27,7 +27,7 @@ public:
     std::atomic<bool> idle;
     std::atomic<bool> errors;
 
-    explicit EchoUDPService()
+    EchoUDPService()
         : thread_initialize(false),
           thread_cleanup(false),
           started(false),
@@ -53,7 +53,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    explicit EchoUDPClient(std::shared_ptr<EchoUDPService> service, const std::string& address, int port)
+    EchoUDPClient(std::shared_ptr<EchoUDPService> service, const std::string& address, int port)
         : UDPClient(service, address, port),
           connected(false),
           disconnected(false),
@@ -74,7 +74,7 @@ public:
     std::atomic<bool> stopped;
     std::atomic<bool> errors;
 
-    explicit EchoUDPServer(std::shared_ptr<EchoUDPService> service, InternetProtocol protocol, int port)
+    EchoUDPServer(std::shared_ptr<EchoUDPService> service, InternetProtocol protocol, int port)
         : UDPServer(service, protocol, port),
           started(false),
           stopped(false),

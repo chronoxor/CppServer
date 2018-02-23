@@ -32,7 +32,7 @@ std::atomic<uint64_t> total_messages(0);
 class EchoClient : public TCPClient
 {
 public:
-    explicit EchoClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
+    EchoClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
         : TCPClient(service, address, port),
           _connected(false),
           _messages_output(messages),

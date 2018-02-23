@@ -27,7 +27,7 @@ public:
     std::atomic<bool> idle;
     std::atomic<bool> errors;
 
-    explicit EchoSSLService()
+    EchoSSLService()
         : thread_initialize(false),
           thread_cleanup(false),
           started(false),
@@ -54,7 +54,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    explicit EchoSSLClient(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
+    EchoSSLClient(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
         : SSLClient(service, context, address, port),
           connected(false),
           handshaked(false),
@@ -88,7 +88,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    explicit EchoSSLSession(std::shared_ptr<SSLServer<EchoSSLServer, EchoSSLSession>> server, std::shared_ptr<asio::ssl::context> context)
+    EchoSSLSession(std::shared_ptr<SSLServer<EchoSSLServer, EchoSSLSession>> server, std::shared_ptr<asio::ssl::context> context)
         : SSLSession<EchoSSLServer, EchoSSLSession>(server, context),
           connected(false),
           handshaked(false),
@@ -115,7 +115,7 @@ public:
     std::atomic<size_t> clients;
     std::atomic<bool> errors;
 
-    explicit EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
+    EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
         : SSLServer<EchoSSLServer, EchoSSLSession>(service, context, protocol, port),
           started(false),
           stopped(false),
