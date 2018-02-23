@@ -256,6 +256,9 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
     auto self(this->shared_from_this());
     auto multicast_handler = make_alloc_handler(_multicast_storage, [this, self]()
     {
+        if (!IsStarted())
+            return;
+
         std::lock_guard<std::mutex> locker(_multicast_lock);
 
         // Check for empty multicast buffer

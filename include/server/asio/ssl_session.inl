@@ -13,7 +13,9 @@ template <class TServer, class TSession>
 inline SSLSession<TServer, TSession>::SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, std::shared_ptr<asio::ssl::context> context)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
-      _io_service(server->_io_service),
+      _io_service(server->service()->GetAsioService()),
+      _strand(*_io_service),
+      _strand_required(_server->_strand_required),
       _context(context),
       _stream(*_io_service, *context),
       _connected(false),
@@ -78,8 +80,8 @@ inline void SSLSession<TServer, TSession>::Connect()
             Disconnect(true);
         }
     });
-    if (_server->_strand_required)
-        _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_server->_strand, async_handshake_handler));
+    if (_strand_required)
+        _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_strand, async_handshake_handler));
     else
         _stream.async_handshake(asio::ssl::stream_base::server, async_handshake_handler);
 }
@@ -131,24 +133,24 @@ inline bool SSLSession<TServer, TSession>::Disconnect(bool dispatch)
             else
                 _server->_io_service->dispatch(unregister_session_handler);
         });
-        if (_server->_strand_required)
-            _stream.async_shutdown(bind_executor(_server->_strand, async_shutdown_handler));
+        if (_strand_required)
+            _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));
         else
             _stream.async_shutdown(async_shutdown_handler);
     });
-    if (_server->_strand_required)
+    if (_strand_required)
     {
         if (dispatch)
-            _server->_strand.dispatch(disconnect_handler);
+            _strand.dispatch(disconnect_handler);
         else
-            _server->_strand.post(disconnect_handler);
+            _strand.post(disconnect_handler);
     }
     else
     {
         if (dispatch)
-            _server->_io_service->dispatch(disconnect_handler);
+            _io_service->dispatch(disconnect_handler);
         else
-            _server->_io_service->post(disconnect_handler);
+            _io_service->post(disconnect_handler);
     }
 
     return true;
@@ -182,10 +184,10 @@ inline size_t SSLSession<TServer, TSession>::Send(const void* buffer, size_t siz
         // Try to send the main buffer
         TrySend();
     });
-    if (_server->_strand_required)
-        _server->_strand.dispatch(send_handler);
+    if (_strand_required)
+        _strand.dispatch(send_handler);
     else
-        _server->_io_service->dispatch(send_handler);
+        _io_service->dispatch(send_handler);
 
     return result;
 }
@@ -233,8 +235,8 @@ inline void SSLSession<TServer, TSession>::TryReceive()
             Disconnect(true);
         }
     });
-    if (_server->_strand_required)
-        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_server->_strand, async_receive_handler));
+    if (_strand_required)
+        _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, async_receive_handler));
     else
         _stream.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), async_receive_handler);
 }
@@ -309,8 +311,8 @@ inline void SSLSession<TServer, TSession>::TrySend()
             Disconnect(true);
         }
     });
-    if (_server->_strand_required)
-        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_server->_strand, async_write_handler));
+    if (_strand_required)
+        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));
     else
         asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);
 }

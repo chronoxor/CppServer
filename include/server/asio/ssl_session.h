@@ -51,7 +51,7 @@ public:
     //! Get the Asio IO service
     std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialized handler execution
-    asio::io_service::strand& strand() noexcept { return _server->_strand; }
+    asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the session SSL context
     std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
     //! Get the session SSL stream
@@ -144,6 +144,9 @@ private:
     std::shared_ptr<TSession> _session;
     // Asio IO service
     std::shared_ptr<asio::io_service> _io_service;
+    // Asio service strand for serialized handler execution
+    asio::io_service::strand _strand;
+    bool _strand_required;
     // Session SSL context and stream
     std::shared_ptr<asio::ssl::context> _context;
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
