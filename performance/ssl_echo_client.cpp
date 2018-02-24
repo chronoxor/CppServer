@@ -149,7 +149,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL client context
-    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::tlsv12);
     context->set_verify_mode(asio::ssl::verify_peer);
     context->load_verify_file("../tools/certificates/ca.pem");
 
