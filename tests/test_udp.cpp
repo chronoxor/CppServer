@@ -251,6 +251,14 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
         Thread::Sleep(1);
     }
 
+    // Disconnect clients
+    for (auto& client : clients)
+    {
+        client->Disconnect();
+        while (client->IsConnected())
+            Thread::Yield();
+    }
+
     // Stop the Echo server
     REQUIRE(server->Stop());
     while (server->IsStarted())

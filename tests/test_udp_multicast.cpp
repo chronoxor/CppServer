@@ -325,6 +325,14 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
         Thread::Sleep(1);
     }
 
+    // Disconnect clients
+    for (auto& client : clients)
+    {
+        client->Disconnect();
+        while (client->IsConnected())
+            Thread::Yield();
+    }
+
     // Stop the multicast server
     REQUIRE(server->Stop());
     while (server->IsStarted())
