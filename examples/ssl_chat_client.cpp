@@ -11,12 +11,25 @@
 #include "server/asio/ssl_client.h"
 #include "threads/thread.h"
 
+#include <atomic>
 #include <iostream>
 
 class ChatClient : public CppServer::Asio::SSLClient
 {
 public:
-    using CppServer::Asio::SSLClient::SSLClient;
+    ChatClient(std::shared_ptr<CppServer::Asio::Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
+        : CppServer::Asio::SSLClient(service, context, address, port)
+    {
+        _stop = false;
+    }
+
+    void DisconnectAndStop()
+    {
+        _stop = true;
+        Disconnect();
+        while (IsConnected())
+            CppCommon::Thread::Yield();
+    }
 
 protected:
     void onConnected() override
@@ -37,7 +50,8 @@ protected:
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again
-        Connect();
+        if (!_stop)
+            Connect();
     }
 
     void onReceived(const void* buffer, size_t size) override
@@ -49,6 +63,9 @@ protected:
     {
         std::cout << "Chat SSL client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
+
+private:
+    std::atomic<bool> _stop;
 };
 
 int main(int argc, char** argv)
@@ -111,7 +128,7 @@ int main(int argc, char** argv)
 
     // Disconnect the client
     std::cout << "Client disconnecting...";
-    client->Disconnect();
+    client->DisconnectAndStop();
     std::cout << "Done!" << std::endl;
 
     // Stop the Asio service

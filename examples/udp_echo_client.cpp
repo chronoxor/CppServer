@@ -11,12 +11,25 @@
 #include "server/asio/udp_client.h"
 #include "threads/thread.h"
 
+#include <atomic>
 #include <iostream>
 
 class EchoClient : public CppServer::Asio::UDPClient
 {
 public:
-    using CppServer::Asio::UDPClient::UDPClient;
+    EchoClient(std::shared_ptr<CppServer::Asio::Service> service, const std::string& address, int port)
+        : CppServer::Asio::UDPClient(service, address, port)
+    {
+        _stop = false;
+    }
+
+    void DisconnectAndStop()
+    {
+        _stop = true;
+        Disconnect();
+        while (IsConnected())
+            CppCommon::Thread::Yield();
+    }
 
 protected:
     void onConnected() override
@@ -32,7 +45,8 @@ protected:
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again
-        Connect();
+        if (!_stop)
+            Connect();
     }
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
@@ -44,6 +58,9 @@ protected:
     {
         std::cout << "Echo UDP client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
+
+private:
+    std::atomic<bool> _stop;
 };
 
 int main(int argc, char** argv)
@@ -101,7 +118,7 @@ int main(int argc, char** argv)
 
     // Disconnect the client
     std::cout << "Client disconnecting...";
-    client->Disconnect();
+    client->DisconnectAndStop();
     std::cout << "Done!" << std::endl;
 
     // Stop the Asio service
