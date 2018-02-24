@@ -193,6 +193,9 @@ void Service::ServiceLoop(std::shared_ptr<Service> service, std::shared_ptr<asio
                 if (ec == asio::error::not_connected)
                     continue;
 
+                // Delete OpenSSL thread state
+                OPENSSL_thread_stop();
+
                 throw;
             }
         } while (service->IsStarted());
@@ -212,6 +215,9 @@ void Service::ServiceLoop(std::shared_ptr<Service> service, std::shared_ptr<asio
 
     // Call the cleanup thread handler
     service->onThreadCleanup();
+
+    // Delete OpenSSL thread state
+    OPENSSL_thread_stop();
 }
 
 void Service::SendError(std::error_code ec)
