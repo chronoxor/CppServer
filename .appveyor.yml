@@ -16,9 +16,6 @@ only_commits:
 # Cache files to speed up build
 cache:
     - C:\mingw.7z -> .appveyor.yml
-    - C:\ProgramData\chocolatey\bin -> .appveyor.yml
-    - C:\ProgramData\chocolatey\lib -> .appveyor.yml
-    - C:\ProgramData\chocolatey\cache -> .appveyor.yml
 
 # Build matrix
 environment:
@@ -36,6 +33,8 @@ matrix:
 
 # Scripts that run after cloning repository
 install:
+  # Chocolatey
+  - choco upgrade chocolatey
   # Doxygen
   - choco install --cache "C:\ProgramData\chocolatey\cache" --force doxygen.portable
   - choco install --cache "C:\ProgramData\chocolatey\cache" --force ghostscript
@@ -46,7 +45,6 @@ install:
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
   - if "%type%"=="MinGW" set PATH=C:\mingw64\bin;%PATH:C:\Program Files\Git\usr\bin;=%
   - if "%type%"=="MinGW" set INCLUDE=C:\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
-  - if "%type%"=="MinGW" copy /Y "modules\websocketpp.patch" "C:\mingw64\lib\gcc\x86_64-w64-mingw32\7.2.0\include\c++\x86_64-w64-mingw32\bits\error_constants.h"
   # Visual Studio
   - if "%type%"=="VisualStudio" set PATH=C:\Program Files\MiKTeX 2.9\miktex\bin\x64;C:\Program Files\gs\gs9.22\bin;%PATH%
   - if "%type%"=="VisualStudio" set INCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\um;%INCLUDE%
