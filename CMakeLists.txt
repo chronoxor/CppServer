@@ -47,8 +47,7 @@ if(WIN32)
   find_package(Crypt)
   find_package(DbgHelp)
   find_package(Userenv)
-  find_package(MSWSock)
-  find_package(WSock2)
+  find_package(WinSock)
 endif()
 
 # Modules
