@@ -47,6 +47,7 @@ if(WIN32)
   find_package(Crypt)
   find_package(DbgHelp)
   find_package(Userenv)
+  find_package(WSock2)
 endif()
 
 # Modules
@@ -65,6 +66,7 @@ if(WIN32)
   list(APPEND LINKLIBS ${CRYPT_LIBRARIES})
   list(APPEND LINKLIBS ${DBGHELP_LIBRARIES})
   list(APPEND LINKLIBS ${USERENV_LIBRARIES})
+  list(APPEND LINKLIBS ${WSOCK2_LIBRARIES})
 endif()
 list(APPEND LINKLIBS cppcommon)
 
