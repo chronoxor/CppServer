@@ -20,9 +20,9 @@ cache:
 # Build matrix
 environment:
   matrix:
-#    - type: MinGW
-#      build: call mingw.bat
-#      command: cmd /C
+    - type: MinGW
+      build: call mingw.bat
+      command: cmd /C
     - type: VisualStudio
       build: call vs.bat
       command: cmd /C
