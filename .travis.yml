@@ -21,14 +21,14 @@ matrix:
             - uuid-dev
     - os: linux
       compiler: clang
-      env: OS=linux COMPILER=clang CLANG_VERSION=5.0
+      env: OS=linux COMPILER=clang CLANG_VERSION=6.0
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-trusty-6.0
           packages:
-            - clang-5.0
+            - clang-6.0
             - libc++-dev
             - libc++abi-dev
             - cmake
@@ -44,7 +44,6 @@ matrix:
 # Using Trusty environment
 sudo: required
 dist: trusty
-group: edge
 
 # Branches to build
 branches:
