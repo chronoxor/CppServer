@@ -46,8 +46,8 @@ void TCPSession::Connect()
     onConnected();
 
     // Call the session connected handler in the server
-    auto session(this->shared_from_this());
-    _server->onConnected(session);
+    auto connected_session(this->shared_from_this());
+    _server->onConnected(connected_session);
 
     // Call the empty send buffer handler
     onEmpty();
@@ -81,8 +81,8 @@ bool TCPSession::Disconnect(bool dispatch)
         onDisconnected();
 
         // Call the session disconnected handler in the server
-        auto session(this->shared_from_this());
-        _server->onDisconnected(session);
+        auto disconnected_session(this->shared_from_this());
+        _server->onDisconnected(disconnected_session);
 
         // Dispatch the unregister session handler
         auto unregister_session_handler = make_alloc_handler(_connect_storage, [this, self]()

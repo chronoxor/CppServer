@@ -48,8 +48,8 @@ void SSLSession::Connect()
     onConnected();
 
     // Call the session connected handler in the server
-    auto session(this->shared_from_this());
-    _server->onConnected(session);
+    auto connected_session(this->shared_from_this());
+    _server->onConnected(connected_session);
 
     // Async SSL handshake with the handshake handler
     auto self(this->shared_from_this());
@@ -67,8 +67,8 @@ void SSLSession::Connect()
             onHandshaked();
 
             // Call the session handshaked handler in the server
-            auto session(this->shared_from_this());
-            _server->onHandshaked(session);
+            auto handshaked_session(this->shared_from_this());
+            _server->onHandshaked(handshaked_session);
 
             // Call the empty send buffer handler
             onEmpty();
@@ -123,8 +123,8 @@ bool SSLSession::Disconnect(bool dispatch)
             onDisconnected();
 
             // Call the session disconnected handler in the server
-            auto session(this->shared_from_this());
-            _server->onDisconnected(session);
+            auto disconnected_session(this->shared_from_this());
+            _server->onDisconnected(disconnected_session);
 
             // Dispatch the unregister session handler
             auto unregister_session_handler = make_alloc_handler(_connect_storage, [this, self]()
