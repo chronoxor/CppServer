@@ -99,7 +99,7 @@ public:
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
 
-    bool Connect(std::shared_ptr<SSLClient>& client)
+    bool Connect(std::shared_ptr<SSLClient> client)
     {
         _client = client;
 

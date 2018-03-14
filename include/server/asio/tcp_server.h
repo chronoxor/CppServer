@@ -18,19 +18,14 @@
 namespace CppServer {
 namespace Asio {
 
-template <class TServer, class TSession>
-class TCPSession;
-
 //! TCP server
 /*!
     TCP server is used to connect, disconnect and manage TCP sessions.
 
     Thread-safe.
 */
-template <class TServer, class TSession>
-class TCPServer : public std::enable_shared_from_this<TCPServer<TServer, TSession>>
+class TCPServer : public std::enable_shared_from_this<TCPServer>
 {
-    template <class TSomeServer, class TSomeSession>
     friend class TCPSession;
 
 public:
@@ -150,6 +145,14 @@ public:
     void SetupReusePort(bool enable) noexcept { _option_reuse_port = enable; }
 
 protected:
+    //! Create TCP session factory method
+    /*!
+        \param server - TCP server
+        \return TCP session
+    */
+    virtual std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) { return std::make_shared<TCPSession>(server); }
+
+protected:
     //! Handle server started notification
     virtual void onStarted() {}
     //! Handle server stopped notification
@@ -159,12 +162,12 @@ protected:
     /*!
         \param session - Connected session
     */
-    virtual void onConnected(std::shared_ptr<TSession>& session) {}
+    virtual void onConnected(std::shared_ptr<TCPSession>& session) {}
     //! Handle session disconnected notification
     /*!
         \param session - Disconnected session
     */
-    virtual void onDisconnected(std::shared_ptr<TSession>& session) {}
+    virtual void onDisconnected(std::shared_ptr<TCPSession>& session) {}
 
     //! Handle error notification
     /*!
@@ -183,7 +186,7 @@ private:
     asio::io_service::strand _strand;
     bool _strand_required;
     // Server endpoint, acceptor & socket
-    std::shared_ptr<TSession> _session;
+    std::shared_ptr<TCPSession> _session;
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
     std::atomic<bool> _started;
@@ -193,7 +196,7 @@ private:
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Server sessions
-    std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
+    std::map<CppCommon::UUID, std::shared_ptr<TCPSession>> _sessions;
     // Multicast buffer
     std::mutex _multicast_lock;
     std::vector<uint8_t> _multicast_buffer;
@@ -225,7 +228,5 @@ private:
 
 } // namespace Asio
 } // namespace CppServer
-
-#include "tcp_server.inl"
 
 #endif // CPPSERVER_ASIO_TCP_SERVER_H

@@ -78,9 +78,7 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
-class EchoSSLServer;
-
-class EchoSSLSession : public SSLSession<EchoSSLServer, EchoSSLSession>
+class EchoSSLSession : public SSLSession
 {
 public:
     std::atomic<bool> connected;
@@ -88,8 +86,8 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    EchoSSLSession(std::shared_ptr<SSLServer<EchoSSLServer, EchoSSLSession>> server, std::shared_ptr<asio::ssl::context> context)
-        : SSLSession<EchoSSLServer, EchoSSLSession>(server, context),
+    EchoSSLSession(std::shared_ptr<SSLServer> server, std::shared_ptr<asio::ssl::context> context)
+        : SSLSession(server, context),
           connected(false),
           handshaked(false),
           disconnected(false),
@@ -105,7 +103,7 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
-class EchoSSLServer : public SSLServer<EchoSSLServer, EchoSSLSession>
+class EchoSSLServer : public SSLServer
 {
 public:
     std::atomic<bool> started;
@@ -116,7 +114,7 @@ public:
     std::atomic<bool> errors;
 
     EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
-        : SSLServer<EchoSSLServer, EchoSSLSession>(service, context, protocol, port),
+        : SSLServer(service, context, protocol, port),
           started(false),
           stopped(false),
           connected(false),
@@ -137,10 +135,13 @@ public:
     }
 
 protected:
+    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server, std::shared_ptr<asio::ssl::context> context) override { return std::make_shared<EchoSSLSession>(server, context); }
+
+protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onConnected(std::shared_ptr<EchoSSLSession>& session) override { connected = true; ++clients; }
-    void onDisconnected(std::shared_ptr<EchoSSLSession>& session) override { disconnected = true; --clients; }
+    void onConnected(std::shared_ptr<SSLSession>& session) override { connected = true; ++clients; }
+    void onDisconnected(std::shared_ptr<SSLSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 

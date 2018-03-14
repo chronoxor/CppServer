@@ -1,16 +1,17 @@
 /*!
-    \file ssl_server.inl
-    \brief SSL server inline implementation
+    \file ssl_server.cpp
+    \brief SSL server implementation
     \author Ivan Shynkarenka
     \date 30.12.2016
     \copyright MIT License
 */
 
+#include "server/asio/ssl_server.h"
+
 namespace CppServer {
 namespace Asio {
 
-template <class TServer, class TSession>
-inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
+SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -43,8 +44,7 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
     }
 }
 
-template <class TServer, class TSession>
-inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
+SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -69,8 +69,7 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
 }
 
-template <class TServer, class TSession>
-inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
+SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -94,8 +93,7 @@ inline SSLServer<TServer, TSession>::SSLServer(std::shared_ptr<Service> service,
         throw CppCommon::ArgumentException("SSL context is invalid!");
 }
 
-template <class TServer, class TSession>
-inline bool SSLServer<TServer, TSession>::Start()
+bool SSLServer::Start()
 {
     assert(!IsStarted() && "SSL server is already started!");
     if (IsStarted())
@@ -144,8 +142,7 @@ inline bool SSLServer<TServer, TSession>::Start()
     return true;
 }
 
-template <class TServer, class TSession>
-inline bool SSLServer<TServer, TSession>::Stop()
+bool SSLServer::Stop()
 {
     assert(IsStarted() && "SSL server is not started!");
     if (!IsStarted())
@@ -184,8 +181,7 @@ inline bool SSLServer<TServer, TSession>::Stop()
     return true;
 }
 
-template <class TServer, class TSession>
-inline bool SSLServer<TServer, TSession>::Restart()
+bool SSLServer::Restart()
 {
     if (!Stop())
         return false;
@@ -196,8 +192,7 @@ inline bool SSLServer<TServer, TSession>::Restart()
     return Start();
 }
 
-template <class TServer, class TSession>
-inline void SSLServer<TServer, TSession>::Accept()
+void SSLServer::Accept()
 {
     if (!IsStarted())
         return;
@@ -210,7 +205,7 @@ inline void SSLServer<TServer, TSession>::Accept()
             return;
 
         // Create a new session to accept
-        _session = std::make_shared<TSession>(self, _context);
+        _session = CreateSession(self, _context);
 
         auto async_accept_handler = make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
@@ -233,8 +228,7 @@ inline void SSLServer<TServer, TSession>::Accept()
         _io_service->dispatch(accept_handler);
 }
 
-template <class TServer, class TSession>
-inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t size)
+bool SSLServer::Multicast(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
     assert((size > 0) && "Buffer size should be greater than zero!");
@@ -280,8 +274,7 @@ inline bool SSLServer<TServer, TSession>::Multicast(const void* buffer, size_t s
     return true;
 }
 
-template <class TServer, class TSession>
-inline bool SSLServer<TServer, TSession>::DisconnectAll()
+bool SSLServer::DisconnectAll()
 {
     if (!IsStarted())
         return false;
@@ -305,12 +298,8 @@ inline bool SSLServer<TServer, TSession>::DisconnectAll()
     return true;
 }
 
-template <class TServer, class TSession>
-inline void SSLServer<TServer, TSession>::RegisterSession()
+void SSLServer::RegisterSession()
 {
-    // Set the session
-    _session->_session = _session;
-
     // Register a new session
     _sessions.emplace(_session->id(), _session);
 
@@ -318,31 +307,25 @@ inline void SSLServer<TServer, TSession>::RegisterSession()
     _session->Connect();
 }
 
-template <class TServer, class TSession>
-inline void SSLServer<TServer, TSession>::UnregisterSession(const CppCommon::UUID& id)
+void SSLServer::UnregisterSession(const CppCommon::UUID& id)
 {
     // Try to find the unregistered session
     auto it = _sessions.find(id);
     if (it != _sessions.end())
     {
-        // Reset the session
-        it->second->_session.reset();
-
         // Erase the session
         _sessions.erase(it);
     }
 }
 
-template <class TServer, class TSession>
-inline void SSLServer<TServer, TSession>::ClearBuffers()
+void SSLServer::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_multicast_lock);
 
     _multicast_buffer.clear();
 }
 
-template <class TServer, class TSession>
-inline void SSLServer<TServer, TSession>::SendError(std::error_code ec)
+void SSLServer::SendError(std::error_code ec)
 {
     // Skip Asio disconnect errors
     if ((ec == asio::error::connection_aborted) ||

@@ -18,19 +18,14 @@
 namespace CppServer {
 namespace Asio {
 
-template <class TServer, class TSession>
-class SSLSession;
-
 //! SSL server
 /*!
     SSL server is used to connect, disconnect and manage SSL sessions.
 
     Thread-safe.
 */
-template <class TServer, class TSession>
-class SSLServer : public std::enable_shared_from_this<SSLServer<TServer, TSession>>
+class SSLServer : public std::enable_shared_from_this<SSLServer>
 {
-    template <class TSomeServer, class TSomeSession>
     friend class SSLSession;
 
 public:
@@ -155,6 +150,15 @@ public:
     void SetupReusePort(bool enable) noexcept { _option_reuse_port = enable; }
 
 protected:
+    //! Create SSL session factory method
+    /*!
+        \param server - SSL server
+        \param context - SSL context
+        \return SSL session
+    */
+    virtual std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server, std::shared_ptr<asio::ssl::context> context) { return std::make_shared<SSLSession>(server, context); }
+
+protected:
     //! Handle server started notification
     virtual void onStarted() {}
     //! Handle server stopped notification
@@ -164,17 +168,17 @@ protected:
     /*!
         \param session - Connected session
     */
-    virtual void onConnected(std::shared_ptr<TSession>& session) {}
+    virtual void onConnected(std::shared_ptr<SSLSession>& session) {}
     //! Handle session handshaked notification
     /*!
         \param session - Handshaked session
     */
-    virtual void onHandshaked(std::shared_ptr<TSession>& session) {}
+    virtual void onHandshaked(std::shared_ptr<SSLSession>& session) {}
     //! Handle session disconnected notification
     /*!
         \param session - Disconnected session
     */
-    virtual void onDisconnected(std::shared_ptr<TSession>& session) {}
+    virtual void onDisconnected(std::shared_ptr<SSLSession>& session) {}
 
     //! Handle error notification
     /*!
@@ -194,7 +198,7 @@ private:
     bool _strand_required;
     // Server SSL context, endpoint, acceptor and socket
     std::shared_ptr<asio::ssl::context> _context;
-    std::shared_ptr<TSession> _session;
+    std::shared_ptr<SSLSession> _session;
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;
     std::atomic<bool> _started;
@@ -204,7 +208,7 @@ private:
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Server sessions
-    std::map<CppCommon::UUID, std::shared_ptr<TSession>> _sessions;
+    std::map<CppCommon::UUID, std::shared_ptr<SSLSession>> _sessions;
     // Multicast buffer
     std::mutex _multicast_lock;
     std::vector<uint8_t> _multicast_buffer;
@@ -236,7 +240,5 @@ private:
 
 } // namespace Asio
 } // namespace CppServer
-
-#include "ssl_server.inl"
 
 #endif // CPPSERVER_ASIO_SSL_SERVER_H

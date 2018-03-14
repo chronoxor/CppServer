@@ -13,23 +13,10 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-class EchoSession;
-
-class EchoServer : public TCPServer<EchoServer, EchoSession>
+class EchoSession : public TCPSession
 {
 public:
-    using TCPServer<EchoServer, EchoSession>::TCPServer;
-
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
-    }
-};
-
-class EchoSession : public TCPSession<EchoServer, EchoSession>
-{
-public:
-    using TCPSession<EchoServer, EchoSession>::TCPSession;
+    using TCPSession::TCPSession;
 
 protected:
     void onReceived(const void* buffer, size_t size) override
@@ -41,6 +28,24 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class EchoServer : public TCPServer
+{
+public:
+    using TCPServer::TCPServer;
+
+protected:
+    std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) override
+    {
+        return std::make_shared<EchoSession>(server);
+    }
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 

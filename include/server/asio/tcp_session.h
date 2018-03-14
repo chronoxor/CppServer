@@ -16,7 +16,6 @@
 namespace CppServer {
 namespace Asio {
 
-template <class TServer, class TSession>
 class TCPServer;
 
 //! TCP session
@@ -25,10 +24,8 @@ class TCPServer;
 
     Thread-safe.
 */
-template <class TServer, class TSession>
-class TCPSession
+class TCPSession : public std::enable_shared_from_this<TCPSession>
 {
-    template <class TSomeServer, class TSomeSession>
     friend class TCPServer;
 
 public:
@@ -36,7 +33,7 @@ public:
     /*!
         \param server - Connected server
     */
-    TCPSession(std::shared_ptr<TCPServer<TServer, TSession>> server);
+    TCPSession(std::shared_ptr<TCPServer> server);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = default;
     virtual ~TCPSession() = default;
@@ -48,7 +45,7 @@ public:
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Get the server
-    std::shared_ptr<TCPServer<TServer, TSession>>& server() noexcept { return _server; }
+    std::shared_ptr<TCPServer>& server() noexcept { return _server; }
     //! Get the Asio IO service
     std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialized handler execution
@@ -133,8 +130,7 @@ private:
     // Session Id
     CppCommon::UUID _id;
     // Server & session
-    std::shared_ptr<TCPServer<TServer, TSession>> _server;
-    std::shared_ptr<TSession> _session;
+    std::shared_ptr<TCPServer> _server;
     // Asio IO service
     std::shared_ptr<asio::io_service> _io_service;
     // Asio service strand for serialized handler execution
@@ -182,7 +178,5 @@ private:
 
 } // namespace Asio
 } // namespace CppServer
-
-#include "tcp_session.inl"
 
 #endif // CPPSERVER_ASIO_TCP_SESSION_H

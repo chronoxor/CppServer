@@ -9,12 +9,13 @@
 #ifndef CPPSERVER_ASIO_SSL_SESSION_H
 #define CPPSERVER_ASIO_SSL_SESSION_H
 
-#include "tcp_session.h"
+#include "service.h"
+
+#include "system/uuid.h"
 
 namespace CppServer {
 namespace Asio {
 
-template <class TServer, class TSession>
 class SSLServer;
 
 //! SSL session
@@ -23,10 +24,8 @@ class SSLServer;
 
     Thread-safe.
 */
-template <class TServer, class TSession>
-class SSLSession
+class SSLSession : public std::enable_shared_from_this<SSLSession>
 {
-    template <class TSomeServer, class TSomeSession>
     friend class SSLServer;
 
 public:
@@ -35,7 +34,7 @@ public:
         \param server - Connected server
         \param context - Connected SSL context
     */
-    SSLSession(std::shared_ptr<SSLServer<TServer, TSession>> server, std::shared_ptr<asio::ssl::context> context);
+    SSLSession(std::shared_ptr<SSLServer> server, std::shared_ptr<asio::ssl::context> context);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
     virtual ~SSLSession() = default;
@@ -47,7 +46,7 @@ public:
     const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Get the server
-    std::shared_ptr<SSLServer<TServer, TSession>>& server() noexcept { return _server; }
+    std::shared_ptr<SSLServer>& server() noexcept { return _server; }
     //! Get the Asio IO service
     std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialized handler execution
@@ -140,8 +139,7 @@ private:
     // Session Id
     CppCommon::UUID _id;
     // Server & session
-    std::shared_ptr<SSLServer<TServer, TSession>> _server;
-    std::shared_ptr<TSession> _session;
+    std::shared_ptr<SSLServer> _server;
     // Asio IO service
     std::shared_ptr<asio::io_service> _io_service;
     // Asio service strand for serialized handler execution
@@ -191,7 +189,5 @@ private:
 
 } // namespace Asio
 } // namespace CppServer
-
-#include "ssl_session.inl"
 
 #endif // CPPSERVER_ASIO_SSL_SESSION_H

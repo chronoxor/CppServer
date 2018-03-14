@@ -1,16 +1,17 @@
 /*!
-    \file tcp_server.inl
-    \brief TCP server inline implementation
+    \file tcp_server.cpp
+    \brief TCP server implementation
     \author Ivan Shynkarenka
     \date 14.12.2016
     \copyright MIT License
 */
 
+#include "server/asio/tcp_server.h"
+
 namespace CppServer {
 namespace Asio {
 
-template <class TServer, class TSession>
-inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
+TCPServer::TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -38,8 +39,7 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
     }
 }
 
-template <class TServer, class TSession>
-inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, const std::string& address, int port)
+TCPServer::TCPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -59,8 +59,7 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
 }
 
-template <class TServer, class TSession>
-inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
+TCPServer::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -79,8 +78,7 @@ inline TCPServer<TServer, TSession>::TCPServer(std::shared_ptr<Service> service,
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-template <class TServer, class TSession>
-inline bool TCPServer<TServer, TSession>::Start()
+bool TCPServer::Start()
 {
     assert(!IsStarted() && "TCP server is already started!");
     if (IsStarted())
@@ -129,8 +127,7 @@ inline bool TCPServer<TServer, TSession>::Start()
     return true;
 }
 
-template <class TServer, class TSession>
-inline bool TCPServer<TServer, TSession>::Stop()
+bool TCPServer::Stop()
 {
     assert(IsStarted() && "TCP server is not started!");
     if (!IsStarted())
@@ -169,8 +166,7 @@ inline bool TCPServer<TServer, TSession>::Stop()
     return true;
 }
 
-template <class TServer, class TSession>
-inline bool TCPServer<TServer, TSession>::Restart()
+bool TCPServer::Restart()
 {
     if (!Stop())
         return false;
@@ -181,8 +177,7 @@ inline bool TCPServer<TServer, TSession>::Restart()
     return Start();
 }
 
-template <class TServer, class TSession>
-inline void TCPServer<TServer, TSession>::Accept()
+void TCPServer::Accept()
 {
     if (!IsStarted())
         return;
@@ -195,7 +190,7 @@ inline void TCPServer<TServer, TSession>::Accept()
             return;
 
         // Create a new session to accept
-        _session = std::make_shared<TSession>(self);
+        _session = CreateSession(self);
 
         auto async_accept_handler = make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
@@ -218,8 +213,7 @@ inline void TCPServer<TServer, TSession>::Accept()
         _io_service->dispatch(accept_handler);
 }
 
-template <class TServer, class TSession>
-inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t size)
+bool TCPServer::Multicast(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
     assert((size > 0) && "Buffer size should be greater than zero!");
@@ -265,8 +259,7 @@ inline bool TCPServer<TServer, TSession>::Multicast(const void* buffer, size_t s
     return true;
 }
 
-template <class TServer, class TSession>
-inline bool TCPServer<TServer, TSession>::DisconnectAll()
+bool TCPServer::DisconnectAll()
 {
     if (!IsStarted())
         return false;
@@ -290,12 +283,8 @@ inline bool TCPServer<TServer, TSession>::DisconnectAll()
     return true;
 }
 
-template <class TServer, class TSession>
-inline void TCPServer<TServer, TSession>::RegisterSession()
+void TCPServer::RegisterSession()
 {
-    // Set the session
-    _session->_session = _session;
-
     // Register a new session
     _sessions.emplace(_session->id(), _session);
 
@@ -303,31 +292,25 @@ inline void TCPServer<TServer, TSession>::RegisterSession()
     _session->Connect();
 }
 
-template <class TServer, class TSession>
-inline void TCPServer<TServer, TSession>::UnregisterSession(const CppCommon::UUID& id)
+void TCPServer::UnregisterSession(const CppCommon::UUID& id)
 {
     // Try to find the unregistered session
     auto it = _sessions.find(id);
     if (it != _sessions.end())
     {
-        // Reset the session
-        it->second->_session.reset();
-
         // Erase the session
         _sessions.erase(it);
     }
 }
 
-template <class TServer, class TSession>
-inline void TCPServer<TServer, TSession>::ClearBuffers()
+void TCPServer::ClearBuffers()
 {
     std::lock_guard<std::mutex> locker(_multicast_lock);
 
     _multicast_buffer.clear();
 }
 
-template <class TServer, class TSession>
-inline void TCPServer<TServer, TSession>::SendError(std::error_code ec)
+void TCPServer::SendError(std::error_code ec)
 {
     // Skip Asio disconnect errors
     if ((ec == asio::error::connection_aborted) ||

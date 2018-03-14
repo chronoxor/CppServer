@@ -67,17 +67,15 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
-class EchoTCPServer;
-
-class EchoTCPSession : public TCPSession<EchoTCPServer, EchoTCPSession>
+class EchoTCPSession : public TCPSession
 {
 public:
     std::atomic<bool> connected;
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    EchoTCPSession(std::shared_ptr<TCPServer<EchoTCPServer, EchoTCPSession>> server)
-        : TCPSession<EchoTCPServer, EchoTCPSession>(server),
+    EchoTCPSession(std::shared_ptr<TCPServer> server)
+        : TCPSession(server),
           connected(false),
           disconnected(false),
           errors(false)
@@ -91,7 +89,7 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
-class EchoTCPServer : public TCPServer<EchoTCPServer, EchoTCPSession>
+class EchoTCPServer : public TCPServer
 {
 public:
     std::atomic<bool> started;
@@ -102,7 +100,7 @@ public:
     std::atomic<bool> errors;
 
     EchoTCPServer(std::shared_ptr<EchoTCPService> service, InternetProtocol protocol, int port)
-        : TCPServer<EchoTCPServer, EchoTCPSession>(service, protocol, port),
+        : TCPServer(service, protocol, port),
           started(false),
           stopped(false),
           connected(false),
@@ -113,10 +111,13 @@ public:
     }
 
 protected:
+    std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) override { return std::make_shared<EchoTCPSession>(server); }
+
+protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onConnected(std::shared_ptr<EchoTCPSession>& session) override { connected = true; ++clients; }
-    void onDisconnected(std::shared_ptr<EchoTCPSession>& session) override { disconnected = true; --clients; }
+    void onConnected(std::shared_ptr<TCPSession>& session) override { connected = true; ++clients; }
+    void onDisconnected(std::shared_ptr<TCPSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 

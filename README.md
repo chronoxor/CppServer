@@ -230,24 +230,10 @@ is possible to send admin message directly from the server.
 
 #include <iostream>
 
-class ChatSession;
-
-class ChatServer : public CppServer::Asio::TCPServer<ChatServer, ChatSession>
+class ChatSession : public CppServer::Asio::TCPSession
 {
 public:
-    using CppServer::Asio::TCPServer<ChatServer, ChatSession>::TCPServer;
-
-protected:
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        std::cout << "Chat TCP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
-    }
-};
-
-class ChatSession : public CppServer::Asio::TCPSession<ChatServer, ChatSession>
-{
-public:
-    using CppServer::Asio::TCPSession<ChatServer, ChatSession>::TCPSession;
+    using CppServer::Asio::TCPSession::TCPSession;
 
 protected:
     void onConnected() override
@@ -282,6 +268,24 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Chat TCP session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class ChatServer : public CppServer::Asio::TCPServer
+{
+public:
+    using CppServer::Asio::TCPServer::TCPServer;
+
+protected:
+    std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(std::shared_ptr<CppServer::Asio::TCPServer> server) override
+    {
+        return std::make_shared<ChatSession>(server);
+    }
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat TCP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
@@ -471,24 +475,10 @@ context and handshake handler.
 
 #include <iostream>
 
-class ChatSession;
-
-class ChatServer : public CppServer::Asio::SSLServer<ChatServer, ChatSession>
+class ChatSession : public CppServer::Asio::SSLSession
 {
 public:
-    using CppServer::Asio::SSLServer<ChatServer, ChatSession>::SSLServer;
-
-protected:
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        std::cout << "Chat TCP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
-    }
-};
-
-class ChatSession : public CppServer::Asio::SSLSession<ChatServer, ChatSession>
-{
-public:
-    using CppServer::Asio::SSLSession<ChatServer, ChatSession>::SSLSession;
+    using CppServer::Asio::SSLSession::SSLSession;
 
 protected:
     void onHandshaked() override
@@ -523,6 +513,24 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Chat SSL session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class ChatServer : public CppServer::Asio::SSLServer
+{
+public:
+    using CppServer::Asio::SSLServer::SSLServer;
+
+protected:
+    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server, std::shared_ptr<asio::ssl::context> context) override
+    {
+        return std::make_shared<ChatSession>(server, context);
+    }
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat TCP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 

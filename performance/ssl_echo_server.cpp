@@ -13,23 +13,10 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-class EchoSession;
-
-class EchoServer : public SSLServer<EchoServer, EchoSession>
+class EchoSession : public SSLSession
 {
 public:
-    using SSLServer<EchoServer, EchoSession>::SSLServer;
-
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
-    }
-};
-
-class EchoSession : public SSLSession<EchoServer, EchoSession>
-{
-public:
-    using SSLSession<EchoServer, EchoSession>::SSLSession;
+    using SSLSession::SSLSession;
 
 protected:
     void onReceived(const void* buffer, size_t size) override
@@ -41,6 +28,24 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class EchoServer : public SSLServer
+{
+public:
+    using SSLServer::SSLServer;
+
+protected:
+    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server, std::shared_ptr<asio::ssl::context> context) override
+    {
+        return std::make_shared<EchoSession>(server, context);
+    }
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
