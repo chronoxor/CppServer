@@ -50,13 +50,13 @@ int main(int argc, char** argv)
 
     // Server port
     int port = options.get("port");
-    int threads_count = options.get("threads");
+    int threads = options.get("threads");
 
     std::cout << "Server port: " << port << std::endl;
-    std::cout << "Working threads: " << threads_count << std::endl;
+    std::cout << "Working threads: " << threads << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<Service>(threads_count);
+    auto service = std::make_shared<Service>(threads);
 
     // Start the Asio service
     std::cout << "Asio service starting...";
