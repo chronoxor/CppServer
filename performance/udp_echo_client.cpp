@@ -16,7 +16,6 @@
 
 #include <OptionParser.h>
 
-using namespace CppBenchmark;
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
@@ -166,7 +165,7 @@ int main(int argc, char** argv)
 
     std::cout << std::endl;
 
-    std::cout << "Round-trip time: " << ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
+    std::cout << "Round-trip time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
     std::cout << "Total bytes: " << total_bytes << std::endl;
     std::cout << "Total messages: " << total_messages << std::endl;
     std::cout << "Bytes throughput: " << total_bytes * 1000000000 / (timestamp_stop - timestamp_start) << " bytes per second" << std::endl;
