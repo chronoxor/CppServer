@@ -62,9 +62,9 @@ public:
     //! Get the client socket
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
-    //! Get the number of bytes sent by this client
+    //! Get the number of bytes sent by the client
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
-    //! Get the number of bytes received by this client
+    //! Get the number of bytes received by the client
     uint64_t bytes_received() const noexcept { return _bytes_received; }
 
     //! Get the option: no delay

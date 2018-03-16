@@ -62,13 +62,13 @@ public:
     //! Get the client socket
     asio::ip::udp::socket& socket() noexcept { return _socket; }
 
-    //! Get the number datagrams sent by this client
+    //! Get the number datagrams sent by the client
     uint64_t datagrams_sent() const noexcept { return _datagrams_sent; }
-    //! Get the number datagrams received by this client
+    //! Get the number datagrams received by the client
     uint64_t datagrams_received() const noexcept { return _datagrams_received; }
-    //! Get the number of bytes sent by this client
+    //! Get the number of bytes sent by the client
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
-    //! Get the number of bytes received by this client
+    //! Get the number of bytes received by the client
     uint64_t bytes_received() const noexcept { return _bytes_received; }
 
     //! Get the option: reuse address

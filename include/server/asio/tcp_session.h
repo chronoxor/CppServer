@@ -53,9 +53,9 @@ public:
     //! Get the session socket
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
-    //! Get the number of bytes sent by this session
+    //! Get the number of bytes sent by the session
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
-    //! Get the number of bytes received by this session
+    //! Get the number of bytes received by the session
     uint64_t bytes_received() const noexcept { return _bytes_received; }
 
     //! Is the session connected?
