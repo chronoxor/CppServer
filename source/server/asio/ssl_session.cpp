@@ -259,6 +259,8 @@ void SSLSession::TrySend()
         _send_buffer_flush.swap(_send_buffer_main);
         _send_buffer_flush_offset = 0;
     }
+    else
+        return;
 
     // Check if the flush buffer is empty
     if (_send_buffer_flush.empty())
