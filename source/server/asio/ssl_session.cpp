@@ -173,10 +173,17 @@ size_t SSLSession::Send(const void* buffer, size_t size)
     {
         std::lock_guard<std::mutex> locker(_send_lock);
 
+        // Detect multiple send handlers
+        bool send = _send_buffer_main.empty() || _send_buffer_flush.empty();
+
         // Fill the main send buffer
         const uint8_t* bytes = (const uint8_t*)buffer;
         _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);
         result = _send_buffer_main.size();
+
+        // Skip multiple send hanlders
+        if (!send)
+            return result;
     }
 
     // Dispatch the send handler

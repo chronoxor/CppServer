@@ -226,9 +226,16 @@ bool TCPServer::Multicast(const void* buffer, size_t size)
     {
         std::lock_guard<std::mutex> locker(_multicast_lock);
 
+        // Detect multiple multicast handlers
+        bool multicast = _multicast_buffer.empty();
+
         // Fill the multicast buffer
         const uint8_t* bytes = (const uint8_t*)buffer;
         _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
+
+        // Skip multiple multicast hanlders
+        if (!multicast)
+            return true;
     }
 
     // Dispatch the multicast handler
