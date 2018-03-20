@@ -202,7 +202,6 @@ private:
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;
     std::atomic<bool> _started;
-    HandlerStorage _start_storage;
     // Server statistic
     uint64_t _datagrams_sent;
     uint64_t _datagrams_received;

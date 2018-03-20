@@ -219,7 +219,6 @@ private:
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;
     std::atomic<bool> _connected;
-    HandlerStorage _connect_storage;
     // Client statistic
     uint64_t _datagrams_sent;
     uint64_t _datagrams_received;

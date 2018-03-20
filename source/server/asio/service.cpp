@@ -75,7 +75,7 @@ bool Service::Start(bool polling)
 
     // Post the started handler
     auto self(this->shared_from_this());
-    auto start_handler = make_alloc_handler(_start_storage, [this, self]()
+    auto start_handler = [this, self]()
     {
         if (IsStarted())
             return;
@@ -85,7 +85,7 @@ bool Service::Start(bool polling)
 
         // Call the service started handler
         onStarted();
-    });
+    };
     if (_strand_required)
         _strand->post(start_handler);
     else
@@ -106,7 +106,7 @@ bool Service::Stop()
 
     // Post the stop routine
     auto self(this->shared_from_this());
-    auto stop_handler = make_alloc_handler(_start_storage, [this, self]()
+    auto stop_handler = [this, self]()
     {
         if (!IsStarted())
             return;
@@ -120,7 +120,7 @@ bool Service::Stop()
 
         // Call the service stopped handler
         onStopped();
-    });
+    };
     if (_strand_required)
         _strand->post(stop_handler);
     else

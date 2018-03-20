@@ -172,7 +172,6 @@ private:
     // Asio service state
     std::atomic<bool> _started;
     std::atomic<size_t> _round_robin_index;
-    HandlerStorage _start_storage;
 
     //! Service loop
     static void ServiceLoop(std::shared_ptr<Service> service, std::shared_ptr<asio::io_service> io_service);

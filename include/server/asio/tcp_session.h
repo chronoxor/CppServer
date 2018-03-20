@@ -139,7 +139,6 @@ private:
     // Session socket
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
-    HandlerStorage _connect_storage;
     // Session statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;

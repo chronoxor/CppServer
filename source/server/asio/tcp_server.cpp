@@ -86,7 +86,7 @@ bool TCPServer::Start()
 
     // Post the start handler
     auto self(this->shared_from_this());
-    auto start_handler = make_alloc_handler(_start_storage, [this, self]()
+    auto start_handler = [this, self]()
     {
         if (IsStarted())
             return;
@@ -118,7 +118,7 @@ bool TCPServer::Start()
 
         // Perform the first server accept
         Accept();
-    });
+    };
     if (_strand_required)
         _strand.post(start_handler);
     else
@@ -135,7 +135,7 @@ bool TCPServer::Stop()
 
     // Post the stop handler
     auto self(this->shared_from_this());
-    auto stop_handler = make_alloc_handler(_start_storage, [this, self]()
+    auto stop_handler = [this, self]()
     {
         if (!IsStarted())
             return;
@@ -157,7 +157,7 @@ bool TCPServer::Stop()
 
         // Call the server stopped handler
         onStopped();
-    });
+    };
     if (_strand_required)
         _strand.post(stop_handler);
     else
@@ -223,45 +223,53 @@ bool TCPServer::Multicast(const void* buffer, size_t size)
     if (!IsStarted())
         return false;
 
+    // Lock the multicast guard
+    _multicast_lock.lock();
+
+    // Detect multiple multicast handlers
+    bool multicast_required = _multicast_buffer.empty();
+
+    // Fill the multicast buffer
+    const uint8_t* bytes = (const uint8_t*)buffer;
+    _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
+
+    // Avoid multiple multicast hanlders
+    if (multicast_required)
     {
-        std::lock_guard<std::mutex> locker(_multicast_lock);
+        // Dispatch the multicast handler
+        auto self(this->shared_from_this());
+        auto multicast_handler = make_alloc_handler(_multicast_storage, [this, self]()
+        {
+            if (!IsStarted())
+                return;
 
-        // Detect multiple multicast handlers
-        bool multicast = _multicast_buffer.empty();
+            std::lock_guard<std::mutex> locker(_multicast_lock);
 
-        // Fill the multicast buffer
-        const uint8_t* bytes = (const uint8_t*)buffer;
-        _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
+            // Check for empty multicast buffer
+            if (_multicast_buffer.empty())
+                return;
 
-        // Skip multiple multicast hanlders
-        if (!multicast)
-            return true;
+            // Multicast all sessions
+            for (auto& session : _sessions)
+                session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
+
+            // Clear the multicast buffer
+            _multicast_buffer.clear();
+        });
+
+        // Unlock the multicast guard in order to allow send handler dispatched correctly
+        _multicast_lock.unlock();
+
+        if (_strand_required)
+            _strand.dispatch(multicast_handler);
+        else
+            _io_service->dispatch(multicast_handler);
     }
-
-    // Dispatch the multicast handler
-    auto self(this->shared_from_this());
-    auto multicast_handler = make_alloc_handler(_multicast_storage, [this, self]()
-    {
-        if (!IsStarted())
-            return;
-
-        std::lock_guard<std::mutex> locker(_multicast_lock);
-
-        // Check for empty multicast buffer
-        if (_multicast_buffer.empty())
-            return;
-
-        // Multicast all sessions
-        for (auto& session : _sessions)
-            session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
-
-        // Clear the multicast buffer
-        _multicast_buffer.clear();
-    });
-    if (_strand_required)
-        _strand.dispatch(multicast_handler);
     else
-        _io_service->dispatch(multicast_handler);
+    {
+        // Unlock the multicast guard
+        _multicast_lock.unlock();
+    }
 
     return true;
 }
@@ -273,7 +281,7 @@ bool TCPServer::DisconnectAll()
 
     // Dispatch the disconnect all handler
     auto self(this->shared_from_this());
-    auto disconnect_all_handler = make_alloc_handler(_start_storage, [this, self]()
+    auto disconnect_all_handler = [this, self]()
     {
         if (!IsStarted())
             return;
@@ -281,7 +289,7 @@ bool TCPServer::DisconnectAll()
         // Disconnect all sessions
         for (auto& session : _sessions)
             session.second->Disconnect();
-    });
+    };
     if (_strand_required)
         _strand.dispatch(disconnect_all_handler);
     else

@@ -173,7 +173,6 @@ private:
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connecting;
     std::atomic<bool> _connected;
-    HandlerStorage _connect_storage;
     // Client statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;

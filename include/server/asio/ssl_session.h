@@ -150,7 +150,6 @@ private:
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
-    HandlerStorage _connect_storage;
     // Session statistic
     uint64_t _bytes_sent;
     uint64_t _bytes_received;

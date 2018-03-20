@@ -53,7 +53,7 @@ void SSLSession::Connect()
 
     // Async SSL handshake with the handshake handler
     auto self(this->shared_from_this());
-    auto async_handshake_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec)
+    auto async_handshake_handler = [this, self](std::error_code ec)
     {
         if (IsHandshaked())
             return;
@@ -82,7 +82,7 @@ void SSLSession::Connect()
             SendError(ec);
             Disconnect(true);
         }
-    });
+    };
     if (_strand_required)
         _stream.async_handshake(asio::ssl::stream_base::server, bind_executor(_strand, async_handshake_handler));
     else
@@ -96,13 +96,13 @@ bool SSLSession::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
+    auto disconnect_handler = [this, self]()
     {
         if (!IsConnected())
             return;
 
         // Async SSL shutdown with the shutdown handler
-        auto async_shutdown_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec)
+        auto async_shutdown_handler = [this, self](std::error_code ec)
         {
             if (!IsConnected())
                 return;
@@ -127,20 +127,20 @@ bool SSLSession::Disconnect(bool dispatch)
             _server->onDisconnected(disconnected_session);
 
             // Dispatch the unregister session handler
-            auto unregister_session_handler = make_alloc_handler(_connect_storage, [this, self]()
+            auto unregister_session_handler = [this, self]()
             {
                 _server->UnregisterSession(id());
-            });
+            };
             if (_server->_strand_required)
                 _server->_strand.dispatch(unregister_session_handler);
             else
                 _server->_io_service->dispatch(unregister_session_handler);
-        });
+        };
         if (_strand_required)
             _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));
         else
             _stream.async_shutdown(async_shutdown_handler);
-    });
+    };
     if (_strand_required)
     {
         if (dispatch)
@@ -169,34 +169,41 @@ size_t SSLSession::Send(const void* buffer, size_t size)
     if (!IsHandshaked())
         return 0;
 
-    size_t result;
+    // Lock the send guard
+    _send_lock.lock();
+
+    // Detect multiple send handlers
+    bool send_required = _send_buffer_main.empty() || _send_buffer_flush.empty();
+
+    // Fill the main send buffer
+    const uint8_t* bytes = (const uint8_t*)buffer;
+    _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);
+    size_t result = _send_buffer_main.size();
+
+    // Avoid multiple send hanlders
+    if (send_required)
     {
-        std::lock_guard<std::mutex> locker(_send_lock);
+        // Dispatch the send handler
+        auto self(this->shared_from_this());
+        auto send_handler = make_alloc_handler(_send_storage, [this, self]()
+        {
+            // Try to send the main buffer
+            TrySend();
+        });
 
-        // Detect multiple send handlers
-        bool send = _send_buffer_main.empty() || _send_buffer_flush.empty();
+        // Unlock the send guard in order to allow send handler dispatched correctly
+        _send_lock.unlock();
 
-        // Fill the main send buffer
-        const uint8_t* bytes = (const uint8_t*)buffer;
-        _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);
-        result = _send_buffer_main.size();
-
-        // Skip multiple send hanlders
-        if (!send)
-            return result;
+        if (_strand_required)
+            _strand.dispatch(send_handler);
+        else
+            _io_service->dispatch(send_handler);
     }
-
-    // Dispatch the send handler
-    auto self(this->shared_from_this());
-    auto send_handler = make_alloc_handler(_send_storage, [this, self]()
-    {
-        // Try to send the main buffer
-        TrySend();
-    });
-    if (_strand_required)
-        _strand.dispatch(send_handler);
     else
-        _io_service->dispatch(send_handler);
+    {
+        // Unlock the send guard
+        _send_lock.unlock();
+    }
 
     return result;
 }
@@ -265,65 +272,66 @@ void SSLSession::TrySend()
         // Swap flush and main buffers
         _send_buffer_flush.swap(_send_buffer_main);
         _send_buffer_flush_offset = 0;
-    }
-    else
-        return;
 
-    // Check if the flush buffer is empty
+        // Check if the flush buffer is not empty
+        if (!_send_buffer_flush.empty())
+        {
+            // Async write with the write handler
+            _sending = true;
+            auto self(this->shared_from_this());
+            auto async_write_handler = make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
+            {
+                _sending = false;
+
+                if (!IsConnected())
+                    return;
+
+                // Send some data to the client
+                if (size > 0)
+                {
+                    // Update statistic
+                    _bytes_sent += size;
+                    _server->_bytes_sent += size;
+
+                    // Increase the flush buffer offset
+                    _send_buffer_flush_offset += size;
+
+                    // Successfully send the whole flush buffer
+                    if (_send_buffer_flush_offset == _send_buffer_flush.size())
+                    {
+                        // Clear the flush buffer
+                        _send_buffer_flush.clear();
+                        _send_buffer_flush_offset = 0;
+                    }
+
+                    // Call the buffer sent handler
+                    onSent(size, _send_buffer_flush.size() - _send_buffer_flush_offset);
+                }
+
+                // Try to send again if the session is valid
+                if (!ec)
+                {
+                    TrySend();
+                }
+                else
+                {
+                    SendError(ec);
+                    Disconnect(true);
+                }
+            });
+            if (_strand_required)
+                asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));
+            else
+                asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);
+        }
+    }
+
+    // Check if the flush buffer is still empty
     if (_send_buffer_flush.empty())
     {
         // Call the empty send buffer handler
         onEmpty();
-        return;
     }
-
-    // Async write with the write handler
-    _sending = true;
-    auto self(this->shared_from_this());
-    auto async_write_handler = make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
-    {
-        _sending = false;
-
-        if (!IsHandshaked())
-            return;
-
-        // Send some data to the client
-        if (size > 0)
-        {
-            // Update statistic
-            _bytes_sent += size;
-            _server->_bytes_sent += size;
-
-            // Increase the flush buffer offset
-            _send_buffer_flush_offset += size;
-
-            // Successfully send the whole flush buffer
-            if (_send_buffer_flush_offset == _send_buffer_flush.size())
-            {
-                // Clear the flush buffer
-                _send_buffer_flush.clear();
-                _send_buffer_flush_offset = 0;
-            }
-
-            // Call the buffer sent handler
-            onSent(size, _send_buffer_flush.size() - _send_buffer_flush_offset);
-        }
-
-        // Try to send again if the session is valid
-        if (!ec)
-        {
-            TrySend();
-        }
-        else
-        {
-            SendError(ec);
-            Disconnect(true);
-        }
-    });
-    if (_strand_required)
-        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));
-    else
-        asio::async_write(_stream, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);
 }
 
 void SSLSession::ClearBuffers()

@@ -66,7 +66,7 @@ bool UDPClient::Connect()
 
     // Post the connect handler
     auto self(this->shared_from_this());
-    auto connect_handler = make_alloc_handler(_connect_storage, [this, self]()
+    auto connect_handler = [this, self]()
     {
         if (IsConnected())
             return;
@@ -101,7 +101,7 @@ bool UDPClient::Connect()
 
         // Try to receive something from the server
         TryReceive();
-    });
+    };
     if (_strand_required)
         _strand.post(connect_handler);
     else
@@ -117,7 +117,7 @@ bool UDPClient::Disconnect(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
+    auto disconnect_handler = [this, self]()
     {
         if (!IsConnected())
             return;
@@ -130,7 +130,7 @@ bool UDPClient::Disconnect(bool dispatch)
 
         // Call the client disconnected handler
         onDisconnected();
-    });
+    };
     if (_strand_required)
     {
         if (dispatch)

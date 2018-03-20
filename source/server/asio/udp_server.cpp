@@ -95,7 +95,7 @@ bool UDPServer::Start()
 
     // Post the start handler
     auto self(this->shared_from_this());
-    auto start_handler = make_alloc_handler(_start_storage, [this, self]()
+    auto start_handler = [this, self]()
     {
         if (IsStarted())
             return;
@@ -127,7 +127,7 @@ bool UDPServer::Start()
 
         // Try to receive datagrams from the clients
         TryReceive();
-    });
+    };
     if (_strand_required)
         _strand.post(start_handler);
     else
@@ -156,7 +156,7 @@ bool UDPServer::Stop()
 
     // Post the stop handler
     auto self(this->shared_from_this());
-    auto stop_handler = make_alloc_handler(_start_storage, [this, self]()
+    auto stop_handler = [this, self]()
     {
         if (!IsStarted())
             return;
@@ -169,7 +169,7 @@ bool UDPServer::Stop()
 
         // Call the server stopped handler
         onStopped();
-    });
+    };
     if (_strand_required)
         _strand.post(stop_handler);
     else
