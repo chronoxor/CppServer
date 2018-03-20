@@ -199,35 +199,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    asio::ip::udp::endpoint _endpoint;</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    asio::ip::udp::socket _socket;</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    std::atomic&lt;bool&gt; _connected;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_handler_storage.html">HandlerStorage</a> _connect_storage;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="comment">// Client statistic</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    uint64_t _datagrams_sent;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    uint64_t _datagrams_received;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    uint64_t _bytes_sent;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    uint64_t _bytes_received;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="comment">// Receive endpoint</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    asio::ip::udp::endpoint _recive_endpoint;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="comment">// Receive buffer</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordtype">bool</span> _reciving;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    std::vector&lt;uint8_t&gt; _recive_buffer;</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_handler_storage.html">HandlerStorage</a> _recive_storage;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="comment">// Options</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="keywordtype">bool</span> _option_reuse_address;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keywordtype">bool</span> _option_reuse_port;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keywordtype">bool</span> _option_multicast;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#aa750d11e63ca1bc7734b2c9a0ab83d24">Disconnect</a>(<span class="keywordtype">bool</span> dispatch);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordtype">void</span> TryReceive();</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordtype">void</span> SendError(std::error_code ec);</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;};</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;} <span class="comment">// namespace Asio</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;} <span class="comment">// namespace CppServer</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="preprocessor">#endif // CPPSERVER_ASIO_UDP_CLIENT_H</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="comment">// Client statistic</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    uint64_t _datagrams_sent;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    uint64_t _datagrams_received;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    uint64_t _bytes_sent;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    uint64_t _bytes_received;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="comment">// Receive endpoint</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    asio::ip::udp::endpoint _recive_endpoint;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="comment">// Receive buffer</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="keywordtype">bool</span> _reciving;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    std::vector&lt;uint8_t&gt; _recive_buffer;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_handler_storage.html">HandlerStorage</a> _recive_storage;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="comment">// Options</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordtype">bool</span> _option_reuse_address;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="keywordtype">bool</span> _option_reuse_port;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keywordtype">bool</span> _option_multicast;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#aa750d11e63ca1bc7734b2c9a0ab83d24">Disconnect</a>(<span class="keywordtype">bool</span> dispatch);</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordtype">void</span> TryReceive();</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordtype">void</span> SendError(std::error_code ec);</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;};</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;} <span class="comment">// namespace Asio</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;} <span class="comment">// namespace CppServer</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="preprocessor">#endif // CPPSERVER_ASIO_UDP_CLIENT_H</span></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_u_d_p_client_html_a550cf2f6e8deccb97bdfb921ffdb8693"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a550cf2f6e8deccb97bdfb921ffdb8693">CppServer::Asio::UDPClient::option_reuse_port</a></div><div class="ttdeci">bool option_reuse_port() const noexcept</div><div class="ttdoc">Get the option: reuse port. </div><div class="ttdef"><b>Definition:</b> <a href="udp__client_8h_source.html#l00077">udp_client.h:77</a></div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_u_d_p_client_html_a932b183b4f26daeabd610361e725f4a5"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a932b183b4f26daeabd610361e725f4a5">CppServer::Asio::UDPClient::Send</a></div><div class="ttdeci">bool Send(const void *buffer, size_t size)</div><div class="ttdoc">Send datagram to the connected server. </div><div class="ttdef"><b>Definition:</b> <a href="udp__client_8cpp_source.html#l00215">udp_client.cpp:215</a></div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_u_d_p_client_html_a2ef1e7eed18f9cab22df7260a5c19c9d"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a2ef1e7eed18f9cab22df7260a5c19c9d">CppServer::Asio::UDPClient::bytes_received</a></div><div class="ttdeci">uint64_t bytes_received() const noexcept</div><div class="ttdoc">Get the number of bytes received by the client. </div><div class="ttdef"><b>Definition:</b> <a href="udp__client_8h_source.html#l00072">udp_client.h:72</a></div></div>

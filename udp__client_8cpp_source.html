@@ -152,7 +152,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">// Post the connect handler</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">auto</span> connect_handler = <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_connect_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">auto</span> connect_handler = [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    {</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a4772db8a2fa153eada420ff271304d85">IsConnected</a>())</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">return</span>;</div>
@@ -187,7 +187,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="comment">// Try to receive something from the server</span></div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        TryReceive();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    });</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    };</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        _strand.post(connect_handler);</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordflow">else</span></div>
@@ -203,7 +203,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">// Dispatch or post the disconnect handler</span></div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">auto</span> disconnect_handler = <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_connect_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">auto</span> disconnect_handler = [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    {</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a4772db8a2fa153eada420ff271304d85">IsConnected</a>())</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keywordflow">return</span>;</div>
@@ -216,7 +216,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="comment">// Call the client disconnected handler</span></div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a58889a7f531d82e0e53387bb56b133ec">onDisconnected</a>();</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    });</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    };</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    {</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordflow">if</span> (dispatch)</div>

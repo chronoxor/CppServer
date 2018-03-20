@@ -341,25 +341,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            std::lock_guard&lt;std::mutex&gt; locker(_send_lock);</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            <span class="comment">// Detect multiple send handlers</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <span class="keywordtype">bool</span> send = _send_buffer_main.empty() || _send_buffer_flush.empty();</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <span class="keywordtype">bool</span> send_required = _send_buffer_main.empty() || _send_buffer_flush.empty();</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            <span class="comment">// Fill the main send buffer</span></div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="keyword">const</span> uint8_t* bytes = (<span class="keyword">const</span> uint8_t*)buffer;</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            result = _send_buffer_main.size();</div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <span class="comment">// Skip multiple send hanlders</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">if</span> (!send)</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <span class="comment">// Avoid multiple send hanlders</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">if</span> (!send_required)</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <span class="keywordflow">return</span> result;</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        }</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        <span class="comment">// Dispatch the send handler</span></div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        <span class="keyword">auto</span> send_handler = <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_send_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        <span class="keyword">auto</span> send_handler = [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        {</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            <span class="comment">// Try to send the main buffer</span></div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            TrySend();</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        });</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        };</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <span class="keywordflow">if</span> (_strand_required)</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            _strand.dispatch(send_handler);</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="keywordflow">else</span></div>
@@ -500,7 +500,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        {</div>
 <div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            _sending = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a590ca8e4fe2425f62b9a6d644cb59503">IsConnected</a>())</div>
 <div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;</div>
 <div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            <span class="comment">// Send some data to the client</span></div>

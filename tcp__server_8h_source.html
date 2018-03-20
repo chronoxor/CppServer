@@ -190,37 +190,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    asio::ip::tcp::endpoint _endpoint;</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    asio::ip::tcp::acceptor _acceptor;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    std::atomic&lt;bool&gt; _started;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_handler_storage.html">HandlerStorage</a> _start_storage;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_handler_storage.html">HandlerStorage</a> _acceptor_storage;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="comment">// Server statistic</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    uint64_t _bytes_sent;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    uint64_t _bytes_received;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment">// Server sessions</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    std::map&lt;CppCommon::UUID, std::shared_ptr&lt;TCPSession&gt;&gt; _sessions;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="comment">// Multicast buffer</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    std::mutex _multicast_lock;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    std::vector&lt;uint8_t&gt; _multicast_buffer;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_handler_storage.html">HandlerStorage</a> _multicast_storage;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="comment">// Options</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordtype">bool</span> _option_no_delay;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keywordtype">bool</span> _option_reuse_address;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordtype">bool</span> _option_reuse_port;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordtype">void</span> Accept();</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordtype">void</span> RegisterSession();</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordtype">void</span> UnregisterSession(<span class="keyword">const</span> CppCommon::UUID&amp; <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordtype">void</span> ClearBuffers();</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordtype">void</span> SendError(std::error_code ec);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;};</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;} <span class="comment">// namespace Asio</span></div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;} <span class="comment">// namespace CppServer</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="preprocessor">#endif // CPPSERVER_ASIO_TCP_SERVER_H</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_handler_storage.html">HandlerStorage</a> _acceptor_storage;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="comment">// Server statistic</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    uint64_t _bytes_sent;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    uint64_t _bytes_received;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="comment">// Server sessions</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    std::map&lt;CppCommon::UUID, std::shared_ptr&lt;TCPSession&gt;&gt; _sessions;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="comment">// Multicast buffer</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    std::mutex _multicast_lock;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    std::vector&lt;uint8_t&gt; _multicast_buffer;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_handler_storage.html">HandlerStorage</a> _multicast_storage;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="comment">// Options</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keywordtype">bool</span> _option_no_delay;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordtype">bool</span> _option_reuse_address;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keywordtype">bool</span> _option_reuse_port;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordtype">void</span> Accept();</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordtype">void</span> RegisterSession();</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordtype">void</span> UnregisterSession(<span class="keyword">const</span> CppCommon::UUID&amp; <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordtype">void</span> ClearBuffers();</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keywordtype">void</span> SendError(std::error_code ec);</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;};</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;} <span class="comment">// namespace Asio</span></div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;} <span class="comment">// namespace CppServer</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="preprocessor">#endif // CPPSERVER_ASIO_TCP_SERVER_H</span></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_t_c_p_server_html_a397caf87eb1d8809cb9016032c471ec8"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a397caf87eb1d8809cb9016032c471ec8">CppServer::Asio::TCPServer::operator=</a></div><div class="ttdeci">TCPServer &amp; operator=(const TCPServer &amp;)=delete</div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_t_c_p_server_html_ac39d3d974f107d8d659b05b183562f49"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#ac39d3d974f107d8d659b05b183562f49">CppServer::Asio::TCPServer::Multicast</a></div><div class="ttdeci">bool Multicast(const std::string &amp;text)</div><div class="ttdoc">Multicast a text string to all connected sessions. </div><div class="ttdef"><b>Definition:</b> <a href="tcp__server_8h_source.html#l00115">tcp_server.h:115</a></div></div>
 <div class="ttc" id="class_cpp_server_1_1_asio_1_1_t_c_p_server_html_ae09af9495f10ba44b2b673216c13dd64"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#ae09af9495f10ba44b2b673216c13dd64">CppServer::Asio::TCPServer::~TCPServer</a></div><div class="ttdeci">virtual ~TCPServer()=default</div></div>
