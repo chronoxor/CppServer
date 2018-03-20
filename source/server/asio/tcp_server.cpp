@@ -223,53 +223,45 @@ bool TCPServer::Multicast(const void* buffer, size_t size)
     if (!IsStarted())
         return false;
 
-    // Lock the multicast guard
-    _multicast_lock.lock();
-
-    // Detect multiple multicast handlers
-    bool multicast_required = _multicast_buffer.empty();
-
-    // Fill the multicast buffer
-    const uint8_t* bytes = (const uint8_t*)buffer;
-    _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
-
-    // Avoid multiple multicast hanlders
-    if (multicast_required)
     {
-        // Dispatch the multicast handler
-        auto self(this->shared_from_this());
-        auto multicast_handler = make_alloc_handler(_multicast_storage, [this, self]()
-        {
-            if (!IsStarted())
-                return;
+        std::lock_guard<std::mutex> locker(_multicast_lock);
 
-            std::lock_guard<std::mutex> locker(_multicast_lock);
+        // Detect multiple multicast handlers
+        bool multicast_required = _multicast_buffer.empty();
 
-            // Check for empty multicast buffer
-            if (_multicast_buffer.empty())
-                return;
+        // Fill the multicast buffer
+        const uint8_t* bytes = (const uint8_t*)buffer;
+        _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
 
-            // Multicast all sessions
-            for (auto& session : _sessions)
-                session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
-
-            // Clear the multicast buffer
-            _multicast_buffer.clear();
-        });
-
-        // Unlock the multicast guard in order to allow send handler dispatched correctly
-        _multicast_lock.unlock();
-
-        if (_strand_required)
-            _strand.dispatch(multicast_handler);
-        else
-            _io_service->dispatch(multicast_handler);
+        // Avoid multiple multicast hanlders
+        if (!multicast_required)
+            return true;
     }
+
+    // Dispatch the multicast handler
+    auto self(this->shared_from_this());
+    auto multicast_handler = make_alloc_handler(_multicast_storage, [this, self]()
+    {
+        if (!IsStarted())
+            return;
+
+        std::lock_guard<std::mutex> locker(_multicast_lock);
+
+        // Check for empty multicast buffer
+        if (_multicast_buffer.empty())
+            return;
+
+        // Multicast all sessions
+        for (auto& session : _sessions)
+            session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
+
+        // Clear the multicast buffer
+        _multicast_buffer.clear();
+    });
+    if (_strand_required)
+        _strand.dispatch(multicast_handler);
     else
-    {
-        // Unlock the multicast guard
-        _multicast_lock.unlock();
-    }
+        _io_service->dispatch(multicast_handler);
 
     return true;
 }
