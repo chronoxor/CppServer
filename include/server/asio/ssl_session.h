@@ -29,12 +29,11 @@ class SSLSession : public std::enable_shared_from_this<SSLSession>
     friend class SSLServer;
 
 public:
-    //! Initialize the session with a given server, socket and SSL context
+    //! Initialize the session with a given server
     /*!
         \param server - Connected server
-        \param context - Connected SSL context
     */
-    SSLSession(std::shared_ptr<SSLServer> server, std::shared_ptr<asio::ssl::context> context);
+    SSLSession(std::shared_ptr<SSLServer> server);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = default;
     virtual ~SSLSession() = default;
@@ -51,8 +50,6 @@ public:
     std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialized handler execution
     asio::io_service::strand& strand() noexcept { return _strand; }
-    //! Get the session SSL context
-    std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
     //! Get the session SSL stream
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     //! Get the session socket
@@ -145,8 +142,7 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
-    // Session SSL context and stream
-    std::shared_ptr<asio::ssl::context> _context;
+    // Session stream
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;

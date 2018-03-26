@@ -57,9 +57,9 @@ public:
     using CppServer::Asio::SSLServer::SSLServer;
 
 protected:
-    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server, std::shared_ptr<asio::ssl::context> context) override
+    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
     {
-        return std::make_shared<ChatSession>(server, context);
+        return std::make_shared<ChatSession>(server);
     }
 
 protected:

@@ -153,10 +153,9 @@ protected:
     //! Create SSL session factory method
     /*!
         \param server - SSL server
-        \param context - SSL context
         \return SSL session
     */
-    virtual std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server, std::shared_ptr<asio::ssl::context> context) { return std::make_shared<SSLSession>(server, context); }
+    virtual std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) { return std::make_shared<SSLSession>(server); }
 
 protected:
     //! Handle server started notification

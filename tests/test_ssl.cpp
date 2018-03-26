@@ -135,7 +135,7 @@ public:
     }
 
 protected:
-    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server, std::shared_ptr<asio::ssl::context> context) override { return std::make_shared<EchoSSLSession>(server, context); }
+    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override { return std::make_shared<EchoSSLSession>(server); }
 
 protected:
     void onStarted() override { started = true; }

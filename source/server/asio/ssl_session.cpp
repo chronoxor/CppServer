@@ -12,14 +12,13 @@
 namespace CppServer {
 namespace Asio {
 
-SSLSession::SSLSession(std::shared_ptr<SSLServer> server, std::shared_ptr<asio::ssl::context> context)
+SSLSession::SSLSession(std::shared_ptr<SSLServer> server)
     : _id(CppCommon::UUID::Generate()),
       _server(server),
       _io_service(server->service()->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_server->_strand_required),
-      _context(context),
-      _stream(*_io_service, *context),
+      _stream(*_io_service, *server->context()),
       _connected(false),
       _handshaked(false),
       _bytes_sent(0),
