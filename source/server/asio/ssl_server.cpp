@@ -205,7 +205,7 @@ void SSLServer::Accept()
             return;
 
         // Create a new session to accept
-        _session = CreateSession(self, _context);
+        _session = CreateSession(self);
 
         auto async_accept_handler = make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
