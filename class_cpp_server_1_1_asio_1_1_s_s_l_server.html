@@ -180,9 +180,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a50c9991f4c593b155dbfa93dce25ce91"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">SSLSession</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a50c9991f4c593b155dbfa93dce25ce91">CreateSession</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html">SSLServer</a> &gt; server, std::shared_ptr&lt; asio::ssl::context &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#aa0a6ca3d91beaba7a63102c381b93b93">context</a>)</td></tr>
-<tr class="memdesc:a50c9991f4c593b155dbfa93dce25ce91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create SSL session factory method.  <a href="#a50c9991f4c593b155dbfa93dce25ce91">More...</a><br /></td></tr>
-<tr class="separator:a50c9991f4c593b155dbfa93dce25ce91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b9d56c89221cb492fcbdc60592b32ac"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">SSLSession</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a1b9d56c89221cb492fcbdc60592b32ac">CreateSession</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html">SSLServer</a> &gt; server)</td></tr>
+<tr class="memdesc:a1b9d56c89221cb492fcbdc60592b32ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create SSL session factory method.  <a href="#a1b9d56c89221cb492fcbdc60592b32ac">More...</a><br /></td></tr>
+<tr class="separator:a1b9d56c89221cb492fcbdc60592b32ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b7ceaf857730a92c365a7fe07ad1182"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a6b7ceaf857730a92c365a7fe07ad1182">onStarted</a> ()</td></tr>
 <tr class="memdesc:a6b7ceaf857730a92c365a7fe07ad1182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle server started notification.  <a href="#a6b7ceaf857730a92c365a7fe07ad1182">More...</a><br /></td></tr>
 <tr class="separator:a6b7ceaf857730a92c365a7fe07ad1182"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -586,14 +586,13 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the server SSL context. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a13">ssl_chat_server.cpp</a>.</dd>
-</dl>
+
 <p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00069">69</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
-<a id="a50c9991f4c593b155dbfa93dce25ce91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50c9991f4c593b155dbfa93dce25ce91">&#9670;&nbsp;</a></span>CreateSession()</h2>
+<a id="a1b9d56c89221cb492fcbdc60592b32ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b9d56c89221cb492fcbdc60592b32ac">&#9670;&nbsp;</a></span>CreateSession()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -605,18 +604,8 @@ Friends</h2></td></tr>
           <td class="memname">virtual std::shared_ptr&lt;<a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">SSLSession</a>&gt; CppServer::Asio::SSLServer::CreateSession </td>
           <td>(</td>
           <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html">SSLServer</a> &gt;&#160;</td>
-          <td class="paramname"><em>server</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>server</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">std::shared_ptr&lt; asio::ssl::context &gt;&#160;</td>
-          <td class="paramname"><em>context</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -630,14 +619,13 @@ Friends</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">server</td><td>- SSL server </td></tr>
-    <tr><td class="paramname">context</td><td>- SSL context </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>SSL session </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a12">ssl_chat_server.cpp</a>.</dd>
 </dl>
-<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00159">159</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00158">158</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -859,7 +847,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00171">171</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00170">170</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -895,7 +883,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00181">181</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00180">180</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -948,9 +936,9 @@ Friends</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a14">ssl_chat_server.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a13">ssl_chat_server.cpp</a>.</dd>
 </dl>
-<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00189">189</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00188">188</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -986,7 +974,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00176">176</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00175">175</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -1015,7 +1003,7 @@ Friends</h2></td></tr>
 
 <p>Handle server started notification. </p>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00163">163</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00162">162</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
@@ -1044,7 +1032,7 @@ Friends</h2></td></tr>
 
 <p>Handle server stopped notification. </p>
 
-<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00165">165</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00164">164</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
