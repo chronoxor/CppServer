@@ -1,6 +1,6 @@
 /*!
-    \file ssl_session.inl
-    \brief SSL session inline implementation
+    \file ssl_session.cpp
+    \brief SSL session implementation
     \author Ivan Shynkarenka
     \date 30.12.2016
     \copyright MIT License
