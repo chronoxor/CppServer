@@ -154,6 +154,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac35434cb1a0b70588bebc7d2f588a043"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#ac35434cb1a0b70588bebc7d2f588a043">datagrams_received</a> () const noexcept</td></tr>
 <tr class="memdesc:ac35434cb1a0b70588bebc7d2f588a043"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number datagrams received by the client.  <a href="#ac35434cb1a0b70588bebc7d2f588a043">More...</a><br/></td></tr>
 <tr class="separator:ac35434cb1a0b70588bebc7d2f588a043"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7de51f0ded359d48701387dd1f291689"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a7de51f0ded359d48701387dd1f291689">bytes_pending</a> () const noexcept</td></tr>
+<tr class="memdesc:a7de51f0ded359d48701387dd1f291689"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes pending sent by the client.  <a href="#a7de51f0ded359d48701387dd1f291689">More...</a><br/></td></tr>
+<tr class="separator:a7de51f0ded359d48701387dd1f291689"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc03054885b132f2a30d892beacdfccf"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#abc03054885b132f2a30d892beacdfccf">bytes_sent</a> () const noexcept</td></tr>
 <tr class="memdesc:abc03054885b132f2a30d892beacdfccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes sent by the client.  <a href="#abc03054885b132f2a30d892beacdfccf">More...</a><br/></td></tr>
 <tr class="separator:abc03054885b132f2a30d892beacdfccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -394,6 +397,33 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a7de51f0ded359d48701387dd1f291689"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t CppServer::Asio::UDPClient::bytes_pending </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes pending sent by the client. </p>
+
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00070">70</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a2ef1e7eed18f9cab22df7260a5c19c9d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -417,7 +447,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the number of bytes received by the client. </p>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00072">72</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00074">74</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -444,7 +474,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the number of bytes sent by the client. </p>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00070">70</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00072">72</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -548,7 +578,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully disconnected, 'false' if the client is already disconnected </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_client_8cpp-example.html#a1">udp_echo_client.cpp</a>, and <a class="el" href="udp_multicast_client_8cpp-example.html#a1">udp_multicast_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00093">93</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00095">95</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -658,7 +688,7 @@ Protected Member Functions</h2></td></tr>
 <p>Is the client connected? </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_client_8cpp-example.html#a2">udp_echo_client.cpp</a>, and <a class="el" href="udp_multicast_client_8cpp-example.html#a2">udp_multicast_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00082">82</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00084">84</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -739,7 +769,7 @@ Protected Member Functions</h2></td></tr>
 <p>Handle client connected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_client_8cpp-example.html#a3">udp_echo_client.cpp</a>, and <a class="el" href="udp_multicast_client_8cpp-example.html#a3">udp_multicast_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00163">163</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00165">165</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -767,7 +797,7 @@ Protected Member Functions</h2></td></tr>
 <p>Handle client disconnected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_client_8cpp-example.html#a5">udp_echo_client.cpp</a>, and <a class="el" href="udp_multicast_client_8cpp-example.html#a6">udp_multicast_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00165">165</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00167">167</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -820,7 +850,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_client_8cpp-example.html#a8">udp_echo_client.cpp</a>, and <a class="el" href="udp_multicast_client_8cpp-example.html#a9">udp_multicast_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00206">206</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00208">208</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -854,7 +884,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00171">171</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00173">173</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -888,7 +918,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00176">176</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00178">178</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -942,7 +972,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_client_8cpp-example.html#a7">udp_echo_client.cpp</a>, and <a class="el" href="udp_multicast_client_8cpp-example.html#a8">udp_multicast_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00187">187</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00189">189</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -989,7 +1019,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00198">198</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00200">200</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1064,7 +1094,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the option: bind the socket to the multicast UDP server. </p>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00079">79</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00081">81</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1091,7 +1121,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the option: reuse address. </p>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00075">75</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00077">77</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1118,7 +1148,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Get the option: reuse port. </p>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00077">77</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00079">79</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1211,7 +1241,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully sent, 'false' if the datagram was not sent </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00123">123</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00125">125</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1302,7 +1332,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully sent, 'false' if the datagram was not sent </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00139">139</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00141">141</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1363,7 +1393,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00159">159</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00161">161</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1398,7 +1428,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00147">147</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00149">149</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1433,7 +1463,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00154">154</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__client_8h_source.html#l00156">156</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
 </div>
 </div>

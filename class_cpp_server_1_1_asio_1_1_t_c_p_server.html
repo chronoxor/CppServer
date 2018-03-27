@@ -152,6 +152,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adbcfb03aec03aaef076437be1553c66b"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#adbcfb03aec03aaef076437be1553c66b">connected_sessions</a> () const noexcept</td></tr>
 <tr class="memdesc:adbcfb03aec03aaef076437be1553c66b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of sessions connected to the server.  <a href="#adbcfb03aec03aaef076437be1553c66b">More...</a><br/></td></tr>
 <tr class="separator:adbcfb03aec03aaef076437be1553c66b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e6b7154dfbe00ab0e5ed80dc93d4d4c"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a1e6b7154dfbe00ab0e5ed80dc93d4d4c">bytes_pending</a> () const noexcept</td></tr>
+<tr class="memdesc:a1e6b7154dfbe00ab0e5ed80dc93d4d4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes pending sent by the server.  <a href="#a1e6b7154dfbe00ab0e5ed80dc93d4d4c">More...</a><br/></td></tr>
+<tr class="separator:a1e6b7154dfbe00ab0e5ed80dc93d4d4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a635425c349bf84690e742d4f61d558a2"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a635425c349bf84690e742d4f61d558a2">bytes_sent</a> () const noexcept</td></tr>
 <tr class="memdesc:a635425c349bf84690e742d4f61d558a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of bytes sent by the server.  <a href="#a635425c349bf84690e742d4f61d558a2">More...</a><br/></td></tr>
 <tr class="separator:a635425c349bf84690e742d4f61d558a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -318,7 +321,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00042">42</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00043">43</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -355,7 +358,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00062">62</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00064">64</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -458,6 +461,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1e6b7154dfbe00ab0e5ed80dc93d4d4c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t CppServer::Asio::TCPServer::bytes_pending </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of bytes pending sent by the server. </p>
+
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00073">73</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aad80c808f77a157d1db73f27b52a19ac"></a>
 <div class="memitem">
 <div class="memproto">
@@ -481,7 +511,7 @@ Friends</h2></td></tr>
 
 <p>Get the number of bytes received by the server. </p>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00075">75</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00077">77</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -508,7 +538,7 @@ Friends</h2></td></tr>
 
 <p>Get the number of bytes sent by the server. </p>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00073">73</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00075">75</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -571,7 +601,7 @@ Friends</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>TCP session </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_server_8cpp-example.html#a12">tcp_chat_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00153">153</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00155">155</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -591,7 +621,7 @@ Friends</h2></td></tr>
 <p>Disconnect all connected sessions. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if all sessions were successfully disconnected, 'false' if the server it not started </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00269">269</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00279">279</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -672,7 +702,7 @@ Friends</h2></td></tr>
 
 <p>Is the server started? </p>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00085">85</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00087">87</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -710,7 +740,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the data was successfully multicast, 'false' if the server it not started </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00216">216</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00220">220</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -745,7 +775,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the text string was successfully multicast, 'false' if the server it not started </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00115">115</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00117">117</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -779,7 +809,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00165">165</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00167">167</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -813,7 +843,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00170">170</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00172">172</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -866,7 +896,7 @@ Friends</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_server_8cpp-example.html#a13">tcp_chat_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00178">178</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00180">180</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -893,7 +923,7 @@ Friends</h2></td></tr>
 
 <p>Handle server started notification. </p>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00157">157</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00159">159</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -920,7 +950,7 @@ Friends</h2></td></tr>
 
 <p>Handle server stopped notification. </p>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00159">159</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00161">161</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -995,7 +1025,7 @@ Friends</h2></td></tr>
 
 <p>Get the option: no delay. </p>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00078">78</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00080">80</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1022,7 +1052,7 @@ Friends</h2></td></tr>
 
 <p>Get the option: reuse address. </p>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00080">80</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00082">82</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1049,7 +1079,7 @@ Friends</h2></td></tr>
 
 <p>Get the option: reuse port. </p>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00082">82</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00084">84</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1069,7 +1099,7 @@ Friends</h2></td></tr>
 <p>Restart the server. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully restarted, 'false' if the server failed to restart </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00169">169</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00173">173</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1132,7 +1162,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00131">131</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00133">133</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1167,7 +1197,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00138">138</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00140">140</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1202,7 +1232,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00145">145</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8h_source.html#l00147">147</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1222,7 +1252,7 @@ Friends</h2></td></tr>
 <p>Start the server. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully started, 'false' if the server failed to start </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00081">81</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00084">84</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1242,7 +1272,7 @@ Friends</h2></td></tr>
 <p>Stop the server. </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the server was successfully stopped, 'false' if the server is already stopped </dd></dl>
 
-<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00130">130</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__server_8cpp_source.html#l00134">134</a> of file <a class="el" href="tcp__server_8cpp_source.html">tcp_server.cpp</a>.</p>
 
 </div>
 </div>
