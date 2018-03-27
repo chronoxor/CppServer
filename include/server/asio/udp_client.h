@@ -66,6 +66,8 @@ public:
     uint64_t datagrams_sent() const noexcept { return _datagrams_sent; }
     //! Get the number datagrams received by the client
     uint64_t datagrams_received() const noexcept { return _datagrams_received; }
+    //! Get the number of bytes pending sent by the client
+    uint64_t bytes_pending() const noexcept { return 0; }
     //! Get the number of bytes sent by the client
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by the client

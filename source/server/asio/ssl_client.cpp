@@ -32,6 +32,7 @@ public:
           _connected(false),
           _handshaking(false),
           _handshaked(false),
+          _bytes_pending(0),
           _bytes_sent(0),
           _bytes_received(0),
           _reciving(false),
@@ -62,6 +63,7 @@ public:
           _connected(false),
           _handshaking(false),
           _handshaked(false),
+          _bytes_pending(0),
           _bytes_sent(0),
           _bytes_received(0),
           _reciving(false),
@@ -91,6 +93,7 @@ public:
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
 
+    uint64_t& bytes_pending() noexcept { return _bytes_pending; }
     uint64_t& bytes_sent() noexcept { return _bytes_sent; }
     uint64_t& bytes_received() noexcept { return _bytes_received; }
 
@@ -129,6 +132,7 @@ public:
                         socket().set_option(asio::ip::tcp::no_delay(true));
 
                     // Reset statistic
+                    _bytes_pending = 0;
                     _bytes_sent = 0;
                     _bytes_received = 0;
 
@@ -208,9 +212,6 @@ public:
             // Close the client socket
             socket().close();
 
-            // Clear receive/send buffers
-            ClearBuffers();
-
             // Call the client reset handler
             onReset();
 
@@ -219,6 +220,9 @@ public:
 
             // Update the connected flag
             _connected = false;
+
+            // Clear receive/send buffers
+            ClearBuffers();
 
             // Call the client disconnected handler
             onDisconnected();
@@ -317,6 +321,7 @@ private:
     std::atomic<bool> _handshaked;
     HandlerStorage _connect_storage;
     // Client statistic
+    uint64_t _bytes_pending;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Receive buffer & cache
@@ -396,6 +401,9 @@ private:
             // Swap flush and main buffers
             _send_buffer_flush.swap(_send_buffer_main);
             _send_buffer_flush_offset = 0;
+
+            // Update statistic
+            _bytes_pending += _send_buffer_flush.size();
         }
         else
             return;
@@ -422,6 +430,7 @@ private:
             if (size > 0)
             {
                 // Update statistic
+                _bytes_pending -= size;
                 _bytes_sent += size;
 
                 // Increase the flush buffer offset
@@ -436,7 +445,7 @@ private:
                 }
 
                 // Call the buffer sent handler
-                onSent(size, _send_buffer_flush.size() - _send_buffer_flush_offset);
+                onSent(size, _bytes_pending);
             }
 
             // Try to send again if the session is valid
@@ -465,6 +474,9 @@ private:
             _send_buffer_main.clear();
             _send_buffer_flush.clear();
             _send_buffer_flush_offset = 0;
+
+            // Update statistic
+            _bytes_pending = 0;
         }
     }
 
@@ -558,6 +570,11 @@ asio::ssl::stream<asio::ip::tcp::socket>& SSLClient::stream() noexcept
 asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& SSLClient::socket() noexcept
 {
     return _pimpl->socket();
+}
+
+uint64_t SSLClient::bytes_pending() const noexcept
+{
+    return _pimpl->bytes_pending();
 }
 
 uint64_t SSLClient::bytes_sent() const noexcept

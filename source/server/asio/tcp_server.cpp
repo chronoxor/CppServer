@@ -18,6 +18,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _strand_required(_service->IsStrandRequired()),
       _acceptor(*_io_service),
       _started(false),
+      _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
       _option_no_delay(false),
@@ -46,6 +47,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, const std::string& addres
       _strand_required(_service->IsStrandRequired()),
       _acceptor(*_io_service),
       _started(false),
+      _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
       _option_no_delay(false),
@@ -67,6 +69,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _endpoint(endpoint),
       _acceptor(*_io_service),
       _started(false),
+      _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
       _option_no_delay(false),
@@ -107,6 +110,7 @@ bool TCPServer::Start()
         _acceptor.listen();
 
         // Reset statistic
+        _bytes_pending = 0;
         _bytes_sent = 0;
         _bytes_received = 0;
 
@@ -146,14 +150,14 @@ bool TCPServer::Stop()
         // Close the server acceptor
         _acceptor.close();
 
-        // Clear multicast buffer
-        ClearBuffers();
-
         // Disconnect all sessions
         DisconnectAll();
 
         // Update the started flag
         _started = false;
+
+        // Clear multicast buffer
+        ClearBuffers();
 
         // Call the server stopped handler
         onStopped();
@@ -233,6 +237,9 @@ bool TCPServer::Multicast(const void* buffer, size_t size)
         const uint8_t* bytes = (const uint8_t*)buffer;
         _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
 
+        // Update statistic
+        _bytes_pending += size;
+
         // Avoid multiple multicast hanlders
         if (!multicast_required)
             return true;
@@ -254,6 +261,9 @@ bool TCPServer::Multicast(const void* buffer, size_t size)
         // Multicast all sessions
         for (auto& session : _sessions)
             session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
+
+        // Update statistic
+        _bytes_pending -= _multicast_buffer.size();
 
         // Clear the multicast buffer
         _multicast_buffer.clear();
@@ -315,6 +325,9 @@ void TCPServer::ClearBuffers()
     std::lock_guard<std::mutex> locker(_multicast_lock);
 
     _multicast_buffer.clear();
+
+    // Update statistic
+    _bytes_pending = 0;
 }
 
 void TCPServer::SendError(std::error_code ec)

@@ -53,6 +53,8 @@ public:
     //! Get the session socket
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
+    //! Get the number of bytes pending sent by the session
+    uint64_t bytes_pending() const noexcept { return _bytes_pending; }
     //! Get the number of bytes sent by the session
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by the session
@@ -73,13 +75,13 @@ public:
         \param size - Buffer size
         \return Count of pending bytes in the send buffer
     */
-    size_t Send(const void* buffer, size_t size);
+    virtual size_t Send(const void* buffer, size_t size);
     //! Send a text string into the session
     /*!
         \param text - Text string to send
         \return Count of pending bytes in the send buffer
     */
-    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
+    virtual size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
 
 protected:
     //! Handle session connected notification
@@ -140,6 +142,7 @@ private:
     asio::ip::tcp::socket _socket;
     std::atomic<bool> _connected;
     // Session statistic
+    uint64_t _bytes_pending;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Receive buffer & cache

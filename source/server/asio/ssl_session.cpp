@@ -21,6 +21,7 @@ SSLSession::SSLSession(std::shared_ptr<SSLServer> server)
       _stream(*_io_service, *server->context()),
       _connected(false),
       _handshaked(false),
+      _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -37,6 +38,7 @@ void SSLSession::Connect()
         socket().set_option(asio::ip::tcp::no_delay(true));
 
     // Reset statistic
+    _bytes_pending = 0;
     _bytes_sent = 0;
     _bytes_received = 0;
 
@@ -109,14 +111,14 @@ bool SSLSession::Disconnect(bool dispatch)
             // Close the session socket
             socket().close();
 
-            // Clear receive/send buffers
-            ClearBuffers();
-
             // Update the handshaked flag
             _handshaked = false;
 
             // Update the connected flag
             _connected = false;
+
+            // Clear receive/send buffers
+            ClearBuffers();
 
             // Call the session disconnected handler
             onDisconnected();
@@ -264,6 +266,9 @@ void SSLSession::TrySend()
         // Swap flush and main buffers
         _send_buffer_flush.swap(_send_buffer_main);
         _send_buffer_flush_offset = 0;
+
+        // Update statistic
+        _bytes_pending += _send_buffer_flush.size();
     }
     else
         return;
@@ -290,6 +295,7 @@ void SSLSession::TrySend()
         if (size > 0)
         {
             // Update statistic
+            _bytes_pending -= size;
             _bytes_sent += size;
             _server->_bytes_sent += size;
 
@@ -305,7 +311,7 @@ void SSLSession::TrySend()
             }
 
             // Call the buffer sent handler
-            onSent(size, _send_buffer_flush.size() - _send_buffer_flush_offset);
+            onSent(size, _bytes_pending);
         }
 
         // Try to send again if the session is valid
@@ -334,6 +340,9 @@ void SSLSession::ClearBuffers()
         _send_buffer_main.clear();
         _send_buffer_flush.clear();
         _send_buffer_flush_offset = 0;
+
+        // Update statistic
+        _bytes_pending = 0;
     }
 }
 

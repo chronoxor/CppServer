@@ -21,6 +21,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _socket(*_io_service),
       _connecting(false),
       _connected(false),
+      _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -44,6 +45,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _socket(*_io_service),
       _connecting(false),
       _connected(false),
+      _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -82,6 +84,7 @@ bool TCPClient::Connect()
                     _socket.set_option(asio::ip::tcp::no_delay(true));
 
                 // Reset statistic
+                _bytes_pending = 0;
                 _bytes_sent = 0;
                 _bytes_received = 0;
 
@@ -132,11 +135,11 @@ bool TCPClient::Disconnect(bool dispatch)
         // Close the client socket
         _socket.close();
 
-        // Clear receive/send buffers
-        ClearBuffers();
-
         // Update the connected flag
         _connected = false;
+
+        // Clear receive/send buffers
+        ClearBuffers();
 
         // Call the client disconnected handler
         onDisconnected();
@@ -275,6 +278,9 @@ void TCPClient::TrySend()
         // Swap flush and main buffers
         _send_buffer_flush.swap(_send_buffer_main);
         _send_buffer_flush_offset = 0;
+
+        // Update statistic
+        _bytes_pending += _send_buffer_flush.size();
     }
     else
         return;
@@ -301,6 +307,7 @@ void TCPClient::TrySend()
         if (size > 0)
         {
             // Update statistic
+            _bytes_pending -= size;
             _bytes_sent += size;
 
             // Increase the flush buffer offset
@@ -315,7 +322,7 @@ void TCPClient::TrySend()
             }
 
             // Call the buffer sent handler
-            onSent(size, _send_buffer_flush.size() - _send_buffer_flush_offset);
+            onSent(size, _bytes_pending);
         }
 
         // Try to send again if the session is valid
@@ -344,6 +351,9 @@ void TCPClient::ClearBuffers()
         _send_buffer_main.clear();
         _send_buffer_flush.clear();
         _send_buffer_flush_offset = 0;
+
+        // Update statistic
+        _bytes_pending = 0;
     }
 }
 

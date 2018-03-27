@@ -67,6 +67,8 @@ public:
     //! Get the client socket
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept;
 
+    //! Get the number of bytes pending sent by the client
+    uint64_t bytes_pending() const noexcept;
     //! Get the number of bytes sent by the client
     uint64_t bytes_sent() const noexcept;
     //! Get the number of bytes received by the client

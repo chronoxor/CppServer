@@ -69,6 +69,8 @@ public:
 
     //! Get the number of sessions connected to the server
     uint64_t connected_sessions() const noexcept { return _sessions.size(); }
+    //! Get the number of bytes pending sent by the server
+    uint64_t bytes_pending() const noexcept { return _bytes_pending; }
     //! Get the number of bytes sent by the server
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by the server
@@ -192,6 +194,7 @@ private:
     std::atomic<bool> _started;
     HandlerStorage _acceptor_storage;
     // Server statistic
+    uint64_t _bytes_pending;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Server sessions
