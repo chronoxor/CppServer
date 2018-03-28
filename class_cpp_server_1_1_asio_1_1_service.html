@@ -119,18 +119,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a770d2a41a4ee672522b075baa14aaa7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#a770d2a41a4ee672522b075baa14aaa7b">IsStarted</a> () const noexcept</td></tr>
 <tr class="memdesc:a770d2a41a4ee672522b075baa14aaa7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the service started?  <a href="#a770d2a41a4ee672522b075baa14aaa7b">More...</a><br /></td></tr>
 <tr class="separator:a770d2a41a4ee672522b075baa14aaa7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa85bf639de313817cea8673a700d16d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#aa85bf639de313817cea8673a700d16d2">Start</a> (bool polling=false)</td></tr>
+<tr class="memitem:aa85bf639de313817cea8673a700d16d2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#aa85bf639de313817cea8673a700d16d2">Start</a> (bool polling=false)</td></tr>
 <tr class="memdesc:aa85bf639de313817cea8673a700d16d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the service.  <a href="#aa85bf639de313817cea8673a700d16d2">More...</a><br /></td></tr>
 <tr class="separator:aa85bf639de313817cea8673a700d16d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a920a43e459a1de2859393bb27fc2686c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#a920a43e459a1de2859393bb27fc2686c">Stop</a> ()</td></tr>
+<tr class="memitem:a920a43e459a1de2859393bb27fc2686c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#a920a43e459a1de2859393bb27fc2686c">Stop</a> ()</td></tr>
 <tr class="memdesc:a920a43e459a1de2859393bb27fc2686c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the service.  <a href="#a920a43e459a1de2859393bb27fc2686c">More...</a><br /></td></tr>
 <tr class="separator:a920a43e459a1de2859393bb27fc2686c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4161b16c4a48074572a8dcba51180f0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#ad4161b16c4a48074572a8dcba51180f0">Restart</a> ()</td></tr>
+<tr class="memitem:ad4161b16c4a48074572a8dcba51180f0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#ad4161b16c4a48074572a8dcba51180f0">Restart</a> ()</td></tr>
 <tr class="memdesc:ad4161b16c4a48074572a8dcba51180f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restart the service.  <a href="#ad4161b16c4a48074572a8dcba51180f0">More...</a><br /></td></tr>
 <tr class="separator:ad4161b16c4a48074572a8dcba51180f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f24ffd8b61a43cfa519f2497b6b4a5c"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; asio::io_service &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#a5f24ffd8b61a43cfa519f2497b6b4a5c">GetAsioService</a> () noexcept</td></tr>
-<tr class="memdesc:a5f24ffd8b61a43cfa519f2497b6b4a5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next available <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> IO service.  <a href="#a5f24ffd8b61a43cfa519f2497b6b4a5c">More...</a><br /></td></tr>
-<tr class="separator:a5f24ffd8b61a43cfa519f2497b6b4a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c6d9af298d6f4b4ffda53269a3f6627"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; asio::io_service &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#a6c6d9af298d6f4b4ffda53269a3f6627">GetAsioService</a> () noexcept</td></tr>
+<tr class="memdesc:a6c6d9af298d6f4b4ffda53269a3f6627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next available <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> IO service.  <a href="#a6c6d9af298d6f4b4ffda53269a3f6627">More...</a><br /></td></tr>
+<tr class="separator:a6c6d9af298d6f4b4ffda53269a3f6627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d68a8ee6d780b65682a57fb58edb13a"><td class="memTemplParams" colspan="2">template&lt;typename CompletionHandler &gt; </td></tr>
 <tr class="memitem:a6d68a8ee6d780b65682a57fb58edb13a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_service.html#a6d68a8ee6d780b65682a57fb58edb13a">ASIO_INITFN_RESULT_TYPE</a> (CompletionHandler, void()) Dispatch(ASIO_MOVE_ARG(CompletionHandler) handler)</td></tr>
 <tr class="memdesc:a6d68a8ee6d780b65682a57fb58edb13a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatch the given handler.  <a href="#a6d68a8ee6d780b65682a57fb58edb13a">More...</a><br /></td></tr>
@@ -433,8 +433,8 @@ template&lt;typename CompletionHandler &gt; </div>
 
 </div>
 </div>
-<a id="a5f24ffd8b61a43cfa519f2497b6b4a5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f24ffd8b61a43cfa519f2497b6b4a5c">&#9670;&nbsp;</a></span>GetAsioService()</h2>
+<a id="a6c6d9af298d6f4b4ffda53269a3f6627"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c6d9af298d6f4b4ffda53269a3f6627">&#9670;&nbsp;</a></span>GetAsioService()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -443,7 +443,7 @@ template&lt;typename CompletionHandler &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt;asio::io_service&gt;&amp; CppServer::Asio::Service::GetAsioService </td>
+          <td class="memname">virtual std::shared_ptr&lt;asio::io_service&gt;&amp; CppServer::Asio::Service::GetAsioService </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -451,7 +451,7 @@ template&lt;typename CompletionHandler &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -809,6 +809,9 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool CppServer::Asio::Service::Restart </td>
@@ -817,6 +820,11 @@ template&lt;typename CompletionHandler &gt; </div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Restart the service. </p>
@@ -831,6 +839,9 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool CppServer::Asio::Service::Start </td>
@@ -840,6 +851,11 @@ template&lt;typename CompletionHandler &gt; </div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Start the service. </p>
@@ -860,6 +876,9 @@ template&lt;typename CompletionHandler &gt; </div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool CppServer::Asio::Service::Stop </td>
@@ -868,6 +887,11 @@ template&lt;typename CompletionHandler &gt; </div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Stop the service. </p>
