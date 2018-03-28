@@ -67,7 +67,7 @@ public:
     /*!
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    bool Disconnect() { return Disconnect(false); }
+    virtual bool Disconnect() { return Disconnect(false); }
 
     //! Send data into the session
     /*!

@@ -79,17 +79,17 @@ public:
     /*!
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
-    bool Connect();
+    virtual bool Connect();
     //! Disconnect the client
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Disconnect() { return Disconnect(false); }
+    virtual bool Disconnect() { return Disconnect(false); }
     //! Reconnect the client
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
     */
-    bool Reconnect();
+    virtual bool Reconnect();
 
     //! Send data to the server
     /*!
@@ -97,13 +97,13 @@ public:
         \param size - Buffer size
         \return Count of pending bytes in the send buffer
     */
-    size_t Send(const void* buffer, size_t size);
+    virtual size_t Send(const void* buffer, size_t size);
     //! Send a text string to the server
     /*!
         \param text - Text string to send
         \return Count of pending bytes in the send buffer
     */
-    size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
+    virtual size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
 
     //! Setup option: no delay
     /*!

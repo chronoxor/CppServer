@@ -84,7 +84,7 @@ public:
     /*!
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
-    bool Start();
+    virtual bool Start();
     //! Start the server with a given multicast IP address and port number
     /*!
         \param multicast_address - Multicast IP address
@@ -92,24 +92,24 @@ public:
 
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
-    bool Start(const std::string& multicast_address, int multicast_port);
+    virtual bool Start(const std::string& multicast_address, int multicast_port);
     //! Start the server with a given multicast endpoint
     /*!
         \param multicast_endpoint - Multicast UDP endpoint
 
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
-    bool Start(const asio::ip::udp::endpoint& multicast_endpoint);
+    virtual bool Start(const asio::ip::udp::endpoint& multicast_endpoint);
     //! Stop the server
     /*!
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
     */
-    bool Stop();
+    virtual bool Stop();
     //! Restart the server
     /*!
         \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
     */
-    bool Restart();
+    virtual bool Restart();
 
     //! Multicast a datagram to the prepared mulicast endpoint
     /*!
@@ -117,13 +117,13 @@ public:
         \param size - Datagram buffer size
         \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    bool Multicast(const void* buffer, size_t size);
+    virtual bool Multicast(const void* buffer, size_t size);
     //! Multicast a text string to the prepared mulicast endpoint
     /*!
         \param text - Text string to multicast
         \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
+    virtual bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
 
     //! Send a datagram into the given endpoint
     /*!
@@ -132,14 +132,14 @@ public:
         \param size - Datagram buffer size
         \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
     //! Send a text string into the given endpoint
     /*!
         \param endpoint - Endpoint to send
         \param text - Text string to send
         \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
     */
-    bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
+    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
     //! Setup option: reuse address
     /*!

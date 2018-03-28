@@ -86,17 +86,17 @@ public:
         \param polling - Polling loop mode with idle handler call (default is false)
         \return 'true' if the service was successfully started, 'false' if the service failed to start
     */
-    bool Start(bool polling = false);
+    virtual bool Start(bool polling = false);
     //! Stop the service
     /*!
         \return 'true' if the service was successfully stopped, 'false' if the service is already stopped
     */
-    bool Stop();
+    virtual bool Stop();
     //! Restart the service
     /*!
         \return 'true' if the service was successfully restarted, 'false' if the service failed to restart
     */
-    bool Restart();
+    virtual bool Restart();
 
     //! Get the next available Asio IO service
     /*!
@@ -106,7 +106,7 @@ public:
 
         \return Asio IO service
     */
-    std::shared_ptr<asio::io_service>& GetAsioService() noexcept
+    virtual std::shared_ptr<asio::io_service>& GetAsioService() noexcept
     { return _services[++_round_robin_index % _services.size()]; }
 
     //! Dispatch the given handler

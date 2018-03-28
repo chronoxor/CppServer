@@ -95,17 +95,17 @@ public:
     /*!
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
-    bool Start();
+    virtual bool Start();
     //! Stop the server
     /*!
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
     */
-    bool Stop();
+    virtual bool Stop();
     //! Restart the server
     /*!
         \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
     */
-    bool Restart();
+    virtual bool Restart();
 
     //! Multicast data to all connected sessions
     /*!
@@ -113,19 +113,19 @@ public:
         \param size - Buffer size
         \return 'true' if the data was successfully multicast, 'false' if the server it not started
     */
-    bool Multicast(const void* buffer, size_t size);
+    virtual bool Multicast(const void* buffer, size_t size);
     //! Multicast a text string to all connected sessions
     /*!
         \param text - Text string to multicast
         \return 'true' if the text string was successfully multicast, 'false' if the server it not started
     */
-    bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
+    virtual bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
 
     //! Disconnect all connected sessions
     /*!
         \return 'true' if all sessions were successfully disconnected, 'false' if the server it not started
     */
-    bool DisconnectAll();
+    virtual bool DisconnectAll();
 
     //! Setup option: no delay
     /*!

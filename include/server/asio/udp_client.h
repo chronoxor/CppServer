@@ -87,28 +87,28 @@ public:
     /*!
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
-    bool Connect();
+    virtual bool Connect();
     //! Disconnect the client
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Disconnect() { return Disconnect(false); }
+    virtual bool Disconnect() { return Disconnect(false); }
     //! Reconnect the client
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
     */
-    bool Reconnect();
+    virtual bool Reconnect();
 
     //! Join multicast group with a given IP address
     /*!
         \param address - IP address
     */
-    void JoinMulticastGroup(const std::string& address);
+    virtual void JoinMulticastGroup(const std::string& address);
     //! Leave multicast group with a given IP address
     /*!
         \param address - IP address
     */
-    void LeaveMulticastGroup(const std::string& address);
+    virtual void LeaveMulticastGroup(const std::string& address);
 
     //! Send datagram to the connected server
     /*!
@@ -116,13 +116,13 @@ public:
         \param size - Buffer size
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    bool Send(const void* buffer, size_t size);
+    virtual bool Send(const void* buffer, size_t size);
     //! Send a text string to the connected server
     /*!
         \param text - Text string to send
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    bool Send(const std::string& text) { return Send(text.data(), text.size()); }
+    virtual bool Send(const std::string& text) { return Send(text.data(), text.size()); }
 
     //! Send datagram to the given endpoint
     /*!
@@ -131,14 +131,14 @@ public:
         \param size - Buffer size
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
     //! Send a text string to the given endpoint
     /*!
         \param endpoint - Endpoint to send
         \param text - Text string to send
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
+    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
     //! Setup option: reuse address
     /*!
