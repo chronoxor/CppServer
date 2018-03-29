@@ -17,11 +17,9 @@
 class MulticastClient : public CppServer::Asio::UDPClient
 {
 public:
-    std::string multicast;
-
-public:
-    MulticastClient(std::shared_ptr<CppServer::Asio::Service> service, const std::string& address, int port)
-        : CppServer::Asio::UDPClient(service, address, port)
+    MulticastClient(std::shared_ptr<CppServer::Asio::Service> service, const std::string& address, const std::string& multicast, int port)
+        : CppServer::Asio::UDPClient(service, address, port),
+          _multicast(multicast)
     {
         _stop = false;
     }
@@ -40,7 +38,7 @@ protected:
         std::cout << "Multicast UDP client connected a new session with Id " << id() << std::endl;
 
         // Join UDP multicast group
-        JoinMulticastGroup(multicast);
+        JoinMulticastGroup(_multicast);
     }
 
     void onDisconnected() override
@@ -67,6 +65,7 @@ protected:
 
 private:
     std::atomic<bool> _stop;
+    std::string _multicast;
 };
 
 int main(int argc, char** argv)
@@ -99,9 +98,8 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new UDP multicast client
-    auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_port);
+    auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_address, multicast_port);
     client->SetupMulticast(true);
-    client->multicast = multicast_address;
 
     // Connect the client
     std::cout << "Client connecting...";

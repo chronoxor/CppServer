@@ -76,6 +76,10 @@ public:
     bool option_reuse_address() const noexcept { return _option_reuse_address; }
     //! Get the option: reuse port
     bool option_reuse_port() const noexcept { return _option_reuse_port; }
+    //! Get the option: receive buffer size
+    size_t option_receive_buffer_size() const;
+    //! Get the option: send buffer size
+    size_t option_send_buffer_size() const;
 
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
@@ -155,6 +159,20 @@ public:
         \param enable - Enable/disable option
     */
     void SetupReusePort(bool enable) noexcept { _option_reuse_port = enable; }
+    //! Setup option: receive buffer size
+    /*!
+        This option will setup SO_RCVBUF if the OS support this feature.
+
+        \param size - Receive buffer size
+    */
+    void SetupReceiveBufferSize(size_t size);
+    //! Setup option: send buffer size
+    /*!
+        This option will setup SO_SNDBUF if the OS support this feature.
+
+        \param size - Send buffer size
+    */
+    void SetupSendBufferSize(size_t size);
 
 protected:
     //! Handle server started notification

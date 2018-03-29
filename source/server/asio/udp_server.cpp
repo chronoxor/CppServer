@@ -78,13 +78,37 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK + 1),
-      _option_reuse_address(false),
-      _option_reuse_port(false)
+      _recive_buffer(CHUNK + 1)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
+}
+
+size_t UDPServer::option_receive_buffer_size() const
+{
+    asio::socket_base::receive_buffer_size option;
+    _socket.get_option(option);
+    return option.value();
+}
+
+size_t UDPServer::option_send_buffer_size() const
+{
+    asio::socket_base::send_buffer_size option;
+    _socket.get_option(option);
+    return option.value();
+}
+
+void UDPServer::SetupReceiveBufferSize(size_t size)
+{
+    asio::socket_base::receive_buffer_size option((int)size);
+    _socket.set_option(option);
+}
+
+void UDPServer::SetupSendBufferSize(size_t size)
+{
+    asio::socket_base::send_buffer_size option((int)size);
+    _socket.set_option(option);
 }
 
 bool UDPServer::Start()
@@ -200,10 +224,10 @@ bool UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer
     assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
     assert((size > 0) && "Buffer size should be greater than zero!");
     if ((buffer == nullptr) || (size == 0))
-        return 0;
+        return false;
 
     if (!IsStarted())
-        return 0;
+        return false;
 
     asio::error_code ec;
 

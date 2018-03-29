@@ -1,9 +1,9 @@
 //
-// Created by Ivan Shynkarenka on 15.03.2017
+// Created by Ivan Shynkarenka on 29.03.2018
 //
 
 #include "server/asio/service.h"
-#include "server/asio/udp_client.h"
+#include "server/asio/ssl_client.h"
 
 #include "benchmark/reporter_console.h"
 #include "system/cpu.h"
@@ -19,8 +19,6 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-std::vector<uint8_t> message_to_send;
-
 std::atomic<uint64_t> timestamp_start(0);
 std::atomic<uint64_t> timestamp_stop(0);
 
@@ -28,14 +26,13 @@ std::atomic<uint64_t> total_errors(0);
 std::atomic<uint64_t> total_bytes(0);
 std::atomic<uint64_t> total_messages(0);
 
-class EchoClient : public UDPClient
+class MulticastClient : public SSLClient
 {
 public:
-    EchoClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
-        : UDPClient(service, address, port),
+    MulticastClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
+        : SSLClient(service, context, address, port),
           _connected(false)
     {
-        _messages = messages;
     }
 
     bool connected() const noexcept { return _connected; }
@@ -44,17 +41,11 @@ protected:
     void onConnected() override
     {
         _connected = true;
-
-        SendMessage();
     }
 
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
-        timestamp_stop = Timestamp::nano();
         total_bytes += size;
-        ++total_messages;
-
-        SendMessage();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -65,15 +56,6 @@ protected:
 
 private:
     std::atomic<bool> _connected;
-    int _messages;
-
-    void SendMessage()
-    {
-        if (_messages-- > 0)
-            Send(message_to_send.data(), message_to_send.size());
-        else
-            Disconnect();
-    }
 };
 
 int main(int argc, char** argv)
@@ -82,10 +64,9 @@ int main(int argc, char** argv)
 
     parser.add_option("-h", "--help").help("Show help");
     parser.add_option("-a", "--address").set_default("127.0.0.1").help("Server address. Default: %default");
-    parser.add_option("-p", "--port").action("store").type("int").set_default(3333).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
-    parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");
     parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
@@ -102,18 +83,13 @@ int main(int argc, char** argv)
     int port = options.get("port");
     int threads_count = options.get("threads");
     int clients_count = options.get("clients");
-    int messages_count = options.get("messages");
     int message_size = options.get("size");
 
     std::cout << "Server address: " << address << std::endl;
     std::cout << "Server port: " << port << std::endl;
     std::cout << "Working threads: " << threads_count << std::endl;
     std::cout << "Working clients: " << clients_count << std::endl;
-    std::cout << "Messages to send: " << messages_count << std::endl;
     std::cout << "Message size: " << message_size << std::endl;
-
-    // Prepare a message to send
-    message_to_send.resize(message_size, 0);
 
     // Create a new Asio service
     auto service = std::make_shared<Service>(threads_count);
@@ -123,13 +99,17 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
-    // Create echo clients
-    std::vector<std::shared_ptr<EchoClient>> clients;
+    // Create and prepare a new SSL client context
+    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::tlsv12);
+    context->set_verify_mode(asio::ssl::verify_peer);
+    context->load_verify_file("../tools/certificates/ca.pem");
+
+    // Create multicast clients
+    std::vector<std::shared_ptr<MulticastClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
-        auto client = std::make_shared<EchoClient>(service, address, port, messages_count / clients_count);
-        client->SetupReuseAddress(true);
-        client->SetupReusePort(true);
+        auto client = std::make_shared<MulticastClient>(service, context, address, port);
+        // client->SetupNoDelay(true);
         clients.emplace_back(client);
     }
 
@@ -145,14 +125,22 @@ int main(int argc, char** argv)
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 
-    // Wait for processing all messages
+    // Sleep for 10 seconds...
     std::cout << "Processing...";
-    for (auto& client : clients)
-    {
-        while (client->IsConnected())
-            Thread::Sleep(100);
-    }
+    Thread::Sleep(10000);
     std::cout << "Done!" << std::endl;
+
+    // Disconnect clients
+    std::cout << "Clients disconnecting...";
+    for (auto& client : clients)
+        client->Disconnect();
+    std::cout << "Done!" << std::endl;
+    for (auto& client : clients)
+        while (client->IsConnected())
+            Thread::Yield();
+    std::cout << "All clients disconnected!" << std::endl;
+
+    timestamp_stop = Timestamp::nano();
 
     // Stop the Asio service
     std::cout << "Asio service stopping...";
@@ -165,7 +153,9 @@ int main(int argc, char** argv)
 
     std::cout << std::endl;
 
-    std::cout << "Round-trip time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
+    total_messages = total_bytes / message_size;
+
+    std::cout << "Multicast time: " << CppBenchmark::ReporterConsole::GenerateTimePeriod(timestamp_stop - timestamp_start) << std::endl;
     std::cout << "Total data: " << CppBenchmark::ReporterConsole::GenerateDataSize(total_bytes) << std::endl;
     std::cout << "Total messages: " << total_messages << std::endl;
     std::cout << "Data throughput: " << CppBenchmark::ReporterConsole::GenerateDataSize(total_bytes * 1000000000 / (timestamp_stop - timestamp_start)) << " per second" << std::endl;

@@ -59,6 +59,32 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
+size_t TCPClient::option_receive_buffer_size() const
+{
+    asio::socket_base::receive_buffer_size option;
+    _socket.get_option(option);
+    return option.value();
+}
+
+size_t TCPClient::option_send_buffer_size() const
+{
+    asio::socket_base::send_buffer_size option;
+    _socket.get_option(option);
+    return option.value();
+}
+
+void TCPClient::SetupReceiveBufferSize(size_t size)
+{
+    asio::socket_base::receive_buffer_size option((int)size);
+    _socket.set_option(option);
+}
+
+void TCPClient::SetupSendBufferSize(size_t size)
+{
+    asio::socket_base::send_buffer_size option((int)size);
+    _socket.set_option(option);
+}
+
 bool TCPClient::Connect()
 {
     if (IsConnected())
@@ -173,17 +199,16 @@ bool TCPClient::Reconnect()
     return Connect();
 }
 
-size_t TCPClient::Send(const void* buffer, size_t size)
+bool TCPClient::Send(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
     assert((size > 0) && "Buffer size should be greater than zero!");
     if ((buffer == nullptr) || (size == 0))
-        return 0;
+        return false;
 
     if (!IsConnected())
-        return 0;
+        return false;
 
-    size_t result;
     {
         std::lock_guard<std::mutex> locker(_send_lock);
 
@@ -193,11 +218,10 @@ size_t TCPClient::Send(const void* buffer, size_t size)
         // Fill the main send buffer
         const uint8_t* bytes = (const uint8_t*)buffer;
         _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);
-        result = _send_buffer_main.size();
 
         // Avoid multiple send hanlders
         if (!send_required)
-            return result;
+            return true;
     }
 
     // Dispatch the send handler
@@ -212,7 +236,7 @@ size_t TCPClient::Send(const void* buffer, size_t size)
     else
         _io_service->dispatch(send_handler);
 
-    return result;
+    return true;
 }
 
 void TCPClient::TryReceive()

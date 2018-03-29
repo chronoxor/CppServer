@@ -76,6 +76,10 @@ public:
 
     //! Get the option: no delay
     bool option_no_delay() const noexcept;
+    //! Get the option: receive buffer size
+    size_t option_receive_buffer_size() const;
+    //! Get the option: send buffer size
+    size_t option_send_buffer_size() const;
 
     //! Is the client connected?
     bool IsConnected() const noexcept;
@@ -102,15 +106,15 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the data was successfully sent, 'false' if the client it not connected
     */
-    virtual size_t Send(const void* buffer, size_t size);
+    virtual bool Send(const void* buffer, size_t size);
     //! Send a text string to the server
     /*!
         \param text - Text string to send
-        \return Count of pending bytes in the send buffer
+        \return 'true' if the data was successfully sent, 'false' if the client it not connected
     */
-    virtual size_t Send(const std::string& text) { return Send(text.data(), text.size()); }
+    virtual bool Send(const std::string& text) { return Send(text.data(), text.size()); }
 
     //! Setup option: no delay
     /*!
@@ -121,6 +125,20 @@ public:
         \param enable - Enable/disable option
     */
     void SetupNoDelay(bool enable) noexcept;
+    //! Setup option: receive buffer size
+    /*!
+        This option will setup SO_RCVBUF if the OS support this feature.
+
+        \param size - Receive buffer size
+    */
+    void SetupReceiveBufferSize(size_t size);
+    //! Setup option: send buffer size
+    /*!
+        This option will setup SO_SNDBUF if the OS support this feature.
+
+        \param size - Send buffer size
+    */
+    void SetupSendBufferSize(size_t size);
 
 protected:
     //! Handle client connected notification

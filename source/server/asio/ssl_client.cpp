@@ -99,6 +99,20 @@ public:
 
     bool option_no_delay() const noexcept { return _option_no_delay; }
 
+    size_t option_receive_buffer_size() const
+    {
+        asio::socket_base::receive_buffer_size option;
+        _stream.lowest_layer().get_option(option);
+        return option.value();
+    }
+
+    size_t option_send_buffer_size() const
+    {
+        asio::socket_base::send_buffer_size option;
+        _stream.lowest_layer().get_option(option);
+        return option.value();
+    }
+
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
 
@@ -245,17 +259,16 @@ public:
         return true;
     }
 
-    size_t Send(const void* buffer, size_t size)
+    bool Send(const void* buffer, size_t size)
     {
         assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
         assert((size > 0) && "Buffer size should be greater than zero!");
         if ((buffer == nullptr) || (size == 0))
-            return 0;
+            return false;
 
         if (!IsHandshaked())
-            return 0;
+            return false;
 
-        size_t result;
         {
             std::lock_guard<std::mutex> locker(_send_lock);
 
@@ -265,11 +278,10 @@ public:
             // Fill the main send buffer
             const uint8_t* bytes = (const uint8_t*)buffer;
             _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);
-            result = _send_buffer_main.size();
 
             // Avoid multiple send hanlders
             if (!send_required)
-                return result;
+                return true;
         }
 
         // Dispatch the send handler
@@ -284,10 +296,22 @@ public:
         else
             _io_service->dispatch(send_handler);
 
-        return result;
+        return true;
     }
 
     void SetupNoDelay(bool enable) noexcept { _option_no_delay = enable; }
+
+    void SetupReceiveBufferSize(size_t size)
+    {
+        asio::socket_base::receive_buffer_size option((int)size);
+        _stream.lowest_layer().set_option(option);
+    }
+
+    void SetupSendBufferSize(size_t size)
+    {
+        asio::socket_base::send_buffer_size option((int)size);
+        _stream.lowest_layer().set_option(option);
+    }
 
 protected:
     void onConnected() { _client->onConnected(); }
@@ -592,6 +616,16 @@ bool SSLClient::option_no_delay() const noexcept
     return _pimpl->option_no_delay();
 }
 
+size_t SSLClient::option_receive_buffer_size() const
+{
+    return _pimpl->option_receive_buffer_size();
+}
+
+size_t SSLClient::option_send_buffer_size() const
+{
+    return _pimpl->option_send_buffer_size();
+}
+
 bool SSLClient::IsConnected() const noexcept
 {
     return _pimpl->IsConnected();
@@ -624,7 +658,7 @@ bool SSLClient::Reconnect()
     return Connect();
 }
 
-size_t SSLClient::Send(const void* buffer, size_t size)
+bool SSLClient::Send(const void* buffer, size_t size)
 {
     return _pimpl->Send(buffer, size);
 }
@@ -632,6 +666,16 @@ size_t SSLClient::Send(const void* buffer, size_t size)
 void SSLClient::SetupNoDelay(bool enable) noexcept
 {
     return _pimpl->SetupNoDelay(enable);
+}
+
+void SSLClient::SetupReceiveBufferSize(size_t size)
+{
+    return _pimpl->SetupReceiveBufferSize(size);
+}
+
+void SSLClient::SetupSendBufferSize(size_t size)
+{
+    return _pimpl->SetupSendBufferSize(size);
 }
 
 void SSLClient::onReset()

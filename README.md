@@ -31,7 +31,11 @@ client/server solutions.
     * [Example: UDP multicast server](#example-udp-multicast-server)
     * [Example: UDP multicast client](#example-udp-multicast-client)
   * [Performance](#performance)
-    * [Benchmark: Round-Trip Time](#benchmark-round-trip-time)
+    * [Benchmark: Round-Trip](#benchmark-round-trip)
+      * [TCP echo server](#tcp-echo-server)
+      * [SSL echo server](#ssl-echo-server)
+      * [UDP echo server](#udp-echo-server)
+    * [Benchmark: Multicast](#benchmark-multicast)
       * [TCP echo server](#tcp-echo-server)
       * [SSL echo server](#ssl-echo-server)
       * [UDP echo server](#udp-echo-server)
@@ -1155,7 +1159,7 @@ Process bits: 64-bit
 Process configuaraion: release
 ```
 
-## Benchmark: Round-Trip Time
+## Benchmark: Round-Trip
 
 This scenario sends lots of messages from several clients to a server.
 The server responses to each message and resend the similar response to
@@ -1289,6 +1293,133 @@ Message latency: 4.499 mcs
 Message throughput: 222236 messages per second
 ```
 
+## Benchmark: Multicast
+
+In this scenario server multicasts messages to all connected clients.
+The benchmark counts total messages received by all clients for all
+the working time and measures messages & bytes throughput, count
+of errors.
+
+### TCP echo server
+
+* [cppserver-performance-tcp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_server.cpp)
+* [cppserver-performance-tcp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_client.cpp) -c 1 -t 1
+```
+Server address: 127.0.0.1
+Server port: 1111
+Working threads: 1
+Working clients: 1
+Message size: 32
+
+Errors: 0
+
+Multicast time: 10.023 s
+Total data: 75.025 MiB
+Total messages: 2458402
+Data throughput: 7.496 MiB per second
+Message latency: 4.077 mcs
+Message throughput: 245269 messages per second
+```
+
+* [cppserver-performance-tcp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_server.cpp)
+* [cppserver-performance-tcp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_client.cpp) -c 100 -t 4
+```
+Server address: 127.0.0.1
+Server port: 1111
+Working threads: 4
+Working clients: 100
+Message size: 32
+
+Errors: 0
+
+Multicast time: 10.012 s
+Total data: 3.373 GiB
+Total messages: 112902830
+Data throughput: 344.127 MiB per second
+Message latency: 88 ns
+Message throughput: 11276267 messages per second
+```
+
+### SSL echo server
+
+* [cppserver-performance-ssl_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_server.cpp)
+* [cppserver-performance-ssl_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_client.cpp) -c 1 -t 1
+```
+Server address: 127.0.0.1
+Server port: 2222
+Working threads: 1
+Working clients: 1
+Message size: 32
+
+Errors: 0
+
+Multicast time: 10.008 s
+Total data: 125.439 MiB
+Total messages: 4110078
+Data throughput: 12.545 MiB per second
+Message latency: 2.435 mcs
+Message throughput: 410666 messages per second
+```
+
+* [cppserver-performance-ssl_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_server.cpp)
+* [cppserver-performance-ssl_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_client.cpp) -c 100 -t 4
+```
+Server address: 127.0.0.1
+Server port: 2222
+Working threads: 4
+Working clients: 100
+Message size: 32
+
+Errors: 0
+
+Multicast time: 10.013 s
+Total data: 3.010 GiB
+Total messages: 101017887
+Data throughput: 307.878 MiB per second
+Message latency: 99 ns
+Message throughput: 10087872 messages per second
+```
+
+### UDP echo server
+
+* [cppserver-performance-udp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_server.cpp)
+* [cppserver-performance-udp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_client.cpp) -c 1 -t 1
+```
+Server address: 239.255.0.1
+Server port: 3333
+Working threads: 1
+Working clients: 1
+Message size: 32
+
+Errors: 0
+
+Multicast time: 10.008 s
+Total data: 11.937 MiB
+Total messages: 390439
+Data throughput: 1.195 MiB per second
+Message latency: 25.633 mcs
+Message throughput: 39011 messages per second
+```
+
+* [cppserver-performance-udp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_server.cpp)
+* [cppserver-performance-udp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_client.cpp) -c 100 -t 4
+```
+.. Server address: 239.255.0.1
+Server port: 3333
+Working threads: 4
+Working clients: 100
+Message size: 32
+
+Errors: 0
+
+Multicast time: 10.012 s
+Total data: 76.771 MiB
+Total messages: 2515041
+Data throughput: 7.681 MiB per second
+Message latency: 3.981 mcs
+Message throughput: 251184 messages per second
+```
+
 # OpenSSL certificates
 In order to create OpenSSL based server and client you should prepare a set of
 SSL certificates. Here comes several steps to get a self-signed set of SSL
@@ -1391,4 +1522,3 @@ openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in client.p12 
 ```
 openssl dhparam -out dh4096.pem 4096
 ```
-..

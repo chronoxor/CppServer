@@ -79,6 +79,10 @@ public:
     bool option_reuse_port() const noexcept { return _option_reuse_port; }
     //! Get the option: bind the socket to the multicast UDP server
     bool option_multicast() const noexcept { return _option_multicast; }
+    //! Get the option: receive buffer size
+    size_t option_receive_buffer_size() const;
+    //! Get the option: send buffer size
+    size_t option_send_buffer_size() const;
 
     //! Is the client connected?
     bool IsConnected() const noexcept { return _connected; }
@@ -159,6 +163,20 @@ public:
         \param enable - Enable/disable option
     */
     void SetupMulticast(bool enable) noexcept { _option_reuse_address = enable; _option_multicast = enable; }
+    //! Setup option: receive buffer size
+    /*!
+        This option will setup SO_RCVBUF if the OS support this feature.
+
+        \param size - Receive buffer size
+    */
+    void SetupReceiveBufferSize(size_t size);
+    //! Setup option: send buffer size
+    /*!
+        This option will setup SO_SNDBUF if the OS support this feature.
+
+        \param size - Send buffer size
+    */
+    void SetupSendBufferSize(size_t size);
 
 protected:
     //! Handle client connected notification

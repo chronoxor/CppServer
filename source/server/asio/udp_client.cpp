@@ -59,6 +59,32 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
+size_t UDPClient::option_receive_buffer_size() const
+{
+    asio::socket_base::receive_buffer_size option;
+    _socket.get_option(option);
+    return option.value();
+}
+
+size_t UDPClient::option_send_buffer_size() const
+{
+    asio::socket_base::send_buffer_size option;
+    _socket.get_option(option);
+    return option.value();
+}
+
+void UDPClient::SetupReceiveBufferSize(size_t size)
+{
+    asio::socket_base::receive_buffer_size option((int)size);
+    _socket.set_option(option);
+}
+
+void UDPClient::SetupSendBufferSize(size_t size)
+{
+    asio::socket_base::send_buffer_size option((int)size);
+    _socket.set_option(option);
+}
+
 bool UDPClient::Connect()
 {
     if (IsConnected())
