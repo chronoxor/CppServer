@@ -158,7 +158,7 @@ int main(int argc, char** argv)
     {
         // Create echo client
         auto client = std::make_shared<EchoClient>(service, context, address, port, messages_count / clients_count);
-        client->SetupNoDelay(true);
+        // client->SetupNoDelay(true);
         clients.emplace_back(client);
     }
 

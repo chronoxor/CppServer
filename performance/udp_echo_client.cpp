@@ -128,8 +128,6 @@ int main(int argc, char** argv)
     for (int i = 0; i < clients_count; ++i)
     {
         auto client = std::make_shared<EchoClient>(service, address, port, messages_count / clients_count);
-        client->SetupReuseAddress(true);
-        client->SetupReusePort(true);
         clients.emplace_back(client);
     }
 

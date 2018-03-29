@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 
     // Create a new echo server
     auto server = std::make_shared<EchoServer>(service, context, InternetProtocol::IPv4, port);
-    server->SetupNoDelay(true);
+    // server->SetupNoDelay(true);
     server->SetupReuseAddress(true);
     server->SetupReusePort(true);
 
