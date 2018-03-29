@@ -26,10 +26,7 @@ public:
     bool Send(const void* buffer, size_t size) override
     {
         // Limit session send buffer to 1 megabyte
-        if ((bytes_pending() + size) > 1 * 1024 * 1024)
-            return false;
-
-        return SSLSession::Send(buffer, size);
+        return bytes_pending() + size <= 1 * 1024 * 1024;
     }
 
 protected:
