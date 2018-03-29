@@ -99,13 +99,13 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return 'true' if the data was successfully sent, 'false' if the client it not connected
+        \return 'true' if the data was successfully sent, 'false' if the client is not connected
     */
     virtual bool Send(const void* buffer, size_t size);
     //! Send a text string to the server
     /*!
         \param text - Text string to send
-        \return 'true' if the data was successfully sent, 'false' if the client it not connected
+        \return 'true' if the data was successfully sent, 'false' if the client is not connected
     */
     virtual bool Send(const std::string& text) { return Send(text.data(), text.size()); }
 

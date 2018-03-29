@@ -78,13 +78,13 @@ public:
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
-        \return 'true' if the data was successfully sent, 'false' if the session it not connected
+        \return 'true' if the data was successfully sent, 'false' if the session is not connected
     */
     virtual bool Send(const void* buffer, size_t size);
     //! Send a text string into the session
     /*!
         \param text - Text string to send
-        \return 'true' if the data was successfully sent, 'false' if the session it not connected
+        \return 'true' if the data was successfully sent, 'false' if the session is not connected
     */
     virtual bool Send(const std::string& text) { return Send(text.data(), text.size()); }
 

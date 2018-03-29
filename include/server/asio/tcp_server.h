@@ -106,19 +106,19 @@ public:
     /*!
         \param buffer - Buffer to multicast
         \param size - Buffer size
-        \return 'true' if the data was successfully multicast, 'false' if the server it not started
+        \return 'true' if the data was successfully multicast, 'false' if the server is not started
     */
     virtual bool Multicast(const void* buffer, size_t size);
     //! Multicast a text string to all connected sessions
     /*!
         \param text - Text string to multicast
-        \return 'true' if the text string was successfully multicast, 'false' if the server it not started
+        \return 'true' if the text string was successfully multicast, 'false' if the server is not started
     */
     virtual bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
 
     //! Disconnect all connected sessions
     /*!
-        \return 'true' if all sessions were successfully disconnected, 'false' if the server it not started
+        \return 'true' if all sessions were successfully disconnected, 'false' if the server is not started
     */
     virtual bool DisconnectAll();
 
