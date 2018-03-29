@@ -36,9 +36,9 @@ client/server solutions.
       * [SSL echo server](#ssl-echo-server)
       * [UDP echo server](#udp-echo-server)
     * [Benchmark: Multicast](#benchmark-multicast)
-      * [TCP echo server](#tcp-echo-server)
-      * [SSL echo server](#ssl-echo-server)
-      * [UDP echo server](#udp-echo-server)
+      * [TCP echo server](#tcp-multicast-server)
+      * [SSL echo server](#ssl-multicast-server)
+      * [UDP echo server](#udp-multicast-server)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -1300,7 +1300,7 @@ The benchmark counts total messages received by all clients for all
 the working time and measures messages & bytes throughput, count
 of errors.
 
-### TCP echo server
+### TCP multicast server
 
 * [cppserver-performance-tcp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_server.cpp)
 * [cppserver-performance-tcp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_client.cpp) -c 1 -t 1
@@ -1340,7 +1340,7 @@ Message latency: 88 ns
 Message throughput: 11276267 messages per second
 ```
 
-### SSL echo server
+### SSL multicast server
 
 * [cppserver-performance-ssl_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_server.cpp)
 * [cppserver-performance-ssl_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_client.cpp) -c 1 -t 1
@@ -1380,7 +1380,7 @@ Message latency: 99 ns
 Message throughput: 10087872 messages per second
 ```
 
-### UDP echo server
+### UDP multicast server
 
 * [cppserver-performance-udp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_server.cpp)
 * [cppserver-performance-udp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_client.cpp) -c 1 -t 1
