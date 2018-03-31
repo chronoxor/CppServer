@@ -72,7 +72,7 @@ before_install:
   - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then mkdir llvm-build && cd llvm-build; fi
   - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then cmake -DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX} -DCMAKE_INSTALL_PREFIX=/usr ../llvm-source; fi
   - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then make cxx -j2; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then sudo make install-cxxabi install-cxx; fi
+  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then sudo make install-cxx install-cxxabi; fi
   - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then popd; fi
   # brew, doxygen, graphviz
   - if [ "$OS" == "osx" ]; then brew update; fi
