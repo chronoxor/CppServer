@@ -6,6 +6,10 @@
 	path = cmake
 	url = https://github.com/chronoxor/CppCMakeScripts.git
 	branch = master
+[submodule "modules/asio"]
+	path = modules/asio
+	url = https://github.com/chriskohlhoff/asio.git
+	branch = master
 [submodule "modules/cpp-optparse"]
 	path = modules/cpp-optparse
 	url = https://github.com/weisslj/cpp-optparse.git
