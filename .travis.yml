@@ -29,8 +29,7 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - clang-6.0
-            - libc++-dev
-            - libc++abi-dev
+            - libstdc++-6-dev
             - cmake
             - doxygen
             - graphviz
@@ -65,15 +64,6 @@ before_install:
   - if [ "$OS" != "osx" ] && [ "$COMPILER" = "gcc" ]; then export CC="gcc-${GCC_VERSION}" CXX="g++-${GCC_VERSION}"; fi
   # clang, libc++, libc++abi
   - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then export CC="clang-${CLANG_VERSION}" CXX="clang++-${CLANG_VERSION}"; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then pushd .; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then git clone --depth=1 https://github.com/llvm-mirror/llvm.git llvm-source; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then git clone --depth=1 https://github.com/llvm-mirror/libcxx.git llvm-source/projects/libcxx; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then git clone --depth=1 https://github.com/llvm-mirror/libcxxabi.git llvm-source/projects/libcxxabi; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then mkdir llvm-build && cd llvm-build; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then cmake -DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX} -DCMAKE_INSTALL_PREFIX=/usr ../llvm-source; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then make cxx -j2; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then sudo make install-cxx install-cxxabi; fi
-  - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then popd; fi
   # brew, doxygen, graphviz
   - if [ "$OS" == "osx" ]; then brew update; fi
   - if [ "$OS" == "osx" ]; then brew install doxygen; fi
