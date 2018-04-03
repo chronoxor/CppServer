@@ -22,6 +22,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _connecting(false),
       _connected(false),
       _bytes_pending(0),
+      _bytes_sending(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -45,6 +46,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _connecting(false),
       _connected(false),
       _bytes_pending(0),
+      _bytes_sending(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -114,6 +116,7 @@ bool TCPClient::Connect()
 
                 // Reset statistic
                 _bytes_pending = 0;
+                _bytes_sending = 0;
                 _bytes_sent = 0;
                 _bytes_received = 0;
 
@@ -222,6 +225,9 @@ bool TCPClient::Send(const void* buffer, size_t size)
         const uint8_t* bytes = (const uint8_t*)buffer;
         _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);
 
+        // Update statistic
+        _bytes_pending = _send_buffer_main.size();
+
         // Avoid multiple send hanlders
         if (!send_required)
             return true;
@@ -307,7 +313,8 @@ void TCPClient::TrySend()
         _send_buffer_flush_offset = 0;
 
         // Update statistic
-        _bytes_pending += _send_buffer_flush.size();
+        _bytes_pending = 0;
+        _bytes_sending += _send_buffer_flush.size();
     }
     else
         return;
@@ -334,7 +341,7 @@ void TCPClient::TrySend()
         if (size > 0)
         {
             // Update statistic
-            _bytes_pending -= size;
+            _bytes_sending -= size;
             _bytes_sent += size;
 
             // Increase the flush buffer offset
@@ -349,7 +356,7 @@ void TCPClient::TrySend()
             }
 
             // Call the buffer sent handler
-            onSent(size, _bytes_pending);
+            onSent(size, bytes_pending());
         }
 
         // Try to send again if the session is valid
@@ -381,6 +388,7 @@ void TCPClient::ClearBuffers()
 
         // Update statistic
         _bytes_pending = 0;
+        _bytes_sending = 0;
     }
 }
 

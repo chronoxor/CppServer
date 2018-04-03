@@ -63,7 +63,7 @@ public:
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
     //! Get the number of bytes pending sent by the client
-    uint64_t bytes_pending() const noexcept { return _bytes_pending; }
+    uint64_t bytes_pending() const noexcept { return _bytes_pending + _bytes_sending; }
     //! Get the number of bytes sent by the client
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by the client
@@ -195,6 +195,7 @@ private:
     std::atomic<bool> _connected;
     // Client statistic
     uint64_t _bytes_pending;
+    uint64_t _bytes_sending;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Receive buffer & cache

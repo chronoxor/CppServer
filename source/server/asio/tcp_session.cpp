@@ -21,6 +21,7 @@ TCPSession::TCPSession(std::shared_ptr<TCPServer> server)
       _socket(*_io_service),
       _connected(false),
       _bytes_pending(0),
+      _bytes_sending(0),
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
@@ -68,6 +69,7 @@ void TCPSession::Connect()
 
     // Reset statistic
     _bytes_pending = 0;
+    _bytes_sending = 0;
     _bytes_sent = 0;
     _bytes_received = 0;
 
@@ -164,6 +166,9 @@ bool TCPSession::Send(const void* buffer, size_t size)
         const uint8_t* bytes = (const uint8_t*)buffer;
         _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);
 
+        // Update statistic
+        _bytes_pending = _send_buffer_main.size();
+
         // Avoid multiple send hanlders
         if (!send_required)
             return true;
@@ -250,7 +255,8 @@ void TCPSession::TrySend()
         _send_buffer_flush_offset = 0;
 
         // Update statistic
-        _bytes_pending += _send_buffer_flush.size();
+        _bytes_pending = 0;
+        _bytes_sending += _send_buffer_flush.size();
     }
     else
         return;
@@ -277,7 +283,7 @@ void TCPSession::TrySend()
         if (size > 0)
         {
             // Update statistic
-            _bytes_pending -= size;
+            _bytes_sending -= size;
             _bytes_sent += size;
             _server->_bytes_sent += size;
 
@@ -293,7 +299,7 @@ void TCPSession::TrySend()
             }
 
             // Call the buffer sent handler
-            onSent(size, _bytes_pending);
+            onSent(size, bytes_pending());
         }
 
         // Try to send again if the session is valid
@@ -325,6 +331,7 @@ void TCPSession::ClearBuffers()
 
         // Update statistic
         _bytes_pending = 0;
+        _bytes_sending = 0;
     }
 }
 
