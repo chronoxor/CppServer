@@ -26,7 +26,10 @@ public:
     bool Send(const void* buffer, size_t size) override
     {
         // Limit session send buffer to 1 megabyte
-        return bytes_pending() + size <= 1 * 1024 * 1024;
+        if ((bytes_pending() + size) > 1 * 1024 * 1024)
+            return false;
+
+        return TCPSession::Send(buffer, size);
     }
 
 protected:

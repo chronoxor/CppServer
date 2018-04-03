@@ -37,9 +37,6 @@ namespace CppServer {
 */
 namespace Asio {
 
-//! Socket buffer chunk
-const size_t CHUNK = 8192;
-
 //! Internet protocol
 enum class InternetProtocol
 {

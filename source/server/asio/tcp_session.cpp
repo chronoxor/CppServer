@@ -24,7 +24,6 @@ TCPSession::TCPSession(std::shared_ptr<TCPServer> server)
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK + 1),
       _sending(false),
       _send_buffer_flush_offset(0)
 {
@@ -61,6 +60,11 @@ void TCPSession::Connect()
     // Apply the option: no delay
     if (_server->option_no_delay())
         _socket.set_option(asio::ip::tcp::no_delay(true));
+
+    // Prepare receive & send buffers
+    _recive_buffer.resize(option_receive_buffer_size());
+    _send_buffer_main.reserve(option_send_buffer_size());
+    _send_buffer_flush.reserve(option_send_buffer_size());
 
     // Reset statistic
     _bytes_pending = 0;

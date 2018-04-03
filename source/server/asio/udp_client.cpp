@@ -25,7 +25,6 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK + 1),
       _option_reuse_address(false),
       _option_reuse_port(false),
       _option_multicast(false)
@@ -49,7 +48,6 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK + 1),
       _option_reuse_address(false),
       _option_reuse_port(false),
       _option_multicast(false)
@@ -112,6 +110,9 @@ bool UDPClient::Connect()
             _socket.bind(_endpoint);
         else
             _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
+
+        // Prepare receive buffer
+        _recive_buffer.resize(option_receive_buffer_size());
 
         // Reset statistic
         _datagrams_sent = 0;

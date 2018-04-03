@@ -29,6 +29,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
 
+    // Prepare endpoint
     switch (protocol)
     {
         case InternetProtocol::IPv4:
@@ -58,6 +59,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, const std::string& addres
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
 
+    // Prepare endpoint
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
 }
 

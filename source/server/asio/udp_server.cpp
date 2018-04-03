@@ -23,7 +23,6 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK + 1),
       _option_reuse_address(false),
       _option_reuse_port(false)
 {
@@ -31,6 +30,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
 
+    // Prepare endpoint
     switch (protocol)
     {
         case InternetProtocol::IPv4:
@@ -54,7 +54,6 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
       _bytes_sent(0),
       _bytes_received(0),
       _reciving(false),
-      _recive_buffer(CHUNK + 1),
       _option_reuse_address(false),
       _option_reuse_port(false)
 {
@@ -62,6 +61,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
 
+    // Prepare endpoint
     _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
 }
 
@@ -77,8 +77,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
-      _reciving(false),
-      _recive_buffer(CHUNK + 1)
+      _reciving(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -136,6 +135,9 @@ bool UDPServer::Start()
         }
 #endif
         _socket.bind(_endpoint);
+
+        // Prepare receive buffer
+        _recive_buffer.resize(option_receive_buffer_size());
 
         // Reset statistic
         _datagrams_sent = 0;

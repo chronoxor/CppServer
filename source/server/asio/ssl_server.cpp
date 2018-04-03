@@ -34,6 +34,7 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
     if (context == nullptr)
         throw CppCommon::ArgumentException("SSL context is invalid!");
 
+    // Prepare endpoint
     switch (protocol)
     {
         case InternetProtocol::IPv4:
@@ -68,6 +69,7 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
     if (context == nullptr)
         throw CppCommon::ArgumentException("SSL context is invalid!");
 
+    // Prepare endpoint
     _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
 }
 
