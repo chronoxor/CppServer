@@ -1,7 +1,6 @@
 var searchData=
 [
   ['asio',['Asio',['../namespace_cpp_server_1_1_asio.html',1,'CppServer']]],
-  ['chunk',['CHUNK',['../namespace_cpp_server_1_1_asio.html#af2d93e8eaa42908b197901296d31b6b5',1,'CppServer::Asio']]],
   ['connect',['Connect',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abc6c97220479d4345f6d65b3ae2f5902',1,'CppServer::Asio::SSLClient::Connect()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a1252491897a4b58a4f3fb167a41d9678',1,'CppServer::Asio::TCPClient::Connect()'],['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#ad323993b3b207581b4f5b19f9709ca25',1,'CppServer::Asio::UDPClient::Connect()']]],
   ['connected_5fsessions',['connected_sessions',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a9ac709cd20f8141ce3f50620c3f61795',1,'CppServer::Asio::SSLServer::connected_sessions()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#adbcfb03aec03aaef076437be1553c66b',1,'CppServer::Asio::TCPServer::connected_sessions()']]],
   ['const_5fpointer',['const_pointer',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#ac04d8224e056a83b7026d56f5e835430',1,'CppServer::Asio::HandlerAllocator']]],
