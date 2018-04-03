@@ -24,6 +24,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(SetCompilerFeatures)
 include(SetCompilerWarnings)
 include(SetPlatformFeatures)
+include(SystemInformation)
 
 # External packages
 set(OPENSSL_USE_STATIC_LIBS TRUE)
