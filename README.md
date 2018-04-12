@@ -1404,7 +1404,7 @@ Message throughput: 39011 messages per second
 * [cppserver-performance-udp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_server.cpp)
 * [cppserver-performance-udp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_client.cpp) -c 100 -t 4
 ```
-.. Server address: 239.255.0.1
+Server address: 239.255.0.1
 Server port: 3333
 Working threads: 4
 Working clients: 100
