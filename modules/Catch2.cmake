@@ -1,6 +1,5 @@
 if(NOT Catch2)
 
-  # Module header
-  file(GLOB Catch2 "Catch2/single_include/catch.hpp")
+  set(Catch2 "${CMAKE_CURRENT_SOURCE_DIR}/Catch2/single_include" PARENT_SCOPE)
 
 endif()
