@@ -43,11 +43,11 @@ public:
     */
     SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
     SSLClient(const SSLClient&) = delete;
-    SSLClient(SSLClient&& client);
+    SSLClient(SSLClient&& client) noexcept;
     virtual ~SSLClient();
 
     SSLClient& operator=(const SSLClient&) = delete;
-    SSLClient& operator=(SSLClient&& client);
+    SSLClient& operator=(SSLClient&& client) noexcept;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept;
