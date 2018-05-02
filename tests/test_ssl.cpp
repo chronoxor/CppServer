@@ -86,7 +86,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    EchoSSLSession(std::shared_ptr<SSLServer> server)
+    explicit EchoSSLSession(std::shared_ptr<SSLServer> server)
         : SSLSession(server),
           connected(false),
           handshaked(false),

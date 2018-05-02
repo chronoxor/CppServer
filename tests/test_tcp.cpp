@@ -74,7 +74,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    EchoTCPSession(std::shared_ptr<TCPServer> server)
+    explicit EchoTCPSession(std::shared_ptr<TCPServer> server)
         : TCPSession(server),
           connected(false),
           disconnected(false),
