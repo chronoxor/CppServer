@@ -41,7 +41,7 @@ install:
   - choco install --cache "C:\ProgramData\chocolatey\cache" --force graphviz
   - choco install --cache "C:\ProgramData\chocolatey\cache" --force miktex
   # MinGW
-  - if "%type%"=="MinGW" if not exist "C:\mingw.7z" appveyor-retry appveyor DownloadFile "http://downloads.sourceforge.net/mingw-w64/x86_64-7.2.0-release-posix-seh-rt_v5-rev0.7z" -FileName "C:\mingw.7z"
+  - if "%type%"=="MinGW" if not exist "C:\mingw.7z" appveyor-retry appveyor DownloadFile "http://downloads.sourceforge.net/mingw-w64/x86_64-7.3.0-release-posix-seh-rt_v5-rev0.7z" -FileName "C:\mingw.7z"
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
   - if "%type%"=="MinGW" set PATH=C:\mingw64\bin;%PATH:C:\Program Files\Git\usr\bin;=%
   - if "%type%"=="MinGW" set INCLUDE=C:\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
