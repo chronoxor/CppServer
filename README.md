@@ -8,7 +8,7 @@
 C++ Server Library provides functionality to create different kind of
 client/server solutions.
 
-[CppServer API reference](http://chronoxor.github.io/CppServer/index.html)
+[CppServer API reference](https://chronoxor.github.io/CppServer/index.html)
 
 # Contents
   * [Features](#features)
@@ -47,7 +47,7 @@ client/server solutions.
 
 # Features
 * Cross platform (Linux, OSX, Windows)
-* [Asynchronous communication](http://think-async.com)
+* [Asynchronous communication](https://think-async.com)
 * Supported transport protocols: [TCP](#example-tcp-chat-server), [SSL](#example-ssl-chat-server),
   [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server)
 
@@ -55,14 +55,14 @@ client/server solutions.
 * Linux
 * OSX
 * Windows 7 / Windows 10
-* [CMake](http://www.cmake.org)
+* [CMake](https://www.cmake.org)
 * [GIT](https://git-scm.com)
 * [GCC](https://gcc.gnu.org)
 
 Optional:
-* [Clang](http://clang.llvm.org)
+* [Clang](https://clang.llvm.org)
 * [Clion](https://www.jetbrains.com/clion)
-* [MinGW](http://mingw-w64.org/doku.php)
+* [MinGW](https://mingw-w64.org/doku.php)
 * [Visual Studio](https://www.visualstudio.com)
 
 # How to build?
@@ -101,7 +101,7 @@ vs.bat
 # Asio
 
 ## Asio service
-Asio service is used to host all clients/servers based on [Asio C++ library](http://think-async.com).
+Asio service is used to host all clients/servers based on [Asio C++ library](https://think-async.com).
 It is implemented based on Asio C++ Library and use a separate thread to
 perform all asynchronous IO operations and communications.
 
