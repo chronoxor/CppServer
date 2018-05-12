@@ -63,7 +63,7 @@ int main(int argc, char** argv)
     if (options.get("help"))
     {
         parser.print_help();
-        parser.exit();
+        return 0;
     }
 
     // Server port
