@@ -248,12 +248,14 @@ bool UDPClient::Send(const void* buffer, size_t size)
 bool UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
-    assert((size > 0) && "Buffer size should be greater than zero!");
-    if ((buffer == nullptr) || (size == 0))
+    if (buffer == nullptr)
         return false;
 
     if (!IsConnected())
         return false;
+
+    if (size == 0)
+        return true;
 
     asio::error_code ec;
 

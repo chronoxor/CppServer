@@ -224,12 +224,14 @@ bool UDPServer::Multicast(const void* buffer, size_t size)
 bool UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
-    assert((size > 0) && "Buffer size should be greater than zero!");
-    if ((buffer == nullptr) || (size == 0))
+    if (buffer == nullptr)
         return false;
 
     if (!IsStarted())
         return false;
+
+    if (size == 0)
+        return true;
 
     asio::error_code ec;
 

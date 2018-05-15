@@ -195,12 +195,14 @@ bool SSLSession::Disconnect(bool dispatch)
 bool SSLSession::Send(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
-    assert((size > 0) && "Buffer size should be greater than zero!");
-    if ((buffer == nullptr) || (size == 0))
+    if (buffer == nullptr)
         return false;
 
     if (!IsHandshaked())
         return false;
+
+    if (size == 0)
+        return true;
 
     {
         std::lock_guard<std::mutex> locker(_send_lock);
