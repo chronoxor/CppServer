@@ -248,7 +248,7 @@ void SSLSession::TryReceive()
     // Async receive with the receive handler
     _reciving = true;
     auto self(this->shared_from_this());
-    auto async_receive_handler = make_alloc_handler(_recive_storage, [this, self](std::error_code ec, std::size_t size)
+    auto async_receive_handler = make_alloc_handler(_recive_storage, [this, self](std::error_code ec, size_t size)
     {
         _reciving = false;
 
@@ -320,7 +320,7 @@ void SSLSession::TrySend()
     // Async write with the write handler
     _sending = true;
     auto self(this->shared_from_this());
-    auto async_write_handler = make_alloc_handler(_send_storage, [this, self](std::error_code ec, std::size_t size)
+    auto async_write_handler = make_alloc_handler(_send_storage, [this, self](std::error_code ec, size_t size)
     {
         _sending = false;
 
