@@ -116,8 +116,8 @@ public:
 
     //! Send datagram to the connected server
     /*!
-        \param buffer - Buffer to send
-        \param size - Buffer size
+        \param buffer - Datagram buffer to send
+        \param size - Datagram buffer size
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
     virtual bool Send(const void* buffer, size_t size);
@@ -131,8 +131,8 @@ public:
     //! Send datagram to the given endpoint
     /*!
         \param endpoint - Endpoint to send
-        \param buffer - Buffer to send
-        \param size - Buffer size
+        \param buffer - Datagram buffer to send
+        \param size - Datagram buffer size
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
     virtual bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
