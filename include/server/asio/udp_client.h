@@ -121,10 +121,10 @@ public:
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
     virtual bool Send(const void* buffer, size_t size);
-    //! Send a text string to the connected server
+    //! Send text to the connected server
     /*!
         \param text - Text string to send
-        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+        \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
     virtual bool Send(const std::string& text) { return Send(text.data(), text.size()); }
 
@@ -136,11 +136,11 @@ public:
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
     virtual bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
-    //! Send a text string to the given endpoint
+    //! Send text to the given endpoint
     /*!
         \param endpoint - Endpoint to send
         \param text - Text string to send
-        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+        \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
     virtual bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
 
