@@ -21,9 +21,9 @@ cache:
 # Build matrix
 environment:
   matrix:
-    - type: Cygwin
-      build: C:\cygwin64\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER/build; exec 0</dev/null; ./cygwin.sh"
-      command: C:\cygwin64\bin\bash -lc
+#    - type: Cygwin
+#      build: C:\cygwin64\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER/build; exec 0</dev/null; ./cygwin.sh"
+#      command: C:\cygwin64\bin\bash -lc
     - type: MinGW
       build: call mingw.bat
       command: cmd /C
