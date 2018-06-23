@@ -38,7 +38,7 @@ matrix:
     - os: osx
       compiler: clang
       env: OS=osx COMPILER=clang
-      osx_image: xcode9.3
+      osx_image: xcode9.4
 
 # Using Trusty environment
 sudo: required
@@ -52,9 +52,6 @@ branches:
 # Scripts that run before install
 before_install:
   # cmake
-  - if [ "$OS" == "linux" ]; then curl -sSL https://cmake.org/files/v3.11/cmake-3.11.1-Linux-x86_64.sh -o install-cmake.sh; fi
-  - if [ "$OS" == "linux" ]; then chmod +x install-cmake.sh; fi
-  - if [ "$OS" == "linux" ]; then sudo ./install-cmake.sh --prefix=/usr/local --skip-license; fi
   - cmake --version
   # git
   - git config --global user.name "Travis CI"
