@@ -68,32 +68,32 @@ Optional:
 # How to build?
 
 ## Clone repository with submodules
-```
+```shell
 git clone https://github.com/chronoxor/CppServer.git CppServer
 cd CppServer
 git submodule update --init --recursive --remote
 ```
 
 ## Linux
-```
+```shell
 cd build
 ./unix.sh
 ```
 
 ## OSX
-```
+```shell
 cd build
 ./unix.sh
 ```
 
 ## Windows (MinGW)
-```
+```shell
 cd build
 mingw.bat
 ```
 
 ## Windows (Visual Studio)
-```
+```shell
 cd build
 vs.bat
 ```
@@ -117,7 +117,7 @@ Otherwise the handler will be enqueued to the I/O queue. In opposite the post
 method will always enqueue the handler into the I/O queue.
 
 Here comes an example of using custom Asio service with dispatch/post methods:
-```C++
+```c++
 #include "server/asio/service.h"
 #include "threads/thread.h"
 
@@ -228,7 +228,7 @@ Here comes the example of the TCP chat server. It handles multiple TCP client
 sessions and multicast received message from any session to all ones. Also it
 is possible to send admin message directly from the server.
 
-```C++
+```c++
 #include "server/asio/tcp_server.h"
 #include "threads/thread.h"
 
@@ -359,7 +359,7 @@ int main(int argc, char** argv)
 Here comes the example of the TCP chat client. It connects to the TCP chat
 server and allows to send message to it and receive new messages.
 
-```C++
+```c++
 #include "server/asio/tcp_client.h"
 #include "threads/thread.h"
 
@@ -473,7 +473,7 @@ is possible to send admin message directly from the server.
 This example is very similar to the TCP one except the code that prepares SSL
 context and handshake handler.
 
-```C++
+```c++
 #include "server/asio/ssl_server.h"
 #include "threads/thread.h"
 
@@ -615,7 +615,7 @@ server and allows to send message to it and receive new messages.
 This example is very similar to the TCP one except the code that prepares SSL
 context and handshake handler.
 
-```C++
+```c++
 #include "server/asio/ssl_client.h"
 #include "threads/thread.h"
 
@@ -734,7 +734,7 @@ int main(int argc, char** argv)
 Here comes the example of the UDP echo server. It receives a datagram mesage
 from any UDP client and resend it back without any changes.
 
-```C++
+```c++
 #include "server/asio/udp_server.h"
 #include "threads/thread.h"
 
@@ -823,7 +823,7 @@ int main(int argc, char** argv)
 Here comes the example of the UDP echo client. It sends user datagram message
 to UDP server and listen for response.
 
-```C++
+```c++
 #include "server/asio/udp_client.h"
 #include "threads/thread.h"
 
@@ -933,7 +933,7 @@ Here comes the example of the UDP multicast server. It use multicast IP address
 to multicast datagram messages to all client that joined corresponding UDP
 multicast group.
 
-```C++
+```c++
 #include "server/asio/udp_server.h"
 #include "threads/thread.h"
 
@@ -1024,7 +1024,7 @@ Here comes the example of the UDP multicast client. It use multicast IP address
 and joins UDP multicast group in order to receive multicasted datagram messages
 from UDP server.
 
-```C++
+```c++
 #include "server/asio/udp_client.h"
 #include "threads/thread.h"
 
@@ -1428,97 +1428,97 @@ certificates for testing purposes:
 ## Certificate Authority
 
 * Create CA private key
-```
+```shell
 openssl genrsa -des3 -passout pass:qwerty -out ca-secret.key 4096
 ```
 
 * Remove passphrase
-```
+```shell
 openssl rsa -passin pass:qwerty -in ca-secret.key -out ca.key
 ```
 
 * Create CA self-signed certificate
-```
+```shell
 openssl req -new -x509 -days 3650 -subj '/C=BY/ST=Belarus/L=Minsk/O=Example root CA/OU=Example CA unit/CN=example.com' -key ca.key -out ca.crt -config openssl.cfg
 ```
 
 * Convert CA self-signed certificate to PKCS
-```
+```shell
 openssl pkcs12 -clcerts -export -passout pass:qwerty -in ca.crt -inkey ca.key -out ca.p12
 ```
 
 * Convert CA self-signed certificate to PEM
-```
+```shell
 openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in ca.p12 -out ca.pem
 ```
 
 ## SSL Server certificate
 
 * Create private key for the server
-```
+```shell
 openssl genrsa -des3 -passout pass:qwerty -out server-secret.key 4096
 ```
 
 * Remove passphrase
-```
+```shell
 openssl rsa -passin pass:qwerty -in server-secret.key -out server.key
 ```
 
 * Create CSR for the server
-```
+```shell
 openssl req -new -subj '/C=BY/ST=Belarus/L=Minsk/O=Example server/OU=Example server unit/CN=server.example.com' -key server.key -out server.csr -config openssl.cfg
 ```
 
 * Create certificate for the server
-```
+```shell
 openssl x509 -req -days 3650 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt
 ```
 
 * Convert the server certificate to PKCS
-```
+```shell
 openssl pkcs12 -clcerts -export -passout pass:qwerty -in server.crt -inkey server.key -out server.p12
 ```
 
 * Convert the server certificate to PEM
-```
+```shell
 openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in server.p12 -out server.pem
 ```
 
 ## SSL Client certificate
 
 * Create private key for the client
-```
+```shell
 openssl genrsa -des3 -passout pass:qwerty -out client-secret.key 4096
 ```
 
 * Remove passphrase
-```
+```shell
 openssl rsa -passin pass:qwerty -in client-secret.key -out client.key
 ```
 
 * Create CSR for the client
-```
+```shell
 openssl req -new -subj '/C=BY/ST=Belarus/L=Minsk/O=Example client/OU=Example client unit/CN=client.example.com' -key client.key -out client.csr -config openssl.cfg
 ```
 
 * Create the client certificate
-```
+```shell
 openssl x509 -req -days 3650 -in client.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out client.crt
 ```
 
 * Convert the client certificate to PKCS
-```
+```shell
 openssl pkcs12 -clcerts -export -passout pass:qwerty -in client.crt -inkey client.key -out client.p12
 ```
 
 * Convert the client certificate to PEM
-```
+```shell
 openssl pkcs12 -clcerts -passin pass:qwerty -passout pass:qwerty -in client.p12 -out client.pem
 ```
 
 ## Diffie-Hellman key exchange
 
 * Create DH parameters
-```
+```shell
 openssl dhparam -out dh4096.pem 4096
 ```
