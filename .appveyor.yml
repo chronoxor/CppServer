@@ -47,7 +47,9 @@ install:
   # Cygwin
   - if "%type%"=="Cygwin" if not exist "C:\cygwin64" mkdir "C:\cygwin64"
   - if "%type%"=="Cygwin" appveyor-retry appveyor DownloadFile "http://cygwin.com/setup-x86_64.exe" -FileName "C:\cygwin64\setup-x86_64.exe"
-  - if "%type%"=="Cygwin" C:\cygwin64\setup-x86_64.exe --quiet-mode --no-shortcuts --upgrade-also --root "C:\cygwin64" --local-package-dir "C:\cache\cygwin" --packages cmake,automake,make,gcc-core,gcc-g++,doxygen,graphviz
+  - if "%type%"=="Cygwin" C:\cygwin64\setup-x86_64.exe --quiet-mode --no-shortcuts --upgrade-also --root "C:\cygwin64" --local-package-dir "C:\cache\cygwin" --packages cmake,automake,make,gcc-core,gcc-g++,doxygen,graphviz,libncurses-devel
+  - if "%type%"=="Cygwin" appveyor-retry appveyor DownloadFile "https://cmake.org/files/v3.12/cmake-3.12.0.tar.gz" -FileName "cmake.tar.gz"
+  - if "%type%"=="Cygwin" C:\cygwin64\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER; mkdir temp; cd temp; mv ../cmake.tar.gz ./cmake.tar.gz; tar xzf cmake.tar.gz --strip-components=1; ./bootstrap && make && make install; cd ..; rm -rf ./temp"
   # MinGW
   - if "%type%"=="MinGW" if not exist "C:\mingw.7z" appveyor-retry appveyor DownloadFile "http://downloads.sourceforge.net/mingw-w64/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z" -FileName "C:\mingw.7z"
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
