@@ -50,10 +50,13 @@ enum class InternetProtocol
     \param protocol - Internet protocol
     \return Output stream
 */
-std::ostream& operator<<(std::ostream& stream, InternetProtocol protocol);
+template <class TOutputStream>
+TOutputStream& operator<<(TOutputStream& stream, InternetProtocol protocol);
 
 } // namespace Asio
 
 } // namespace CppServer
+
+#include "asio.inl"
 
 #endif // CPPSERVER_ASIO_H
