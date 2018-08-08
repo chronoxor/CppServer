@@ -48,6 +48,7 @@ client/server solutions.
 # Features
 * Cross platform (Linux, OSX, Windows)
 * [Asynchronous communication](https://think-async.com)
+* Supported CPU scalability designs: IO service per thread, thread pool
 * Supported transport protocols: [TCP](#example-tcp-chat-server), [SSL](#example-ssl-chat-server),
   [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server)
 
