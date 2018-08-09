@@ -1314,12 +1314,12 @@ Message size: 32
 
 Errors: 0
 
-Multicast time: 10.023 s
-Total data: 75.025 MiB
-Total messages: 2458402
-Data throughput: 7.496 MiB/s
-Message latency: 4.077 mcs
-Message throughput: 245269 msg/s
+Multicast time: 10.007 s
+Total data: 465.128 MiB
+Total messages: 15241217
+Data throughput: 46.491 MiB/s
+Message latency: 656 ns
+Message throughput: 1523045 msg/s
 ```
 
 * [cppserver-performance-tcp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_server.cpp)
