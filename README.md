@@ -20,8 +20,8 @@ client/server solutions.
     * [Windows (MinGW)](#windows-mingw)
     * [Windows (MinGW with MSYS)](#windows-mingw-with-msys)
     * [Windows (Visual Studio)](#windows-visual-studio)
-  * [Asio](#asio)
-    * [Asio service](#asio-service)
+  * [Examples](#examples)
+    * [Example: Asio service](#example-asio-service)
     * [Example: TCP chat server](#example-tcp-chat-server)
     * [Example: TCP chat client](#example-tcp-chat-client)
     * [Example: SSL chat server](#example-ssl-chat-server)
@@ -99,9 +99,9 @@ cd build
 vs.bat
 ```
 
-# Asio
+# Examples
 
-## Asio service
+## Example: Asio service
 Asio service is used to host all clients/servers based on [Asio C++ library](https://think-async.com).
 It is implemented based on Asio C++ Library and use a separate thread to
 perform all asynchronous IO operations and communications.
