@@ -47,7 +47,6 @@ protected:
     void onHandshaked() override
     {
         _handshaked = true;
-
         SendMessage();
     }
 

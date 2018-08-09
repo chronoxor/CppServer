@@ -31,16 +31,16 @@ class MulticastClient : public SSLClient
 public:
     MulticastClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
         : SSLClient(service, context, address, port),
-          _connected(false)
+          _handshaked(false)
     {
     }
 
-    bool connected() const noexcept { return _connected; }
+    bool handshaked() const noexcept { return _handshaked; }
 
 protected:
-    void onConnected() override
+    void onHandshaked() override
     {
-        _connected = true;
+        _handshaked = true;
     }
 
     void onReceived(const void* buffer, size_t size) override
@@ -55,7 +55,7 @@ protected:
     }
 
 private:
-    std::atomic<bool> _connected;
+    std::atomic<bool> _handshaked;
 };
 
 int main(int argc, char** argv)
@@ -121,7 +121,7 @@ int main(int argc, char** argv)
         client->Connect();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
-        while (!client->connected())
+        while (!client->handshaked())
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 

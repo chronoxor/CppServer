@@ -44,7 +44,6 @@ protected:
     void onConnected() override
     {
         _connected = true;
-
         SendMessage();
     }
 
