@@ -62,8 +62,9 @@ public:
     }
 
 protected:
-    void onConnected() override { connected = true; }
+    void onConnected() override { connected = true; Receive(); }
     void onDisconnected() override { disconnected = true; }
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Receive(); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
@@ -120,7 +121,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     Thread::Sleep(100);
 
     // Multicast some data to all clients
-    server->Multicast("test");
+    server->MulticastSync("test");
 
     // Wait for all data processed...
     while (client1->bytes_received() != 4)
@@ -138,7 +139,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     Thread::Sleep(100);
 
     // Multicast some data to all clients
-    server->Multicast("test");
+    server->MulticastSync("test");
 
     // Wait for all data processed...
     while ((client1->bytes_received() != 8) || (client2->bytes_received() != 4))
@@ -156,7 +157,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
     Thread::Sleep(100);
 
     // Multicast some data to all clients
-    server->Multicast("test");
+    server->MulticastSync("test");
 
     // Wait for all data processed...
     while ((client1->bytes_received() != 12) || (client2->bytes_received() != 8) || (client3->bytes_received() != 4))
@@ -172,7 +173,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test");
+    server->MulticastSync("test");
 
     // Wait for all data processed...
     while ((client1->bytes_received() != 12) || (client2->bytes_received() != 12) || (client3->bytes_received() != 8))
@@ -188,7 +189,7 @@ TEST_CASE("UDP server multicast", "[CppServer][Asio]")
         Thread::Yield();
 
     // Multicast some data to all clients
-    server->Multicast("test");
+    server->MulticastSync("test");
 
     // Wait for all data processed...
     while ((client1->bytes_received() != 12) || (client2->bytes_received() != 12) || (client3->bytes_received() != 12))
@@ -318,7 +319,7 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
         // Multicast a message to all clients
         else if ((rand() % 10) == 0)
         {
-            server->Multicast("test");
+            server->MulticastSync("test");
         }
 
         // Sleep for a while...

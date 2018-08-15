@@ -62,8 +62,9 @@ public:
     }
 
 protected:
-    void onConnected() override { connected = true; }
+    void onConnected() override { connected = true; Receive(); }
     void onDisconnected() override { disconnected = true; }
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Receive(); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
@@ -83,9 +84,10 @@ public:
     }
 
 protected:
-    void onStarted() override { started = true; }
+    void onStarted() override { started = true; Receive(); }
     void onStopped() override { stopped = true; }
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Send(endpoint, buffer, size); }
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { SendAsync(endpoint, buffer, size); }
+    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) override { Receive(); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
@@ -115,7 +117,7 @@ TEST_CASE("UDP server", "[CppServer][Asio]")
         Thread::Yield();
 
     // Send a message to the Echo server
-    client->Send("test");
+    client->SendSync("test");
 
     // Wait for all data processed...
     while (client->bytes_received() != 4)
@@ -243,7 +245,7 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
                 if (client->IsConnected())
-                    client->Send("test");
+                    client->SendSync("test");
             }
         }
 

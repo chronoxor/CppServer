@@ -93,7 +93,7 @@ int main(int argc, char** argv)
         {
             auto start = UtcTimestamp();
             for (int i = 0; i < messages_rate; ++i)
-                server->Multicast(message_to_send.data(), message_to_send.size());
+                server->MulticastSync(message_to_send.data(), message_to_send.size());
             auto end = UtcTimestamp();
 
             // Sleep for remaining time or yield

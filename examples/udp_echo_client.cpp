@@ -35,6 +35,9 @@ protected:
     void onConnected() override
     {
         std::cout << "Echo UDP client connected a new session with Id " << id() << std::endl;
+
+        // Start receive datagrams
+        Receive();
     }
 
     void onDisconnected() override
@@ -52,6 +55,9 @@ protected:
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+
+        // Continue receive datagrams
+        Receive();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -113,7 +119,7 @@ int main(int argc, char** argv)
         }
 
         // Send the entered text to the echo server
-        client->Send(line);
+        client->SendSync(line);
     }
 
     // Disconnect the client

@@ -18,13 +18,25 @@ public:
     using CppServer::Asio::UDPServer::UDPServer;
 
 protected:
+    void onStarted() override
+    {
+        // Start receive datagrams
+        Receive();
+    }
+
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
         std::string message((const char*)buffer, size);
         std::cout << "Incoming: " << message << std::endl;
 
         // Echo the message back to the sender
-        Send(endpoint, message);
+        SendAsync(endpoint, message);
+    }
+
+    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) override
+    {
+        // Continue receive datagrams
+        Receive();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override

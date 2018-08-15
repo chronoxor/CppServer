@@ -75,7 +75,7 @@ int main(int argc, char** argv)
 
         // Multicast admin message to all sessions
         line = "(admin) " + line;
-        server->Multicast(line);
+        server->MulticastSync(line);
     }
 
     // Stop the server

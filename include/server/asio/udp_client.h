@@ -63,7 +63,7 @@ public:
     asio::ip::udp::socket& socket() noexcept { return _socket; }
 
     //! Get the number of bytes pending sent by the client
-    uint64_t bytes_pending() const noexcept { return 0; }
+    uint64_t bytes_pending() const noexcept { return _bytes_sending; }
     //! Get the number of bytes sent by the client
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by the client
@@ -114,35 +114,66 @@ public:
     */
     virtual void LeaveMulticastGroup(const std::string& address);
 
-    //! Send datagram to the connected server
-    /*!
-        \param buffer - Datagram buffer to send
-        \param size - Datagram buffer size
-        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
-    */
-    virtual bool Send(const void* buffer, size_t size);
-    //! Send text to the connected server
-    /*!
-        \param text - Text string to send
-        \return 'true' if the text was successfully sent, 'false' if the text was not sent
-    */
-    virtual bool Send(const std::string& text) { return Send(text.data(), text.size()); }
+    //! Receive a new datagram
+    virtual void Receive();
 
-    //! Send datagram to the given endpoint
+    //! Send datagram to the connected server (asynchronous)
+    /*!
+        \param buffer - Datagram buffer to send
+        \param size - Datagram buffer size
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+    */
+    virtual bool SendAsync(const void* buffer, size_t size);
+    //! Send text to the connected server (asynchronous)
+    /*!
+        \param text - Text string to send
+        \return 'true' if the text was successfully sent, 'false' if the text was not sent
+    */
+    virtual bool SendAsync(const std::string& text) { return SendAsync(text.data(), text.size()); }
+    //! Send datagram to the given endpoint (asynchronous)
     /*!
         \param endpoint - Endpoint to send
         \param buffer - Datagram buffer to send
         \param size - Datagram buffer size
         \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
-    //! Send text to the given endpoint
+    virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    //! Send text to the given endpoint (asynchronous)
     /*!
         \param endpoint - Endpoint to send
         \param text - Text string to send
         \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
-    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return Send(endpoint, text.data(), text.size()); }
+    virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return SendAsync(endpoint, text.data(), text.size()); }
+
+    //! Send datagram to the connected server (synchronous)
+    /*!
+        \param buffer - Datagram buffer to send
+        \param size - Datagram buffer size
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+    */
+    virtual bool SendSync(const void* buffer, size_t size);
+    //! Send text to the connected server (synchronous)
+    /*!
+        \param text - Text string to send
+        \return 'true' if the text was successfully sent, 'false' if the text was not sent
+    */
+    virtual bool SendSync(const std::string& text) { return SendSync(text.data(), text.size()); }
+    //! Send datagram to the given endpoint (synchronous)
+    /*!
+        \param endpoint - Endpoint to send
+        \param buffer - Datagram buffer to send
+        \param size - Datagram buffer size
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+    */
+    virtual bool SendSync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    //! Send text to the given endpoint (synchronous)
+    /*!
+        \param endpoint - Endpoint to send
+        \param text - Text string to send
+        \return 'true' if the text was successfully sent, 'false' if the text was not sent
+    */
+    virtual bool SendSync(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return SendSync(endpoint, text.data(), text.size()); }
 
     //! Setup option: reuse address
     /*!
@@ -240,16 +271,22 @@ private:
     asio::ip::udp::socket _socket;
     std::atomic<bool> _connected;
     // Client statistic
+    uint64_t _bytes_sending;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     uint64_t _datagrams_sent;
     uint64_t _datagrams_received;
-    // Receive endpoint
+    // Receive and send endpoints
     asio::ip::udp::endpoint _recive_endpoint;
+    asio::ip::udp::endpoint _send_endpoint;
     // Receive buffer
     bool _reciving;
     std::vector<uint8_t> _recive_buffer;
     HandlerStorage _recive_storage;
+    // Send buffer
+    bool _sending;
+    std::vector<uint8_t> _send_buffer;
+    HandlerStorage _send_storage;
     // Options
     bool _option_reuse_address;
     bool _option_reuse_port;
@@ -264,9 +301,6 @@ private:
 
     //! Try to receive new datagram
     void TryReceive();
-
-    //! Clear send/receive buffers
-    void ClearBuffers();
 
     //! Send error notification
     void SendError(std::error_code ec);
