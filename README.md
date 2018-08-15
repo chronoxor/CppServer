@@ -1405,12 +1405,12 @@ Message size: 32
 
 Errors: 0
 
-Multicast time: 10.008 s
-Total data: 11.937 MiB
-Total messages: 390439
-Data throughput: 1.195 MiB/s
-Message latency: 25.633 mcs
-Message throughput: 39011 msg/s
+Multicast time: 10.007 s
+Total data: 19.516 MiB
+Total messages: 639123
+Data throughput: 1.971 MiB/s
+Message latency: 15.657 mcs
+Message throughput: 63867 msg/s
 ```
 
 * [cppserver-performance-udp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_server.cpp)
