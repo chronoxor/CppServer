@@ -265,7 +265,7 @@ bool UDPServer::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
     // Async send-to with the send-to handler
     _sending = true;
     auto self(this->shared_from_this());
-    auto async_send_to_handler = make_alloc_handler(_send_storage, [this, self](std::error_code ec, size_t size)
+    auto async_send_to_handler = make_alloc_handler(_send_storage, [this, self](std::error_code ec, size_t sent)
     {
         _sending = false;
 
@@ -280,17 +280,17 @@ bool UDPServer::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
         }
 
         // Send some data to the client
-        if (size > 0)
+        if (sent > 0)
         {
             // Update statistic
             _bytes_sending = 0;
-            _bytes_sent += size;
+            _bytes_sent += sent;
 
             // Clear the send buffer
             _send_buffer.clear();
 
             // Call the buffer sent handler
-            onSent(_send_endpoint, size);
+            onSent(_send_endpoint, sent);
         }
     });
     if (_strand_required)
