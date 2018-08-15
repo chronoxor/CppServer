@@ -44,10 +44,11 @@ protected:
     void onConnected() override
     {
         _connected = true;
-        SendMessage();
 
         // Start receive datagrams
         Receive();
+
+        SendMessage();
     }
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
@@ -56,10 +57,10 @@ protected:
         total_bytes += size;
         ++total_messages;
 
-        SendMessage();
-
         // Continue receive datagrams
         Receive();
+
+        SendMessage();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -75,7 +76,7 @@ private:
     void SendMessage()
     {
         if (_messages-- > 0)
-            SendAsync(message_to_send.data(), message_to_send.size());
+            SendSync(message_to_send.data(), message_to_send.size());
         else
             Disconnect();
     }
