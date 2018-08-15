@@ -224,7 +224,7 @@ private:
     //! Try to send pending data
     void TrySend();
 
-    //! Clear receive & send buffers
+    //! Clear send/receive buffers
     void ClearBuffers();
 
     //! Send error notification

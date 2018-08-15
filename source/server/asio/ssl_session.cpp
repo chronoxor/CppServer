@@ -104,7 +104,8 @@ void SSLSession::Connect()
             _server->onHandshaked(handshaked_session);
 
             // Call the empty send buffer handler
-            onEmpty();
+            if (_send_buffer_main.empty())
+                onEmpty();
 
             // Try to receive something from the client
             TryReceive();
@@ -149,7 +150,7 @@ bool SSLSession::Disconnect(bool dispatch)
             // Update the connected flag
             _connected = false;
 
-            // Clear receive/send buffers
+            // Clear send/receive buffers
             ClearBuffers();
 
             // Call the session disconnected handler
@@ -194,7 +195,7 @@ bool SSLSession::Disconnect(bool dispatch)
 
 bool SSLSession::Send(const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
         return false;
 
@@ -352,9 +353,7 @@ void SSLSession::TrySend()
 
         // Try to send again if the session is valid
         if (!ec)
-        {
             TrySend();
-        }
         else
         {
             SendError(ec);

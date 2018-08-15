@@ -18,10 +18,10 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _strand_required(_service->IsStrandRequired()),
       _socket(*_io_service),
       _started(false),
-      _datagrams_sent(0),
-      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _reciving(false),
       _option_reuse_address(false),
       _option_reuse_port(false)
@@ -49,10 +49,10 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
       _strand_required(_service->IsStrandRequired()),
       _socket(*_io_service),
       _started(false),
-      _datagrams_sent(0),
-      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _reciving(false),
       _option_reuse_address(false),
       _option_reuse_port(false)
@@ -73,10 +73,10 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _endpoint(endpoint),
       _socket(*_io_service),
       _started(false),
-      _datagrams_sent(0),
-      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _reciving(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
@@ -140,10 +140,10 @@ bool UDPServer::Start()
         _recive_buffer.resize(option_receive_buffer_size());
 
         // Reset statistic
-        _datagrams_sent = 0;
-        _datagrams_received = 0;
         _bytes_sent = 0;
         _bytes_received = 0;
+        _datagrams_sent = 0;
+        _datagrams_received = 0;
 
          // Update the started flag
         _started = true;
@@ -193,6 +193,9 @@ bool UDPServer::Stop()
         // Update the started flag
         _started = false;
 
+        // Clear send/receive buffers
+        ClearBuffers();
+
         // Call the server stopped handler
         onStopped();
     };
@@ -223,7 +226,7 @@ bool UDPServer::Multicast(const void* buffer, size_t size)
 
 bool UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
         return false;
 
@@ -300,6 +303,10 @@ void UDPServer::TryReceive()
         _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, async_receive_handler));
     else
         _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, async_receive_handler);
+}
+
+void UDPServer::ClearBuffers()
+{
 }
 
 void UDPServer::SendError(std::error_code ec)

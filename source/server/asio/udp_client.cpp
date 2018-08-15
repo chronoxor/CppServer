@@ -20,10 +20,10 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
       _socket(*_io_service),
       _connected(false),
-      _datagrams_sent(0),
-      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _reciving(false),
       _option_reuse_address(false),
       _option_reuse_port(false),
@@ -43,10 +43,10 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _endpoint(endpoint),
       _socket(*_io_service),
       _connected(false),
-      _datagrams_sent(0),
-      _datagrams_received(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _datagrams_sent(0),
+      _datagrams_received(0),
       _reciving(false),
       _option_reuse_address(false),
       _option_reuse_port(false),
@@ -115,10 +115,10 @@ bool UDPClient::Connect()
         _recive_buffer.resize(option_receive_buffer_size());
 
         // Reset statistic
-        _datagrams_sent = 0;
-        _datagrams_received = 0;
         _bytes_sent = 0;
         _bytes_received = 0;
+        _datagrams_sent = 0;
+        _datagrams_received = 0;
 
         // Update the connected flag
         _connected = true;
@@ -154,6 +154,9 @@ bool UDPClient::Disconnect(bool dispatch)
 
         // Update the connected flag
         _connected = false;
+
+        // Clear send/receive buffers
+        ClearBuffers();
 
         // Call the client disconnected handler
         onDisconnected();
@@ -247,7 +250,7 @@ bool UDPClient::Send(const void* buffer, size_t size)
 
 bool UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
         return false;
 
@@ -328,6 +331,10 @@ void UDPClient::TryReceive()
         _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, async_receive_handler));
     else
         _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, async_receive_handler);
+}
+
+void UDPClient::ClearBuffers()
+{
 }
 
 void UDPClient::SendError(std::error_code ec)

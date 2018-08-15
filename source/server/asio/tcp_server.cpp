@@ -221,7 +221,7 @@ void TCPServer::Accept()
 
 bool TCPServer::Multicast(const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
         return false;
 

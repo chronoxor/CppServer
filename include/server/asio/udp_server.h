@@ -61,16 +61,16 @@ public:
     //! Get the server multicast endpoint
     asio::ip::udp::endpoint& multicast_endpoint() noexcept { return _multicast_endpoint; }
 
-    //! Get the number datagrams sent by the server
-    uint64_t datagrams_sent() const noexcept { return _datagrams_sent; }
-    //! Get the number datagrams received by the server
-    uint64_t datagrams_received() const noexcept { return _datagrams_received; }
     //! Get the number of bytes pending sent by the server
     uint64_t bytes_pending() const noexcept { return 0; }
     //! Get the number of bytes sent by the server
     uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by the server
     uint64_t bytes_received() const noexcept { return _bytes_received; }
+    //! Get the number datagrams sent by the server
+    uint64_t datagrams_sent() const noexcept { return _datagrams_sent; }
+    //! Get the number datagrams received by the server
+    uint64_t datagrams_received() const noexcept { return _datagrams_received; }
 
     //! Get the option: reuse address
     bool option_reuse_address() const noexcept { return _option_reuse_address; }
@@ -223,10 +223,10 @@ private:
     asio::ip::udp::socket _socket;
     std::atomic<bool> _started;
     // Server statistic
-    uint64_t _datagrams_sent;
-    uint64_t _datagrams_received;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
+    uint64_t _datagrams_sent;
+    uint64_t _datagrams_received;
     // Multicast & receive endpoint
     asio::ip::udp::endpoint _multicast_endpoint;
     asio::ip::udp::endpoint _recive_endpoint;
@@ -240,6 +240,9 @@ private:
 
     //! Try to receive new datagram
     void TryReceive();
+
+    //! Clear send/receive buffers
+    void ClearBuffers();
 
     //! Send error notification
     void SendError(std::error_code ec);

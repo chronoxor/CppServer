@@ -127,7 +127,8 @@ bool TCPClient::Connect()
                 onConnected();
 
                 // Call the empty send buffer handler
-                onEmpty();
+                if (_send_buffer_main.empty())
+                    onEmpty();
 
                 // Try to receive something from the server
                 TryReceive();
@@ -170,7 +171,7 @@ bool TCPClient::Disconnect(bool dispatch)
         // Update the connected flag
         _connected = false;
 
-        // Clear receive/send buffers
+        // Clear send/receive buffers
         ClearBuffers();
 
         // Call the client disconnected handler
@@ -207,7 +208,7 @@ bool TCPClient::Reconnect()
 
 bool TCPClient::Send(const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be equal to 'nullptr'!");
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
         return false;
 
@@ -363,9 +364,7 @@ void TCPClient::TrySend()
 
         // Try to send again if the session is valid
         if (!ec)
-        {
             TrySend();
-        }
         else
         {
             SendError(ec);
