@@ -21,10 +21,7 @@ public:
 protected:
     void onTimer(bool canceled) override
     {
-        if (canceled)
-            std::cout << "Asio timer was canceled!" << std::endl;
-        else
-            std::cout << "Asio timer was expired!" << std::endl;
+        std::cout << "Asio timer " << (canceled ? "canceled" : "expired") << std::endl;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -43,7 +40,7 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
-    // Create a new timer
+    // Create a new Asio timer
     auto timer = std::make_shared<AsioTimer>(service);
 
     // Setup and synchronously wait for the timer
