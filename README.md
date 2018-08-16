@@ -301,8 +301,8 @@ int main(int argc, char** argv)
 Output of the above example is the following:
 ```
 Asio service starting...Done!
-Timer was expired!
-Timer was canceled!
+Timer was expired
+Timer was canceled
 Asio service stopping...Done!
 ```
 
