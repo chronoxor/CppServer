@@ -22,6 +22,7 @@ client/server solutions.
     * [Windows (Visual Studio)](#windows-visual-studio)
   * [Examples](#examples)
     * [Example: Asio service](#example-asio-service)
+    * [Example: Asio timer](#example-asio-timer)
     * [Example: TCP chat server](#example-tcp-chat-server)
     * [Example: TCP chat client](#example-tcp-chat-client)
     * [Example: SSL chat server](#example-ssl-chat-server)
@@ -222,6 +223,87 @@ Asio service started!
 1.3.1 - Posted in thread with Id 19920
 2.3.1 - Posted in thread with Id 19920
 Asio service stopped!
+```
+
+## Example: Asio timer
+Here comes the example of Asio timer. It can be used to wait for some action
+in future with providing absolute time or relative time span. Asio timer can
+be used in synchronous or asynchronous modes.
+```c++
+#include "server/asio/timer.h"
+#include "threads/thread.h"
+
+#include <iostream>
+
+class AsioTimer : public CppServer::Asio::Timer
+{
+public:
+    using CppServer::Asio::Timer::Timer;
+
+protected:
+    void onTimer(bool canceled) override
+    {
+        std::cout << "Asio timer " << (canceled ? "canceled" : "expired") << std::endl;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Asio timer caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new Asio timer
+    auto timer = std::make_shared<AsioTimer>(service);
+
+    // Setup and synchronously wait for the timer
+    timer->Setup(CppCommon::UtcTime() + CppCommon::Timespan::seconds(1));
+    timer->WaitSync();
+
+    // Setup and asynchronously wait for the timer
+    timer->Setup(CppCommon::Timespan::seconds(1));
+    timer->WaitAsync();
+
+    // Wait for a while...
+    CppCommon::Thread::Sleep(2000);
+
+    // Setup and asynchronously wait for the timer
+    timer->Setup(CppCommon::Timespan::seconds(1));
+    timer->WaitAsync();
+
+    // Wait for a while...
+    CppCommon::Thread::Sleep(500);
+
+    // Cancel the timer
+    timer->Cancel();
+
+    // Wait for a while...
+    CppCommon::Thread::Sleep(500);
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+Output of the above example is the following:
+```
+Asio service starting...Done!
+Timer was expired!
+Timer was canceled!
+Asio service stopping...Done!
 ```
 
 ## Example: TCP chat server
