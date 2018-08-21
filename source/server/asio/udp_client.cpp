@@ -12,7 +12,7 @@ namespace CppServer {
 namespace Asio {
 
 UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
-    : _id(CppCommon::UUID::Generate()),
+    : _id(CppCommon::UUID::Random()),
       _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -37,7 +37,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
 }
 
 UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
-    : _id(CppCommon::UUID::Generate()),
+    : _id(CppCommon::UUID::Random()),
       _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),

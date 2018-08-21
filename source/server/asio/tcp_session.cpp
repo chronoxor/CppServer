@@ -13,7 +13,7 @@ namespace CppServer {
 namespace Asio {
 
 TCPSession::TCPSession(std::shared_ptr<TCPServer> server)
-    : _id(CppCommon::UUID::Generate()),
+    : _id(CppCommon::UUID::Random()),
       _server(server),
       _io_service(server->service()->GetAsioService()),
       _strand(*_io_service),

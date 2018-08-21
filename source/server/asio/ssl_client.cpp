@@ -545,12 +545,12 @@ private:
 //! @endcond
 
 SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
-    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Generate(), service, context, address, port))
+    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Random(), service, context, address, port))
 {
 }
 
 SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
-    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Generate(), service, context, endpoint))
+    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Random(), service, context, endpoint))
 {
 }
 
