@@ -1,4 +1,4 @@
-# Temporary directory
+# Temporary directories
 .idea
 cmake-build-*
 temp
