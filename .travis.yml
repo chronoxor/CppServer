@@ -29,7 +29,7 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - clang-6.0
-            - libstdc++-6-dev
+            - libstdc++-8-dev
             - cmake
             - doxygen
             - graphviz
