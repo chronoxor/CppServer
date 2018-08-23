@@ -54,16 +54,16 @@ client/server solutions.
   [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server)
 
 # Requirements
-* Linux
-* OSX
+* Linux (gcc g++ cmake doxygen graphviz binutils-dev uuid-dev openssl)
+* OSX (clang cmake doxygen graphviz openssl)
 * Windows 7 / Windows 10
-* [CMake](https://www.cmake.org)
-* [GIT](https://git-scm.com)
-* [GCC](https://gcc.gnu.org)
+* [cmake](https://www.cmake.org)
+* [git](https://git-scm.com)
+* [gcc](https://gcc.gnu.org)
 
 Optional:
-* [Clang](https://clang.llvm.org)
-* [Clion](https://www.jetbrains.com/clion)
+* [clang](https://clang.llvm.org)
+* [clion](https://www.jetbrains.com/clion)
 * [MinGW](https://mingw-w64.org/doku.php)
 * [Visual Studio](https://www.visualstudio.com)
 
@@ -71,7 +71,7 @@ Optional:
 
 ## Clone repository with submodules
 ```shell
-git clone https://github.com/chronoxor/CppServer.git CppServer
+git clone https://github.com/chronoxor/CppServer.git
 cd CppServer
 git submodule update --init --recursive --remote
 ```
