@@ -1,0 +1,126 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>PKCS12_newpass</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#EXAMPLE">EXAMPLE</a></li>
+  <li><a href="#NOTES1">NOTES</a></li>
+  <li><a href="#BUGS">BUGS</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>PKCS12_newpass - change the password of a PKCS12 structure</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> <span class="comment">#include &lt;openssl/pkcs12.h&gt;</span>
+ 
+ <span class="keyword">int</span> <span class="variable">PKCS12_newpass</span><span class="operator">(</span><span class="variable">PKCS12</span> <span class="variable">*p12</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*oldpass</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*newpass</span><span class="operator">);</span>
+</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>PKCS12_newpass() changes the password of a PKCS12 structure.</p>
+
+<p><b>p12</b> is a pointer to a PKCS12 structure. <b>oldpass</b> is the existing password and <b>newpass</b> is the new password.</p>
+
+<h1 id="NOTES">NOTES</h1>
+
+<p>Each of <b>oldpass</b> and <b>newpass</b> is independently interpreted as a string in the UTF-8 encoding. If it is not valid UTF-8, it is assumed to be ISO8859-1 instead.</p>
+
+<p>In particular, this means that passwords in the locale character set (or code page on Windows) must potentially be converted to UTF-8 before use. This may include passwords from local text files, or input from the terminal or command line. Refer to the documentation of <a href="../man3/UI_OpenSSL.html>UI_OpenSSL(3)</a>, for example.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>PKCS12_newpass() returns 1 on success or 0 on failure. Applications can retrieve the most recent error from PKCS12_newpass() with ERR_get_error().</p>
+
+<h1 id="EXAMPLE">EXAMPLE</h1>
+
+<p>This example loads a PKCS#12 file, changes its password and writes out the result to a new file.</p>
+
+<pre><code> <span class="comment">#include &lt;stdio.h&gt;</span>
+ <span class="comment">#include &lt;stdlib.h&gt;</span>
+ <span class="comment">#include &lt;openssl/pem.h&gt;</span>
+ <span class="comment">#include &lt;openssl/err.h&gt;</span>
+ <span class="comment">#include &lt;openssl/pkcs12.h&gt;</span>
+ 
+ <span class="keyword">int</span> <span class="variable">main</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">argc</span><span class="operator">,</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">argv</span><span class="operator">)</span>
+ <span class="operator">{</span>
+    <span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">;</span>
+    <span class="variable">PKCS12</span> <span class="variable">*p12</span><span class="operator">;</span>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">argc</span> <span class="operator">!=</span> <span class="number">5</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Usage: pkread p12file password newpass opfile\n"</span><span class="operator">);</span>
+        <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
+    <span class="operator">}</span>
+    <span class="keyword">if</span> <span class="operator">((</span><span class="variable">fp</span> <span class="operator">=</span> <span class="variable">fopen</span><span class="operator">(</span><span class="variable">argv</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">,</span> <span class="string">"rb"</span><span class="operator">))</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error opening file %s\n"</span><span class="operator">,</span> <span class="variable">argv</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">);</span>
+        <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
+    <span class="operator">}</span>
+    <span class="variable">p12</span> <span class="operator">=</span> <span class="variable">d2i_PKCS12_fp</span><span class="operator">(</span><span class="variable">fp</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
+    <span class="variable">fclose</span><span class="operator">(</span><span class="variable">fp</span><span class="operator">);</span>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">p12</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error reading PKCS#12 file\n"</span><span class="operator">);</span>
+        <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
+        <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
+    <span class="operator">}</span>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">PKCS12_newpass</span><span class="operator">(</span><span class="variable">p12</span><span class="operator">,</span> <span class="variable">argv</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">argv</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error changing password\n"</span><span class="operator">);</span>
+        <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
+        <span class="variable">PKCS12_free</span><span class="operator">(</span><span class="variable">p12</span><span class="operator">);</span>
+        <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
+    <span class="operator">}</span>
+    <span class="keyword">if</span> <span class="operator">((</span><span class="variable">fp</span> <span class="operator">=</span> <span class="variable">fopen</span><span class="operator">(</span><span class="variable">argv</span><span class="operator">[</span><span class="number">4</span><span class="operator">]</span><span class="operator">,</span> <span class="string">"wb"</span><span class="operator">))</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error opening file %s\n"</span><span class="operator">,</span> <span class="variable">argv</span><span class="operator">[</span><span class="number">4</span><span class="operator">]</span><span class="operator">);</span>
+        <span class="variable">PKCS12_free</span><span class="operator">(</span><span class="variable">p12</span><span class="operator">);</span>
+        <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
+    <span class="operator">}</span>
+    <span class="variable">i2d_PKCS12_fp</span><span class="operator">(</span><span class="variable">fp</span><span class="operator">,</span> <span class="variable">p12</span><span class="operator">);</span>
+    <span class="variable">PKCS12_free</span><span class="operator">(</span><span class="variable">p12</span><span class="operator">);</span>
+    <span class="variable">fclose</span><span class="operator">(</span><span class="variable">fp</span><span class="operator">);</span>
+    <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
+ <span class="operator">}</span>
+</code></pre>
+
+<h1 id="NOTES1">NOTES</h1>
+
+<p>If the PKCS#12 structure does not have a password, then you must use the empty string &quot;&quot; for <b>oldpass</b>. Using NULL for <b>oldpass</b> will result in a PKCS12_newpass() failure.</p>
+
+<p>If the wrong password is used for <b>oldpass</b> then the function will fail, with a MAC verification error. In rare cases the PKCS12 structure does not contain a MAC: in this case it will usually fail with a decryption padding error.</p>
+
+<h1 id="BUGS">BUGS</h1>
+
+<p>The password format is a NULL terminated ASCII string which is converted to Unicode form internally. As a result some passwords cannot be supplied to this function.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man3/PKCS12_create.html>PKCS12_create(3)</a>, <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a></p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+

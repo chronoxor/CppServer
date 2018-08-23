@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>d2i_PrivateKey</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>d2i_PrivateKey, d2i_PublicKey, d2i_AutoPrivateKey, i2d_PrivateKey, i2d_PublicKey, d2i_PrivateKey_bio, d2i_PrivateKey_fp - decode and encode functions for reading and saving EVP_PKEY structures</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
+ 
+ <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PrivateKey</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span>
+                          <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
+ <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PublicKey</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span>
+                         <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
+ <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_AutoPrivateKey</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span>
+                              <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">i2d_PrivateKey</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">i2d_PublicKey</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
+ 
+ <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PrivateKey_bio</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">);</span>
+ <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PrivateKey_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">)</span>
+</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>d2i_PrivateKey() decodes a private key using algorithm <b>type</b>. It attempts to use any key specific format or PKCS#8 unencrypted PrivateKeyInfo format. The <b>type</b> parameter should be a public key algorithm constant such as <b>EVP_PKEY_RSA</b>. An error occurs if the decoded key does not match <b>type</b>. d2i_PublicKey() does the same for public keys.</p>
+
+<p>d2i_AutoPrivateKey() is similar to d2i_PrivateKey() except it attempts to automatically detect the private key format.</p>
+
+<p>i2d_PrivateKey() encodes <b>key</b>. It uses a key specific format or, if none is defined for that key type, PKCS#8 unencrypted PrivateKeyInfo format. i2d_PublicKey() does the same for public keys.</p>
+
+<p>These functions are similar to the d2i_X509() functions; see <a href="../man3/d2i_X509.html>d2i_X509(3)</a>.</p>
+
+<h1 id="NOTES">NOTES</h1>
+
+<p>All these functions use DER format and unencrypted keys. Applications wishing to encrypt or decrypt private keys should use other functions such as d2i_PKC8PrivateKey() instead.</p>
+
+<p>If the <b>*a</b> is not NULL when calling d2i_PrivateKey() or d2i_AutoPrivateKey() (i.e. an existing structure is being reused) and the key format is PKCS#8 then <b>*a</b> will be freed and replaced on a successful call.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>d2i_PrivateKey() and d2i_AutoPrivateKey() return a valid <b>EVP_KEY</b> structure or <b>NULL</b> if an error occurs. The error code can be obtained by calling <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+
+<p>i2d_PrivateKey() returns the number of bytes successfully encoded or a negative value if an error occurs. The error code can be obtained by calling <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man7/crypto.html>crypto(7)</a>, <a href="../man3/d2i_PKCS8PrivateKey_bio.html>d2i_PKCS8PrivateKey_bio(3)</a></p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+

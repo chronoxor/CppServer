@@ -1,0 +1,139 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CONF_modules_load_file</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#EXAMPLES">EXAMPLES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>CONF_modules_load_file, CONF_modules_load - OpenSSL configuration functions</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> <span class="comment">#include &lt;openssl/conf.h&gt;</span>
+ 
+ <span class="keyword">int</span> <span class="variable">CONF_modules_load_file</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*filename</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*appname</span><span class="operator">,</span>
+                                        <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">CONF_modules_load</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">CONF</span> <span class="variable">*cnf</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*appname</span><span class="operator">,</span>
+                               <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
+</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The function CONF_modules_load_file() configures OpenSSL using file <b>filename</b> and application name <b>appname</b>. If <b>filename</b> is NULL the standard OpenSSL configuration file is used. If <b>appname</b> is NULL the standard OpenSSL application name <b>openssl_conf</b> is used. The behaviour can be customized using <b>flags</b>.</p>
+
+<p>CONF_modules_load() is identical to CONF_modules_load_file() except it reads configuration information from <b>cnf</b>.</p>
+
+<h1 id="NOTES">NOTES</h1>
+
+<p>The following <b>flags</b> are currently recognized:</p>
+
+<p><b>CONF_MFLAGS_IGNORE_ERRORS</b> if set errors returned by individual configuration modules are ignored. If not set the first module error is considered fatal and no further modules are loaded.</p>
+
+<p>Normally any modules errors will add error information to the error queue. If <b>CONF_MFLAGS_SILENT</b> is set no error information is added.</p>
+
+<p>If <b>CONF_MFLAGS_NO_DSO</b> is set configuration module loading from DSOs is disabled.</p>
+
+<p><b>CONF_MFLAGS_IGNORE_MISSING_FILE</b> if set will make CONF_load_modules_file() ignore missing configuration files. Normally a missing configuration file return an error.</p>
+
+<p><b>CONF_MFLAGS_DEFAULT_SECTION</b> if set and <b>appname</b> is not NULL will use the default section pointed to by <b>openssl_conf</b> if <b>appname</b> does not exist.</p>
+
+<p>By using CONF_modules_load_file() with appropriate flags an application can customise application configuration to best suit its needs. In some cases the use of a configuration file is optional and its absence is not an error: in this case <b>CONF_MFLAGS_IGNORE_MISSING_FILE</b> would be set.</p>
+
+<p>Errors during configuration may also be handled differently by different applications. For example in some cases an error may simply print out a warning message and the application continue. In other cases an application might consider a configuration file error as fatal and exit immediately.</p>
+
+<p>Applications can use the CONF_modules_load() function if they wish to load a configuration file themselves and have finer control over how errors are treated.</p>
+
+<h1 id="EXAMPLES">EXAMPLES</h1>
+
+<p>Load a configuration file and print out any errors and exit (missing file considered fatal):</p>
+
+<pre><code> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">CONF_modules_load_file</span><span class="operator">(</span><span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
+    <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"FATAL: error loading configuration file\n"</span><span class="operator">);</span>
+    <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
+    <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
+ <span class="operator">}</span>
+</code></pre>
+
+<p>Load default configuration file using the section indicated by &quot;myapp&quot;, tolerate missing files, but exit on other errors:</p>
+
+<pre><code> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">CONF_modules_load_file</span><span class="operator">(</span><span class="variable">NULL</span><span class="operator">,</span> <span class="string">"myapp"</span><span class="operator">,</span>
+                            <span class="variable">CONF_MFLAGS_IGNORE_MISSING_FILE</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
+    <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"FATAL: error loading configuration file\n"</span><span class="operator">);</span>
+    <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
+    <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
+ <span class="operator">}</span>
+</code></pre>
+
+<p>Load custom configuration file and section, only print warnings on error, missing configuration file ignored:</p>
+
+<pre><code> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">CONF_modules_load_file</span><span class="operator">(</span><span class="string">"/something/app.cnf"</span><span class="operator">,</span> <span class="string">"myapp"</span><span class="operator">,</span>
+                            <span class="variable">CONF_MFLAGS_IGNORE_MISSING_FILE</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
+    <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"WARNING: error loading configuration file\n"</span><span class="operator">);</span>
+    <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
+ <span class="operator">}</span>
+</code></pre>
+
+<p>Load and parse configuration file manually, custom error handling:</p>
+
+<pre><code> <span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">;</span>
+ <span class="variable">CONF</span> <span class="variable">*cnf</span> <span class="operator">=</span> <span class="variable">NULL</span><span class="operator">;</span>
+ <span class="variable">long</span> <span class="variable">eline</span><span class="operator">;</span>
+ <span class="variable">fp</span> <span class="operator">=</span> <span class="variable">fopen</span><span class="operator">(</span><span class="string">"/somepath/app.cnf"</span><span class="operator">,</span> <span class="string">"r"</span><span class="operator">);</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">fp</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
+    <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error opening configuration file\n"</span><span class="operator">);</span>
+    <span class="regex">/* Other missing configuration file behaviour */</span>
+ <span class="operator">}</span> <span class="keyword">else</span> <span class="operator">{</span>
+    <span class="variable">cnf</span> <span class="operator">=</span> <span class="variable">NCONF_new</span><span class="operator">(</span><span class="variable">NULL</span><span class="operator">);</span>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">NCONF_load_fp</span><span class="operator">(</span><span class="variable">cnf</span><span class="operator">,</span> <span class="variable">fp</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">eline</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error on line %ld of configuration file\n"</span><span class="operator">,</span> <span class="variable">eline</span><span class="operator">);</span>
+        <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
+        <span class="regex">/* Other malformed configuration file behaviour */</span>
+    <span class="operator">}</span> <span class="keyword">else</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">CONF_modules_load</span><span class="operator">(</span><span class="variable">cnf</span><span class="operator">,</span> <span class="string">"appname"</span><span class="operator">,</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
+      <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error configuring application\n"</span><span class="operator">);</span>
+      <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
+      <span class="regex">/* Other configuration error behaviour */</span>
+    <span class="operator">}</span>
+    <span class="variable">fclose</span><span class="operator">(</span><span class="variable">fp</span><span class="operator">);</span>
+    <span class="variable">NCONF_free</span><span class="operator">(</span><span class="variable">cnf</span><span class="operator">);</span>
+  <span class="operator">}</span>
+</code></pre>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>These functions return 1 for success and a zero or negative value for failure. If module errors are not ignored the return code will reflect the return value of the failing module (this will always be zero or negative).</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man5/config.html>config(5)</a>, <a href="../man3/OPENSSL_config.html>OPENSSL_config(3)</a></p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2004-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+

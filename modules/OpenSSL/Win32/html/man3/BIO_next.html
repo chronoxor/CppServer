@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>BIO_find_type</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#EXAMPLE">EXAMPLE</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>BIO_find_type, BIO_next, BIO_method_type - BIO chain traversal</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
+ 
+ <span class="variable">BIO</span> <span class="variable">*BIO_find_type</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bio_type</span><span class="operator">);</span>
+ <span class="variable">BIO</span> <span class="variable">*BIO_next</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">BIO_method_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
+</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The BIO_find_type() searches for a BIO of a given type in a chain, starting at BIO <b>b</b>. If <b>type</b> is a specific type (such as <b>BIO_TYPE_MEM</b>) then a search is made for a BIO of that type. If <b>type</b> is a general type (such as <b>BIO_TYPE_SOURCE_SINK</b>) then the next matching BIO of the given general type is searched for. BIO_find_type() returns the next matching BIO or NULL if none is found.</p>
+
+<p>The following general types are defined: <b>BIO_TYPE_DESCRIPTOR</b>, <b>BIO_TYPE_FILTER</b>, and <b>BIO_TYPE_SOURCE_SINK</b>.</p>
+
+<p>For a list of the specific types, see the <b>openssl/bio.h</b> header file.</p>
+
+<p>BIO_next() returns the next BIO in a chain. It can be used to traverse all BIOs in a chain or used in conjunction with BIO_find_type() to find all BIOs of a certain type.</p>
+
+<p>BIO_method_type() returns the type of a BIO.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>BIO_find_type() returns a matching BIO or NULL for no match.</p>
+
+<p>BIO_next() returns the next BIO in a chain.</p>
+
+<p>BIO_method_type() returns the type of the BIO <b>b</b>.</p>
+
+<h1 id="EXAMPLE">EXAMPLE</h1>
+
+<p>Traverse a chain looking for digest BIOs:</p>
+
+<pre><code> <span class="variable">BIO</span> <span class="variable">*btmp</span><span class="operator">;</span>
+ <span class="variable">btmp</span> <span class="operator">=</span> <span class="variable">in_bio</span><span class="operator">;</span> <span class="regex">/* in_bio is chain to search through */</span>
+ 
+ <span class="keyword">do</span> <span class="operator">{</span>
+        <span class="variable">btmp</span> <span class="operator">=</span> <span class="variable">BIO_find_type</span><span class="operator">(</span><span class="variable">btmp</span><span class="operator">,</span> <span class="variable">BIO_TYPE_MD</span><span class="operator">);</span>
+        <span class="keyword">if</span> <span class="operator">(</span><span class="variable">btmp</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="keyword">break</span><span class="operator">;</span> <span class="regex">/* Not found */</span>
+        <span class="operator">/*</span> <span class="variable">btmp</span> <span class="variable">is</span> <span class="variable">a</span> <span class="variable">digest</span> <span class="variable">BIO</span><span class="operator">,</span> <span class="keyword">do</span> <span class="variable">something</span> <span class="variable">with</span> <span class="variable">it</span> <span class="operator">...*</span><span class="regex">/
+        ...
+ 
+        btmp = BIO_next(btmp);
+ } while (btmp);
+ </span>
+</code></pre>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+
