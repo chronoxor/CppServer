@@ -201,7 +201,12 @@ void TCPServer::Accept()
         auto async_accept_handler = make_alloc_handler(_acceptor_storage, [this, self](std::error_code ec)
         {
             if (!ec)
+            {
                 RegisterSession();
+
+                // Connect a new session
+                _session->Connect();
+            }
             else
                 SendError(ec);
 
@@ -325,9 +330,6 @@ void TCPServer::RegisterSession()
 
     // Register a new session
     _sessions.emplace(_session->id(), _session);
-
-    // Connect a new session
-    _session->Connect();
 }
 
 void TCPServer::UnregisterSession(const CppCommon::UUID& id)
