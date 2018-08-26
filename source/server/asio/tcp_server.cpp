@@ -256,15 +256,19 @@ bool TCPServer::Multicast(const void* buffer, size_t size)
         if (!IsStarted())
             return;
 
-        std::lock_guard<std::mutex> locker(_multicast_lock);
+        std::lock_guard<std::mutex> locker1(_multicast_lock);
 
         // Check for empty multicast buffer
         if (_multicast_buffer.empty())
             return;
 
         // Multicast all sessions
-        for (auto& session : _sessions)
-            session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
+        {
+            std::lock_guard<std::mutex> locker2(_sessions_lock);
+
+            for (auto& session : _sessions)
+                session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
+        }
 
         // Update statistic
         _bytes_pending -= _multicast_buffer.size();
@@ -292,6 +296,8 @@ bool TCPServer::DisconnectAll()
         if (!IsStarted())
             return;
 
+        std::lock_guard<std::mutex> locker(_sessions_lock);
+
         // Disconnect all sessions
         for (auto& session : _sessions)
             session.second->Disconnect();
@@ -304,8 +310,19 @@ bool TCPServer::DisconnectAll()
     return true;
 }
 
+std::shared_ptr<TCPSession> TCPServer::FindSession(const CppCommon::UUID& id)
+{
+    std::lock_guard<std::mutex> locker(_sessions_lock);
+
+    // Try to find the required session
+    auto it = _sessions.find(id);
+    return (it != _sessions.end()) ? it->second : nullptr;
+}
+
 void TCPServer::RegisterSession()
 {
+    std::lock_guard<std::mutex> locker(_sessions_lock);
+
     // Register a new session
     _sessions.emplace(_session->id(), _session);
 
@@ -315,6 +332,8 @@ void TCPServer::RegisterSession()
 
 void TCPServer::UnregisterSession(const CppCommon::UUID& id)
 {
+    std::lock_guard<std::mutex> locker(_sessions_lock);
+
     // Try to find the unregistered session
     auto it = _sessions.find(id);
     if (it != _sessions.end())

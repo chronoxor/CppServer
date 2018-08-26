@@ -122,6 +122,13 @@ public:
     */
     virtual bool DisconnectAll();
 
+    //! Find a session with a given Id
+    /*!
+        \param id - Session Id
+        \return Session with a given Id or null if the session it not connected
+    */
+    std::shared_ptr<TCPSession> FindSession(const CppCommon::UUID& id);
+
     //! Setup option: no delay
     /*!
         This option will enable/disable Nagle's algorithm for TCP protocol.
@@ -198,6 +205,7 @@ private:
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Server sessions
+    std::mutex _sessions_lock;
     std::map<CppCommon::UUID, std::shared_ptr<TCPSession>> _sessions;
     // Multicast buffer
     std::mutex _multicast_lock;
