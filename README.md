@@ -32,7 +32,7 @@ client/server solutions.
     * [Example: UDP multicast server](#example-udp-multicast-server)
     * [Example: UDP multicast client](#example-udp-multicast-client)
   * [Performance](#performance)
-    * [Benchmark: Round-Trip](#benchmark-round-trip)
+    * [Benchmark: Round-trip](#benchmark-round-trip)
       * [TCP echo server](#tcp-echo-server)
       * [SSL echo server](#ssl-echo-server)
       * [UDP echo server](#udp-echo-server)
@@ -1242,13 +1242,15 @@ Process bits: 64-bit
 Process configuaraion: release
 ```
 
-## Benchmark: Round-Trip
+## Benchmark: Round-trip
 
 This scenario sends lots of messages from several clients to a server.
 The server responses to each message and resend the similar response to
 the client. The benchmark measures total Round-trip time to send all
 messages and receive all responses, messages & data throughput, count
 of errors.
+
+![Round-trip](https://github.com/chronoxor/CppServer/raw/master/images/round-trip.png)
 
 ### TCP echo server
 
