@@ -58,6 +58,9 @@ void TCPSession::SetupSendBufferSize(size_t size)
 
 void TCPSession::Connect()
 {
+    // Apply the option: keep alive
+    if (_server->option_keep_alive())
+        _socket.set_option(asio::ip::tcp::socket::keep_alive(true));
     // Apply the option: no delay
     if (_server->option_no_delay())
         _socket.set_option(asio::ip::tcp::no_delay(true));

@@ -81,6 +81,8 @@ public:
     //! Get the number of bytes received by the server
     uint64_t bytes_received() const noexcept { return _bytes_received; }
 
+    //! Get the option: keep alive
+    bool option_keep_alive() const noexcept { return _option_keep_alive; }
     //! Get the option: no delay
     bool option_no_delay() const noexcept { return _option_no_delay; }
     //! Get the option: reuse address
@@ -134,6 +136,13 @@ public:
     */
     std::shared_ptr<SSLSession> FindSession(const CppCommon::UUID& id);
 
+    //! Setup option: keep alive
+    /*!
+        This option will setup SO_KEEPALIVE if the OS support this feature.
+
+        \param enable - Enable/disable option
+    */
+    void SetupKeepAlive(bool enable) noexcept { _option_keep_alive = enable; }
     //! Setup option: no delay
     /*!
         This option will enable/disable Nagle's algorithm for TCP protocol.
@@ -223,6 +232,7 @@ private:
     std::vector<uint8_t> _multicast_buffer;
     HandlerStorage _multicast_storage;
     // Options
+    bool _option_keep_alive;
     bool _option_no_delay;
     bool _option_reuse_address;
     bool _option_reuse_port;

@@ -59,6 +59,9 @@ void SSLSession::SetupSendBufferSize(size_t size)
 
 void SSLSession::Connect()
 {
+    // Apply the option: keep alive
+    if (_server->option_keep_alive())
+        socket().set_option(asio::ip::tcp::socket::keep_alive(true));
     // Apply the option: no delay
     if (_server->option_no_delay())
         socket().set_option(asio::ip::tcp::no_delay(true));

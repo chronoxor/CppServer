@@ -74,6 +74,8 @@ public:
     //! Get the number of bytes received by the client
     uint64_t bytes_received() const noexcept;
 
+    //! Get the option: keep alive
+    bool option_keep_alive() const noexcept;
     //! Get the option: no delay
     bool option_no_delay() const noexcept;
     //! Get the option: receive buffer size
@@ -116,6 +118,13 @@ public:
     */
     virtual bool Send(const std::string& text) { return Send(text.data(), text.size()); }
 
+    //! Setup option: keep alive
+    /*!
+        This option will setup SO_KEEPALIVE if the OS support this feature.
+
+        \param enable - Enable/disable option
+    */
+    void SetupKeepAlive(bool enable) noexcept;
     //! Setup option: no delay
     /*!
         This option will enable/disable Nagle's algorithm for TCP protocol.

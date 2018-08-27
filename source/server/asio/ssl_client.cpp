@@ -39,6 +39,7 @@ public:
           _reciving(false),
           _sending(false),
           _send_buffer_flush_offset(0),
+          _option_keep_alive(false),
           _option_no_delay(false)
     {
         assert((service != nullptr) && "Asio service is invalid!");
@@ -70,6 +71,7 @@ public:
           _reciving(false),
           _sending(false),
           _send_buffer_flush_offset(0),
+          _option_keep_alive(false),
           _option_no_delay(false)
     {
         assert((service != nullptr) && "Asio service is invalid!");
@@ -97,6 +99,7 @@ public:
     uint64_t& bytes_sent() noexcept { return _bytes_sent; }
     uint64_t& bytes_received() noexcept { return _bytes_received; }
 
+    bool option_keep_alive() const noexcept { return _option_keep_alive; }
     bool option_no_delay() const noexcept { return _option_no_delay; }
 
     size_t option_receive_buffer_size() const
@@ -141,6 +144,9 @@ public:
 
                 if (!ec1)
                 {
+                    // Apply the option: keep alive
+                    if (option_keep_alive())
+                        socket().set_option(asio::ip::tcp::socket::keep_alive(true));
                     // Apply the option: no delay
                     if (option_no_delay())
                         socket().set_option(asio::ip::tcp::no_delay(true));
@@ -311,6 +317,7 @@ public:
         return true;
     }
 
+    void SetupKeepAlive(bool enable) noexcept { _option_keep_alive = enable; }
     void SetupNoDelay(bool enable) noexcept { _option_no_delay = enable; }
 
     void SetupReceiveBufferSize(size_t size)
@@ -373,6 +380,7 @@ private:
     size_t _send_buffer_flush_offset;
     HandlerStorage _send_storage;
     // Options
+    bool _option_keep_alive;
     bool _option_no_delay;
 
     void TryReceive()
@@ -624,6 +632,11 @@ uint64_t SSLClient::bytes_received() const noexcept
     return _pimpl->bytes_received();
 }
 
+bool SSLClient::option_keep_alive() const noexcept
+{
+    return _pimpl->option_keep_alive();
+}
+
 bool SSLClient::option_no_delay() const noexcept
 {
     return _pimpl->option_no_delay();
@@ -676,6 +689,11 @@ bool SSLClient::Send(const void* buffer, size_t size)
     return _pimpl->Send(buffer, size);
 }
 
+void SSLClient::SetupKeepAlive(bool enable) noexcept
+{
+    return _pimpl->SetupKeepAlive(enable);
+}
+
 void SSLClient::SetupNoDelay(bool enable) noexcept
 {
     return _pimpl->SetupNoDelay(enable);
@@ -695,9 +713,17 @@ void SSLClient::onReset()
 {
     size_t bytes_sent = _pimpl->bytes_sent();
     size_t bytes_received = _pimpl->bytes_received();
+    bool option_keep_alive = _pimpl->option_keep_alive();
+    bool option_no_delay = _pimpl->option_no_delay();
+    size_t option_receive_buffer_size = _pimpl->option_receive_buffer_size();
+    size_t option_send_buffer_size = _pimpl->option_send_buffer_size();
     _pimpl = std::make_shared<Impl>(_pimpl->id(), _pimpl->service(), _pimpl->context(), _pimpl->endpoint());
     _pimpl->bytes_sent() = bytes_sent;
     _pimpl->bytes_received() = bytes_received;
+    _pimpl->SetupKeepAlive(option_keep_alive);
+    _pimpl->SetupNoDelay(option_no_delay);
+    _pimpl->SetupReceiveBufferSize(option_receive_buffer_size);
+    _pimpl->SetupSendBufferSize(option_send_buffer_size);
 }
 
 } // namespace Asio

@@ -22,6 +22,7 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
       _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _option_keep_alive(false),
       _option_no_delay(false),
       _option_reuse_address(false),
       _option_reuse_port(false)
@@ -57,6 +58,7 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
       _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _option_keep_alive(false),
       _option_no_delay(false),
       _option_reuse_address(false),
       _option_reuse_port(false)
@@ -85,6 +87,7 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
       _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _option_keep_alive(false),
       _option_no_delay(false),
       _option_reuse_address(false),
       _option_reuse_port(false)

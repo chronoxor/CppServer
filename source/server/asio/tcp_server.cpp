@@ -21,6 +21,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _option_keep_alive(false),
       _option_no_delay(false),
       _option_reuse_address(false),
       _option_reuse_port(false)
@@ -51,6 +52,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, const std::string& addres
       _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _option_keep_alive(false),
       _option_no_delay(false),
       _option_reuse_address(false),
       _option_reuse_port(false)
@@ -74,6 +76,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _bytes_pending(0),
       _bytes_sent(0),
       _bytes_received(0),
+      _option_keep_alive(false),
       _option_no_delay(false),
       _option_reuse_address(false),
       _option_reuse_port(false)
