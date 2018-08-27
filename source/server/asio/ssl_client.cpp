@@ -715,15 +715,11 @@ void SSLClient::onReset()
     size_t bytes_received = _pimpl->bytes_received();
     bool option_keep_alive = _pimpl->option_keep_alive();
     bool option_no_delay = _pimpl->option_no_delay();
-    size_t option_receive_buffer_size = _pimpl->option_receive_buffer_size();
-    size_t option_send_buffer_size = _pimpl->option_send_buffer_size();
     _pimpl = std::make_shared<Impl>(_pimpl->id(), _pimpl->service(), _pimpl->context(), _pimpl->endpoint());
     _pimpl->bytes_sent() = bytes_sent;
     _pimpl->bytes_received() = bytes_received;
     _pimpl->SetupKeepAlive(option_keep_alive);
     _pimpl->SetupNoDelay(option_no_delay);
-    _pimpl->SetupReceiveBufferSize(option_receive_buffer_size);
-    _pimpl->SetupSendBufferSize(option_send_buffer_size);
 }
 
 } // namespace Asio
