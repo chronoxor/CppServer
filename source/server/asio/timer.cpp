@@ -49,12 +49,12 @@ Timer::Timer(std::shared_ptr<Service> service, const CppCommon::Timespan& timesp
 
 CppCommon::UtcTime Timer::expire_time() const
 {
-    return CppCommon::UtcTime::chrono(_timer.expires_at());
+    return CppCommon::UtcTime(_timer.expires_at());
 }
 
 CppCommon::Timespan Timer::expire_timespan() const
 {
-    return CppCommon::Timespan::chrono(_timer.expires_from_now());
+    return CppCommon::Timespan(_timer.expires_from_now());
 }
 
 bool Timer::Setup(const CppCommon::UtcTime& time)
