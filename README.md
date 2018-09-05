@@ -14,12 +14,6 @@ client/server solutions.
   * [Features](#features)
   * [Requirements](#requirements)
   * [How to build?](#how-to-build)
-    * [Clone repository with submodules](#clone-repository-with-submodules)
-    * [Linux](#linux)
-    * [OSX](#osx)
-    * [Windows (MinGW)](#windows-mingw)
-    * [Windows (MinGW with MSYS)](#windows-mingw-with-msys)
-    * [Windows (Visual Studio)](#windows-visual-studio)
   * [Examples](#examples)
     * [Example: Asio service](#example-asio-service)
     * [Example: Asio timer](#example-asio-timer)
@@ -69,32 +63,32 @@ Optional:
 
 # How to build?
 
-## Clone repository with submodules
+### Clone repository with submodules
 ```shell
 git clone https://github.com/chronoxor/CppServer.git
 cd CppServer
 git submodule update --init --recursive --remote
 ```
 
-## Linux
+### Linux
 ```shell
 cd build
 ./unix.sh
 ```
 
-## OSX
+### OSX
 ```shell
 cd build
 ./unix.sh
 ```
 
-## Windows (MinGW)
+### Windows (MinGW)
 ```shell
 cd build
 mingw.bat
 ```
 
-## Windows (Visual Studio)
+### Windows (Visual Studio)
 ```shell
 cd build
 vs.bat
