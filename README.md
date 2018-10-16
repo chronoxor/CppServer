@@ -5,8 +5,8 @@
 [![MinGW build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=MinGW)](https://ci.appveyor.com/project/chronoxor/CppServer)
 [![Windows build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=Windows)](https://ci.appveyor.com/project/chronoxor/CppServer)
 
-C++ Server Library provides functionality to create different kind of
-client/server solutions.
+Ultra fast and low latency asynchronous C++ Server & Client library which
+supports TCP, SSL, UDP protocols and solves [10K connection problem](http://www.kegel.com/c10k.html).
 
 [CppServer API reference](https://chronoxor.github.io/CppServer/index.html)
 
