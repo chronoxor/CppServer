@@ -5,8 +5,8 @@
 [![MinGW build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=MinGW)](https://ci.appveyor.com/project/chronoxor/CppServer)
 [![Windows build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=Windows)](https://ci.appveyor.com/project/chronoxor/CppServer)
 
-Ultra fast and low latency asynchronous C++ Server & Client library which
-supports TCP, SSL, UDP protocols.
+Ultra fast and low latency asynchronous C++ Server & Client library with
+support TCP, SSL, UDP protocols and 10K connection problem solution.
 
 [CppServer API reference](https://chronoxor.github.io/CppServer/index.html)
 
