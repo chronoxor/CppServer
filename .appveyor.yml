@@ -13,17 +13,12 @@ branches:
 only_commits:
   message: build
 
-# Cache files to speed up build
-cache:
-    - C:\mingw.7z -> .appveyor.yml
-    - C:\cache\cygwin -> .appveyor.yml
-
 # Build matrix
 environment:
   matrix:
-#    - type: Cygwin
-#      build: C:\cygwin64\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER/build; exec 0</dev/null; ./cygwin.sh"
-#      command: C:\cygwin64\bin\bash -lc
+    - type: Cygwin
+      build: C:\cygwin64\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER/build; exec 0</dev/null; ./cygwin.sh"
+      command: C:\cygwin64\bin\bash -lc
     - type: MinGW
       build: call mingw.bat
       command: cmd /C
@@ -39,33 +34,24 @@ matrix:
 install:
   # Chocolatey
   - choco upgrade chocolatey
-  # Doxygen
-  - choco install --cache "C:\ProgramData\chocolatey\cache" --force doxygen.portable
-  - choco install --cache "C:\ProgramData\chocolatey\cache" --force ghostscript
-  - choco install --cache "C:\ProgramData\chocolatey\cache" --force graphviz
-  - choco install --cache "C:\ProgramData\chocolatey\cache" --force miktex
-  - set doxygen=yes
   # Cygwin
   - if "%type%"=="Cygwin" if not exist "C:\cygwin64" mkdir "C:\cygwin64"
   - if "%type%"=="Cygwin" appveyor-retry appveyor DownloadFile "http://cygwin.com/setup-x86_64.exe" -FileName "C:\cygwin64\setup-x86_64.exe"
-  - if "%type%"=="Cygwin" C:\cygwin64\setup-x86_64.exe --quiet-mode --no-shortcuts --upgrade-also --root "C:\cygwin64" --local-package-dir "C:\cache\cygwin" --packages cmake,automake,make,gcc-core,gcc-g++,doxygen,graphviz,libncurses-devel
-  - if "%type%"=="Cygwin" appveyor-retry appveyor DownloadFile "https://cmake.org/files/v3.12/cmake-3.12.0.tar.gz" -FileName "cmake.tar.gz"
-  - if "%type%"=="Cygwin" C:\cygwin64\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER; mkdir temp; cd temp; mv ../cmake.tar.gz ./cmake.tar.gz; tar xzf cmake.tar.gz --strip-components=1; ./bootstrap && make && make install; cd ..; rm -rf ./temp"
+  - if "%type%"=="Cygwin" C:\cygwin64\setup-x86_64.exe --quiet-mode --no-shortcuts --upgrade-also --root "C:\cygwin64" --local-package-dir "C:\cache\cygwin" --packages cmake,automake,make,gcc-core,gcc-g++,libjsoncpp19,librhash0,libuv1
   # MinGW
   - if "%type%"=="MinGW" if not exist "C:\mingw.7z" appveyor-retry appveyor DownloadFile "http://downloads.sourceforge.net/mingw-w64/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z" -FileName "C:\mingw.7z"
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
   - if "%type%"=="MinGW" set PATH=C:\mingw64\bin;%PATH:C:\Program Files\Git\usr\bin;=%
   - if "%type%"=="MinGW" set INCLUDE=C:\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
   # Visual Studio
-  - if "%type%"=="VisualStudio" set PATH=C:\Program Files\MiKTeX 2.9\miktex\bin\x64;C:\Program Files\gs\gs9.22\bin;%PATH%
-  - if "%type%"=="VisualStudio" set INCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.17134.0\um;C:\Program Files (x86)\Windows Kits\10\Include\10.0.17134.0\shared;%INCLUDE%
-  - if "%type%"=="VisualStudio" set LIB=C:\Program Files (x86)\Windows Kits\10\Lib\10.0.17134.0\um\x64;%LIB%
-  # git
+  - if "%type%"=="VisualStudio" set INCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um;C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared;%INCLUDE%
+  - if "%type%"=="VisualStudio" set LIB=C:\Program Files (x86)\Windows Kits\10\Lib\10.0.17763.0\um\x64;%LIB%
+  # CMake
   - '%command% "cmake --version"'
-  - '%command% "git config --global user.name "AppVeyor""'
-  - '%command% "git config --global user.email "team@appveyor.com""'
-  - '%command% "git config --global push.default simple"'
-  - git submodule update --init --recursive --remote
+  # gil
+  - set PATH=C:\Python37;%PATH%
+  - git clone https://github.com/chronoxor/gil.git"
+  - gil\gil.bat update
 
 # Build scripts
 build_script:
