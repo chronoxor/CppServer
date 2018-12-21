@@ -49,12 +49,13 @@ solution.
   [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server)
 
 # Requirements
-* Linux (gcc g++ cmake doxygen graphviz binutils-dev uuid-dev openssl)
-* OSX (clang cmake doxygen graphviz openssl)
+* Linux (binutils-dev uuid-dev openssl)
+* OSX (openssl)
 * Windows 10
 * [cmake](https://www.cmake.org)
-* [git](https://git-scm.com)
 * [gcc](https://gcc.gnu.org)
+* [git](https://git-scm.com)
+* [gil](https://github.com/chronoxor/gil.git)
 
 Optional:
 * [clang](https://clang.llvm.org)
@@ -64,11 +65,11 @@ Optional:
 
 # How to build?
 
-### Clone repository with submodules
+### Setup repository with [gil (git links) tool](https://github.com/chronoxor/gil#setup)
 ```shell
 git clone https://github.com/chronoxor/CppServer.git
 cd CppServer
-git submodule update --init --recursive --remote
+gil update
 ```
 
 ### Linux
