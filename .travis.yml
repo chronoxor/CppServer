@@ -39,9 +39,9 @@ matrix:
       compiler: clang
       env: OS=osx COMPILER=clang
 
-# Using Trusty environment
+# OS environment
 sudo: required
-dist: trusty
+dist: xenial
 
 # Branches to build
 branches:
@@ -50,12 +50,6 @@ branches:
 
 # Scripts that run before install
 before_install:
-  # cmake
-  - cmake --version
-  # git
-  - git config --global user.name "Travis CI"
-  - git config --global user.email "travis@travis-ci.org"
-  - git config --global push.default simple
   # gcc
   - if [ "$OS" != "osx" ] && [ "$COMPILER" = "gcc" ]; then export CC="gcc-${GCC_VERSION}" CXX="g++-${GCC_VERSION}"; fi
   # clang, libc++, libc++abi
@@ -64,10 +58,19 @@ before_install:
   - if [ "$OS" == "osx" ]; then brew update; fi
   - if [ "$OS" == "osx" ]; then brew install doxygen; fi
   - if [ "$OS" == "osx" ]; then brew install graphviz; fi
-  # Doxygen support
-  - export doxygen=yes
-  # OpenSSL
+  # openssl
   - if [ "$OS" == "osx" ]; then export OPENSSL_ROOT_DIR=$(brew --prefix openssl); fi
+  # cmake
+  - cmake --version
+  # doxygen support
+  - export doxygen=yes
+  # git
+  - git config --global user.name "Travis CI"
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global push.default simple
+  # gil
+  - git clone https://github.com/chronoxor/gil.git
+  - ./gil/gil.sh update
 
 # Build scripts
 script: 
