@@ -1,0 +1,10 @@
+# Modules
+asio modules/asio https://github.com/chriskohlhoff/asio.git master
+Catch2 modules/Catch2 https://github.com/catchorg/Catch2.git master
+cpp-optparse modules/cpp-optparse https://github.com/weisslj/cpp-optparse.git master
+CppBenchmark modules/CppBenchmark https://github.com/chronoxor/CppBenchmark.git master
+CppCommon modules/CppCommon https://github.com/chronoxor/CppCommon.git master
+
+# Scripts
+build build https://github.com/chronoxor/CppBuildScripts.git master
+cmake cmake https://github.com/chronoxor/CppCMakeScripts.git master

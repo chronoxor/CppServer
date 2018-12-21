@@ -51,7 +51,7 @@ solution.
 # Requirements
 * Linux (gcc g++ cmake doxygen graphviz binutils-dev uuid-dev openssl)
 * OSX (clang cmake doxygen graphviz openssl)
-* Windows 7 / Windows 10
+* Windows 10
 * [cmake](https://www.cmake.org)
 * [git](https://git-scm.com)
 * [gcc](https://gcc.gnu.org)
