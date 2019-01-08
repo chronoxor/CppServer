@@ -19,6 +19,7 @@ matrix:
             - graphviz
             - binutils-dev
             - python3-pip
+            - python3-setuptools
             - uuid-dev
     - os: linux
       compiler: clang
@@ -36,6 +37,7 @@ matrix:
             - graphviz
             - binutils-dev
             - python3-pip
+            - python3-setuptools
             - uuid-dev
     - os: osx
       compiler: clang
@@ -71,8 +73,6 @@ before_install:
   - git config --global user.email "travis@travis-ci.org"
   - git config --global push.default simple
   # gil
-  - pip3 install --upgrade pip
-  - pip3 install setuptools
   - pip3 install gil
   - gil update
 
