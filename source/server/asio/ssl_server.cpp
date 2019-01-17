@@ -267,7 +267,7 @@ bool SSLServer::Multicast(const void* buffer, size_t size)
         // Update statistic
         _bytes_pending += size;
 
-        // Avoid multiple multicast hanlders
+        // Avoid multiple multicast handlers
         if (!multicast_required)
             return true;
     }

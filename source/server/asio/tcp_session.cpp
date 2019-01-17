@@ -175,7 +175,7 @@ bool TCPSession::Send(const void* buffer, size_t size)
         // Update statistic
         _bytes_pending = _send_buffer_main.size();
 
-        // Avoid multiple send hanlders
+        // Avoid multiple send handlers
         if (!send_required)
             return true;
     }
