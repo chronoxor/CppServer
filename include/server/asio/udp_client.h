@@ -277,12 +277,12 @@ private:
     uint64_t _datagrams_sent;
     uint64_t _datagrams_received;
     // Receive and send endpoints
-    asio::ip::udp::endpoint _recive_endpoint;
+    asio::ip::udp::endpoint _receive_endpoint;
     asio::ip::udp::endpoint _send_endpoint;
     // Receive buffer
     bool _reciving;
-    std::vector<uint8_t> _recive_buffer;
-    HandlerStorage _recive_storage;
+    std::vector<uint8_t> _receive_buffer;
+    HandlerStorage _receive_storage;
     // Send buffer
     bool _sending;
     std::vector<uint8_t> _send_buffer;

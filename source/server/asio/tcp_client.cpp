@@ -115,7 +115,7 @@ bool TCPClient::Connect()
                     _socket.set_option(asio::ip::tcp::no_delay(true));
 
                 // Prepare receive & send buffers
-                _recive_buffer.resize(option_receive_buffer_size());
+                _receive_buffer.resize(option_receive_buffer_size());
                 _send_buffer_main.reserve(option_send_buffer_size());
                 _send_buffer_flush.reserve(option_send_buffer_size());
 
@@ -267,7 +267,7 @@ void TCPClient::TryReceive()
     // Async receive with the receive handler
     _reciving = true;
     auto self(this->shared_from_this());
-    auto async_receive_handler = make_alloc_handler(_recive_storage, [this, self](std::error_code ec, size_t size)
+    auto async_receive_handler = make_alloc_handler(_receive_storage, [this, self](std::error_code ec, size_t size)
     {
         _reciving = false;
 
@@ -281,11 +281,11 @@ void TCPClient::TryReceive()
             _bytes_received += size;
 
             // If the receive buffer is full increase its size
-            if (_recive_buffer.size() == size)
-                _recive_buffer.resize(2 * size);
+            if (_receive_buffer.size() == size)
+                _receive_buffer.resize(2 * size);
 
             // Call the buffer received handler
-            onReceived(_recive_buffer.data(), size);
+            onReceived(_receive_buffer.data(), size);
         }
 
         // Try to receive again if the session is valid
@@ -298,9 +298,9 @@ void TCPClient::TryReceive()
         }
     });
     if (_strand_required)
-        _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), bind_executor(_strand, async_receive_handler));
+        _socket.async_read_some(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), bind_executor(_strand, async_receive_handler));
     else
-        _socket.async_read_some(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), async_receive_handler);
+        _socket.async_read_some(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), async_receive_handler);
 }
 
 void TCPClient::TrySend()
@@ -384,10 +384,10 @@ void TCPClient::TrySend()
 
 void TCPClient::ClearBuffers()
 {
-    // Clear send buffers
     {
         std::lock_guard<std::mutex> locker(_send_lock);
 
+        // Clear send buffers
         _send_buffer_main.clear();
         _send_buffer_flush.clear();
         _send_buffer_flush_offset = 0;

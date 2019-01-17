@@ -143,7 +143,7 @@ bool UDPServer::Start()
         _socket.bind(_endpoint);
 
         // Prepare receive buffer
-        _recive_buffer.resize(option_receive_buffer_size());
+        _receive_buffer.resize(option_receive_buffer_size());
 
         // Reset statistic
         _bytes_sending = 0;
@@ -348,7 +348,7 @@ void UDPServer::TryReceive()
     // Async receive with the receive handler
     _reciving = true;
     auto self(this->shared_from_this());
-    auto async_receive_handler = make_alloc_handler(_recive_storage, [this, self](std::error_code ec, size_t size)
+    auto async_receive_handler = make_alloc_handler(_receive_storage, [this, self](std::error_code ec, size_t size)
     {
         _reciving = false;
 
@@ -370,17 +370,17 @@ void UDPServer::TryReceive()
             _bytes_received += size;
 
             // If the receive buffer is full increase its size
-            if (_recive_buffer.size() == size)
-                _recive_buffer.resize(2 * size);
+            if (_receive_buffer.size() == size)
+                _receive_buffer.resize(2 * size);
 
             // Call the datagram received handler
-            onReceived(_recive_endpoint, _recive_buffer.data(), size);
+            onReceived(_receive_endpoint, _receive_buffer.data(), size);
         }
     });
     if (_strand_required)
-        _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, bind_executor(_strand, async_receive_handler));
+        _socket.async_receive_from(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), _receive_endpoint, bind_executor(_strand, async_receive_handler));
     else
-        _socket.async_receive_from(asio::buffer(_recive_buffer.data(), _recive_buffer.size()), _recive_endpoint, async_receive_handler);
+        _socket.async_receive_from(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), _receive_endpoint, async_receive_handler);
 }
 
 void UDPServer::SendError(std::error_code ec)
