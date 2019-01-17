@@ -23,7 +23,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
       _bytes_received(0),
       _datagrams_sent(0),
       _datagrams_received(0),
-      _reciving(false),
+      _receiving(false),
       _sending(false),
       _option_reuse_address(false),
       _option_reuse_port(false)
@@ -56,7 +56,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
       _bytes_received(0),
       _datagrams_sent(0),
       _datagrams_received(0),
-      _reciving(false),
+      _receiving(false),
       _sending(false),
       _option_reuse_address(false),
       _option_reuse_port(false)
@@ -82,7 +82,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _bytes_received(0),
       _datagrams_sent(0),
       _datagrams_received(0),
-      _reciving(false),
+      _receiving(false),
       _sending(false)
 {
     assert((service != nullptr) && "Asio service is invalid!");
@@ -339,18 +339,18 @@ bool UDPServer::SendSync(const asio::ip::udp::endpoint& endpoint, const void* bu
 
 void UDPServer::TryReceive()
 {
-    if (_reciving)
+    if (_receiving)
         return;
 
     if (!IsStarted())
         return;
 
     // Async receive with the receive handler
-    _reciving = true;
+    _receiving = true;
     auto self(this->shared_from_this());
     auto async_receive_handler = make_alloc_handler(_receive_storage, [this, self](std::error_code ec, size_t size)
     {
-        _reciving = false;
+        _receiving = false;
 
         if (!IsStarted())
             return;

@@ -36,7 +36,7 @@ public:
           _bytes_sending(0),
           _bytes_sent(0),
           _bytes_received(0),
-          _reciving(false),
+          _receiving(false),
           _sending(false),
           _send_buffer_flush_offset(0),
           _option_keep_alive(false),
@@ -68,7 +68,7 @@ public:
           _bytes_sending(0),
           _bytes_sent(0),
           _bytes_received(0),
-          _reciving(false),
+          _receiving(false),
           _sending(false),
           _send_buffer_flush_offset(0),
           _option_keep_alive(false),
@@ -369,7 +369,7 @@ private:
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Receive buffer & cache
-    bool _reciving;
+    bool _receiving;
     std::vector<uint8_t> _receive_buffer;
     HandlerStorage _receive_storage;
     // Send buffer & cache
@@ -385,18 +385,18 @@ private:
 
     void TryReceive()
     {
-        if (_reciving)
+        if (_receiving)
             return;
 
         if (!IsHandshaked())
             return;
 
         // Async receive with the receive handler
-        _reciving = true;
+        _receiving = true;
         auto self(this->shared_from_this());
         auto async_receive_handler = make_alloc_handler(_receive_storage, [this, self](std::error_code ec, size_t size)
         {
-            _reciving = false;
+            _receiving = false;
 
             if (!IsHandshaked())
                 return;

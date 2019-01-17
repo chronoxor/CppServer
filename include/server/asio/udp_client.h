@@ -280,7 +280,7 @@ private:
     asio::ip::udp::endpoint _receive_endpoint;
     asio::ip::udp::endpoint _send_endpoint;
     // Receive buffer
-    bool _reciving;
+    bool _receiving;
     std::vector<uint8_t> _receive_buffer;
     HandlerStorage _receive_storage;
     // Send buffer

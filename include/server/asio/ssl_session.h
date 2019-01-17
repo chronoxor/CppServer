@@ -174,7 +174,7 @@ private:
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Receive buffer & cache
-    bool _reciving;
+    bool _receiving;
     std::vector<uint8_t> _receive_buffer;
     HandlerStorage _receive_storage;
     // Send buffer & cache

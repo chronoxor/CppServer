@@ -24,7 +24,7 @@ TCPSession::TCPSession(std::shared_ptr<TCPServer> server)
       _bytes_sending(0),
       _bytes_sent(0),
       _bytes_received(0),
-      _reciving(false),
+      _receiving(false),
       _sending(false),
       _send_buffer_flush_offset(0)
 {
@@ -197,18 +197,18 @@ bool TCPSession::Send(const void* buffer, size_t size)
 
 void TCPSession::TryReceive()
 {
-    if (_reciving)
+    if (_receiving)
         return;
 
     if (!IsConnected())
         return;
 
     // Async receive with the receive handler
-    _reciving = true;
+    _receiving = true;
     auto self(this->shared_from_this());
     auto async_receive_handler = make_alloc_handler(_receive_storage, [this, self](std::error_code ec, size_t size)
     {
-        _reciving = false;
+        _receiving = false;
 
         if (!IsConnected())
             return;
