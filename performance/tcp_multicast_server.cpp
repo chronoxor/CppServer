@@ -30,7 +30,7 @@ public:
         size_t pending = bytes_pending();
         if ((pending + size) > limit)
             return false;
-        else if (size > (limit - pending))
+        if (size > (limit - pending))
             size = limit - pending;
 
         return TCPSession::Send(buffer, size);
