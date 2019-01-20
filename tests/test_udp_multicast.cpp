@@ -91,7 +91,7 @@ protected:
 
 } // namespace
 
-TEST_CASE("UDP server multicast", "[CppServer][Asio]")
+TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
 {
     const std::string listen_address = "0.0.0.0";
     const std::string multicast_address = "239.255.0.1";

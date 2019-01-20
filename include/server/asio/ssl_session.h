@@ -78,14 +78,14 @@ public:
     */
     virtual bool Disconnect() { return Disconnect(false); }
 
-    //! Send data into the session
+    //! Send data to the client
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
         \return 'true' if the data was successfully sent, 'false' if the session is not connected
     */
     virtual bool Send(const void* buffer, size_t size);
-    //! Send text into the session
+    //! Send text to the client
     /*!
         \param text - Text string to send
         \return 'true' if the text was successfully sent, 'false' if the session is not connected

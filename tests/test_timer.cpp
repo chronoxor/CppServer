@@ -41,7 +41,7 @@ protected:
 
 } // namespace
 
-TEST_CASE("Asio timer", "[CppServer][Asio]")
+TEST_CASE("Asio timer test", "[CppServer][Asio]")
 {
     // Create and start Asio service
     auto service = std::make_shared<Service>();

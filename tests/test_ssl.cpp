@@ -147,7 +147,7 @@ protected:
 
 } // namespace
 
-TEST_CASE("SSL server", "[CppServer][Asio]")
+TEST_CASE("SSL server test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
     const int port = 2222;
@@ -224,7 +224,7 @@ TEST_CASE("SSL server", "[CppServer][Asio]")
     REQUIRE(!client->errors);
 }
 
-TEST_CASE("SSL server multicast", "[CppServer][Asio]")
+TEST_CASE("SSL server multicast test", "[CppServer][Asio]")
 {
     const std::string address = "127.0.0.1";
     const int port = 2223;
