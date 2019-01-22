@@ -280,6 +280,9 @@ private:
     //! Try to receive new datagram
     void TryReceive();
 
+    //! Clear send/receive buffers
+    void ClearBuffers();
+
     //! Send error notification
     void SendError(std::error_code ec);
 };

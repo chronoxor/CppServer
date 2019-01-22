@@ -157,6 +157,9 @@ bool UDPClient::Disconnect(bool dispatch)
         // Update the connected flag
         _connected = false;
 
+        // Clear send/receive buffers
+        ClearBuffers();
+
         // Call the client disconnected handler
         onDisconnected();
     };
@@ -406,6 +409,15 @@ void UDPClient::TryReceive()
         _socket.async_receive_from(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), _receive_endpoint, bind_executor(_strand, async_receive_handler));
     else
         _socket.async_receive_from(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), _receive_endpoint, async_receive_handler);
+}
+
+void UDPClient::ClearBuffers()
+{
+    // Clear send buffers
+    _send_buffer.clear();
+
+    // Update statistic
+    _bytes_sending = 0;
 }
 
 void UDPClient::SendError(std::error_code ec)

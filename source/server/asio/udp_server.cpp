@@ -197,6 +197,9 @@ bool UDPServer::Stop()
         // Update the started flag
         _started = false;
 
+        // Clear send/receive buffers
+        ClearBuffers();
+
         // Call the server stopped handler
         onStopped();
     };
@@ -381,6 +384,15 @@ void UDPServer::TryReceive()
         _socket.async_receive_from(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), _receive_endpoint, bind_executor(_strand, async_receive_handler));
     else
         _socket.async_receive_from(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), _receive_endpoint, async_receive_handler);
+}
+
+void UDPServer::ClearBuffers()
+{
+    // Clear send buffers
+    _send_buffer.clear();
+
+    // Update statistic
+    _bytes_sending = 0;
 }
 
 void UDPServer::SendError(std::error_code ec)
