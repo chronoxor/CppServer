@@ -151,14 +151,14 @@ public:
         \param endpoint - Endpoint to send
         \param buffer - Datagram buffer to send
         \param size - Datagram buffer size
-        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
     virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
     //! Send text into the given endpoint (asynchronous)
     /*!
         \param endpoint - Endpoint to send
         \param text - Text string to send
-        \return 'true' if the text was successfully multicasted, 'false' if the text was not multicasted
+        \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
     virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return SendAsync(endpoint, text.data(), text.size()); }
 
@@ -167,14 +167,14 @@ public:
         \param endpoint - Endpoint to send
         \param buffer - Datagram buffer to send
         \param size - Datagram buffer size
-        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
     virtual bool SendSync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
     //! Send text into the given endpoint (synchronous)
     /*!
         \param endpoint - Endpoint to send
         \param text - Text string to send
-        \return 'true' if the text was successfully multicasted, 'false' if the text was not multicasted
+        \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
     virtual bool SendSync(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return SendSync(endpoint, text.data(), text.size()); }
 
