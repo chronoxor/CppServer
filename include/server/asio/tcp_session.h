@@ -166,11 +166,11 @@ private:
     uint64_t _bytes_sending;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
-    // Receive buffer & cache
+    // Receive buffer
     bool _receiving;
     std::vector<uint8_t> _receive_buffer;
     HandlerStorage _receive_storage;
-    // Send buffer & cache
+    // Send buffer
     bool _sending;
     std::mutex _send_lock;
     std::vector<uint8_t> _send_buffer_main;
