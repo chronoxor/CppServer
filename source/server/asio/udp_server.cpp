@@ -197,6 +197,10 @@ bool UDPServer::Stop()
         // Update the started flag
         _started = false;
 
+        // Update sending/receiving flags
+        _receiving = false;
+        _sending = false;
+
         // Clear send/receive buffers
         ClearBuffers();
 

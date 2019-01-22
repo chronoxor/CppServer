@@ -157,6 +157,10 @@ bool UDPClient::Disconnect(bool dispatch)
         // Update the connected flag
         _connected = false;
 
+        // Update sending/receiving flags
+        _receiving = false;
+        _sending = false;
+
         // Clear send/receive buffers
         ClearBuffers();
 
