@@ -76,6 +76,11 @@ TEST_CASE("Asio timer test", "[CppServer][Asio]")
     // Wait for a while...
     CppCommon::Thread::Sleep(500);
 
+    // Stop the Asio service
+    REQUIRE(service->Stop());
+    while (service->IsStarted())
+        Thread::Yield();
+
     // Check the timer state
     REQUIRE(timer->canceled);
     REQUIRE(timer->expired);

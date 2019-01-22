@@ -276,8 +276,8 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
             {
                 // Create and connect multicast client
                 auto client = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port);
-                client->SetupMulticast(true);
                 clients.emplace_back(client);
+                client->SetupMulticast(true);
                 client->Connect();
                 while (!client->IsConnected())
                     Thread::Yield();
