@@ -18,6 +18,11 @@ public:
     using CppServer::Asio::SSLSession::SSLSession;
 
 protected:
+    void onConnected() override
+    {
+        std::cout << "Chat SSL session with Id " << id() << " connected!" << std::endl;
+    }
+
     void onHandshaked() override
     {
         std::cout << "Chat SSL session with Id " << id() << " handshaked!" << std::endl;
