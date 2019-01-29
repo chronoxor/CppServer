@@ -376,12 +376,12 @@ void UDPServer::TryReceive()
             ++_datagrams_received;
             _bytes_received += size;
 
+            // Call the datagram received handler
+            onReceived(_receive_endpoint, _receive_buffer.data(), size);
+
             // If the receive buffer is full increase its size
             if (_receive_buffer.size() == size)
                 _receive_buffer.resize(2 * size);
-
-            // Call the datagram received handler
-            onReceived(_receive_endpoint, _receive_buffer.data(), size);
         }
     });
     if (_strand_required)

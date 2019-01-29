@@ -270,12 +270,12 @@ void SSLSession::TryReceive()
             _bytes_received += size;
             _server->_bytes_received += size;
 
+            // Call the buffer received handler
+            onReceived(_receive_buffer.data(), size);
+
             // If the receive buffer is full increase its size
             if (_receive_buffer.size() == size)
                 _receive_buffer.resize(2 * size);
-
-            // Call the buffer received handler
-            onReceived(_receive_buffer.data(), size);
         }
 
         // Try to receive again if the session is valid
