@@ -109,6 +109,7 @@ public:
     std::atomic<bool> started;
     std::atomic<bool> stopped;
     std::atomic<bool> connected;
+    std::atomic<bool> handshaked;
     std::atomic<bool> disconnected;
     std::atomic<size_t> clients;
     std::atomic<bool> errors;
@@ -140,7 +141,8 @@ protected:
 protected:
     void onStarted() override { started = true; }
     void onStopped() override { stopped = true; }
-    void onConnected(std::shared_ptr<SSLSession>& session) override { connected = true; ++clients; }
+    void onConnected(std::shared_ptr<SSLSession>& session) override { connected = true; }
+    void onHandshaked(std::shared_ptr<SSLSession>& session) override { handshaked = true; ++clients; }
     void onDisconnected(std::shared_ptr<SSLSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
@@ -210,6 +212,7 @@ TEST_CASE("SSL server test", "[CppServer][Asio]")
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
+    REQUIRE(server->handshaked);
     REQUIRE(server->disconnected);
     REQUIRE(server->bytes_sent() == 4);
     REQUIRE(server->bytes_received() == 4);
@@ -337,6 +340,7 @@ TEST_CASE("SSL server multicast test", "[CppServer][Asio]")
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
+    REQUIRE(server->handshaked);
     REQUIRE(server->disconnected);
     REQUIRE(server->bytes_sent() == 36);
     REQUIRE(server->bytes_received() == 0);
@@ -484,6 +488,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     REQUIRE(server->started);
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
+    REQUIRE(server->handshaked);
     REQUIRE(server->disconnected);
     REQUIRE(server->bytes_sent() > 0);
     REQUIRE(server->bytes_received() > 0);
