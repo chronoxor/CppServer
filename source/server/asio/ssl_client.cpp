@@ -174,7 +174,7 @@ public:
                     {
                         _handshaking = false;
 
-                        if (IsHandshaked() || _handshaking)
+                        if (IsHandshaked())
                             return;
 
                         if (!ec2)
@@ -243,9 +243,11 @@ public:
             onReset();
 
             // Update the handshaked flag
+            _handshaking = false;
             _handshaked = false;
 
             // Update the connected flag
+            _connecting = false;
             _connected = false;
 
             // Update sending/receiving flags
