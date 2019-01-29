@@ -303,7 +303,7 @@ bool UDPClient::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
             return;
         }
 
-        // Send some data to the client
+        // Send some data to the server
         if (sent > 0)
         {
             // Update statistic
@@ -394,7 +394,7 @@ void UDPClient::TryReceive()
             return;
         }
 
-        // Received some data from the client
+        // Received some data from the server
         if (size > 0)
         {
             // Update statistic

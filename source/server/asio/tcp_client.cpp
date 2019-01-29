@@ -278,7 +278,7 @@ void TCPClient::TryReceive()
         if (!IsConnected())
             return;
 
-        // Received some data from the client
+        // Received some data from the server
         if (size > 0)
         {
             // Update statistic
@@ -349,7 +349,7 @@ void TCPClient::TrySend()
         if (!IsConnected())
             return;
 
-        // Send some data to the client
+        // Send some data to the server
         if (size > 0)
         {
             // Update statistic
