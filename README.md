@@ -1312,12 +1312,12 @@ Message size: 32
 
 Errors: 0
 
-Round-trip time: 7.917 s
-Total bytes: 32000000
+Round-trip time: 5.534 s
+Total data: 30.530 MiB
 Total messages: 1000000
-Data throughput: 4.042 MiB/s
-Messages latency: 7.917 mcs
-Messages throughput: 126309 msg/s
+Data throughput: 5.526 MiB/s
+Message latency: 5.534 mcs
+Message throughput: 180697 msg/s
 ```
 
 * [cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
@@ -1333,12 +1333,12 @@ Message size: 32
 
 Errors: 0
 
-Round-trip time: 4.741 s
-Total bytes: 32000000
+Round-trip time: 2.995 s
+Total data: 30.530 MiB
 Total messages: 1000000
-Data throughput: 6.749 MiB/s
-Message latency: 4.741 mcs
-Message throughput: 210912 msg/s
+Data throughput: 10.190 MiB/s
+Message latency: 2.995 mcs
+Message throughput: 333784 msg/s
 ```
 
 ### UDP echo server
@@ -1408,12 +1408,12 @@ Message size: 32
 
 Errors: 0
 
-Multicast time: 10.007 s
-Total data: 465.128 MiB
-Total messages: 15241217
-Data throughput: 46.491 MiB/s
-Message latency: 656 ns
-Message throughput: 1523045 msg/s
+Multicast time: 10.002 s
+Total data: 874.869 MiB
+Total messages: 28667069
+Data throughput: 87.475 MiB/s
+Message latency: 348 ns
+Message throughput: 2866016 msg/s
 ```
 
 * [cppserver-performance-tcp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_server.cpp)
@@ -1428,12 +1428,12 @@ Message size: 32
 
 Errors: 0
 
-Multicast time: 10.012 s
-Total data: 3.373 GiB
-Total messages: 112902830
-Data throughput: 344.127 MiB/s
-Message latency: 88 ns
-Message throughput: 11276267 msg/s
+Multicast time: 10.006 s
+Total data: 3.732 GiB
+Total messages: 124660845
+Data throughput: 380.186 MiB/s
+Message latency: 80 ns
+Message throughput: 12457815 msg/s
 ```
 
 ### SSL multicast server
@@ -1450,12 +1450,12 @@ Message size: 32
 
 Errors: 0
 
-Multicast time: 10.008 s
-Total data: 125.439 MiB
-Total messages: 4110078
-Data throughput: 12.545 MiB/s
-Message latency: 2.435 mcs
-Message throughput: 410666 msg/s
+Multicast time: 10.007 s
+Total data: 756.186 MiB
+Total messages: 24778582
+Data throughput: 75.578 MiB/s
+Message latency: 403 ns
+Message throughput: 2476113 msg/s
 ```
 
 * [cppserver-performance-ssl_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_server.cpp)
@@ -1470,12 +1470,12 @@ Message size: 32
 
 Errors: 0
 
-Multicast time: 10.013 s
-Total data: 3.010 GiB
-Total messages: 101017887
-Data throughput: 307.878 MiB/s
-Message latency: 99 ns
-Message throughput: 10087872 msg/s
+Multicast time: 10.333 s
+Total data: 3.525 GiB
+Total messages: 117870969
+Data throughput: 348.105 MiB/s
+Message latency: 87 ns
+Message throughput: 11406648 msg/s
 ```
 
 ### UDP multicast server
@@ -1492,12 +1492,12 @@ Message size: 32
 
 Errors: 0
 
-Multicast time: 10.007 s
-Total data: 19.516 MiB
-Total messages: 639123
-Data throughput: 1.971 MiB/s
-Message latency: 15.657 mcs
-Message throughput: 63867 msg/s
+Multicast time: 10.001 s
+Total data: 21.537 MiB
+Total messages: 705319
+Data throughput: 2.155 MiB/s
+Message latency: 14.180 mcs
+Message throughput: 70521 msg/s
 ```
 
 * [cppserver-performance-udp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_server.cpp)
