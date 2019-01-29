@@ -473,7 +473,7 @@ private:
         {
             _sending = false;
 
-            if (!IsConnected())
+            if (!IsHandshaked())
                 return;
 
             // Send some data to the client
