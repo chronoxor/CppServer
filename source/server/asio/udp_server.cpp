@@ -194,12 +194,12 @@ bool UDPServer::Stop()
         // Close the server socket
         _socket.close();
 
-        // Update the started flag
-        _started = false;
-
         // Update sending/receiving flags
         _receiving = false;
         _sending = false;
+
+        // Update the started flag
+        _started = false;
 
         // Clear send/receive buffers
         ClearBuffers();

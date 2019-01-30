@@ -109,12 +109,12 @@ bool TCPSession::Disconnect(bool dispatch)
         // Close the session socket
         _socket.close();
 
-        // Update the connected flag
-        _connected = false;
-
         // Update sending/receiving flags
         _receiving = false;
         _sending = false;
+
+        // Update the connected flag
+        _connected = false;
 
         // Clear send/receive buffers
         ClearBuffers();

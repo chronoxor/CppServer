@@ -147,15 +147,15 @@ bool SSLSession::Disconnect(bool dispatch)
             // Close the session socket
             socket().close();
 
+            // Update sending/receiving flags
+            _receiving = false;
+            _sending = false;
+
             // Update the handshaked flag
             _handshaked = false;
 
             // Update the connected flag
             _connected = false;
-
-            // Update sending/receiving flags
-            _receiving = false;
-            _sending = false;
 
             // Clear send/receive buffers
             ClearBuffers();
