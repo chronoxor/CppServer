@@ -173,12 +173,12 @@ bool TCPClient::Disconnect(bool dispatch)
         // Close the client socket
         _socket.close();
 
+        // Update the connected flag
+        _connected = false;
+
         // Update sending/receiving flags
         _receiving = false;
         _sending = false;
-
-        // Update the connected flag
-        _connected = false;
 
         // Clear send/receive buffers
         ClearBuffers();

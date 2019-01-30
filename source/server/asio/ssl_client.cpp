@@ -242,10 +242,6 @@ public:
             // Call the client reset handler
             onReset();
 
-            // Update sending/receiving flags
-            _receiving = false;
-            _sending = false;
-
             // Update the handshaked flag
             _handshaking = false;
             _handshaked = false;
@@ -253,6 +249,10 @@ public:
             // Update the connected flag
             _connecting = false;
             _connected = false;
+
+            // Update sending/receiving flags
+            _receiving = false;
+            _sending = false;
 
             // Clear send/receive buffers
             ClearBuffers();
