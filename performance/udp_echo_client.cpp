@@ -46,7 +46,7 @@ protected:
         _connected = true;
 
         // Start receive datagrams
-        Receive();
+        ReceiveAsync();
 
         SendMessage();
     }
@@ -58,7 +58,7 @@ protected:
         ++total_messages;
 
         // Continue receive datagrams
-        Receive();
+        ReceiveAsync();
 
         SendMessage();
     }
@@ -78,7 +78,7 @@ private:
         if (_messages-- > 0)
             SendSync(message_to_send.data(), message_to_send.size());
         else
-            Disconnect();
+            DisconnectAsync();
     }
 };
 
@@ -142,7 +142,7 @@ int main(int argc, char** argv)
     // Connect clients
     std::cout << "Clients connecting...";
     for (auto& client : clients)
-        client->Connect();
+        client->ConnectAsync();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
         while (!client->connected())

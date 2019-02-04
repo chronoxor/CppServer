@@ -87,35 +87,35 @@ public:
     //! Is the client connected?
     bool IsConnected() const noexcept { return _connected; }
 
-    //! Connect the client
+    //! Connect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
-    virtual bool Connect();
-    //! Disconnect the client
+    virtual bool ConnectAsync();
+    //! Disconnect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    virtual bool Disconnect() { return Disconnect(false); }
-    //! Reconnect the client
+    virtual bool DisconnectAsync() { return DisconnectAsync(false); }
+    //! Reconnect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
     */
-    virtual bool Reconnect();
+    virtual bool ReconnectAsync();
 
-    //! Join multicast group with a given IP address
+    //! Join multicast group with a given IP address (asynchronous)
     /*!
         \param address - IP address
     */
-    virtual void JoinMulticastGroup(const std::string& address);
-    //! Leave multicast group with a given IP address
+    virtual void JoinMulticastGroupAsync(const std::string& address);
+    //! Leave multicast group with a given IP address (asynchronous)
     /*!
         \param address - IP address
     */
-    virtual void LeaveMulticastGroup(const std::string& address);
+    virtual void LeaveMulticastGroupAsync(const std::string& address);
 
-    //! Receive a new datagram
-    virtual void Receive();
+    //! Receive a new datagram (asynchronous)
+    virtual void ReceiveAsync();
 
     //! Send datagram to the connected server (asynchronous)
     /*!
@@ -292,12 +292,12 @@ private:
     bool _option_reuse_port;
     bool _option_multicast;
 
-    //! Disconnect the client
+    //! Disconnect the client (asynchronous)
     /*!
         \param dispatch - Dispatch flag
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Disconnect(bool dispatch);
+    bool DisconnectAsync(bool dispatch);
 
     //! Try to receive new datagram
     void TryReceive();

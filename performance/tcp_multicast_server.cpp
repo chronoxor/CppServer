@@ -23,7 +23,7 @@ class MulticastSession : public TCPSession
 public:
     using TCPSession::TCPSession;
 
-    bool Send(const void* buffer, size_t size) override
+    bool SendAsync(const void* buffer, size_t size) override
     {
         // Limit session send buffer to 1 megabyte
         const size_t limit = 1 * 1024 * 1024;
@@ -33,7 +33,7 @@ public:
         if (size > (limit - pending))
             size = limit - pending;
 
-        return TCPSession::Send(buffer, size);
+        return TCPSession::SendAsync(buffer, size);
     }
 
 protected:

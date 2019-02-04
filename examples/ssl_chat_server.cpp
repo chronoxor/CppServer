@@ -29,7 +29,7 @@ protected:
 
         // Send invite message
         std::string message("Hello from SSL chat! Please send a message or '!' to disconnect the client!");
-        Send(message.data(), message.size());
+        SendAsync(message.data(), message.size());
     }
 
     void onDisconnected() override
@@ -47,7 +47,7 @@ protected:
 
         // If the buffer starts with '!' the disconnect the current session
         if (message == "!")
-            Disconnect();
+            DisconnectAsync();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override

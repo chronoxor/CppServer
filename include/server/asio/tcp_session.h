@@ -68,25 +68,25 @@ public:
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; }
 
-    //! Disconnect the session
+    //! Disconnect the session (asynchronous)
     /*!
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    virtual bool Disconnect() { return Disconnect(false); }
+    virtual bool DisconnectAsync() { return DisconnectAsync(false); }
 
-    //! Send data to the client
+    //! Send data to the client (asynchronous)
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
         \return 'true' if the data was successfully sent, 'false' if the session is not connected
     */
-    virtual bool Send(const void* buffer, size_t size);
-    //! Send text to the client
+    virtual bool SendAsync(const void* buffer, size_t size);
+    //! Send text to the client (asynchronous)
     /*!
         \param text - Text string to send
         \return 'true' if the text was successfully sent, 'false' if the session is not connected
     */
-    virtual bool Send(const std::string& text) { return Send(text.data(), text.size()); }
+    virtual bool SendAsync(const std::string& text) { return SendAsync(text.data(), text.size()); }
 
     //! Setup option: receive buffer size
     /*!
@@ -178,14 +178,14 @@ private:
     size_t _send_buffer_flush_offset;
     HandlerStorage _send_storage;
 
-    //! Connect the session
-    void Connect();
-    //! Disconnect the session
+    //! Connect the session (asynchronous)
+    void ConnectAsync();
+    //! Disconnect the session (asynchronous)
     /*!
         \param dispatch - Dispatch flag
         \return 'true' if the session was successfully disconnected, 'false' if the session is already disconnected
     */
-    bool Disconnect(bool dispatch);
+    bool DisconnectAsync(bool dispatch);
 
     //! Try to receive new data
     void TryReceive();

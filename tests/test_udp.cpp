@@ -62,9 +62,9 @@ public:
     }
 
 protected:
-    void onConnected() override { connected = true; Receive(); }
+    void onConnected() override { connected = true; ReceiveAsync(); }
     void onDisconnected() override { disconnected = true; }
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Receive(); }
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { ReceiveAsync(); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
@@ -84,10 +84,10 @@ public:
     }
 
 protected:
-    void onStarted() override { started = true; Receive(); }
+    void onStarted() override { started = true; ReceiveAsync(); }
     void onStopped() override { stopped = true; }
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { SendAsync(endpoint, buffer, size); }
-    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) override { Receive(); }
+    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) override { ReceiveAsync(); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
@@ -112,7 +112,7 @@ TEST_CASE("UDP server test", "[CppServer][Asio]")
 
     // Create and connect Echo client
     auto client = std::make_shared<EchoUDPClient>(service, address, port);
-    REQUIRE(client->Connect());
+    REQUIRE(client->ConnectAsync());
     while (!client->IsConnected())
         Thread::Yield();
 
@@ -124,7 +124,7 @@ TEST_CASE("UDP server test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
-    REQUIRE(client->Disconnect());
+    REQUIRE(client->DisconnectAsync());
     while (client->IsConnected())
         Thread::Yield();
 
@@ -196,7 +196,7 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
                 // Create and connect Echo client
                 auto client = std::make_shared<EchoUDPClient>(service, address, port);
                 clients.emplace_back(client);
-                client->Connect();
+                client->ConnectAsync();
                 while (!client->IsConnected())
                     Thread::Yield();
             }
@@ -210,13 +210,13 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
                 auto client = clients.at(index);
                 if (client->IsConnected())
                 {
-                    client->Disconnect();
+                    client->DisconnectAsync();
                     while (client->IsConnected())
                         Thread::Yield();
                 }
                 else
                 {
-                    client->Connect();
+                    client->ConnectAsync();
                     while (!client->IsConnected())
                         Thread::Yield();
                 }
@@ -231,7 +231,7 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
                 auto client = clients.at(index);
                 if (client->IsConnected())
                 {
-                    client->Reconnect();
+                    client->ReconnectAsync();
                     while (!client->IsConnected())
                         Thread::Yield();
                 }
@@ -256,7 +256,7 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     // Disconnect clients
     for (auto& client : clients)
     {
-        client->Disconnect();
+        client->DisconnectAsync();
         while (client->IsConnected())
             Thread::Yield();
     }

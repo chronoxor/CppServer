@@ -26,7 +26,7 @@ public:
     void DisconnectAndStop()
     {
         _stop = true;
-        Disconnect();
+        DisconnectAsync();
         while (IsConnected())
             CppCommon::Thread::Yield();
     }
@@ -46,7 +46,7 @@ protected:
 
         // Try to connect again
         if (!_stop)
-            Connect();
+            ConnectAsync();
     }
 
     void onReceived(const void* buffer, size_t size) override
@@ -91,7 +91,7 @@ int main(int argc, char** argv)
 
     // Connect the client
     std::cout << "Client connecting...";
-    client->Connect();
+    client->ConnectAsync();
     std::cout << "Done!" << std::endl;
 
     std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
@@ -107,13 +107,13 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Client disconnecting...";
-            client->Disconnect();
+            client->DisconnectAsync();
             std::cout << "Done!" << std::endl;
             continue;
         }
 
         // Send the entered text to the chat server
-        client->Send(line);
+        client->SendAsync(line);
     }
 
     // Disconnect the client

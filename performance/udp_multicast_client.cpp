@@ -44,10 +44,10 @@ protected:
         _connected = true;
 
         // Join UDP multicast group
-        JoinMulticastGroup(_multicast);
+        JoinMulticastGroupAsync(_multicast);
 
         // Start receive datagrams
-        Receive();
+        ReceiveAsync();
     }
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
@@ -55,7 +55,7 @@ protected:
         total_bytes += size;
 
         // Continue receive datagrams
-        Receive();
+        ReceiveAsync();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -124,7 +124,7 @@ int main(int argc, char** argv)
     // Connect clients
     std::cout << "Clients connecting...";
     for (auto& client : clients)
-        client->Connect();
+        client->ConnectAsync();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
         while (!client->connected())
@@ -139,7 +139,7 @@ int main(int argc, char** argv)
     // Disconnect clients
     std::cout << "Clients disconnecting...";
     for (auto& client : clients)
-        client->Disconnect();
+        client->DisconnectAsync();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
         while (client->IsConnected())

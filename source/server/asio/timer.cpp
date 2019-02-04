@@ -119,12 +119,19 @@ bool Timer::WaitSync()
     asio::error_code ec;
     _timer.wait(ec);
 
+    // Call the timer aborted handler
+    if (ec == asio::error::operation_aborted)
+        onTimer(true);
+
     // Check for error
     if (ec)
     {
         SendError(ec);
         return false;
     }
+
+    // Call the timer expired handler
+    onTimer(false);
 
     return true;
 }

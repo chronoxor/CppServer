@@ -89,13 +89,13 @@ private:
     void SendMessage()
     {
         if (_messages_output-- > 0)
-            Send(message_to_send.data(), message_to_send.size());
+            SendAsync(message_to_send.data(), message_to_send.size());
     }
 
     void ReceiveMessage()
     {
         if (--_messages_input == 0)
-            Disconnect();
+            DisconnectAsync();
     }
 };
 
@@ -160,7 +160,7 @@ int main(int argc, char** argv)
     // Connect clients
     std::cout << "Clients connecting...";
     for (auto& client : clients)
-        client->Connect();
+        client->ConnectAsync();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
         while (!client->connected())

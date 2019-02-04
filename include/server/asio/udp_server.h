@@ -115,8 +115,8 @@ public:
     */
     virtual bool Restart();
 
-    //! Receive a new datagram
-    virtual void Receive();
+    //! Receive a new datagram (asynchronous)
+    virtual void ReceiveAsync();
 
     //! Multicast datagram to the prepared mulicast endpoint (asynchronous)
     /*!

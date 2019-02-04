@@ -26,7 +26,7 @@ public:
     void DisconnectAndStop()
     {
         _stop = true;
-        Disconnect();
+        DisconnectAsync();
         while (IsConnected())
             CppCommon::Thread::Yield();
     }
@@ -37,7 +37,7 @@ protected:
         std::cout << "Echo UDP client connected a new session with Id " << id() << std::endl;
 
         // Start receive datagrams
-        Receive();
+        ReceiveAsync();
     }
 
     void onDisconnected() override
@@ -49,7 +49,7 @@ protected:
 
         // Try to connect again
         if (!_stop)
-            Connect();
+            ConnectAsync();
     }
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
@@ -57,7 +57,7 @@ protected:
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
 
         // Continue receive datagrams
-        Receive();
+        ReceiveAsync();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -97,7 +97,7 @@ int main(int argc, char** argv)
 
     // Connect the client
     std::cout << "Client connecting...";
-    client->Connect();
+    client->ConnectAsync();
     std::cout << "Done!" << std::endl;
 
     std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Client disconnecting...";
-            client->Disconnect();
+            client->DisconnectAsync();
             std::cout << "Done!" << std::endl;
             continue;
         }

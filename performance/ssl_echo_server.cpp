@@ -22,7 +22,7 @@ protected:
     void onReceived(const void* buffer, size_t size) override
     {
         // Resend the message back to the client
-        Send(buffer, size);
+        SendAsync(buffer, size);
     }
 
     void onError(int error, const std::string& category, const std::string& message) override

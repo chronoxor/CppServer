@@ -87,7 +87,7 @@ void TCPClient::SetupSendBufferSize(size_t size)
     _socket.set_option(option);
 }
 
-bool TCPClient::Connect()
+bool TCPClient::ConnectAsync()
 {
     if (IsConnected())
         return false;
@@ -158,7 +158,7 @@ bool TCPClient::Connect()
     return true;
 }
 
-bool TCPClient::Disconnect(bool dispatch)
+bool TCPClient::DisconnectAsync(bool dispatch)
 {
     if (!IsConnected())
         return false;
@@ -204,18 +204,18 @@ bool TCPClient::Disconnect(bool dispatch)
     return true;
 }
 
-bool TCPClient::Reconnect()
+bool TCPClient::ReconnectAsync()
 {
-    if (!Disconnect())
+    if (!DisconnectAsync())
         return false;
 
     while (IsConnected())
         CppCommon::Thread::Yield();
 
-    return Connect();
+    return ConnectAsync();
 }
 
-bool TCPClient::Send(const void* buffer, size_t size)
+bool TCPClient::SendAsync(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
@@ -298,7 +298,7 @@ void TCPClient::TryReceive()
         else
         {
             SendError(ec);
-            Disconnect(true);
+            DisconnectAsync(true);
         }
     });
     if (_strand_required)
@@ -377,7 +377,7 @@ void TCPClient::TrySend()
         else
         {
             SendError(ec);
-            Disconnect(true);
+            DisconnectAsync(true);
         }
     });
     if (_strand_required)

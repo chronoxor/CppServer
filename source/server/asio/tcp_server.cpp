@@ -208,7 +208,7 @@ void TCPServer::Accept()
                 RegisterSession();
 
                 // Connect a new session
-                _session->Connect();
+                _session->ConnectAsync();
             }
             else
                 SendError(ec);
@@ -275,7 +275,7 @@ bool TCPServer::Multicast(const void* buffer, size_t size)
             std::lock_guard<std::mutex> locker2(_sessions_lock);
 
             for (auto& session : _sessions)
-                session.second->Send(_multicast_buffer.data(), _multicast_buffer.size());
+                session.second->SendAsync(_multicast_buffer.data(), _multicast_buffer.size());
         }
 
         // Update statistic
@@ -308,7 +308,7 @@ bool TCPServer::DisconnectAll()
 
         // Disconnect all sessions
         for (auto& session : _sessions)
-            session.second->Disconnect();
+            session.second->DisconnectAsync();
     };
     if (_strand_required)
         _strand.dispatch(disconnect_all_handler);

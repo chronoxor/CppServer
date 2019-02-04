@@ -99,7 +99,7 @@ protected:
     void onConnected() override { connected = true; }
     void onHandshaked() override { handshaked = true; }
     void onDisconnected() override { disconnected = true; }
-    void onReceived(const void* buffer, size_t size) override { Send(buffer, size); }
+    void onReceived(const void* buffer, size_t size) override { SendAsync(buffer, size); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
@@ -174,19 +174,19 @@ TEST_CASE("SSL server test", "[CppServer][Asio]")
 
     // Create and connect Echo client
     auto client = std::make_shared<EchoSSLClient>(service, client_context, address, port);
-    REQUIRE(client->Connect());
+    REQUIRE(client->ConnectAsync());
     while (!client->IsConnected() || !client->IsHandshaked() || (server->clients != 1))
         Thread::Yield();
 
     // Send a message to the Echo server
-    client->Send("test");
+    client->SendAsync("test");
 
     // Wait for all data processed...
     while (client->bytes_received() != 4)
         Thread::Yield();
 
     // Disconnect the Echo client
-    REQUIRE(client->Disconnect());
+    REQUIRE(client->DisconnectAsync());
     while (client->IsConnected() || client->IsHandshaked() || (server->clients != 0))
         Thread::Yield();
 
@@ -252,7 +252,7 @@ TEST_CASE("SSL server multicast test", "[CppServer][Asio]")
 
     // Create and connect Echo client
     auto client1 = std::make_shared<EchoSSLClient>(service, client_context, address, port);
-    REQUIRE(client1->Connect());
+    REQUIRE(client1->ConnectAsync());
     while (!client1->IsConnected() || !client1->IsHandshaked() || (server->clients != 1))
         Thread::Yield();
 
@@ -265,7 +265,7 @@ TEST_CASE("SSL server multicast test", "[CppServer][Asio]")
 
     // Create and connect Echo client
     auto client2 = std::make_shared<EchoSSLClient>(service, client_context, address, port);
-    REQUIRE(client2->Connect());
+    REQUIRE(client2->ConnectAsync());
     while (!client2->IsConnected() || !client2->IsHandshaked() || (server->clients != 2))
         Thread::Yield();
 
@@ -278,7 +278,7 @@ TEST_CASE("SSL server multicast test", "[CppServer][Asio]")
 
     // Create and connect Echo client
     auto client3 = std::make_shared<EchoSSLClient>(service, client_context, address, port);
-    REQUIRE(client3->Connect());
+    REQUIRE(client3->ConnectAsync());
     while (!client3->IsConnected() || !client3->IsHandshaked() || (server->clients != 3))
         Thread::Yield();
 
@@ -290,7 +290,7 @@ TEST_CASE("SSL server multicast test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
-    REQUIRE(client1->Disconnect());
+    REQUIRE(client1->DisconnectAsync());
     while (client1->IsConnected() || client1->IsHandshaked() || (server->clients != 2))
         Thread::Yield();
 
@@ -302,7 +302,7 @@ TEST_CASE("SSL server multicast test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
-    REQUIRE(client2->Disconnect());
+    REQUIRE(client2->DisconnectAsync());
     while (client2->IsConnected() || client2->IsHandshaked() || (server->clients != 1))
         Thread::Yield();
 
@@ -314,7 +314,7 @@ TEST_CASE("SSL server multicast test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Disconnect the Echo client
-    REQUIRE(client3->Disconnect());
+    REQUIRE(client3->DisconnectAsync());
     while (client3->IsConnected() || client3->IsHandshaked() || (server->clients != 0))
         Thread::Yield();
 
@@ -404,7 +404,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 // Create and connect Echo client
                 auto client = std::make_shared<EchoSSLClient>(service, client_context, address, port);
                 clients.emplace_back(client);
-                client->Connect();
+                client->ConnectAsync();
                 while (!client->IsHandshaked())
                     Thread::Yield();
             }
@@ -418,13 +418,13 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 auto client = clients.at(index);
                 if (client->IsHandshaked())
                 {
-                    client->Disconnect();
+                    client->DisconnectAsync();
                     while (client->IsConnected())
                         Thread::Yield();
                 }
                 else if (!client->IsConnected())
                 {
-                    client->Connect();
+                    client->ConnectAsync();
                     while (!client->IsHandshaked())
                         Thread::Yield();
                 }
@@ -439,7 +439,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 auto client = clients.at(index);
                 if (client->IsHandshaked())
                 {
-                    client->Reconnect();
+                    client->ReconnectAsync();
                     while (!client->IsHandshaked())
                         Thread::Yield();
                 }
@@ -458,7 +458,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
                 if (client->IsHandshaked())
-                    client->Send("test");
+                    client->SendAsync("test");
             }
         }
 
@@ -469,7 +469,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     // Disconnect clients
     for (auto& client : clients)
     {
-        client->Disconnect();
+        client->DisconnectAsync();
         while (client->IsConnected())
             Thread::Yield();
     }

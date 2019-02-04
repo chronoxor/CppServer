@@ -62,9 +62,9 @@ public:
     }
 
 protected:
-    void onConnected() override { connected = true; Receive(); }
+    void onConnected() override { connected = true; ReceiveAsync(); }
     void onDisconnected() override { disconnected = true; }
-    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { Receive(); }
+    void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { ReceiveAsync(); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 };
 
@@ -112,12 +112,12 @@ TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
     // Create and connect multicast client
     auto client1 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port);
     client1->SetupMulticast(true);
-    REQUIRE(client1->Connect());
+    REQUIRE(client1->ConnectAsync());
     while (!client1->IsConnected())
         Thread::Yield();
 
     // Join multicast group
-    client1->JoinMulticastGroup(multicast_address);
+    client1->JoinMulticastGroupAsync(multicast_address);
     Thread::Sleep(100);
 
     // Multicast some data to all clients
@@ -130,12 +130,12 @@ TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
     // Create and connect multicast client
     auto client2 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port);
     client2->SetupMulticast(true);
-    REQUIRE(client2->Connect());
+    REQUIRE(client2->ConnectAsync());
     while (!client2->IsConnected())
         Thread::Yield();
 
     // Join multicast group
-    client2->JoinMulticastGroup(multicast_address);
+    client2->JoinMulticastGroupAsync(multicast_address);
     Thread::Sleep(100);
 
     // Multicast some data to all clients
@@ -148,12 +148,12 @@ TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
     // Create and connect multicast client
     auto client3 = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port);
     client3->SetupMulticast(true);
-    REQUIRE(client3->Connect());
+    REQUIRE(client3->ConnectAsync());
     while (!client3->IsConnected())
         Thread::Yield();
 
     // Join multicast group
-    client3->JoinMulticastGroup(multicast_address);
+    client3->JoinMulticastGroupAsync(multicast_address);
     Thread::Sleep(100);
 
     // Multicast some data to all clients
@@ -164,11 +164,11 @@ TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Leave multicast group
-    client1->LeaveMulticastGroup(multicast_address);
+    client1->LeaveMulticastGroupAsync(multicast_address);
     Thread::Sleep(100);
 
     // Disconnect the multicast client
-    REQUIRE(client1->Disconnect());
+    REQUIRE(client1->DisconnectAsync());
     while (client1->IsConnected())
         Thread::Yield();
 
@@ -180,11 +180,11 @@ TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Leave multicast group
-    client2->LeaveMulticastGroup(multicast_address);
+    client2->LeaveMulticastGroupAsync(multicast_address);
     Thread::Sleep(100);
 
     // Disconnect the multicast client
-    REQUIRE(client2->Disconnect());
+    REQUIRE(client2->DisconnectAsync());
     while (client2->IsConnected())
         Thread::Yield();
 
@@ -196,11 +196,11 @@ TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Leave multicast group
-    client3->LeaveMulticastGroup(multicast_address);
+    client3->LeaveMulticastGroupAsync(multicast_address);
     Thread::Sleep(100);
 
     // Disconnect the multicast client
-    REQUIRE(client3->Disconnect());
+    REQUIRE(client3->DisconnectAsync());
     while (client3->IsConnected())
         Thread::Yield();
 
@@ -278,12 +278,12 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
                 auto client = std::make_shared<MulticastUDPClient>(service, listen_address, multicast_port);
                 clients.emplace_back(client);
                 client->SetupMulticast(true);
-                client->Connect();
+                client->ConnectAsync();
                 while (!client->IsConnected())
                     Thread::Yield();
 
                 // Join multicast group
-                client->JoinMulticastGroup(multicast_address);
+                client->JoinMulticastGroupAsync(multicast_address);
                 Thread::Sleep(100);
             }
         }
@@ -297,21 +297,21 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
                 if (client->IsConnected())
                 {
                     // Leave multicast group
-                    client->LeaveMulticastGroup(multicast_address);
+                    client->LeaveMulticastGroupAsync(multicast_address);
                     Thread::Sleep(100);
 
-                    client->Disconnect();
+                    client->DisconnectAsync();
                     while (client->IsConnected())
                         Thread::Yield();
                 }
                 else
                 {
-                    client->Connect();
+                    client->ConnectAsync();
                     while (!client->IsConnected())
                         Thread::Yield();
 
                     // Join multicast group
-                    client->JoinMulticastGroup(multicast_address);
+                    client->JoinMulticastGroupAsync(multicast_address);
                     Thread::Sleep(100);
                 }
             }
@@ -329,7 +329,7 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
     // Disconnect clients
     for (auto& client : clients)
     {
-        client->Disconnect();
+        client->DisconnectAsync();
         while (client->IsConnected())
             Thread::Yield();
     }

@@ -119,7 +119,7 @@ public:
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
 
-    bool Connect(std::shared_ptr<SSLClient> client)
+    bool ConnectAsync(std::shared_ptr<SSLClient> client)
     {
         _client = client;
 
@@ -196,7 +196,7 @@ public:
                         {
                             // Disconnect on in case of the bad handshake
                             SendError(ec2);
-                            Disconnect(true);
+                            DisconnectAsync(true);
                         }
                     });
                     if (_strand_required)
@@ -224,7 +224,7 @@ public:
         return true;
     }
 
-    bool Disconnect(bool dispatch)
+    bool DisconnectAsync(bool dispatch)
     {
         if (!IsConnected() || _connecting || _handshaking)
             return false;
@@ -278,7 +278,7 @@ public:
         return true;
     }
 
-    bool Send(const void* buffer, size_t size)
+    bool SendAsync(const void* buffer, size_t size)
     {
         assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
         if (buffer == nullptr)
@@ -427,7 +427,7 @@ private:
             else
             {
                 SendError(ec);
-                Disconnect(true);
+                DisconnectAsync(true);
             }
         });
         if (_strand_required)
@@ -506,7 +506,7 @@ private:
             else
             {
                 SendError(ec);
-                Disconnect(true);
+                DisconnectAsync(true);
             }
         });
         if (_strand_required)
@@ -668,31 +668,31 @@ bool SSLClient::IsHandshaked() const noexcept
     return _pimpl->IsHandshaked();
 }
 
-bool SSLClient::Connect()
+bool SSLClient::ConnectAsync()
 {
     auto self(this->shared_from_this());
-    return _pimpl->Connect(self);
+    return _pimpl->ConnectAsync(self);
 }
 
-bool SSLClient::Disconnect(bool dispatch)
+bool SSLClient::DisconnectAsync(bool dispatch)
 {
-    return _pimpl->Disconnect(dispatch);
+    return _pimpl->DisconnectAsync(dispatch);
 }
 
-bool SSLClient::Reconnect()
+bool SSLClient::ReconnectAsync()
 {
-    if (!Disconnect())
+    if (!DisconnectAsync())
         return false;
 
     while (IsConnected())
         CppCommon::Thread::Yield();
 
-    return Connect();
+    return ConnectAsync();
 }
 
-bool SSLClient::Send(const void* buffer, size_t size)
+bool SSLClient::SendAsync(const void* buffer, size_t size)
 {
-    return _pimpl->Send(buffer, size);
+    return _pimpl->SendAsync(buffer, size);
 }
 
 void SSLClient::SetupKeepAlive(bool enable) noexcept

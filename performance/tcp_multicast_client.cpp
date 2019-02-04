@@ -113,7 +113,7 @@ int main(int argc, char** argv)
     // Connect clients
     std::cout << "Clients connecting...";
     for (auto& client : clients)
-        client->Connect();
+        client->ConnectAsync();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
         while (!client->connected())
@@ -128,7 +128,7 @@ int main(int argc, char** argv)
     // Disconnect clients
     std::cout << "Clients disconnecting...";
     for (auto& client : clients)
-        client->Disconnect();
+        client->DisconnectAsync();
     std::cout << "Done!" << std::endl;
     for (auto& client : clients)
         while (client->IsConnected())

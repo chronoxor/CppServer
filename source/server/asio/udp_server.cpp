@@ -226,7 +226,7 @@ bool UDPServer::Restart()
     return Start();
 }
 
-void UDPServer::Receive()
+void UDPServer::ReceiveAsync()
 {
     // Try to receive datagrams from clients
     TryReceive();

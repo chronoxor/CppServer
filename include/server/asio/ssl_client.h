@@ -88,35 +88,35 @@ public:
     //! Is the session handshaked?
     bool IsHandshaked() const noexcept;
 
-    //! Connect the client
+    //! Connect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
-    virtual bool Connect();
-    //! Disconnect the client
+    virtual bool ConnectAsync();
+    //! Disconnect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    virtual bool Disconnect() { return Disconnect(false); }
-    //! Reconnect the client
+    virtual bool DisconnectAsync() { return DisconnectAsync(false); }
+    //! Reconnect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
     */
-    virtual bool Reconnect();
+    virtual bool ReconnectAsync();
 
-    //! Send data to the server
+    //! Send data to the server (asynchronous)
     /*!
         \param buffer - Buffer to send
         \param size - Buffer size
         \return 'true' if the data was successfully sent, 'false' if the client is not connected
     */
-    virtual bool Send(const void* buffer, size_t size);
-    //! Send text to the server
+    virtual bool SendAsync(const void* buffer, size_t size);
+    //! Send text to the server (asynchronous)
     /*!
         \param text - Text string to send
         \return 'true' if the text was successfully sent, 'false' if the client is not connected
     */
-    virtual bool Send(const std::string& text) { return Send(text.data(), text.size()); }
+    virtual bool SendAsync(const std::string& text) { return SendAsync(text.data(), text.size()); }
 
     //! Setup option: keep alive
     /*!
@@ -201,12 +201,12 @@ private:
     class Impl;
     std::shared_ptr<Impl> _pimpl;
 
-    //! Disconnect the client
+    //! Disconnect the client (asynchronous)
     /*!
         \param dispatch - Dispatch flag
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    bool Disconnect(bool dispatch);
+    bool DisconnectAsync(bool dispatch);
 
     //! Handle client reset notification
     void onReset();

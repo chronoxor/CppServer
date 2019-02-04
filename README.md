@@ -126,34 +126,12 @@ Here comes an example of using custom Asio service with dispatch/post methods:
 
 #include <iostream>
 
-class AsioService : public CppServer::Asio::Service
-{
-public:
-    using CppServer::Asio::Service::Service;
-
-protected:
-    void onStarted() override
-    {
-        std::cout << "Asio service started!" << std::endl;
-    }
-
-    void onStopped() override
-    {
-        std::cout << "Asio service stopped!" << std::endl;
-    }
-
-    void onError(int error, const std::string& category, const std::string& message) override
-    {
-        std::cout << "Asio service caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
-    }
-};
-
 int main(int argc, char** argv)
 {
     // Create a new Asio service
-    auto service = std::make_shared<AsioService>();
+    auto service = std::make_shared<CppServer::Asio::Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
@@ -199,7 +177,7 @@ int main(int argc, char** argv)
     // Wait for a while...
     CppCommon::Thread::Sleep(1000);
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
@@ -330,14 +308,15 @@ protected:
 
         // Send invite message
         std::string message("Hello from TCP chat! Please send a message or '!' to disconnect the client!");
-        Send(message);
+        SendAsync(message);
     }
+
     void onDisconnected() override
     {
         std::cout << "Chat TCP session with Id " << id() << " disconnected!" << std::endl;
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         std::string message((const char*)buffer, size);
         std::cout << "Incoming: " << message << std::endl;
@@ -347,10 +326,7 @@ protected:
 
         // If the buffer starts with '!' the disconnect the current session
         if (message == "!")
-            Disconnect();
-
-        // Inform that we handled the whole buffer
-        return size;
+            DisconnectAsync();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -389,7 +365,7 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
@@ -430,7 +406,7 @@ int main(int argc, char** argv)
     server->Stop();
     std::cout << "Done!" << std::endl;
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
@@ -447,18 +423,32 @@ server and allows to send message to it and receive new messages.
 #include "server/asio/tcp_client.h"
 #include "threads/thread.h"
 
+#include <atomic>
 #include <iostream>
 
 class ChatClient : public CppServer::Asio::TCPClient
 {
 public:
-    using CppServer::Asio::TCPClient::TCPClient;
+    ChatClient(std::shared_ptr<CppServer::Asio::Service> service, const std::string& address, int port)
+        : CppServer::Asio::TCPClient(service, address, port)
+    {
+        _stop = false;
+    }
+
+    void DisconnectAndStop()
+    {
+        _stop = true;
+        DisconnectAsync();
+        while (IsConnected())
+            CppCommon::Thread::Yield();
+    }
 
 protected:
     void onConnected() override
     {
         std::cout << "Chat TCP client connected a new session with Id " << id() << std::endl;
     }
+
     void onDisconnected() override
     {
         std::cout << "Chat TCP client disconnected a session with Id " << id() << std::endl;
@@ -467,19 +457,22 @@ protected:
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again
-        Connect();
+        if (!_stop)
+            ConnectAsync();
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Chat TCP client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
+
+private:
+    std::atomic<bool> _stop;
 };
 
 int main(int argc, char** argv)
@@ -500,7 +493,7 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
@@ -510,7 +503,7 @@ int main(int argc, char** argv)
 
     // Connect the client
     std::cout << "Client connecting...";
-    client->Connect();
+    client->ConnectAsync();
     std::cout << "Done!" << std::endl;
 
     std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
@@ -526,21 +519,21 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Client disconnecting...";
-            client->Disconnect();
+            client->DisconnectAsync();
             std::cout << "Done!" << std::endl;
             continue;
         }
 
         // Send the entered text to the chat server
-        client->Send(line);
+        client->SendAsync(line);
     }
 
     // Disconnect the client
     std::cout << "Client disconnecting...";
-    client->Disconnect();
+    client->DisconnectAndStop();
     std::cout << "Done!" << std::endl;
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
@@ -569,20 +562,26 @@ public:
     using CppServer::Asio::SSLSession::SSLSession;
 
 protected:
+    void onConnected() override
+    {
+        std::cout << "Chat SSL session with Id " << id() << " connected!" << std::endl;
+    }
+
     void onHandshaked() override
     {
         std::cout << "Chat SSL session with Id " << id() << " handshaked!" << std::endl;
 
         // Send invite message
         std::string message("Hello from SSL chat! Please send a message or '!' to disconnect the client!");
-        Send(message.data(), message.size());
+        SendAsync(message.data(), message.size());
     }
+
     void onDisconnected() override
     {
         std::cout << "Chat SSL session with Id " << id() << " disconnected!" << std::endl;
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         std::string message((const char*)buffer, size);
         std::cout << "Incoming: " << message << std::endl;
@@ -592,10 +591,7 @@ protected:
 
         // If the buffer starts with '!' the disconnect the current session
         if (message == "!")
-            Disconnect();
-
-        // Inform that we handled the whole buffer
-        return size;
+            DisconnectAsync();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -610,9 +606,9 @@ public:
     using CppServer::Asio::SSLServer::SSLServer;
 
 protected:
-    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server, std::shared_ptr<asio::ssl::context> context) override
+    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
     {
-        return std::make_shared<ChatSession>(server, context);
+        return std::make_shared<ChatSession>(server);
     }
 
 protected:
@@ -625,7 +621,7 @@ protected:
 int main(int argc, char** argv)
 {
     // SSL server port
-    int port = 3333;
+    int port = 2222;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
@@ -634,15 +630,14 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL server context
-    std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
-    context->set_options(asio::ssl::context::default_workarounds | asio::ssl::context::no_sslv2 | asio::ssl::context::single_dh_use);
-    context->set_password_callback([](std::size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
+    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::tlsv12);
+    context->set_password_callback([](size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
     context->use_certificate_chain_file("../tools/certificates/server.pem");
     context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
     context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
@@ -683,7 +678,7 @@ int main(int argc, char** argv)
     server->Stop();
     std::cout << "Done!" << std::endl;
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
@@ -703,22 +698,37 @@ context and handshake handler.
 #include "server/asio/ssl_client.h"
 #include "threads/thread.h"
 
+#include <atomic>
 #include <iostream>
 
 class ChatClient : public CppServer::Asio::SSLClient
 {
 public:
-    using CppServer::Asio::SSLClient::SSLClient;
+    ChatClient(std::shared_ptr<CppServer::Asio::Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
+        : CppServer::Asio::SSLClient(service, context, address, port)
+    {
+        _stop = false;
+    }
+
+    void DisconnectAndStop()
+    {
+        _stop = true;
+        DisconnectAsync();
+        while (IsConnected())
+            CppCommon::Thread::Yield();
+    }
 
 protected:
     void onConnected() override
     {
         std::cout << "Chat SSL client connected a new session with Id " << id() << std::endl;
     }
+
     void onHandshaked() override
     {
         std::cout << "Chat SSL client handshaked a new session with Id " << id() << std::endl;
     }
+
     void onDisconnected() override
     {
         std::cout << "Chat SSL client disconnected a session with Id " << id() << std::endl;
@@ -727,19 +737,22 @@ protected:
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again
-        Connect();
+        if (!_stop)
+            ConnectAsync();
     }
 
-    size_t onReceived(const void* buffer, size_t size) override
+    void onReceived(const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
-        return size;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Chat SSL client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
+
+private:
+    std::atomic<bool> _stop;
 };
 
 int main(int argc, char** argv)
@@ -750,7 +763,7 @@ int main(int argc, char** argv)
         address = argv[1];
 
     // SSL server port
-    int port = 3333;
+    int port = 2222;
     if (argc > 2)
         port = std::atoi(argv[2]);
 
@@ -760,13 +773,13 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL client context
-    std::shared_ptr<asio::ssl::context> context = std::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::tlsv12);
     context->set_verify_mode(asio::ssl::verify_peer);
     context->load_verify_file("../tools/certificates/ca.pem");
 
@@ -775,7 +788,7 @@ int main(int argc, char** argv)
 
     // Connect the client
     std::cout << "Client connecting...";
-    client->Connect();
+    client->ConnectAsync();
     std::cout << "Done!" << std::endl;
 
     std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
@@ -791,21 +804,21 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Client disconnecting...";
-            client->Disconnect();
+            client->DisconnectAsync();
             std::cout << "Done!" << std::endl;
             continue;
         }
 
         // Send the entered text to the chat server
-        client->Send(line);
+        client->SendAsync(line);
     }
 
     // Disconnect the client
     std::cout << "Client disconnecting...";
-    client->Disconnect();
+    client->DisconnectAndStop();
     std::cout << "Done!" << std::endl;
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
@@ -830,13 +843,25 @@ public:
     using CppServer::Asio::UDPServer::UDPServer;
 
 protected:
+    void onStarted() override
+    {
+        // Start receive datagrams
+        ReceiveAsync();
+    }
+
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
         std::string message((const char*)buffer, size);
         std::cout << "Incoming: " << message << std::endl;
 
         // Echo the message back to the sender
-        Send(endpoint, message);
+        SendAsync(endpoint, message);
+    }
+
+    void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) override
+    {
+        // Continue receive datagrams
+        ReceiveAsync();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
@@ -848,7 +873,7 @@ protected:
 int main(int argc, char** argv)
 {
     // UDP server port
-    int port = 2222;
+    int port = 3333;
     if (argc > 1)
         port = std::atoi(argv[1]);
 
@@ -857,7 +882,7 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
@@ -894,7 +919,7 @@ int main(int argc, char** argv)
     server->Stop();
     std::cout << "Done!" << std::endl;
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
@@ -911,18 +936,35 @@ to UDP server and listen for response.
 #include "server/asio/udp_client.h"
 #include "threads/thread.h"
 
+#include <atomic>
 #include <iostream>
 
 class EchoClient : public CppServer::Asio::UDPClient
 {
 public:
-    using CppServer::Asio::UDPClient::UDPClient;
+    EchoClient(std::shared_ptr<CppServer::Asio::Service> service, const std::string& address, int port)
+        : CppServer::Asio::UDPClient(service, address, port)
+    {
+        _stop = false;
+    }
+
+    void DisconnectAndStop()
+    {
+        _stop = true;
+        DisconnectAsync();
+        while (IsConnected())
+            CppCommon::Thread::Yield();
+    }
 
 protected:
     void onConnected() override
     {
         std::cout << "Echo UDP client connected a new session with Id " << id() << std::endl;
+
+        // Start receive datagrams
+        ReceiveAsync();
     }
+
     void onDisconnected() override
     {
         std::cout << "Echo UDP client disconnected a session with Id " << id() << std::endl;
@@ -931,18 +973,25 @@ protected:
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again
-        Connect();
+        if (!_stop)
+            ConnectAsync();
     }
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+
+        // Continue receive datagrams
+        ReceiveAsync();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Echo UDP client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
+
+private:
+    std::atomic<bool> _stop;
 };
 
 int main(int argc, char** argv)
@@ -953,7 +1002,7 @@ int main(int argc, char** argv)
         address = argv[1];
 
     // UDP server port
-    int port = 2222;
+    int port = 3333;
     if (argc > 2)
         port = std::atoi(argv[2]);
 
@@ -963,7 +1012,7 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
@@ -973,10 +1022,10 @@ int main(int argc, char** argv)
 
     // Connect the client
     std::cout << "Client connecting...";
-    client->Connect();
+    client->ConnectAsync();
     std::cout << "Done!" << std::endl;
 
-    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -989,21 +1038,21 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Client disconnecting...";
-            client->Disconnect();
+            client->DisconnectAsync();
             std::cout << "Done!" << std::endl;
             continue;
         }
 
         // Send the entered text to the echo server
-        client->Send(line);
+        client->SendSync(line);
     }
 
     // Disconnect the client
     std::cout << "Client disconnecting...";
-    client->Disconnect();
+    client->DisconnectAndStop();
     std::cout << "Done!" << std::endl;
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
@@ -1043,7 +1092,7 @@ int main(int argc, char** argv)
         multicast_address = argv[1];
 
     // UDP multicast port
-    int multicast_port = 2223;
+    int multicast_port = 3334;
     if (argc > 2)
         multicast_port = std::atoi(argv[2]);
 
@@ -1053,7 +1102,7 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
@@ -1086,7 +1135,7 @@ int main(int argc, char** argv)
 
         // Multicast admin message to all sessions
         line = "(admin) " + line;
-        server->Multicast(line);
+        server->MulticastSync(line);
     }
 
     // Stop the server
@@ -1094,7 +1143,7 @@ int main(int argc, char** argv)
     server->Stop();
     std::cout << "Done!" << std::endl;
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
@@ -1112,15 +1161,26 @@ from UDP server.
 #include "server/asio/udp_client.h"
 #include "threads/thread.h"
 
+#include <atomic>
 #include <iostream>
 
 class MulticastClient : public CppServer::Asio::UDPClient
 {
 public:
-    std::string multicast;
+    MulticastClient(std::shared_ptr<CppServer::Asio::Service> service, const std::string& address, const std::string& multicast, int port)
+        : CppServer::Asio::UDPClient(service, address, port),
+          _multicast(multicast)
+    {
+        _stop = false;
+    }
 
-public:
-    using CppServer::Asio::UDPClient::UDPClient;
+    void DisconnectAndStop()
+    {
+        _stop = true;
+        DisconnectAsync();
+        while (IsConnected())
+            CppCommon::Thread::Yield();
+    }
 
 protected:
     void onConnected() override
@@ -1128,8 +1188,12 @@ protected:
         std::cout << "Multicast UDP client connected a new session with Id " << id() << std::endl;
 
         // Join UDP multicast group
-        JoinMulticastGroup(multicast);
+        JoinMulticastGroupAsync(_multicast);
+
+        // Start receive datagrams
+        ReceiveAsync();
     }
+
     void onDisconnected() override
     {
         std::cout << "Multicast UDP client disconnected a session with Id " << id() << std::endl;
@@ -1138,18 +1202,26 @@ protected:
         CppCommon::Thread::Sleep(1000);
 
         // Try to connect again
-        Connect();
+        if (!_stop)
+            ConnectAsync();
     }
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+
+        // Continue receive datagrams
+        ReceiveAsync();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Multicast UDP client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
+
+private:
+    std::atomic<bool> _stop;
+    std::string _multicast;
 };
 
 int main(int argc, char** argv)
@@ -1165,7 +1237,7 @@ int main(int argc, char** argv)
         multicast_address = argv[2];
 
     // UDP multicast port
-    int multicast_port = 2223;
+    int multicast_port = 3334;
     if (argc > 3)
         multicast_port = std::atoi(argv[3]);
 
@@ -1176,21 +1248,21 @@ int main(int argc, char** argv)
     // Create a new Asio service
     auto service = std::make_shared<CppServer::Asio::Service>();
 
-    // Start the service
+    // Start the Asio service
     std::cout << "Asio service starting...";
     service->Start();
     std::cout << "Done!" << std::endl;
 
     // Create a new UDP multicast client
-    auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_port, true);
-    client->multicast = multicast_address;
+    auto client = std::make_shared<MulticastClient>(service, listen_address, multicast_address, multicast_port);
+    client->SetupMulticast(true);
 
     // Connect the client
     std::cout << "Client connecting...";
-    client->Connect();
+    client->ConnectAsync();
     std::cout << "Done!" << std::endl;
 
-    std::cout << "Press Enter to stop or '!' to disconnect the client..." << std::endl;
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
     // Perform text input
     std::string line;
@@ -1203,7 +1275,7 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Client disconnecting...";
-            client->Disconnect();
+            client->DisconnectAsync();
             std::cout << "Done!" << std::endl;
             continue;
         }
@@ -1211,10 +1283,10 @@ int main(int argc, char** argv)
 
     // Disconnect the client
     std::cout << "Client disconnecting...";
-    client->Disconnect();
+    client->DisconnectAndStop();
     std::cout << "Done!" << std::endl;
 
-    // Stop the service
+    // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;

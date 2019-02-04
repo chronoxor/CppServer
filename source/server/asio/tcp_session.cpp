@@ -56,7 +56,7 @@ void TCPSession::SetupSendBufferSize(size_t size)
     _socket.set_option(option);
 }
 
-void TCPSession::Connect()
+void TCPSession::ConnectAsync()
 {
     // Apply the option: keep alive
     if (_server->option_keep_alive())
@@ -94,7 +94,7 @@ void TCPSession::Connect()
     TryReceive();
 }
 
-bool TCPSession::Disconnect(bool dispatch)
+bool TCPSession::DisconnectAsync(bool dispatch)
 {
     if (!IsConnected())
         return false;
@@ -154,7 +154,7 @@ bool TCPSession::Disconnect(bool dispatch)
     return true;
 }
 
-bool TCPSession::Send(const void* buffer, size_t size)
+bool TCPSession::SendAsync(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
@@ -238,7 +238,7 @@ void TCPSession::TryReceive()
         else
         {
             SendError(ec);
-            Disconnect(true);
+            DisconnectAsync(true);
         }
     });
     if (_strand_required)
@@ -318,7 +318,7 @@ void TCPSession::TrySend()
         else
         {
             SendError(ec);
-            Disconnect(true);
+            DisconnectAsync(true);
         }
     });
     if (_strand_required)

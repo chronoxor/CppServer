@@ -87,7 +87,7 @@ void UDPClient::SetupSendBufferSize(size_t size)
     _socket.set_option(option);
 }
 
-bool UDPClient::Connect()
+bool UDPClient::ConnectAsync()
 {
     if (IsConnected())
         return false;
@@ -139,7 +139,7 @@ bool UDPClient::Connect()
     return true;
 }
 
-bool UDPClient::Disconnect(bool dispatch)
+bool UDPClient::DisconnectAsync(bool dispatch)
 {
     if (!IsConnected())
         return false;
@@ -185,18 +185,18 @@ bool UDPClient::Disconnect(bool dispatch)
     return true;
 }
 
-bool UDPClient::Reconnect()
+bool UDPClient::ReconnectAsync()
 {
-    if (!Disconnect())
+    if (!DisconnectAsync())
         return false;
 
     while (IsConnected())
         CppCommon::Thread::Yield();
 
-    return Connect();
+    return ConnectAsync();
 }
 
-void UDPClient::JoinMulticastGroup(const std::string& address)
+void UDPClient::JoinMulticastGroupAsync(const std::string& address)
 {
     if (!IsConnected())
         return;
@@ -222,7 +222,7 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
         _io_service->dispatch(join_multicast_group_handler);
 }
 
-void UDPClient::LeaveMulticastGroup(const std::string& address)
+void UDPClient::LeaveMulticastGroupAsync(const std::string& address)
 {
     if (!IsConnected())
         return;
@@ -248,7 +248,7 @@ void UDPClient::LeaveMulticastGroup(const std::string& address)
         _io_service->dispatch(leave_multicast_group_handler);
 }
 
-void UDPClient::Receive()
+void UDPClient::ReceiveAsync()
 {
     // Try to receive something from the server
     TryReceive();
@@ -299,7 +299,7 @@ bool UDPClient::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
         if (ec)
         {
             SendError(ec);
-            Disconnect(true);
+            DisconnectAsync(true);
             return;
         }
 
@@ -361,7 +361,7 @@ bool UDPClient::SendSync(const asio::ip::udp::endpoint& endpoint, const void* bu
     if (ec)
     {
         SendError(ec);
-        Disconnect(true);
+        DisconnectAsync(true);
         return false;
     }
 
@@ -390,7 +390,7 @@ void UDPClient::TryReceive()
         if (ec)
         {
             SendError(ec);
-            Disconnect(true);
+            DisconnectAsync(true);
             return;
         }
 

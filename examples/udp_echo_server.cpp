@@ -21,7 +21,7 @@ protected:
     void onStarted() override
     {
         // Start receive datagrams
-        Receive();
+        ReceiveAsync();
     }
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
@@ -36,7 +36,7 @@ protected:
     void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) override
     {
         // Continue receive datagrams
-        Receive();
+        ReceiveAsync();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override

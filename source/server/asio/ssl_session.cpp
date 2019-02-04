@@ -57,7 +57,7 @@ void SSLSession::SetupSendBufferSize(size_t size)
     _stream.lowest_layer().set_option(option);
 }
 
-void SSLSession::Connect()
+void SSLSession::ConnectAsync()
 {
     // Apply the option: keep alive
     if (_server->option_keep_alive())
@@ -117,7 +117,7 @@ void SSLSession::Connect()
         {
             // Disconnect on in case of the bad handshake
             SendError(ec);
-            Disconnect(true);
+            DisconnectAsync(true);
         }
     };
     if (_strand_required)
@@ -126,7 +126,7 @@ void SSLSession::Connect()
         _stream.async_handshake(asio::ssl::stream_base::server, async_handshake_handler);
 }
 
-bool SSLSession::Disconnect(bool dispatch)
+bool SSLSession::DisconnectAsync(bool dispatch)
 {
     if (!IsConnected())
         return false;
@@ -200,7 +200,7 @@ bool SSLSession::Disconnect(bool dispatch)
     return true;
 }
 
-bool SSLSession::Send(const void* buffer, size_t size)
+bool SSLSession::SendAsync(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
@@ -284,7 +284,7 @@ void SSLSession::TryReceive()
         else
         {
             SendError(ec);
-            Disconnect(true);
+            DisconnectAsync(true);
         }
     });
     if (_strand_required)
@@ -364,7 +364,7 @@ void SSLSession::TrySend()
         else
         {
             SendError(ec);
-            Disconnect(true);
+            DisconnectAsync(true);
         }
     });
     if (_strand_required)
