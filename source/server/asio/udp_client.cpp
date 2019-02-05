@@ -426,7 +426,7 @@ std::string UDPClient::Receive(asio::ip::udp::endpoint& endpoint, size_t size)
 
 void UDPClient::ReceiveAsync()
 {
-    // Try to receive something from the server
+    // Try to receive datagrams from the server
     TryReceive();
 }
 

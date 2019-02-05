@@ -141,6 +141,9 @@ public:
     */
     virtual bool SendAsync(const std::string_view& text) { return SendAsync(text.data(), text.size()); }
 
+    //! Receive a new data (asynchronous)
+    virtual void ReceiveAsync();
+
     //! Setup option: keep alive
     /*!
         This option will setup SO_KEEPALIVE if the OS support this feature.

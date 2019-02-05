@@ -102,6 +102,9 @@ public:
     */
     virtual bool SendAsync(const std::string_view& text) { return SendAsync(text.data(), text.size()); }
 
+    //! Receive a new data (asynchronous)
+    virtual void ReceiveAsync();
+
     //! Setup option: receive buffer size
     /*!
         This option will setup SO_RCVBUF if the OS support this feature.

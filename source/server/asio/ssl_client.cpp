@@ -432,6 +432,12 @@ public:
         return true;
     }
 
+    void ReceiveAsync()
+    {
+        // Try to receive data from the server
+        TryReceive();
+    }
+
     void SetupKeepAlive(bool enable) noexcept { _option_keep_alive = enable; }
     void SetupNoDelay(bool enable) noexcept { _option_no_delay = enable; }
 
@@ -826,6 +832,11 @@ size_t SSLClient::Send(const void* buffer, size_t size)
 bool SSLClient::SendAsync(const void* buffer, size_t size)
 {
     return _pimpl->SendAsync(buffer, size);
+}
+
+void SSLClient::ReceiveAsync()
+{
+    return _pimpl->ReceiveAsync();
 }
 
 void SSLClient::SetupKeepAlive(bool enable) noexcept

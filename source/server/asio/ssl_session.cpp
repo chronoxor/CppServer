@@ -281,6 +281,12 @@ bool SSLSession::SendAsync(const void* buffer, size_t size)
     return true;
 }
 
+void SSLSession::ReceiveAsync()
+{
+    // Try to receive data from the client
+    TryReceive();
+}
+
 void SSLSession::TryReceive()
 {
     if (_receiving)

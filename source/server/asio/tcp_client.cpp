@@ -357,6 +357,12 @@ bool TCPClient::SendAsync(const void* buffer, size_t size)
     return true;
 }
 
+void TCPClient::ReceiveAsync()
+{
+    // Try to receive data from the server
+    TryReceive();
+}
+
 void TCPClient::TryReceive()
 {
     if (_receiving)

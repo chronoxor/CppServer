@@ -235,6 +235,12 @@ bool TCPSession::SendAsync(const void* buffer, size_t size)
     return true;
 }
 
+void TCPSession::ReceiveAsync()
+{
+    // Try to receive data from the client
+    TryReceive();
+}
+
 void TCPSession::TryReceive()
 {
     if (_receiving)
