@@ -282,7 +282,7 @@ bool UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer
 
     asio::error_code ec;
 
-    // Sent datagram to the server
+    // Sent datagram to the client
     size_t sent = _socket.send_to(asio::const_buffer(buffer, size), endpoint, 0, ec);
     if (sent > 0)
     {
