@@ -194,9 +194,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6ce4129ad02281a46cae2cb57f9f743c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6ce4129ad02281a46cae2cb57f9f743c">SendAsync</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a6ce4129ad02281a46cae2cb57f9f743c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data to the server (asynchronous)  <a href="#a6ce4129ad02281a46cae2cb57f9f743c">More...</a><br /></td></tr>
 <tr class="separator:a6ce4129ad02281a46cae2cb57f9f743c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1aa4c32c9fbe6494a0eb8fa07d1d12fc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1aa4c32c9fbe6494a0eb8fa07d1d12fc">SendAsync</a> (const std::string &amp;text)</td></tr>
-<tr class="memdesc:a1aa4c32c9fbe6494a0eb8fa07d1d12fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send text to the server (asynchronous)  <a href="#a1aa4c32c9fbe6494a0eb8fa07d1d12fc">More...</a><br /></td></tr>
-<tr class="separator:a1aa4c32c9fbe6494a0eb8fa07d1d12fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89da5ed9fef44a60bdaf70b19cdbc928"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a89da5ed9fef44a60bdaf70b19cdbc928">SendAsync</a> (const std::string_view &amp;text)</td></tr>
+<tr class="memdesc:a89da5ed9fef44a60bdaf70b19cdbc928"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send text to the server (asynchronous)  <a href="#a89da5ed9fef44a60bdaf70b19cdbc928">More...</a><br /></td></tr>
+<tr class="separator:a89da5ed9fef44a60bdaf70b19cdbc928"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a703af6b0138bcfa3850c93e0f7acc4f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a703af6b0138bcfa3850c93e0f7acc4f8">SetupKeepAlive</a> (bool enable) noexcept</td></tr>
 <tr class="memdesc:a703af6b0138bcfa3850c93e0f7acc4f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup option: keep alive.  <a href="#a703af6b0138bcfa3850c93e0f7acc4f8">More...</a><br /></td></tr>
 <tr class="separator:a703af6b0138bcfa3850c93e0f7acc4f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1198,7 +1198,7 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1aa4c32c9fbe6494a0eb8fa07d1d12fc"></a>
+<a class="anchor" id="a89da5ed9fef44a60bdaf70b19cdbc928"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1208,7 +1208,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">virtual bool CppServer::Asio::SSLClient::SendAsync </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const std::string_view &amp;&#160;</td>
           <td class="paramname"><em>text</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1223,7 +1223,7 @@ Friends</h2></td></tr>
 <p>Send text to the server (asynchronous) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">text</td><td>- Text string to send </td></tr>
+    <tr><td class="paramname">text</td><td>- Text to send </td></tr>
   </table>
   </dd>
 </dl>

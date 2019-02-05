@@ -191,9 +191,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3dd0c66158fd7949ad3f42455efb11a2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a3dd0c66158fd7949ad3f42455efb11a2">Multicast</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a3dd0c66158fd7949ad3f42455efb11a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multicast data to all connected sessions.  <a href="#a3dd0c66158fd7949ad3f42455efb11a2">More...</a><br /></td></tr>
 <tr class="separator:a3dd0c66158fd7949ad3f42455efb11a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a651c607f163117ce1446102c33d27210"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a651c607f163117ce1446102c33d27210">Multicast</a> (const std::string &amp;text)</td></tr>
-<tr class="memdesc:a651c607f163117ce1446102c33d27210"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multicast text to all connected sessions.  <a href="#a651c607f163117ce1446102c33d27210">More...</a><br /></td></tr>
-<tr class="separator:a651c607f163117ce1446102c33d27210"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a471f10958115ef8ae1dab1a9a11d8862"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a471f10958115ef8ae1dab1a9a11d8862">Multicast</a> (const std::string_view &amp;text)</td></tr>
+<tr class="memdesc:a471f10958115ef8ae1dab1a9a11d8862"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multicast text to all connected sessions.  <a href="#a471f10958115ef8ae1dab1a9a11d8862">More...</a><br /></td></tr>
+<tr class="separator:a471f10958115ef8ae1dab1a9a11d8862"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a551d618fd999c13b5a25410aa0e4669d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a551d618fd999c13b5a25410aa0e4669d">DisconnectAll</a> ()</td></tr>
 <tr class="memdesc:a551d618fd999c13b5a25410aa0e4669d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect all connected sessions.  <a href="#a551d618fd999c13b5a25410aa0e4669d">More...</a><br /></td></tr>
 <tr class="separator:a551d618fd999c13b5a25410aa0e4669d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -848,7 +848,7 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a651c607f163117ce1446102c33d27210"></a>
+<a class="anchor" id="a471f10958115ef8ae1dab1a9a11d8862"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -858,7 +858,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">virtual bool CppServer::Asio::SSLServer::Multicast </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const std::string_view &amp;&#160;</td>
           <td class="paramname"><em>text</em></td><td>)</td>
           <td></td>
         </tr>
@@ -873,7 +873,7 @@ Friends</h2></td></tr>
 <p>Multicast text to all connected sessions. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">text</td><td>- Text string to multicast </td></tr>
+    <tr><td class="paramname">text</td><td>- Text to multicast </td></tr>
   </table>
   </dd>
 </dl>
