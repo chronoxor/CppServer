@@ -116,6 +116,89 @@ void UDPServer::SetupSendBufferSize(size_t size)
     _socket.set_option(option);
 }
 
+bool UDPServer::Start()
+{
+    assert(!IsStarted() && "UDP server is already started!");
+    if (IsStarted())
+        return false;
+
+    // Open a server socket
+    _socket.open(_endpoint.protocol());
+    if (option_reuse_address())
+        _socket.set_option(asio::ip::udp::socket::reuse_address(true));
+#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
+    if (option_reuse_port())
+    {
+        typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
+        _socket.set_option(reuse_port(true));
+    }
+#endif
+    _socket.bind(_endpoint);
+
+    // Prepare receive buffer
+    _receive_buffer.resize(option_receive_buffer_size());
+
+    // Reset statistic
+    _bytes_sending = 0;
+    _bytes_sent = 0;
+    _bytes_received = 0;
+    _datagrams_sent = 0;
+    _datagrams_received = 0;
+
+     // Update the started flag
+    _started = true;
+
+    // Call the server started handler
+    onStarted();
+
+    return true;
+}
+
+bool UDPServer::Start(const std::string& multicast_address, int multicast_port)
+{
+    _multicast_endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(multicast_address), (unsigned short)multicast_port);
+    return Start();
+}
+
+bool UDPServer::Start(const asio::ip::udp::endpoint& multicast_endpoint)
+{
+    _multicast_endpoint = multicast_endpoint;
+    return Start();
+}
+
+bool UDPServer::Stop()
+{
+    assert(IsStarted() && "UDP server is not started!");
+    if (!IsStarted())
+        return false;
+
+    // Close the server socket
+    _socket.close();
+
+    // Update the started flag
+    _started = false;
+
+    // Update sending/receiving flags
+    _receiving = false;
+    _sending = false;
+
+    // Clear send/receive buffers
+    ClearBuffers();
+
+    // Call the server stopped handler
+    onStopped();
+
+    return true;
+}
+
+bool UDPServer::Restart()
+{
+    if (!Stop())
+        return false;
+
+    return Start();
+}
+
 bool UDPServer::StartAsync()
 {
     assert(!IsStarted() && "UDP server is already started!");
@@ -124,40 +207,7 @@ bool UDPServer::StartAsync()
 
     // Post the start handler
     auto self(this->shared_from_this());
-    auto start_handler = [this, self]()
-    {
-        if (IsStarted())
-            return;
-
-        // Open a server socket
-        _socket.open(_endpoint.protocol());
-        if (option_reuse_address())
-            _socket.set_option(asio::ip::udp::socket::reuse_address(true));
-#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
-        if (option_reuse_port())
-        {
-            typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
-            _socket.set_option(reuse_port(true));
-        }
-#endif
-        _socket.bind(_endpoint);
-
-        // Prepare receive buffer
-        _receive_buffer.resize(option_receive_buffer_size());
-
-        // Reset statistic
-        _bytes_sending = 0;
-        _bytes_sent = 0;
-        _bytes_received = 0;
-        _datagrams_sent = 0;
-        _datagrams_received = 0;
-
-         // Update the started flag
-        _started = true;
-
-        // Call the server started handler
-        onStarted();
-    };
+    auto start_handler = [this, self]() { Start(); };
     if (_strand_required)
         _strand.post(start_handler);
     else
@@ -186,27 +236,7 @@ bool UDPServer::StopAsync()
 
     // Post the stop handler
     auto self(this->shared_from_this());
-    auto stop_handler = [this, self]()
-    {
-        if (!IsStarted())
-            return;
-
-        // Close the server socket
-        _socket.close();
-
-        // Update the started flag
-        _started = false;
-
-        // Update sending/receiving flags
-        _receiving = false;
-        _sending = false;
-
-        // Clear send/receive buffers
-        ClearBuffers();
-
-        // Call the server stopped handler
-        onStopped();
-    };
+    auto stop_handler = [this, self]() { Stop(); };
     if (_strand_required)
         _strand.post(stop_handler);
     else
