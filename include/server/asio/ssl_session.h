@@ -78,6 +78,20 @@ public:
     */
     virtual bool Disconnect() { return Disconnect(false); }
 
+    //! Send data to the client (synchronous)
+    /*!
+        \param buffer - Buffer to send
+        \param size - Buffer size
+        \return Size of sent data
+    */
+    virtual size_t Send(const void* buffer, size_t size);
+    //! Send text to the client (synchronous)
+    /*!
+        \param text - Text to send
+        \return Size of sent text
+    */
+    virtual size_t Send(const std::string_view& text) { return Send(text.data(), text.size()); }
+
     //! Send data to the client (asynchronous)
     /*!
         \param buffer - Buffer to send

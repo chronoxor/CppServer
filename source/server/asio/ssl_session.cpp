@@ -200,6 +200,42 @@ bool SSLSession::Disconnect(bool dispatch)
     return true;
 }
 
+size_t SSLSession::Send(const void* buffer, size_t size)
+{
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return 0;
+
+    if (!IsHandshaked())
+        return 0;
+
+    if (size == 0)
+        return 0;
+
+    asio::error_code ec;
+
+    // Send data to the client
+    size_t sent = asio::write(_stream, asio::buffer(buffer, size), ec);
+    if (sent > 0)
+    {
+        // Update statistic
+        _bytes_sent += sent;
+        _server->_bytes_sent += sent;
+
+        // Call the buffer sent handler
+        onSent(sent, bytes_pending());
+    }
+
+    // Disconnect on error
+    if (ec)
+    {
+        SendError(ec);
+        Disconnect();
+    }
+
+    return sent;
+}
+
 bool SSLSession::SendAsync(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");

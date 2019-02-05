@@ -120,6 +120,20 @@ public:
     */
     virtual bool ReconnectAsync();
 
+    //! Send data to the server (synchronous)
+    /*!
+        \param buffer - Buffer to send
+        \param size - Buffer size
+        \return Size of sent data
+    */
+    virtual size_t Send(const void* buffer, size_t size);
+    //! Send text to the server (synchronous)
+    /*!
+        \param text - Text to send
+        \return Size of sent text
+    */
+    virtual size_t Send(const std::string_view& text) { return Send(text.data(), text.size()); }
+
     //! Send data to the server (asynchronous)
     /*!
         \param buffer - Buffer to send
