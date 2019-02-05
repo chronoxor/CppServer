@@ -118,10 +118,10 @@ public:
     virtual bool Multicast(const void* buffer, size_t size);
     //! Multicast text to all connected sessions
     /*!
-        \param text - Text string to multicast
+        \param text - Text to multicast
         \return 'true' if the text was successfully multicast, 'false' if the server is not started
     */
-    virtual bool Multicast(const std::string& text) { return Multicast(text.data(), text.size()); }
+    virtual bool Multicast(const std::string_view& text) { return Multicast(text.data(), text.size()); }
 
     //! Disconnect all connected sessions
     /*!

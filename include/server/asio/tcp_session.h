@@ -83,10 +83,10 @@ public:
     virtual bool SendAsync(const void* buffer, size_t size);
     //! Send text to the client (asynchronous)
     /*!
-        \param text - Text string to send
+        \param text - Text to send
         \return 'true' if the text was successfully sent, 'false' if the session is not connected
     */
-    virtual bool SendAsync(const std::string& text) { return SendAsync(text.data(), text.size()); }
+    virtual bool SendAsync(const std::string_view& text) { return SendAsync(text.data(), text.size()); }
 
     //! Setup option: receive buffer size
     /*!

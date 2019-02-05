@@ -126,10 +126,10 @@ public:
     virtual bool SendAsync(const void* buffer, size_t size);
     //! Send text to the connected server (asynchronous)
     /*!
-        \param text - Text string to send
+        \param text - Text to send
         \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
-    virtual bool SendAsync(const std::string& text) { return SendAsync(text.data(), text.size()); }
+    virtual bool SendAsync(const std::string_view& text) { return SendAsync(text.data(), text.size()); }
     //! Send datagram to the given endpoint (asynchronous)
     /*!
         \param endpoint - Endpoint to send
@@ -141,10 +141,10 @@ public:
     //! Send text to the given endpoint (asynchronous)
     /*!
         \param endpoint - Endpoint to send
-        \param text - Text string to send
+        \param text - Text to send
         \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
-    virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return SendAsync(endpoint, text.data(), text.size()); }
+    virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return SendAsync(endpoint, text.data(), text.size()); }
 
     //! Send datagram to the connected server (synchronous)
     /*!
@@ -155,10 +155,10 @@ public:
     virtual bool SendSync(const void* buffer, size_t size);
     //! Send text to the connected server (synchronous)
     /*!
-        \param text - Text string to send
+        \param text - Text to send
         \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
-    virtual bool SendSync(const std::string& text) { return SendSync(text.data(), text.size()); }
+    virtual bool SendSync(const std::string_view& text) { return SendSync(text.data(), text.size()); }
     //! Send datagram to the given endpoint (synchronous)
     /*!
         \param endpoint - Endpoint to send
@@ -170,10 +170,10 @@ public:
     //! Send text to the given endpoint (synchronous)
     /*!
         \param endpoint - Endpoint to send
-        \param text - Text string to send
+        \param text - Text to send
         \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
-    virtual bool SendSync(const asio::ip::udp::endpoint& endpoint, const std::string& text) { return SendSync(endpoint, text.data(), text.size()); }
+    virtual bool SendSync(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return SendSync(endpoint, text.data(), text.size()); }
 
     //! Setup option: reuse address
     /*!
