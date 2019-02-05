@@ -57,7 +57,7 @@ void SSLSession::SetupSendBufferSize(size_t size)
     _stream.lowest_layer().set_option(option);
 }
 
-void SSLSession::ConnectAsync()
+void SSLSession::Connect()
 {
     // Apply the option: keep alive
     if (_server->option_keep_alive())
@@ -117,7 +117,7 @@ void SSLSession::ConnectAsync()
         {
             // Disconnect in case of the bad handshake
             SendError(ec);
-            DisconnectAsync(true);
+            Disconnect(true);
         }
     };
     if (_strand_required)
@@ -126,54 +126,7 @@ void SSLSession::ConnectAsync()
         _stream.async_handshake(asio::ssl::stream_base::server, async_handshake_handler);
 }
 
-bool SSLSession::Disconnect()
-{
-    if (!IsConnected())
-        return false;
-
-    asio::error_code ec;
-
-    // SSL shutdown
-    _stream.shutdown(ec);
-
-    // Close the session socket
-    socket().close();
-
-    // Update the handshaked flag
-    _handshaked = false;
-
-    // Update the connected flag
-    _connected = false;
-
-    // Update sending/receiving flags
-    _receiving = false;
-    _sending = false;
-
-    // Clear send/receive buffers
-    ClearBuffers();
-
-    // Call the session disconnected handler
-    onDisconnected();
-
-    // Call the session disconnected handler in the server
-    auto disconnected_session(this->shared_from_this());
-    _server->onDisconnected(disconnected_session);
-
-    // Dispatch the unregister session handler
-    auto self(this->shared_from_this());
-    auto unregister_session_handler = [this, self]()
-    {
-        _server->UnregisterSession(id());
-    };
-    if (_server->_strand_required)
-        _server->_strand.dispatch(unregister_session_handler);
-    else
-        _server->_io_service->dispatch(unregister_session_handler);
-
-    return true;
-}
-
-bool SSLSession::DisconnectAsync(bool dispatch)
+bool SSLSession::Disconnect(bool dispatch)
 {
     if (!IsConnected())
         return false;
@@ -331,7 +284,7 @@ void SSLSession::TryReceive()
         else
         {
             SendError(ec);
-            DisconnectAsync(true);
+            Disconnect(true);
         }
     });
     if (_strand_required)
@@ -411,7 +364,7 @@ void SSLSession::TrySend()
         else
         {
             SendError(ec);
-            DisconnectAsync(true);
+            Disconnect(true);
         }
     });
     if (_strand_required)

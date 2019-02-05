@@ -223,7 +223,7 @@ void SSLServer::Accept()
                 RegisterSession();
 
                 // Connect a new session
-                _session->ConnectAsync();
+                _session->Connect();
             }
             else
                 SendError(ec);
@@ -323,7 +323,7 @@ bool SSLServer::DisconnectAll()
 
         // Disconnect all sessions
         for (auto& session : _sessions)
-            session.second->DisconnectAsync();
+            session.second->Disconnect();
     };
     if (_strand_required)
         _strand.dispatch(disconnect_all_handler);

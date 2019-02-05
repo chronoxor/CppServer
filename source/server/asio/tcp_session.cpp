@@ -56,7 +56,7 @@ void TCPSession::SetupSendBufferSize(size_t size)
     _socket.set_option(option);
 }
 
-void TCPSession::ConnectAsync()
+void TCPSession::Connect()
 {
     // Apply the option: keep alive
     if (_server->option_keep_alive())
@@ -94,53 +94,48 @@ void TCPSession::ConnectAsync()
     TryReceive();
 }
 
-bool TCPSession::Disconnect()
-{
-    if (!IsConnected())
-        return false;
-
-    // Close the session socket
-    _socket.close();
-
-    // Update the connected flag
-    _connected = false;
-
-    // Update sending/receiving flags
-    _receiving = false;
-    _sending = false;
-
-    // Clear send/receive buffers
-    ClearBuffers();
-
-    // Call the session disconnected handler
-    onDisconnected();
-
-    // Call the session disconnected handler in the server
-    auto disconnected_session(this->shared_from_this());
-    _server->onDisconnected(disconnected_session);
-
-    // Dispatch the unregister session handler
-    auto self(this->shared_from_this());
-    auto unregister_session_handler = [this, self]()
-    {
-        _server->UnregisterSession(id());
-    };
-    if (_server->_strand_required)
-        _server->_strand.dispatch(unregister_session_handler);
-    else
-        _server->_io_service->dispatch(unregister_session_handler);
-
-    return true;
-}
-
-bool TCPSession::DisconnectAsync(bool dispatch)
+bool TCPSession::Disconnect(bool dispatch)
 {
     if (!IsConnected())
         return false;
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = [this, self]() { Disconnect(); };
+    auto disconnect_handler = [this, self]()
+    {
+        if (!IsConnected())
+            return;
+
+        // Close the session socket
+        _socket.close();
+
+        // Update the connected flag
+        _connected = false;
+
+        // Update sending/receiving flags
+        _receiving = false;
+        _sending = false;
+
+        // Clear send/receive buffers
+        ClearBuffers();
+
+        // Call the session disconnected handler
+        onDisconnected();
+
+        // Call the session disconnected handler in the server
+        auto disconnected_session(this->shared_from_this());
+        _server->onDisconnected(disconnected_session);
+
+        // Dispatch the unregister session handler
+        auto unregister_session_handler = [this, self]()
+        {
+            _server->UnregisterSession(id());
+        };
+        if (_server->_strand_required)
+            _server->_strand.dispatch(unregister_session_handler);
+        else
+            _server->_io_service->dispatch(unregister_session_handler);
+    };
     if (_strand_required)
     {
         if (dispatch)
@@ -243,7 +238,7 @@ void TCPSession::TryReceive()
         else
         {
             SendError(ec);
-            DisconnectAsync(true);
+            Disconnect(true);
         }
     });
     if (_strand_required)
@@ -323,7 +318,7 @@ void TCPSession::TrySend()
         else
         {
             SendError(ec);
-            DisconnectAsync(true);
+            Disconnect(true);
         }
     });
     if (_strand_required)

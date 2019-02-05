@@ -72,17 +72,11 @@ public:
     //! Is the session handshaked?
     bool IsHandshaked() const noexcept { return _handshaked; }
 
-    //! Disconnect the session (synchronous)
+    //! Disconnect the session
     /*!
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    virtual bool Disconnect();
-
-    //! Disconnect the session (asynchronous)
-    /*!
-        \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
-    */
-    virtual bool DisconnectAsync() { return DisconnectAsync(false); }
+    virtual bool Disconnect() { return Disconnect(false); }
 
     //! Send data to the client (asynchronous)
     /*!
@@ -191,14 +185,14 @@ private:
     size_t _send_buffer_flush_offset;
     HandlerStorage _send_storage;
 
-    //! Connect the session (asynchronous)
-    void ConnectAsync();
-    //! Disconnect the session (asynchronous)
+    //! Connect the session
+    void Connect();
+    //! Disconnect the session
     /*!
         \param dispatch - Dispatch flag
         \return 'true' if the session was successfully disconnected, 'false' if the session is already disconnected
     */
-    bool DisconnectAsync(bool dispatch);
+    bool Disconnect(bool dispatch);
 
     //! Try to receive new data
     void TryReceive();
