@@ -106,7 +106,7 @@ TEST_CASE("UDP server test", "[CppServer][Asio]")
 
     // Create and start Echo server
     auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, port);
-    REQUIRE(server->StartAsync());
+    REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
@@ -129,7 +129,7 @@ TEST_CASE("UDP server test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Stop the Echo server
-    REQUIRE(server->StopAsync());
+    REQUIRE(server->Stop());
     while (server->IsStarted())
         Thread::Yield();
 
@@ -174,7 +174,7 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
 
     // Create and start Echo server
     auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, port);
-    REQUIRE(server->StartAsync());
+    REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
 
@@ -262,7 +262,7 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
     }
 
     // Stop the Echo server
-    REQUIRE(server->StopAsync());
+    REQUIRE(server->Stop());
     while (server->IsStarted())
         Thread::Yield();
 

@@ -88,6 +88,22 @@ public:
     //! Is the session handshaked?
     bool IsHandshaked() const noexcept;
 
+    //! Connect the client (synchronous)
+    /*!
+        \return 'true' if the client was successfully connected, 'false' if the client failed to connect
+    */
+    virtual bool Connect();
+    //! Disconnect the client (synchronous)
+    /*!
+        \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
+    */
+    virtual bool Disconnect();
+    //! Reconnect the client (synchronous)
+    /*!
+        \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
+    */
+    virtual bool Reconnect();
+
     //! Connect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect

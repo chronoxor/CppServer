@@ -87,6 +87,88 @@ void TCPClient::SetupSendBufferSize(size_t size)
     _socket.set_option(option);
 }
 
+bool TCPClient::Connect()
+{
+    if (IsConnected())
+        return false;
+
+    asio::error_code ec;
+
+    // Connect to the server
+    _socket.connect(_endpoint, ec);
+
+    // Disconnect on error
+    if (ec)
+    {
+        // Call the client disconnected handler
+        SendError(ec);
+        onDisconnected();
+        return false;
+    }
+
+    // Apply the option: keep alive
+    if (option_keep_alive())
+        _socket.set_option(asio::ip::tcp::socket::keep_alive(true));
+    // Apply the option: no delay
+    if (option_no_delay())
+        _socket.set_option(asio::ip::tcp::no_delay(true));
+
+    // Prepare receive & send buffers
+    _receive_buffer.resize(option_receive_buffer_size());
+    _send_buffer_main.reserve(option_send_buffer_size());
+    _send_buffer_flush.reserve(option_send_buffer_size());
+
+    // Reset statistic
+    _bytes_pending = 0;
+    _bytes_sending = 0;
+    _bytes_sent = 0;
+    _bytes_received = 0;
+
+    // Update the connected flag
+    _connected = true;
+
+    // Call the client connected handler
+    onConnected();
+
+    // Call the empty send buffer handler
+    if (_send_buffer_main.empty())
+        onEmpty();
+
+    return true;
+}
+
+bool TCPClient::Disconnect()
+{
+    if (!IsConnected())
+        return false;
+
+    // Close the client socket
+    _socket.close();
+
+    // Update the connected flag
+    _connected = false;
+
+    // Update sending/receiving flags
+    _receiving = false;
+    _sending = false;
+
+    // Clear send/receive buffers
+    ClearBuffers();
+
+    // Call the client disconnected handler
+    onDisconnected();
+
+    return true;
+}
+
+bool TCPClient::Reconnect()
+{
+    if (!Disconnect())
+        return false;
+
+    return Connect();
+}
+
 bool TCPClient::ConnectAsync()
 {
     if (IsConnected())
@@ -165,27 +247,7 @@ bool TCPClient::DisconnectAsync(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = [this, self]()
-    {
-        if (!IsConnected())
-            return;
-
-        // Close the client socket
-        _socket.close();
-
-        // Update the connected flag
-        _connected = false;
-
-        // Update sending/receiving flags
-        _receiving = false;
-        _sending = false;
-
-        // Clear send/receive buffers
-        ClearBuffers();
-
-        // Call the client disconnected handler
-        onDisconnected();
-    };
+    auto disconnect_handler = [this, self]() { Disconnect(); };
     if (_strand_required)
     {
         if (dispatch)

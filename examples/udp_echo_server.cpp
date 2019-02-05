@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 
     // Start the server
     std::cout << "Server starting...";
-    server->StartAsync();
+    server->Start();
     std::cout << "Done!" << std::endl;
 
     std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Server restarting...";
-            server->RestartAsync();
+            server->Restart();
             std::cout << "Done!" << std::endl;
             continue;
         }
@@ -91,7 +91,7 @@ int main(int argc, char** argv)
 
     // Stop the server
     std::cout << "Server stopping...";
-    server->StopAsync();
+    server->Stop();
     std::cout << "Done!" << std::endl;
 
     // Stop the Asio service

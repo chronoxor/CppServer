@@ -78,7 +78,7 @@ int main(int argc, char** argv)
 
     // Start the server
     std::cout << "Server starting...";
-    server->StartAsync(address, port);
+    server->Start(address, port);
     std::cout << "Done!" << std::endl;
 
     // Start the multicasting thread
@@ -118,7 +118,7 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Server restarting...";
-            server->RestartAsync();
+            server->Restart();
             std::cout << "Done!" << std::endl;
             continue;
         }
@@ -130,7 +130,7 @@ int main(int argc, char** argv)
 
     // Stop the server
     std::cout << "Server stopping...";
-    server->StopAsync();
+    server->Stop();
     std::cout << "Done!" << std::endl;
 
     // Stop the Asio service

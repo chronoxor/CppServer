@@ -105,7 +105,7 @@ TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
 
     // Create and start multicast server
     auto server = std::make_shared<MulticastUDPServer>(service, InternetProtocol::IPv4, 0);
-    REQUIRE(server->StartAsync(multicast_address, multicast_port));
+    REQUIRE(server->Start(multicast_address, multicast_port));
     while (!server->IsStarted())
         Thread::Yield();
 
@@ -199,7 +199,7 @@ TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Stop the multicast server
-    REQUIRE(server->StopAsync());
+    REQUIRE(server->Stop());
     while (server->IsStarted())
         Thread::Yield();
 
@@ -249,7 +249,7 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
 
     // Create and start multicast server
     auto server = std::make_shared<MulticastUDPServer>(service, InternetProtocol::IPv4, 0);
-    REQUIRE(server->StartAsync(multicast_address, multicast_port));
+    REQUIRE(server->Start(multicast_address, multicast_port));
     while (!server->IsStarted())
         Thread::Yield();
 
@@ -326,7 +326,7 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
     }
 
     // Stop the multicast server
-    REQUIRE(server->StopAsync());
+    REQUIRE(server->Stop());
     while (server->IsStarted())
         Thread::Yield();
 

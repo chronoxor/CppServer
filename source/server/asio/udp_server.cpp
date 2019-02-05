@@ -122,34 +122,46 @@ bool UDPServer::Start()
     if (IsStarted())
         return false;
 
-    // Open a server socket
-    _socket.open(_endpoint.protocol());
-    if (option_reuse_address())
-        _socket.set_option(asio::ip::udp::socket::reuse_address(true));
-#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
-    if (option_reuse_port())
+    // Post the start handler
+    auto self(this->shared_from_this());
+    auto start_handler = [this, self]()
     {
-        typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
-        _socket.set_option(reuse_port(true));
-    }
+        if (IsStarted())
+            return;
+
+        // Open a server socket
+        _socket.open(_endpoint.protocol());
+        if (option_reuse_address())
+            _socket.set_option(asio::ip::udp::socket::reuse_address(true));
+#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
+        if (option_reuse_port())
+        {
+            typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
+            _socket.set_option(reuse_port(true));
+        }
 #endif
-    _socket.bind(_endpoint);
+        _socket.bind(_endpoint);
 
-    // Prepare receive buffer
-    _receive_buffer.resize(option_receive_buffer_size());
+        // Prepare receive buffer
+        _receive_buffer.resize(option_receive_buffer_size());
 
-    // Reset statistic
-    _bytes_sending = 0;
-    _bytes_sent = 0;
-    _bytes_received = 0;
-    _datagrams_sent = 0;
-    _datagrams_received = 0;
+        // Reset statistic
+        _bytes_sending = 0;
+        _bytes_sent = 0;
+        _bytes_received = 0;
+        _datagrams_sent = 0;
+        _datagrams_received = 0;
 
-     // Update the started flag
-    _started = true;
+         // Update the started flag
+        _started = true;
 
-    // Call the server started handler
-    onStarted();
+        // Call the server started handler
+        onStarted();
+    };
+    if (_strand_required)
+        _strand.post(start_handler);
+    else
+        _io_service->post(start_handler);
 
     return true;
 }
@@ -172,21 +184,33 @@ bool UDPServer::Stop()
     if (!IsStarted())
         return false;
 
-    // Close the server socket
-    _socket.close();
+    // Post the stop handler
+    auto self(this->shared_from_this());
+    auto stop_handler = [this, self]()
+    {
+        if (!IsStarted())
+            return;
 
-    // Update the started flag
-    _started = false;
+        // Close the server socket
+        _socket.close();
 
-    // Update sending/receiving flags
-    _receiving = false;
-    _sending = false;
+        // Update the started flag
+        _started = false;
 
-    // Clear send/receive buffers
-    ClearBuffers();
+        // Update sending/receiving flags
+        _receiving = false;
+        _sending = false;
 
-    // Call the server stopped handler
-    onStopped();
+        // Clear send/receive buffers
+        ClearBuffers();
+
+        // Call the server stopped handler
+        onStopped();
+    };
+    if (_strand_required)
+        _strand.post(stop_handler);
+    else
+        _io_service->post(stop_handler);
 
     return true;
 }
@@ -196,64 +220,10 @@ bool UDPServer::Restart()
     if (!Stop())
         return false;
 
-    return Start();
-}
-
-bool UDPServer::StartAsync()
-{
-    assert(!IsStarted() && "UDP server is already started!");
-    if (IsStarted())
-        return false;
-
-    // Post the start handler
-    auto self(this->shared_from_this());
-    auto start_handler = [this, self]() { Start(); };
-    if (_strand_required)
-        _strand.post(start_handler);
-    else
-        _io_service->post(start_handler);
-
-    return true;
-}
-
-bool UDPServer::StartAsync(const std::string& multicast_address, int multicast_port)
-{
-    _multicast_endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(multicast_address), (unsigned short)multicast_port);
-    return StartAsync();
-}
-
-bool UDPServer::StartAsync(const asio::ip::udp::endpoint& multicast_endpoint)
-{
-    _multicast_endpoint = multicast_endpoint;
-    return StartAsync();
-}
-
-bool UDPServer::StopAsync()
-{
-    assert(IsStarted() && "UDP server is not started!");
-    if (!IsStarted())
-        return false;
-
-    // Post the stop handler
-    auto self(this->shared_from_this());
-    auto stop_handler = [this, self]() { Stop(); };
-    if (_strand_required)
-        _strand.post(stop_handler);
-    else
-        _io_service->post(stop_handler);
-
-    return true;
-}
-
-bool UDPServer::RestartAsync()
-{
-    if (!StopAsync())
-        return false;
-
     while (IsStarted())
         CppCommon::Thread::Yield();
 
-    return StartAsync();
+    return Start();
 }
 
 size_t UDPServer::Multicast(const void* buffer, size_t size)

@@ -84,12 +84,12 @@ public:
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
-    //! Start the server (synchronous)
+    //! Start the server
     /*!
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
     virtual bool Start();
-    //! Start the server with a given multicast IP address and port number (synchronous)
+    //! Start the server with a given multicast IP address and port number
     /*!
         \param multicast_address - Multicast IP address
         \param multicast_port - Multicast port number
@@ -97,54 +97,23 @@ public:
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
     virtual bool Start(const std::string& multicast_address, int multicast_port);
-    //! Start the server with a given multicast endpoint (synchronous)
+    //! Start the server with a given multicast endpoint
     /*!
         \param multicast_endpoint - Multicast UDP endpoint
 
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
     virtual bool Start(const asio::ip::udp::endpoint& multicast_endpoint);
-    //! Stop the server (synchronous)
+    //! Stop the server
     /*!
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
     */
     virtual bool Stop();
-    //! Restart the server (synchronous)
+    //! Restart the server
     /*!
         \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
     */
     virtual bool Restart();
-
-    //! Start the server (asynchronous)
-    /*!
-        \return 'true' if the server was successfully started, 'false' if the server failed to start
-    */
-    virtual bool StartAsync();
-    //! Start the server with a given multicast IP address and port number (asynchronous)
-    /*!
-        \param multicast_address - Multicast IP address
-        \param multicast_port - Multicast port number
-
-        \return 'true' if the server was successfully started, 'false' if the server failed to start
-    */
-    virtual bool StartAsync(const std::string& multicast_address, int multicast_port);
-    //! Start the server with a given multicast endpoint (asynchronous)
-    /*!
-        \param multicast_endpoint - Multicast UDP endpoint
-
-        \return 'true' if the server was successfully started, 'false' if the server failed to start
-    */
-    virtual bool StartAsync(const asio::ip::udp::endpoint& multicast_endpoint);
-    //! Stop the server (asynchronous)
-    /*!
-        \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
-    */
-    virtual bool StopAsync();
-    //! Restart the server (asynchronous)
-    /*!
-        \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
-    */
-    virtual bool RestartAsync();
 
     //! Multicast datagram to the prepared mulicast endpoint (synchronous)
     /*!

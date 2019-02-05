@@ -119,6 +119,108 @@ public:
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
 
+    bool Connect(std::shared_ptr<SSLClient> client)
+    {
+        _client = client;
+
+        if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
+            return false;
+
+        asio::error_code ec;
+
+        // Connect to the server
+        socket().connect(_endpoint, ec);
+
+        // Disconnect on error
+        if (ec)
+        {
+            // Call the client disconnected handler
+            SendError(ec);
+            onDisconnected();
+            return false;
+        }
+
+        // Apply the option: keep alive
+        if (option_keep_alive())
+            socket().set_option(asio::ip::tcp::socket::keep_alive(true));
+        // Apply the option: no delay
+        if (option_no_delay())
+            socket().set_option(asio::ip::tcp::no_delay(true));
+
+        // Prepare receive & send buffers
+        _receive_buffer.resize(option_receive_buffer_size());
+        _send_buffer_main.reserve(option_send_buffer_size());
+        _send_buffer_flush.reserve(option_send_buffer_size());
+
+        // Reset statistic
+        _bytes_pending = 0;
+        _bytes_sending = 0;
+        _bytes_sent = 0;
+        _bytes_received = 0;
+
+        // Update the connected flag
+        _connected = true;
+
+        // Call the client connected handler
+        onConnected();
+
+        // SSL handshake
+        _stream.handshake(asio::ssl::stream_base::client, ec);
+
+        // Disconnect on error
+        if (ec)
+        {
+            // Disconnect in case of the bad handshake
+            SendError(ec);
+            Disconnect();
+            return false;
+        }
+
+        // Update the handshaked flag
+        _handshaked = true;
+
+        // Call the client handshaked handler
+        onHandshaked();
+
+        // Call the empty send buffer handler
+        if (_send_buffer_main.empty())
+            onEmpty();
+
+        return true;
+    }
+
+    bool Disconnect()
+    {
+        if (!IsConnected() || _connecting || _handshaking)
+            return false;
+
+        // Close the client socket
+        socket().close();
+
+        // Call the client reset handler
+        onReset();
+
+        // Update the handshaked flag
+        _handshaking = false;
+        _handshaked = false;
+
+        // Update the connected flag
+        _connecting = false;
+        _connected = false;
+
+        // Update sending/receiving flags
+        _receiving = false;
+        _sending = false;
+
+        // Clear send/receive buffers
+        ClearBuffers();
+
+        // Call the client disconnected handler
+        onDisconnected();
+
+        return true;
+    }
+
     bool ConnectAsync(std::shared_ptr<SSLClient> client)
     {
         _client = client;
@@ -194,7 +296,7 @@ public:
                         }
                         else
                         {
-                            // Disconnect on in case of the bad handshake
+                            // Disconnect in case of the bad handshake
                             SendError(ec2);
                             DisconnectAsync(true);
                         }
@@ -231,35 +333,7 @@ public:
 
         // Dispatch or post the disconnect handler
         auto self(this->shared_from_this());
-        auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
-        {
-            if (!IsConnected() || _connecting || _handshaking)
-                return;
-
-            // Close the client socket
-            socket().close();
-
-            // Call the client reset handler
-            onReset();
-
-            // Update the handshaked flag
-            _handshaking = false;
-            _handshaked = false;
-
-            // Update the connected flag
-            _connecting = false;
-            _connected = false;
-
-            // Update sending/receiving flags
-            _receiving = false;
-            _sending = false;
-
-            // Clear send/receive buffers
-            ClearBuffers();
-
-            // Call the client disconnected handler
-            onDisconnected();
-        });
+        auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]() { Disconnect(); });
         if (_strand_required)
         {
             if (dispatch)
@@ -666,6 +740,25 @@ bool SSLClient::IsConnected() const noexcept
 bool SSLClient::IsHandshaked() const noexcept
 {
     return _pimpl->IsHandshaked();
+}
+
+bool SSLClient::Connect()
+{
+    auto self(this->shared_from_this());
+    return _pimpl->Connect(self);
+}
+
+bool SSLClient::Disconnect()
+{
+    return _pimpl->Disconnect();
+}
+
+bool SSLClient::Reconnect()
+{
+    if (!Disconnect())
+        return false;
+
+    return Connect();
 }
 
 bool SSLClient::ConnectAsync()

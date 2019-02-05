@@ -68,6 +68,12 @@ public:
     //! Is the session connected?
     bool IsConnected() const noexcept { return _connected; }
 
+    //! Disconnect the session (synchronous)
+    /*!
+        \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
+    */
+    virtual bool Disconnect();
+
     //! Disconnect the session (asynchronous)
     /*!
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
