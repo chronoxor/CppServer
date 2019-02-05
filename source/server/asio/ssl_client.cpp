@@ -432,6 +432,48 @@ public:
         return true;
     }
 
+    size_t Receive(void* buffer, size_t size)
+    {
+        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+        if (buffer == nullptr)
+            return 0;
+
+        if (!IsHandshaked())
+            return 0;
+
+        if (size == 0)
+            return 0;
+
+        asio::error_code ec;
+
+        // Receive data from the client
+        size_t received = _stream.read_some(asio::buffer(buffer, size), ec);
+        if (received > 0)
+        {
+            // Update statistic
+            _bytes_received += received;
+
+            // Call the buffer received handler
+            onReceived(buffer, received);
+        }
+
+        // Disconnect on error
+        if (ec)
+        {
+            SendError(ec);
+            Disconnect();
+        }
+
+        return received;
+    }
+
+    std::string Receive(size_t size)
+    {
+        std::string text(size, 0);
+        text.resize(Receive(text.data(), text.size()));
+        return text;
+    }
+
     void ReceiveAsync()
     {
         // Try to receive data from the server
@@ -832,6 +874,16 @@ size_t SSLClient::Send(const void* buffer, size_t size)
 bool SSLClient::SendAsync(const void* buffer, size_t size)
 {
     return _pimpl->SendAsync(buffer, size);
+}
+
+size_t SSLClient::Receive(void* buffer, size_t size)
+{
+    return _pimpl->Receive(buffer, size);
+}
+
+std::string SSLClient::Receive(size_t size)
+{
+    return _pimpl->Receive(size);
 }
 
 void SSLClient::ReceiveAsync()

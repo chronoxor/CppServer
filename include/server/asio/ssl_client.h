@@ -148,7 +148,21 @@ public:
     */
     virtual bool SendAsync(const std::string_view& text) { return SendAsync(text.data(), text.size()); }
 
-    //! Receive a new data (asynchronous)
+    //! Receive data from the server (synchronous)
+    /*!
+        \param buffer - Buffer to receive
+        \param size - Buffer size to receive
+        \return Size of received data
+    */
+    virtual size_t Receive(void* buffer, size_t size);
+    //! Receive text from the server (synchronous)
+    /*!
+        \param size - Text size to receive
+        \return Received text
+    */
+    virtual std::string Receive(size_t size);
+
+    //! Receive data from the server (asynchronous)
     virtual void ReceiveAsync();
 
     //! Setup option: keep alive

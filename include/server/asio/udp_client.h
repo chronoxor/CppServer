@@ -199,7 +199,7 @@ public:
     */
     virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return SendAsync(endpoint, text.data(), text.size()); }
 
-    //! Receive a new datagram from the given endpoint (synchronous)
+    //! Receive datagram from the given endpoint (synchronous)
     /*!
         \param endpoint - Endpoint to receive from
         \param buffer - Datagram buffer to receive
@@ -215,7 +215,7 @@ public:
     */
     virtual std::string Receive(asio::ip::udp::endpoint& endpoint, size_t size);
 
-    //! Receive a new datagram (asynchronous)
+    //! Receive datagram from the server (asynchronous)
     virtual void ReceiveAsync();
 
     //! Setup option: reuse address
