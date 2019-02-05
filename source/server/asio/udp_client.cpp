@@ -87,6 +87,78 @@ void UDPClient::SetupSendBufferSize(size_t size)
     _socket.set_option(option);
 }
 
+bool UDPClient::Connect()
+{
+    if (IsConnected())
+        return false;
+
+    // Open a client socket
+    _socket.open(_endpoint.protocol());
+    if (option_reuse_address())
+        _socket.set_option(asio::ip::udp::socket::reuse_address(true));
+#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
+    if (option_reuse_port())
+    {
+        typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
+        _socket.set_option(reuse_port(true));
+    }
+#endif
+    if (option_multicast())
+        _socket.bind(_endpoint);
+    else
+        _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
+
+    // Prepare receive buffer
+    _receive_buffer.resize(option_receive_buffer_size());
+
+    // Reset statistic
+    _bytes_sending = 0;
+    _bytes_sent = 0;
+    _bytes_received = 0;
+    _datagrams_sent = 0;
+    _datagrams_received = 0;
+
+    // Update the connected flag
+    _connected = true;
+
+    // Call the client connected handler
+    onConnected();
+
+    return true;
+}
+
+bool UDPClient::Disconnect()
+{
+    if (!IsConnected())
+        return false;
+
+    // Close the client socket
+    _socket.close();
+
+    // Update the connected flag
+    _connected = false;
+
+    // Update sending/receiving flags
+    _receiving = false;
+    _sending = false;
+
+    // Clear send/receive buffers
+    ClearBuffers();
+
+    // Call the client disconnected handler
+    onDisconnected();
+
+    return true;
+}
+
+bool UDPClient::Reconnect()
+{
+    if (!Disconnect())
+        return false;
+
+    return Connect();
+}
+
 bool UDPClient::ConnectAsync()
 {
     if (IsConnected())
@@ -94,43 +166,7 @@ bool UDPClient::ConnectAsync()
 
     // Post the connect handler
     auto self(this->shared_from_this());
-    auto connect_handler = [this, self]()
-    {
-        if (IsConnected())
-            return;
-
-        // Open a client socket
-        _socket.open(_endpoint.protocol());
-        if (option_reuse_address())
-            _socket.set_option(asio::ip::udp::socket::reuse_address(true));
-#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
-        if (option_reuse_port())
-        {
-            typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
-            _socket.set_option(reuse_port(true));
-        }
-#endif
-        if (option_multicast())
-            _socket.bind(_endpoint);
-        else
-            _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
-
-        // Prepare receive buffer
-        _receive_buffer.resize(option_receive_buffer_size());
-
-        // Reset statistic
-        _bytes_sending = 0;
-        _bytes_sent = 0;
-        _bytes_received = 0;
-        _datagrams_sent = 0;
-        _datagrams_received = 0;
-
-        // Update the connected flag
-        _connected = true;
-
-        // Call the client connected handler
-        onConnected();
-    };
+    auto connect_handler = [this, self]() { Connect(); };
     if (_strand_required)
         _strand.post(connect_handler);
     else
@@ -146,27 +182,7 @@ bool UDPClient::DisconnectAsync(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = [this, self]()
-    {
-        if (!IsConnected())
-            return;
-
-        // Close the client socket
-        _socket.close();
-
-        // Update the connected flag
-        _connected = false;
-
-        // Update sending/receiving flags
-        _receiving = false;
-        _sending = false;
-
-        // Clear send/receive buffers
-        ClearBuffers();
-
-        // Call the client disconnected handler
-        onDisconnected();
-    };
+    auto disconnect_handler = [this, self]() { Disconnect(); };
     if (_strand_required)
     {
         if (dispatch)
@@ -196,6 +212,34 @@ bool UDPClient::ReconnectAsync()
     return ConnectAsync();
 }
 
+void UDPClient::JoinMulticastGroup(const std::string& address)
+{
+    if (!IsConnected())
+        return;
+
+    asio::ip::address muticast_address = asio::ip::address::from_string(address);
+
+    asio::ip::multicast::join_group join(muticast_address);
+    _socket.set_option(join);
+
+    // Call the client joined multicast group notification
+    onJoinedMulticastGroup(address);
+}
+
+void UDPClient::LeaveMulticastGroup(const std::string& address)
+{
+    if (!IsConnected())
+        return;
+
+    asio::ip::address muticast_address = asio::ip::address::from_string(address);
+
+    asio::ip::multicast::leave_group leave(muticast_address);
+    _socket.set_option(leave);
+
+    // Call the client left multicast group notification
+    onLeftMulticastGroup(address);
+}
+
 void UDPClient::JoinMulticastGroupAsync(const std::string& address)
 {
     if (!IsConnected())
@@ -203,19 +247,7 @@ void UDPClient::JoinMulticastGroupAsync(const std::string& address)
 
     // Dispatch the join multicast group handler
     auto self(this->shared_from_this());
-    auto join_multicast_group_handler = [this, self, address]()
-    {
-        if (!IsConnected())
-            return;
-
-        asio::ip::address muticast_address = asio::ip::address::from_string(address);
-
-        asio::ip::multicast::join_group join(muticast_address);
-        _socket.set_option(join);
-
-        // Call the client joined multicast group notification
-        onJoinedMulticastGroup(address);
-    };
+    auto join_multicast_group_handler = [this, self, address]() { JoinMulticastGroup(address); };
     if (_strand_required)
         _strand.dispatch(join_multicast_group_handler);
     else
@@ -229,29 +261,54 @@ void UDPClient::LeaveMulticastGroupAsync(const std::string& address)
 
     // Dispatch the leave multicast group handler
     auto self(this->shared_from_this());
-    auto leave_multicast_group_handler = [this, self, address]()
-    {
-        if (!IsConnected())
-            return;
-
-        asio::ip::address muticast_address = asio::ip::address::from_string(address);
-
-        asio::ip::multicast::leave_group leave(muticast_address);
-        _socket.set_option(leave);
-
-        // Call the client left multicast group notification
-        onLeftMulticastGroup(address);
-    };
+    auto leave_multicast_group_handler = [this, self, address]() { LeaveMulticastGroup(address); };
     if (_strand_required)
         _strand.dispatch(leave_multicast_group_handler);
     else
         _io_service->dispatch(leave_multicast_group_handler);
 }
 
-void UDPClient::ReceiveAsync()
+bool UDPClient::Send(const void* buffer, size_t size)
 {
-    // Try to receive something from the server
-    TryReceive();
+    // Send the datagram to the server endpoint
+    return Send(_endpoint, buffer, size);
+}
+
+bool UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
+{
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return false;
+
+    if (!IsConnected())
+        return false;
+
+    if (size == 0)
+        return true;
+
+    asio::error_code ec;
+
+    // Sent datagram to the server
+    size_t sent = _socket.send_to(asio::const_buffer(buffer, size), endpoint, 0, ec);
+    if (sent > 0)
+    {
+        // Update statistic
+        ++_datagrams_sent;
+        _bytes_sent += sent;
+
+        // Call the datagram sent handler
+        onSent(endpoint, sent);
+    }
+
+    // Disconnect on error
+    if (ec)
+    {
+        SendError(ec);
+        Disconnect();
+        return false;
+    }
+
+    return true;
 }
 
 bool UDPClient::SendAsync(const void* buffer, size_t size)
@@ -325,47 +382,54 @@ bool UDPClient::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
     return true;
 }
 
-bool UDPClient::SendSync(const void* buffer, size_t size)
-{
-    // Send the datagram to the server endpoint
-    return SendSync(_endpoint, buffer, size);
-}
-
-bool UDPClient::SendSync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
+size_t UDPClient::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
-        return false;
+        return 0;
 
     if (!IsConnected())
-        return false;
+        return 0;
 
     if (size == 0)
-        return true;
+        return 0;
 
     asio::error_code ec;
 
-    // Sent datagram to the server
-    size_t sent = _socket.send_to(asio::const_buffer(buffer, size), endpoint, 0, ec);
-    if (sent > 0)
+    // Receive datagram from the server
+    size_t received = _socket.receive_from(asio::buffer(buffer, size), endpoint, 0, ec);
+    if (received > 0)
     {
         // Update statistic
-        ++_datagrams_sent;
-        _bytes_sent += sent;
+        ++_datagrams_received;
+        _bytes_received += received;
 
-        // Call the datagram sent handler
-        onSent(endpoint, sent);
+        // Call the datagram received handler
+        onReceived(endpoint, buffer, received);
     }
 
-    // Disconnect on error
+    // Check for error
     if (ec)
     {
         SendError(ec);
-        DisconnectAsync(true);
-        return false;
+        Disconnect();
+        return received;
     }
 
-    return true;
+    return received;
+}
+
+std::string UDPClient::Receive(asio::ip::udp::endpoint& endpoint, size_t size)
+{
+    std::string text(size, 0);
+    text.resize(Receive(endpoint, text.data(), text.size()));
+    return text;
+}
+
+void UDPClient::ReceiveAsync()
+{
+    // Try to receive something from the server
+    TryReceive();
 }
 
 void UDPClient::TryReceive()

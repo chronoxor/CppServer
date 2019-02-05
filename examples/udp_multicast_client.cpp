@@ -38,7 +38,7 @@ protected:
         std::cout << "Multicast UDP client connected a new session with Id " << id() << std::endl;
 
         // Join UDP multicast group
-        JoinMulticastGroupAsync(_multicast);
+        JoinMulticastGroup(_multicast);
 
         // Start receive datagrams
         ReceiveAsync();

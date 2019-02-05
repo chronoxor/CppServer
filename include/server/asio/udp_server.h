@@ -84,39 +84,50 @@ public:
     //! Is the server started?
     bool IsStarted() const noexcept { return _started; }
 
-    //! Start the server
+    //! Start the server (asynchronous)
     /*!
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
-    virtual bool Start();
-    //! Start the server with a given multicast IP address and port number
+    virtual bool StartAsync();
+    //! Start the server with a given multicast IP address and port number (asynchronous)
     /*!
         \param multicast_address - Multicast IP address
         \param multicast_port - Multicast port number
 
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
-    virtual bool Start(const std::string& multicast_address, int multicast_port);
-    //! Start the server with a given multicast endpoint
+    virtual bool StartAsync(const std::string& multicast_address, int multicast_port);
+    //! Start the server with a given multicast endpoint (asynchronous)
     /*!
         \param multicast_endpoint - Multicast UDP endpoint
 
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
-    virtual bool Start(const asio::ip::udp::endpoint& multicast_endpoint);
-    //! Stop the server
+    virtual bool StartAsync(const asio::ip::udp::endpoint& multicast_endpoint);
+    //! Stop the server (asynchronous)
     /*!
         \return 'true' if the server was successfully stopped, 'false' if the server is already stopped
     */
-    virtual bool Stop();
-    //! Restart the server
+    virtual bool StopAsync();
+    //! Restart the server (asynchronous)
     /*!
         \return 'true' if the server was successfully restarted, 'false' if the server failed to restart
     */
-    virtual bool Restart();
+    virtual bool RestartAsync();
 
-    //! Receive a new datagram (asynchronous)
-    virtual void ReceiveAsync();
+    //! Multicast datagram to the prepared mulicast endpoint (synchronous)
+    /*!
+        \param buffer - Datagram buffer to multicast
+        \param size - Datagram buffer size
+        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
+    */
+    virtual bool Multicast(const void* buffer, size_t size);
+    //! Multicast text to the prepared mulicast endpoint (synchronous)
+    /*!
+        \param text - Text to multicast
+        \return 'true' if the text was successfully multicasted, 'false' if the text was not multicasted
+    */
+    virtual bool Multicast(const std::string_view& text) { return Multicast(text.data(), text.size()); }
 
     //! Multicast datagram to the prepared mulicast endpoint (asynchronous)
     /*!
@@ -132,19 +143,21 @@ public:
     */
     virtual bool MulticastAsync(const std::string_view& text) { return MulticastAsync(text.data(), text.size()); }
 
-    //! Multicast datagram to the prepared mulicast endpoint (synchronous)
+    //! Send datagram into the given endpoint (synchronous)
     /*!
-        \param buffer - Datagram buffer to multicast
+        \param endpoint - Endpoint to send
+        \param buffer - Datagram buffer to send
         \param size - Datagram buffer size
-        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
+        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
     */
-    virtual bool MulticastSync(const void* buffer, size_t size);
-    //! Multicast text to the prepared mulicast endpoint (synchronous)
+    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    //! Send text into the given endpoint (synchronous)
     /*!
-        \param text - Text to multicast
-        \return 'true' if the text was successfully multicasted, 'false' if the text was not multicasted
+        \param endpoint - Endpoint to send
+        \param text - Text to send
+        \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
-    virtual bool MulticastSync(const std::string_view& text) { return MulticastSync(text.data(), text.size()); }
+    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return Send(endpoint, text.data(), text.size()); }
 
     //! Send datagram into the given endpoint (asynchronous)
     /*!
@@ -162,21 +175,24 @@ public:
     */
     virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return SendAsync(endpoint, text.data(), text.size()); }
 
-    //! Send datagram into the given endpoint (synchronous)
+    //! Receive a new datagram from the given endpoint (synchronous)
     /*!
-        \param endpoint - Endpoint to send
-        \param buffer - Datagram buffer to send
+        \param endpoint - Endpoint to receive from
+        \param buffer - Datagram buffer to receive
         \param size - Datagram buffer size
-        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+        \return Size of received datagram
     */
-    virtual bool SendSync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
-    //! Send text into the given endpoint (synchronous)
+    virtual size_t Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_t size);
+    //! Receive text from the given endpoint (synchronous)
     /*!
-        \param endpoint - Endpoint to send
-        \param text - Text to send
-        \return 'true' if the text was successfully sent, 'false' if the text was not sent
+        \param endpoint - Endpoint to receive from
+        \param size - Text size to receive
+        \return Received text
     */
-    virtual bool SendSync(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return SendSync(endpoint, text.data(), text.size()); }
+    virtual std::string Receive(asio::ip::udp::endpoint& endpoint, size_t size);
+
+    //! Receive a new datagram (asynchronous)
+    virtual void ReceiveAsync();
 
     //! Setup option: reuse address
     /*!

@@ -116,7 +116,7 @@ void UDPServer::SetupSendBufferSize(size_t size)
     _socket.set_option(option);
 }
 
-bool UDPServer::Start()
+bool UDPServer::StartAsync()
 {
     assert(!IsStarted() && "UDP server is already started!");
     if (IsStarted())
@@ -166,19 +166,19 @@ bool UDPServer::Start()
     return true;
 }
 
-bool UDPServer::Start(const std::string& multicast_address, int multicast_port)
+bool UDPServer::StartAsync(const std::string& multicast_address, int multicast_port)
 {
     _multicast_endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(multicast_address), (unsigned short)multicast_port);
-    return Start();
+    return StartAsync();
 }
 
-bool UDPServer::Start(const asio::ip::udp::endpoint& multicast_endpoint)
+bool UDPServer::StartAsync(const asio::ip::udp::endpoint& multicast_endpoint)
 {
     _multicast_endpoint = multicast_endpoint;
-    return Start();
+    return StartAsync();
 }
 
-bool UDPServer::Stop()
+bool UDPServer::StopAsync()
 {
     assert(IsStarted() && "UDP server is not started!");
     if (!IsStarted())
@@ -215,21 +215,21 @@ bool UDPServer::Stop()
     return true;
 }
 
-bool UDPServer::Restart()
+bool UDPServer::RestartAsync()
 {
-    if (!Stop())
+    if (!StopAsync())
         return false;
 
     while (IsStarted())
         CppCommon::Thread::Yield();
 
-    return Start();
+    return StartAsync();
 }
 
-void UDPServer::ReceiveAsync()
+bool UDPServer::Multicast(const void* buffer, size_t size)
 {
-    // Try to receive datagrams from clients
-    TryReceive();
+    // Send the datagram to the multicast endpoint
+    return Send(_multicast_endpoint, buffer, size);
 }
 
 bool UDPServer::MulticastAsync(const void* buffer, size_t size)
@@ -238,10 +238,40 @@ bool UDPServer::MulticastAsync(const void* buffer, size_t size)
     return SendAsync(_multicast_endpoint, buffer, size);
 }
 
-bool UDPServer::MulticastSync(const void* buffer, size_t size)
+bool UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
-    // Send the datagram to the multicast endpoint
-    return SendSync(_multicast_endpoint, buffer, size);
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return false;
+
+    if (!IsStarted())
+        return false;
+
+    if (size == 0)
+        return true;
+
+    asio::error_code ec;
+
+    // Sent datagram to the server
+    size_t sent = _socket.send_to(asio::const_buffer(buffer, size), endpoint, 0, ec);
+    if (sent > 0)
+    {
+        // Update statistic
+        ++_datagrams_sent;
+        _bytes_sent += sent;
+
+        // Call the datagram sent handler
+        onSent(endpoint, sent);
+    }
+
+    // Check for error
+    if (ec)
+    {
+        SendError(ec);
+        return false;
+    }
+
+    return true;
 }
 
 bool UDPServer::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
@@ -308,40 +338,53 @@ bool UDPServer::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
     return true;
 }
 
-bool UDPServer::SendSync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
+size_t UDPServer::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
-        return false;
+        return 0;
 
     if (!IsStarted())
-        return false;
+        return 0;
 
     if (size == 0)
-        return true;
+        return 0;
 
     asio::error_code ec;
 
-    // Sent datagram to the server
-    size_t sent = _socket.send_to(asio::const_buffer(buffer, size), endpoint, 0, ec);
-    if (sent > 0)
+    // Receive datagram from the client
+    size_t received = _socket.receive_from(asio::buffer(buffer, size), endpoint, 0, ec);
+    if (received > 0)
     {
         // Update statistic
-        ++_datagrams_sent;
-        _bytes_sent += sent;
+        ++_datagrams_received;
+        _bytes_received += received;
 
-        // Call the datagram sent handler
-        onSent(endpoint, sent);
+        // Call the datagram received handler
+        onReceived(endpoint, buffer, received);
     }
 
     // Check for error
     if (ec)
     {
         SendError(ec);
-        return false;
+        return received;
     }
 
-    return true;
+    return received;
+}
+
+std::string UDPServer::Receive(asio::ip::udp::endpoint& endpoint, size_t size)
+{
+    std::string text(size, 0);
+    text.resize(Receive(endpoint, text.data(), text.size()));
+    return text;
+}
+
+void UDPServer::ReceiveAsync()
+{
+    // Try to receive datagrams from clients
+    TryReceive();
 }
 
 void UDPServer::TryReceive()

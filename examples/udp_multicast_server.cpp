@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 
     // Start the multicast server
     std::cout << "Server starting...";
-    server->Start(multicast_address, multicast_port);
+    server->StartAsync(multicast_address, multicast_port);
     std::cout << "Done!" << std::endl;
 
     std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
@@ -68,19 +68,19 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Server restarting...";
-            server->Restart();
+            server->RestartAsync();
             std::cout << "Done!" << std::endl;
             continue;
         }
 
         // Multicast admin message to all sessions
         line = "(admin) " + line;
-        server->MulticastSync(line);
+        server->Multicast(line);
     }
 
     // Stop the server
     std::cout << "Server stopping...";
-    server->Stop();
+    server->StopAsync();
     std::cout << "Done!" << std::endl;
 
     // Stop the Asio service

@@ -44,7 +44,7 @@ protected:
         _connected = true;
 
         // Join UDP multicast group
-        JoinMulticastGroupAsync(_multicast);
+        JoinMulticastGroup(_multicast);
 
         // Start receive datagrams
         ReceiveAsync();

@@ -78,7 +78,7 @@ int main(int argc, char** argv)
 
     // Start the server
     std::cout << "Server starting...";
-    server->Start(address, port);
+    server->StartAsync(address, port);
     std::cout << "Done!" << std::endl;
 
     // Start the multicasting thread
@@ -93,7 +93,7 @@ int main(int argc, char** argv)
         {
             auto start = UtcTimestamp();
             for (int i = 0; i < messages_rate; ++i)
-                server->MulticastSync(message_to_send.data(), message_to_send.size());
+                server->Multicast(message_to_send.data(), message_to_send.size());
             auto end = UtcTimestamp();
 
             // Sleep for remaining time or yield
@@ -118,7 +118,7 @@ int main(int argc, char** argv)
         if (line == "!")
         {
             std::cout << "Server restarting...";
-            server->Restart();
+            server->RestartAsync();
             std::cout << "Done!" << std::endl;
             continue;
         }
@@ -130,7 +130,7 @@ int main(int argc, char** argv)
 
     // Stop the server
     std::cout << "Server stopping...";
-    server->Stop();
+    server->StopAsync();
     std::cout << "Done!" << std::endl;
 
     // Stop the Asio service

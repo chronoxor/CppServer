@@ -119,7 +119,7 @@ int main(int argc, char** argv)
         }
 
         // Send the entered text to the echo server
-        client->SendSync(line);
+        client->Send(line);
     }
 
     // Disconnect the client

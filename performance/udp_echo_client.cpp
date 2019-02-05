@@ -76,7 +76,7 @@ private:
     void SendMessage()
     {
         if (_messages-- > 0)
-            SendSync(message_to_send.data(), message_to_send.size());
+            Send(message_to_send.data(), message_to_send.size());
         else
             DisconnectAsync();
     }
