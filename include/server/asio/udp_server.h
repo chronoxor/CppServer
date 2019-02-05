@@ -150,15 +150,15 @@ public:
     /*!
         \param buffer - Datagram buffer to multicast
         \param size - Datagram buffer size
-        \return 'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted
+        \return Size of multicasted datagram
     */
-    virtual bool Multicast(const void* buffer, size_t size);
+    virtual size_t Multicast(const void* buffer, size_t size);
     //! Multicast text to the prepared mulicast endpoint (synchronous)
     /*!
         \param text - Text to multicast
-        \return 'true' if the text was successfully multicasted, 'false' if the text was not multicasted
+        \return Size of multicasted datagram
     */
-    virtual bool Multicast(const std::string_view& text) { return Multicast(text.data(), text.size()); }
+    virtual size_t Multicast(const std::string_view& text) { return Multicast(text.data(), text.size()); }
 
     //! Multicast datagram to the prepared mulicast endpoint (asynchronous)
     /*!
@@ -179,16 +179,16 @@ public:
         \param endpoint - Endpoint to send
         \param buffer - Datagram buffer to send
         \param size - Datagram buffer size
-        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+        \return Size of sent datagram
     */
-    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
     //! Send text into the given endpoint (synchronous)
     /*!
         \param endpoint - Endpoint to send
         \param text - Text to send
-        \return 'true' if the text was successfully sent, 'false' if the text was not sent
+        \return Size of sent datagram
     */
-    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return Send(endpoint, text.data(), text.size()); }
+    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return Send(endpoint, text.data(), text.size()); }
 
     //! Send datagram into the given endpoint (asynchronous)
     /*!

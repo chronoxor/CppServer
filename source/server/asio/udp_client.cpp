@@ -268,23 +268,23 @@ void UDPClient::LeaveMulticastGroupAsync(const std::string& address)
         _io_service->dispatch(leave_multicast_group_handler);
 }
 
-bool UDPClient::Send(const void* buffer, size_t size)
+size_t UDPClient::Send(const void* buffer, size_t size)
 {
     // Send the datagram to the server endpoint
     return Send(_endpoint, buffer, size);
 }
 
-bool UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
+size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
-        return false;
+        return 0;
 
     if (!IsConnected())
-        return false;
+        return 0;
 
     if (size == 0)
-        return true;
+        return 0;
 
     asio::error_code ec;
 
@@ -305,10 +305,9 @@ bool UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer
     {
         SendError(ec);
         Disconnect();
-        return false;
     }
 
-    return true;
+    return sent;
 }
 
 bool UDPClient::SendAsync(const void* buffer, size_t size)
@@ -413,7 +412,6 @@ size_t UDPClient::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_
     {
         SendError(ec);
         Disconnect();
-        return received;
     }
 
     return received;

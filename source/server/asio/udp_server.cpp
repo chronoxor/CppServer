@@ -256,7 +256,7 @@ bool UDPServer::RestartAsync()
     return StartAsync();
 }
 
-bool UDPServer::Multicast(const void* buffer, size_t size)
+size_t UDPServer::Multicast(const void* buffer, size_t size)
 {
     // Send the datagram to the multicast endpoint
     return Send(_multicast_endpoint, buffer, size);
@@ -268,17 +268,17 @@ bool UDPServer::MulticastAsync(const void* buffer, size_t size)
     return SendAsync(_multicast_endpoint, buffer, size);
 }
 
-bool UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
+size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
     if (buffer == nullptr)
-        return false;
+        return 0;
 
     if (!IsStarted())
-        return false;
+        return 0;
 
     if (size == 0)
-        return true;
+        return 0;
 
     asio::error_code ec;
 
@@ -298,10 +298,9 @@ bool UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer
     if (ec)
     {
         SendError(ec);
-        return false;
     }
 
-    return true;
+    return sent;
 }
 
 bool UDPServer::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
@@ -398,7 +397,6 @@ size_t UDPServer::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_
     if (ec)
     {
         SendError(ec);
-        return received;
     }
 
     return received;

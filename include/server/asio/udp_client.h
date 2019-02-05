@@ -145,30 +145,30 @@ public:
     /*!
         \param buffer - Datagram buffer to send
         \param size - Datagram buffer size
-        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+        \return Size of sent datagram
     */
-    virtual bool Send(const void* buffer, size_t size);
+    virtual size_t Send(const void* buffer, size_t size);
     //! Send text to the connected server (synchronous)
     /*!
         \param text - Text to send
-        \return 'true' if the text was successfully sent, 'false' if the text was not sent
+        \return Size of sent datagram
     */
-    virtual bool Send(const std::string_view& text) { return Send(text.data(), text.size()); }
+    virtual size_t Send(const std::string_view& text) { return Send(text.data(), text.size()); }
     //! Send datagram to the given endpoint (synchronous)
     /*!
         \param endpoint - Endpoint to send
         \param buffer - Datagram buffer to send
         \param size - Datagram buffer size
-        \return 'true' if the datagram was successfully sent, 'false' if the datagram was not sent
+        \return Size of sent datagram
     */
-    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
+    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size);
     //! Send text to the given endpoint (synchronous)
     /*!
         \param endpoint - Endpoint to send
         \param text - Text to send
-        \return 'true' if the text was successfully sent, 'false' if the text was not sent
+        \return Size of sent datagram
     */
-    virtual bool Send(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return Send(endpoint, text.data(), text.size()); }
+    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return Send(endpoint, text.data(), text.size()); }
 
     //! Send datagram to the connected server (asynchronous)
     /*!
