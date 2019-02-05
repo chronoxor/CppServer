@@ -18,6 +18,7 @@
 #include <cassert>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace CppServer {
