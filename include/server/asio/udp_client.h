@@ -203,7 +203,7 @@ public:
     /*!
         \param endpoint - Endpoint to receive from
         \param buffer - Datagram buffer to receive
-        \param size - Datagram buffer size
+        \param size - Datagram buffer size to receive
         \return Size of received datagram
     */
     virtual size_t Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_t size);
