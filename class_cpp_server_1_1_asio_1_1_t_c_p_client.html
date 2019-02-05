@@ -202,8 +202,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7521fb86d321cd7cf0589a64d5177aac"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a7521fb86d321cd7cf0589a64d5177aac">SendAsync</a> (const std::string_view &amp;text)</td></tr>
 <tr class="memdesc:a7521fb86d321cd7cf0589a64d5177aac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send text to the server (asynchronous)  <a href="#a7521fb86d321cd7cf0589a64d5177aac">More...</a><br /></td></tr>
 <tr class="separator:a7521fb86d321cd7cf0589a64d5177aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0581dc47a3b471c3c606325c095c7a7a"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a0581dc47a3b471c3c606325c095c7a7a">Receive</a> (void *buffer, size_t size)</td></tr>
+<tr class="memdesc:a0581dc47a3b471c3c606325c095c7a7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive data from the server (synchronous)  <a href="#a0581dc47a3b471c3c606325c095c7a7a">More...</a><br /></td></tr>
+<tr class="separator:a0581dc47a3b471c3c606325c095c7a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acce4bec3fb2fd42f8e9d0c609d3dca92"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#acce4bec3fb2fd42f8e9d0c609d3dca92">Receive</a> (size_t size)</td></tr>
+<tr class="memdesc:acce4bec3fb2fd42f8e9d0c609d3dca92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive text from the server (synchronous)  <a href="#acce4bec3fb2fd42f8e9d0c609d3dca92">More...</a><br /></td></tr>
+<tr class="separator:acce4bec3fb2fd42f8e9d0c609d3dca92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea6f41b9bdd4f6c8a541c77ad00a3eef"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aea6f41b9bdd4f6c8a541c77ad00a3eef">ReceiveAsync</a> ()</td></tr>
-<tr class="memdesc:aea6f41b9bdd4f6c8a541c77ad00a3eef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive a new data (asynchronous)  <a href="#aea6f41b9bdd4f6c8a541c77ad00a3eef">More...</a><br /></td></tr>
+<tr class="memdesc:aea6f41b9bdd4f6c8a541c77ad00a3eef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive data from the server (asynchronous)  <a href="#aea6f41b9bdd4f6c8a541c77ad00a3eef">More...</a><br /></td></tr>
 <tr class="separator:aea6f41b9bdd4f6c8a541c77ad00a3eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01ce998d46574b0d06f09a9c5ce168c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a01ce998d46574b0d06f09a9c5ce168c3">SetupKeepAlive</a> (bool enable) noexcept</td></tr>
 <tr class="memdesc:a01ce998d46574b0d06f09a9c5ce168c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup option: keep alive.  <a href="#a01ce998d46574b0d06f09a9c5ce168c3">More...</a><br /></td></tr>
@@ -729,7 +735,7 @@ Protected Member Functions</h2></td></tr>
 <p>Handle client connected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a3">tcp_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00180">180</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00194">194</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -757,7 +763,7 @@ Protected Member Functions</h2></td></tr>
 <p>Handle client disconnected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a5">tcp_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00182">182</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00196">196</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -786,7 +792,7 @@ Protected Member Functions</h2></td></tr>
 <p>Notification is called when the send buffer is empty and ready for a new data to send.</p>
 <p>This handler could be used to send another buffer to the server. </p>
 
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00213">213</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00227">227</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -839,7 +845,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a8">tcp_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00221">221</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00235">235</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -886,7 +892,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a7">tcp_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00192">192</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00206">206</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -933,7 +939,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00204">204</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00218">218</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1077,6 +1083,87 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a0581dc47a3b471c3c606325c095c7a7a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::Asio::TCPClient::Receive </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Receive data from the server (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>- Buffer to receive </td></tr>
+    <tr><td class="paramname">size</td><td>- Buffer size to receive </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
+
+<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00360">360</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acce4bec3fb2fd42f8e9d0c609d3dca92"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string CppServer::Asio::TCPClient::Receive </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Receive text from the server (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>- Text size to receive </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
+
+<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00395">395</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aea6f41b9bdd4f6c8a541c77ad00a3eef"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1098,9 +1185,9 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Receive a new data (asynchronous) </p>
+<p>Receive data from the server (asynchronous) </p>
 
-<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00360">360</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00402">402</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1381,7 +1468,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00153">153</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00167">167</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>
@@ -1417,7 +1504,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00162">162</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
+<p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00176">176</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
 </div>
 </div>

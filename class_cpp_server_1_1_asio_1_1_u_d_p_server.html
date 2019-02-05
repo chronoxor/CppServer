@@ -218,13 +218,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a04f3a80cd15c9cb1268d6415ea50a680"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send text into the given endpoint (asynchronous)  <a href="#a04f3a80cd15c9cb1268d6415ea50a680">More...</a><br /></td></tr>
 <tr class="separator:a04f3a80cd15c9cb1268d6415ea50a680"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac9087cfff1a0ff58ffc191680aba43e"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#aac9087cfff1a0ff58ffc191680aba43e">Receive</a> (asio::ip::udp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a>, void *buffer, size_t size)</td></tr>
-<tr class="memdesc:aac9087cfff1a0ff58ffc191680aba43e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive a new datagram from the given endpoint (synchronous)  <a href="#aac9087cfff1a0ff58ffc191680aba43e">More...</a><br /></td></tr>
+<tr class="memdesc:aac9087cfff1a0ff58ffc191680aba43e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive datagram from the given endpoint (synchronous)  <a href="#aac9087cfff1a0ff58ffc191680aba43e">More...</a><br /></td></tr>
 <tr class="separator:aac9087cfff1a0ff58ffc191680aba43e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a385f892e2fa62cda2742c2013a0185bf"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a385f892e2fa62cda2742c2013a0185bf">Receive</a> (asio::ip::udp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a>, size_t size)</td></tr>
 <tr class="memdesc:a385f892e2fa62cda2742c2013a0185bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive text from the given endpoint (synchronous)  <a href="#a385f892e2fa62cda2742c2013a0185bf">More...</a><br /></td></tr>
 <tr class="separator:a385f892e2fa62cda2742c2013a0185bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b666cfcd9abcf610933b0bfd327cd17"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a5b666cfcd9abcf610933b0bfd327cd17">ReceiveAsync</a> ()</td></tr>
-<tr class="memdesc:a5b666cfcd9abcf610933b0bfd327cd17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive a new datagram (asynchronous)  <a href="#a5b666cfcd9abcf610933b0bfd327cd17">More...</a><br /></td></tr>
+<tr class="memdesc:a5b666cfcd9abcf610933b0bfd327cd17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive datagram from the client (asynchronous)  <a href="#a5b666cfcd9abcf610933b0bfd327cd17">More...</a><br /></td></tr>
 <tr class="separator:a5b666cfcd9abcf610933b0bfd327cd17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a4a1c14071b264a81fcd725c669133e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a8a4a1c14071b264a81fcd725c669133e">SetupReuseAddress</a> (bool enable) noexcept</td></tr>
 <tr class="memdesc:a8a4a1c14071b264a81fcd725c669133e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup option: reuse address.  <a href="#a8a4a1c14071b264a81fcd725c669133e">More...</a><br /></td></tr>
@@ -1256,7 +1256,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Receive a new datagram from the given endpoint (synchronous) </p>
+<p>Receive datagram from the given endpoint (synchronous) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">endpoint</td><td>- Endpoint to receive from </td></tr>
@@ -1338,7 +1338,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Receive a new datagram (asynchronous) </p>
+<p>Receive datagram from the client (asynchronous) </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a3">udp_echo_server.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00382">382</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
