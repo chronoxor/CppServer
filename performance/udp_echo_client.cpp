@@ -118,6 +118,8 @@ int main(int argc, char** argv)
     std::cout << "Messages to send: " << messages_count << std::endl;
     std::cout << "Message size: " << message_size << std::endl;
 
+    std::cout << std::endl;
+
     // Prepare a message to send
     message_to_send.resize(message_size, 0);
 

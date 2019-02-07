@@ -9,12 +9,15 @@
 #ifndef CPPSERVER_HTTP_HTTP_REQUEST_H
 #define CPPSERVER_HTTP_HTTP_REQUEST_H
 
-#include <map>
+#include "http.h"
+
 #include <string>
 #include <string_view>
+#include <tuple>
+#include <vector>
 
 namespace CppServer {
-namespace Http {
+namespace HTTP {
 
 //! HTTP request
 /*!
@@ -23,68 +26,84 @@ namespace Http {
 
     Not thread-safe.
 */
-class HttpRequest
+class HTTPRequest
 {
 public:
     //! Initialize an empty HTTP request
-    HttpRequest() = default;
+    HTTPRequest() = default;
     //! Initialize a new HTTP request with a given method, URL and protocol
     /*!
         \param method - HTTP method
         \param url - Requested URL
         \param protocol - Protocol version (default is "HTTP/1.1")
     */
-    HttpRequest(const std::string_view& method, const std::string_view& url, const std::string_view& protocol = "HTTP/1.1") { Set(method, url, protocol); }
-    HttpRequest(const HttpRequest&) = default;
-    HttpRequest(HttpRequest&&) = default;
-    ~HttpRequest() = default;
+    HTTPRequest(const std::string_view& method, const std::string_view& url, const std::string_view& protocol = "HTTP/1.1") { SetBegin(method, url, protocol); }
+    HTTPRequest(const HTTPRequest&) = default;
+    HTTPRequest(HTTPRequest&&) = default;
+    ~HTTPRequest() = default;
 
-    HttpRequest& operator=(const HttpRequest&) = default;
-    HttpRequest& operator=(HttpRequest&&) = default;
+    HTTPRequest& operator=(const HTTPRequest&) = default;
+    HTTPRequest& operator=(HTTPRequest&&) = default;
 
-    //! Get the HTTP method
-    const std::string_view& method() const noexcept { return _method; }
-    //! Get the requested URL
-    const std::string_view& url() const noexcept { return _url; }
-    //! Get the protocol version
-    const std::string_view& protocol() const noexcept { return _protocol; }
-    //! Get HTTP headers
-    const std::multimap<std::string_view, std::string_view>& headers() const noexcept { return _headers; }
+    //! Get the HTTP request method
+    std::string_view method() const noexcept { return std::string_view(_cache.data() + _method_index, _method_size); }
+    //! Get the HTTP request URL
+    std::string_view url() const noexcept { return std::string_view(_cache.data() + _url_index, _url_size); }
+    //! Get the HTTP request protocol version
+    std::string_view protocol() const noexcept { return std::string_view(_cache.data() + _protocol_index, _protocol_size); }
+    //! Get the HTTP request headers count
+    size_t headers() const noexcept { return _headers.size(); }
+    //! Get the HTTP request header by index
+    std::tuple<std::string_view, std::string_view> header(size_t i) const noexcept;
+    //! Get the HTTP request body
+    std::string_view body() const noexcept { return std::string_view(_cache.data() + _body_index, _body_size); }
 
-    //! Get HTTP request cache
+    //! Get the HTTP request cache content
     const std::string& cache() const noexcept { return _cache; }
 
-    //! Clear the HTTP request
+    //! Clear the HTTP request cache
     void Clear();
 
-    //! Set the HTTP request with a given method, URL and protocol
+    //! Set the HTTP request begin with a given method, URL and protocol
     /*!
         \param method - HTTP method
         \param url - Requested URL
         \param protocol - Protocol version (default is "HTTP/1.1")
     */
-    void Set(const std::string_view& method, const std::string_view& url, const std::string_view& protocol = "HTTP/1.1");
+    void SetBegin(const std::string_view& method, const std::string_view& url, const std::string_view& protocol = "HTTP/1.1");
     //! Set the HTTP request header
     /*!
         \param key - Header key
         \param value - Header value
     */
     void SetHeader(const std::string_view& key, const std::string_view& value);
+    //! Set the HTTP request body
+    /*!
+        \param body - Body content (default is "")
+    */
+    void SetBody(const std::string_view& body = "");
 
 private:
+    // HTTP request method
+    size_t _method_index;
+    size_t _method_size;
+    // HTTP request URL
+    size_t _url_index;
+    size_t _url_size;
+    // HTTP request protocol
+    size_t _protocol_index;
+    size_t _protocol_size;
+    // HTTP request headers
+    std::vector<std::tuple<size_t, size_t, size_t, size_t>> _headers;
+    // HTTP request body
+    size_t _body_index;
+    size_t _body_size;
+
     // HTTP request cache
     std::string _cache;
-    // HTTP request method
-    std::string_view _method;
-    // HTTP request URL
-    std::string_view _url;
-    // HTTP request protocol
-    std::string_view _protocol;
-    // HTTP request headers
-    std::multimap<std::string_view, std::string_view> _headers;
 };
 
-} // namespace Http
+} // namespace HTTP
 } // namespace CppServer
 
 #endif // CPPSERVER_HTTP_HTTP_REQUEST_H

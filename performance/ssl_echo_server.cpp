@@ -73,6 +73,8 @@ int main(int argc, char** argv)
     std::cout << "Server port: " << port << std::endl;
     std::cout << "Working threads: " << threads << std::endl;
 
+    std::cout << std::endl;
+
     // Create a new Asio service
     auto service = std::make_shared<Service>(threads);
 

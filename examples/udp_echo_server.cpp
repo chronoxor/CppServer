@@ -54,6 +54,8 @@ int main(int argc, char** argv)
 
     std::cout << "UDP server port: " << port << std::endl;
 
+    std::cout << std::endl;
+
     // Create a new Asio service
     auto service = std::make_shared<AsioService>();
 

@@ -54,7 +54,6 @@ template <class TOutputStream>
 TOutputStream& operator<<(TOutputStream& stream, InternetProtocol protocol);
 
 } // namespace Asio
-
 } // namespace CppServer
 
 #include "asio.inl"

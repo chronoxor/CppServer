@@ -102,6 +102,8 @@ int main(int argc, char** argv)
     std::cout << "Working clients: " << clients_count << std::endl;
     std::cout << "Message size: " << message_size << std::endl;
 
+    std::cout << std::endl;
+
     // Create a new Asio service
     auto service = std::make_shared<Service>(threads_count);
 
