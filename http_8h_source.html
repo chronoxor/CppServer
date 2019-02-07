@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>CppServer: include/server/http/http_request.h File Reference</title>
+<title>CppServer: include/server/http/http.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -88,47 +88,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
-<div class="title">http_request.h File Reference</div>  </div>
+<div class="title">http.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>HTTP request definition.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="http_8h_source.html">http.h</a>&quot;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;string_view&gt;</code><br />
-<code>#include &lt;tuple&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-</div>
-<p><a href="http__request_8h_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">CppServer::HTTP::HTTPRequest</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request.  <a href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespace_cpp_server"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cpp_server.html">CppServer</a></td></tr>
-<tr class="memdesc:namespace_cpp_server"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++ Server project definitions. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespace_cpp_server_1_1_h_t_t_p"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html">CppServer::HTTP</a></td></tr>
-<tr class="memdesc:namespace_cpp_server_1_1_h_t_t_p"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> definitions. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>HTTP request definition. </p>
-<dl class="section author"><dt>Author</dt><dd>Ivan Shynkarenka </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>07.02.2019 </dd></dl>
-<dl class="section copyright"><dt>Copyright</dt><dd>MIT License </dd></dl>
-
-<p>Definition in file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
-</div></div><!-- contents -->
+<a href="http_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef CPPSERVER_HTTP_H</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#define CPPSERVER_HTTP_H</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_cpp_server.html">CppServer</a> {</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>HTTP {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;} <span class="comment">// namespace HTTP</span></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;} <span class="comment">// namespace CppServer</span></div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif // CPPSERVER_HTTP_H</span></div><div class="ttc" id="namespace_cpp_server_html"><div class="ttname"><a href="namespace_cpp_server.html">CppServer</a></div><div class="ttdoc">C++ Server project definitions. </div><div class="ttdef"><b>Definition:</b> <a href="asio_8h_source.html#l00032">asio.h:32</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
