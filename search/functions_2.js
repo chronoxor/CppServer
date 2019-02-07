@@ -1,6 +1,8 @@
 var searchData=
 [
+  ['cache',['cache',['../class_cpp_server_1_1_http_1_1_http_request.html#a58eab0cfe3f019f627814d4a98e098bd',1,'CppServer::Http::HttpRequest']]],
   ['cancel',['Cancel',['../class_cpp_server_1_1_asio_1_1_timer.html#a379761043ea27f51c74bf540fe2b60dd',1,'CppServer::Asio::Timer']]],
+  ['clear',['Clear',['../class_cpp_server_1_1_http_1_1_http_request.html#a46116869c632aed51d7de70c14676ef9',1,'CppServer::Http::HttpRequest']]],
   ['connect',['Connect',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abc6c97220479d4345f6d65b3ae2f5902',1,'CppServer::Asio::SSLClient::Connect()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a1252491897a4b58a4f3fb167a41d9678',1,'CppServer::Asio::TCPClient::Connect()'],['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#ad323993b3b207581b4f5b19f9709ca25',1,'CppServer::Asio::UDPClient::Connect()']]],
   ['connectasync',['ConnectAsync',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6f0734a301ce3f96a6d049cdbfd51b51',1,'CppServer::Asio::SSLClient::ConnectAsync()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#abf31a320cde40db966dc0a365a2ef402',1,'CppServer::Asio::TCPClient::ConnectAsync()'],['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#afe6e7b506c7789c5b02b263745173069',1,'CppServer::Asio::UDPClient::ConnectAsync()']]],
   ['connected_5fsessions',['connected_sessions',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a9ac709cd20f8141ce3f50620c3f61795',1,'CppServer::Asio::SSLServer::connected_sessions()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#adbcfb03aec03aaef076437be1553c66b',1,'CppServer::Asio::TCPServer::connected_sessions()']]],
