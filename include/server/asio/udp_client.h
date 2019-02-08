@@ -28,13 +28,20 @@ namespace Asio {
 class UDPClient : public std::enable_shared_from_this<UDPClient>
 {
 public:
-    //! Initialize UDP client with a given Asio service, server IP address and port number
+    //! Initialize UDP client with a given Asio service, server address and port number
     /*!
         \param service - Asio service
-        \param address - Server IP address
+        \param address - Server address
         \param port - Server port number
     */
     UDPClient(std::shared_ptr<Service> service, const std::string& address, int port);
+    //! Initialize UDP client with a given Asio service, server address and service name
+    /*!
+        \param service - Asio service
+        \param address - Server address
+        \param service - Service name
+    */
+    UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& service);
     //! Initialize UDP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
@@ -61,6 +68,13 @@ public:
     asio::ip::udp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the client socket
     asio::ip::udp::socket& socket() noexcept { return _socket; }
+
+    //! Get the server address
+    const std::string& address() const noexcept { return _address; }
+    //! Get the service name
+    const std::string& service() const noexcept { return _service; }
+    //! Get the server port number
+    int port() const noexcept { return _port; }
 
     //! Get the number of bytes pending sent by the client
     uint64_t bytes_pending() const noexcept { return _bytes_sending; }
@@ -309,6 +323,10 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
+    // Server address, service & port
+    std::string _address;
+    std::string _serivce;
+    int _port;
     // Server endpoint & client socket
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;

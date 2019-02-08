@@ -17,7 +17,38 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
-      _endpoint(asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
+      _address(address),
+      _service(),
+      _port(port),
+      _endpoint(),
+      _socket(*_io_service),
+      _connected(false),
+      _bytes_sending(0),
+      _bytes_sent(0),
+      _bytes_received(0),
+      _datagrams_sent(0),
+      _datagrams_received(0),
+      _receiving(false),
+      _sending(false),
+      _option_reuse_address(false),
+      _option_reuse_port(false),
+      _option_multicast(false)
+{
+    assert((service != nullptr) && "Asio service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("Asio service is invalid!");
+}
+
+UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& service)
+    : _id(CppCommon::UUID::Random()),
+      _service(service),
+      _io_service(_service->GetAsioService()),
+      _strand(*_io_service),
+      _strand_required(_service->IsStrandRequired()),
+      _address(address),
+      _service(service),
+      _port(0),
+      _endpoint(),
       _socket(*_io_service),
       _connected(false),
       _bytes_sending(0),
@@ -42,6 +73,9 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
+      _address(endpoint.address().to_string()),
+      _service(),
+      _port(endpoint.port()),
       _endpoint(endpoint),
       _socket(*_io_service),
       _connected(false),
@@ -89,8 +123,18 @@ void UDPClient::SetupSendBufferSize(size_t size)
 
 bool UDPClient::Connect()
 {
+    assert(!_address.empty() && "Server address must not be empty!");
+    if (_address.empty())
+        return false;
+    assert((_port > 0) && "Server port number must be valid!");
+    if (_port <= 0)
+        return false;
+
     if (IsConnected())
         return false;
+
+    // Create a new server endpoint to connect
+    _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(_address), (unsigned short)_port);
 
     // Open a client socket
     _socket.open(_endpoint.protocol());

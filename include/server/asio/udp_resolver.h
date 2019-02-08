@@ -1,0 +1,62 @@
+/*!
+    \file UDP resolver.h
+    \brief UDP resolver definition
+    \author Ivan Shynkarenka
+    \date 08.02.2019
+    \copyright MIT License
+*/
+
+#ifndef CPPSERVER_ASIO_UDP_RESOLVER_H
+#define CPPSERVER_ASIO_UDP_RESOLVER_H
+
+#include "service.h"
+
+namespace CppServer {
+namespace Asio {
+
+//! UDP resolver
+/*!
+    UDP Resolver is used to resolve DNS while connecting UDP clients.
+
+    Thread-safe.
+*/
+class UDPResolver : public std::enable_shared_from_this<UDPResolver>
+{
+public:
+    //! Initialize resolver with a given Asio service
+    /*!
+        \param service - Asio service
+    */
+    UDPResolver(std::shared_ptr<Service> service);
+    UDPResolver(const UDPResolver&) = delete;
+    UDPResolver(UDPResolver&&) = default;
+    virtual ~UDPResolver() = default;
+
+    UDPResolver& operator=(const UDPResolver&) = delete;
+    UDPResolver& operator=(UDPResolver&&) = default;
+
+    //! Get the Asio service
+    std::shared_ptr<Service>& service() noexcept { return _service; }
+    //! Get the Asio IO service
+    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
+    //! Get the Asio service strand for serialized handler execution
+    asio::io_service::strand& strand() noexcept { return _strand; }
+    //! Get the UDP resolver
+    asio::ip::udp::resolver& resolver() noexcept { return _resolver; }
+
+private:
+    // Asio service
+    std::shared_ptr<Service> _service;
+    // Asio IO service
+    std::shared_ptr<asio::io_service> _io_service;
+    // Asio service strand for serialized handler execution
+    asio::io_service::strand _strand;
+    bool _strand_required;
+    // UDP resolver
+    asio::ip::udp::resolver _resolver;
+};
+
+} // namespace Asio
+} // namespace CppServer
+
+#endif // CPPSERVER_ASIO_UDP_RESOLVER_H

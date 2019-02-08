@@ -69,6 +69,8 @@ private:
     HTTPRequest _request;
 };
 
+/*! \example http_client.cpp HTTP client example */
+
 } // namespace HTTP
 } // namespace CppServer
 
