@@ -15,17 +15,11 @@
 int main(int argc, char** argv)
 {
     // HTTP server address
-    std::string address = "93.184.216.34";
+    std::string address = "example.com";
     if (argc > 1)
         address = argv[1];
 
-    // HTTP server port
-    int port = 80;
-    if (argc > 2)
-        port = std::atoi(argv[2]);
-
     std::cout << "HTTP server address: " << address << std::endl;
-    std::cout << "HTTP server port: " << port << std::endl;
 
     std::cout << std::endl;
 
@@ -38,7 +32,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new HTTP client
-    auto client = std::make_shared<CppServer::HTTP::HTTPClient>(service, address, port);
+    auto client = std::make_shared<CppServer::HTTP::HTTPClient>(service, address, "http");
 
     // Prepare HTTP request
     client->request().SetBegin("GET", "/");
@@ -48,7 +42,7 @@ int main(int argc, char** argv)
 
     // Connect the client
     std::cout << "Client connecting...";
-    client->Connect();
+    client->Connect(std::make_shared<CppServer::Asio::TCPResolver>(service));
     std::cout << "Done!" << std::endl;
 
     // Send HTTP request
@@ -58,7 +52,7 @@ int main(int argc, char** argv)
 
     // Receive HTTP response
     std::cout << "Receive HTTP response...";
-    std::string response = client->Receive(4096);        
+    std::string response = client->Receive(4096);
     std::cout << "Done!" << std::endl;
 
     // Disconnect the client
