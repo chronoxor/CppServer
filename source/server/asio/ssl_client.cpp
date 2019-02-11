@@ -786,8 +786,7 @@ private:
     // Asio service strand for serialised handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
-    // Server protocol, address, scheme & port
-    InternetProtocol _protocol;
+    // Server address, scheme & port
     std::string _address;
     std::string _scheme;
     int _port;
