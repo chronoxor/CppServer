@@ -62,7 +62,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, const std::string& addres
         throw CppCommon::ArgumentException("Asio service is invalid!");
 
     // Prepare endpoint
-    _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
+    _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(address), (unsigned short)port);
 }
 
 TCPServer::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)

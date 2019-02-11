@@ -23,20 +23,21 @@ namespace Asio {
 class UDPServer : public std::enable_shared_from_this<UDPServer>
 {
 public:
-    //! Initialize UDP server with a given Asio service, protocol and port number
+    //! Initialize UDP server with a given Asio service and port number
     /*!
         \param service - Asio service
-        \param protocol - Protocol type
         \param port - Port number
+        \param protocol - Internet protocol type (default is IPv4)
     */
-    UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port);
+    UDPServer(std::shared_ptr<Service> service, int port, InternetProtocol protocol = InternetProtocol::IPv4);
     //! Initialize UDP server with a given Asio service, IP address and port number
     /*!
         \param service - Asio service
         \param address - IP address
         \param port - Port number
+        \param protocol - Internet protocol type (default is IPv4)
     */
-    UDPServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    UDPServer(std::shared_ptr<Service> service, const std::string& address, int port, InternetProtocol protocol = InternetProtocol::IPv4);
     //! Initialize UDP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
@@ -60,6 +61,13 @@ public:
     asio::ip::udp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the server multicast endpoint
     asio::ip::udp::endpoint& multicast_endpoint() noexcept { return _multicast_endpoint; }
+
+    //! Get the Internet protocol type
+    InternetProtocol protocol() const noexcept { return _protocol; }
+    //! Get the server address
+    const std::string& address() const noexcept { return _address; }
+    //! Get the server port number
+    int port() const noexcept { return _port; }
 
     //! Get the number of bytes pending sent by the server
     uint64_t bytes_pending() const noexcept { return _bytes_sending; }
@@ -267,6 +275,10 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
+    // Server protocol, address, scheme & port
+    InternetProtocol _protocol;
+    std::string _address;
+    int _port;
     // Server endpoint & socket
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;

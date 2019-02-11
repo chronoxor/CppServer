@@ -17,7 +17,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
-      _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
+      _endpoint(asio::ip::tcp::endpoint(asio::ip::make_address(address), (unsigned short)port)),
       _socket(*_io_service),
       _connecting(false),
       _connected(false),
@@ -100,8 +100,9 @@ bool TCPClient::Connect()
     // Disconnect on error
     if (ec)
     {
-        // Call the client disconnected handler
         SendError(ec);
+
+        // Call the client disconnected handler
         onDisconnected();
         return false;
     }
@@ -222,8 +223,9 @@ bool TCPClient::ConnectAsync()
             }
             else
             {
-                // Call the client disconnected handler
                 SendError(ec);
+
+                // Call the client disconnected handler
                 onDisconnected();
             }
         };

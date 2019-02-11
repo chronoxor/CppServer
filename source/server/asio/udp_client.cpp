@@ -11,17 +11,17 @@
 namespace CppServer {
 namespace Asio {
 
-UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
+UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, InternetProtocol protocol)
     : _id(CppCommon::UUID::Random()),
       _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
+      _protocol(protocol),
       _address(address),
-      _protocol(),
       _port(port),
-      _endpoint(),
       _socket(*_io_service),
+      _resolving(false),
       _connected(false),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -39,17 +39,18 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& protocol)
+UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& scheme, InternetProtocol protocol)
     : _id(CppCommon::UUID::Random()),
       _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
-      _address(address),
       _protocol(protocol),
+      _address(address),
+      _scheme(scheme),
       _port(0),
-      _endpoint(),
       _socket(*_io_service),
+      _resolving(false),
       _connected(false),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -74,10 +75,10 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
       _address(endpoint.address().to_string()),
-      _protocol(),
       _port(endpoint.port()),
       _endpoint(endpoint),
       _socket(*_io_service),
+      _resolving(false),
       _connected(false),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -93,6 +94,14 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
+
+    // Protocol version
+    if (endpoint.protocol() == asio::ip::udp::v4())
+        _protocol = InternetProtocol::IPv4;
+    else if (endpoint.protocol() == asio::ip::udp::v6())
+        _protocol = InternetProtocol::IPv6;
+    else
+        throw CppCommon::ArgumentException("Unknown Internet protocol!");
 }
 
 size_t UDPClient::option_receive_buffer_size() const
@@ -133,8 +142,87 @@ bool UDPClient::Connect()
     if (IsConnected())
         return false;
 
-    // Create a new server endpoint to connect
-    _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(_address), (unsigned short)_port);
+    // Create a new server endpoint
+    _endpoint = asio::ip::udp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
+
+    // Open a client socket
+    _socket.open(_endpoint.protocol());
+    if (option_reuse_address())
+        _socket.set_option(asio::ip::udp::socket::reuse_address(true));
+#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
+    if (option_reuse_port())
+    {
+        typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
+        _socket.set_option(reuse_port(true));
+    }
+#endif
+    if (option_multicast())
+        _socket.bind(_endpoint);
+    else
+        _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
+
+    // Prepare receive buffer
+    _receive_buffer.resize(option_receive_buffer_size());
+
+    // Reset statistic
+    _bytes_sending = 0;
+    _bytes_sent = 0;
+    _bytes_received = 0;
+    _datagrams_sent = 0;
+    _datagrams_received = 0;
+
+    // Update the connected flag
+    _connected = true;
+
+    // Call the client connected handler
+    onConnected();
+
+    return true;
+}
+
+bool UDPClient::Connect(std::shared_ptr<UDPResolver> resolver)
+{
+    assert((resolver != nullptr) && "UDP resolver is invalid!");
+    if (resolver == nullptr)
+        return false;
+    assert(!_address.empty() && "Server address must not be empty!");
+    if (_address.empty())
+        return false;
+    assert((_port > 0) && "Server port number must be valid!");
+    if (_port <= 0)
+        return false;
+
+    if (IsConnected())
+        return false;
+
+    std::error_code ec;
+
+    // Resolve server endpoint
+    switch (_protocol)
+    {
+        case InternetProtocol::IPv4:
+        {
+            asio::ip::udp::resolver::query query(asio::ip::udp::v4(), _address, (_scheme.empty() ? std::to_string(_port) : _scheme));
+            _endpoint = *resolver->resolver().resolve(query, ec);
+            break;
+        }
+        case InternetProtocol::IPv6:
+        {
+            asio::ip::udp::resolver::query query(asio::ip::udp::v6(), _address, (_scheme.empty() ? std::to_string(_port) : _scheme));
+            _endpoint = *resolver->resolver().resolve(query, ec);
+            break;
+        }
+    }
+
+    // Check for resolve errors
+    if (ec)
+    {
+        SendError(ec);
+
+        // Call the client disconnected handler
+        onDisconnected();
+        return false;
+    }
 
     // Open a client socket
     _socket.open(_endpoint.protocol());
@@ -219,6 +307,105 @@ bool UDPClient::ConnectAsync()
     return true;
 }
 
+bool UDPClient::ConnectAsync(std::shared_ptr<UDPResolver> resolver)
+{
+    assert((resolver != nullptr) && "UDP resolver is invalid!");
+    if (resolver == nullptr)
+        return false;
+
+    if (IsConnected())
+        return false;
+
+    // Post the connect handler
+    auto self(this->shared_from_this());
+    auto connect_handler = [this, self, resolver]()
+    {
+        if (IsConnected() || _resolving)
+            return;
+
+        // Async DNS resolve with the resolve handler
+        _resolving = true;
+        auto async_resolve_handler = [this, self](std::error_code ec, asio::ip::udp::resolver::results_type results)
+        {
+            _resolving = false;
+
+            if (!ec)
+            {
+                // Resolve server endpoint
+                _endpoint = *results;
+
+                // Open a client socket
+                _socket.open(_endpoint.protocol());
+                if (option_reuse_address())
+                    _socket.set_option(asio::ip::udp::socket::reuse_address(true));
+#if (defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)) && !defined(__CYGWIN__)
+                if (option_reuse_port())
+                {
+                    typedef asio::detail::socket_option::boolean<SOL_SOCKET, SO_REUSEPORT> reuse_port;
+                    _socket.set_option(reuse_port(true));
+                }
+#endif
+                if (option_multicast())
+                    _socket.bind(_endpoint);
+                else
+                    _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
+
+                // Prepare receive buffer
+                _receive_buffer.resize(option_receive_buffer_size());
+
+                // Reset statistic
+                _bytes_sending = 0;
+                _bytes_sent = 0;
+                _bytes_received = 0;
+                _datagrams_sent = 0;
+                _datagrams_received = 0;
+
+                // Update the connected flag
+                _connected = true;
+
+                // Call the client connected handler
+                onConnected();
+            }
+            else
+            {
+                SendError(ec);
+
+                // Call the client disconnected handler
+                onDisconnected();
+            }
+        };
+
+        // Resolve server endpoint
+        switch (_protocol)
+        {
+            case InternetProtocol::IPv4:
+            {
+                asio::ip::udp::resolver::query query(asio::ip::udp::v4(), _address, (_scheme.empty() ? std::to_string(_port) : _scheme));
+                if (_strand_required)
+                    resolver->resolver().async_resolve(query, bind_executor(_strand, async_resolve_handler));
+                else
+                    resolver->resolver().async_resolve(query, async_resolve_handler);
+                break;
+            }
+            case InternetProtocol::IPv6:
+            {
+                asio::ip::udp::resolver::query query(asio::ip::udp::v6(), _address, (_scheme.empty() ? std::to_string(_port) : _scheme));
+                if (_strand_required)
+                    resolver->resolver().async_resolve(query, bind_executor(_strand, async_resolve_handler));
+                else
+                    resolver->resolver().async_resolve(query, async_resolve_handler);
+                break;
+            }
+        }
+    };
+    if (_strand_required)
+        _strand.post(connect_handler);
+    else
+        _io_service->post(connect_handler);
+
+    return true;
+}
+
 bool UDPClient::DisconnectAsync(bool dispatch)
 {
     if (!IsConnected())
@@ -261,7 +448,7 @@ void UDPClient::JoinMulticastGroup(const std::string& address)
     if (!IsConnected())
         return;
 
-    asio::ip::address muticast_address = asio::ip::address::from_string(address);
+    asio::ip::address muticast_address = asio::ip::make_address(address);
 
     asio::ip::multicast::join_group join(muticast_address);
     _socket.set_option(join);
@@ -275,7 +462,7 @@ void UDPClient::LeaveMulticastGroup(const std::string& address)
     if (!IsConnected())
         return;
 
-    asio::ip::address muticast_address = asio::ip::address::from_string(address);
+    asio::ip::address muticast_address = asio::ip::make_address(address);
 
     asio::ip::multicast::leave_group leave(muticast_address);
     _socket.set_option(leave);

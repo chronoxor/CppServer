@@ -72,7 +72,7 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
         throw CppCommon::ArgumentException("SSL context is invalid!");
 
     // Prepare endpoint
-    _endpoint = asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
+    _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(address), (unsigned short)port);
 }
 
 SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)

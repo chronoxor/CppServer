@@ -16,7 +16,7 @@ namespace Asio {
 
 //! UDP resolver
 /*!
-    UDP Resolver is used to resolve DNS while connecting UDP clients.
+    UDP resolver is used to resolve DNS while connecting UDP clients.
 
     Thread-safe.
 */
@@ -30,7 +30,7 @@ public:
     UDPResolver(std::shared_ptr<Service> service);
     UDPResolver(const UDPResolver&) = delete;
     UDPResolver(UDPResolver&&) = default;
-    virtual ~UDPResolver() = default;
+    virtual ~UDPResolver() { Cancel(); }
 
     UDPResolver& operator=(const UDPResolver&) = delete;
     UDPResolver& operator=(UDPResolver&&) = default;
@@ -43,6 +43,9 @@ public:
     asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the UDP resolver
     asio::ip::udp::resolver& resolver() noexcept { return _resolver; }
+
+    //! Cancel any asynchronous operations that are waiting on the resolver
+    virtual void Cancel() { _resolver.cancel(); }
 
 private:
     // Asio service

@@ -78,7 +78,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new echo server
-    auto server = std::make_shared<EchoServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoServer>(service, port);
     server->SetupReuseAddress(true);
     server->SetupReusePort(true);
 

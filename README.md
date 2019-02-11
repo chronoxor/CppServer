@@ -888,7 +888,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new UDP echo server
-    auto server = std::make_shared<EchoServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoServer>(service, port);
 
     // Start the server
     std::cout << "Server starting...";
@@ -1108,7 +1108,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new UDP multicast server
-    auto server = std::make_shared<MulticastServer>(service, CppServer::Asio::InternetProtocol::IPv4, 0);
+    auto server = std::make_shared<MulticastServer>(service, 0);
 
     // Start the multicast server
     std::cout << "Server starting...";

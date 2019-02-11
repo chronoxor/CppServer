@@ -26,7 +26,7 @@ public:
           _strand(*_io_service),
           _strand_required(_service->IsStrandRequired()),
           _context(context),
-          _endpoint(asio::ip::tcp::endpoint(asio::ip::address::from_string(address), (unsigned short)port)),
+          _endpoint(asio::ip::tcp::endpoint(asio::ip::make_address(address), (unsigned short)port)),
           _stream(*_io_service, *_context),
           _connecting(false),
           _connected(false),
@@ -134,8 +134,9 @@ public:
         // Disconnect on error
         if (ec)
         {
-            // Call the client disconnected handler
             SendError(ec);
+
+            // Call the client disconnected handler
             onDisconnected();
             return false;
         }
@@ -308,8 +309,9 @@ public:
                 }
                 else
                 {
-                    // Call the client disconnected handler
                     SendError(ec1);
+
+                    // Call the client disconnected handler
                     onDisconnected();
                 }
             });

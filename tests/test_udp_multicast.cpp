@@ -75,8 +75,8 @@ public:
     std::atomic<bool> stopped;
     std::atomic<bool> errors;
 
-    MulticastUDPServer(std::shared_ptr<MulticastUDPService> service, InternetProtocol protocol, int port)
-        : UDPServer(service, protocol, port),
+    MulticastUDPServer(std::shared_ptr<MulticastUDPService> service, int port)
+        : UDPServer(service, port),
           started(false),
           stopped(false),
           errors(false)
@@ -104,7 +104,7 @@ TEST_CASE("UDP server multicast test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and start multicast server
-    auto server = std::make_shared<MulticastUDPServer>(service, InternetProtocol::IPv4, 0);
+    auto server = std::make_shared<MulticastUDPServer>(service, 0);
     REQUIRE(server->Start(multicast_address, multicast_port));
     while (!server->IsStarted())
         Thread::Yield();
@@ -248,7 +248,7 @@ TEST_CASE("UDP server multicast random test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and start multicast server
-    auto server = std::make_shared<MulticastUDPServer>(service, InternetProtocol::IPv4, 0);
+    auto server = std::make_shared<MulticastUDPServer>(service, 0);
     REQUIRE(server->Start(multicast_address, multicast_port));
     while (!server->IsStarted())
         Thread::Yield();

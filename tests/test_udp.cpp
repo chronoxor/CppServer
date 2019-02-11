@@ -75,8 +75,8 @@ public:
     std::atomic<bool> stopped;
     std::atomic<bool> errors;
 
-    EchoUDPServer(std::shared_ptr<EchoUDPService> service, InternetProtocol protocol, int port)
-        : UDPServer(service, protocol, port),
+    EchoUDPServer(std::shared_ptr<EchoUDPService> service, int port)
+        : UDPServer(service, port),
           started(false),
           stopped(false),
           errors(false)
@@ -105,7 +105,7 @@ TEST_CASE("UDP server test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoUDPServer>(service, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -173,7 +173,7 @@ TEST_CASE("UDP server random test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoUDPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoUDPServer>(service, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();

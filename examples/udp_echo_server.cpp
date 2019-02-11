@@ -65,7 +65,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new UDP echo server
-    auto server = std::make_shared<EchoServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoServer>(service, port);
 
     // Start the server
     std::cout << "Server starting...";

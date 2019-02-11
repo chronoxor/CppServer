@@ -11,11 +11,13 @@
 namespace CppServer {
 namespace Asio {
 
-UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol, int port)
+UDPServer::UDPServer(std::shared_ptr<Service> service, int port, InternetProtocol protocol)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
+      _protocol(protocol),
+      _port(port),
       _socket(*_io_service),
       _started(false),
       _bytes_sending(0),
@@ -44,11 +46,14 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, InternetProtocol protocol
     }
 }
 
-UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
+UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port, InternetProtocol protocol)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
+      _protocol(protocol),
+      _address(address),
+      _port(port),
       _socket(*_io_service),
       _started(false),
       _bytes_sending(0),
@@ -66,7 +71,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
         throw CppCommon::ArgumentException("Asio service is invalid!");
 
     // Prepare endpoint
-    _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(address), (unsigned short)port);
+    _endpoint = asio::ip::udp::endpoint(asio::ip::make_address(address), (unsigned short)port);
 }
 
 UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
@@ -74,6 +79,8 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
+      _address(endpoint.address().to_string()),
+      _port(endpoint.port()),
       _endpoint(endpoint),
       _socket(*_io_service),
       _started(false),
@@ -88,6 +95,14 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
+
+    // Protocol version
+    if (endpoint.protocol() == asio::ip::udp::v4())
+        _protocol = InternetProtocol::IPv4;
+    else if (endpoint.protocol() == asio::ip::udp::v6())
+        _protocol = InternetProtocol::IPv6;
+    else
+        throw CppCommon::ArgumentException("Unknown Internet protocol!");
 }
 
 size_t UDPServer::option_receive_buffer_size() const
@@ -168,7 +183,7 @@ bool UDPServer::Start()
 
 bool UDPServer::Start(const std::string& multicast_address, int multicast_port)
 {
-    _multicast_endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(multicast_address), (unsigned short)multicast_port);
+    _multicast_endpoint = asio::ip::udp::endpoint(asio::ip::make_address(multicast_address), (unsigned short)multicast_port);
     return Start();
 }
 

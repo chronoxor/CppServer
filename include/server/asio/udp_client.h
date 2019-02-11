@@ -9,7 +9,7 @@
 #ifndef CPPSERVER_ASIO_UDP_CLIENT_H
 #define CPPSERVER_ASIO_UDP_CLIENT_H
 
-#include "service.h"
+#include "udp_resolver.h"
 
 #include "system/uuid.h"
 
@@ -33,15 +33,17 @@ public:
         \param service - Asio service
         \param address - Server address
         \param port - Server port number
+        \param protocol - Internet protocol type (default is IPv4)
     */
-    UDPClient(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize UDP client with a given Asio service, server address and protocol name
+    UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    //! Initialize UDP client with a given Asio service, server address and scheme name
     /*!
         \param service - Asio service
         \param address - Server address
-        \param protocol - Protocol name
+        \param scheme - Scheme name
+        \param protocol - Internet protocol type (default is IPv4)
     */
-    UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& protocol);
+    UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& scheme, InternetProtocol protocol = InternetProtocol::IPv4);
     //! Initialize UDP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
@@ -69,10 +71,12 @@ public:
     //! Get the client socket
     asio::ip::udp::socket& socket() noexcept { return _socket; }
 
+    //! Get the Internet protocol type
+    InternetProtocol protocol() const noexcept { return _protocol; }
     //! Get the server address
     const std::string& address() const noexcept { return _address; }
-    //! Get the protocol name
-    const std::string& protocol() const noexcept { return _protocol; }
+    //! Get the scheme name
+    const std::string& scheme() const noexcept { return _scheme; }
     //! Get the server port number
     int port() const noexcept { return _port; }
 
@@ -106,6 +110,12 @@ public:
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
     virtual bool Connect();
+    //! Connect the client using the given DNS resolver (synchronous)
+    /*!
+        \param resolver - DNS resolver
+        \return 'true' if the client was successfully connected, 'false' if the client failed to connect
+    */
+    virtual bool Connect(std::shared_ptr<UDPResolver> resolver);
     //! Disconnect the client (synchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
@@ -122,6 +132,12 @@ public:
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
     virtual bool ConnectAsync();
+    //! Connect the client using the given DNS resolver (asynchronous)
+    /*!
+        \param resolver - DNS resolver
+        \return 'true' if the client was successfully connected, 'false' if the client failed to connect
+    */
+    virtual bool ConnectAsync(std::shared_ptr<UDPResolver> resolver);
     //! Disconnect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
@@ -323,13 +339,15 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
-    // Server address, protocol & port
+    // Server protocol, address, scheme & port
+    InternetProtocol _protocol;
     std::string _address;
-    std::string _protocol;
+    std::string _scheme;
     int _port;
     // Server endpoint & client socket
     asio::ip::udp::endpoint _endpoint;
     asio::ip::udp::socket _socket;
+    std::atomic<bool> _resolving;
     std::atomic<bool> _connected;
     // Client statistic
     uint64_t _bytes_sending;
