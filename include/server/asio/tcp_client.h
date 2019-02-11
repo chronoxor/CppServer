@@ -9,7 +9,7 @@
 #ifndef CPPSERVER_ASIO_TCP_CLIENT_H
 #define CPPSERVER_ASIO_TCP_CLIENT_H
 
-#include "service.h"
+#include "tcp_resolver.h"
 
 #include "system/uuid.h"
 
@@ -28,13 +28,20 @@ namespace Asio {
 class TCPClient : public std::enable_shared_from_this<TCPClient>
 {
 public:
-    //! Initialize TCP client with a given Asio service, server IP address and port number
+    //! Initialize TCP client with a given Asio service, server address and port number
     /*!
         \param service - Asio service
-        \param address - Server IP address
+        \param address - Server address
         \param port - Server port number
     */
     TCPClient(std::shared_ptr<Service> service, const std::string& address, int port);
+    //! Initialize TCP client with a given Asio service, server address and scheme name
+    /*!
+        \param service - Asio service
+        \param address - Server address
+        \param scheme - Scheme name
+    */
+    TCPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& scheme);
     //! Initialize TCP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
@@ -62,6 +69,13 @@ public:
     //! Get the client socket
     asio::ip::tcp::socket& socket() noexcept { return _socket; }
 
+    //! Get the server address
+    const std::string& address() const noexcept { return _address; }
+    //! Get the scheme name
+    const std::string& scheme() const noexcept { return _scheme; }
+    //! Get the server port number
+    int port() const noexcept { return _port; }
+
     //! Get the number of bytes pending sent by the client
     uint64_t bytes_pending() const noexcept { return _bytes_pending + _bytes_sending; }
     //! Get the number of bytes sent by the client
@@ -86,6 +100,12 @@ public:
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
     virtual bool Connect();
+    //! Connect the client using the given DNS resolver (synchronous)
+    /*!
+        \param resolver - DNS resolver
+        \return 'true' if the client was successfully connected, 'false' if the client failed to connect
+    */
+    virtual bool Connect(std::shared_ptr<TCPResolver> resolver);
     //! Disconnect the client (synchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
@@ -102,6 +122,12 @@ public:
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
     virtual bool ConnectAsync();
+    //! Connect the client using the given DNS resolver (asynchronous)
+    /*!
+        \param resolver - DNS resolver
+        \return 'true' if the client was successfully connected, 'false' if the client failed to connect
+    */
+    virtual bool ConnectAsync(std::shared_ptr<TCPResolver> resolver);
     //! Disconnect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
@@ -244,9 +270,14 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
+    // Server address, scheme & port
+    std::string _address;
+    std::string _scheme;
+    int _port;
     // Server endpoint & client socket
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::socket _socket;
+    std::atomic<bool> _resolving;
     std::atomic<bool> _connecting;
     std::atomic<bool> _connected;
     // Client statistic

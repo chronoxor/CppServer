@@ -33,17 +33,15 @@ public:
         \param service - Asio service
         \param address - Server address
         \param port - Server port number
-        \param protocol - Internet protocol type (default is IPv4)
     */
-    UDPClient(std::shared_ptr<Service> service, const std::string& address, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    UDPClient(std::shared_ptr<Service> service, const std::string& address, int port);
     //! Initialize UDP client with a given Asio service, server address and scheme name
     /*!
         \param service - Asio service
         \param address - Server address
         \param scheme - Scheme name
-        \param protocol - Internet protocol type (default is IPv4)
     */
-    UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& scheme, InternetProtocol protocol = InternetProtocol::IPv4);
+    UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& scheme);
     //! Initialize UDP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
@@ -71,8 +69,6 @@ public:
     //! Get the client socket
     asio::ip::udp::socket& socket() noexcept { return _socket; }
 
-    //! Get the Internet protocol type
-    InternetProtocol protocol() const noexcept { return _protocol; }
     //! Get the server address
     const std::string& address() const noexcept { return _address; }
     //! Get the scheme name
@@ -149,25 +145,25 @@ public:
     */
     virtual bool ReconnectAsync();
 
-    //! Join multicast group with a given IP address (synchronous)
+    //! Join multicast group with a given address (synchronous)
     /*!
-        \param address - IP address
+        \param address - Multicast group address
     */
     virtual void JoinMulticastGroup(const std::string& address);
-    //! Leave multicast group with a given IP address (synchronous)
+    //! Leave multicast group with a given address (synchronous)
     /*!
-        \param address - IP address
+        \param address - Multicast group address
     */
     virtual void LeaveMulticastGroup(const std::string& address);
 
-    //! Join multicast group with a given IP address (asynchronous)
+    //! Join multicast group with a given address (asynchronous)
     /*!
-        \param address - IP address
+        \param address - Multicast group address
     */
     virtual void JoinMulticastGroupAsync(const std::string& address);
-    //! Leave multicast group with a given IP address (asynchronous)
+    //! Leave multicast group with a given address (asynchronous)
     /*!
-        \param address - IP address
+        \param address - Multicast group address
     */
     virtual void LeaveMulticastGroupAsync(const std::string& address);
 
@@ -290,12 +286,12 @@ protected:
 
     //! Handle client joined multicast group notification
     /*!
-        \param address - IP address
+        \param address - Multicast group address
     */
     virtual void onJoinedMulticastGroup(const std::string& address) {}
     //! Handle client left multicast group notification
     /*!
-        \param address - IP address
+        \param address - Multicast group address
     */
     virtual void onLeftMulticastGroup(const std::string& address) {}
 
@@ -339,8 +335,7 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
-    // Server protocol, address, scheme & port
-    InternetProtocol _protocol;
+    // Server address, scheme & port
     std::string _address;
     std::string _scheme;
     int _port;

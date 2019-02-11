@@ -30,14 +30,13 @@ public:
         \param protocol - Internet protocol type (default is IPv4)
     */
     UDPServer(std::shared_ptr<Service> service, int port, InternetProtocol protocol = InternetProtocol::IPv4);
-    //! Initialize UDP server with a given Asio service, IP address and port number
+    //! Initialize UDP server with a given Asio service, server address and port number
     /*!
         \param service - Asio service
-        \param address - IP address
+        \param address - Server address
         \param port - Port number
-        \param protocol - Internet protocol type (default is IPv4)
     */
-    UDPServer(std::shared_ptr<Service> service, const std::string& address, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    UDPServer(std::shared_ptr<Service> service, const std::string& address, int port);
     //! Initialize UDP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
@@ -62,8 +61,6 @@ public:
     //! Get the server multicast endpoint
     asio::ip::udp::endpoint& multicast_endpoint() noexcept { return _multicast_endpoint; }
 
-    //! Get the Internet protocol type
-    InternetProtocol protocol() const noexcept { return _protocol; }
     //! Get the server address
     const std::string& address() const noexcept { return _address; }
     //! Get the server port number
@@ -97,9 +94,9 @@ public:
         \return 'true' if the server was successfully started, 'false' if the server failed to start
     */
     virtual bool Start();
-    //! Start the server with a given multicast IP address and port number
+    //! Start the server with a given multicast address and port number
     /*!
-        \param multicast_address - Multicast IP address
+        \param multicast_address - Multicast address
         \param multicast_port - Multicast port number
 
         \return 'true' if the server was successfully started, 'false' if the server failed to start
@@ -275,8 +272,7 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
-    // Server protocol, address, scheme & port
-    InternetProtocol _protocol;
+    // Server address, scheme & port
     std::string _address;
     int _port;
     // Server endpoint & socket

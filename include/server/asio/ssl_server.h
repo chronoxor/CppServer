@@ -37,15 +37,14 @@ public:
         \param protocol - Internet protocol type (default is IPv4)
     */
     SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, int port, InternetProtocol protocol = InternetProtocol::IPv4);
-    //! Initialize SSL server with a given Asio service, SSL context, IP address and port number
+    //! Initialize SSL server with a given Asio service, SSL context, server address and port number
     /*!
         \param service - Asio service
         \param context - SSL context
-        \param address - IP address
+        \param address - Server address
         \param port - Port number
-        \param protocol - Internet protocol type (default is IPv4)
     */
-    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
     //! Initialize SSL server with a given a given Asio service, SSL context and endpoint
     /*!
         \param service - Asio service
@@ -73,8 +72,6 @@ public:
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
 
-    //! Get the Internet protocol type
-    InternetProtocol protocol() const noexcept { return _protocol; }
     //! Get the server address
     const std::string& address() const noexcept { return _address; }
     //! Get the server port number
@@ -221,8 +218,7 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
-    // Server protocol, address, scheme & port
-    InternetProtocol _protocol;
+    // Server address, scheme & port
     std::string _address;
     int _port;
     // Server SSL context, endpoint, acceptor and socket

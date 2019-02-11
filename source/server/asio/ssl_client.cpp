@@ -25,9 +25,47 @@ public:
           _io_service(_service->GetAsioService()),
           _strand(*_io_service),
           _strand_required(_service->IsStrandRequired()),
+          _address(address),
+          _port(port),
           _context(context),
           _endpoint(asio::ip::tcp::endpoint(asio::ip::make_address(address), (unsigned short)port)),
           _stream(*_io_service, *_context),
+          _resolving(false),
+          _connecting(false),
+          _connected(false),
+          _handshaking(false),
+          _handshaked(false),
+          _bytes_pending(0),
+          _bytes_sending(0),
+          _bytes_sent(0),
+          _bytes_received(0),
+          _receiving(false),
+          _sending(false),
+          _send_buffer_flush_offset(0),
+          _option_keep_alive(false),
+          _option_no_delay(false)
+    {
+        assert((service != nullptr) && "Asio service is invalid!");
+        if (service == nullptr)
+            throw CppCommon::ArgumentException("Asio service is invalid!");
+
+        assert((context != nullptr) && "SSL context is invalid!");
+        if (context == nullptr)
+            throw CppCommon::ArgumentException("SSL context is invalid!");
+    }
+
+    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, const std::string& scheme)
+        : _id(id),
+          _service(service),
+          _io_service(_service->GetAsioService()),
+          _strand(*_io_service),
+          _strand_required(_service->IsStrandRequired()),
+          _address(address),
+          _scheme(scheme),
+          _port(0),
+          _context(context),
+          _stream(*_io_service, *_context),
+          _resolving(false),
           _connecting(false),
           _connected(false),
           _handshaking(false),
@@ -57,9 +95,12 @@ public:
           _io_service(_service->GetAsioService()),
           _strand(*_io_service),
           _strand_required(_service->IsStrandRequired()),
+          _address(endpoint.address().to_string()),
+          _port(endpoint.port()),
           _context(context),
           _endpoint(endpoint),
           _stream(*_io_service, *_context),
+          _resolving(false),
           _connecting(false),
           _connected(false),
           _handshaking(false),
@@ -95,6 +136,10 @@ public:
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
 
+    const std::string& address() const noexcept { return _address; }
+    const std::string& scheme() const noexcept { return _scheme; }
+    int port() const noexcept { return _port; }
+
     uint64_t bytes_pending() noexcept { return _bytes_pending + _bytes_sending; }
     uint64_t& bytes_sent() noexcept { return _bytes_sent; }
     uint64_t& bytes_received() noexcept { return _bytes_received; }
@@ -123,7 +168,7 @@ public:
     {
         _client = client;
 
-        if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
+        if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
             return false;
 
         asio::error_code ec;
@@ -190,9 +235,94 @@ public:
         return true;
     }
 
+    bool Connect(std::shared_ptr<SSLClient> client, std::shared_ptr<TCPResolver> resolver)
+    {
+        _client = client;
+
+        if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+            return false;
+
+        asio::error_code ec;
+
+        // Resolve the server endpoint
+        asio::ip::tcp::resolver::query query(_address, (_scheme.empty() ? std::to_string(_port) : _scheme));
+        auto endpoints = resolver->resolver().resolve(query, ec);
+
+        // Disconnect on error
+        if (ec)
+        {
+            SendError(ec);
+
+            // Call the client disconnected handler
+            onDisconnected();
+            return false;
+        }
+
+        //  Connect to the server
+        _endpoint = asio::connect(socket(), endpoints, ec);
+
+        // Disconnect on error
+        if (ec)
+        {
+            SendError(ec);
+
+            // Call the client disconnected handler
+            onDisconnected();
+            return false;
+        }
+
+        // Apply the option: keep alive
+        if (option_keep_alive())
+            socket().set_option(asio::ip::tcp::socket::keep_alive(true));
+        // Apply the option: no delay
+        if (option_no_delay())
+            socket().set_option(asio::ip::tcp::no_delay(true));
+
+        // Prepare receive & send buffers
+        _receive_buffer.resize(option_receive_buffer_size());
+        _send_buffer_main.reserve(option_send_buffer_size());
+        _send_buffer_flush.reserve(option_send_buffer_size());
+
+        // Reset statistic
+        _bytes_pending = 0;
+        _bytes_sending = 0;
+        _bytes_sent = 0;
+        _bytes_received = 0;
+
+        // Update the connected flag
+        _connected = true;
+
+        // Call the client connected handler
+        onConnected();
+
+        // SSL handshake
+        _stream.handshake(asio::ssl::stream_base::client, ec);
+
+        // Disconnect on error
+        if (ec)
+        {
+            // Disconnect in case of the bad handshake
+            SendError(ec);
+            Disconnect();
+            return false;
+        }
+
+        // Update the handshaked flag
+        _handshaked = true;
+
+        // Call the client handshaked handler
+        onHandshaked();
+
+        // Call the empty send buffer handler
+        if (_send_buffer_main.empty())
+            onEmpty();
+
+        return true;
+    }
+
     bool Disconnect()
     {
-        if (!IsConnected() || _connecting || _handshaking)
+        if (!IsConnected() || _resolving || _connecting || _handshaking)
             return false;
 
         // Close the client socket
@@ -206,6 +336,7 @@ public:
         _handshaked = false;
 
         // Update the connected flag
+        _resolving = false;
         _connecting = false;
         _connected = false;
 
@@ -226,14 +357,14 @@ public:
     {
         _client = client;
 
-        if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
+        if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
             return false;
 
         // Post the connect handler
         auto self(this->shared_from_this());
         auto connect_handler = make_alloc_handler(_connect_storage, [this, self]()
         {
-            if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
+            if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
                 return;
 
             // Async connect with the connect handler
@@ -242,7 +373,7 @@ public:
             {
                 _connecting = false;
 
-                if (IsConnected() || IsHandshaked() || _connecting || _handshaking)
+                if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
                     return;
 
                 if (!ec1)
@@ -328,9 +459,145 @@ public:
         return true;
     }
 
+    bool ConnectAsync(std::shared_ptr<SSLClient> client, std::shared_ptr<TCPResolver> resolver)
+    {
+        _client = client;
+
+        if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+            return false;
+
+        // Post the connect handler
+        auto self(this->shared_from_this());
+        auto connect_handler = make_alloc_handler(_connect_storage, [this, self, resolver]()
+        {
+            if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+                return;
+
+            // Async resolve with the resolve handler
+            _resolving = true;
+            auto async_resolve_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec1, asio::ip::tcp::resolver::results_type endpoints)
+            {
+                _resolving = false;
+
+                if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+                    return;
+
+                if (!ec1)
+                {
+                    // Async connect with the connect handler
+                    _connecting = true;
+                    auto async_connect_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2, const asio::ip::tcp::endpoint& endpoint)
+                    {
+                        _connecting = false;
+
+                        if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+                            return;
+
+                        if (!ec2)
+                        {
+                            //  Connect to the server
+                            _endpoint = endpoint;
+
+                            // Apply the option: keep alive
+                            if (option_keep_alive())
+                                socket().set_option(asio::ip::tcp::socket::keep_alive(true));
+                            // Apply the option: no delay
+                            if (option_no_delay())
+                                socket().set_option(asio::ip::tcp::no_delay(true));
+
+                            // Prepare receive & send buffers
+                            _receive_buffer.resize(option_receive_buffer_size());
+                            _send_buffer_main.reserve(option_send_buffer_size());
+                            _send_buffer_flush.reserve(option_send_buffer_size());
+
+                            // Reset statistic
+                            _bytes_pending = 0;
+                            _bytes_sending = 0;
+                            _bytes_sent = 0;
+                            _bytes_received = 0;
+
+                            // Update the connected flag
+                            _connected = true;
+
+                            // Call the client connected handler
+                            onConnected();
+
+                            // Async SSL handshake with the handshake handler
+                            _handshaking = true;
+                            auto async_handshake_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec3)
+                            {
+                                _handshaking = false;
+
+                                if (IsHandshaked())
+                                    return;
+
+                                if (!ec3)
+                                {
+                                    // Update the handshaked flag
+                                    _handshaked = true;
+
+                                    // Call the client handshaked handler
+                                    onHandshaked();
+
+                                    // Call the empty send buffer handler
+                                    if (_send_buffer_main.empty())
+                                        onEmpty();
+
+                                    // Try to receive something from the server
+                                    TryReceive();
+                                }
+                                else
+                                {
+                                    // Disconnect in case of the bad handshake
+                                    SendError(ec3);
+                                    DisconnectAsync(true);
+                                }
+                            });
+                            if (_strand_required)
+                                _stream.async_handshake(asio::ssl::stream_base::client, bind_executor(_strand, async_handshake_handler));
+                            else
+                                _stream.async_handshake(asio::ssl::stream_base::client, async_handshake_handler);
+                        }
+                        else
+                        {
+                            SendError(ec2);
+
+                            // Call the client disconnected handler
+                            onDisconnected();
+                        }
+                    });
+                    if (_strand_required)
+                        asio::async_connect(socket(), endpoints, bind_executor(_strand, async_connect_handler));
+                    else
+                        asio::async_connect(socket(), endpoints, async_connect_handler);
+                }
+                else
+                {
+                    SendError(ec1);
+
+                    // Call the client disconnected handler
+                    onDisconnected();
+                }
+            });
+
+            // Resolve the server endpoint
+            asio::ip::tcp::resolver::query query(_address, (_scheme.empty() ? std::to_string(_port) : _scheme));
+            if (_strand_required)
+                resolver->resolver().async_resolve(query, bind_executor(_strand, async_resolve_handler));
+            else
+                resolver->resolver().async_resolve(query, async_resolve_handler);
+        });
+        if (_strand_required)
+            _strand.post(connect_handler);
+        else
+            _io_service->post(connect_handler);
+
+        return true;
+    }
+
     bool DisconnectAsync(bool dispatch)
     {
-        if (!IsConnected() || _connecting || _handshaking)
+        if (!IsConnected() || _resolving || _connecting || _handshaking)
             return false;
 
         // Dispatch or post the disconnect handler
@@ -519,10 +786,16 @@ private:
     // Asio service strand for serialised handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
+    // Server protocol, address, scheme & port
+    InternetProtocol _protocol;
+    std::string _address;
+    std::string _scheme;
+    int _port;
     // Server SSL context, endpoint & client stream
     std::shared_ptr<asio::ssl::context> _context;
     asio::ip::tcp::endpoint _endpoint;
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
+    std::atomic<bool> _resolving;
     std::atomic<bool> _connecting;
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaking;
@@ -722,6 +995,11 @@ SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
 {
 }
 
+SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, const std::string& scheme)
+    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Random(), service, context, address, scheme))
+{
+}
+
 SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
     : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Random(), service, context, endpoint))
 {
@@ -782,6 +1060,21 @@ asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& SSLClient::socket()
     return _pimpl->socket();
 }
 
+const std::string& SSLClient::address() const noexcept
+{
+    return _pimpl->address();
+}
+
+const std::string& SSLClient::scheme() const noexcept
+{
+    return _pimpl->scheme();
+}
+
+int SSLClient::port() const noexcept
+{
+    return _pimpl->port();
+}
+
 uint64_t SSLClient::bytes_pending() const noexcept
 {
     return _pimpl->bytes_pending();
@@ -833,6 +1126,12 @@ bool SSLClient::Connect()
     return _pimpl->Connect(self);
 }
 
+bool SSLClient::Connect(std::shared_ptr<TCPResolver> resolver)
+{
+    auto self(this->shared_from_this());
+    return _pimpl->Connect(self, resolver);
+}
+
 bool SSLClient::Disconnect()
 {
     return _pimpl->Disconnect();
@@ -850,6 +1149,12 @@ bool SSLClient::ConnectAsync()
 {
     auto self(this->shared_from_this());
     return _pimpl->ConnectAsync(self);
+}
+
+bool SSLClient::ConnectAsync(std::shared_ptr<TCPResolver> resolver)
+{
+    auto self(this->shared_from_this());
+    return _pimpl->ConnectAsync(self, resolver);
 }
 
 bool SSLClient::DisconnectAsync(bool dispatch)

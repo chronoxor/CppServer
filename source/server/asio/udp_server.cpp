@@ -16,7 +16,6 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, int port, InternetProtoco
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
-      _protocol(protocol),
       _port(port),
       _socket(*_io_service),
       _started(false),
@@ -46,12 +45,11 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, int port, InternetProtoco
     }
 }
 
-UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port, InternetProtocol protocol)
+UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
-      _protocol(protocol),
       _address(address),
       _port(port),
       _socket(*_io_service),
@@ -95,14 +93,6 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endp
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
-
-    // Protocol version
-    if (endpoint.protocol() == asio::ip::udp::v4())
-        _protocol = InternetProtocol::IPv4;
-    else if (endpoint.protocol() == asio::ip::udp::v6())
-        _protocol = InternetProtocol::IPv6;
-    else
-        throw CppCommon::ArgumentException("Unknown Internet protocol!");
 }
 
 size_t UDPServer::option_receive_buffer_size() const

@@ -16,7 +16,6 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
-      _protocol(protocol),
       _port(port),
       _context(context),
       _acceptor(*_io_service),
@@ -49,12 +48,11 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
     }
 }
 
-SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port, InternetProtocol protocol)
+SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
-      _protocol(protocol),
       _address(address),
       _port(port),
       _context(context),
@@ -106,14 +104,6 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
     assert((context != nullptr) && "SSL context is invalid!");
     if (context == nullptr)
         throw CppCommon::ArgumentException("SSL context is invalid!");
-
-    // Protocol version
-    if (endpoint.protocol() == asio::ip::tcp::v4())
-        _protocol = InternetProtocol::IPv4;
-    else if (endpoint.protocol() == asio::ip::tcp::v6())
-        _protocol = InternetProtocol::IPv6;
-    else
-        throw CppCommon::ArgumentException("Unknown Internet protocol!");
 }
 
 bool SSLServer::Start()

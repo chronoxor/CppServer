@@ -16,7 +16,6 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, int port, InternetProtoco
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
-      _protocol(protocol),
       _port(port),
       _acceptor(*_io_service),
       _started(false),
@@ -44,12 +43,11 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, int port, InternetProtoco
     }
 }
 
-TCPServer::TCPServer(std::shared_ptr<Service> service, const std::string& address, int port, InternetProtocol protocol)
+TCPServer::TCPServer(std::shared_ptr<Service> service, const std::string& address, int port)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
-      _protocol(protocol),
       _address(address),
       _port(port),
       _acceptor(*_io_service),
@@ -91,14 +89,6 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endp
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
-
-    // Protocol version
-    if (endpoint.protocol() == asio::ip::tcp::v4())
-        _protocol = InternetProtocol::IPv4;
-    else if (endpoint.protocol() == asio::ip::tcp::v6())
-        _protocol = InternetProtocol::IPv6;
-    else
-        throw CppCommon::ArgumentException("Unknown Internet protocol!");
 }
 
 bool TCPServer::Start()

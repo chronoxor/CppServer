@@ -17,8 +17,39 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
+      _address(address),
+      _port(port),
       _endpoint(asio::ip::tcp::endpoint(asio::ip::make_address(address), (unsigned short)port)),
       _socket(*_io_service),
+      _resolving(false),
+      _connecting(false),
+      _connected(false),
+      _bytes_pending(0),
+      _bytes_sending(0),
+      _bytes_sent(0),
+      _bytes_received(0),
+      _receiving(false),
+      _sending(false),
+      _send_buffer_flush_offset(0),
+      _option_keep_alive(false),
+      _option_no_delay(false)
+{
+    assert((service != nullptr) && "Asio service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("Asio service is invalid!");
+}
+
+TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& scheme)
+    : _id(CppCommon::UUID::Random()),
+      _service(service),
+      _io_service(_service->GetAsioService()),
+      _strand(*_io_service),
+      _strand_required(_service->IsStrandRequired()),
+      _address(address),
+      _scheme(scheme),
+      _port(0),
+      _socket(*_io_service),
+      _resolving(false),
       _connecting(false),
       _connected(false),
       _bytes_pending(0),
@@ -42,8 +73,11 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endp
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
+      _address(endpoint.address().to_string()),
+      _port(endpoint.port()),
       _endpoint(endpoint),
       _socket(*_io_service),
+      _resolving(false),
       _connecting(false),
       _connected(false),
       _bytes_pending(0),
@@ -138,6 +172,71 @@ bool TCPClient::Connect()
     return true;
 }
 
+bool TCPClient::Connect(std::shared_ptr<TCPResolver> resolver)
+{
+    if (IsConnected())
+        return false;
+
+    asio::error_code ec;
+
+    // Resolve the server endpoint
+    asio::ip::tcp::resolver::query query(_address, (_scheme.empty() ? std::to_string(_port) : _scheme));
+    auto endpoints = resolver->resolver().resolve(query, ec);
+
+    // Disconnect on error
+    if (ec)
+    {
+        SendError(ec);
+
+        // Call the client disconnected handler
+        onDisconnected();
+        return false;
+    }
+
+    //  Connect to the server
+    _endpoint = asio::connect(_socket, endpoints, ec);
+
+    // Disconnect on error
+    if (ec)
+    {
+        SendError(ec);
+
+        // Call the client disconnected handler
+        onDisconnected();
+        return false;
+    }
+
+    // Apply the option: keep alive
+    if (option_keep_alive())
+        _socket.set_option(asio::ip::tcp::socket::keep_alive(true));
+    // Apply the option: no delay
+    if (option_no_delay())
+        _socket.set_option(asio::ip::tcp::no_delay(true));
+
+    // Prepare receive & send buffers
+    _receive_buffer.resize(option_receive_buffer_size());
+    _send_buffer_main.reserve(option_send_buffer_size());
+    _send_buffer_flush.reserve(option_send_buffer_size());
+
+    // Reset statistic
+    _bytes_pending = 0;
+    _bytes_sending = 0;
+    _bytes_sent = 0;
+    _bytes_received = 0;
+
+    // Update the connected flag
+    _connected = true;
+
+    // Call the client connected handler
+    onConnected();
+
+    // Call the empty send buffer handler
+    if (_send_buffer_main.empty())
+        onEmpty();
+
+    return true;
+}
+
 bool TCPClient::Disconnect()
 {
     if (!IsConnected())
@@ -147,6 +246,8 @@ bool TCPClient::Disconnect()
     _socket.close();
 
     // Update the connected flag
+    _resolving = false;
+    _connecting = false;
     _connected = false;
 
     // Update sending/receiving flags
@@ -172,14 +273,14 @@ bool TCPClient::Reconnect()
 
 bool TCPClient::ConnectAsync()
 {
-    if (IsConnected())
+    if (IsConnected() || _resolving || _connecting)
         return false;
 
     // Post the connect handler
     auto self(this->shared_from_this());
     auto connect_handler = [this, self]()
     {
-        if (IsConnected() || _connecting)
+        if (IsConnected() || _resolving || _connecting)
             return;
 
         // Async connect with the connect handler
@@ -187,6 +288,9 @@ bool TCPClient::ConnectAsync()
         auto async_connect_handler = [this, self](std::error_code ec)
         {
             _connecting = false;
+
+            if (IsConnected() || _resolving || _connecting)
+                return;
 
             if (!ec)
             {
@@ -242,9 +346,114 @@ bool TCPClient::ConnectAsync()
     return true;
 }
 
+bool TCPClient::ConnectAsync(std::shared_ptr<TCPResolver> resolver)
+{
+    if (IsConnected() || _resolving || _connecting)
+        return false;
+
+    // Post the connect handler
+    auto self(this->shared_from_this());
+    auto connect_handler = [this, self, resolver]()
+    {
+        if (IsConnected() || _resolving || _connecting)
+            return;
+
+        // Async resolve with the connect handler
+        _resolving = true;
+        auto async_resolve_handler = [this, self](std::error_code ec1, asio::ip::tcp::resolver::results_type endpoints)
+        {
+            _resolving = false;
+
+            if (IsConnected() || _resolving || _connecting)
+                return;
+
+            if (!ec1)
+            {
+                // Async connect with the connect handler
+                _connecting = true;
+                auto async_connect_handler = [this, self](std::error_code ec2, const asio::ip::tcp::endpoint& endpoint)
+                {
+                    _connecting = false;
+
+                    if (IsConnected() || _resolving || _connecting)
+                        return;
+
+                    if (!ec2)
+                    {
+                        //  Connect to the server
+                        _endpoint = endpoint;
+
+                        // Apply the option: keep alive
+                        if (option_keep_alive())
+                            _socket.set_option(asio::ip::tcp::socket::keep_alive(true));
+                        // Apply the option: no delay
+                        if (option_no_delay())
+                            _socket.set_option(asio::ip::tcp::no_delay(true));
+
+                        // Prepare receive & send buffers
+                        _receive_buffer.resize(option_receive_buffer_size());
+                        _send_buffer_main.reserve(option_send_buffer_size());
+                        _send_buffer_flush.reserve(option_send_buffer_size());
+
+                        // Reset statistic
+                        _bytes_pending = 0;
+                        _bytes_sending = 0;
+                        _bytes_sent = 0;
+                        _bytes_received = 0;
+
+                        // Update the connected flag
+                        _connected = true;
+
+                        // Call the client connected handler
+                        onConnected();
+
+                        // Call the empty send buffer handler
+                        if (_send_buffer_main.empty())
+                            onEmpty();
+
+                        // Try to receive something from the server
+                        TryReceive();
+                    }
+                    else
+                    {
+                        SendError(ec2);
+
+                        // Call the client disconnected handler
+                        onDisconnected();
+                    }
+                };
+                if (_strand_required)
+                    asio::async_connect(_socket, endpoints, bind_executor(_strand, async_connect_handler));
+                else
+                    asio::async_connect(_socket, endpoints, async_connect_handler);
+            }
+            else
+            {
+                SendError(ec1);
+
+                // Call the client disconnected handler
+                onDisconnected();
+            }
+        };
+
+        // Resolve the server endpoint
+        asio::ip::tcp::resolver::query query(_address, (_scheme.empty() ? std::to_string(_port) : _scheme));
+        if (_strand_required)
+            resolver->resolver().async_resolve(query, bind_executor(_strand, async_resolve_handler));
+        else
+            resolver->resolver().async_resolve(query, async_resolve_handler);
+    };
+    if (_strand_required)
+        _strand.post(connect_handler);
+    else
+        _io_service->post(connect_handler);
+
+    return true;
+}
+
 bool TCPClient::DisconnectAsync(bool dispatch)
 {
-    if (!IsConnected())
+    if (!IsConnected() || _resolving || _connecting)
         return false;
 
     // Dispatch or post the disconnect handler

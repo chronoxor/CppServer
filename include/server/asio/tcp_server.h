@@ -36,14 +36,13 @@ public:
         \param protocol - Internet protocol type (default is IPv4)
     */
     TCPServer(std::shared_ptr<Service> service, int port, InternetProtocol protocol = InternetProtocol::IPv4);
-    //! Initialize TCP server with a given Asio service, IP address and port number
+    //! Initialize TCP server with a given Asio service, server address and port number
     /*!
         \param service - Asio service
-        \param address - IP address
+        \param address - Server address
         \param port - Port number
-        \param protocol - Internet protocol type (default is IPv4)
     */
-    TCPServer(std::shared_ptr<Service> service, const std::string& address, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    TCPServer(std::shared_ptr<Service> service, const std::string& address, int port);
     //! Initialize TCP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
@@ -68,8 +67,6 @@ public:
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
 
-    //! Get the Internet protocol type
-    InternetProtocol protocol() const noexcept { return _protocol; }
     //! Get the server address
     const std::string& address() const noexcept { return _address; }
     //! Get the server port number
@@ -211,8 +208,7 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
-    // Server protocol, address, scheme & port
-    InternetProtocol _protocol;
+    // Server address, scheme & port
     std::string _address;
     int _port;
     // Server endpoint, acceptor & socket

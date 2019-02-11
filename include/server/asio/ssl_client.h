@@ -9,7 +9,7 @@
 #ifndef CPPSERVER_ASIO_SSL_CLIENT_H
 #define CPPSERVER_ASIO_SSL_CLIENT_H
 
-#include "service.h"
+#include "tcp_resolver.h"
 
 #include "system/uuid.h"
 
@@ -27,15 +27,23 @@ namespace Asio {
 class SSLClient : public std::enable_shared_from_this<SSLClient>
 {
 public:
-    //! Initialize SSL client with a given Asio service, server IP address and port number
+    //! Initialize SSL client with a given Asio service, SSL context, server address and port number
     /*!
         \param service - Asio service
         \param context - SSL context
-        \param address - Server IP address
+        \param address - Server address
         \param port - Server port number
     */
     SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
-    //! Initialize SSL client with a given Asio service and endpoint
+    //! Initialize SSL client with a given Asio service, SSL context, server address and scheme name
+    /*!
+        \param service - Asio service
+        \param context - SSL context
+        \param address - Server address
+        \param scheme - Scheme name
+    */
+    SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, const std::string& scheme);
+    //! Initialize SSL client with a given Asio service, SSL context and endpoint
     /*!
         \param service - Asio service
         \param context - SSL context
@@ -67,6 +75,13 @@ public:
     //! Get the client socket
     asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept;
 
+    //! Get the server address
+    const std::string& address() const noexcept;
+    //! Get the scheme name
+    const std::string& scheme() const noexcept;
+    //! Get the server port number
+    int port() const noexcept;
+
     //! Get the number of bytes pending sent by the client
     uint64_t bytes_pending() const noexcept;
     //! Get the number of bytes sent by the client
@@ -93,6 +108,12 @@ public:
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
     virtual bool Connect();
+    //! Connect the client using the given DNS resolver (synchronous)
+    /*!
+        \param resolver - DNS resolver
+        \return 'true' if the client was successfully connected, 'false' if the client failed to connect
+    */
+    virtual bool Connect(std::shared_ptr<TCPResolver> resolver);
     //! Disconnect the client (synchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
@@ -109,6 +130,12 @@ public:
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
     virtual bool ConnectAsync();
+    //! Connect the client using the given DNS resolver (asynchronous)
+    /*!
+        \param resolver - DNS resolver
+        \return 'true' if the client was successfully connected, 'false' if the client failed to connect
+    */
+    virtual bool ConnectAsync(std::shared_ptr<TCPResolver> resolver);
     //! Disconnect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
