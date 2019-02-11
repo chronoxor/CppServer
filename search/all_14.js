@@ -10,7 +10,7 @@ var searchData=
   ['_7esslserver',['~SSLServer',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#aa94b9f680d8773ae6d60a73b012fe2a7',1,'CppServer::Asio::SSLServer']]],
   ['_7esslsession',['~SSLSession',['../class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a59453ee2ebaa0aaac18d5d1fe4e53708',1,'CppServer::Asio::SSLSession']]],
   ['_7etcpclient',['~TCPClient',['../class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a7fa9d9d42d3e632572cca8699739d708',1,'CppServer::Asio::TCPClient']]],
-  ['_7etcpresolver',['~TCPResolver',['../class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html#a7a54c353c5e7a2a40059b6aa0cbcd3a1',1,'CppServer::Asio::TCPResolver']]],
+  ['_7etcpresolver',['~TCPResolver',['../class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html#af88e5d17a5a93972323b4694edd3db5d',1,'CppServer::Asio::TCPResolver']]],
   ['_7etcpserver',['~TCPServer',['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#ae09af9495f10ba44b2b673216c13dd64',1,'CppServer::Asio::TCPServer']]],
   ['_7etcpsession',['~TCPSession',['../class_cpp_server_1_1_asio_1_1_t_c_p_session.html#af2882ab5cc5bb112aa0ebbdfef7f63b8',1,'CppServer::Asio::TCPSession']]],
   ['_7etimer',['~Timer',['../class_cpp_server_1_1_asio_1_1_timer.html#a37eae98a00c58eed3c44ae74efedf975',1,'CppServer::Asio::Timer']]],

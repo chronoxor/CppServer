@@ -120,8 +120,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1512fb0617e6c46933ed66475102e776"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a956c8683f8cdf2cff9fd4c016724f694"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html#a956c8683f8cdf2cff9fd4c016724f694">TCPResolver</a> (<a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html">TCPResolver</a> &amp;&amp;)=default</td></tr>
 <tr class="separator:a956c8683f8cdf2cff9fd4c016724f694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a54c353c5e7a2a40059b6aa0cbcd3a1"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html#a7a54c353c5e7a2a40059b6aa0cbcd3a1">~TCPResolver</a> ()=default</td></tr>
-<tr class="separator:a7a54c353c5e7a2a40059b6aa0cbcd3a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af88e5d17a5a93972323b4694edd3db5d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html#af88e5d17a5a93972323b4694edd3db5d">~TCPResolver</a> ()</td></tr>
+<tr class="separator:af88e5d17a5a93972323b4694edd3db5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3c9b9d7b7e76289b9a64709fc3fe0c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html">TCPResolver</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html#ad3c9b9d7b7e76289b9a64709fc3fe0c4">operator=</a> (const <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html">TCPResolver</a> &amp;)=delete</td></tr>
 <tr class="separator:ad3c9b9d7b7e76289b9a64709fc3fe0c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa17ed6ba17e1159e6b050d5202120c88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html">TCPResolver</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html#aa17ed6ba17e1159e6b050d5202120c88">operator=</a> (<a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html">TCPResolver</a> &amp;&amp;)=default</td></tr>
@@ -138,10 +138,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab33b4d3a9ccd5826340463905fc3bbb7"><td class="memItemLeft" align="right" valign="top">asio::ip::tcp::resolver &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html#ab33b4d3a9ccd5826340463905fc3bbb7">resolver</a> () noexcept</td></tr>
 <tr class="memdesc:ab33b4d3a9ccd5826340463905fc3bbb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the TCP resolver.  <a href="#ab33b4d3a9ccd5826340463905fc3bbb7">More...</a><br /></td></tr>
 <tr class="separator:ab33b4d3a9ccd5826340463905fc3bbb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbf4f0dfb89e48c56a4ed50623b73539"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html#afbf4f0dfb89e48c56a4ed50623b73539">Cancel</a> ()</td></tr>
+<tr class="memdesc:afbf4f0dfb89e48c56a4ed50623b73539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel any asynchronous operations that are waiting on the resolver.  <a href="#afbf4f0dfb89e48c56a4ed50623b73539">More...</a><br /></td></tr>
+<tr class="separator:afbf4f0dfb89e48c56a4ed50623b73539"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>TCP resolver. </p>
-<p>TCP Resolver is used to resolve DNS while connecting TCP/SSL clients.</p>
+<p>TCP resolver is used to resolve DNS while connecting TCP/SSL clients.</p>
 <p>Thread-safe. </p>
 
 <p>Definition at line <a class="el" href="tcp__resolver_8h_source.html#l00023">23</a> of file <a class="el" href="tcp__resolver_8h_source.html">tcp_resolver.h</a>.</p>
@@ -220,7 +223,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7a54c353c5e7a2a40059b6aa0cbcd3a1"></a>
+<a class="anchor" id="af88e5d17a5a93972323b4694edd3db5d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -236,14 +239,43 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="tcp__resolver_8h_source.html#l00033">33</a> of file <a class="el" href="tcp__resolver_8h_source.html">tcp_resolver.h</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="afbf4f0dfb89e48c56a4ed50623b73539"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::TCPResolver::Cancel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cancel any asynchronous operations that are waiting on the resolver. </p>
+
+<p>Definition at line <a class="el" href="tcp__resolver_8h_source.html#l00048">48</a> of file <a class="el" href="tcp__resolver_8h_source.html">tcp_resolver.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ab423d7fc70c3b84591ae6157764eda51"></a>
 <div class="memitem">
 <div class="memproto">
