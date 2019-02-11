@@ -95,8 +95,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae58fbb7b9f0e153a467a91744904272f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af290debd3841b1e931774287ee71e2d7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#af290debd3841b1e931774287ee71e2d7">UDPResolver</a> (<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html">UDPResolver</a> &amp;&amp;)=default</td></tr>
 <tr class="separator:af290debd3841b1e931774287ee71e2d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a386020ca227a4a0fb4eae2984f34505e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#a386020ca227a4a0fb4eae2984f34505e">~UDPResolver</a> ()=default</td></tr>
-<tr class="separator:a386020ca227a4a0fb4eae2984f34505e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef4770b528a273088748e07d1910b42b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#aef4770b528a273088748e07d1910b42b">~UDPResolver</a> ()</td></tr>
+<tr class="separator:aef4770b528a273088748e07d1910b42b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63d01da0e1abbb5bbaeb3df7b5430f3d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html">UDPResolver</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#a63d01da0e1abbb5bbaeb3df7b5430f3d">operator=</a> (const <a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html">UDPResolver</a> &amp;)=delete</td></tr>
 <tr class="separator:a63d01da0e1abbb5bbaeb3df7b5430f3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78b6e61f10f398f8f4a5308137b4b112"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html">UDPResolver</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#a78b6e61f10f398f8f4a5308137b4b112">operator=</a> (<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html">UDPResolver</a> &amp;&amp;)=default</td></tr>
@@ -113,10 +113,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9e38d4776e23b90cc80b759b52c0ca43"><td class="memItemLeft" align="right" valign="top">asio::ip::udp::resolver &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#a9e38d4776e23b90cc80b759b52c0ca43">resolver</a> () noexcept</td></tr>
 <tr class="memdesc:a9e38d4776e23b90cc80b759b52c0ca43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the UDP resolver.  <a href="#a9e38d4776e23b90cc80b759b52c0ca43">More...</a><br /></td></tr>
 <tr class="separator:a9e38d4776e23b90cc80b759b52c0ca43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02ec2c4e00b5e9d459f1bd3248994b09"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#a02ec2c4e00b5e9d459f1bd3248994b09">Cancel</a> ()</td></tr>
+<tr class="memdesc:a02ec2c4e00b5e9d459f1bd3248994b09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel any asynchronous operations that are waiting on the resolver.  <a href="#a02ec2c4e00b5e9d459f1bd3248994b09">More...</a><br /></td></tr>
+<tr class="separator:a02ec2c4e00b5e9d459f1bd3248994b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>UDP resolver. </p>
-<p>UDP Resolver is used to resolve DNS while connecting UDP clients.</p>
+<p>UDP resolver is used to resolve DNS while connecting UDP clients.</p>
 <p>Thread-safe. </p>
 
 <p class="definition">Definition at line <a class="el" href="udp__resolver_8h_source.html#l00023">23</a> of file <a class="el" href="udp__resolver_8h_source.html">udp_resolver.h</a>.</p>
@@ -201,8 +204,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a386020ca227a4a0fb4eae2984f34505e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a386020ca227a4a0fb4eae2984f34505e">&#9670;&nbsp;</a></span>~UDPResolver()</h2>
+<a id="aef4770b528a273088748e07d1910b42b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef4770b528a273088748e07d1910b42b">&#9670;&nbsp;</a></span>~UDPResolver()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -219,14 +222,45 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="udp__resolver_8h_source.html#l00033">33</a> of file <a class="el" href="udp__resolver_8h_source.html">udp_resolver.h</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a02ec2c4e00b5e9d459f1bd3248994b09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02ec2c4e00b5e9d459f1bd3248994b09">&#9670;&nbsp;</a></span>Cancel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::UDPResolver::Cancel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cancel any asynchronous operations that are waiting on the resolver. </p>
+
+<p class="definition">Definition at line <a class="el" href="udp__resolver_8h_source.html#l00048">48</a> of file <a class="el" href="udp__resolver_8h_source.html">udp_resolver.h</a>.</p>
+
+</div>
+</div>
 <a id="a297b0ea5526d2680b016e856df9d3bc6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a297b0ea5526d2680b016e856df9d3bc6">&#9670;&nbsp;</a></span>io_service()</h2>
 
