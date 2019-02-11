@@ -1,5 +1,5 @@
 /*!
-    \file UDP resolver.h
+    \file udp_resolver.h
     \brief UDP resolver definition
     \author Ivan Shynkarenka
     \date 08.02.2019

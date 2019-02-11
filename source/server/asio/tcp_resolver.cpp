@@ -1,5 +1,5 @@
 /*!
-    \file TCP resolver.cpp
+    \file tcp_resolver.cpp
     \brief TCP resolver implementation
     \author Ivan Shynkarenka
     \date 08.02.2019

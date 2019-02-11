@@ -1,5 +1,5 @@
 /*!
-    \file TCP resolver.h
+    \file tcp_resolver.h
     \brief TCP resolver definition
     \author Ivan Shynkarenka
     \date 08.02.2019
