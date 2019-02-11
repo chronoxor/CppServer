@@ -99,8 +99,8 @@ public:
     std::atomic<size_t> clients;
     std::atomic<bool> errors;
 
-    EchoTCPServer(std::shared_ptr<EchoTCPService> service, InternetProtocol protocol, int port)
-        : TCPServer(service, protocol, port),
+    EchoTCPServer(std::shared_ptr<EchoTCPService> service, int port)
+        : TCPServer(service, port),
           started(false),
           stopped(false),
           connected(false),
@@ -135,7 +135,7 @@ TEST_CASE("TCP server test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoTCPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoTCPServer>(service, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -205,7 +205,7 @@ TEST_CASE("TCP server multicast test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoTCPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoTCPServer>(service, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -329,7 +329,7 @@ TEST_CASE("TCP server random test", "[CppServer][Asio]")
         Thread::Yield();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoTCPServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoTCPServer>(service, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();

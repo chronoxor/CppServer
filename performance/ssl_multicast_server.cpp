@@ -109,7 +109,7 @@ int main(int argc, char** argv)
     context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
 
     // Create a new multicast server
-    auto server = std::make_shared<MulticastServer>(service, context, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<MulticastServer>(service, context, port);
     // server->SetupNoDelay(true);
     server->SetupReuseAddress(true);
     server->SetupReusePort(true);

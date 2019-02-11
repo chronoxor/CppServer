@@ -371,7 +371,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new TCP chat server
-    auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<ChatServer>(service, port);
 
     // Start the server
     std::cout << "Server starting...";
@@ -643,7 +643,7 @@ int main(int argc, char** argv)
     context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
 
     // Create a new SSL chat server
-    auto server = std::make_shared<ChatServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<ChatServer>(service, context, port);
 
     // Start the server
     std::cout << "Server starting...";

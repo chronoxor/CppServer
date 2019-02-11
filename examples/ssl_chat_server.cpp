@@ -101,7 +101,7 @@ int main(int argc, char** argv)
     context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
 
     // Create a new SSL chat server
-    auto server = std::make_shared<ChatServer>(service, context, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<ChatServer>(service, context, port);
 
     // Start the server
     std::cout << "Server starting...";

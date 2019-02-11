@@ -16,7 +16,7 @@ namespace Asio {
 
 //! TCP resolver
 /*!
-    TCP Resolver is used to resolve DNS while connecting TCP/SSL clients.
+    TCP resolver is used to resolve DNS while connecting TCP/SSL clients.
 
     Thread-safe.
 */
@@ -30,7 +30,7 @@ public:
     TCPResolver(std::shared_ptr<Service> service);
     TCPResolver(const TCPResolver&) = delete;
     TCPResolver(TCPResolver&&) = default;
-    virtual ~TCPResolver() = default;
+    virtual ~TCPResolver() { Cancel(); }
 
     TCPResolver& operator=(const TCPResolver&) = delete;
     TCPResolver& operator=(TCPResolver&&) = default;
@@ -43,6 +43,9 @@ public:
     asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the TCP resolver
     asio::ip::tcp::resolver& resolver() noexcept { return _resolver; }
+
+    //! Cancel any asynchronous operations that are waiting on the resolver
+    virtual void Cancel() { _resolver.cancel(); }
 
 private:
     // Asio service

@@ -114,8 +114,8 @@ public:
     std::atomic<size_t> clients;
     std::atomic<bool> errors;
 
-    EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port)
-        : SSLServer(service, context, protocol, port),
+    EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, int port)
+        : SSLServer(service, context, port),
           started(false),
           stopped(false),
           connected(false),
@@ -164,7 +164,7 @@ TEST_CASE("SSL server test", "[CppServer][Asio]")
     auto server_context = EchoSSLServer::CreateContext();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoSSLServer>(service, server_context, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoSSLServer>(service, server_context, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -242,7 +242,7 @@ TEST_CASE("SSL server multicast test", "[CppServer][Asio]")
     auto server_context = EchoSSLServer::CreateContext();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoSSLServer>(service, server_context, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoSSLServer>(service, server_context, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();
@@ -373,7 +373,7 @@ TEST_CASE("SSL server random test", "[CppServer][Asio]")
     auto server_context = EchoSSLServer::CreateContext();
 
     // Create and start Echo server
-    auto server = std::make_shared<EchoSSLServer>(service, server_context, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<EchoSSLServer>(service, server_context, port);
     REQUIRE(server->Start());
     while (!server->IsStarted())
         Thread::Yield();

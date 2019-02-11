@@ -102,7 +102,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new multicast server
-    auto server = std::make_shared<MulticastServer>(service, InternetProtocol::IPv4, port);
+    auto server = std::make_shared<MulticastServer>(service, port);
     // server->SetupNoDelay(true);
     server->SetupReuseAddress(true);
     server->SetupReusePort(true);

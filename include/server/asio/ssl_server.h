@@ -29,23 +29,24 @@ class SSLServer : public std::enable_shared_from_this<SSLServer>
     friend class SSLSession;
 
 public:
-    //! Initialize SSL server with a given Asio service, protocol and port number
+    //! Initialize SSL server with a given Asio service, SSL context and port number
     /*!
         \param service - Asio service
         \param context - SSL context
-        \param protocol - Protocol type
         \param port - Port number
+        \param protocol - Internet protocol type (default is IPv4)
     */
-    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, InternetProtocol protocol, int port);
-    //! Initialize SSL server with a given Asio service, IP address and port number
+    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    //! Initialize SSL server with a given Asio service, SSL context, IP address and port number
     /*!
         \param service - Asio service
         \param context - SSL context
         \param address - IP address
         \param port - Port number
+        \param protocol - Internet protocol type (default is IPv4)
     */
-    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
-    //! Initialize SSL server with a given a given Asio service and endpoint
+    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    //! Initialize SSL server with a given a given Asio service, SSL context and endpoint
     /*!
         \param service - Asio service
         \param context - SSL context
@@ -71,6 +72,13 @@ public:
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the server acceptor
     asio::ip::tcp::acceptor& acceptor() noexcept { return _acceptor; }
+
+    //! Get the Internet protocol type
+    InternetProtocol protocol() const noexcept { return _protocol; }
+    //! Get the server address
+    const std::string& address() const noexcept { return _address; }
+    //! Get the server port number
+    int port() const noexcept { return _port; }
 
     //! Get the number of sessions connected to the server
     uint64_t connected_sessions() const noexcept { return _sessions.size(); }
@@ -213,6 +221,10 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
+    // Server protocol, address, scheme & port
+    InternetProtocol _protocol;
+    std::string _address;
+    int _port;
     // Server SSL context, endpoint, acceptor and socket
     std::shared_ptr<asio::ssl::context> _context;
     std::shared_ptr<SSLSession> _session;

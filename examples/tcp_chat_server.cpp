@@ -89,7 +89,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new TCP chat server
-    auto server = std::make_shared<ChatServer>(service, CppServer::Asio::InternetProtocol::IPv4, port);
+    auto server = std::make_shared<ChatServer>(service, port);
 
     // Start the server
     std::cout << "Server starting...";
