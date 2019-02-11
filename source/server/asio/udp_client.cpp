@@ -18,7 +18,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
       _address(address),
-      _service(),
+      _protocol(),
       _port(port),
       _endpoint(),
       _socket(*_io_service),
@@ -39,14 +39,14 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& service)
+UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& protocol)
     : _id(CppCommon::UUID::Random()),
       _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
       _address(address),
-      _service(service),
+      _protocol(protocol),
       _port(0),
       _endpoint(),
       _socket(*_io_service),
@@ -74,7 +74,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endp
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
       _address(endpoint.address().to_string()),
-      _service(),
+      _protocol(),
       _port(endpoint.port()),
       _endpoint(endpoint),
       _socket(*_io_service),

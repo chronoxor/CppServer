@@ -35,13 +35,13 @@ public:
         \param port - Server port number
     */
     UDPClient(std::shared_ptr<Service> service, const std::string& address, int port);
-    //! Initialize UDP client with a given Asio service, server address and service name
+    //! Initialize UDP client with a given Asio service, server address and protocol name
     /*!
         \param service - Asio service
         \param address - Server address
-        \param service - Service name
+        \param protocol - Protocol name
     */
-    UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& service);
+    UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& protocol);
     //! Initialize UDP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
@@ -71,8 +71,8 @@ public:
 
     //! Get the server address
     const std::string& address() const noexcept { return _address; }
-    //! Get the service name
-    const std::string& service() const noexcept { return _service; }
+    //! Get the protocol name
+    const std::string& protocol() const noexcept { return _protocol; }
     //! Get the server port number
     int port() const noexcept { return _port; }
 
@@ -323,9 +323,9 @@ private:
     // Asio service strand for serialized handler execution
     asio::io_service::strand _strand;
     bool _strand_required;
-    // Server address, service & port
+    // Server address, protocol & port
     std::string _address;
-    std::string _serivce;
+    std::string _protocol;
     int _port;
     // Server endpoint & client socket
     asio::ip::udp::endpoint _endpoint;

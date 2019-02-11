@@ -5,3 +5,7 @@ cmake
 cmake-build-*
 modules
 temp
+
+# Ctags files
+tags
+tags.idx
