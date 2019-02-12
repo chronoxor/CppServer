@@ -12,6 +12,7 @@
 #include "udp_resolver.h"
 
 #include "system/uuid.h"
+#include "time/timespan.h"
 
 #include <mutex>
 #include <vector>
@@ -196,6 +197,39 @@ public:
     */
     virtual size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return Send(endpoint, text.data(), text.size()); }
 
+    //! Send datagram to the connected server with timeout (synchronous)
+    /*!
+        \param buffer - Datagram buffer to send
+        \param size - Datagram buffer size
+        \param timeout - Timeout
+        \return Size of sent datagram
+    */
+    virtual size_t Send(const void* buffer, size_t size, const CppCommon::Timespan& timeout);
+    //! Send text to the connected server with timeout (synchronous)
+    /*!
+        \param text - Text to send
+        \param timeout - Timeout
+        \return Size of sent datagram
+    */
+    virtual size_t Send(const std::string_view& text, const CppCommon::Timespan& timeout) { return Send(text.data(), text.size(), timeout); }
+    //! Send datagram to the given endpoint with timeout (synchronous)
+    /*!
+        \param endpoint - Endpoint to send
+        \param buffer - Datagram buffer to send
+        \param size - Datagram buffer size
+        \param timeout - Timeout
+        \return Size of sent datagram
+    */
+    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size, const CppCommon::Timespan& timeout);
+    //! Send text to the given endpoint with timeout (synchronous)
+    /*!
+        \param endpoint - Endpoint to send
+        \param text - Text to send
+        \param timeout - Timeout
+        \return Size of sent datagram
+    */
+    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string_view& text, const CppCommon::Timespan& timeout) { return Send(endpoint, text.data(), text.size(), timeout); }
+
     //! Send datagram to the connected server (asynchronous)
     /*!
         \param buffer - Datagram buffer to send
@@ -240,6 +274,24 @@ public:
         \return Received text
     */
     virtual std::string Receive(asio::ip::udp::endpoint& endpoint, size_t size);
+
+    //! Receive datagram from the given endpoint with timeout (synchronous)
+    /*!
+        \param endpoint - Endpoint to receive from
+        \param buffer - Datagram buffer to receive
+        \param size - Datagram buffer size to receive
+        \param timeout - Timeout
+        \return Size of received datagram
+    */
+    virtual size_t Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_t size, const CppCommon::Timespan& timeout);
+    //! Receive text from the given endpoint with timeout (synchronous)
+    /*!
+        \param endpoint - Endpoint to receive from
+        \param size - Text size to receive
+        \param timeout - Timeout
+        \return Received text
+    */
+    virtual std::string Receive(asio::ip::udp::endpoint& endpoint, size_t size, const CppCommon::Timespan& timeout);
 
     //! Receive datagram from the server (asynchronous)
     virtual void ReceiveAsync();
