@@ -225,6 +225,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a40f0811b226e1fab40bfda94206faf12"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a40f0811b226e1fab40bfda94206faf12">Send</a> (const std::string_view &amp;text)</td></tr>
 <tr class="memdesc:a40f0811b226e1fab40bfda94206faf12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send text to the server (synchronous)  <a href="#a40f0811b226e1fab40bfda94206faf12">More...</a><br /></td></tr>
 <tr class="separator:a40f0811b226e1fab40bfda94206faf12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72acb8739d119f6c7b71241a3578292b"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a72acb8739d119f6c7b71241a3578292b">Send</a> (const void *buffer, size_t size, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a72acb8739d119f6c7b71241a3578292b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data to the server with timeout (synchronous)  <a href="#a72acb8739d119f6c7b71241a3578292b">More...</a><br /></td></tr>
+<tr class="separator:a72acb8739d119f6c7b71241a3578292b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7898f5bd24906311cb823c3cc1e60a3"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#ae7898f5bd24906311cb823c3cc1e60a3">Send</a> (const std::string_view &amp;text, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:ae7898f5bd24906311cb823c3cc1e60a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send text to the server with timeout (synchronous)  <a href="#ae7898f5bd24906311cb823c3cc1e60a3">More...</a><br /></td></tr>
+<tr class="separator:ae7898f5bd24906311cb823c3cc1e60a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ce4129ad02281a46cae2cb57f9f743c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6ce4129ad02281a46cae2cb57f9f743c">SendAsync</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a6ce4129ad02281a46cae2cb57f9f743c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data to the server (asynchronous)  <a href="#a6ce4129ad02281a46cae2cb57f9f743c">More...</a><br /></td></tr>
 <tr class="separator:a6ce4129ad02281a46cae2cb57f9f743c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -237,6 +243,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a54a2ff710eb3918fe35cd532a52d35db"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a54a2ff710eb3918fe35cd532a52d35db">Receive</a> (size_t size)</td></tr>
 <tr class="memdesc:a54a2ff710eb3918fe35cd532a52d35db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive text from the server (synchronous)  <a href="#a54a2ff710eb3918fe35cd532a52d35db">More...</a><br /></td></tr>
 <tr class="separator:a54a2ff710eb3918fe35cd532a52d35db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd9873c7ee9e24f4b535b821dac7b4ef"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#afd9873c7ee9e24f4b535b821dac7b4ef">Receive</a> (void *buffer, size_t size, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:afd9873c7ee9e24f4b535b821dac7b4ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive data from the server with timeout (synchronous)  <a href="#afd9873c7ee9e24f4b535b821dac7b4ef">More...</a><br /></td></tr>
+<tr class="separator:afd9873c7ee9e24f4b535b821dac7b4ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30dde7fd3ea207dd6103ab6e1c8bd699"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a30dde7fd3ea207dd6103ab6e1c8bd699">Receive</a> (size_t size, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a30dde7fd3ea207dd6103ab6e1c8bd699"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive text from the server with timeout (synchronous)  <a href="#a30dde7fd3ea207dd6103ab6e1c8bd699">More...</a><br /></td></tr>
+<tr class="separator:a30dde7fd3ea207dd6103ab6e1c8bd699"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b5ae989d73e65c7a6cb43b151e9bb9d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3b5ae989d73e65c7a6cb43b151e9bb9d">ReceiveAsync</a> ()</td></tr>
 <tr class="memdesc:a3b5ae989d73e65c7a6cb43b151e9bb9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive data from the server (asynchronous)  <a href="#a3b5ae989d73e65c7a6cb43b151e9bb9d">More...</a><br /></td></tr>
 <tr class="separator:a3b5ae989d73e65c7a6cb43b151e9bb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -288,7 +300,7 @@ Friends</h2></td></tr>
 <p>Thread-safe. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#_a0">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00028">28</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00029">29</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a82eb2cc488cc9b4d47e65187c944c431"></a>
 <div class="memitem">
@@ -337,7 +349,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00994">994</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01127">1127</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -388,7 +400,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00999">999</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01132">1132</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -432,7 +444,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01004">1004</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01137">1137</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -482,7 +494,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01009">1009</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01142">1142</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -507,7 +519,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01014">1014</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01147">1147</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -536,7 +548,7 @@ Friends</h2></td></tr>
 <p>Get the server address. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a12">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01064">1064</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01197">1197</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -563,7 +575,7 @@ Friends</h2></td></tr>
 
 <p>Get the number of bytes pending sent by the client. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01079">1079</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01212">1212</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -590,7 +602,7 @@ Friends</h2></td></tr>
 
 <p>Get the number of bytes received by the client. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01089">1089</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01222">1222</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -617,7 +629,7 @@ Friends</h2></td></tr>
 
 <p>Get the number of bytes sent by the client. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01084">1084</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01217">1217</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -645,7 +657,7 @@ Friends</h2></td></tr>
 <p>Connect the client (synchronous) </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01124">1124</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01257">1257</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -680,7 +692,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01130">1130</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01263">1263</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -709,7 +721,7 @@ Friends</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a7">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01149">1149</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01282">1282</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -744,7 +756,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01155">1155</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01288">1288</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -772,7 +784,7 @@ Friends</h2></td></tr>
 <p>Get the client SSL context. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a11">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01044">1044</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01177">1177</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -800,7 +812,7 @@ Friends</h2></td></tr>
 <p>Disconnect the client (synchronous) </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully disconnected, 'false' if the client is already disconnected </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01136">1136</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01269">1269</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -829,7 +841,7 @@ Friends</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully disconnected, 'false' if the client is already disconnected </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a1">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00144">144</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00145">145</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -856,7 +868,7 @@ Friends</h2></td></tr>
 
 <p>Get the client endpoint. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01049">1049</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01182">1182</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -884,7 +896,7 @@ Friends</h2></td></tr>
 <p>Get the client Id. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a4">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01024">1024</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01157">1157</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -911,7 +923,7 @@ Friends</h2></td></tr>
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> IO service. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01034">1034</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01167">1167</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -939,7 +951,7 @@ Friends</h2></td></tr>
 <p>Is the client connected? </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a2">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01114">1114</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01247">1247</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -966,7 +978,7 @@ Friends</h2></td></tr>
 
 <p>Is the session handshaked? </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01119">1119</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01252">1252</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -994,7 +1006,7 @@ Friends</h2></td></tr>
 <p>Handle client connected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a3">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00229">229</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00262">262</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1022,7 +1034,7 @@ Friends</h2></td></tr>
 <p>Handle client disconnected notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a6">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00233">233</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00266">266</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1051,7 +1063,7 @@ Friends</h2></td></tr>
 <p>Notification is called when the send buffer is empty and ready for a new data to send.</p>
 <p>This handler could be used to send another buffer to the server. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00264">264</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00297">297</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1104,7 +1116,7 @@ Friends</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a9">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00272">272</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00305">305</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1132,7 +1144,7 @@ Friends</h2></td></tr>
 <p>Handle session handshaked notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a5">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00231">231</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00264">264</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1179,7 +1191,7 @@ Friends</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a8">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00243">243</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00276">276</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1226,7 +1238,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00255">255</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00288">288</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1276,7 +1288,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01018">1018</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01151">1151</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1303,7 +1315,7 @@ Friends</h2></td></tr>
 
 <p>Get the option: keep alive. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01094">1094</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01227">1227</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1330,7 +1342,7 @@ Friends</h2></td></tr>
 
 <p>Get the option: no delay. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01099">1099</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01232">1232</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1349,7 +1361,7 @@ Friends</h2></td></tr>
 
 <p>Get the option: receive buffer size. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01104">1104</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01237">1237</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1368,7 +1380,7 @@ Friends</h2></td></tr>
 
 <p>Get the option: send buffer size. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01109">1109</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01242">1242</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1396,7 +1408,7 @@ Friends</h2></td></tr>
 <p>Get the server port number. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a13">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01074">1074</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01207">1207</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1442,7 +1454,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01187">1187</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01325">1325</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1477,7 +1489,106 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01192">1192</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01330">1330</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afd9873c7ee9e24f4b535b821dac7b4ef"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::Asio::SSLClient::Receive </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Receive data from the server with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>- Buffer to receive </td></tr>
+    <tr><td class="paramname">size</td><td>- Buffer size to receive </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
+
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01335">1335</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a30dde7fd3ea207dd6103ab6e1c8bd699"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string CppServer::Asio::SSLClient::Receive </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Receive text from the server with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>- Text size to receive </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
+
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01340">1340</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1504,7 +1615,7 @@ Friends</h2></td></tr>
 
 <p>Receive data from the server (asynchronous) </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01197">1197</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01345">1345</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1532,7 +1643,7 @@ Friends</h2></td></tr>
 <p>Reconnect the client (synchronous) </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01141">1141</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01274">1274</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1560,7 +1671,7 @@ Friends</h2></td></tr>
 <p>Reconnect the client (asynchronous) </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01166">1166</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01299">1299</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1587,7 +1698,7 @@ Friends</h2></td></tr>
 
 <p>Get the scheme name. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01069">1069</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01202">1202</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1633,7 +1744,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01177">1177</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01310">1310</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1668,7 +1779,106 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent text </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00163">163</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00164">164</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a72acb8739d119f6c7b71241a3578292b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::Asio::SSLClient::Send </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send data to the server with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>- Buffer to send </td></tr>
+    <tr><td class="paramname">size</td><td>- Buffer size </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01315">1315</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7898f5bd24906311cb823c3cc1e60a3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t CppServer::Asio::SSLClient::Send </td>
+          <td>(</td>
+          <td class="paramtype">const std::string_view &amp;&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send text to the server with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>- Text to send </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent text </dd></dl>
+
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00180">180</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1714,7 +1924,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the data was successfully sent, 'false' if the client is not connected </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01182">1182</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01320">1320</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1749,7 +1959,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the text was successfully sent, 'false' if the client is not connected </dd></dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00177">177</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00194">194</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1777,7 +1987,7 @@ Friends</h2></td></tr>
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a10">ssl_chat_client.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01029">1029</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01162">1162</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1812,7 +2022,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01202">1202</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01350">1350</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1848,7 +2058,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01207">1207</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01355">1355</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1875,7 +2085,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01212">1212</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01360">1360</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1902,7 +2112,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01217">1217</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01365">1365</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1929,7 +2139,7 @@ Friends</h2></td></tr>
 
 <p>Get the client socket. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01059">1059</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01192">1192</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1956,7 +2166,7 @@ Friends</h2></td></tr>
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service strand for serialized handler execution. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01039">1039</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01172">1172</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1983,7 +2193,7 @@ Friends</h2></td></tr>
 
 <p>Get the client SSL stream. </p>
 
-<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01054">1054</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8cpp_source.html#l01187">1187</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -2006,7 +2216,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00275">275</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p>Definition at line <a class="el" href="ssl__client_8h_source.html#l00308">308</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
