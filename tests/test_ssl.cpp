@@ -54,7 +54,7 @@ public:
     std::atomic<bool> disconnected;
     std::atomic<bool> errors;
 
-    EchoSSLClient(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
+    EchoSSLClient(std::shared_ptr<EchoSSLService> service, std::shared_ptr<SSLContext> context, const std::string& address, int port)
         : SSLClient(service, context, address, port),
           connected(false),
           handshaked(false),
@@ -63,10 +63,12 @@ public:
     {
     }
 
-    static std::shared_ptr<asio::ssl::context> CreateContext()
+    static std::shared_ptr<SSLContext> CreateContext()
     {
-        auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::tlsv12);
-        context->set_verify_mode(asio::ssl::verify_peer);
+        auto context = std::make_shared<SSLContext>(asio::ssl::context::tlsv12);
+        context->set_default_verify_paths();
+        context->set_root_certs();
+        context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);
         context->load_verify_file("../tools/certificates/ca.pem");
         return context;
     }
@@ -114,7 +116,7 @@ public:
     std::atomic<size_t> clients;
     std::atomic<bool> errors;
 
-    EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<asio::ssl::context> context, int port)
+    EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<SSLContext> context, int port)
         : SSLServer(service, context, port),
           started(false),
           stopped(false),
@@ -125,9 +127,9 @@ public:
     {
     }
 
-    static std::shared_ptr<asio::ssl::context> CreateContext()
+    static std::shared_ptr<SSLContext> CreateContext()
     {
-        auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::tlsv12);
+        auto context = std::make_shared<SSLContext>(asio::ssl::context::tlsv12);
         context->set_password_callback([](size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
         context->use_certificate_chain_file("../tools/certificates/server.pem");
         context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);

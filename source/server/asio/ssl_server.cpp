@@ -11,7 +11,7 @@
 namespace CppServer {
 namespace Asio {
 
-SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, int port, InternetProtocol protocol)
+SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, int port, InternetProtocol protocol)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -48,7 +48,7 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
     }
 }
 
-SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
+SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -78,7 +78,7 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl
     _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(address), (unsigned short)port);
 }
 
-SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint)
+SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const asio::ip::tcp::endpoint& endpoint)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),

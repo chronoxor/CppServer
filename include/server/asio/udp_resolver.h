@@ -20,7 +20,7 @@ namespace Asio {
 
     Thread-safe.
 */
-class UDPResolver : public std::enable_shared_from_this<UDPResolver>
+class UDPResolver
 {
 public:
     //! Initialize resolver with a given Asio service

@@ -9,6 +9,7 @@
 #ifndef CPPSERVER_ASIO_SSL_SERVER_H
 #define CPPSERVER_ASIO_SSL_SERVER_H
 
+#include "ssl_context.h"
 #include "ssl_session.h"
 
 #include <map>
@@ -36,7 +37,7 @@ public:
         \param port - Port number
         \param protocol - Internet protocol type (default is IPv4)
     */
-    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, int port, InternetProtocol protocol = InternetProtocol::IPv4);
     //! Initialize SSL server with a given Asio service, SSL context, server address and port number
     /*!
         \param service - Asio service
@@ -44,14 +45,14 @@ public:
         \param address - Server address
         \param port - Port number
     */
-    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
+    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port);
     //! Initialize SSL server with a given a given Asio service, SSL context and endpoint
     /*!
         \param service - Asio service
         \param context - SSL context
         \param endpoint - Server SSL endpoint
     */
-    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
+    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const asio::ip::tcp::endpoint& endpoint);
     SSLServer(const SSLServer&) = delete;
     SSLServer(SSLServer&&) = default;
     virtual ~SSLServer() = default;
@@ -66,7 +67,7 @@ public:
     //! Get the Asio service strand for serialized handler execution
     asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the server SSL context
-    std::shared_ptr<asio::ssl::context>& context() noexcept { return _context; }
+    std::shared_ptr<SSLContext>& context() noexcept { return _context; }
     //! Get the server endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the server acceptor
@@ -222,7 +223,7 @@ private:
     std::string _address;
     int _port;
     // Server SSL context, endpoint, acceptor and socket
-    std::shared_ptr<asio::ssl::context> _context;
+    std::shared_ptr<SSLContext> _context;
     std::shared_ptr<SSLSession> _session;
     asio::ip::tcp::endpoint _endpoint;
     asio::ip::tcp::acceptor _acceptor;

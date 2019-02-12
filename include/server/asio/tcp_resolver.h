@@ -20,7 +20,7 @@ namespace Asio {
 
     Thread-safe.
 */
-class TCPResolver : public std::enable_shared_from_this<TCPResolver>
+class TCPResolver
 {
 public:
     //! Initialize resolver with a given Asio service

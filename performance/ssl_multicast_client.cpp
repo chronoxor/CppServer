@@ -29,7 +29,7 @@ std::atomic<uint64_t> total_messages(0);
 class MulticastClient : public SSLClient
 {
 public:
-    MulticastClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port)
+    MulticastClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port)
         : SSLClient(service, context, address, port),
           _handshaked(false)
     {
@@ -102,8 +102,10 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL client context
-    auto context = std::make_shared<asio::ssl::context>(asio::ssl::context::tlsv12);
-    context->set_verify_mode(asio::ssl::verify_peer);
+    auto context = std::make_shared<SSLContext>(asio::ssl::context::tlsv12);
+    context->set_default_verify_paths();
+    context->set_root_certs();
+    context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);
     context->load_verify_file("../tools/certificates/ca.pem");
 
     // Create multicast clients

@@ -9,6 +9,7 @@
 #ifndef CPPSERVER_ASIO_SSL_CLIENT_H
 #define CPPSERVER_ASIO_SSL_CLIENT_H
 
+#include "ssl_context.h"
 #include "tcp_resolver.h"
 
 #include "system/uuid.h"
@@ -34,7 +35,7 @@ public:
         \param address - Server address
         \param port - Server port number
     */
-    SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, int port);
+    SSLClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port);
     //! Initialize SSL client with a given Asio service, SSL context, server address and scheme name
     /*!
         \param service - Asio service
@@ -42,14 +43,14 @@ public:
         \param address - Server address
         \param scheme - Scheme name
     */
-    SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const std::string& address, const std::string& scheme);
+    SSLClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, const std::string& scheme);
     //! Initialize SSL client with a given Asio service, SSL context and endpoint
     /*!
         \param service - Asio service
         \param context - SSL context
         \param endpoint - Server SSL endpoint
     */
-    SSLClient(std::shared_ptr<Service> service, std::shared_ptr<asio::ssl::context> context, const asio::ip::tcp::endpoint& endpoint);
+    SSLClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const asio::ip::tcp::endpoint& endpoint);
     SSLClient(const SSLClient&) = delete;
     SSLClient(SSLClient&& client) noexcept;
     virtual ~SSLClient();
@@ -67,7 +68,7 @@ public:
     //! Get the Asio service strand for serialized handler execution
     asio::io_service::strand& strand() noexcept;
     //! Get the client SSL context
-    std::shared_ptr<asio::ssl::context>& context() noexcept;
+    std::shared_ptr<SSLContext>& context() noexcept;
     //! Get the client endpoint
     asio::ip::tcp::endpoint& endpoint() noexcept;
     //! Get the client SSL stream
