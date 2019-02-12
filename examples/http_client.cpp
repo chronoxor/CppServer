@@ -52,7 +52,13 @@ int main(int argc, char** argv)
 
     // Receive HTTP response
     std::cout << "Receive HTTP response...";
-    std::string response = client->Receive(4096);
+    std::string response;
+    std::string part;
+    do
+    {
+        part = client->Receive(4096, CppCommon::Timespan::seconds(1));
+        response += part;
+    } while (!part.empty());
     std::cout << "Done!" << std::endl;
 
     // Disconnect the client

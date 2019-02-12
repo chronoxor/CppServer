@@ -523,6 +523,69 @@ size_t TCPClient::Send(const void* buffer, size_t size)
     return sent;
 }
 
+size_t TCPClient::Send(const void* buffer, size_t size, const CppCommon::Timespan& timeout)
+{
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return 0;
+
+    if (!IsConnected())
+        return 0;
+
+    if (size == 0)
+        return 0;
+
+    int done = 0;
+    std::mutex mtx;
+    std::condition_variable cv;
+    asio::error_code error;
+    asio::system_timer timer(_socket.get_io_service());
+
+    // Prepare done handler
+    auto async_done_handler = [&](asio::error_code ec)
+    {
+        std::unique_lock<std::mutex> lck(mtx);
+        if (done++ == 0)
+        {
+            error = ec;
+            _socket.cancel();
+            timer.cancel();
+        }
+        cv.notify_one();
+    };
+
+    // Async wait for timeout
+    timer.expires_from_now(timeout.chrono());
+    timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
+
+    // Async write some data to the server
+    size_t sent = 0;
+    _socket.async_write_some(asio::buffer(buffer, size), [&](std::error_code ec, size_t write) { async_done_handler(ec); sent = write; });
+
+    // Wait for complete or timeout
+    std::unique_lock<std::mutex> lck(mtx);
+    cv.wait(lck, [&]() { return done == 2; });
+
+    // Send data to the server
+    if (sent > 0)
+    {
+        // Update statistic
+        _bytes_sent += sent;
+
+        // Call the buffer sent handler
+        onSent(sent, bytes_pending());
+    }
+
+    // Disconnect on error
+    if (error && (error != asio::error::timed_out))
+    {
+        SendError(error);
+        Disconnect();
+    }
+
+    return sent;
+}
+
 bool TCPClient::SendAsync(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
@@ -582,7 +645,7 @@ size_t TCPClient::Receive(void* buffer, size_t size)
 
     asio::error_code ec;
 
-    // Receive data from the client
+    // Receive data from the server
     size_t received = _socket.read_some(asio::buffer(buffer, size), ec);
     if (received > 0)
     {
@@ -607,6 +670,76 @@ std::string TCPClient::Receive(size_t size)
 {
     std::string text(size, 0);
     text.resize(Receive(text.data(), text.size()));
+    return text;
+}
+
+size_t TCPClient::Receive(void* buffer, size_t size, const CppCommon::Timespan& timeout)
+{
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return 0;
+
+    if (!IsConnected())
+        return 0;
+
+    if (size == 0)
+        return 0;
+
+    int done = 0;
+    std::mutex mtx;
+    std::condition_variable cv;
+    asio::error_code error;
+    asio::system_timer timer(_socket.get_io_service());
+
+    // Prepare done handler
+    auto async_done_handler = [&](asio::error_code ec)
+    {
+        std::unique_lock<std::mutex> lck(mtx);
+        if (done++ == 0)
+        {
+            error = ec;
+            _socket.cancel();
+            timer.cancel();
+        }
+        cv.notify_one();
+    };
+
+    // Async wait for timeout
+    timer.expires_from_now(timeout.chrono());
+    timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
+
+    // Async read some data from the server
+    size_t received = 0;
+    _socket.async_read_some(asio::buffer(buffer, size), [&](std::error_code ec, size_t read) { async_done_handler(ec); received = read; });
+
+    // Wait for complete or timeout
+    std::unique_lock<std::mutex> lck(mtx);
+    cv.wait(lck, [&]() { return done == 2; });
+
+    // Received some data from the server
+    if (received > 0)
+    {
+        // Update statistic
+        _bytes_received += received;
+
+        // Call the buffer received handler
+        onReceived(buffer, received);
+    }
+
+    // Disconnect on error
+    if (error && (error != asio::error::timed_out))
+    {
+        SendError(error);
+        Disconnect();
+    }
+
+    return received;
+}
+
+std::string TCPClient::Receive(size_t size, const CppCommon::Timespan& timeout)
+{
+    std::string text(size, 0);
+    text.resize(Receive(text.data(), text.size(), timeout));
     return text;
 }
 
@@ -737,9 +870,9 @@ void TCPClient::TrySend()
         }
     });
     if (_strand_required)
-        asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));
+        _socket.async_write_some(asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));
     else
-        asio::async_write(_socket, asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);
+        _socket.async_write_some(asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);
 }
 
 void TCPClient::ClearBuffers()
