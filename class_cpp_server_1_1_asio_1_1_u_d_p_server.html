@@ -205,6 +205,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a30a0dd736c456b2cffe7e21f856659fc"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a30a0dd736c456b2cffe7e21f856659fc">Multicast</a> (const std::string_view &amp;text)</td></tr>
 <tr class="memdesc:a30a0dd736c456b2cffe7e21f856659fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multicast text to the prepared mulicast endpoint (synchronous)  <a href="#a30a0dd736c456b2cffe7e21f856659fc">More...</a><br /></td></tr>
 <tr class="separator:a30a0dd736c456b2cffe7e21f856659fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64ffde4d675b3ebe6bc6ddc9b931a197"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a64ffde4d675b3ebe6bc6ddc9b931a197">Multicast</a> (const void *buffer, size_t size, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a64ffde4d675b3ebe6bc6ddc9b931a197"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multicast datagram to the prepared mulicast endpoint with timeout (synchronous)  <a href="#a64ffde4d675b3ebe6bc6ddc9b931a197">More...</a><br /></td></tr>
+<tr class="separator:a64ffde4d675b3ebe6bc6ddc9b931a197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aaae2c8cb13395ab080da3b547efa5a"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a9aaae2c8cb13395ab080da3b547efa5a">Multicast</a> (const std::string_view &amp;text, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a9aaae2c8cb13395ab080da3b547efa5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multicast text to the prepared mulicast endpoint with timeout (synchronous)  <a href="#a9aaae2c8cb13395ab080da3b547efa5a">More...</a><br /></td></tr>
+<tr class="separator:a9aaae2c8cb13395ab080da3b547efa5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8900ada63ee806d66d71c7da633c3647"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a8900ada63ee806d66d71c7da633c3647">MulticastAsync</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a8900ada63ee806d66d71c7da633c3647"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multicast datagram to the prepared mulicast endpoint (asynchronous)  <a href="#a8900ada63ee806d66d71c7da633c3647">More...</a><br /></td></tr>
 <tr class="separator:a8900ada63ee806d66d71c7da633c3647"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -217,6 +223,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a779573da7d4733f4ada41404a5ece73f"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a779573da7d4733f4ada41404a5ece73f">Send</a> (const asio::ip::udp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a>, const std::string_view &amp;text)</td></tr>
 <tr class="memdesc:a779573da7d4733f4ada41404a5ece73f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send text into the given endpoint (synchronous)  <a href="#a779573da7d4733f4ada41404a5ece73f">More...</a><br /></td></tr>
 <tr class="separator:a779573da7d4733f4ada41404a5ece73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17327a9ef9c16c9c0a5e41ac796cb001"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a17327a9ef9c16c9c0a5e41ac796cb001">Send</a> (const asio::ip::udp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a>, const void *buffer, size_t size, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a17327a9ef9c16c9c0a5e41ac796cb001"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send datagram into the given endpoint with timeout (synchronous)  <a href="#a17327a9ef9c16c9c0a5e41ac796cb001">More...</a><br /></td></tr>
+<tr class="separator:a17327a9ef9c16c9c0a5e41ac796cb001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52fa31a2a65a6f79a1ce117b35c26774"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a52fa31a2a65a6f79a1ce117b35c26774">Send</a> (const asio::ip::udp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a>, const std::string_view &amp;text, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a52fa31a2a65a6f79a1ce117b35c26774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send text into the given endpoint with timeout (synchronous)  <a href="#a52fa31a2a65a6f79a1ce117b35c26774">More...</a><br /></td></tr>
+<tr class="separator:a52fa31a2a65a6f79a1ce117b35c26774"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2892a508508eb8322de614fa8204d11"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad2892a508508eb8322de614fa8204d11">SendAsync</a> (const asio::ip::udp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a>, const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:ad2892a508508eb8322de614fa8204d11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send datagram into the given endpoint (asynchronous)  <a href="#ad2892a508508eb8322de614fa8204d11">More...</a><br /></td></tr>
 <tr class="separator:ad2892a508508eb8322de614fa8204d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -229,6 +241,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a385f892e2fa62cda2742c2013a0185bf"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a385f892e2fa62cda2742c2013a0185bf">Receive</a> (asio::ip::udp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a>, size_t size)</td></tr>
 <tr class="memdesc:a385f892e2fa62cda2742c2013a0185bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive text from the given endpoint (synchronous)  <a href="#a385f892e2fa62cda2742c2013a0185bf">More...</a><br /></td></tr>
 <tr class="separator:a385f892e2fa62cda2742c2013a0185bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a0ba59663dac257f89090a1e3034e17"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a4a0ba59663dac257f89090a1e3034e17">Receive</a> (asio::ip::udp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a>, void *buffer, size_t size, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a4a0ba59663dac257f89090a1e3034e17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive datagram from the given endpoint with timeout (synchronous)  <a href="#a4a0ba59663dac257f89090a1e3034e17">More...</a><br /></td></tr>
+<tr class="separator:a4a0ba59663dac257f89090a1e3034e17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b6bf7540f7487f6c53f59f0c632edaf"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a4b6bf7540f7487f6c53f59f0c632edaf">Receive</a> (asio::ip::udp::endpoint &amp;<a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a0ade78f179eef5bedc1567f3672ea807">endpoint</a>, size_t size, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a4b6bf7540f7487f6c53f59f0c632edaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive text from the given endpoint with timeout (synchronous)  <a href="#a4b6bf7540f7487f6c53f59f0c632edaf">More...</a><br /></td></tr>
+<tr class="separator:a4b6bf7540f7487f6c53f59f0c632edaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b666cfcd9abcf610933b0bfd327cd17"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a5b666cfcd9abcf610933b0bfd327cd17">ReceiveAsync</a> ()</td></tr>
 <tr class="memdesc:a5b666cfcd9abcf610933b0bfd327cd17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive datagram from the client (asynchronous)  <a href="#a5b666cfcd9abcf610933b0bfd327cd17">More...</a><br /></td></tr>
 <tr class="separator:a5b666cfcd9abcf610933b0bfd327cd17"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -793,6 +811,105 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a64ffde4d675b3ebe6bc6ddc9b931a197"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::Asio::UDPServer::Multicast </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Multicast datagram to the prepared mulicast endpoint with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>- Datagram buffer to multicast </td></tr>
+    <tr><td class="paramname">size</td><td>- Datagram buffer size </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of multicasted datagram </dd></dl>
+
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00240">240</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9aaae2c8cb13395ab080da3b547efa5a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t CppServer::Asio::UDPServer::Multicast </td>
+          <td>(</td>
+          <td class="paramtype">const std::string_view &amp;&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Multicast text to the prepared mulicast endpoint with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>- Text to multicast </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of multicasted datagram </dd></dl>
+
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00151">151</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a311703dd8adc8c8bf7cdc81c9149700d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -862,7 +979,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully multicasted, 'false' if the datagram was not multicasted </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00240">240</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00246">246</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -897,7 +1014,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the text was successfully multicasted, 'false' if the text was not multicasted </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00149">149</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00165">165</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -950,7 +1067,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a7">udp_echo_server.cpp</a>, and <a class="el" href="udp_multicast_server_8cpp-example.html#a2">udp_multicast_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00265">265</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00317">317</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1004,7 +1121,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a4">udp_echo_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00246">246</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00298">298</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1052,7 +1169,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a6">udp_echo_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00257">257</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00309">309</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1080,7 +1197,7 @@ Protected Member Functions</h2></td></tr>
 <p>Handle server started notification. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a2">udp_echo_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00233">233</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00285">285</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1107,7 +1224,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Handle server stopped notification. </p>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00235">235</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00287">287</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1328,7 +1445,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received datagram </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00345">345</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00414">414</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1374,7 +1491,120 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00380">380</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00449">449</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4a0ba59663dac257f89090a1e3034e17"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::Asio::UDPServer::Receive </td>
+          <td>(</td>
+          <td class="paramtype">asio::ip::udp::endpoint &amp;&#160;</td>
+          <td class="paramname"><em>endpoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Receive datagram from the given endpoint with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">endpoint</td><td>- Endpoint to receive from </td></tr>
+    <tr><td class="paramname">buffer</td><td>- Datagram buffer to receive </td></tr>
+    <tr><td class="paramname">size</td><td>- Datagram buffer size to receive </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of received datagram </dd></dl>
+
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00456">456</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4b6bf7540f7487f6c53f59f0c632edaf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string CppServer::Asio::UDPServer::Receive </td>
+          <td>(</td>
+          <td class="paramtype">asio::ip::udp::endpoint &amp;&#160;</td>
+          <td class="paramname"><em>endpoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Receive text from the given endpoint with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">endpoint</td><td>- Endpoint to receive from </td></tr>
+    <tr><td class="paramname">size</td><td>- Text size to receive </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
+
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00519">519</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1402,7 +1632,7 @@ Protected Member Functions</h2></td></tr>
 <p>Receive datagram from the client (asynchronous) </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a3">udp_echo_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00387">387</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00526">526</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1483,7 +1713,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent datagram </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00246">246</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00252">252</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1529,7 +1759,120 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent datagram </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00165">165</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00181">181</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a17327a9ef9c16c9c0a5e41ac796cb001"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::Asio::UDPServer::Send </td>
+          <td>(</td>
+          <td class="paramtype">const asio::ip::udp::endpoint &amp;&#160;</td>
+          <td class="paramname"><em>endpoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send datagram into the given endpoint with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">endpoint</td><td>- Endpoint to send </td></tr>
+    <tr><td class="paramname">buffer</td><td>- Datagram buffer to send </td></tr>
+    <tr><td class="paramname">size</td><td>- Datagram buffer size </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent datagram </dd></dl>
+
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00287">287</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a52fa31a2a65a6f79a1ce117b35c26774"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t CppServer::Asio::UDPServer::Send </td>
+          <td>(</td>
+          <td class="paramtype">const asio::ip::udp::endpoint &amp;&#160;</td>
+          <td class="paramname"><em>endpoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string_view &amp;&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send text into the given endpoint with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">endpoint</td><td>- Endpoint to send </td></tr>
+    <tr><td class="paramname">text</td><td>- Text to send </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent datagram </dd></dl>
+
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00199">199</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1583,7 +1926,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully sent, 'false' if the datagram was not sent </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="udp_echo_server_8cpp-example.html#a5">udp_echo_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00281">281</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8cpp_source.html#l00350">350</a> of file <a class="el" href="udp__server_8cpp_source.html">udp_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -1629,7 +1972,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the text was successfully sent, 'false' if the text was not sent </dd></dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00181">181</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00215">215</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1719,7 +2062,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00208">208</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00260">260</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
@@ -1754,7 +2097,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00215">215</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
+<p>Definition at line <a class="el" href="udp__server_8h_source.html#l00267">267</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
 </div>
 </div>
