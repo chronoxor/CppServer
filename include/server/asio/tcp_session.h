@@ -88,6 +88,22 @@ public:
     */
     virtual size_t Send(const std::string_view& text) { return Send(text.data(), text.size()); }
 
+    //! Send data to the client with timeout (synchronous)
+    /*!
+        \param buffer - Buffer to send
+        \param size - Buffer size
+        \param timeout - Timeout
+        \return Size of sent data
+    */
+    virtual size_t Send(const void* buffer, size_t size, const CppCommon::Timespan& timeout);
+    //! Send text to the client with timeout (synchronous)
+    /*!
+        \param text - Text to send
+        \param timeout - Timeout
+        \return Size of sent text
+    */
+    virtual size_t Send(const std::string_view& text, const CppCommon::Timespan& timeout) { return Send(text.data(), text.size(), timeout); }
+
     //! Send data to the client (asynchronous)
     /*!
         \param buffer - Buffer to send
@@ -115,6 +131,22 @@ public:
         \return Received text
     */
     virtual std::string Receive(size_t size);
+
+    //! Receive data from the client with timeout (synchronous)
+    /*!
+        \param buffer - Buffer to receive
+        \param size - Buffer size to receive
+        \param timeout - Timeout
+        \return Size of received data
+    */
+    virtual size_t Receive(void* buffer, size_t size, const CppCommon::Timespan& timeout);
+    //! Receive text from the client with timeout (synchronous)
+    /*!
+        \param size - Text size to receive
+        \param timeout - Timeout
+        \return Received text
+    */
+    virtual std::string Receive(size_t size, const CppCommon::Timespan& timeout);
 
     //! Receive data from the client (asynchronous)
     virtual void ReceiveAsync();

@@ -237,6 +237,12 @@ size_t UDPServer::Multicast(const void* buffer, size_t size)
     return Send(_multicast_endpoint, buffer, size);
 }
 
+size_t UDPServer::Multicast(const void* buffer, size_t size, const CppCommon::Timespan& timeout)
+{
+    // Send the datagram to the multicast endpoint
+    return Send(_multicast_endpoint, buffer, size, timeout);
+}
+
 bool UDPServer::MulticastAsync(const void* buffer, size_t size)
 {
     // Send the datagram to the multicast endpoint
@@ -273,6 +279,69 @@ size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buff
     if (ec)
     {
         SendError(ec);
+    }
+
+    return sent;
+}
+
+size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size, const CppCommon::Timespan& timeout)
+{
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return 0;
+
+    if (!IsStarted())
+        return 0;
+
+    if (size == 0)
+        return 0;
+
+    int done = 0;
+    std::mutex mtx;
+    std::condition_variable cv;
+    asio::error_code error;
+    asio::system_timer timer(_socket.get_io_service());
+
+    // Prepare done handler
+    auto async_done_handler = [&](asio::error_code ec)
+    {
+        std::unique_lock<std::mutex> lck(mtx);
+        if (done++ == 0)
+        {
+            error = ec;
+            _socket.cancel();
+            timer.cancel();
+        }
+        cv.notify_one();
+    };
+
+    // Async wait for timeout
+    timer.expires_from_now(timeout.chrono());
+    timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
+
+    // Async send datagram to the client
+    size_t sent = 0;
+    _socket.async_send_to(asio::buffer(buffer, size), endpoint, [&](std::error_code ec, size_t write) { async_done_handler(ec); sent = write; });
+
+    // Wait for complete or timeout
+    std::unique_lock<std::mutex> lck(mtx);
+    cv.wait(lck, [&]() { return done == 2; });
+
+    // Send datagram to the client
+    if (sent > 0)
+    {
+        // Update statistic
+        ++_datagrams_sent;
+        _bytes_sent += sent;
+
+        // Call the datagram sent handler
+        onSent(endpoint, sent);
+    }
+
+    // Check for error
+    if (error && (error != asio::error::timed_out))
+    {
+        SendError(error);
     }
 
     return sent;
@@ -381,6 +450,76 @@ std::string UDPServer::Receive(asio::ip::udp::endpoint& endpoint, size_t size)
 {
     std::string text(size, 0);
     text.resize(Receive(endpoint, text.data(), text.size()));
+    return text;
+}
+
+size_t UDPServer::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_t size, const CppCommon::Timespan& timeout)
+{
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return 0;
+
+    if (!IsStarted())
+        return 0;
+
+    if (size == 0)
+        return 0;
+
+    int done = 0;
+    std::mutex mtx;
+    std::condition_variable cv;
+    asio::error_code error;
+    asio::system_timer timer(_socket.get_io_service());
+
+    // Prepare done handler
+    auto async_done_handler = [&](asio::error_code ec)
+    {
+        std::unique_lock<std::mutex> lck(mtx);
+        if (done++ == 0)
+        {
+            error = ec;
+            _socket.cancel();
+            timer.cancel();
+        }
+        cv.notify_one();
+    };
+
+    // Async wait for timeout
+    timer.expires_from_now(timeout.chrono());
+    timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
+
+    // Async receive datagram from the client
+    size_t received = 0;
+    _socket.async_receive_from(asio::buffer(buffer, size), endpoint, [&](std::error_code ec, size_t read) { async_done_handler(ec); received = read; });
+
+    // Wait for complete or timeout
+    std::unique_lock<std::mutex> lck(mtx);
+    cv.wait(lck, [&]() { return done == 2; });
+
+    // Received datagram from the client
+    if (received > 0)
+    {
+        // Update statistic
+        ++_datagrams_received;
+        _bytes_received += received;
+
+        // Call the datagram received handler
+        onReceived(endpoint, buffer, received);
+    }
+
+    // Check for error
+    if (error && (error != asio::error::timed_out))
+    {
+        SendError(error);
+    }
+
+    return received;
+}
+
+std::string UDPServer::Receive(asio::ip::udp::endpoint& endpoint, size_t size, const CppCommon::Timespan& timeout)
+{
+    std::string text(size, 0);
+    text.resize(Receive(endpoint, text.data(), text.size(), timeout));
     return text;
 }
 

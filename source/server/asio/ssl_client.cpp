@@ -664,7 +664,7 @@ public:
         if (buffer == nullptr)
             return 0;
 
-        if (!IsConnected())
+        if (!IsHandshaked())
             return 0;
 
         if (size == 0)
@@ -814,7 +814,7 @@ public:
         if (buffer == nullptr)
             return 0;
 
-        if (!IsConnected())
+        if (!IsHandshaked())
             return 0;
 
         if (size == 0)

@@ -190,6 +190,70 @@ size_t TCPSession::Send(const void* buffer, size_t size)
     return sent;
 }
 
+size_t TCPSession::Send(const void* buffer, size_t size, const CppCommon::Timespan& timeout)
+{
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return 0;
+
+    if (!IsConnected())
+        return 0;
+
+    if (size == 0)
+        return 0;
+
+    int done = 0;
+    std::mutex mtx;
+    std::condition_variable cv;
+    asio::error_code error;
+    asio::system_timer timer(_socket.get_io_service());
+
+    // Prepare done handler
+    auto async_done_handler = [&](asio::error_code ec)
+    {
+        std::unique_lock<std::mutex> lck(mtx);
+        if (done++ == 0)
+        {
+            error = ec;
+            _socket.cancel();
+            timer.cancel();
+        }
+        cv.notify_one();
+    };
+
+    // Async wait for timeout
+    timer.expires_from_now(timeout.chrono());
+    timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
+
+    // Async write some data to the client
+    size_t sent = 0;
+    _socket.async_write_some(asio::buffer(buffer, size), [&](std::error_code ec, size_t write) { async_done_handler(ec); sent = write; });
+
+    // Wait for complete or timeout
+    std::unique_lock<std::mutex> lck(mtx);
+    cv.wait(lck, [&]() { return done == 2; });
+
+    // Send data to the client
+    if (sent > 0)
+    {
+        // Update statistic
+        _bytes_sent += sent;
+        _server->_bytes_sent += sent;
+
+        // Call the buffer sent handler
+        onSent(sent, bytes_pending());
+    }
+
+    // Disconnect on error
+    if (error && (error != asio::error::timed_out))
+    {
+        SendError(error);
+        Disconnect();
+    }
+
+    return sent;
+}
+
 bool TCPSession::SendAsync(const void* buffer, size_t size)
 {
     assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
@@ -275,6 +339,77 @@ std::string TCPSession::Receive(size_t size)
 {
     std::string text(size, 0);
     text.resize(Receive(text.data(), text.size()));
+    return text;
+}
+
+size_t TCPSession::Receive(void* buffer, size_t size, const CppCommon::Timespan& timeout)
+{
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return 0;
+
+    if (!IsConnected())
+        return 0;
+
+    if (size == 0)
+        return 0;
+
+    int done = 0;
+    std::mutex mtx;
+    std::condition_variable cv;
+    asio::error_code error;
+    asio::system_timer timer(_socket.get_io_service());
+
+    // Prepare done handler
+    auto async_done_handler = [&](asio::error_code ec)
+    {
+        std::unique_lock<std::mutex> lck(mtx);
+        if (done++ == 0)
+        {
+            error = ec;
+            _socket.cancel();
+            timer.cancel();
+        }
+        cv.notify_one();
+    };
+
+    // Async wait for timeout
+    timer.expires_from_now(timeout.chrono());
+    timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
+
+    // Async read some data from the client
+    size_t received = 0;
+    _socket.async_read_some(asio::buffer(buffer, size), [&](std::error_code ec, size_t read) { async_done_handler(ec); received = read; });
+
+    // Wait for complete or timeout
+    std::unique_lock<std::mutex> lck(mtx);
+    cv.wait(lck, [&]() { return done == 2; });
+
+    // Received some data from the client
+    if (received > 0)
+    {
+        // Update statistic
+        _bytes_received += received;
+        _server->_bytes_received += received;
+
+        // Call the buffer received handler
+        onReceived(buffer, received);
+    }
+
+    // Disconnect on error
+    if (error && (error != asio::error::timed_out))
+    {
+        SendError(error);
+        Disconnect();
+    }
+
+    return received;
+}
+
+std::string TCPSession::Receive(size_t size, const CppCommon::Timespan& timeout)
+{
+    std::string text(size, 0);
+    text.resize(Receive(text.data(), text.size(), timeout));
     return text;
 }
 
