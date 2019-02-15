@@ -139,6 +139,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af970b5ddefee972a44c3169cda8b9a1c"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#af970b5ddefee972a44c3169cda8b9a1c">body</a> () const noexcept</td></tr>
 <tr class="memdesc:af970b5ddefee972a44c3169cda8b9a1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request body.  <a href="#af970b5ddefee972a44c3169cda8b9a1c">More...</a><br /></td></tr>
 <tr class="separator:af970b5ddefee972a44c3169cda8b9a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13c878685fb0d31ae7fa363ea9a6afd3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#a13c878685fb0d31ae7fa363ea9a6afd3">body_length</a> () const noexcept</td></tr>
+<tr class="memdesc:a13c878685fb0d31ae7fa363ea9a6afd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request body length.  <a href="#a13c878685fb0d31ae7fa363ea9a6afd3">More...</a><br /></td></tr>
+<tr class="separator:a13c878685fb0d31ae7fa363ea9a6afd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1532c75519199839fb2de65635843d6a"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#a1532c75519199839fb2de65635843d6a">cache</a> () const noexcept</td></tr>
 <tr class="memdesc:a1532c75519199839fb2de65635843d6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request cache content.  <a href="#a1532c75519199839fb2de65635843d6a">More...</a><br /></td></tr>
 <tr class="separator:a1532c75519199839fb2de65635843d6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,6 +157,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab397cf2f025b3b4cc96c113337be76e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#ab397cf2f025b3b4cc96c113337be76e8">SetBody</a> (const std::string_view &amp;<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#af970b5ddefee972a44c3169cda8b9a1c">body</a>=&quot;&quot;)</td></tr>
 <tr class="memdesc:ab397cf2f025b3b4cc96c113337be76e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request body.  <a href="#ab397cf2f025b3b4cc96c113337be76e8">More...</a><br /></td></tr>
 <tr class="separator:ab397cf2f025b3b4cc96c113337be76e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b52b0e2b46131e7f88c2e61c6926b20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#a7b52b0e2b46131e7f88c2e61c6926b20">SetBodyLength</a> (size_t length)</td></tr>
+<tr class="memdesc:a7b52b0e2b46131e7f88c2e61c6926b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request body length.  <a href="#a7b52b0e2b46131e7f88c2e61c6926b20">More...</a><br /></td></tr>
+<tr class="separator:a7b52b0e2b46131e7f88c2e61c6926b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request. </p>
@@ -338,6 +344,33 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a13c878685fb0d31ae7fa363ea9a6afd3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPRequest::body_length </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request body length. </p>
+
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00061">61</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a1532c75519199839fb2de65635843d6a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -361,7 +394,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request cache content. </p>
 
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00062">62</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00064">64</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -581,7 +614,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00042">42</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00043">43</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -607,7 +640,33 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00096">96</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00097">97</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7b52b0e2b46131e7f88c2e61c6926b20"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::HTTP::HTTPRequest::SetBodyLength </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>length</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request body length. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">length</td><td>- Body length </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00114">114</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -644,7 +703,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00073">73</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00074">74</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>

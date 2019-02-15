@@ -135,6 +135,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a99d08b594eb64a1ffbabe4bebef4b148"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client.html#a99d08b594eb64a1ffbabe4bebef4b148">SendRequest</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client.html#a5b37c4256b678340149ac68c1b1e6c20">request</a>)</td></tr>
 <tr class="memdesc:a99d08b594eb64a1ffbabe4bebef4b148"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request (synchronous)  <a href="#a99d08b594eb64a1ffbabe4bebef4b148">More...</a><br /></td></tr>
 <tr class="separator:a99d08b594eb64a1ffbabe4bebef4b148"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c967e56720b83b9ad8e79b33122d15c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client.html#a0c967e56720b83b9ad8e79b33122d15c">SendRequest</a> (const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a0c967e56720b83b9ad8e79b33122d15c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request with timeout (synchronous)  <a href="#a0c967e56720b83b9ad8e79b33122d15c">More...</a><br /></td></tr>
+<tr class="separator:a0c967e56720b83b9ad8e79b33122d15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88a2dd869f123896e321136ecf2238a5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client.html#a88a2dd869f123896e321136ecf2238a5">SendRequest</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client.html#a5b37c4256b678340149ac68c1b1e6c20">request</a>, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a88a2dd869f123896e321136ecf2238a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request with timeout (synchronous)  <a href="#a88a2dd869f123896e321136ecf2238a5">More...</a><br /></td></tr>
+<tr class="separator:a88a2dd869f123896e321136ecf2238a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8f3fb35e3bd58eb0b4e1509bb56dda8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client.html#aa8f3fb35e3bd58eb0b4e1509bb56dda8">SendRequestAsync</a> ()</td></tr>
 <tr class="memdesc:aa8f3fb35e3bd58eb0b4e1509bb56dda8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request (asynchronous)  <a href="#aa8f3fb35e3bd58eb0b4e1509bb56dda8">More...</a><br /></td></tr>
 <tr class="separator:aa8f3fb35e3bd58eb0b4e1509bb56dda8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -546,6 +552,87 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a0c967e56720b83b9ad8e79b33122d15c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPClient::SendRequest </td>
+          <td>(</td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__client_8h_source.html#l00060">60</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a88a2dd869f123896e321136ecf2238a5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPClient::SendRequest </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;&#160;</td>
+          <td class="paramname"><em>request</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">request</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__client_8h_source.html#l00067">67</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aa8f3fb35e3bd58eb0b4e1509bb56dda8"></a>
 <div class="memitem">
 <div class="memproto">
@@ -570,7 +657,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request (asynchronous) </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request was successfully sent, 'false' if the client is not connected </dd></dl>
 
-<p>Definition at line <a class="el" href="http__client_8h_source.html#l00059">59</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+<p>Definition at line <a class="el" href="http__client_8h_source.html#l00073">73</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
 
 </div>
 </div>
@@ -605,7 +692,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request was successfully sent, 'false' if the client is not connected </dd></dl>
 
-<p>Definition at line <a class="el" href="http__client_8h_source.html#l00065">65</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+<p>Definition at line <a class="el" href="http__client_8h_source.html#l00079">79</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
 
 </div>
 </div>
