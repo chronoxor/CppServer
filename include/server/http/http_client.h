@@ -52,6 +52,20 @@ public:
     */
     size_t SendRequest(const HTTPRequest& request) { return Send(request.cache()); }
 
+    //! Send the current HTTP request with timeout (synchronous)
+    /*!
+        \param timeout - Timeout
+        \return Size of sent data
+    */
+    size_t SendRequest(const CppCommon::Timespan& timeout) { return SendRequest(_request, timeout); }
+    //! Send the HTTP request with timeout (synchronous)
+    /*!
+        \param request - HTTP request
+        \param timeout - Timeout
+        \return Size of sent data
+    */
+    size_t SendRequest(const HTTPRequest& request, const CppCommon::Timespan& timeout) { return Send(request.cache(), timeout); }
+
     //! Send the current HTTP request (asynchronous)
     /*!
         \return 'true' if the current HTTP request was successfully sent, 'false' if the client is not connected

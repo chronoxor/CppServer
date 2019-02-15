@@ -35,6 +35,7 @@ void HTTPRequest::Clear()
     _headers.clear();
     _body_index = 0;
     _body_size = 0;
+    _body_length = 0;
 
     _cache.clear();
 }
@@ -107,6 +108,22 @@ void HTTPRequest::SetBody(const std::string_view& body)
     _cache.append(body);
     _body_index = index;
     _body_size = body.size();
+    _body_length = body.size();
+}
+
+void HTTPRequest::SetBodyLength(size_t length)
+{
+    // Append content length header
+    SetHeader("Content-Length", std::to_string(length));
+
+    _cache.append("\r\n");
+
+    size_t index = _cache.size();
+
+    // Clear the HTTP request body
+    _body_index = index;
+    _body_size = 0;
+    _body_length = length;
 }
 
 } // namespace HTTP

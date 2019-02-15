@@ -57,6 +57,8 @@ public:
     std::tuple<std::string_view, std::string_view> header(size_t i) const noexcept;
     //! Get the HTTP request body
     std::string_view body() const noexcept { return std::string_view(_cache.data() + _body_index, _body_size); }
+    //! Get the HTTP request body length
+    size_t body_length() const noexcept { return _body_length; }
 
     //! Get the HTTP request cache content
     const std::string& cache() const noexcept { return _cache; }
@@ -82,6 +84,11 @@ public:
         \param body - Body content (default is "")
     */
     void SetBody(const std::string_view& body = "");
+    //! Set the HTTP request body length
+    /*!
+        \param length - Body length
+    */
+    void SetBodyLength(size_t length);
 
 private:
     // HTTP request method
@@ -98,6 +105,7 @@ private:
     // HTTP request body
     size_t _body_index;
     size_t _body_size;
+    size_t _body_length;
 
     // HTTP request cache
     std::string _cache;
