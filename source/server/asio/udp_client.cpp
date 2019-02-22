@@ -530,7 +530,7 @@ size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buff
     std::mutex mtx;
     std::condition_variable cv;
     asio::error_code error;
-    asio::system_timer timer(_socket.get_io_service());
+    asio::system_timer timer(_socket.get_executor());
 
     // Prepare done handler
     auto async_done_handler = [&](asio::error_code ec)
@@ -708,7 +708,7 @@ size_t UDPClient::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_
     std::mutex mtx;
     std::condition_variable cv;
     asio::error_code error;
-    asio::system_timer timer(_socket.get_io_service());
+    asio::system_timer timer(_socket.get_executor());
 
     // Prepare done handler
     auto async_done_handler = [&](asio::error_code ec)

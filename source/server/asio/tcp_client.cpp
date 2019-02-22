@@ -539,7 +539,7 @@ size_t TCPClient::Send(const void* buffer, size_t size, const CppCommon::Timespa
     std::mutex mtx;
     std::condition_variable cv;
     asio::error_code error;
-    asio::system_timer timer(_socket.get_io_service());
+    asio::system_timer timer(_socket.get_executor());
 
     // Prepare done handler
     auto async_done_handler = [&](asio::error_code ec)
@@ -689,7 +689,7 @@ size_t TCPClient::Receive(void* buffer, size_t size, const CppCommon::Timespan& 
     std::mutex mtx;
     std::condition_variable cv;
     asio::error_code error;
-    asio::system_timer timer(_socket.get_io_service());
+    asio::system_timer timer(_socket.get_executor());
 
     // Prepare done handler
     auto async_done_handler = [&](asio::error_code ec)

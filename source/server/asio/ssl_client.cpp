@@ -674,7 +674,7 @@ public:
         std::mutex mtx;
         std::condition_variable cv;
         asio::error_code error;
-        asio::system_timer timer(_stream.get_io_service());
+        asio::system_timer timer(_stream.get_executor());
 
         // Prepare done handler
         auto async_done_handler = [&](asio::error_code ec)
@@ -824,7 +824,7 @@ public:
         std::mutex mtx;
         std::condition_variable cv;
         asio::error_code error;
-        asio::system_timer timer(_stream.get_io_service());
+        asio::system_timer timer(_stream.get_executor());
 
         // Prepare done handler
         auto async_done_handler = [&](asio::error_code ec)
