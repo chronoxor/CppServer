@@ -8,8 +8,6 @@
 
 #include "server/asio/service.h"
 
-#include <iostream>
-
 class AsioService : public CppServer::Asio::Service
 {
 public:
