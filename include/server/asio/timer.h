@@ -14,6 +14,8 @@
 #include "time/time.h"
 #include "time/timespan.h"
 
+#include <functional>
+
 namespace CppServer {
 namespace Asio {
 
@@ -43,6 +45,26 @@ public:
         \param timespan - Relative timespan
     */
     Timer(std::shared_ptr<Service> service, const CppCommon::Timespan& timespan);
+    //! Initialize timer with a given Asio service and action function
+    /*!
+        \param service - Asio service
+        \param action - Action function
+    */
+    Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action);
+    //! Initialize timer with a given Asio service, action function and absolute expiry time
+    /*!
+        \param service - Asio service
+        \param action - Action function
+        \param time - Absolute time
+    */
+    Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action, const CppCommon::UtcTime& time);
+    //! Initialize timer with a given Asio service, action function and expiry time relative to now
+    /*!
+        \param service - Asio service
+        \param action - Action function
+        \param timespan - Relative timespan
+    */
+    Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action, const CppCommon::Timespan& timespan);
     Timer(const Timer&) = delete;
     Timer(Timer&&) = default;
     virtual ~Timer() = default;
@@ -74,6 +96,26 @@ public:
         \return 'true' if the timer was successfully setup, 'false' if the timer failed to setup
     */
     virtual bool Setup(const CppCommon::Timespan& timespan);
+    //! Setup the timer with an action function
+    /*!
+        \param action - Action function
+        \return 'true' if the timer was successfully setup, 'false' if the timer failed to setup
+    */
+    virtual bool Setup(const std::function<void(bool)>& action);
+    //! Setup the timer with an action function and absolute expiry time
+    /*!
+        \param action - Action function
+        \param time - Absolute time
+        \return 'true' if the timer was successfully setup, 'false' if the timer failed to setup
+    */
+    virtual bool Setup(const std::function<void(bool)>& action, const CppCommon::UtcTime& time);
+    //! Setup the timer with an action function and expiry time relative to now
+    /*!
+        \param action - Action function
+        \param timespan - Relative timespan
+        \return 'true' if the timer was successfully setup, 'false' if the timer failed to setup
+    */
+    virtual bool Setup(const std::function<void(bool)>& action, const CppCommon::Timespan& timespan);
 
     //! Wait for the timer (asynchronous)
     /*!
@@ -114,9 +156,13 @@ private:
     bool _strand_required;
     // Deadline timer
     asio::system_timer _timer;
+    // Action function
+    std::function<void(bool)> _action;
 
     //! Send error notification
     void SendError(std::error_code ec);
+    //! Send timer notification
+    void SendTimer(bool canceled);
 };
 
 /*! \example asio_timer.cpp Asio timer example */

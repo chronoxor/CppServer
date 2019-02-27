@@ -13,10 +13,10 @@ namespace Asio {
 
 Timer::Timer(std::shared_ptr<Service> service)
     : _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
-      _strand_required(_service->IsStrandRequired()),
-      _timer(*_io_service)
+    _io_service(_service->GetAsioService()),
+    _strand(*_io_service),
+    _strand_required(_service->IsStrandRequired()),
+    _timer(*_io_service)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -41,6 +41,45 @@ Timer::Timer(std::shared_ptr<Service> service, const CppCommon::Timespan& timesp
     _strand(*_io_service),
     _strand_required(_service->IsStrandRequired()),
     _timer(*_io_service, timespan.chrono())
+{
+    assert((service != nullptr) && "Asio service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("Asio service is invalid!");
+}
+
+Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action)
+    : _service(service),
+    _io_service(_service->GetAsioService()),
+    _strand(*_io_service),
+    _strand_required(_service->IsStrandRequired()),
+    _timer(*_io_service),
+    _action(action)
+{
+    assert((service != nullptr) && "Asio service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("Asio service is invalid!");
+}
+
+Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action, const CppCommon::UtcTime& time)
+    : _service(service),
+    _io_service(_service->GetAsioService()),
+    _strand(*_io_service),
+    _strand_required(_service->IsStrandRequired()),
+    _timer(*_io_service, time.chrono()),
+    _action(action)
+{
+    assert((service != nullptr) && "Asio service is invalid!");
+    if (service == nullptr)
+        throw CppCommon::ArgumentException("Asio service is invalid!");
+}
+
+Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action, const CppCommon::Timespan& timespan)
+    : _service(service),
+    _io_service(_service->GetAsioService()),
+    _strand(*_io_service),
+    _strand_required(_service->IsStrandRequired()),
+    _timer(*_io_service, timespan.chrono()),
+    _action(action)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -87,6 +126,24 @@ bool Timer::Setup(const CppCommon::Timespan& timespan)
     return true;
 }
 
+bool Timer::Setup(const std::function<void(bool)>& action)
+{
+    _action = action;
+    return true;
+}
+
+bool Timer::Setup(const std::function<void(bool)>& action, const CppCommon::UtcTime& time)
+{
+    _action = action;
+    return Setup(time);
+}
+
+bool Timer::Setup(const std::function<void(bool)>& action, const CppCommon::Timespan& timespan)
+{
+    _action = action;
+    return Setup(timespan);
+}
+
 bool Timer::WaitAsync()
 {
     auto self(this->shared_from_this());
@@ -94,7 +151,7 @@ bool Timer::WaitAsync()
     {
         // Call the timer aborted handler
         if (ec == asio::error::operation_aborted)
-            onTimer(true);
+            SendTimer(true);
 
         // Check for error
         if (ec)
@@ -104,7 +161,7 @@ bool Timer::WaitAsync()
         }
 
         // Call the timer expired handler
-        onTimer(false);
+        SendTimer(false);
     };
     if (_strand_required)
         _timer.async_wait(bind_executor(_strand, async_wait_handler));
@@ -121,7 +178,7 @@ bool Timer::WaitSync()
 
     // Call the timer aborted handler
     if (ec == asio::error::operation_aborted)
-        onTimer(true);
+        SendTimer(true);
 
     // Check for error
     if (ec)
@@ -131,7 +188,7 @@ bool Timer::WaitSync()
     }
 
     // Call the timer expired handler
-    onTimer(false);
+    SendTimer(false);
 
     return true;
 }
@@ -158,6 +215,16 @@ void Timer::SendError(std::error_code ec)
         return;
 
     onError(ec.value(), ec.category().name(), ec.message());
+}
+
+void Timer::SendTimer(bool canceled)
+{
+    // Call the timer handler
+    onTimer(canceled);
+
+    // Call the timer action
+    if (_action)
+        _action(canceled);
 }
 
 } // namespace Asio
