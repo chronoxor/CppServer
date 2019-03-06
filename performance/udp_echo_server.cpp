@@ -47,8 +47,8 @@ int main(int argc, char** argv)
 {
     auto parser = optparse::OptionParser().version("1.0.0.0");
 
-    parser.add_option("-p", "--port").action("store").type("int").set_default(3333).help("Server port. Default: %default");
-    parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
+    parser.add_option("-p", "--port").dest("port").action("store").type("int").set_default(3333).help("Server port. Default: %default");
+    parser.add_option("-t", "--threads").dest("threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 

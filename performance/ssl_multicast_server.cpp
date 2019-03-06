@@ -65,10 +65,10 @@ int main(int argc, char** argv)
 {
     auto parser = optparse::OptionParser().version("1.0.0.0");
 
-    parser.add_option("-p", "--port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
-    parser.add_option("-t", "--threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
-    parser.add_option("-m", "--messages").action("store").type("int").set_default(1000000).help("Rate of messages per second to send. Default: %default");
-    parser.add_option("-s", "--size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
+    parser.add_option("-p", "--port").dest("port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
+    parser.add_option("-t", "--threads").dest("threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
+    parser.add_option("-m", "--messages").dest("messages").action("store").type("int").set_default(1000000).help("Rate of messages per second to send. Default: %default");
+    parser.add_option("-s", "--size").dest("size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 
