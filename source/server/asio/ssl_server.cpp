@@ -292,7 +292,7 @@ bool SSLServer::Multicast(const void* buffer, size_t size)
 
         // Multicast all sessions
         {
-            std::lock_guard<std::mutex> locker2(_sessions_lock);
+            std::shared_lock<std::shared_mutex> locker2(_sessions_lock);
 
             for (auto& session : _sessions)
                 session.second->SendAsync(_multicast_buffer.data(), _multicast_buffer.size());
@@ -324,7 +324,7 @@ bool SSLServer::DisconnectAll()
         if (!IsStarted())
             return;
 
-        std::lock_guard<std::mutex> locker(_sessions_lock);
+        std::shared_lock<std::shared_mutex> locker(_sessions_lock);
 
         // Disconnect all sessions
         for (auto& session : _sessions)
@@ -340,7 +340,7 @@ bool SSLServer::DisconnectAll()
 
 std::shared_ptr<SSLSession> SSLServer::FindSession(const CppCommon::UUID& id)
 {
-    std::lock_guard<std::mutex> locker(_sessions_lock);
+    std::shared_lock<std::shared_mutex> locker(_sessions_lock);
 
     // Try to find the required session
     auto it = _sessions.find(id);
@@ -349,7 +349,7 @@ std::shared_ptr<SSLSession> SSLServer::FindSession(const CppCommon::UUID& id)
 
 void SSLServer::RegisterSession()
 {
-    std::lock_guard<std::mutex> locker(_sessions_lock);
+    std::unique_lock<std::shared_mutex> locker(_sessions_lock);
 
     // Register a new session
     _sessions.emplace(_session->id(), _session);
@@ -357,7 +357,7 @@ void SSLServer::RegisterSession()
 
 void SSLServer::UnregisterSession(const CppCommon::UUID& id)
 {
-    std::lock_guard<std::mutex> locker(_sessions_lock);
+    std::unique_lock<std::shared_mutex> locker(_sessions_lock);
 
     // Try to find the unregistered session
     auto it = _sessions.find(id);

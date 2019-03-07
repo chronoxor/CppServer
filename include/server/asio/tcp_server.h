@@ -13,6 +13,7 @@
 
 #include <map>
 #include <mutex>
+#include <shared_mutex>
 #include <vector>
 
 namespace CppServer {
@@ -222,7 +223,7 @@ private:
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Server sessions
-    std::mutex _sessions_lock;
+    std::shared_mutex _sessions_lock;
     std::map<CppCommon::UUID, std::shared_ptr<TCPSession>> _sessions;
     // Multicast buffer
     std::mutex _multicast_lock;

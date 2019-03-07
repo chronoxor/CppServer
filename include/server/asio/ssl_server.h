@@ -14,6 +14,7 @@
 
 #include <map>
 #include <mutex>
+#include <shared_mutex>
 #include <vector>
 
 namespace CppServer {
@@ -237,7 +238,7 @@ private:
     std::mutex _sessions_lock;
     std::map<CppCommon::UUID, std::shared_ptr<SSLSession>> _sessions;
     // Multicast buffer
-    std::mutex _multicast_lock;
+    std::shared_mutex _multicast_lock;
     std::vector<uint8_t> _multicast_buffer;
     HandlerStorage _multicast_storage;
     // Options
