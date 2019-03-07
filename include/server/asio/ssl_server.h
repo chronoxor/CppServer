@@ -235,7 +235,7 @@ private:
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
     // Server sessions
-    std::mutex _sessions_lock;
+    std::shared_mutex _sessions_lock;
     std::map<CppCommon::UUID, std::shared_ptr<SSLSession>> _sessions;
     // Multicast buffer
     std::shared_mutex _multicast_lock;
