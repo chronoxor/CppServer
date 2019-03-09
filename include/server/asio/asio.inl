@@ -15,12 +15,16 @@ inline TOutputStream& operator<<(TOutputStream& stream, InternetProtocol protoco
     switch (protocol)
     {
         case InternetProtocol::IPv4:
-            return stream << "IPv4";
+            stream << "IPv4";
+            break;
         case InternetProtocol::IPv6:
-            return stream << "IPv6";
+            stream << "IPv6";
+            break;
         default:
-            return stream << "<unknown>";
+            stream << "<unknown>";
+            break;
     }
+    return stream;
 }
 
 } // namespace Asio
