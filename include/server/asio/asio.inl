@@ -16,10 +16,13 @@ inline TOutputStream& operator<<(TOutputStream& stream, InternetProtocol protoco
     {
         case InternetProtocol::IPv4:
             stream << "IPv4";
+            break;
         case InternetProtocol::IPv6:
             stream << "IPv6";
+            break;
         default:
             stream << "<unknown>";
+            break;
     }
     return stream;
 }
