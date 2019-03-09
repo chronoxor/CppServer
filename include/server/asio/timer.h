@@ -14,6 +14,7 @@
 #include "time/time.h"
 #include "time/timespan.h"
 
+#include <cassert>
 #include <functional>
 
 namespace CppServer {

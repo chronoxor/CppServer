@@ -58,6 +58,9 @@ Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& 
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
+    assert((action) && "Action function is invalid!");
+    if (!action)
+        throw CppCommon::ArgumentException("Action function is invalid!");
 }
 
 Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action, const CppCommon::UtcTime& time)
@@ -71,6 +74,9 @@ Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& 
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
+    assert((action) && "Action function is invalid!");
+    if (!action)
+        throw CppCommon::ArgumentException("Action function is invalid!");
 }
 
 Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action, const CppCommon::Timespan& timespan)
@@ -84,6 +90,9 @@ Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& 
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
         throw CppCommon::ArgumentException("Asio service is invalid!");
+    assert((action) && "Action function is invalid!");
+    if (!action)
+        throw CppCommon::ArgumentException("Action function is invalid!");
 }
 
 CppCommon::UtcTime Timer::expire_time() const
@@ -128,18 +137,30 @@ bool Timer::Setup(const CppCommon::Timespan& timespan)
 
 bool Timer::Setup(const std::function<void(bool)>& action)
 {
+    assert((action) && "Action function is invalid!");
+    if (!action)
+        return false;
+
     _action = action;
     return true;
 }
 
 bool Timer::Setup(const std::function<void(bool)>& action, const CppCommon::UtcTime& time)
 {
+    assert((action) && "Action function is invalid!");
+    if (!action)
+        return false;
+
     _action = action;
     return Setup(time);
 }
 
 bool Timer::Setup(const std::function<void(bool)>& action, const CppCommon::Timespan& timespan)
 {
+    assert((action) && "Action function is invalid!");
+    if (!action)
+        return false;
+
     _action = action;
     return Setup(timespan);
 }
