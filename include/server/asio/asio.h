@@ -27,7 +27,10 @@
 #include <asio/ssl.hpp>
 
 #if defined(_WIN32) || defined(_WIN64)
+#undef ERROR
 #undef Yield
+#undef min
+#undef max
 #endif
 
 namespace CppServer {
