@@ -31,6 +31,7 @@
 #undef Yield
 #undef min
 #undef max
+#undef uuid_t
 #endif
 
 namespace CppServer {
