@@ -56,7 +56,7 @@ int main(int argc, char** argv)
     std::string part;
     do
     {
-        part = client->Receive(4096, CppCommon::Timespan::seconds(1));
+        part = client->Receive(8192, CppCommon::Timespan::seconds(1));
         response += part;
     } while (!part.empty());
     std::cout << "Done!" << std::endl;
