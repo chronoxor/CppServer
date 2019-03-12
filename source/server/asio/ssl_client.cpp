@@ -166,6 +166,7 @@ public:
 
     bool Connect(std::shared_ptr<SSLClient> client)
     {
+        // Link the client
         _client = client;
 
         if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
@@ -237,6 +238,7 @@ public:
 
     bool Connect(std::shared_ptr<SSLClient> client, std::shared_ptr<TCPResolver> resolver)
     {
+        // Link the client
         _client = client;
 
         if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
@@ -323,7 +325,11 @@ public:
     bool Disconnect()
     {
         if (!IsConnected() || _resolving || _connecting || _handshaking)
+        {
+            // Unlink the client
+            _client = nullptr;
             return false;
+        }
 
         auto self(this->shared_from_this());
 
@@ -352,11 +358,15 @@ public:
         // Call the client disconnected handler
         onDisconnected();
 
+        // Unlink the client
+        _client = nullptr;
+
         return true;
     }
 
     bool ConnectAsync(std::shared_ptr<SSLClient> client)
     {
+        // Link the client
         _client = client;
 
         if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
@@ -463,6 +473,7 @@ public:
 
     bool ConnectAsync(std::shared_ptr<SSLClient> client, std::shared_ptr<TCPResolver> resolver)
     {
+        // Link the client
         _client = client;
 
         if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
@@ -600,7 +611,11 @@ public:
     bool DisconnectAsync(bool dispatch)
     {
         if (!IsConnected() || _resolving || _connecting || _handshaking)
+        {
+            // Unlink the client
+            _client = nullptr;
             return false;
+        }
 
         // Dispatch or post the disconnect handler
         auto self(this->shared_from_this());
@@ -900,14 +915,14 @@ public:
     }
 
 protected:
-    void onConnected() { _client->onConnected(); }
-    void onHandshaked() { _client->onHandshaked(); }
-    void onDisconnected() { _client->onDisconnected(); }
-    void onReset() { _client->onReset(); }
-    void onReceived(const void* buffer, size_t size) { _client->onReceived(buffer, size); }
-    void onSent(size_t sent, size_t pending) { _client->onSent(sent, pending); }
-    void onEmpty() { _client->onEmpty(); }
-    void onError(int error, const std::string& category, const std::string& message) { _client->onError(error, category, message); }
+    void onConnected() { if (_client) _client->onConnected(); }
+    void onHandshaked() { if (_client) _client->onHandshaked(); }
+    void onDisconnected() { if (_client) _client->onDisconnected(); }
+    void onReset() { if (_client) _client->onReset(); }
+    void onReceived(const void* buffer, size_t size) { if (_client) _client->onReceived(buffer, size); }
+    void onSent(size_t sent, size_t pending) { if (_client) _client->onSent(sent, pending); }
+    void onEmpty() { if (_client) _client->onEmpty(); }
+    void onError(int error, const std::string& category, const std::string& message) { if (_client) _client->onError(error, category, message); }
 
 private:
     // Client Id
