@@ -11,6 +11,8 @@
 
 #include "service.h"
 
+#include "system/uuid.h"
+
 namespace CppServer {
 namespace Asio {
 

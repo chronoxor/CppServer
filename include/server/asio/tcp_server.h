@@ -11,6 +11,8 @@
 
 #include "tcp_session.h"
 
+#include "system/uuid.h"
+
 #include <map>
 #include <mutex>
 #include <shared_mutex>

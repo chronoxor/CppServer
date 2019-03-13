@@ -12,6 +12,8 @@
 #include "ssl_context.h"
 #include "ssl_session.h"
 
+#include "system/uuid.h"
+
 #include <map>
 #include <mutex>
 #include <shared_mutex>
