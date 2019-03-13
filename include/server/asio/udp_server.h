@@ -50,6 +50,9 @@ public:
     UDPServer& operator=(const UDPServer&) = delete;
     UDPServer& operator=(UDPServer&&) = default;
 
+    //! Get the server Id
+    const CppCommon::UUID& id() const noexcept { return _id; }
+
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
     //! Get the Asio IO service
@@ -317,6 +320,8 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
+    // Server Id
+    CppCommon::UUID _id;
     // Asio service
     std::shared_ptr<Service> _service;
     // Asio IO service

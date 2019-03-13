@@ -12,7 +12,8 @@ namespace CppServer {
 namespace Asio {
 
 SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, int port, InternetProtocol protocol)
-    : _service(service),
+    : _id(CppCommon::UUID::Random()),
+      _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
@@ -49,7 +50,8 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContex
 }
 
 SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port)
-    : _service(service),
+    : _id(CppCommon::UUID::Random()),
+      _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
@@ -79,7 +81,8 @@ SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContex
 }
 
 SSLServer::SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const asio::ip::tcp::endpoint& endpoint)
-    : _service(service),
+    : _id(CppCommon::UUID::Random()),
+      _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
       _strand_required(_service->IsStrandRequired()),
