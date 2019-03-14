@@ -27,6 +27,7 @@
 #include <asio/ssl.hpp>
 
 #if defined(_WIN32) || defined(_WIN64)
+#undef DELETE
 #undef ERROR
 #undef Yield
 #undef min
