@@ -16,7 +16,6 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#NOTES">NOTES</a></li>
-  <li><a href="#WARNINGS">WARNINGS</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
@@ -53,7 +52,7 @@
 
 <p>SSL_COMP_get_id() returns the id of the compression method <b>comp</b>.</p>
 
-<p>In versions of OpenSSL prior to 1.1.0 SSL_COMP_free_compression_methods() freed the internal table of compression methods that were built internally, and possibly augmented by adding SSL_COMP_add_compression_method(). However this is now unnecessary from version 1.1.0. No explicit initialisation or de-initialisation is necessary. See <a href="../man3/OPENSSL_init_crypto.html>OPENSSL_init_crypto(3)</a> and <a href="../man3/OPENSSL_init_ssl.html>OPENSSL_init_ssl(3)</a>. From OpenSSL 1.1.0 calling this function does nothing.</p>
+<p>SSL_COMP_free_compression_methods() releases any resources acquired to maintain the internal table of compression methods.</p>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -64,10 +63,6 @@
 <p>An OpenSSL server will match the identifiers listed by a client against its own compression methods and will unconditionally activate compression when a matching identifier is found. There is no way to restrict the list of compression methods supported on a per connection basis.</p>
 
 <p>If enabled during compilation, the OpenSSL library will have the COMP_zlib() compression method available.</p>
-
-<h1 id="WARNINGS">WARNINGS</h1>
-
-<p>Once the identities of the compression methods for the TLS protocol have been standardized, the compression API will most likely be changed. Using it in the current state is not recommended.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -97,11 +92,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>SSL_COMP_free_compression_methods() was deprecated in OpenSSL 1.1.0. SSL_COMP_get0_name() and SSL_comp_get_id() were added in OpenSSL 1.1.0d.</p>
+<p>The SSL_COMP_free_compression_methods() function was deprecated in OpenSSL 1.1.0. The SSL_COMP_get0_name() and SSL_comp_get_id() functions were added in OpenSSL 1.1.0d.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

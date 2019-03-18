@@ -27,7 +27,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl dsaparam</b> [<b>-help</b>] [<b>-inform DER|PEM</b>] [<b>-outform DER|PEM</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-noout</b>] [<b>-text</b>] [<b>-C</b>] [<b>-rand file(s)</b>] [<b>-genkey</b>] [<b>-engine id</b>] [<b>numbits</b>]</p>
+<p><b>openssl dsaparam</b> [<b>-help</b>] [<b>-inform DER|PEM</b>] [<b>-outform DER|PEM</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-noout</b>] [<b>-text</b>] [<b>-C</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-genkey</b>] [<b>-engine id</b>] [<b>numbits</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -52,7 +52,7 @@
 <dt id="outform-DER-PEM"><b>-outform DER|PEM</b></dt>
 <dd>
 
-<p>This specifies the output format, the options have the same meaning as the <b>-inform</b> option.</p>
+<p>This specifies the output format, the options have the same meaning and default as the <b>-inform</b> option.</p>
 
 </dd>
 <dt id="in-filename"><b>-in filename</b></dt>
@@ -70,43 +70,49 @@
 <dt id="noout"><b>-noout</b></dt>
 <dd>
 
-<p>this option inhibits the output of the encoded version of the parameters.</p>
+<p>This option inhibits the output of the encoded version of the parameters.</p>
 
 </dd>
 <dt id="text"><b>-text</b></dt>
 <dd>
 
-<p>this option prints out the DSA parameters in human readable form.</p>
+<p>This option prints out the DSA parameters in human readable form.</p>
 
 </dd>
 <dt id="C"><b>-C</b></dt>
 <dd>
 
-<p>this option converts the parameters into C code. The parameters can then be loaded by calling the get_dsaXXX() function.</p>
+<p>This option converts the parameters into C code. The parameters can then be loaded by calling the get_dsaXXX() function.</p>
 
 </dd>
 <dt id="genkey"><b>-genkey</b></dt>
 <dd>
 
-<p>this option will generate a DSA either using the specified or generated parameters.</p>
+<p>This option will generate a DSA either using the specified or generated parameters.</p>
 
 </dd>
-<dt id="rand-file-s"><b>-rand file(s)</b></dt>
+<dt id="rand-file"><b>-rand file...</b></dt>
 <dd>
 
-<p>a file or files containing random data used to seed the random number generator, or an EGD socket (see <a href="../man3/RAND_egd.html>RAND_egd(3)</a>). Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+
+</dd>
+<dt id="writerand-file">[<b>-writerand file</b>]</dt>
+<dd>
+
+<p>Writes random data to the specified <i>file</i> upon exit. This can be used with a subsequent <b>-rand</b> flag.</p>
 
 </dd>
 <dt id="numbits"><b>numbits</b></dt>
 <dd>
 
-<p>this option specifies that a parameter set should be generated of size <b>numbits</b>. It must be the last option. If this option is included then the input file (if any) is ignored.</p>
+<p>This option specifies that a parameter set should be generated of size <b>numbits</b>. It must be the last option. If this option is included then the input file (if any) is ignored.</p>
 
 </dd>
 <dt id="engine-id"><b>-engine id</b></dt>
 <dd>
 
-<p>specifying an engine (by its unique <b>id</b> string) will cause <b>dsaparam</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+<p>Specifying an engine (by its unique <b>id</b> string) will cause <b>dsaparam</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
 
 </dd>
 </dl>
@@ -122,11 +128,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/gendsa.html>gendsa(1)</a>, <a href="../man1/dsa.html>dsa(1)</a>, <a href="../man1/genrsa.html>genrsa(1)</a>, <a href="../man1/rsa.html>rsa(1)</a></p>
+<p><a href="../man1/gendsa.html">gendsa(1)</a>, <a href="../man1/dsa.html">dsa(1)</a>, <a href="../man1/genrsa.html">genrsa(1)</a>, <a href="../man1/rsa.html">rsa(1)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

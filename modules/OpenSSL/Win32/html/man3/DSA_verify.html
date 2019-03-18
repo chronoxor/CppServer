@@ -29,13 +29,12 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/dsa.h&gt;</span>
  
- <span class="keyword">int</span>    <span class="variable">DSA_sign</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*dgst</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span>
-                <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*siglen</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">DSA_sign</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*dgst</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span>
+              <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*siglen</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
  
- <span class="keyword">int</span>    <span class="variable">DSA_sign_setup</span><span class="operator">(</span><span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">kinvp</span><span class="operator">,</span>
-                <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">rp</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">DSA_sign_setup</span><span class="operator">(</span><span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">kinvp</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">rp</span><span class="operator">);</span>
  
- <span class="keyword">int</span>    <span class="variable">DSA_verify</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*dgst</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span>
+ <span class="keyword">int</span> <span class="variable">DSA_verify</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*dgst</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span>
                 <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
 </code></pre>
 
@@ -53,7 +52,7 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>DSA_sign() and DSA_sign_setup() return 1 on success, 0 on error. DSA_verify() returns 1 for a valid signature, 0 for an incorrect signature and -1 on error. The error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>DSA_sign() and DSA_sign_setup() return 1 on success, 0 on error. DSA_verify() returns 1 for a valid signature, 0 for an incorrect signature and -1 on error. The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="CONFORMING-TO">CONFORMING TO</h1>
 
@@ -61,7 +60,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/dsa.html>dsa(3)</a>, <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/rand.html>rand(3)</a>, <a href="../man3/DSA_do_sign.html>DSA_do_sign(3)</a></p>
+<p><a href="../man3/DSA_new.html">DSA_new(3)</a>, <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/DSA_do_sign.html">DSA_do_sign(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

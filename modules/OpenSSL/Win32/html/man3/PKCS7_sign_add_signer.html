@@ -30,7 +30,8 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/pkcs7.h&gt;</span>
  
- <span class="variable">PKCS7_SIGNER_INFO</span> <span class="variable">*PKCS7_sign_add_signer</span><span class="operator">(</span><span class="variable">PKCS7</span> <span class="variable">*p7</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*signcert</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
+ <span class="variable">PKCS7_SIGNER_INFO</span> <span class="variable">*PKCS7_sign_add_signer</span><span class="operator">(</span><span class="variable">PKCS7</span> <span class="variable">*p7</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*signcert</span><span class="operator">,</span>
+                                          <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -67,11 +68,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/PKCS7_sign.html>PKCS7_sign(3)</a>, <a href="../man3/PKCS7_final.html>PKCS7_final(3)</a>,</p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/PKCS7_sign.html">PKCS7_sign(3)</a>, <a href="../man3/PKCS7_final.html">PKCS7_final(3)</a>,</p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>PPKCS7_sign_add_signer() was added to OpenSSL 1.0.0</p>
+<p>The PPKCS7_sign_add_signer() function was added in OpenSSL 1.0.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

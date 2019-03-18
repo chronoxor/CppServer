@@ -16,6 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#ENVIRONMENT">ENVIRONMENT</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
@@ -50,13 +51,25 @@
 
 <p>There are several reasons why calling the OpenSSL configuration routines is advisable. For example, to load dynamic ENGINEs from shared libraries (DSOs). However very few applications currently support the control interface and so very few can load and use dynamic ENGINEs. Equally in future more sophisticated ENGINEs will require certain control operations to customize them. If an application calls OPENSSL_config() it doesn&#39;t need to know or care about ENGINE control operations because they can be performed by editing a configuration file.</p>
 
+<h1 id="ENVIRONMENT">ENVIRONMENT</h1>
+
+<dl>
+
+<dt id="OPENSSL_CONF"><b>OPENSSL_CONF</b></dt>
+<dd>
+
+<p>The path to the config file. Ignored in set-user-ID and set-group-ID programs.</p>
+
+</dd>
+</dl>
+
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>Neither OPENSSL_config() nor OPENSSL_no_config() return a value.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man5/conf.html>conf(5)</a>, <a href="../man3/CONF_modules_load_file.html>CONF_modules_load_file(3)</a></p>
+<p><a href="../man5/config.html">config(5)</a>, <a href="../man3/CONF_modules_load_file.html">CONF_modules_load_file(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
@@ -64,7 +77,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2004-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2004-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

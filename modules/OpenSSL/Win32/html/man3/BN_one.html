@@ -18,6 +18,7 @@
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#BUGS">BUGS</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
@@ -35,19 +36,12 @@
  <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*BN_value_one</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_set_word</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BN_ULONG</span> <span class="variable">w</span><span class="operator">);</span>
- <span class="variable">BN_ULONG</span> <span class="variable">BN_get_word</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
-</code></pre>
-
-<p>Deprecated:</p>
-
-<pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x00908000L</span>
- <span class="keyword">int</span> <span class="variable">BN_zero</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="comment">#endif</span>
+ <span class="variable">unsigned</span> <span class="variable">BN_ULONG</span> <span class="variable">BN_get_word</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p><b>BN_ULONG</b> is a macro that will be an unsigned integral type optimied for the most efficient implementation on the local platform.</p>
+<p><b>BN_ULONG</b> is a macro that will be an unsigned integral type optimized for the most efficient implementation on the local platform.</p>
 
 <p>BN_zero(), BN_one() and BN_set_word() set <b>a</b> to the values 0, 1 and <b>w</b> respectively. BN_zero() and BN_one() are macros.</p>
 
@@ -57,9 +51,9 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>BN_get_word() returns the value <b>a</b>, or all-bits-set if <b>a</b> cannot be represented as a <b>BN_ULONG</b>.</p>
+<p>BN_get_word() returns the value <b>a</b>, or all-bits-set if <b>a</b> cannot be represented as a single integer.</p>
 
-<p>BN_one(), BN_set_word() and the deprecated version of BN_zero() return 1 on success, 0 otherwise. BN_value_one() returns the constant. The preferred version of BN_zero() never fails and returns no value.</p>
+<p>BN_one() and BN_set_word() return 1 on success, 0 otherwise. BN_value_one() returns the constant. BN_zero() never fails and returns no value.</p>
 
 <h1 id="BUGS">BUGS</h1>
 
@@ -69,7 +63,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/BN_bn2bin.html>BN_bn2bin(3)</a></p>
+<p><a href="../man3/BN_bn2bin.html">BN_bn2bin(3)</a></p>
+
+<h1 id="HISTORY">HISTORY</h1>
+
+<p>In OpenSSL 0.9.8, BN_zero() was changed to not return a value; previous versions returned an int.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

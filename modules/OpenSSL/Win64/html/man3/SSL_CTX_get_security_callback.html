@@ -18,6 +18,7 @@
   <li><a href="#DEFAULT-CALLBACK-BEHAVIOUR">DEFAULT CALLBACK BEHAVIOUR</a></li>
   <li><a href="#APPLICATION-DEFINED-SECURITY-CALLBACKS">APPLICATION DEFINED SECURITY CALLBACKS</a></li>
   <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -37,15 +38,20 @@
  <span class="keyword">int</span> <span class="variable">SSL_get_security_level</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
  
  <span class="variable">void</span> <span class="variable">SSL_CTX_set_security_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span>
-                                                        <span class="variable">void</span> <span class="variable">*other</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">));</span>
+                                    <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span>
+                                              <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span>
+                                              <span class="variable">void</span> <span class="variable">*other</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">));</span>
  
- <span class="variable">void</span> <span class="variable">SSL_set_security_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span>
-                <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span>
-                                                        <span class="variable">void</span> <span class="variable">*other</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">));</span>
+ <span class="variable">void</span> <span class="variable">SSL_set_security_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span>
+                                                  <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span>
+                                                  <span class="variable">void</span> <span class="variable">*other</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">));</span>
  
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_CTX_get_security_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">))(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*other</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_get_security_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">))(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*other</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_CTX_get_security_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">))(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span>
+                                                          <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*other</span><span class="operator">,</span>
+                                                          <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_get_security_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">))(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">op</span><span class="operator">,</span>
+                                                <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*other</span><span class="operator">,</span>
+                                                <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">);</span>
  
  <span class="variable">void</span> <span class="variable">SSL_CTX_set0_security_ex_data</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">SSL_set0_security_ex_data</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ex</span><span class="operator">);</span>
@@ -79,25 +85,25 @@
 <dt id="Level-1"><b>Level 1</b></dt>
 <dd>
 
-<p>The security level corresponds to a minimum of 80 bits of security. Any parameters offering below 80 bits of security are excluded. As a result RSA, DSA and DH keys shorter than 1024 bits and ECC keys shorter than 160 bits are prohibited. All export ciphersuites are prohibited since they all offer less than 80 bits of security. SSL version 2 is prohibited. Any ciphersuite using MD5 for the MAC is also prohibited.</p>
+<p>The security level corresponds to a minimum of 80 bits of security. Any parameters offering below 80 bits of security are excluded. As a result RSA, DSA and DH keys shorter than 1024 bits and ECC keys shorter than 160 bits are prohibited. All export cipher suites are prohibited since they all offer less than 80 bits of security. SSL version 2 is prohibited. Any cipher suite using MD5 for the MAC is also prohibited.</p>
 
 </dd>
 <dt id="Level-2"><b>Level 2</b></dt>
 <dd>
 
-<p>Security level set to 112 bits of security. As a result RSA, DSA and DH keys shorter than 2048 bits and ECC keys shorter than 224 bits are prohibited. In addition to the level 1 exclusions any ciphersuite using RC4 is also prohibited. SSL version 3 is also not allowed. Compression is disabled.</p>
+<p>Security level set to 112 bits of security. As a result RSA, DSA and DH keys shorter than 2048 bits and ECC keys shorter than 224 bits are prohibited. In addition to the level 1 exclusions any cipher suite using RC4 is also prohibited. SSL version 3 is also not allowed. Compression is disabled.</p>
 
 </dd>
 <dt id="Level-3"><b>Level 3</b></dt>
 <dd>
 
-<p>Security level set to 128 bits of security. As a result RSA, DSA and DH keys shorter than 3072 bits and ECC keys shorter than 256 bits are prohibited. In addition to the level 2 exclusions ciphersuites not offering forward secrecy are prohibited. TLS versions below 1.1 are not permitted. Session tickets are disabled.</p>
+<p>Security level set to 128 bits of security. As a result RSA, DSA and DH keys shorter than 3072 bits and ECC keys shorter than 256 bits are prohibited. In addition to the level 2 exclusions cipher suites not offering forward secrecy are prohibited. TLS versions below 1.1 are not permitted. Session tickets are disabled.</p>
 
 </dd>
 <dt id="Level-4"><b>Level 4</b></dt>
 <dd>
 
-<p>Security level set to 192 bits of security. As a result RSA, DSA and DH keys shorter than 7680 bits and ECC keys shorter than 384 bits are prohibited. Ciphersuites using SHA1 for the MAC are prohibited. TLS versions below 1.2 are not permitted.</p>
+<p>Security level set to 192 bits of security. As a result RSA, DSA and DH keys shorter than 7680 bits and ECC keys shorter than 384 bits are prohibited. Cipher suites using SHA1 for the MAC are prohibited. TLS versions below 1.2 are not permitted.</p>
 
 </dd>
 <dt id="Level-5"><b>Level 5</b></dt>
@@ -122,23 +128,35 @@
 
 <p>By setting an appropriate security level much of this complexity can be avoided.</p>
 
-<p>The bits of security limits affect all relevant parameters including ciphersuite encryption algorithms, supported ECC curves, supported signature algorithms, DH parameter sizes, certificate key sizes and signature algorithms. This limit applies no matter what other custom settings an application has set: so if the ciphersuite is set to <b>ALL</b> then only ciphersuites consistent with the security level are permissible.</p>
+<p>The bits of security limits affect all relevant parameters including cipher suite encryption algorithms, supported ECC curves, supported signature algorithms, DH parameter sizes, certificate key sizes and signature algorithms. This limit applies no matter what other custom settings an application has set: so if the cipher suite is set to <b>ALL</b> then only cipher suites consistent with the security level are permissible.</p>
 
 <p>See SP800-57 for how the security limits are related to individual algorithms.</p>
 
 <p>Some security levels require large key sizes for non-ECC public key algorithms which can severely degrade performance. For example 256 bits of security requires the use of RSA keys of at least 15360 bits in size.</p>
 
-<p>Some restrictions can be gracefully handled: for example ciphersuites offering insufficient security are not sent by the client and will not be selected by the server. Other restrictions such as the peer certificate key size or the DH parameter size will abort the handshake with a fatal alert.</p>
+<p>Some restrictions can be gracefully handled: for example cipher suites offering insufficient security are not sent by the client and will not be selected by the server. Other restrictions such as the peer certificate key size or the DH parameter size will abort the handshake with a fatal alert.</p>
 
 <p>Attempts to set certificates or parameters with insufficient security are also blocked. For example trying to set a certificate using a 512 bit RSA key using SSL_CTX_use_certificate() at level 1. Applications which do not check the return values for errors will misbehave: for example it might appear that a certificate is not set at all because it had been rejected.</p>
 
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>SSL_CTX_set_security_level() and SSL_set_security_level() do not return values.</p>
+
+<p>SSL_CTX_get_security_level() and SSL_get_security_level() return a integer that represents the security level with <b>SSL_CTX</b> or <b>SSL</b>, respectively.</p>
+
+<p>SSL_CTX_set_security_callback() and SSL_set_security_callback() do not return values.</p>
+
+<p>SSL_CTX_get_security_callback() and SSL_get_security_callback() return the pointer to the security callback or NULL if the callback is not set.</p>
+
+<p>SSL_CTX_get0_security_ex_data() and SSL_get0_security_ex_data() return the extra data pointer or NULL if the ex data is not set.</p>
+
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>These functions were first added to OpenSSL 1.1.0</p>
+<p>These functions were added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2014-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2014-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

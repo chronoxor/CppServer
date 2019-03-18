@@ -23,7 +23,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>OCSP_resp_get0_certs, OCSP_resp_get0_signer, OCSP_resp_get0_id, OCSP_resp_get0_produced_at, OCSP_resp_find_status, OCSP_resp_count, OCSP_resp_get0, OCSP_resp_find, OCSP_single_get0_status, OCSP_check_validity, OCSP_basic_verify - OCSP response utility functions</p>
+<p>OCSP_resp_get0_certs, OCSP_resp_get0_signer, OCSP_resp_get0_id, OCSP_resp_get1_id, OCSP_resp_get0_produced_at, OCSP_resp_get0_signature, OCSP_resp_get0_tbs_sigalg, OCSP_resp_get0_respdata, OCSP_resp_find_status, OCSP_resp_count, OCSP_resp_get0, OCSP_resp_find, OCSP_single_get0_status, OCSP_check_validity, OCSP_basic_verify - OCSP response utility functions</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -46,6 +46,9 @@
  <span class="variable">const</span> <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*OCSP_resp_get0_produced_at</span><span class="operator">(</span>
                              <span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span><span class="operator">*</span> <span class="variable">single</span><span class="operator">);</span>
  
+ <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*OCSP_resp_get0_signature</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*OCSP_resp_get0_tbs_sigalg</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">OCSP_RESPDATA</span> <span class="variable">*OCSP_resp_get0_respdata</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*OCSP_resp_get0_certs</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">OCSP_resp_get0_signer</span><span class="operator">(</span><span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span> <span class="variable">X509</span> <span class="operator">**</span><span class="variable">signer</span><span class="operator">,</span>
@@ -54,6 +57,9 @@
  <span class="keyword">int</span> <span class="variable">OCSP_resp_get0_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span>
                        <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">pid</span><span class="operator">,</span>
                        <span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="operator">**</span><span class="variable">pname</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">OCSP_resp_get1_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span>
+                       <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">pid</span><span class="operator">,</span>
+                       <span class="variable">X509_NAME</span> <span class="operator">**</span><span class="variable">pname</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">OCSP_check_validity</span><span class="operator">(</span><span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*thisupd</span><span class="operator">,</span>
                          <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*nextupd</span><span class="operator">,</span>
@@ -77,11 +83,17 @@
 
 <p>OCSP_resp_get0_produced_at() extracts the <b>producedAt</b> field from the single response <b>bs</b>.</p>
 
+<p>OCSP_resp_get0_signature() returns the signature from <b>bs</b>.</p>
+
+<p>OCSP_resp_get0_tbs_sigalg() returns the <b>signatureAlgorithm</b> from <b>bs</b>.</p>
+
+<p>OCSP_resp_get0_respdata() returns the <b>tbsResponseData</b> from <b>bs</b>.</p>
+
 <p>OCSP_resp_get0_certs() returns any certificates included in <b>bs</b>.</p>
 
 <p>OCSP_resp_get0_signer() attempts to retrieve the certificate that directly signed <b>bs</b>. The OCSP protocol does not require that this certificate is included in the <b>certs</b> field of the response, so additional certificates can be supplied in <b>extra_certs</b> if the certificates that may have signed the response are known via some out-of-band mechanism.</p>
 
-<p>OCSP_resp_get0_id() gets the responder id of <b>bs</b>. If the responder ID is a name then &lt;*pname&gt; is set to the name and <b>*pid</b> is set to NULL. If the responder ID is by key ID then <b>*pid</b> is set to the key ID and <b>*pname</b> is set to NULL.</p>
+<p>OCSP_resp_get0_id() gets the responder id of <b>bs</b>. If the responder ID is a name then &lt;*pname&gt; is set to the name and <b>*pid</b> is set to NULL. If the responder ID is by key ID then <b>*pid</b> is set to the key ID and <b>*pname</b> is set to NULL. OCSP_resp_get1_id() leaves ownership of <b>*pid</b> and <b>*pname</b> with the caller, who is responsible for freeing them. Both functions return 1 in case of success and 0 in case of failure. If OCSP_resp_get1_id() returns 0, no freeing of the results is necessary.</p>
 
 <p>OCSP_check_validity() checks the validity of <b>thisupd</b> and <b>nextupd</b> values which will be typically obtained from OCSP_resp_find_status() or OCSP_single_get0_status(). If <b>sec</b> is non-zero it indicates how many seconds leeway should be allowed in the check. If <b>maxsec</b> is positive it indicates the maximum age of <b>thisupd</b> in seconds.</p>
 
@@ -113,7 +125,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/crypto.html>crypto(3)</a>, <a href="../man3/OCSP_cert_to_id.html>OCSP_cert_to_id(3)</a>, <a href="../man3/OCSP_request_add1_nonce.html>OCSP_request_add1_nonce(3)</a>, <a href="../man3/OCSP_REQUEST_new.html>OCSP_REQUEST_new(3)</a>, <a href="../man3/OCSP_response_status.html>OCSP_response_status(3)</a>, <a href="../man3/OCSP_sendreq_new.html>OCSP_sendreq_new(3)</a></p>
+<p><a href="../man7/crypto.html">crypto(7)</a>, <a href="../man3/OCSP_cert_to_id.html">OCSP_cert_to_id(3)</a>, <a href="../man3/OCSP_request_add1_nonce.html">OCSP_request_add1_nonce(3)</a>, <a href="../man3/OCSP_REQUEST_new.html">OCSP_REQUEST_new(3)</a>, <a href="../man3/OCSP_response_status.html">OCSP_response_status(3)</a>, <a href="../man3/OCSP_sendreq_new.html">OCSP_sendreq_new(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

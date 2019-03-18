@@ -15,7 +15,7 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
-  <li><a href="#RETURN-VALUE">RETURN VALUE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#NOTE">NOTE</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -29,16 +29,16 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/dsa.h&gt;</span>
  
- <span class="variable">DH</span> <span class="operator">*</span> <span class="variable">DSA_dup_DH</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DSA</span> <span class="variable">*r</span><span class="operator">);</span>
+ <span class="variable">DH</span> <span class="variable">*DSA_dup_DH</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DSA</span> <span class="variable">*r</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
 <p>DSA_dup_DH() duplicates DSA parameters/keys as DH parameters/keys. q is lost during that conversion, but the resulting DH parameters contain its length.</p>
 
-<h1 id="RETURN-VALUE">RETURN VALUE</h1>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>DSA_dup_DH() returns the new <b>DH</b> structure, and NULL on error. The error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>DSA_dup_DH() returns the new <b>DH</b> structure, and NULL on error. The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="NOTE">NOTE</h1>
 
@@ -46,11 +46,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/dh.html>dh(3)</a>, <a href="../man3/dsa.html>dsa(3)</a>, <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a></p>
+<p><a href="../man3/DH_new.html">DH_new(3)</a>, <a href="../man3/DSA_new.html">DSA_new(3)</a>, <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

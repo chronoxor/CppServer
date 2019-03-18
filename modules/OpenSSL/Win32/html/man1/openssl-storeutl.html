@@ -1,0 +1,151 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>storeutl</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#OPTIONS">OPTIONS</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#HISTORY">HISTORY</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>openssl-storeutl, storeutl - STORE utility</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<p><b>openssl</b> <b>storeutl</b> [<b>-help</b>] [<b>-out file</b>] [<b>-noout</b>] [<b>-passin arg</b>] [<b>-text arg</b>] [<b>-engine id</b>] [<b>-r</b>] [<b>-certs</b>] [<b>-keys</b>] [<b>-crls</b>] [<b>-subject arg</b>] [<b>-issuer arg</b>] [<b>-serial arg</b>] [<b>-alias arg</b>] [<b>-fingerprint arg</b>] [<b>-<i>digest</i></b>] <b>uri</b> ...</p>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The <b>storeutl</b> command can be used to display the contents (after decryption as the case may be) fetched from the given URIs.</p>
+
+<h1 id="OPTIONS">OPTIONS</h1>
+
+<dl>
+
+<dt id="help"><b>-help</b></dt>
+<dd>
+
+<p>Print out a usage message.</p>
+
+</dd>
+<dt id="out-filename"><b>-out filename</b></dt>
+<dd>
+
+<p>specifies the output filename to write to or standard output by default.</p>
+
+</dd>
+<dt id="noout"><b>-noout</b></dt>
+<dd>
+
+<p>this option prevents output of the PEM data.</p>
+
+</dd>
+<dt id="passin-arg"><b>-passin arg</b></dt>
+<dd>
+
+<p>the key password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
+
+</dd>
+<dt id="text"><b>-text</b></dt>
+<dd>
+
+<p>Prints out the objects in text form, similarly to the <b>-text</b> output from <b>openssl x509</b>, <b>openssl pkey</b>, etc.</p>
+
+</dd>
+<dt id="engine-id"><b>-engine id</b></dt>
+<dd>
+
+<p>specifying an engine (by its unique <b>id</b> string) will cause <b>storeutl</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+
+</dd>
+<dt id="r"><b>-r</b></dt>
+<dd>
+
+<p>Fetch objects recursively when possible.</p>
+
+</dd>
+<dt id="certs"><b>-certs</b></dt>
+<dd>
+
+</dd>
+<dt id="keys"><b>-keys</b></dt>
+<dd>
+
+</dd>
+<dt id="crls"><b>-crls</b></dt>
+<dd>
+
+<p>Only select the certificates, keys or CRLs from the given URI. However, if this URI would return a set of names (URIs), those are always returned.</p>
+
+</dd>
+<dt id="subject-arg"><b>-subject arg</b></dt>
+<dd>
+
+<p>Search for an object having the subject name <b>arg</b>. The arg must be formatted as <i>/type0=value0/type1=value1/type2=...</i>. Keyword characters may be escaped by \ (backslash), and whitespace is retained. Empty values are permitted but are ignored for the search. That is, a search with an empty value will have the same effect as not specifying the type at all.</p>
+
+</dd>
+<dt id="issuer-arg"><b>-issuer arg</b></dt>
+<dd>
+
+</dd>
+<dt id="serial-arg"><b>-serial arg</b></dt>
+<dd>
+
+<p>Search for an object having the given issuer name and serial number. These two options <i>must</i> be used together. The issuer arg must be formatted as <i>/type0=value0/type1=value1/type2=...</i>, characters may be escaped by \ (backslash), no spaces are skipped. The serial arg may be specified as a decimal value or a hex value if preceded by <b>0x</b>.</p>
+
+</dd>
+<dt id="alias-arg"><b>-alias arg</b></dt>
+<dd>
+
+<p>Search for an object having the given alias.</p>
+
+</dd>
+<dt id="fingerprint-arg"><b>-fingerprint arg</b></dt>
+<dd>
+
+<p>Search for an object having the given fingerprint.</p>
+
+</dd>
+<dt id="digest"><b>-<i>digest</i></b></dt>
+<dd>
+
+<p>The digest that was used to compute the fingerprint given with <b>-fingerprint</b>.</p>
+
+</dd>
+</dl>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man1/openssl.html">openssl(1)</a></p>
+
+<h1 id="HISTORY">HISTORY</h1>
+
+<p>The <b>openssl</b> <b>storeutl</b> app was added in OpenSSL 1.1.1.</p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2016-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+

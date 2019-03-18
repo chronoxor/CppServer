@@ -15,6 +15,8 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
@@ -138,6 +140,10 @@
 <dd>
 
 </dd>
+<dt id="bit-64-21-denoting-availability-of-VPMADD52-LH-UQ-instructions-a.k.a.-AVX512IFMA-extension">bit #64+21 denoting availability of VPMADD52[LH]UQ instructions, a.k.a. AVX512IFMA extension;</dt>
+<dd>
+
+</dd>
 <dt id="bit-64-29-denoting-availability-of-SHA-extension">bit #64+29 denoting availability of SHA extension;</dt>
 <dd>
 
@@ -150,23 +156,45 @@
 <dd>
 
 </dd>
+<dt id="bit-64-41-denoting-availability-of-VAES-extension">bit #64+41 denoting availability of VAES extension;</dt>
+<dd>
+
+</dd>
+<dt id="bit-64-42-denoting-availability-of-VPCLMULQDQ-extension">bit #64+42 denoting availability of VPCLMULQDQ extension;</dt>
+<dd>
+
+</dd>
 </dl>
 
 <p>To control this extended capability word use &#39;:&#39; as delimiter when setting up OPENSSL_ia32cap environment variable. For example assigning &#39;:~0x20&#39; would disable AVX2 code paths, and &#39;:0&#39; - all post-AVX extensions.</p>
 
-<p>It should be noted that whether or not some of the most &quot;fancy&quot; extension code paths are actually assembled depends on current assembler version. Base minimum of AES-NI/PCLMULQDQ, SSSE3 and SHA extension code paths are always assembled. Besides that, minimum assembler version requirements are summarized in below table:</p>
+<p>It should be noted that whether or not some of the most &quot;fancy&quot; extension code paths are actually assembled depends on current assembler version. Base minimum of AES-NI/PCLMULQDQ, SSSE3 and SHA extension code paths are always assembled. Apart from that, minimum assembler version requirements are summarized in below table:</p>
 
 <pre><code>   Extension   | GNU as | nasm   | llvm
    ------------+--------+--------+--------
    AVX         | 2.19   | 2.09   | 3.0
    AVX2        | 2.22   | 2.10   | 3.1
-   AVX512      | 2.25   | 2.11.8 | 3.6</code></pre>
+   ADCX/ADOX   | 2.23   | 2.10   | 3.3
+   AVX512      | 2.25   | 2.11.8 | see NOTES
+   AVX512IFMA  | 2.26   | 2.11.8 | see NOTES
+   VAES        | 2.30   | 2.13.3 |</code></pre>
 
-<p><b>OPENSSL_ia32cap</b> is a macro returning the first word of the vector.</p>
+<h1 id="NOTES">NOTES</h1>
+
+<p>Even though AVX512 support was implemented in llvm 3.6, compilation of assembly modules apparently requires explicit -march flag. But then compiler generates processor-specific code, which in turn contradicts the mere idea of run-time switch execution facilitated by the variable in question. Till the limitation is lifted, it&#39;s possible to work around the problem by making build procedure use following script:</p>
+
+<pre><code>   #!/bin/sh
+   exec clang -no-integrated-as &quot;$@&quot;</code></pre>
+
+<p>instead of real clang. In which case it doesn&#39;t matter which clang version is used, as it is GNU assembler version that will be checked.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>Not available.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2004-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2004-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

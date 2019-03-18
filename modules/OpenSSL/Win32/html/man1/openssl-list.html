@@ -25,7 +25,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl list</b> [<b>-help</b>] [<b>-commands</b>] [<b>-digest-commands</b>] [<b>-digest-algorithms</b>] [<b>-cipher-commands</b>] [<b>-cipher-algorithms</b>] [<b>-public-key-algorithms</b>] [<b>-disabled</b>]</p>
+<p><b>openssl list</b> [<b>-help</b>] [<b>-1</b>] [<b>-commands</b>] [<b>-digest-commands</b>] [<b>-digest-algorithms</b>] [<b>-cipher-commands</b>] [<b>-cipher-algorithms</b>] [<b>-public-key-algorithms</b>] [<b>-public-key-methods</b>] [<b>-disabled</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -38,7 +38,13 @@
 <dt id="help"><b>-help</b></dt>
 <dd>
 
-<p>Display out a usage message.</p>
+<p>Display a usage message.</p>
+
+</dd>
+<dt id="pod-1"><b>-1</b></dt>
+<dd>
+
+<p>List the commands, digest-commands, or cipher-commands in a single column. If used, this option must be given first.</p>
 
 </dd>
 <dt id="commands"><b>-commands</b></dt>
@@ -50,7 +56,7 @@
 <dt id="digest-commands"><b>-digest-commands</b></dt>
 <dd>
 
-<p>Display a list of message digest commands, which are typically used as input to the <a href="../man1/dgst.html>dgst(1)</a> or <a href="../man1/speed.html>speed(1)</a> commands.</p>
+<p>Display a list of message digest commands, which are typically used as input to the <a href="../man1/dgst.html">dgst(1)</a> or <a href="../man1/speed.html">speed(1)</a> commands.</p>
 
 </dd>
 <dt id="digest-algorithms"><b>-digest-algorithms</b></dt>
@@ -62,7 +68,7 @@
 <dt id="cipher-commands"><b>-cipher-commands</b></dt>
 <dd>
 
-<p>Display a list of cipher commands, which are typically used as input to the <a href="../man1/dgst.html>dgst(1)</a> or <a href="../man1/speed.html>speed(1)</a> commands.</p>
+<p>Display a list of cipher commands, which are typically used as input to the <a href="../man1/dgst.html">dgst(1)</a> or <a href="../man1/speed.html">speed(1)</a> commands.</p>
 
 </dd>
 <dt id="cipher-algorithms"><b>-cipher-algorithms</b></dt>
@@ -77,6 +83,12 @@
 <p>Display a list of public key algorithms, with each algorithm as a block of multiple lines, all but the first are indented.</p>
 
 </dd>
+<dt id="public-key-methods"><b>-public-key-methods</b></dt>
+<dd>
+
+<p>Display a list of public key method OIDs: this also includes public key methods without an associated ASN.1 method, for example, KDF algorithms.</p>
+
+</dd>
 <dt id="disabled"><b>-disabled</b></dt>
 <dd>
 
@@ -87,7 +99,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

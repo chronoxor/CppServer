@@ -23,20 +23,24 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>SSL_get_version, SSL_is_dtls - get the protocol information of a connection</p>
+<p>SSL_client_version, SSL_get_version, SSL_is_dtls, SSL_version - get the protocol information of a connection</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
  
+ <span class="keyword">int</span> <span class="variable">SSL_client_version</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
+ 
  <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_get_version</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">SSL_is_dtls</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
+ 
+ <span class="keyword">int</span> <span class="variable">SSL_version</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>SSL_get_version() returns the name of the protocol used for the connection <b>ssl</b>. It should only be called after the initial handshake has been completed. Prior to that the results returned from this function may be unreliable.</p>
+<p>SSL_client_version() returns the numeric protocol version advertised by the client in the legacy_version field of the ClientHello when initiating the connection. Note that, for TLS, this value will never indicate a version greater than TLSv1.2 even if TLSv1.3 is subsequently negotiated. SSL_get_version() returns the name of the protocol used for the connection. SSL_version() returns the numeric protocol version used for the connection. They should only be called after the initial handshake has been completed. Prior to that the results returned from these functions may be unreliable.</p>
 
 <p>SSL_is_dtls() returns one if the connection is using DTLS, zero if not.</p>
 
@@ -70,6 +74,12 @@
 <p>The connection uses the TLSv1.2 protocol.</p>
 
 </dd>
+<dt id="TLSv1.3">TLSv1.3</dt>
+<dd>
+
+<p>The connection uses the TLSv1.3 protocol.</p>
+
+</dd>
 <dt id="unknown">unknown</dt>
 <dd>
 
@@ -78,13 +88,49 @@
 </dd>
 </dl>
 
+<p>SSL_version() and SSL_client_version() return an integer which could include any of the following:</p>
+
+<dl>
+
+<dt id="SSL3_VERSION">SSL3_VERSION</dt>
+<dd>
+
+<p>The connection uses the SSLv3 protocol.</p>
+
+</dd>
+<dt id="TLS1_VERSION">TLS1_VERSION</dt>
+<dd>
+
+<p>The connection uses the TLSv1.0 protocol.</p>
+
+</dd>
+<dt id="TLS1_1_VERSION">TLS1_1_VERSION</dt>
+<dd>
+
+<p>The connection uses the TLSv1.1 protocol.</p>
+
+</dd>
+<dt id="TLS1_2_VERSION">TLS1_2_VERSION</dt>
+<dd>
+
+<p>The connection uses the TLSv1.2 protocol.</p>
+
+</dd>
+<dt id="TLS1_3_VERSION">TLS1_3_VERSION</dt>
+<dd>
+
+<p>The connection uses the TLSv1.3 protocol (never returned for SSL_client_version()).</p>
+
+</dd>
+</dl>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>SSL_is_dtls() was added in OpenSSL 1.1.0.</p>
+<p>The SSL_is_dtls() function was added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

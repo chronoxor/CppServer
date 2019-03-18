@@ -15,7 +15,7 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
-  <li><a href="#RETURN-VALUE">RETURN VALUE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -35,17 +35,17 @@
 
 <p>This function checks if certificate <i>subject</i> was issued using CA certificate <i>issuer</i>. This function takes into account not only matching of issuer field of <i>subject</i> with subject field of <i>issuer</i>, but also compares <b>authorityKeyIdentifier</b> extension of <i>subject</i> with <b>subjectKeyIdentifier</b> of <i>issuer</i> if <b>authorityKeyIdentifier</b> present in the <i>subject</i> certificate and checks <b>keyUsage</b> field of <i>issuer</i>.</p>
 
-<h1 id="RETURN-VALUE">RETURN VALUE</h1>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>Function return <b>X509_V_OK</b> if certificate <i>subject</i> is issued by <i>issuer</i> or some <b>X509_V_ERR*</b> constant to indicate an error.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/X509_verify_cert.html>X509_verify_cert(3)</a>, <a href="../man3/X509_check_ca.html>X509_check_ca(3)</a>, <a href="../man1/verify.html>verify(1)</a></p>
+<p><a href="../man3/X509_verify_cert.html">X509_verify_cert(3)</a>, <a href="../man3/X509_check_ca.html">X509_check_ca(3)</a>, <a href="../man1/verify.html">verify(1)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

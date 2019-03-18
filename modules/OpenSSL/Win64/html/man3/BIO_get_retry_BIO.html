@@ -17,6 +17,7 @@
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#NOTES">NOTES</a></li>
   <li><a href="#BUGS">BUGS</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -43,15 +44,15 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>These functions determine why a BIO is not able to read or write data. They will typically be called after a failed BIO_read() or BIO_write() call.</p>
+<p>These functions determine why a BIO is not able to read or write data. They will typically be called after a failed BIO_read_ex() or BIO_write_ex() call.</p>
 
 <p>BIO_should_retry() is true if the call that produced this condition should then be retried at a later time.</p>
 
 <p>If BIO_should_retry() is false then the cause is an error condition.</p>
 
-<p>BIO_should_read() is true if the cause of the condition is that a BIO needs to read data.</p>
+<p>BIO_should_read() is true if the cause of the condition is that the BIO has insufficient data to return. Check for readability and/or retry the last operation.</p>
 
-<p>BIO_should_write() is true if the cause of the condition is that a BIO needs to read data.</p>
+<p>BIO_should_write() is true if the cause of the condition is that the BIO has pending data to write. Check for writability and/or retry the last operation.</p>
 
 <p>BIO_should_io_special() is true if some &quot;special&quot; condition, that is a reason other than reading or writing is the cause of the condition.</p>
 
@@ -67,7 +68,7 @@
 
 <p>BIO_should_read(), BIO_should_write(), BIO_should_io_special(), BIO_retry_type(), and BIO_should_retry(), are implemented as macros.</p>
 
-<p>If BIO_should_retry() returns false then the precise &quot;error condition&quot; depends on the BIO type that caused it and the return code of the BIO operation. For example if a call to BIO_read() on a socket BIO returns 0 and BIO_should_retry() is false then the cause will be that the connection closed. A similar condition on a file BIO will mean that it has reached EOF. Some BIO types may place additional information on the error queue. For more details see the individual BIO type manual pages.</p>
+<p>If BIO_should_retry() returns false then the precise &quot;error condition&quot; depends on the BIO type that caused it and the return code of the BIO operation. For example if a call to BIO_read_ex() on a socket BIO returns 0 and BIO_should_retry() is false then the cause will be that the connection closed. A similar condition on a file BIO will mean that it has reached EOF. Some BIO types may place additional information on the error queue. For more details see the individual BIO type manual pages.</p>
 
 <p>If the underlying I/O structure is in a blocking mode almost all current BIO types will not request a retry, because the underlying I/O calls will not. If the application knows that the BIO type will never signal a retry then it need not call BIO_should_retry() after a failed BIO I/O call. This is typically done with file BIOs.</p>
 
@@ -83,9 +84,19 @@
 
 <p>The OpenSSL ASN1 functions cannot gracefully deal with non blocking I/O: that is they cannot retry after a partial read or write. This is usually worked around by only passing the relevant data to ASN1 functions when the entire structure can be read or written.</p>
 
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>BIO_should_read(), BIO_should_write(), BIO_should_io_special(), and BIO_should_retry() return either 1 or 0 based on the actual conditions of the <b>BIO</b>.</p>
+
+<p>BIO_retry_type() returns a flag combination presenting the cause of a retry condition or false if there is no retry condition.</p>
+
+<p>BIO_get_retry_BIO() returns a valid <b>BIO</b> structure.</p>
+
+<p>BIO_get_retry_reason() returns the reason for a special condition.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="/../crypto/bio.html">bio</a></p>
+<p><a href="/man7/bio.html">bio</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
@@ -93,7 +104,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

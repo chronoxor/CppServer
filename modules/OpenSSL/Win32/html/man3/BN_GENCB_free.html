@@ -31,12 +31,12 @@
 <pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
  
  <span class="keyword">int</span> <span class="variable">BN_generate_prime_ex</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*ret</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">safe</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*add</span><span class="operator">,</span>
-     <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*rem</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
+                          <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*rem</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_is_prime_ex</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nchecks</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_is_prime_fasttest_ex</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nchecks</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-     <span class="keyword">int</span> <span class="variable">do_trial_division</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
+                             <span class="keyword">int</span> <span class="variable">do_trial_division</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_GENCB_call</span><span class="operator">(</span><span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">a</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">b</span><span class="operator">);</span>
  
@@ -45,10 +45,10 @@
  <span class="variable">void</span> <span class="variable">BN_GENCB_free</span><span class="operator">(</span><span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
  
  <span class="variable">void</span> <span class="variable">BN_GENCB_set_old</span><span class="operator">(</span><span class="variable">BN_GENCB</span> <span class="variable">*gencb</span><span class="operator">,</span>
-     <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
+                       <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
  
  <span class="variable">void</span> <span class="variable">BN_GENCB_set</span><span class="operator">(</span><span class="variable">BN_GENCB</span> <span class="variable">*gencb</span><span class="operator">,</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
+                   <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
  
  <span class="variable">void</span> <span class="variable">*BN_GENCB_get_arg</span><span class="operator">(</span><span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
 </code></pre>
@@ -57,14 +57,15 @@
 
 <pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x00908000L</span>
  <span class="variable">BIGNUM</span> <span class="variable">*BN_generate_prime</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*ret</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">safe</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*add</span><span class="operator">,</span>
-     <span class="variable">BIGNUM</span> <span class="variable">*rem</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
+                           <span class="variable">BIGNUM</span> <span class="variable">*rem</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span>
+                           <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
  
- <span class="keyword">int</span> <span class="variable">BN_is_prime</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">checks</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span>
-     <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">BN_is_prime</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">checks</span><span class="operator">,</span>
+                 <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_is_prime_fasttest</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">checks</span><span class="operator">,</span>
-     <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">,</span>
-     <span class="keyword">int</span> <span class="variable">do_trial_division</span><span class="operator">);</span>
+                          <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                          <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">do_trial_division</span><span class="operator">);</span>
  <span class="comment">#endif</span>
 </code></pre>
 
@@ -83,6 +84,9 @@
 
 </li>
 <li><p>When a prime has been found, <b>BN_GENCB_call(cb, 2, i)</b> is called.</p>
+
+</li>
+<li><p>The callers of BN_generate_prime_ex() may call <b>BN_GENCB_call(cb, i, j)</b> with other values as described in their respective man pages; see <a href="#SEE-ALSO">&quot;SEE ALSO&quot;</a>.</p>
 
 </li>
 </ul>
@@ -105,17 +109,17 @@
 
 <p>If <b>cb</b> is not <b>NULL</b>, <b>BN_GENCB_call(cb, 1, j)</b> is called after the j-th iteration (j = 0, 1, ...). <b>ctx</b> is a pre-allocated <b>BN_CTX</b> (to save the overhead of allocating and freeing the structure in a loop), or <b>NULL</b>.</p>
 
-<p>BN_GENCB_call calls the callback function held in the <b>BN_GENCB</b> structure and passes the ints <b>a</b> and <b>b</b> as arguments. There are two types of <b>BN_GENCB</b> structure that are supported: &quot;new&quot; style and &quot;old&quot; style. New programs should prefer the &quot;new&quot; style, whilst the &quot;old&quot; style is provided for backwards compatibility purposes.</p>
+<p>BN_GENCB_call() calls the callback function held in the <b>BN_GENCB</b> structure and passes the ints <b>a</b> and <b>b</b> as arguments. There are two types of <b>BN_GENCB</b> structure that are supported: &quot;new&quot; style and &quot;old&quot; style. New programs should prefer the &quot;new&quot; style, whilst the &quot;old&quot; style is provided for backwards compatibility purposes.</p>
 
-<p>A BN_GENCB structure should be created through a call to BN_GENCB_new(), and freed through a call to BN_GENCB_free().</p>
+<p>A <b>BN_GENCB</b> structure should be created through a call to BN_GENCB_new(), and freed through a call to BN_GENCB_free().</p>
 
 <p>For &quot;new&quot; style callbacks a BN_GENCB structure should be initialised with a call to BN_GENCB_set(), where <b>gencb</b> is a <b>BN_GENCB *</b>, <b>callback</b> is of type <b>int (*callback)(int, int, BN_GENCB *)</b> and <b>cb_arg</b> is a <b>void *</b>. &quot;Old&quot; style callbacks are the same except they are initialised with a call to BN_GENCB_set_old() and <b>callback</b> is of type <b>void (*callback)(int, int, void *)</b>.</p>
 
 <p>A callback is invoked through a call to <b>BN_GENCB_call</b>. This will check the type of the callback and will invoke <b>callback(a, b, gencb)</b> for new style callbacks or <b>callback(a, b, cb_arg)</b> for old style.</p>
 
-<p>It is possible to obtained the argument associated with a BN_GENCB structure (set via a call to BN_GENCB_set or BN_GENCB_set_old) using BN_GENCB_get_arg.</p>
+<p>It is possible to obtain the argument associated with a BN_GENCB structure (set via a call to BN_GENCB_set or BN_GENCB_set_old) using BN_GENCB_get_arg.</p>
 
-<p>BN_generate_prime (deprecated) works in the same way as BN_generate_prime_ex but expects an old style callback function directly in the <b>callback</b> parameter, and an argument to pass to it in the <b>cb_arg</b>. Similarly BN_is_prime and BN_is_prime_fasttest are deprecated and can be compared to BN_is_prime_ex and BN_is_prime_fasttest_ex respectively.</p>
+<p>BN_generate_prime() (deprecated) works in the same way as BN_generate_prime_ex() but expects an old-style callback function directly in the <b>callback</b> parameter, and an argument to pass to it in the <b>cb_arg</b>. BN_is_prime() and BN_is_prime_fasttest() can similarly be compared to BN_is_prime_ex() and BN_is_prime_fasttest_ex(), respectively.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -131,7 +135,7 @@
 
 <p>Callback functions should return 1 on success or 0 on error.</p>
 
-<p>The error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="REMOVED-FUNCTIONALITY">REMOVED FUNCTIONALITY</h1>
 
@@ -144,18 +148,19 @@
 
 <pre><code> <span class="variable">BN_GENCB</span> <span class="variable">*callback</span><span class="operator">;</span>
  <span class="variable">callback</span> <span class="operator">=</span> <span class="variable">BN_GENCB_new</span><span class="operator">();</span>
- <span class="keyword">if</span><span class="operator">(!</span><span class="variable">callback</span><span class="operator">)</span> <span class="operator">/*</span> <span class="variable">handle</span> <span class="variable">error</span> <span class="operator">*/</span>
+ <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">callback</span><span class="operator">)</span>
+     <span class="operator">/*</span> <span class="variable">error</span> <span class="operator">*/</span>
  <span class="operator">...</span>
  <span class="variable">BN_GENCB_free</span><span class="operator">(</span><span class="variable">callback</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html>RAND_bytes(3)</a></p>
+<p><a href="../man3/DH_generate_parameters.html">DH_generate_parameters(3)</a>, <a href="../man3/DSA_generate_parameters.html">DSA_generate_parameters(3)</a>, <a href="../man3/RSA_generate_key.html">RSA_generate_key(3)</a>, <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>BN_GENCB_new(), BN_GENCB_free(), and BN_GENCB_get_arg() were added in OpenSSL 1.1.0</p>
+<p>The BN_GENCB_new(), BN_GENCB_free(), and BN_GENCB_get_arg() functions were added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

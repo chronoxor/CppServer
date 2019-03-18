@@ -33,7 +33,8 @@
  
  <span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*EC_GROUP_method_of</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
  
- <span class="keyword">int</span> <span class="variable">EC_GROUP_set_generator</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_POINT</span> <span class="variable">*generator</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*order</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*cofactor</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EC_GROUP_set_generator</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_POINT</span> <span class="variable">*generator</span><span class="operator">,</span>
+                            <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*order</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*cofactor</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">EC_POINT</span> <span class="variable">*EC_GROUP_get0_generator</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">EC_GROUP_get_order</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*order</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
@@ -66,7 +67,7 @@
  <span class="keyword">int</span> <span class="variable">EC_GROUP_get_basis_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="operator">*);</span>
  <span class="keyword">int</span> <span class="variable">EC_GROUP_get_trinomial_basis</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="operator">*,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EC_GROUP_get_pentanomial_basis</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="operator">*,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k1</span><span class="operator">,</span>
-        <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k2</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k3</span><span class="operator">);</span>
+                                    <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k2</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k3</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -83,9 +84,9 @@
 
 <p>The functions EC_GROUP_get_order and EC_GROUP_get_cofactor populate the provided <b>order</b> and <b>cofactor</b> parameters with the respective order and cofactors for the <b>group</b>.</p>
 
-<p>The functions EC_GROUP_set_curve_name and EC_GROUP_get_curve_name, set and get the NID for the curve respectively (see <a href="../man3/EC_GROUP_new.html>EC_GROUP_new(3)</a>). If a curve does not have a NID associated with it, then EC_GROUP_get_curve_name will return 0.</p>
+<p>The functions EC_GROUP_set_curve_name and EC_GROUP_get_curve_name, set and get the NID for the curve respectively (see <a href="../man3/EC_GROUP_new.html">EC_GROUP_new(3)</a>). If a curve does not have a NID associated with it, then EC_GROUP_get_curve_name will return 0.</p>
 
-<p>The asn1_flag value is used to determine whether the curve encoding uses explicit parameters or a named curve using an ASN1 OID: many applications only support the latter form. If asn1_flag is <b>OPENSSL_EC_NAMED_CURVE</b> then the named curve form is used and the parameters must have a corresponding named curve NID set. If asn1_flags is <b>OPENSSL_EC_EXPLICIT_CURVE</b> the parameters are explicitly encoded. The functions EC_GROUP_get_asn1_flag and EC_GROUP_set_asn1_flag get and set the status of the asn1_flag for the curve. Note: <b>OPENSSL_EC_EXPLICIT_CURVE</b> was first added to OpenSSL 1.1.0, for previous versions of OpenSSL the value 0 must be used instead. Before OpenSSL 1.1.0 the default form was to use explicit parameters (meaning that applications would have to explicitly set the named curve form) in OpenSSL 1.1.0 and later the named curve form is the default.</p>
+<p>The asn1_flag value is used to determine whether the curve encoding uses explicit parameters or a named curve using an ASN1 OID: many applications only support the latter form. If asn1_flag is <b>OPENSSL_EC_NAMED_CURVE</b> then the named curve form is used and the parameters must have a corresponding named curve NID set. If asn1_flags is <b>OPENSSL_EC_EXPLICIT_CURVE</b> the parameters are explicitly encoded. The functions EC_GROUP_get_asn1_flag and EC_GROUP_set_asn1_flag get and set the status of the asn1_flag for the curve. Note: <b>OPENSSL_EC_EXPLICIT_CURVE</b> was added in OpenSSL 1.1.0, for previous versions of OpenSSL the value 0 must be used instead. Before OpenSSL 1.1.0 the default form was to use explicit parameters (meaning that applications would have to explicitly set the named curve form) in OpenSSL 1.1.0 and later the named curve form is the default.</p>
 
 <p>The point_conversion_form for a curve controls how EC_POINT data is encoded as ASN1 as defined in X9.62 (ECDSA). point_conversion_form_t is an enum defined as follows:</p>
 
@@ -141,7 +142,7 @@
 
 <p>EC_GROUP_get_order, EC_GROUP_get_cofactor, EC_GROUP_get_curve_name, EC_GROUP_get_asn1_flag, EC_GROUP_get_point_conversion_form and EC_GROUP_get_degree return the order, cofactor, curve name (NID), ASN1 flag, point_conversion_form and degree for the specified curve respectively. If there is no curve name associated with a curve then EC_GROUP_get_curve_name will return 0.</p>
 
-<p>EC_GROUP_get0_order() returns an internal pointer to the group order. EC_GROUP_get_order_bits() returns the number of bits in the group order. EC_GROUP_get0_cofactor() returns an internal pointer to the group cofactor.</p>
+<p>EC_GROUP_get0_order() returns an internal pointer to the group order. EC_GROUP_order_bits() returns the number of bits in the group order. EC_GROUP_get0_cofactor() returns an internal pointer to the group cofactor.</p>
 
 <p>EC_GROUP_get0_seed returns a pointer to the seed that was used to generate the parameter b, or NULL if the seed is not specified. EC_GROUP_get_seed_len returns the length of the seed or 0 if the seed is not specified.</p>
 
@@ -153,7 +154,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man7/crypto.html>crypto(7)</a>, <a href="../man3/EC_GROUP_new.html>EC_GROUP_new(3)</a>, <a href="../man3/EC_POINT_new.html>EC_POINT_new(3)</a>, <a href="../man3/EC_POINT_add.html>EC_POINT_add(3)</a>, <a href="../man3/EC_KEY_new.html>EC_KEY_new(3)</a>, <a href="../man3/EC_GFp_simple_method.html>EC_GFp_simple_method(3)</a>, <a href="../man3/d2i_ECPKParameters.html>d2i_ECPKParameters(3)</a></p>
+<p><a href="../man7/crypto.html">crypto(7)</a>, <a href="../man3/EC_GROUP_new.html">EC_GROUP_new(3)</a>, <a href="../man3/EC_POINT_new.html">EC_POINT_new(3)</a>, <a href="../man3/EC_POINT_add.html">EC_POINT_add(3)</a>, <a href="../man3/EC_KEY_new.html">EC_KEY_new(3)</a>, <a href="../man3/EC_GFp_simple_method.html">EC_GFp_simple_method(3)</a>, <a href="../man3/d2i_ECPKParameters.html">d2i_ECPKParameters(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

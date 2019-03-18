@@ -23,7 +23,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>CRYPTO_secure_malloc_init, CRYPTO_secure_malloc_initialized, CRYPTO_secure_malloc_done, OPENSSL_secure_malloc, CRYPTO_secure_malloc, OPENSSL_secure_zalloc, CRYPTO_secure_zalloc, OPENSSL_secure_free, OPENSSL_secure_clear_free, CRYPTO_secure_free, CRYPTO_secure_clear_free, OPENSSL_secure_actual_size, OPENSSL_secure_allocated, CRYPTO_secure_used - secure heap storage</p>
+<p>CRYPTO_secure_malloc_init, CRYPTO_secure_malloc_initialized, CRYPTO_secure_malloc_done, OPENSSL_secure_malloc, CRYPTO_secure_malloc, OPENSSL_secure_zalloc, CRYPTO_secure_zalloc, OPENSSL_secure_free, CRYPTO_secure_free, OPENSSL_secure_clear_free, CRYPTO_secure_clear_free, OPENSSL_secure_actual_size, CRYPTO_secure_used - secure heap storage</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -48,7 +48,6 @@
  <span class="variable">void</span> <span class="variable">CRYPTO_secure_clear_free</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="keyword">int</span><span class="operator">);</span>
  
  <span class="variable">size_t</span> <span class="variable">OPENSSL_secure_actual_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OPENSSL_secure_allocated</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">);</span>
  
  <span class="variable">size_t</span> <span class="variable">CRYPTO_secure_used</span><span class="operator">();</span>
 </code></pre>
@@ -71,7 +70,9 @@
 
 <p>OPENSSL_secure_free() releases the memory at <code>ptr</code> back to the heap. It must be called with a value previously obtained from OPENSSL_secure_malloc(). If CRYPTO_secure_malloc_init() is not called, this is equivalent to calling OPENSSL_free(). It exists for consistency with OPENSSL_secure_malloc() , and is a macro that expands to CRYPTO_secure_free() and adds the <code>__FILE__</code> and <code>__LINE__</code> parameters..</p>
 
-<p>OPENSSL_secure_allocated() tells whether or not a pointer is within the secure heap. OPENSSL_secure_actual_size() tells the actual size allocated to the pointer; implementations may allocate more space than initially requested, in order to &quot;round up&quot; and reduce secure heap fragmentation.</p>
+<p>OPENSSL_secure_clear_free() is similar to OPENSSL_secure_free() except that it has an additional <code>num</code> parameter which is used to clear the memory if it was not allocated from the secure heap. If CRYPTO_secure_malloc_init() is not called, this is equivalent to calling OPENSSL_clear_free().</p>
+
+<p>OPENSSL_secure_actual_size() tells the actual size allocated to the pointer; implementations may allocate more space than initially requested, in order to &quot;round up&quot; and reduce secure heap fragmentation.</p>
 
 <p>CRYPTO_secure_used() returns the number of bytes allocated in the secure heap.</p>
 
@@ -91,11 +92,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/OPENSSL_malloc.html>OPENSSL_malloc(3)</a>, <a href="../man3/BN_new.html>BN_new(3)</a></p>
+<p><a href="../man3/OPENSSL_malloc.html">OPENSSL_malloc(3)</a>, <a href="../man3/BN_new.html">BN_new(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>OPENSSL_secure_clear_free() was added in OpenSSL 1.1.0g.</p>
+<p>The OPENSSL_secure_clear_free() function was added in OpenSSL 1.1.0g.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

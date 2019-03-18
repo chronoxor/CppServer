@@ -17,6 +17,7 @@
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#CALLBACK-OPERATIONS">CALLBACK OPERATIONS</a></li>
   <li><a href="#EXAMPLE">EXAMPLE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
@@ -121,7 +122,7 @@
 <dt id="BIO_read_ex-b-data-dlen-readbytes"><b>BIO_read_ex(b, data, dlen, readbytes)</b></dt>
 <dd>
 
-<pre><code> callback_ex(b, BIO_CB_READ, data, dlen, 0, 0L, 1L, readbytes)</code></pre>
+<pre><code> callback_ex(b, BIO_CB_READ, data, dlen, 0, 0L, 1L, NULL)</code></pre>
 
 <p>or</p>
 
@@ -129,7 +130,8 @@
 
 <p>is called before the read and</p>
 
-<pre><code> callback_ex(b, BIO_CB_READ | BIO_CB_RETURN, data, dlen, 0, 0L, retvalue, readbytes)</code></pre>
+<pre><code> callback_ex(b, BIO_CB_READ | BIO_CB_RETURN, data, dlen, 0, 0L, retvalue,
+             &amp;readbytes)</code></pre>
 
 <p>or</p>
 
@@ -141,7 +143,7 @@
 <dt id="BIO_write-b-data-dlen-written"><b>BIO_write(b, data, dlen, written)</b></dt>
 <dd>
 
-<pre><code> callback_ex(b, BIO_CB_WRITE, data, dlen, 0, 0L, 1L, written)</code></pre>
+<pre><code> callback_ex(b, BIO_CB_WRITE, data, dlen, 0, 0L, 1L, NULL)</code></pre>
 
 <p>or</p>
 
@@ -149,7 +151,8 @@
 
 <p>is called before the write and</p>
 
-<pre><code> callback_ex(b, BIO_CB_WRITE | BIO_CB_RETURN, data, dlen, 0, 0L, retvalue, written)</code></pre>
+<pre><code> callback_ex(b, BIO_CB_WRITE | BIO_CB_RETURN, data, dlen, 0, 0L, retvalue,
+             &amp;written)</code></pre>
 
 <p>or</p>
 
@@ -169,7 +172,8 @@
 
 <p>is called before the operation and</p>
 
-<pre><code> callback_ex(b, BIO_CB_GETS | BIO_CB_RETURN, buf, size, 0, 0L, retvalue, readbytes)</code></pre>
+<pre><code> callback_ex(b, BIO_CB_GETS | BIO_CB_RETURN, buf, size, 0, 0L, retvalue,
+             &amp;readbytes)</code></pre>
 
 <p>or</p>
 
@@ -190,11 +194,11 @@
 
 <p>is called before the operation and</p>
 
-<pre><code> callback_ex(b, BIO_CB_PUTS | BIO_CB_RETURN, buf, 0, 0, 0L, retvalue, written)</code></pre>
+<pre><code> callback_ex(b, BIO_CB_PUTS | BIO_CB_RETURN, buf, 0, 0, 0L, retvalue, &amp;written)</code></pre>
 
 <p>or</p>
 
-<pre><code> callback(b, BIO_CB_WRITE|BIO_CB_RETURN, buf, 0, 0L, retvalue)</code></pre>
+<pre><code> callback(b, BIO_CB_PUTS|BIO_CB_RETURN, buf, 0, 0L, retvalue)</code></pre>
 
 <p>after.</p>
 
@@ -218,6 +222,8 @@
 
 <p>after.</p>
 
+<p>Note: <b>cmd</b> == <b>BIO_CTRL_SET_CALLBACK</b> is special, because <b>parg</b> is not the argument of type <b>BIO_info_cb</b> itself. In this case <b>parg</b> is a pointer to the actual call parameter, see <b>BIO_callback_ctrl</b>.</p>
+
 </dd>
 </dl>
 
@@ -225,9 +231,17 @@
 
 <p>The BIO_debug_callback() function is a good example, its source is in crypto/bio/bio_cb.c</p>
 
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>BIO_get_callback_ex() and BIO_get_callback() return the callback function previously set by a call to BIO_set_callback_ex() and BIO_set_callback() respectively.</p>
+
+<p>BIO_get_callback_arg() returns a <b>char</b> pointer to the value previously set via a call to BIO_set_callback_arg().</p>
+
+<p>BIO_debug_callback() returns 1 or <b>ret</b> if it&#39;s called after specific BIO operations.</p>
+
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

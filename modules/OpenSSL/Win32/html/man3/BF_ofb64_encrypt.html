@@ -32,14 +32,16 @@
  <span class="variable">void</span> <span class="variable">BF_set_key</span><span class="operator">(</span><span class="variable">BF_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">);</span>
  
  <span class="variable">void</span> <span class="variable">BF_ecb_encrypt</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-         <span class="variable">BF_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">);</span>
+                     <span class="variable">BF_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">BF_cbc_encrypt</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-         <span class="variable">long</span> <span class="keyword">length</span><span class="operator">,</span> <span class="variable">BF_KEY</span> <span class="variable">*schedule</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*ivec</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">);</span>
+                     <span class="variable">long</span> <span class="keyword">length</span><span class="operator">,</span> <span class="variable">BF_KEY</span> <span class="variable">*schedule</span><span class="operator">,</span>
+                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*ivec</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">BF_cfb64_encrypt</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-         <span class="variable">long</span> <span class="keyword">length</span><span class="operator">,</span> <span class="variable">BF_KEY</span> <span class="variable">*schedule</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*ivec</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*num</span><span class="operator">,</span>
-         <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">);</span>
+                       <span class="variable">long</span> <span class="keyword">length</span><span class="operator">,</span> <span class="variable">BF_KEY</span> <span class="variable">*schedule</span><span class="operator">,</span>
+                       <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*ivec</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*num</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">BF_ofb64_encrypt</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-         <span class="variable">long</span> <span class="keyword">length</span><span class="operator">,</span> <span class="variable">BF_KEY</span> <span class="variable">*schedule</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*ivec</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*num</span><span class="operator">);</span>
+                       <span class="variable">long</span> <span class="keyword">length</span><span class="operator">,</span> <span class="variable">BF_KEY</span> <span class="variable">*schedule</span><span class="operator">,</span>
+                       <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*ivec</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*num</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*BF_options</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
  
  <span class="variable">void</span> <span class="variable">BF_encrypt</span><span class="operator">(</span><span class="variable">BF_LONG</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BF_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
@@ -50,7 +52,7 @@
 
 <p>This library implements the Blowfish cipher, which was invented and described by Counterpane (see http://www.counterpane.com/blowfish.html ).</p>
 
-<p>Blowfish is a block cipher that operates on 64 bit (8 byte) blocks of data. It uses a variable size key, but typically, 128 bit (16 byte) keys are considered good for strong encryption. Blowfish can be used in the same modes as DES (see <a href="../man7/des_modes.html>des_modes(7)</a>). Blowfish is currently one of the faster block ciphers. It is quite a bit faster than DES, and much faster than IDEA or RC2.</p>
+<p>Blowfish is a block cipher that operates on 64 bit (8 byte) blocks of data. It uses a variable size key, but typically, 128 bit (16 byte) keys are considered good for strong encryption. Blowfish can be used in the same modes as DES (see <a href="../man7/des_modes.html">des_modes(7)</a>). Blowfish is currently one of the faster block ciphers. It is quite a bit faster than DES, and much faster than IDEA or RC2.</p>
 
 <p>Blowfish consists of a key setup phase and the actual encryption or decryption phase.</p>
 
@@ -74,11 +76,11 @@
 
 <h1 id="NOTE">NOTE</h1>
 
-<p>Applications should use the higher level functions <a href="../man3/EVP_EncryptInit.html>EVP_EncryptInit(3)</a> etc. instead of calling these functions directly.</p>
+<p>Applications should use the higher level functions <a href="../man3/EVP_EncryptInit.html">EVP_EncryptInit(3)</a> etc. instead of calling these functions directly.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/EVP_EncryptInit.html>EVP_EncryptInit(3)</a>, <a href="../man7/des_modes.html>des_modes(7)</a></p>
+<p><a href="../man3/EVP_EncryptInit.html">EVP_EncryptInit(3)</a>, <a href="../man7/des_modes.html">des_modes(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

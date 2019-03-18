@@ -43,13 +43,13 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The functions get or set the minimum and maximum supported protocol versions for the <b>ctx</b> or <b>ssl</b>. This works in combination with the options set via <a href="../man3/SSL_CTX_set_options.html>SSL_CTX_set_options(3)</a> that also make it possible to disable specific protocol versions. Use these functions instead of disabling specific protocol versions.</p>
+<p>The functions get or set the minimum and maximum supported protocol versions for the <b>ctx</b> or <b>ssl</b>. This works in combination with the options set via <a href="../man3/SSL_CTX_set_options.html">SSL_CTX_set_options(3)</a> that also make it possible to disable specific protocol versions. Use these functions instead of disabling specific protocol versions.</p>
 
 <p>Setting the minimum or maximum version to 0, will enable protocol versions down to the lowest version, or up to the highest version supported by the library, respectively.</p>
 
 <p>Getters return 0 in case <b>ctx</b> or <b>ssl</b> have been configured to automatically use the lowest or highest version supported by the library.</p>
 
-<p>Currently supported versions are <b>SSL3_VERSION</b>, <b>TLS1_VERSION</b>, <b>TLS1_1_VERSION</b>, <b>TLS1_2_VERSION</b> for TLS and <b>DTLS1_VERSION</b>, <b>DTLS1_2_VERSION</b> for DTLS.</p>
+<p>Currently supported versions are <b>SSL3_VERSION</b>, <b>TLS1_VERSION</b>, <b>TLS1_1_VERSION</b>, <b>TLS1_2_VERSION</b>, <b>TLS1_3_VERSION</b> for TLS and <b>DTLS1_VERSION</b>, <b>DTLS1_2_VERSION</b> for DTLS.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -65,7 +65,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/SSL_CTX_set_options.html>SSL_CTX_set_options(3)</a>, <a href="../man3/SSL_CONF_cmd.html>SSL_CONF_cmd(3)</a></p>
+<p><a href="../man3/SSL_CTX_set_options.html">SSL_CTX_set_options(3)</a>, <a href="../man3/SSL_CONF_cmd.html">SSL_CONF_cmd(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

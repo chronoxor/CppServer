@@ -16,8 +16,6 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
-  <li><a href="#NOTES">NOTES</a></li>
-  <li><a href="#BUGS">BUGS</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -45,7 +43,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>OpenSSL keeps an internal table of digest algorithms and ciphers. It uses this table to lookup ciphers via functions such as EVP_get_cipher_byname(). In OpenSSL versions prior to 1.1.0 these functions initialised and de-initialised this table. From OpenSSL 1.1.0 they are deprecated. No explicit initialisation or de-initialisation is required. See <a href="../man3/OPENSSL_init_crypto.html>OPENSSL_init_crypto(3)</a> for further information.</p>
+<p>OpenSSL keeps an internal table of digest algorithms and ciphers. It uses this table to lookup ciphers via functions such as EVP_get_cipher_byname().</p>
 
 <p>OpenSSL_add_all_digests() adds all digest algorithms to the table.</p>
 
@@ -59,31 +57,17 @@
 
 <p>None of the functions return a value.</p>
 
-<h1 id="NOTES">NOTES</h1>
-
-<p>A typical application will call OpenSSL_add_all_algorithms() initially and EVP_cleanup() before exiting.</p>
-
-<p>An application does not need to add algorithms to use them explicitly, for example by EVP_sha1(). It just needs to add them if it (or any of the functions it calls) needs to lookup algorithms.</p>
-
-<p>The cipher and digest lookup functions are used in many parts of the library. If the table is not initialized several functions will misbehave and complain they cannot find algorithms. This includes the PEM, PKCS#12, SSL and S/MIME libraries. This is a common query in the OpenSSL mailing lists.</p>
-
-<p>Calling OpenSSL_add_all_algorithms() links in all algorithms: as a result a statically linked executable can be quite large. If this is important it is possible to just add the required ciphers and digests.</p>
-
-<h1 id="BUGS">BUGS</h1>
-
-<p>Although the functions do not return error codes it is possible for them to fail. This will only happen as a result of a memory allocation failure so this is not too much of a problem in practice.</p>
-
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/evp.html>evp(3)</a>, <a href="../man3/EVP_DigestInit.html>EVP_DigestInit(3)</a>, <a href="../man3/EVP_EncryptInit.html>EVP_EncryptInit(3)</a></p>
+<p><a href="../man7/evp.html">evp(7)</a>, <a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a>, <a href="../man3/EVP_EncryptInit.html">EVP_EncryptInit(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>The OpenSSL_add_all_algorithms(), OpenSSL_add_all_ciphers(), OpenSSL_add_all_digests(), and EVP_cleanup(), functions were deprecated in OpenSSL 1.1.0 by OPENSSL_init_crypto().</p>
+<p>The OpenSSL_add_all_algorithms(), OpenSSL_add_all_ciphers(), OpenSSL_add_all_digests(), and EVP_cleanup(), functions were deprecated in OpenSSL 1.1.0 by OPENSSL_init_crypto() and should not be used.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

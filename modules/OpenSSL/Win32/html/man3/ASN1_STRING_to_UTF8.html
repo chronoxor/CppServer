@@ -16,6 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -73,9 +74,25 @@
 
 <p>Similar care should be take to ensure the data is in the correct format when calling ASN1_STRING_set().</p>
 
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>ASN1_STRING_length() returns the length of the content of <b>x</b>.</p>
+
+<p>ASN1_STRING_get0_data() and ASN1_STRING_data() return an internal pointer to the data of <b>x</b>.</p>
+
+<p>ASN1_STRING_dup() returns a valid <b>ASN1_STRING</b> structure or <b>NULL</b> if an error occurred.</p>
+
+<p>ASN1_STRING_cmp() returns an integer greater than, equal to, or less than 0, according to whether <b>a</b> is greater than, equal to, or less than <b>b</b>.</p>
+
+<p>ASN1_STRING_set() returns 1 on success or 0 on error.</p>
+
+<p>ASN1_STRING_type() returns the type of <b>x</b>.</p>
+
+<p>ASN1_STRING_to_UTF8() returns the number of bytes in output string <b>out</b> or a negative value if an error occurred.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

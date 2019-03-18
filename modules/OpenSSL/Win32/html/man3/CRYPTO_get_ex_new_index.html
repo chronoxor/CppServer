@@ -32,10 +32,10 @@
 <pre><code> <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
  
  <span class="keyword">int</span> <span class="variable">CRYPTO_get_ex_new_index</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">class_index</span><span class="operator">,</span>
-                <span class="variable">long</span> <span class="variable">argl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*argp</span><span class="operator">,</span>
-                <span class="variable">CRYPTO_EX_new</span> <span class="variable">*new_func</span><span class="operator">,</span>
-                <span class="variable">CRYPTO_EX_dup</span> <span class="variable">*dup_func</span><span class="operator">,</span>
-                <span class="variable">CRYPTO_EX_free</span> <span class="variable">*free_func</span><span class="operator">);</span>
+                             <span class="variable">long</span> <span class="variable">argl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*argp</span><span class="operator">,</span>
+                             <span class="variable">CRYPTO_EX_new</span> <span class="variable">*new_func</span><span class="operator">,</span>
+                             <span class="variable">CRYPTO_EX_dup</span> <span class="variable">*dup_func</span><span class="operator">,</span>
+                             <span class="variable">CRYPTO_EX_free</span> <span class="variable">*free_func</span><span class="operator">);</span>
  
  <span class="variable">typedef</span> <span class="variable">void</span> <span class="variable">CRYPTO_EX_new</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*parent</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">,</span> <span class="variable">CRYPTO_EX_DATA</span> <span class="variable">*ad</span><span class="operator">,</span>
                             <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">argl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*argp</span><span class="operator">);</span>
@@ -59,20 +59,22 @@
 
 <p>Several OpenSSL structures can have application-specific data attached to them, known as &quot;exdata.&quot; The specific structures are:</p>
 
-<pre><code>    SSL
-    SSL_CTX
-    SSL_SESSION
-    X509
-    X509_STORE
-    X509_STORE_CTX
+<pre><code>    APP
+    BIO
     DH
+    DRBG
     DSA
     EC_KEY
-    RSA
     ENGINE
+    RSA
+    SSL
+    SSL_CTX
+    SSL_SESSION
     UI
     UI_METHOD
-    BIO</code></pre>
+    X509
+    X509_STORE
+    X509_STORE_CTX</code></pre>
 
 <p>Each is identified by an <b>CRYPTO_EX_INDEX_xxx</b> define in the <b>crypto.h</b> header file. In addition, <b>CRYPTO_EX_INDEX_APP</b> is reserved for applications to use this facility for their own structures.</p>
 
@@ -90,7 +92,7 @@
 
 <p>When setting exdata, the pointer specified with a particular index is saved, and returned on a subsequent &quot;get&quot; call. If the application is going to release the data, it must make sure to set a <b>NULL</b> value at the index, to avoid likely double-free crashes.</p>
 
-<p>The function <b>CRYPTO_free_ex_data</b> is used to free all exdata attached to a structure. The appropriate type-specific routine must be used. The <b>class_index</b> identifies the structure type, the <b>obj</b> is be the pointer to the actual structure, and <b>r</b> is a pointer to the structure&#39;s exdata field.</p>
+<p>The function <b>CRYPTO_free_ex_data</b> is used to free all exdata attached to a structure. The appropriate type-specific routine must be used. The <b>class_index</b> identifies the structure type, the <b>obj</b> is a pointer to the actual structure, and <b>r</b> is a pointer to the structure&#39;s exdata field.</p>
 
 <h2 id="Callback-Functions">Callback Functions</h2>
 
@@ -106,7 +108,7 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>CRYPTO_get_ex_new_index() returns a new index or -1 on failure; the value <b>0</b> is reserved for the legacy &quot;app_data&quot; API&#39;s.</p>
+<p>CRYPTO_get_ex_new_index() returns a new index or -1 on failure.</p>
 
 <p>CRYPTO_free_ex_index() and CRYPTO_set_ex_data() return 1 on success or 0 on failure.</p>
 
@@ -116,7 +118,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

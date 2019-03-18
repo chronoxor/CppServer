@@ -30,34 +30,35 @@
 <pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_add_PKCS1_type_1</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
+                                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_check_PKCS1_type_1</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
+                                    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_add_PKCS1_type_2</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
+                                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_check_PKCS1_type_2</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
+                                    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_add_PKCS1_OAEP</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pl</span><span class="operator">);</span>
+                                <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pl</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_check_PKCS1_OAEP</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pl</span><span class="operator">);</span>
+                                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">,</span>
+                                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pl</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_add_SSLv23</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
+                            <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_check_SSLv23</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
+                              <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_add_none</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
+                          <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_padding_check_none</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
+                            <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -112,15 +113,15 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>The RSA_padding_add_xxx() functions return 1 on success, 0 on error. The RSA_padding_check_xxx() functions return the length of the recovered data, -1 on error. Error codes can be obtained by calling <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>The RSA_padding_add_xxx() functions return 1 on success, 0 on error. The RSA_padding_check_xxx() functions return the length of the recovered data, -1 on error. Error codes can be obtained by calling <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="WARNING">WARNING</h1>
 
-<p>The RSA_padding_check_PKCS1_type_2() padding check leaks timing information which can potentially be used to mount a Bleichenbacher padding oracle attack. This is an inherent weakness in the PKCS #1 v1.5 padding design. Prefer PKCS1_OAEP padding.</p>
+<p>The RSA_padding_check_PKCS1_type_2() padding check leaks timing information which can potentially be used to mount a Bleichenbacher padding oracle attack. This is an inherent weakness in the PKCS #1 v1.5 padding design. Prefer PKCS1_OAEP padding. Otherwise it can be recommended to pass zero-padded <b>f</b>, so that <b>fl</b> equals to <b>rsa_len</b>, and if fixed by protocol, <b>tlen</b> being set to the expected length. In such case leakage would be minimal, it would take attacker&#39;s ability to observe memory access pattern with byte granilarity as it occurs, post-factum timing analysis won&#39;t do.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/RSA_public_encrypt.html>RSA_public_encrypt(3)</a>, <a href="../man3/RSA_private_decrypt.html>RSA_private_decrypt(3)</a>, <a href="../man3/RSA_sign.html>RSA_sign(3)</a>, <a href="../man3/RSA_verify.html>RSA_verify(3)</a></p>
+<p><a href="../man3/RSA_public_encrypt.html">RSA_public_encrypt(3)</a>, <a href="../man3/RSA_private_decrypt.html">RSA_private_decrypt(3)</a>, <a href="../man3/RSA_sign.html">RSA_sign(3)</a>, <a href="../man3/RSA_verify.html">RSA_verify(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

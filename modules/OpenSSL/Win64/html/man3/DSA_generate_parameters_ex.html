@@ -15,9 +15,10 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
-  <li><a href="#RETURN-VALUE">RETURN VALUE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#BUGS">BUGS</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
@@ -30,16 +31,17 @@
 <pre><code> <span class="comment">#include &lt;openssl/dsa.h&gt;</span>
  
  <span class="keyword">int</span> <span class="variable">DSA_generate_parameters_ex</span><span class="operator">(</span><span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span>
-                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*seed</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">seed_len</span><span class="operator">,</span>
-                <span class="keyword">int</span> <span class="variable">*counter_ret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">*h_ret</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
+                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*seed</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">seed_len</span><span class="operator">,</span>
+                                <span class="keyword">int</span> <span class="variable">*counter_ret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">*h_ret</span><span class="operator">,</span>
+                                <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
 </code></pre>
 
 <p>Deprecated:</p>
 
 <pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x00908000L</span>
- <span class="variable">DSA</span> <span class="variable">*DSA_generate_parameters</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*seed</span><span class="operator">,</span>
-                <span class="keyword">int</span> <span class="variable">seed_len</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*counter_ret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">*h_ret</span><span class="operator">,</span>
-                <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
+ <span class="variable">DSA</span> <span class="variable">*DSA_generate_parameters</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*seed</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">seed_len</span><span class="operator">,</span>
+                              <span class="keyword">int</span> <span class="variable">*counter_ret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">*h_ret</span><span class="operator">,</span>
+                              <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
  <span class="comment">#endif</span>
 </code></pre>
 
@@ -53,7 +55,9 @@
 
 <p>DSA_generate_parameters_ex() places the iteration count in *<b>counter_ret</b> and a counter used for finding a generator in *<b>h_ret</b>, unless these are <b>NULL</b>.</p>
 
-<p>A callback function may be used to provide feedback about the progress of the key generation. If <b>cb</b> is not <b>NULL</b>, it will be called as shown below. For information on the BN_GENCB structure and the BN_GENCB_call function discussed below, refer to <a href="../man3/BN_generate_prime.html>BN_generate_prime(3)</a>.</p>
+<p>A callback function may be used to provide feedback about the progress of the key generation. If <b>cb</b> is not <b>NULL</b>, it will be called as shown below. For information on the BN_GENCB structure and the BN_GENCB_call function discussed below, refer to <a href="../man3/BN_generate_prime.html">BN_generate_prime(3)</a>.</p>
+
+<p>DSA_generate_prime() is similar to DSA_generate_prime_ex() but expects an old-style callback function; see <a href="../man3/BN_generate_prime.html">BN_generate_prime(3)</a> for information on the old-style callback.</p>
 
 <ul>
 
@@ -80,27 +84,27 @@
 </li>
 </ul>
 
-<p>DSA_generate_parameters() (deprecated) works in much the same way as for DSA_generate_parameters_ex, except that no <b>dsa</b> parameter is passed and instead a newly allocated <b>DSA</b> structure is returned. Additionally &quot;old style&quot; callbacks are used instead of the newer BN_GENCB based approach. Refer to <a href="../man3/BN_generate_prime.html>BN_generate_prime(3)</a> for further information.</p>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<h1 id="RETURN-VALUE">RETURN VALUE</h1>
+<p>DSA_generate_parameters_ex() returns a 1 on success, or 0 otherwise. The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
-<p>DSA_generate_parameters_ex() returns a 1 on success, or 0 otherwise.</p>
-
-<p>DSA_generate_parameters() returns a pointer to the DSA structure, or <b>NULL</b> if the parameter generation fails.</p>
-
-<p>The error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>DSA_generate_parameters() returns a pointer to the DSA structure or <b>NULL</b> if the parameter generation fails.</p>
 
 <h1 id="BUGS">BUGS</h1>
 
-<p>Seed lengths &gt; 20 are not supported.</p>
+<p>Seed lengths greater than 20 are not supported.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/DSA_new.html>DSA_new(3)</a>, <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html>RAND_bytes(3)</a>, <a href="../man3/DSA_free.html>DSA_free(3)</a>, <a href="../man3/BN_generate_prime.html>BN_generate_prime(3)</a></p>
+<p><a href="../man3/DSA_new.html">DSA_new(3)</a>, <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/DSA_free.html">DSA_free(3)</a>, <a href="../man3/BN_generate_prime.html">BN_generate_prime(3)</a></p>
+
+<h1 id="HISTORY">HISTORY</h1>
+
+<p>DSA_generate_parameters() was deprecated in OpenSSL 0.9.8; use DSA_generate_parameters_ex() instead.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

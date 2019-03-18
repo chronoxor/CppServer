@@ -46,7 +46,7 @@
 
 <p>When sending a certificate chain, extra chain certificates are sent in order following the end entity certificate.</p>
 
-<p>If no chain is specified, the library will try to complete the chain from the available CA certificates in the trusted CA storage, see <a href="../man3/SSL_CTX_load_verify_locations.html>SSL_CTX_load_verify_locations(3)</a>.</p>
+<p>If no chain is specified, the library will try to complete the chain from the available CA certificates in the trusted CA storage, see <a href="../man3/SSL_CTX_load_verify_locations.html">SSL_CTX_load_verify_locations(3)</a>.</p>
 
 <p>The <b>x509</b> certificate provided to SSL_CTX_add_extra_chain_cert() will be freed by the library when the <b>SSL_CTX</b> is destroyed. An application <b>should not</b> free the <b>x509</b> object.</p>
 
@@ -60,7 +60,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_CTX_use_certificate.html>SSL_CTX_use_certificate(3)</a>, <a href="../man3/SSL_CTX_set_client_cert_cb.html>SSL_CTX_set_client_cert_cb(3)</a>, <a href="../man3/SSL_CTX_load_verify_locations.html>SSL_CTX_load_verify_locations(3)</a> <a href="../man3/SSL_CTX_set0_chain.html>SSL_CTX_set0_chain(3)</a> <a href="../man3/SSL_CTX_set1_chain.html>SSL_CTX_set1_chain(3)</a> <a href="../man3/SSL_CTX_add0_chain_cert.html>SSL_CTX_add0_chain_cert(3)</a> <a href="../man3/SSL_CTX_add1_chain_cert.html>SSL_CTX_add1_chain_cert(3)</a> <a href="../man3/SSL_set0_chain.html>SSL_set0_chain(3)</a> <a href="../man3/SSL_set1_chain.html>SSL_set1_chain(3)</a> <a href="../man3/SSL_add0_chain_cert.html>SSL_add0_chain_cert(3)</a> <a href="../man3/SSL_add1_chain_cert.html>SSL_add1_chain_cert(3)</a> <a href="../man3/SSL_CTX_build_cert_chain.html>SSL_CTX_build_cert_chain(3)</a> <a href="../man3/SSL_build_cert_chain.html>SSL_build_cert_chain(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_CTX_use_certificate.html">SSL_CTX_use_certificate(3)</a>, <a href="../man3/SSL_CTX_set_client_cert_cb.html">SSL_CTX_set_client_cert_cb(3)</a>, <a href="../man3/SSL_CTX_load_verify_locations.html">SSL_CTX_load_verify_locations(3)</a> <a href="../man3/SSL_CTX_set0_chain.html">SSL_CTX_set0_chain(3)</a> <a href="../man3/SSL_CTX_set1_chain.html">SSL_CTX_set1_chain(3)</a> <a href="../man3/SSL_CTX_add0_chain_cert.html">SSL_CTX_add0_chain_cert(3)</a> <a href="../man3/SSL_CTX_add1_chain_cert.html">SSL_CTX_add1_chain_cert(3)</a> <a href="../man3/SSL_set0_chain.html">SSL_set0_chain(3)</a> <a href="../man3/SSL_set1_chain.html">SSL_set1_chain(3)</a> <a href="../man3/SSL_add0_chain_cert.html">SSL_add0_chain_cert(3)</a> <a href="../man3/SSL_add1_chain_cert.html">SSL_add1_chain_cert(3)</a> <a href="../man3/SSL_CTX_build_cert_chain.html">SSL_CTX_build_cert_chain(3)</a> <a href="../man3/SSL_build_cert_chain.html">SSL_build_cert_chain(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

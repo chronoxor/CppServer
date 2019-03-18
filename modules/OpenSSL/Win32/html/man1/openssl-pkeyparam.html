@@ -28,11 +28,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>pkeyparam</b> [<b>-help</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-text</b>] [<b>-noout</b>] [<b>-engine id</b>]</p>
+<p><b>openssl</b> <b>pkeyparam</b> [<b>-help</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-text</b>] [<b>-noout</b>] [<b>-engine id</b>] [<b>-check</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The <b>pkey</b> command processes public or private keys. They can be converted between various forms and their components printed out.</p>
+<p>The <b>pkeyparam</b> command processes public key algorithm parameters. They can be checked for correctness and their components printed out.</p>
 
 <h1 id="OPTIONS">OPTIONS</h1>
 
@@ -59,19 +59,25 @@
 <dt id="text"><b>-text</b></dt>
 <dd>
 
-<p>prints out the parameters in plain text in addition to the encoded version.</p>
+<p>Prints out the parameters in plain text in addition to the encoded version.</p>
 
 </dd>
 <dt id="noout"><b>-noout</b></dt>
 <dd>
 
-<p>do not output the encoded version of the parameters.</p>
+<p>Do not output the encoded version of the parameters.</p>
 
 </dd>
 <dt id="engine-id"><b>-engine id</b></dt>
 <dd>
 
-<p>specifying an engine (by its unique <b>id</b> string) will cause <b>pkeyparam</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+<p>Specifying an engine (by its unique <b>id</b> string) will cause <b>pkeyparam</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+
+</dd>
+<dt id="check"><b>-check</b></dt>
+<dd>
+
+<p>This option checks the correctness of parameters.</p>
 
 </dd>
 </dl>
@@ -88,11 +94,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/genpkey.html>genpkey(1)</a>, <a href="../man1/rsa.html>rsa(1)</a>, <a href="../man1/pkcs8.html>pkcs8(1)</a>, <a href="../man1/dsa.html>dsa(1)</a>, <a href="../man1/genrsa.html>genrsa(1)</a>, <a href="../man1/gendsa.html>gendsa(1)</a></p>
+<p><a href="../man1/genpkey.html">genpkey(1)</a>, <a href="../man1/rsa.html">rsa(1)</a>, <a href="../man1/pkcs8.html">pkcs8(1)</a>, <a href="../man1/dsa.html">dsa(1)</a>, <a href="../man1/genrsa.html">genrsa(1)</a>, <a href="../man1/gendsa.html">gendsa(1)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2006-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2006-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

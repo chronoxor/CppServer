@@ -45,11 +45,9 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>All of the following functions are deprecated from OpenSSL 1.1.0. No explicit initialisation or de-initialisation is necessary. See <a href="../man3/OPENSSL_init_crypto.html>OPENSSL_init_crypto(3)</a> and <a href="../man3/OPENSSL_init_ssl.html>OPENSSL_init_ssl(3)</a>.</p>
-
 <p>ERR_load_crypto_strings() registers the error strings for all <b>libcrypto</b> functions. SSL_load_error_strings() does the same, but also registers the <b>libssl</b> error strings.</p>
 
-<p>In versions of OpenSSL prior to 1.1.0 ERR_free_strings() freed all previously loaded error strings. However from OpenSSL 1.1.0 it does nothing.</p>
+<p>In versions prior to OpenSSL 1.1.0, ERR_free_strings() releases any resources created by the above functions.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -57,11 +55,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_error_string.html>ERR_error_string(3)</a></p>
+<p><a href="../man3/ERR_error_string.html">ERR_error_string(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>The ERR_load_crypto_strings(), SSL_load_error_strings(), and ERR_free_strings() functions were deprecated in OpenSSL 1.1.0 by OPENSSL_init_crypto() and OPENSSL_init_ssl().</p>
+<p>The ERR_load_crypto_strings(), SSL_load_error_strings(), and ERR_free_strings() functions were deprecated in OpenSSL 1.1.0 by OPENSSL_init_crypto() and OPENSSL_init_ssl() and should not be used.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

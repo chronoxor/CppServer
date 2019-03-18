@@ -37,11 +37,11 @@
  <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_peek_last_error_line</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">);</span>
  
  <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_get_error_line_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">,</span>
-         <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*flags</span><span class="operator">);</span>
+                                       <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*flags</span><span class="operator">);</span>
  <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_peek_error_line_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">,</span>
-         <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*flags</span><span class="operator">);</span>
+                                        <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*flags</span><span class="operator">);</span>
  <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_peek_last_error_line_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">,</span>
-         <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*flags</span><span class="operator">);</span>
+                                             <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*flags</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -52,7 +52,7 @@
 
 <p>ERR_peek_last_error() returns the latest error code from the thread&#39;s error queue without modifying it.</p>
 
-<p>See <a href="../man3/ERR_GET_LIB.html>ERR_GET_LIB(3)</a> for obtaining information about location and reason of the error, and <a href="../man3/ERR_error_string.html>ERR_error_string(3)</a> for human-readable error messages.</p>
+<p>See <a href="../man3/ERR_GET_LIB.html">ERR_GET_LIB(3)</a> for obtaining information about location and reason of the error, and <a href="../man3/ERR_error_string.html">ERR_error_string(3)</a> for human-readable error messages.</p>
 
 <p>ERR_get_error_line(), ERR_peek_error_line() and ERR_peek_last_error_line() are the same as the above, but they additionally store the file name and line number where the error occurred in *<b>file</b> and *<b>line</b>, unless these are <b>NULL</b>.</p>
 
@@ -66,7 +66,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_error_string.html>ERR_error_string(3)</a>, <a href="../man3/ERR_GET_LIB.html>ERR_GET_LIB(3)</a></p>
+<p><a href="../man3/ERR_error_string.html">ERR_error_string(3)</a>, <a href="../man3/ERR_GET_LIB.html">ERR_GET_LIB(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

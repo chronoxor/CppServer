@@ -37,7 +37,6 @@
  <span class="keyword">int</span> <span class="variable">BIO_destroy_bio_pair</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">BIO_shutdown_wr</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
  
- 
  <span class="keyword">int</span> <span class="variable">BIO_set_write_buf_size</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">size</span><span class="operator">);</span>
  <span class="variable">size_t</span> <span class="variable">BIO_get_write_buf_size</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">size</span><span class="operator">);</span>
  
@@ -58,9 +57,9 @@
 
 <p>One typical use of BIO pairs is to place TLS/SSL I/O under application control, this can be used when the application wishes to use a non standard transport for TLS/SSL or the normal socket routines are inappropriate.</p>
 
-<p>Calls to BIO_read() will read data from the buffer or request a retry if no data is available.</p>
+<p>Calls to BIO_read_ex() will read data from the buffer or request a retry if no data is available.</p>
 
-<p>Calls to BIO_write() will place data in the buffer or request a retry if the buffer is full.</p>
+<p>Calls to BIO_write_ex() will place data in the buffer or request a retry if the buffer is full.</p>
 
 <p>The standard calls BIO_ctrl_pending() and BIO_ctrl_wpending() can be used to determine the amount of pending data in the read or write buffer.</p>
 
@@ -78,7 +77,7 @@
 
 <p>BIO_new_bio_pair() combines the calls to BIO_new(), BIO_make_bio_pair() and BIO_set_write_buf_size() to create a connected pair of BIOs <b>bio1</b>, <b>bio2</b> with write buffer sizes <b>writebuf1</b> and <b>writebuf2</b>. If either size is zero then the default size is used. BIO_new_bio_pair() does not check whether <b>bio1</b> or <b>bio2</b> do point to some other BIO, the values are overwritten, BIO_free() is not called.</p>
 
-<p>BIO_get_write_guarantee() and BIO_ctrl_get_write_guarantee() return the maximum length of data that can be currently written to the BIO. Writes larger than this value will return a value from BIO_write() less than the amount requested or if the buffer is full request a retry. BIO_ctrl_get_write_guarantee() is a function whereas BIO_get_write_guarantee() is a macro.</p>
+<p>BIO_get_write_guarantee() and BIO_ctrl_get_write_guarantee() return the maximum length of data that can be currently written to the BIO. Writes larger than this value will return a value from BIO_write_ex() less than the amount requested or if the buffer is full request a retry. BIO_ctrl_get_write_guarantee() is a function whereas BIO_get_write_guarantee() is a macro.</p>
 
 <p>BIO_get_read_request() and BIO_ctrl_get_read_request() return the amount of data requested, or the buffer size if it is less, if the last read attempt at the other half of the BIO pair failed due to an empty buffer. This can be used to determine how much data should be written to the BIO so the next read will succeed: this is most useful in TLS/SSL applications where the amount of data read is usually meaningful rather than just a buffer size. After a successful read this call will return zero. It also will return zero once new data has been written satisfying the read request or part of it. Note that BIO_get_read_request() never returns an amount larger than that returned by BIO_get_write_guarantee().</p>
 
@@ -90,7 +89,7 @@
 
 <p>When used in bidirectional applications (such as TLS/SSL) care should be taken to flush any data in the write buffer. This can be done by calling BIO_pending() on the other half of the pair and, if any data is pending, reading it and sending it to the underlying transport. This must be done before any normal processing (such as calling select() ) due to a request and BIO_should_read() being true.</p>
 
-<p>To see why this is important consider a case where a request is sent using BIO_write() and a response read with BIO_read(), this can occur during an TLS/SSL handshake for example. BIO_write() will succeed and place data in the write buffer. BIO_read() will initially fail and BIO_should_read() will be true. If the application then waits for data to be available on the underlying transport before flushing the write buffer it will never succeed because the request was never sent!</p>
+<p>To see why this is important consider a case where a request is sent using BIO_write_ex() and a response read with BIO_read_ex(), this can occur during an TLS/SSL handshake for example. BIO_write_ex() will succeed and place data in the write buffer. BIO_read_ex() will initially fail and BIO_should_read() will be true. If the application then waits for data to be available on the underlying transport before flushing the write buffer it will never succeed because the request was never sent!</p>
 
 <p>BIO_eof() is true if no data is in the peer BIO and the peer BIO has been shutdown.</p>
 
@@ -107,10 +106,11 @@
 <p>The BIO pair can be used to have full control over the network access of an application. The application can call select() on the socket as required without having to go through the SSL-interface.</p>
 
 <pre><code> <span class="variable">BIO</span> <span class="variable">*internal_bio</span><span class="operator">,</span> <span class="variable">*network_bio</span><span class="operator">;</span>
+ 
  <span class="operator">...</span>
  <span class="variable">BIO_new_bio_pair</span><span class="operator">(&amp;</span><span class="variable">internal_bio</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">network_bio</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
  <span class="variable">SSL_set_bio</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">,</span> <span class="variable">internal_bio</span><span class="operator">,</span> <span class="variable">internal_bio</span><span class="operator">);</span>
- <span class="variable">SSL_operations</span><span class="operator">();</span> <span class="regex">//e</span><span class="operator">.</span><span class="variable">g</span> <span class="variable">SSL_read</span> <span class="keyword">and</span> <span class="variable">SSL_write</span>
+ <span class="variable">SSL_operations</span><span class="operator">();</span> <span class="regex">/* e.g SSL_read and SSL_write */</span>
  <span class="operator">...</span>
  
  <span class="variable">application</span> <span class="operator">|</span>   <span class="variable">TLS</span><span class="operator">-</span><span class="variable">engine</span>
@@ -143,7 +143,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/SSL_set_bio.html>SSL_set_bio(3)</a>, <a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/bio.html>bio(3)</a>, <a href="../man3/BIO_should_retry.html>BIO_should_retry(3)</a>, <a href="../man3/BIO_read.html>BIO_read(3)</a></p>
+<p><a href="../man3/SSL_set_bio.html">SSL_set_bio(3)</a>, <a href="../man7/ssl.html">ssl(7)</a>, <a href="../man7/bio.html">bio(7)</a>, <a href="../man3/BIO_should_retry.html">BIO_should_retry(3)</a>, <a href="../man3/BIO_read_ex.html">BIO_read_ex(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

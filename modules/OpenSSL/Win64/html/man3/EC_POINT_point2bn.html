@@ -22,7 +22,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>EC_POINT_set_Jprojective_coordinates_GFp, EC_POINT_point2buf, EC_POINT_new, EC_POINT_free, EC_POINT_clear_free, EC_POINT_copy, EC_POINT_dup, EC_POINT_method_of, EC_POINT_set_to_infinity, EC_POINT_get_Jprojective_coordinates_GFp, EC_POINT_set_affine_coordinates_GFp, EC_POINT_get_affine_coordinates_GFp, EC_POINT_set_compressed_coordinates_GFp, EC_POINT_set_affine_coordinates_GF2m, EC_POINT_get_affine_coordinates_GF2m, EC_POINT_set_compressed_coordinates_GF2m, EC_POINT_point2oct, EC_POINT_oct2point, EC_POINT_point2bn, EC_POINT_bn2point, EC_POINT_point2hex, EC_POINT_hex2point - Functions for creating, destroying and manipulating EC_POINT objects</p>
+<p>EC_POINT_set_Jprojective_coordinates_GFp, EC_POINT_point2buf, EC_POINT_new, EC_POINT_free, EC_POINT_clear_free, EC_POINT_copy, EC_POINT_dup, EC_POINT_method_of, EC_POINT_set_to_infinity, EC_POINT_get_Jprojective_coordinates_GFp, EC_POINT_set_affine_coordinates, EC_POINT_get_affine_coordinates, EC_POINT_set_compressed_coordinates, EC_POINT_set_affine_coordinates_GFp, EC_POINT_get_affine_coordinates_GFp, EC_POINT_set_compressed_coordinates_GFp, EC_POINT_set_affine_coordinates_GF2m, EC_POINT_get_affine_coordinates_GF2m, EC_POINT_set_compressed_coordinates_GF2m, EC_POINT_point2oct, EC_POINT_oct2point, EC_POINT_point2bn, EC_POINT_bn2point, EC_POINT_point2hex, EC_POINT_hex2point - Functions for creating, destroying and manipulating EC_POINT objects</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -43,6 +43,14 @@
                                               <span class="variable">const</span> <span class="variable">EC_POINT</span> <span class="variable">*p</span><span class="operator">,</span>
                                               <span class="variable">BIGNUM</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*y</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*z</span><span class="operator">,</span>
                                               <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EC_POINT_set_affine_coordinates</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">EC_POINT</span> <span class="variable">*p</span><span class="operator">,</span>
+                                     <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*y</span><span class="operator">,</span>
+                                     <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EC_POINT_get_affine_coordinates</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_POINT</span> <span class="variable">*p</span><span class="operator">,</span>
+                                     <span class="variable">BIGNUM</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*y</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EC_POINT_set_compressed_coordinates</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">EC_POINT</span> <span class="variable">*p</span><span class="operator">,</span>
+                                         <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">y_bit</span><span class="operator">,</span>
+                                         <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EC_POINT_set_affine_coordinates_GFp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">EC_POINT</span> <span class="variable">*p</span><span class="operator">,</span>
                                          <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*y</span><span class="operator">,</span>
                                          <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
@@ -98,11 +106,17 @@
 
 <p>A valid point on a curve is the special point at infinity. A point is set to be at infinity by calling EC_POINT_set_to_infinity().</p>
 
-<p>The affine co-ordinates for a point describe a point in terms of its x and y position. The functions EC_POINT_set_affine_coordinates_GFp() and EC_POINT_set_affine_coordinates_GF2m() set the <b>x</b> and <b>y</b> co-ordinates for the point <b>p</b> defined over the curve given in <b>group</b>.</p>
+<p>The affine co-ordinates for a point describe a point in terms of its x and y position. The function EC_POINT_set_affine_coordinates() sets the <b>x</b> and <b>y</b> co-ordinates for the point <b>p</b> defined over the curve given in <b>group</b>. The function EC_POINT_get_affine_coordinates() sets <b>x</b> and <b>y</b>, either of which may be NULL, to the corresponding coordinates of <b>p</b>.</p>
+
+<p>The functions EC_POINT_set_affine_coordinates_GFp() and EC_POINT_set_affine_coordinates_GF2m() are synonyms for EC_POINT_set_affine_coordinates(). They are defined for backwards compatibility only and should not be used.</p>
+
+<p>The functions EC_POINT_get_affine_coordinates_GFp() and EC_POINT_get_affine_coordinates_GF2m() are synonyms for EC_POINT_get_affine_coordinates(). They are defined for backwards compatibility only and should not be used.</p>
 
 <p>As well as the affine co-ordinates, a point can alternatively be described in terms of its Jacobian projective co-ordinates (for Fp curves only). Jacobian projective co-ordinates are expressed as three values x, y and z. Working in this co-ordinate system provides more efficient point multiplication operations. A mapping exists between Jacobian projective co-ordinates and affine co-ordinates. A Jacobian projective co-ordinate (x, y, z) can be written as an affine co-ordinate as (x/(z^2), y/(z^3)). Conversion to Jacobian projective from affine co-ordinates is simple. The co-ordinate (x, y) is mapped to (x, y, 1). To set or get the projective co-ordinates use EC_POINT_set_Jprojective_coordinates_GFp() and EC_POINT_get_Jprojective_coordinates_GFp() respectively.</p>
 
-<p>Points can also be described in terms of their compressed co-ordinates. For a point (x, y), for any given value for x such that the point is on the curve there will only ever be two possible values for y. Therefore a point can be set using the EC_POINT_set_compressed_coordinates_GFp() and EC_POINT_set_compressed_coordinates_GF2m() functions where <b>x</b> is the x co-ordinate and <b>y_bit</b> is a value 0 or 1 to identify which of the two possible values for y should be used.</p>
+<p>Points can also be described in terms of their compressed co-ordinates. For a point (x, y), for any given value for x such that the point is on the curve there will only ever be two possible values for y. Therefore a point can be set using the EC_POINT_set_compressed_coordinates() function where <b>x</b> is the x co-ordinate and <b>y_bit</b> is a value 0 or 1 to identify which of the two possible values for y should be used.</p>
+
+<p>The functions EC_POINT_set_compressed_coordinates_GFp() and EC_POINT_set_compressed_coordinates_GF2m() are synonyms for EC_POINT_set_compressed_coordinates(). They are defined for backwards compatibility only and should not be used.</p>
 
 <p>In addition <b>EC_POINT</b> can be converted to and from various external representations. The octet form is the binary encoding of the <b>ECPoint</b> structure (as defined in RFC5480 and used in certificates and TLS records): only the content octets are present, the <b>OCTET STRING</b> tag and length are not included. <b>BIGNUM</b> form is the octet form interpreted as a big endian integer converted to a <b>BIGNUM</b> structure. Hexadecimal form is the octet form converted to a NULL terminated character string where each character is one of the printable values 0-9 or A-F (or a-f).</p>
 
@@ -134,7 +148,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man7/crypto.html>crypto(7)</a>, <a href="../man3/EC_GROUP_new.html>EC_GROUP_new(3)</a>, <a href="../man3/EC_GROUP_copy.html>EC_GROUP_copy(3)</a>, <a href="../man3/EC_POINT_add.html>EC_POINT_add(3)</a>, <a href="../man3/EC_KEY_new.html>EC_KEY_new(3)</a>, <a href="../man3/EC_GFp_simple_method.html>EC_GFp_simple_method(3)</a>, <a href="../man3/d2i_ECPKParameters.html>d2i_ECPKParameters(3)</a></p>
+<p><a href="../man7/crypto.html">crypto(7)</a>, <a href="../man3/EC_GROUP_new.html">EC_GROUP_new(3)</a>, <a href="../man3/EC_GROUP_copy.html">EC_GROUP_copy(3)</a>, <a href="../man3/EC_POINT_add.html">EC_POINT_add(3)</a>, <a href="../man3/EC_KEY_new.html">EC_KEY_new(3)</a>, <a href="../man3/EC_GFp_simple_method.html">EC_GFp_simple_method(3)</a>, <a href="../man3/d2i_ECPKParameters.html">d2i_ECPKParameters(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

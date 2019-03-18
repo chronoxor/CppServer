@@ -15,8 +15,7 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
-  <li><a href="#NOTES">NOTES</a></li>
-  <li><a href="#RETURN-VALUE">RETURN VALUE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -42,31 +41,27 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>CONF_modules_free() closes down and frees up all memory allocated by all configuration modules.</p>
+<p>CONF_modules_free() closes down and frees up all memory allocated by all configuration modules. Normally, in versions of OpenSSL prior to 1.1.0, applications called CONF_modules_free() at exit to tidy up any configuration performed.</p>
 
 <p>CONF_modules_finish() calls each configuration modules <b>finish</b> handler to free up any configuration that module may have performed.</p>
 
 <p>CONF_modules_unload() finishes and unloads configuration modules. If <b>all</b> is set to <b>0</b> only modules loaded from DSOs will be unloads. If <b>all</b> is <b>1</b> all modules, including builtin modules will be unloaded.</p>
 
-<h1 id="NOTES">NOTES</h1>
-
-<p>Normally in versions of OpenSSL prior to 1.1.0 applications will only call CONF_modules_free() at application exit to tidy up any configuration performed. From 1.1.0 CONF_modules_free() is deprecated and no explicit CONF cleanup is required at all. For more information see <a href="../man3/OPENSSL_init_crypto.html>OPENSSL_init_crypto(3)</a>.</p>
-
-<h1 id="RETURN-VALUE">RETURN VALUE</h1>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>None of the functions return a value.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man5/conf.html>conf(5)</a>, <a href="../man3/OPENSSL_config.html>OPENSSL_config(3)</a>, <a href="../man3/CONF_modules_load_file.html>CONF_modules_load_file(3)</a></p>
+<p><a href="../man5/config.html">config(5)</a>, <a href="../man3/OPENSSL_config.html">OPENSSL_config(3)</a>, <a href="../man3/CONF_modules_load_file.html">CONF_modules_load_file(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>CONF_modules_free() was deprecated in OpenSSL 1.1.0.</p>
+<p>CONF_modules_free() was deprecated in OpenSSL 1.1.0; do not use it. For more information see <a href="../man3/OPENSSL_init_crypto.html">OPENSSL_init_crypto(3)</a>.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2004-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2004-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

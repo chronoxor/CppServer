@@ -44,6 +44,10 @@
 
 <p>If the underlying BIO is <b>non-blocking</b>, SSL_connect() will also return when the underlying BIO could not satisfy the needs of SSL_connect() to continue the handshake, indicating the problem by the return value -1. In this case a call to SSL_get_error() with the return value of SSL_connect() will yield <b>SSL_ERROR_WANT_READ</b> or <b>SSL_ERROR_WANT_WRITE</b>. The calling process then must repeat the call after taking appropriate action to satisfy the needs of SSL_connect(). The action depends on the underlying BIO. When using a non-blocking socket, nothing is to be done, but select() can be used to check for the required condition. When using a buffering BIO, like a BIO pair, data must be written into or retrieved out of the BIO before being able to continue.</p>
 
+<p>Many systems implement Nagle&#39;s algorithm by default which means that it will buffer outgoing TCP data if a TCP packet has already been sent for which no corresponding ACK has been received yet from the peer. This can have performance impacts after a successful TLSv1.3 handshake or a successful TLSv1.2 (or below) resumption handshake, because the last peer to communicate in the handshake is the client. If the client is also the first to send application data (as is typical for many protocols) then this data could be buffered until an ACK has been received for the final handshake message.</p>
+
+<p>The <b>TCP_NODELAY</b> socket option is often available to disable Nagle&#39;s algorithm. If an application opts to disable Nagle&#39;s algorithm consideration should be given to turning it back on again later if appropriate. The helper function BIO_set_tcp_ndelay() can be used to turn on or off the <b>TCP_NODELAY</b> option.</p>
+
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>The following return values can occur:</p>
@@ -72,11 +76,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/SSL_get_error.html>SSL_get_error(3)</a>, <a href="../man3/SSL_accept.html>SSL_accept(3)</a>, <a href="../man3/SSL_shutdown.html>SSL_shutdown(3)</a>, <a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/bio.html>bio(3)</a>, <a href="../man3/SSL_set_connect_state.html>SSL_set_connect_state(3)</a>, <a href="../man3/SSL_do_handshake.html>SSL_do_handshake(3)</a>, <a href="../man3/SSL_CTX_new.html>SSL_CTX_new(3)</a></p>
+<p><a href="../man3/SSL_get_error.html">SSL_get_error(3)</a>, <a href="../man3/SSL_accept.html">SSL_accept(3)</a>, <a href="../man3/SSL_shutdown.html">SSL_shutdown(3)</a>, <a href="../man7/ssl.html">ssl(7)</a>, <a href="../man7/bio.html">bio(7)</a>, <a href="../man3/SSL_set_connect_state.html">SSL_set_connect_state(3)</a>, <a href="../man3/SSL_do_handshake.html">SSL_do_handshake(3)</a>, <a href="../man3/SSL_CTX_new.html">SSL_CTX_new(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

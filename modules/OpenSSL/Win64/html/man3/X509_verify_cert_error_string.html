@@ -57,13 +57,13 @@
 
 <p>X509_STORE_CTX_get_current_cert() returns the certificate in <b>ctx</b> which caused the error or <b>NULL</b> if no certificate is relevant.</p>
 
-<p>X509_STORE_CTX_set_current_cert() sets the certificate <b>x</b> in <b>ctx</b> which caused the error. This value is not intended to remain valid for very long, and remains owned by the caller. It may be examined by a verification callback invoked to handle each error encountered during chain verification and is no longer required after such a callback. If a callback wishes the save the certificate for use after it returns, it needs to increment its reference count via <a href="../man3/X509_up_ref.html>X509_up_ref(3)</a>. Once such a <i>saved</i> certificate is no longer needed it can be freed with <a href="../man3/X509_free.html>X509_free(3)</a>.</p>
+<p>X509_STORE_CTX_set_current_cert() sets the certificate <b>x</b> in <b>ctx</b> which caused the error. This value is not intended to remain valid for very long, and remains owned by the caller. It may be examined by a verification callback invoked to handle each error encountered during chain verification and is no longer required after such a callback. If a callback wishes the save the certificate for use after it returns, it needs to increment its reference count via <a href="../man3/X509_up_ref.html">X509_up_ref(3)</a>. Once such a <i>saved</i> certificate is no longer needed it can be freed with <a href="../man3/X509_free.html">X509_free(3)</a>.</p>
 
 <p>X509_STORE_CTX_get0_cert() retrieves an internal pointer to the certificate being verified by the <b>ctx</b>.</p>
 
 <p>X509_STORE_CTX_get1_chain() returns a complete validate chain if a previous call to X509_verify_cert() is successful. If the call to X509_verify_cert() is <b>not</b> successful the returned chain may be incomplete or invalid. The returned chain persists after the <b>ctx</b> structure is freed, when it is no longer needed it should be free up using:</p>
 
-<pre><code>  <span class="variable">sk_X509_pop_free</span><span class="operator">(</span><span class="variable">chain</span><span class="operator">,</span> <span class="variable">X509_free</span><span class="operator">);</span>
+<pre><code> <span class="variable">sk_X509_pop_free</span><span class="operator">(</span><span class="variable">chain</span><span class="operator">,</span> <span class="variable">X509_free</span><span class="operator">);</span>
 </code></pre>
 
 <p>X509_verify_cert_error_string() returns a human readable error string for verification error <b>n</b>.</p>
@@ -360,7 +360,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/X509_verify_cert.html>X509_verify_cert(3)</a>, <a href="../man3/X509_up_ref.html>X509_up_ref(3)</a>, <a href="../man3/X509_free.html>X509_free(3)</a>.</p>
+<p><a href="../man3/X509_verify_cert.html">X509_verify_cert(3)</a>, <a href="../man3/X509_up_ref.html">X509_up_ref(3)</a>, <a href="../man3/X509_free.html">X509_free(3)</a>.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

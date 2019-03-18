@@ -33,7 +33,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>asn1parse</b> [<b>-help</b>] [<b>-inform PEM|DER</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-noout</b>] [<b>-offset number</b>] [<b>-length number</b>] [<b>-i</b>] [<b>-oid filename</b>] [<b>-dump</b>] [<b>-dlimit num</b>] [<b>-strparse offset</b>] [<b>-genstr string</b>] [<b>-genconf file</b>] [<b>-strictpem</b>]</p>
+<p><b>openssl</b> <b>asn1parse</b> [<b>-help</b>] [<b>-inform PEM|DER</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-noout</b>] [<b>-offset number</b>] [<b>-length number</b>] [<b>-i</b>] [<b>-oid filename</b>] [<b>-dump</b>] [<b>-dlimit num</b>] [<b>-strparse offset</b>] [<b>-genstr string</b>] [<b>-genconf file</b>] [<b>-strictpem</b>] [<b>-item name</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -52,79 +52,85 @@
 <dt id="inform-DER-PEM"><b>-inform</b> <b>DER|PEM</b></dt>
 <dd>
 
-<p>the input format. <b>DER</b> is binary format and <b>PEM</b> (the default) is base64 encoded.</p>
+<p>The input format. <b>DER</b> is binary format and <b>PEM</b> (the default) is base64 encoded.</p>
 
 </dd>
 <dt id="in-filename"><b>-in filename</b></dt>
 <dd>
 
-<p>the input file, default is standard input</p>
+<p>The input file, default is standard input.</p>
 
 </dd>
 <dt id="out-filename"><b>-out filename</b></dt>
 <dd>
 
-<p>output file to place the DER encoded data into. If this option is not present then no data will be output. This is most useful when combined with the <b>-strparse</b> option.</p>
+<p>Output file to place the DER encoded data into. If this option is not present then no data will be output. This is most useful when combined with the <b>-strparse</b> option.</p>
 
 </dd>
 <dt id="noout"><b>-noout</b></dt>
 <dd>
 
-<p>don&#39;t output the parsed version of the input file.</p>
+<p>Don&#39;t output the parsed version of the input file.</p>
 
 </dd>
 <dt id="offset-number"><b>-offset number</b></dt>
 <dd>
 
-<p>starting offset to begin parsing, default is start of file.</p>
+<p>Starting offset to begin parsing, default is start of file.</p>
 
 </dd>
 <dt id="length-number"><b>-length number</b></dt>
 <dd>
 
-<p>number of bytes to parse, default is until end of file.</p>
+<p>Number of bytes to parse, default is until end of file.</p>
 
 </dd>
 <dt id="i"><b>-i</b></dt>
 <dd>
 
-<p>indents the output according to the &quot;depth&quot; of the structures.</p>
+<p>Indents the output according to the &quot;depth&quot; of the structures.</p>
 
 </dd>
 <dt id="oid-filename"><b>-oid filename</b></dt>
 <dd>
 
-<p>a file containing additional OBJECT IDENTIFIERs (OIDs). The format of this file is described in the NOTES section below.</p>
+<p>A file containing additional OBJECT IDENTIFIERs (OIDs). The format of this file is described in the NOTES section below.</p>
 
 </dd>
 <dt id="dump"><b>-dump</b></dt>
 <dd>
 
-<p>dump unknown data in hex format.</p>
+<p>Dump unknown data in hex format.</p>
 
 </dd>
 <dt id="dlimit-num"><b>-dlimit num</b></dt>
 <dd>
 
-<p>like <b>-dump</b>, but only the first <b>num</b> bytes are output.</p>
+<p>Like <b>-dump</b>, but only the first <b>num</b> bytes are output.</p>
 
 </dd>
 <dt id="strparse-offset"><b>-strparse offset</b></dt>
 <dd>
 
-<p>parse the contents octets of the ASN.1 object starting at <b>offset</b>. This option can be used multiple times to &quot;drill down&quot; into a nested structure.</p>
+<p>Parse the contents octets of the ASN.1 object starting at <b>offset</b>. This option can be used multiple times to &quot;drill down&quot; into a nested structure.</p>
 
 </dd>
 <dt id="genstr-string--genconf-file"><b>-genstr string</b>, <b>-genconf file</b></dt>
 <dd>
 
-<p>generate encoded data based on <b>string</b>, <b>file</b> or both using <a href="../man3/ASN1_generate_nconf.html>ASN1_generate_nconf(3)</a> format. If <b>file</b> only is present then the string is obtained from the default section using the name <b>asn1</b>. The encoded data is passed through the ASN1 parser and printed out as though it came from a file, the contents can thus be examined and written to a file using the <b>out</b> option.</p>
+<p>Generate encoded data based on <b>string</b>, <b>file</b> or both using <a href="../man3/ASN1_generate_nconf.html">ASN1_generate_nconf(3)</a> format. If <b>file</b> only is present then the string is obtained from the default section using the name <b>asn1</b>. The encoded data is passed through the ASN1 parser and printed out as though it came from a file, the contents can thus be examined and written to a file using the <b>out</b> option.</p>
 
 </dd>
 <dt id="strictpem"><b>-strictpem</b></dt>
 <dd>
 
 <p>If this option is used then <b>-inform</b> will be ignored. Without this option any data in a PEM format input file will be treated as being base64 encoded and processed whether it has the normal PEM BEGIN and END markers or not. This option will ignore any data prior to the start of the BEGIN marker, or after an END marker in a PEM file.</p>
+
+</dd>
+<dt id="item-name"><b>-item name</b></dt>
+<dd>
+
+<p>Attempt to decode and print the data as <b>ASN1_ITEM name</b>. This can be used to print out the fields of any supported ASN.1 structure if the type is known.</p>
 
 </dd>
 </dl>
@@ -205,11 +211,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ASN1_generate_nconf.html>ASN1_generate_nconf(3)</a></p>
+<p><a href="../man3/ASN1_generate_nconf.html">ASN1_generate_nconf(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

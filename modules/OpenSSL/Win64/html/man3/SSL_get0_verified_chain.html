@@ -35,7 +35,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>SSL_get_peer_cert_chain() returns a pointer to STACK_OF(X509) certificates forming the certificate chain sent by the peer. If called on the client side, the stack also contains the peer&#39;s certificate; if called on the server side, the peer&#39;s certificate must be obtained separately using <a href="../man3/SSL_get_peer_certificate.html>SSL_get_peer_certificate(3)</a>. If the peer did not present a certificate, NULL is returned.</p>
+<p>SSL_get_peer_cert_chain() returns a pointer to STACK_OF(X509) certificates forming the certificate chain sent by the peer. If called on the client side, the stack also contains the peer&#39;s certificate; if called on the server side, the peer&#39;s certificate must be obtained separately using <a href="../man3/SSL_get_peer_certificate.html">SSL_get_peer_certificate(3)</a>. If the peer did not present a certificate, NULL is returned.</p>
 
 <p>NB: SSL_get_peer_cert_chain() returns the peer chain as sent by the peer: it only consists of certificates the peer has sent (in the order the peer has sent them) it is <b>not</b> a verified chain.</p>
 
@@ -69,7 +69,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_get_peer_certificate.html>SSL_get_peer_certificate(3)</a>, <a href="../man3/X509_up_ref.html>X509_up_ref(3)</a>, <a href="../man3/X509_chain_up_ref.html>X509_chain_up_ref(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_get_peer_certificate.html">SSL_get_peer_certificate(3)</a>, <a href="../man3/X509_up_ref.html">X509_up_ref(3)</a>, <a href="../man3/X509_chain_up_ref.html">X509_chain_up_ref(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

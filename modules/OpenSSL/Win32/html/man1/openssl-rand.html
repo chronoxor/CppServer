@@ -26,7 +26,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl rand</b> [<b>-help</b>] [<b>-out</b> <i>file</i>] [<b>-rand</b> <i>file(s)</i>] [<b>-base64</b>] [<b>-hex</b>] <i>num</i></p>
+<p><b>openssl rand</b> [<b>-help</b>] [<b>-out</b> <i>file</i>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-base64</b>] [<b>-hex</b>] <i>num</i></p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -42,16 +42,22 @@
 <p>Print out a usage message.</p>
 
 </dd>
-<dt id="out-file"><b>-out</b> <i>file</i></dt>
+<dt id="out-file"><b>-out file</b></dt>
 <dd>
 
 <p>Write to <i>file</i> instead of standard output.</p>
 
 </dd>
-<dt id="rand-file-s"><b>-rand</b> <i>file(s)</i></dt>
+<dt id="rand-file"><b>-rand file...</b></dt>
 <dd>
 
-<p>Use specified file or files or EGD socket (see <a href="../man3/RAND_egd.html>RAND_egd(3)</a>) for seeding the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+
+</dd>
+<dt id="writerand-file">[<b>-writerand file</b>]</dt>
+<dd>
+
+<p>Writes random data to the specified <i>file</i> upon exit. This can be used with a subsequent <b>-rand</b> flag.</p>
 
 </dd>
 <dt id="base64"><b>-base64</b></dt>
@@ -70,7 +76,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/RAND_bytes.html>RAND_bytes(3)</a></p>
+<p><a href="../man3/RAND_bytes.html">RAND_bytes(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

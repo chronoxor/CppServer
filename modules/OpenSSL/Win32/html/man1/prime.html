@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>prime</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#OPTIONS">OPTIONS</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>openssl-prime, prime - compute prime numbers</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<p><b>openssl prime</b> [<b>-help</b>] [<b>-hex</b>] [<b>-generate</b>] [<b>-bits</b>] [<b>-safe</b>] [<b>-checks</b>] [<i>number...</i>]</p>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The <b>prime</b> command checks if the specified numbers are prime.</p>
+
+<p>If no numbers are given on the command line, the <b>-generate</b> flag should be used to generate primes according to the requirements specified by the rest of the flags.</p>
+
+<h1 id="OPTIONS">OPTIONS</h1>
+
+<dl>
+
+<dt id="help">[<b>-help</b>]</dt>
+<dd>
+
+<p>Display an option summary.</p>
+
+</dd>
+<dt id="hex">[<b>-hex</b>]</dt>
+<dd>
+
+<p>Generate hex output.</p>
+
+</dd>
+<dt id="generate">[<b>-generate</b>]</dt>
+<dd>
+
+<p>Generate a prime number.</p>
+
+</dd>
+<dt id="bits-num">[<b>-bits num</b>]</dt>
+<dd>
+
+<p>Generate a prime with <b>num</b> bits.</p>
+
+</dd>
+<dt id="safe">[<b>-safe</b>]</dt>
+<dd>
+
+<p>When used with <b>-generate</b>, generates a &quot;safe&quot; prime. If the number generated is <b>n</b>, then check that <b>(n-1)/2</b> is also prime.</p>
+
+</dd>
+<dt id="checks-num">[<b>-checks num</b>]</dt>
+<dd>
+
+<p>Perform the checks <b>num</b> times to see that the generated number is prime. The default is 20.</p>
+
+</dd>
+</dl>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+

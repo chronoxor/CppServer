@@ -24,14 +24,13 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>BIO_new, BIO_up_ref, BIO_free, BIO_vfree, BIO_free_all, BIO_set - BIO allocation and freeing functions</p>
+<p>BIO_new, BIO_up_ref, BIO_free, BIO_vfree, BIO_free_all - BIO allocation and freeing functions</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
  
  <span class="variable">BIO</span> <span class="operator">*</span>  <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="variable">*type</span><span class="operator">);</span>
- <span class="keyword">int</span>    <span class="variable">BIO_set</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="variable">*type</span><span class="operator">);</span>
  <span class="keyword">int</span>    <span class="variable">BIO_up_ref</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">);</span>
  <span class="keyword">int</span>    <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">);</span>
  <span class="variable">void</span>   <span class="variable">BIO_vfree</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">);</span>
@@ -52,7 +51,7 @@
 
 <p>BIO_new() returns a newly created BIO or NULL if the call fails.</p>
 
-<p>BIO_set(), BIO_up_ref() and BIO_free() return 1 for success and 0 for failure.</p>
+<p>BIO_up_ref() and BIO_free() return 1 for success and 0 for failure.</p>
 
 <p>BIO_free_all() and BIO_vfree() do not return values.</p>
 

@@ -37,7 +37,8 @@
  <span class="variable">X509</span><span class="operator">*</span> <span class="variable">CT_POLICY_EVAL_CTX_get0_issuer</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">CT_POLICY_EVAL_CTX_set1_issuer</span><span class="operator">(</span><span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*issuer</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">CTLOG_STORE</span> <span class="variable">*CT_POLICY_EVAL_CTX_get0_log_store</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">CT_POLICY_EVAL_CTX_set_shared_CTLOG_STORE</span><span class="operator">(</span><span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">CTLOG_STORE</span> <span class="variable">*log_store</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">CT_POLICY_EVAL_CTX_set_shared_CTLOG_STORE</span><span class="operator">(</span><span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                                                <span class="variable">CTLOG_STORE</span> <span class="variable">*log_store</span><span class="operator">);</span>
  <span class="variable">uint64_t</span> <span class="variable">CT_POLICY_EVAL_CTX_get_time</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">CT_POLICY_EVAL_CTX_set_time</span><span class="operator">(</span><span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">uint64_t</span> <span class="variable">time_in_ms</span><span class="operator">);</span>
 </code></pre>
@@ -106,7 +107,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man7/ct.html>ct(7)</a></p>
+<p><a href="../man7/ct.html">ct(7)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

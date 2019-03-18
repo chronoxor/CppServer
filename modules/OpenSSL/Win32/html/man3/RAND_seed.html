@@ -23,57 +23,66 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>RAND_add, RAND_seed, RAND_status, RAND_event, RAND_screen - add entropy to the PRNG</p>
+<p>RAND_add, RAND_poll, RAND_seed, RAND_status, RAND_event, RAND_screen, RAND_keep_random_devices_open - add randomness to the PRNG or get its status</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/rand.h&gt;</span>
  
+ <span class="keyword">int</span> <span class="variable">RAND_status</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">RAND_poll</span><span class="operator">();</span>
+ 
+ <span class="variable">void</span> <span class="variable">RAND_add</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">double</span> <span class="variable">randomness</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">RAND_seed</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
  
- <span class="variable">void</span> <span class="variable">RAND_add</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">double</span> <span class="variable">entropy</span><span class="operator">);</span>
- 
- <span class="keyword">int</span>  <span class="variable">RAND_status</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x10100000L</span>
- <span class="keyword">int</span>  <span class="variable">RAND_event</span><span class="operator">(</span><span class="variable">UINT</span> <span class="variable">iMsg</span><span class="operator">,</span> <span class="variable">WPARAM</span> <span class="variable">wParam</span><span class="operator">,</span> <span class="variable">LPARAM</span> <span class="variable">lParam</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">RAND_keep_random_devices_open</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">keep</span><span class="operator">);</span>
+</code></pre>
+
+<p>Deprecated:</p>
+
+<pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x10100000L</span>
+ <span class="keyword">int</span> <span class="variable">RAND_event</span><span class="operator">(</span><span class="variable">UINT</span> <span class="variable">iMsg</span><span class="operator">,</span> <span class="variable">WPARAM</span> <span class="variable">wParam</span><span class="operator">,</span> <span class="variable">LPARAM</span> <span class="variable">lParam</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">RAND_screen</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
  <span class="comment">#endif</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>RAND_add() mixes the <b>num</b> bytes at <b>buf</b> into the PRNG state. Thus, if the data at <b>buf</b> are unpredictable to an adversary, this increases the uncertainty about the state and makes the PRNG output less predictable. Suitable input comes from user interaction (random key presses, mouse movements) and certain hardware events. The <b>entropy</b> argument is (the lower bound of) an estimate of how much randomness is contained in <b>buf</b>, measured in bytes. Details about sources of randomness and how to estimate their entropy can be found in the literature, e.g. RFC 1750.</p>
+<p>These functions can be used to seed the random generator and to check its seeded state. In general, manual (re-)seeding of the default OpenSSL random generator (<a href="../man3/RAND_OpenSSL.html">RAND_OpenSSL(3)</a>) is not necessary (but allowed), since it does (re-)seed itself automatically using trusted system entropy sources. This holds unless the default RAND_METHOD has been replaced or OpenSSL was built with automatic reseeding disabled, see <a href="../man7/RAND.html">RAND(7)</a> for more details.</p>
 
-<p>RAND_add() may be called with sensitive data such as user entered passwords. The seed values cannot be recovered from the PRNG output.</p>
+<p>RAND_status() indicates whether or not the random generator has been sufficiently seeded. If not, functions such as <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a> will fail.</p>
 
-<p>OpenSSL makes sure that the PRNG state is unique for each thread. On systems that provide <code>/dev/urandom</code>, the randomness device is used to seed the PRNG transparently. However, on all other systems, the application is responsible for seeding the PRNG by calling RAND_add(), <a href="../man3/RAND_egd.html>RAND_egd(3)</a> or <a href="../man3/RAND_load_file.html>RAND_load_file(3)</a>.</p>
+<p>RAND_poll() uses the system&#39;s capabilities to seed the random generator using random input obtained from polling various trusted entropy sources. The default choice of the entropy source can be modified at build time, see <a href="../man7/RAND.html">RAND(7)</a> for more details.</p>
 
-<p>RAND_seed() is equivalent to RAND_add() when <b>num == entropy</b>.</p>
+<p>RAND_add() mixes the <b>num</b> bytes at <b>buf</b> into the internal state of the random generator. This function will not normally be needed, as mentioned above. The <b>randomness</b> argument is an estimate of how much randomness is contained in <b>buf</b>, in bytes, and should be a number between zero and <b>num</b>. Details about sources of randomness and how to estimate their randomness can be found in the literature; for example [NIST SP 800-90B]. The content of <b>buf</b> cannot be recovered from subsequent random generator output. Applications that intend to save and restore random state in an external file should consider using <a href="../man3/RAND_load_file.html">RAND_load_file(3)</a> instead.</p>
 
-<p>RAND_event() and RAND_screen() are deprecated and should not be called.</p>
+<p>RAND_seed() is equivalent to RAND_add() with <b>randomness</b> set to <b>num</b>.</p>
+
+<p>RAND_keep_random_devices_open() is used to control file descriptor usage by the random seed sources. Some seed sources maintain open file descriptors by default, which allows such sources to operate in a chroot(2) jail without the associated device nodes being available. When the <b>keep</b> argument is zero, this call disables the retention of file descriptors. Conversely, a non-zero argument enables the retention of file descriptors. This function is usually called during initialization and it takes effect immediately.</p>
+
+<p>RAND_event() and RAND_screen() are equivalent to RAND_poll() and exist for compatibility reasons only. See HISTORY section below.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>RAND_status() returns 1 if the PRNG has been seeded with enough data, 0 otherwise.</p>
+<p>RAND_status() returns 1 if the random generator has been seeded with enough data, 0 otherwise.</p>
 
-<p>RAND_event() calls RAND_poll() and returns RAND_status().</p>
+<p>RAND_poll() returns 1 if it generated seed data, 0 otherwise.</p>
 
-<p>RAND_screen calls RAND_poll().</p>
+<p>RAND_event() returns RAND_status().</p>
 
 <p>The other functions do not return values.</p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>RAND_event() and RAND_screen() are deprecated since OpenSSL 1.1.0. Use the functions described above instead.</p>
+<p>RAND_event() and RAND_screen() were deprecated in OpenSSL 1.1.0 and should not be used.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/rand.html>rand(3)</a>, <a href="../man3/RAND_egd.html>RAND_egd(3)</a>, <a href="../man3/RAND_load_file.html>RAND_load_file(3)</a>, <a href="../man3/RAND_cleanup.html>RAND_cleanup(3)</a></p>
+<p><a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/RAND_egd.html">RAND_egd(3)</a>, <a href="../man3/RAND_load_file.html">RAND_load_file(3)</a>, <a href="../man7/RAND.html">RAND(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -28,7 +28,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl ecparam</b> [<b>-help</b>] [<b>-inform DER|PEM</b>] [<b>-outform DER|PEM</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-noout</b>] [<b>-text</b>] [<b>-C</b>] [<b>-check</b>] [<b>-name arg</b>] [<b>-list_curves</b>] [<b>-conv_form arg</b>] [<b>-param_enc arg</b>] [<b>-no_seed</b>] [<b>-rand file(s)</b>] [<b>-genkey</b>] [<b>-engine id</b>]</p>
+<p><b>openssl ecparam</b> [<b>-help</b>] [<b>-inform DER|PEM</b>] [<b>-outform DER|PEM</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-noout</b>] [<b>-text</b>] [<b>-C</b>] [<b>-check</b>] [<b>-name arg</b>] [<b>-list_curves</b>] [<b>-conv_form arg</b>] [<b>-param_enc arg</b>] [<b>-no_seed</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-genkey</b>] [<b>-engine id</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -53,7 +53,7 @@
 <dt id="outform-DER-PEM"><b>-outform DER|PEM</b></dt>
 <dd>
 
-<p>This specifies the output format, the options have the same meaning as the <b>-inform</b> option.</p>
+<p>This specifies the output format, the options have the same meaning and default as the <b>-inform</b> option.</p>
 
 </dd>
 <dt id="in-filename"><b>-in filename</b></dt>
@@ -128,16 +128,22 @@
 <p>This option will generate an EC private key using the specified parameters.</p>
 
 </dd>
-<dt id="rand-file-s"><b>-rand file(s)</b></dt>
+<dt id="rand-file"><b>-rand file...</b></dt>
 <dd>
 
-<p>a file or files containing random data used to seed the random number generator, or an EGD socket (see <a href="../man3/RAND_egd.html>RAND_egd(3)</a>). Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+
+</dd>
+<dt id="writerand-file">[<b>-writerand file</b>]</dt>
+<dd>
+
+<p>Writes random data to the specified <i>file</i> upon exit. This can be used with a subsequent <b>-rand</b> flag.</p>
 
 </dd>
 <dt id="engine-id"><b>-engine id</b></dt>
 <dd>
 
-<p>specifying an engine (by its unique <b>id</b> string) will cause <b>ecparam</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+<p>Specifying an engine (by its unique <b>id</b> string) will cause <b>ecparam</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
 
 </dd>
 </dl>
@@ -179,7 +185,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/ec.html>ec(1)</a>, <a href="../man1/dsaparam.html>dsaparam(1)</a></p>
+<p><a href="../man1/ec.html">ec(1)</a>, <a href="../man1/dsaparam.html">dsaparam(1)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

@@ -39,7 +39,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>Command prefixes alter the commands recognised by subsequent SSL_CTX_cmd() calls. For example for files, if the prefix &quot;SSL&quot; is set then command names such as &quot;SSLProtocol&quot;, &quot;SSLOptions&quot; etc. are recognised instead of &quot;Protocol&quot; and &quot;Options&quot;. Similarly for command lines if the prefix is &quot;--ssl-&quot; then &quot;--ssl-no_tls1_2&quot; is recognised instead of &quot;-no_tls1_2&quot;.</p>
+<p>Command prefixes alter the commands recognised by subsequent SSL_CONF_cmd() calls. For example for files, if the prefix &quot;SSL&quot; is set then command names such as &quot;SSLProtocol&quot;, &quot;SSLOptions&quot; etc. are recognised instead of &quot;Protocol&quot; and &quot;Options&quot;. Similarly for command lines if the prefix is &quot;--ssl-&quot; then &quot;--ssl-no_tls1_2&quot; is recognised instead of &quot;-no_tls1_2&quot;.</p>
 
 <p>If the <b>SSL_CONF_FLAG_CMDLINE</b> flag is set then prefix checks are case sensitive and &quot;-&quot; is the default. In the unlikely even an application explicitly wants to set no prefix it must be explicitly set to &quot;&quot;.</p>
 
@@ -51,11 +51,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/SSL_CONF_CTX_new.html>SSL_CONF_CTX_new(3)</a>, <a href="../man3/SSL_CONF_CTX_set_flags.html>SSL_CONF_CTX_set_flags(3)</a>, <a href="../man3/SSL_CONF_CTX_set_ssl_ctx.html>SSL_CONF_CTX_set_ssl_ctx(3)</a>, <a href="../man3/SSL_CONF_cmd.html>SSL_CONF_cmd(3)</a>, <a href="../man3/SSL_CONF_cmd_argv.html>SSL_CONF_cmd_argv(3)</a></p>
+<p><a href="../man3/SSL_CONF_CTX_new.html">SSL_CONF_CTX_new(3)</a>, <a href="../man3/SSL_CONF_CTX_set_flags.html">SSL_CONF_CTX_set_flags(3)</a>, <a href="../man3/SSL_CONF_CTX_set_ssl_ctx.html">SSL_CONF_CTX_set_ssl_ctx(3)</a>, <a href="../man3/SSL_CONF_cmd.html">SSL_CONF_cmd(3)</a>, <a href="../man3/SSL_CONF_cmd_argv.html">SSL_CONF_cmd_argv(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>These functions were first added to OpenSSL 1.0.2</p>
+<p>These functions were added in OpenSSL 1.0.2.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

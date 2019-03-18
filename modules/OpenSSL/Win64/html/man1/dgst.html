@@ -24,13 +24,13 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>openssl-dgst, dgst, sha, sha1, mdc2, ripemd160, sha224, sha256, sha384, sha512, md4, md5, blake2b, blake2s - message digests</p>
+<p>openssl-dgst, dgst - perform digest operations</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>dgst</b> [<b>-help</b>] [<b>-<i>digest</i></b>] [<b>-c</b>] [<b>-d</b>] [<b>-hex</b>] [<b>-binary</b>] [<b>-r</b>] [<b>-out filename</b>] [<b>-sign filename</b>] [<b>-keyform arg</b>] [<b>-passin arg</b>] [<b>-verify filename</b>] [<b>-prverify filename</b>] [<b>-signature filename</b>] [<b>-hmac key</b>] [<b>-fips-fingerprint</b>] [<b>-engine id</b>] [<b>-engine_impl</b>] [<b>file...</b>]</p>
+<p><b>openssl dgst</b> [<b>-<i>digest</i></b>] [<b>-help</b>] [<b>-c</b>] [<b>-d</b>] [<b>-hex</b>] [<b>-binary</b>] [<b>-r</b>] [<b>-out filename</b>] [<b>-sign filename</b>] [<b>-keyform arg</b>] [<b>-passin arg</b>] [<b>-verify filename</b>] [<b>-prverify filename</b>] [<b>-signature filename</b>] [<b>-hmac key</b>] [<b>-fips-fingerprint</b>] [<b>-rand file...</b>] [<b>-engine id</b>] [<b>-engine_impl</b>] [<b>file...</b>]</p>
 
-<p><b>openssl</b> [<i>digest</i>] [<b>...</b>]</p>
+<p><b>openssl</b> <i>digest</i> [<b>...</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -93,7 +93,7 @@
 <dt id="sign-filename"><b>-sign filename</b></dt>
 <dd>
 
-<p>Digitally sign the digest using the private key in &quot;filename&quot;.</p>
+<p>Digitally sign the digest using the private key in &quot;filename&quot;. Note this option does not support Ed25519 or Ed448 private keys. Use the <b>pkeyutl</b> command instead for this.</p>
 
 </dd>
 <dt id="keyform-arg"><b>-keyform arg</b></dt>
@@ -111,7 +111,7 @@
 <dt id="passin-arg"><b>-passin arg</b></dt>
 <dd>
 
-<p>The private key password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html>openssl(1)</a>.</p>
+<p>The private key password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
 
 </dd>
 <dt id="verify-filename"><b>-verify filename</b></dt>
@@ -166,10 +166,16 @@
 </dl>
 
 </dd>
-<dt id="rand-file-s"><b>-rand file(s)</b></dt>
+<dt id="rand-file"><b>-rand file...</b></dt>
 <dd>
 
-<p>A file or files containing random data used to seed the random number generator, or an EGD socket (see <a href="../man3/RAND_egd.html>RAND_egd(3)</a>). Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+
+</dd>
+<dt id="writerand-file">[<b>-writerand file</b>]</dt>
+<dd>
+
+<p>Writes random data to the specified <i>file</i> upon exit. This can be used with a subsequent <b>-rand</b> flag.</p>
 
 </dd>
 <dt id="fips-fingerprint"><b>-fips-fingerprint</b></dt>
@@ -222,11 +228,11 @@
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>The default digest was changed from MD5 to SHA256 in OpenSSL 1.1.0 The FIPS-related options were removed in OpenSSL 1.1.0</p>
+<p>The default digest was changed from MD5 to SHA256 in OpenSSL 1.1.0. The FIPS-related options were removed in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

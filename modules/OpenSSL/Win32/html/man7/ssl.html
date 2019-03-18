@@ -44,11 +44,11 @@
 
 <p>The OpenSSL <b>ssl</b> library implements the Secure Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) protocols. It provides a rich API which is documented here.</p>
 
-<p>Then an <b>SSL_CTX</b> object is created as a framework to establish TLS/SSL enabled connections (see <a href="../man3/SSL_CTX_new.html>SSL_CTX_new(3)</a>). Various options regarding certificates, algorithms etc. can be set in this object.</p>
+<p>An <b>SSL_CTX</b> object is created as a framework to establish TLS/SSL enabled connections (see <a href="../man3/SSL_CTX_new.html">SSL_CTX_new(3)</a>). Various options regarding certificates, algorithms etc. can be set in this object.</p>
 
-<p>When a network connection has been created, it can be assigned to an <b>SSL</b> object. After the <b>SSL</b> object has been created using <a href="../man3/SSL_new.html>SSL_new(3)</a>, <a href="../man3/SSL_set_fd.html>SSL_set_fd(3)</a> or <a href="../man3/SSL_set_bio.html>SSL_set_bio(3)</a> can be used to associate the network connection with the object.</p>
+<p>When a network connection has been created, it can be assigned to an <b>SSL</b> object. After the <b>SSL</b> object has been created using <a href="../man3/SSL_new.html">SSL_new(3)</a>, <a href="../man3/SSL_set_fd.html">SSL_set_fd(3)</a> or <a href="../man3/SSL_set_bio.html">SSL_set_bio(3)</a> can be used to associate the network connection with the object.</p>
 
-<p>Then the TLS/SSL handshake is performed using <a href="../man3/SSL_accept.html>SSL_accept(3)</a> or <a href="../man3/SSL_connect.html>SSL_connect(3)</a> respectively. <a href="../man3/SSL_read.html>SSL_read(3)</a> and <a href="../man3/SSL_write.html>SSL_write(3)</a> are used to read and write data on the TLS/SSL connection. <a href="../man3/SSL_shutdown.html>SSL_shutdown(3)</a> can be used to shut down the TLS/SSL connection.</p>
+<p>When the TLS/SSL handshake is performed using <a href="../man3/SSL_accept.html">SSL_accept(3)</a> or <a href="../man3/SSL_connect.html">SSL_connect(3)</a> respectively. <a href="../man3/SSL_read_ex.html">SSL_read_ex(3)</a>, <a href="../man3/SSL_read.html">SSL_read(3)</a>, <a href="../man3/SSL_write_ex.html">SSL_write_ex(3)</a> and <a href="../man3/SSL_write.html">SSL_write(3)</a> are used to read and write data on the TLS/SSL connection. <a href="../man3/SSL_shutdown.html">SSL_shutdown(3)</a> can be used to shut down the TLS/SSL connection.</p>
 
 <h1 id="DATA-STRUCTURES">DATA STRUCTURES</h1>
 
@@ -59,19 +59,19 @@
 <dt id="SSL_METHOD-SSL-Method"><b>SSL_METHOD</b> (SSL Method)</dt>
 <dd>
 
-<p>That&#39;s a dispatch structure describing the internal <b>ssl</b> library methods/functions which implement the various protocol versions (SSLv3 TLSv1, ...). It&#39;s needed to create an <b>SSL_CTX</b>.</p>
+<p>This is a dispatch structure describing the internal <b>ssl</b> library methods/functions which implement the various protocol versions (SSLv3 TLSv1, ...). It&#39;s needed to create an <b>SSL_CTX</b>.</p>
 
 </dd>
 <dt id="SSL_CIPHER-SSL-Cipher"><b>SSL_CIPHER</b> (SSL Cipher)</dt>
 <dd>
 
-<p>This structure holds the algorithm information for a particular cipher which are a core part of the SSL/TLS protocol. The available ciphers are configured on a <b>SSL_CTX</b> basis and the actually used ones are then part of the <b>SSL_SESSION</b>.</p>
+<p>This structure holds the algorithm information for a particular cipher which are a core part of the SSL/TLS protocol. The available ciphers are configured on a <b>SSL_CTX</b> basis and the actual ones used are then part of the <b>SSL_SESSION</b>.</p>
 
 </dd>
 <dt id="SSL_CTX-SSL-Context"><b>SSL_CTX</b> (SSL Context)</dt>
 <dd>
 
-<p>That&#39;s the global context structure which is created by a server or client once per program life-time and which holds mainly default values for the <b>SSL</b> structures which are later created for the connections.</p>
+<p>This is the global context structure which is created by a server or client once per program life-time and which holds mainly default values for the <b>SSL</b> structures which are later created for the connections.</p>
 
 </dd>
 <dt id="SSL_SESSION-SSL-Session"><b>SSL_SESSION</b> (SSL Session)</dt>
@@ -83,7 +83,7 @@
 <dt id="SSL-SSL-Connection"><b>SSL</b> (SSL Connection)</dt>
 <dd>
 
-<p>That&#39;s the main SSL/TLS structure which is created by a server or client per established connection. This actually is the core structure in the SSL API. Under run-time the application usually deals with this structure which has links to mostly all other structures.</p>
+<p>This is the main SSL/TLS structure which is created by a server or client per established connection. This actually is the core structure in the SSL API. At run-time the application usually deals with this structure which has links to mostly all other structures.</p>
 
 </dd>
 </dl>
@@ -97,7 +97,7 @@
 <dt id="ssl.h"><b>ssl.h</b></dt>
 <dd>
 
-<p>That&#39;s the common header file for the SSL/TLS API. Include it into your program to make the API of the <b>ssl</b> library available. It internally includes both more private SSL headers and headers from the <b>crypto</b> library. Whenever you need hard-core details on the internals of the SSL API, look inside this header file.</p>
+<p>This is the common header file for the SSL/TLS API. Include it into your program to make the API of the <b>ssl</b> library available. It internally includes both more private SSL headers and headers from the <b>crypto</b> library. Whenever you need hard-core details on the internals of the SSL API, look inside this header file.</p>
 
 </dd>
 <dt id="ssl2.h"><b>ssl2.h</b></dt>
@@ -109,13 +109,13 @@
 <dt id="ssl3.h"><b>ssl3.h</b></dt>
 <dd>
 
-<p>That&#39;s the sub header file dealing with the SSLv3 protocol only. <i>Usually you don&#39;t have to include it explicitly because it&#39;s already included by ssl.h</i>.</p>
+<p>This is the sub header file dealing with the SSLv3 protocol only. <i>Usually you don&#39;t have to include it explicitly because it&#39;s already included by ssl.h</i>.</p>
 
 </dd>
 <dt id="tls1.h"><b>tls1.h</b></dt>
 <dd>
 
-<p>That&#39;s the sub header file dealing with the TLSv1 protocol only. <i>Usually you don&#39;t have to include it explicitly because it&#39;s already included by ssl.h</i>.</p>
+<p>This is the sub header file dealing with the TLSv1 protocol only. <i>Usually you don&#39;t have to include it explicitly because it&#39;s already included by ssl.h</i>.</p>
 
 </dd>
 </dl>
@@ -133,19 +133,19 @@
 <dt id="const-SSL_METHOD-TLS_method-void">const SSL_METHOD *<b>TLS_method</b>(void);</dt>
 <dd>
 
-<p>Constructor for the <i>version-flexible</i> SSL_METHOD structure for clients, servers or both. See <a href="../man3/SSL_CTX_new.html>SSL_CTX_new(3)</a> for details.</p>
+<p>Constructor for the <i>version-flexible</i> SSL_METHOD structure for clients, servers or both. See <a href="../man3/SSL_CTX_new.html">SSL_CTX_new(3)</a> for details.</p>
 
 </dd>
 <dt id="const-SSL_METHOD-TLS_client_method-void">const SSL_METHOD *<b>TLS_client_method</b>(void);</dt>
 <dd>
 
-<p>Constructor for the <i>version-flexible</i> SSL_METHOD structure for clients.</p>
+<p>Constructor for the <i>version-flexible</i> SSL_METHOD structure for clients. Must be used to support the TLSv1.3 protocol.</p>
 
 </dd>
 <dt id="const-SSL_METHOD-TLS_server_method-void">const SSL_METHOD *<b>TLS_server_method</b>(void);</dt>
 <dd>
 
-<p>Constructor for the <i>version-flexible</i> SSL_METHOD structure for servers.</p>
+<p>Constructor for the <i>version-flexible</i> SSL_METHOD structure for servers. Must be used to support the TLSv1.3 protocol.</p>
 
 </dd>
 <dt id="const-SSL_METHOD-TLSv1_2_method-void">const SSL_METHOD *<b>TLSv1_2_method</b>(void);</dt>
@@ -456,6 +456,10 @@
 <dd>
 
 </dd>
+<dt id="void-SSL_CTX_set1_cert_store-SSL_CTX-ctx-X509_STORE-cs">void <b>SSL_CTX_set1_cert_store</b>(SSL_CTX *ctx, X509_STORE *cs);</dt>
+<dd>
+
+</dd>
 <dt id="void-SSL_CTX_set_cert_verify_cb-SSL_CTX-ctx-int-cb-char-arg">void <b>SSL_CTX_set_cert_verify_cb</b>(SSL_CTX *ctx, int (*cb)(), char *arg)</dt>
 <dd>
 
@@ -595,6 +599,10 @@
 
 </dd>
 <dt id="int-SSL_CTX_use_certificate_file-SSL_CTX-ctx-const-char-file-int-type">int <b>SSL_CTX_use_certificate_file</b>(SSL_CTX *ctx, const char *file, int type);</dt>
+<dd>
+
+</dd>
+<dt id="int-SSL_CTX_use_cert_and_key-SSL_CTX-ctx-X509-x-EVP_PKEY-pkey-STACK_OF-X509-chain-int-override">int <b>SSL_CTX_use_cert_and_key</b>(SSL_CTX *ctx, X509 *x, EVP_PKEY *pkey, STACK_OF(X509) *chain, int override);</dt>
 <dd>
 
 </dd>
@@ -761,7 +769,7 @@
 
 <p>SSL_dup() allows applications to configure an SSL handle for use in multiple SSL connections, and then duplicate it prior to initiating each connection with the duplicated handle. Use of SSL_dup() avoids the need to repeat the configuration of the handles for each connection.</p>
 
-<p>For SSL_dup() to work, the connection MUST be in its initial state and MUST NOT have not yet have started the SSL handshake. For connections that are not in their initial state SSL_dup() just increments an internal reference count and returns the <i>same</i> handle. It may be possible to use <a href="../man3/SSL_clear.html>SSL_clear(3)</a> to recycle an SSL handle that is not in its initial state for re-use, but this is best avoided. Instead, save and restore the session, if desired, and construct a fresh handle for each connection.</p>
+<p>For SSL_dup() to work, the connection MUST be in its initial state and MUST NOT have not yet have started the SSL handshake. For connections that are not in their initial state SSL_dup() just increments an internal reference count and returns the <i>same</i> handle. It may be possible to use <a href="../man3/SSL_clear.html">SSL_clear(3)</a> to recycle an SSL handle that is not in its initial state for re-use, but this is best avoided. Instead, save and restore the session, if desired, and construct a fresh handle for each connection.</p>
 
 </dd>
 <dt id="STACK-SSL_dup_CA_list-STACK-sk">STACK *<b>SSL_dup_CA_list</b>(STACK *sk);</dt>
@@ -1158,6 +1166,10 @@
 <dd>
 
 </dd>
+<dt id="int-SSL_use_cert_and_key-SSL-ssl-X509-x-EVP_PKEY-pkey-STACK_OF-X509-chain-int-override">int <b>SSL_use_cert_and_key</b>(SSL *ssl, X509 *x, EVP_PKEY *pkey, STACK_OF(X509) *chain, int override);</dt>
+<dd>
+
+</dd>
 <dt id="int-SSL_version-const-SSL-ssl">int <b>SSL_version</b>(const SSL *ssl);</dt>
 <dd>
 
@@ -1214,7 +1226,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/openssl.html>openssl(1)</a>, <a href="../man7/crypto.html>crypto(7)</a>, <a href="../man3/CRYPTO_get_ex_new_index.html>CRYPTO_get_ex_new_index(3)</a>, <a href="../man3/SSL_accept.html>SSL_accept(3)</a>, <a href="../man3/SSL_clear.html>SSL_clear(3)</a>, <a href="../man3/SSL_connect.html>SSL_connect(3)</a>, <a href="../man3/SSL_CIPHER_get_name.html>SSL_CIPHER_get_name(3)</a>, <a href="../man3/SSL_COMP_add_compression_method.html>SSL_COMP_add_compression_method(3)</a>, <a href="../man3/SSL_CTX_add_extra_chain_cert.html>SSL_CTX_add_extra_chain_cert(3)</a>, <a href="../man3/SSL_CTX_add_session.html>SSL_CTX_add_session(3)</a>, <a href="../man3/SSL_CTX_ctrl.html>SSL_CTX_ctrl(3)</a>, <a href="../man3/SSL_CTX_flush_sessions.html>SSL_CTX_flush_sessions(3)</a>, <a href="../man3/SSL_CTX_get_verify_mode.html>SSL_CTX_get_verify_mode(3)</a>, <a href="../man3/SSL_CTX_load_verify_locations.html>SSL_CTX_load_verify_locations(3)</a> <a href="../man3/SSL_CTX_new.html>SSL_CTX_new(3)</a>, <a href="../man3/SSL_CTX_sess_number.html>SSL_CTX_sess_number(3)</a>, <a href="../man3/SSL_CTX_sess_set_cache_size.html>SSL_CTX_sess_set_cache_size(3)</a>, <a href="../man3/SSL_CTX_sess_set_get_cb.html>SSL_CTX_sess_set_get_cb(3)</a>, <a href="../man3/SSL_CTX_sessions.html>SSL_CTX_sessions(3)</a>, <a href="../man3/SSL_CTX_set_cert_store.html>SSL_CTX_set_cert_store(3)</a>, <a href="../man3/SSL_CTX_set_cert_verify_callback.html>SSL_CTX_set_cert_verify_callback(3)</a>, <a href="../man3/SSL_CTX_set_cipher_list.html>SSL_CTX_set_cipher_list(3)</a>, <a href="../man3/SSL_CTX_set_client_CA_list.html>SSL_CTX_set_client_CA_list(3)</a>, <a href="../man3/SSL_CTX_set_client_cert_cb.html>SSL_CTX_set_client_cert_cb(3)</a>, <a href="../man3/SSL_CTX_set_default_passwd_cb.html>SSL_CTX_set_default_passwd_cb(3)</a>, <a href="../man3/SSL_CTX_set_generate_session_id.html>SSL_CTX_set_generate_session_id(3)</a>, <a href="../man3/SSL_CTX_set_info_callback.html>SSL_CTX_set_info_callback(3)</a>, <a href="../man3/SSL_CTX_set_max_cert_list.html>SSL_CTX_set_max_cert_list(3)</a>, <a href="../man3/SSL_CTX_set_mode.html>SSL_CTX_set_mode(3)</a>, <a href="../man3/SSL_CTX_set_msg_callback.html>SSL_CTX_set_msg_callback(3)</a>, <a href="../man3/SSL_CTX_set_options.html>SSL_CTX_set_options(3)</a>, <a href="../man3/SSL_CTX_set_quiet_shutdown.html>SSL_CTX_set_quiet_shutdown(3)</a>, <a href="../man3/SSL_CTX_set_read_ahead.html>SSL_CTX_set_read_ahead(3)</a>, <a href="../man3/SSL_CTX_set_security_level.html>SSL_CTX_set_security_level(3)</a>, <a href="../man3/SSL_CTX_set_session_cache_mode.html>SSL_CTX_set_session_cache_mode(3)</a>, <a href="../man3/SSL_CTX_set_session_id_context.html>SSL_CTX_set_session_id_context(3)</a>, <a href="../man3/SSL_CTX_set_ssl_version.html>SSL_CTX_set_ssl_version(3)</a>, <a href="../man3/SSL_CTX_set_timeout.html>SSL_CTX_set_timeout(3)</a>, <a href="../man3/SSL_CTX_set_tmp_dh_callback.html>SSL_CTX_set_tmp_dh_callback(3)</a>, <a href="../man3/SSL_CTX_set_verify.html>SSL_CTX_set_verify(3)</a>, <a href="../man3/SSL_CTX_use_certificate.html>SSL_CTX_use_certificate(3)</a>, <a href="../man3/SSL_alert_type_string.html>SSL_alert_type_string(3)</a>, <a href="../man3/SSL_do_handshake.html>SSL_do_handshake(3)</a>, <a href="../man3/SSL_enable_ct.html>SSL_enable_ct(3)</a>, <a href="../man3/SSL_get_SSL_CTX.html>SSL_get_SSL_CTX(3)</a>, <a href="../man3/SSL_get_ciphers.html>SSL_get_ciphers(3)</a>, <a href="../man3/SSL_get_client_CA_list.html>SSL_get_client_CA_list(3)</a>, <a href="../man3/SSL_get_default_timeout.html>SSL_get_default_timeout(3)</a>, <a href="../man3/SSL_get_error.html>SSL_get_error(3)</a>, <a href="../man3/SSL_get_ex_data_X509_STORE_CTX_idx.html>SSL_get_ex_data_X509_STORE_CTX_idx(3)</a>, <a href="../man3/SSL_get_fd.html>SSL_get_fd(3)</a>, <a href="../man3/SSL_get_peer_cert_chain.html>SSL_get_peer_cert_chain(3)</a>, <a href="../man3/SSL_get_rbio.html>SSL_get_rbio(3)</a>, <a href="../man3/SSL_get_session.html>SSL_get_session(3)</a>, <a href="../man3/SSL_get_verify_result.html>SSL_get_verify_result(3)</a>, <a href="../man3/SSL_get_version.html>SSL_get_version(3)</a>, <a href="../man3/SSL_load_client_CA_file.html>SSL_load_client_CA_file(3)</a>, <a href="../man3/SSL_new.html>SSL_new(3)</a>, <a href="../man3/SSL_pending.html>SSL_pending(3)</a>, <a href="../man3/SSL_read_ex.html>SSL_read_ex(3)</a>, <a href="../man3/SSL_read.html>SSL_read(3)</a>, <a href="../man3/SSL_rstate_string.html>SSL_rstate_string(3)</a>, <a href="../man3/SSL_session_reused.html>SSL_session_reused(3)</a>, <a href="../man3/SSL_set_bio.html>SSL_set_bio(3)</a>, <a href="../man3/SSL_set_connect_state.html>SSL_set_connect_state(3)</a>, <a href="../man3/SSL_set_fd.html>SSL_set_fd(3)</a>, <a href="../man3/SSL_set_session.html>SSL_set_session(3)</a>, <a href="../man3/SSL_set_shutdown.html>SSL_set_shutdown(3)</a>, <a href="../man3/SSL_shutdown.html>SSL_shutdown(3)</a>, <a href="../man3/SSL_state_string.html>SSL_state_string(3)</a>, <a href="../man3/SSL_want.html>SSL_want(3)</a>, <a href="../man3/SSL_write_ex.html>SSL_write_ex(3)</a>, <a href="../man3/SSL_write.html>SSL_write(3)</a>, <a href="../man3/SSL_SESSION_free.html>SSL_SESSION_free(3)</a>, <a href="../man3/SSL_SESSION_get_time.html>SSL_SESSION_get_time(3)</a>, <a href="../man3/d2i_SSL_SESSION.html>d2i_SSL_SESSION(3)</a>, <a href="../man3/SSL_CTX_set_psk_client_callback.html>SSL_CTX_set_psk_client_callback(3)</a>, <a href="../man3/SSL_CTX_use_psk_identity_hint.html>SSL_CTX_use_psk_identity_hint(3)</a>, <a href="../man3/SSL_get_psk_identity.html>SSL_get_psk_identity(3)</a>, <a href="../man3/DTLSv1_listen.html>DTLSv1_listen(3)</a></p>
+<p><a href="../man1/openssl.html">openssl(1)</a>, <a href="../man7/crypto.html">crypto(7)</a>, <a href="../man3/CRYPTO_get_ex_new_index.html">CRYPTO_get_ex_new_index(3)</a>, <a href="../man3/SSL_accept.html">SSL_accept(3)</a>, <a href="../man3/SSL_clear.html">SSL_clear(3)</a>, <a href="../man3/SSL_connect.html">SSL_connect(3)</a>, <a href="../man3/SSL_CIPHER_get_name.html">SSL_CIPHER_get_name(3)</a>, <a href="../man3/SSL_COMP_add_compression_method.html">SSL_COMP_add_compression_method(3)</a>, <a href="../man3/SSL_CTX_add_extra_chain_cert.html">SSL_CTX_add_extra_chain_cert(3)</a>, <a href="../man3/SSL_CTX_add_session.html">SSL_CTX_add_session(3)</a>, <a href="../man3/SSL_CTX_ctrl.html">SSL_CTX_ctrl(3)</a>, <a href="../man3/SSL_CTX_flush_sessions.html">SSL_CTX_flush_sessions(3)</a>, <a href="../man3/SSL_CTX_get_verify_mode.html">SSL_CTX_get_verify_mode(3)</a>, <a href="../man3/SSL_CTX_load_verify_locations.html">SSL_CTX_load_verify_locations(3)</a> <a href="../man3/SSL_CTX_new.html">SSL_CTX_new(3)</a>, <a href="../man3/SSL_CTX_sess_number.html">SSL_CTX_sess_number(3)</a>, <a href="../man3/SSL_CTX_sess_set_cache_size.html">SSL_CTX_sess_set_cache_size(3)</a>, <a href="../man3/SSL_CTX_sess_set_get_cb.html">SSL_CTX_sess_set_get_cb(3)</a>, <a href="../man3/SSL_CTX_sessions.html">SSL_CTX_sessions(3)</a>, <a href="../man3/SSL_CTX_set_cert_store.html">SSL_CTX_set_cert_store(3)</a>, <a href="../man3/SSL_CTX_set_cert_verify_callback.html">SSL_CTX_set_cert_verify_callback(3)</a>, <a href="../man3/SSL_CTX_set_cipher_list.html">SSL_CTX_set_cipher_list(3)</a>, <a href="../man3/SSL_CTX_set_client_CA_list.html">SSL_CTX_set_client_CA_list(3)</a>, <a href="../man3/SSL_CTX_set_client_cert_cb.html">SSL_CTX_set_client_cert_cb(3)</a>, <a href="../man3/SSL_CTX_set_default_passwd_cb.html">SSL_CTX_set_default_passwd_cb(3)</a>, <a href="../man3/SSL_CTX_set_generate_session_id.html">SSL_CTX_set_generate_session_id(3)</a>, <a href="../man3/SSL_CTX_set_info_callback.html">SSL_CTX_set_info_callback(3)</a>, <a href="../man3/SSL_CTX_set_max_cert_list.html">SSL_CTX_set_max_cert_list(3)</a>, <a href="../man3/SSL_CTX_set_mode.html">SSL_CTX_set_mode(3)</a>, <a href="../man3/SSL_CTX_set_msg_callback.html">SSL_CTX_set_msg_callback(3)</a>, <a href="../man3/SSL_CTX_set_options.html">SSL_CTX_set_options(3)</a>, <a href="../man3/SSL_CTX_set_quiet_shutdown.html">SSL_CTX_set_quiet_shutdown(3)</a>, <a href="../man3/SSL_CTX_set_read_ahead.html">SSL_CTX_set_read_ahead(3)</a>, <a href="../man3/SSL_CTX_set_security_level.html">SSL_CTX_set_security_level(3)</a>, <a href="../man3/SSL_CTX_set_session_cache_mode.html">SSL_CTX_set_session_cache_mode(3)</a>, <a href="../man3/SSL_CTX_set_session_id_context.html">SSL_CTX_set_session_id_context(3)</a>, <a href="../man3/SSL_CTX_set_ssl_version.html">SSL_CTX_set_ssl_version(3)</a>, <a href="../man3/SSL_CTX_set_timeout.html">SSL_CTX_set_timeout(3)</a>, <a href="../man3/SSL_CTX_set_tmp_dh_callback.html">SSL_CTX_set_tmp_dh_callback(3)</a>, <a href="../man3/SSL_CTX_set_verify.html">SSL_CTX_set_verify(3)</a>, <a href="../man3/SSL_CTX_use_certificate.html">SSL_CTX_use_certificate(3)</a>, <a href="../man3/SSL_alert_type_string.html">SSL_alert_type_string(3)</a>, <a href="../man3/SSL_do_handshake.html">SSL_do_handshake(3)</a>, <a href="../man3/SSL_enable_ct.html">SSL_enable_ct(3)</a>, <a href="../man3/SSL_get_SSL_CTX.html">SSL_get_SSL_CTX(3)</a>, <a href="../man3/SSL_get_ciphers.html">SSL_get_ciphers(3)</a>, <a href="../man3/SSL_get_client_CA_list.html">SSL_get_client_CA_list(3)</a>, <a href="../man3/SSL_get_default_timeout.html">SSL_get_default_timeout(3)</a>, <a href="../man3/SSL_get_error.html">SSL_get_error(3)</a>, <a href="../man3/SSL_get_ex_data_X509_STORE_CTX_idx.html">SSL_get_ex_data_X509_STORE_CTX_idx(3)</a>, <a href="../man3/SSL_get_fd.html">SSL_get_fd(3)</a>, <a href="../man3/SSL_get_peer_cert_chain.html">SSL_get_peer_cert_chain(3)</a>, <a href="../man3/SSL_get_rbio.html">SSL_get_rbio(3)</a>, <a href="../man3/SSL_get_session.html">SSL_get_session(3)</a>, <a href="../man3/SSL_get_verify_result.html">SSL_get_verify_result(3)</a>, <a href="../man3/SSL_get_version.html">SSL_get_version(3)</a>, <a href="../man3/SSL_load_client_CA_file.html">SSL_load_client_CA_file(3)</a>, <a href="../man3/SSL_new.html">SSL_new(3)</a>, <a href="../man3/SSL_pending.html">SSL_pending(3)</a>, <a href="../man3/SSL_read_ex.html">SSL_read_ex(3)</a>, <a href="../man3/SSL_read.html">SSL_read(3)</a>, <a href="../man3/SSL_rstate_string.html">SSL_rstate_string(3)</a>, <a href="../man3/SSL_session_reused.html">SSL_session_reused(3)</a>, <a href="../man3/SSL_set_bio.html">SSL_set_bio(3)</a>, <a href="../man3/SSL_set_connect_state.html">SSL_set_connect_state(3)</a>, <a href="../man3/SSL_set_fd.html">SSL_set_fd(3)</a>, <a href="../man3/SSL_set_session.html">SSL_set_session(3)</a>, <a href="../man3/SSL_set_shutdown.html">SSL_set_shutdown(3)</a>, <a href="../man3/SSL_shutdown.html">SSL_shutdown(3)</a>, <a href="../man3/SSL_state_string.html">SSL_state_string(3)</a>, <a href="../man3/SSL_want.html">SSL_want(3)</a>, <a href="../man3/SSL_write_ex.html">SSL_write_ex(3)</a>, <a href="../man3/SSL_write.html">SSL_write(3)</a>, <a href="../man3/SSL_SESSION_free.html">SSL_SESSION_free(3)</a>, <a href="../man3/SSL_SESSION_get_time.html">SSL_SESSION_get_time(3)</a>, <a href="../man3/d2i_SSL_SESSION.html">d2i_SSL_SESSION(3)</a>, <a href="../man3/SSL_CTX_set_psk_client_callback.html">SSL_CTX_set_psk_client_callback(3)</a>, <a href="../man3/SSL_CTX_use_psk_identity_hint.html">SSL_CTX_use_psk_identity_hint(3)</a>, <a href="../man3/SSL_get_psk_identity.html">SSL_get_psk_identity(3)</a>, <a href="../man3/DTLSv1_listen.html">DTLSv1_listen(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

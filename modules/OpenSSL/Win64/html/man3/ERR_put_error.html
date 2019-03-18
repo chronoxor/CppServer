@@ -26,17 +26,16 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>ERR_put_error, ERR_add_error_data - record an error</p>
+<p>ERR_put_error, ERR_add_error_data, ERR_add_error_vdata - record an error</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/err.h&gt;</span>
  
- <span class="variable">void</span> <span class="variable">ERR_put_error</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">lib</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">func</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">reason</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span>
-         <span class="keyword">int</span> <span class="variable">line</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">ERR_put_error</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">lib</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">func</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">reason</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">line</span><span class="operator">);</span>
  
  <span class="variable">void</span> <span class="variable">ERR_add_error_data</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="operator">...);</span>
- <span class="variable">void</span> <span class="variable">ERR_add_error_data</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">va_list</span> <span class="variable">arg</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">ERR_add_error_vdata</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">va_list</span> <span class="variable">arg</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -45,7 +44,7 @@
 
 <p>ERR_add_error_data() associates the concatenation of its <b>num</b> string arguments with the error code added last. ERR_add_error_vdata() is similar except the argument is a <b>va_list</b>.</p>
 
-<p><a href="../man3/ERR_load_strings.html>ERR_load_strings(3)</a> can be used to register error strings so that the application can a generate human-readable error messages for the error code.</p>
+<p><a href="../man3/ERR_load_strings.html">ERR_load_strings(3)</a> can be used to register error strings so that the application can a generate human-readable error messages for the error code.</p>
 
 <h2 id="Reporting-errors">Reporting errors</h2>
 
@@ -66,7 +65,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_load_strings.html>ERR_load_strings(3)</a></p>
+<p><a href="../man3/ERR_load_strings.html">ERR_load_strings(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

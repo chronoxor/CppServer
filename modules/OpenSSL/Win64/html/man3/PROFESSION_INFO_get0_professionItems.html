@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ADMISSIONS</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>ADMISSIONS, ADMISSIONS_get0_admissionAuthority, ADMISSIONS_get0_namingAuthority, ADMISSIONS_get0_professionInfos, ADMISSIONS_set0_admissionAuthority, ADMISSIONS_set0_namingAuthority, ADMISSIONS_set0_professionInfos, ADMISSION_SYNTAX, ADMISSION_SYNTAX_get0_admissionAuthority, ADMISSION_SYNTAX_get0_contentsOfAdmissions, ADMISSION_SYNTAX_set0_admissionAuthority, ADMISSION_SYNTAX_set0_contentsOfAdmissions, NAMING_AUTHORITY, NAMING_AUTHORITY_get0_authorityId, NAMING_AUTHORITY_get0_authorityURL, NAMING_AUTHORITY_get0_authorityText, NAMING_AUTHORITY_set0_authorityId, NAMING_AUTHORITY_set0_authorityURL, NAMING_AUTHORITY_set0_authorityText, PROFESSION_INFO, PROFESSION_INFOS, PROFESSION_INFO_get0_addProfessionInfo, PROFESSION_INFO_get0_namingAuthority, PROFESSION_INFO_get0_professionItems, PROFESSION_INFO_get0_professionOIDs, PROFESSION_INFO_get0_registrationNumber, PROFESSION_INFO_set0_addProfessionInfo, PROFESSION_INFO_set0_namingAuthority, PROFESSION_INFO_set0_professionItems, PROFESSION_INFO_set0_professionOIDs, PROFESSION_INFO_set0_registrationNumber - Accessors and settors for ADMISSION_SYNTAX</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">NamingAuthority_st</span> <span class="variable">NAMING_AUTHORITY</span><span class="operator">;</span>
+ <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">ProfessionInfo_st</span> <span class="variable">PROFESSION_INFO</span><span class="operator">;</span>
+ <span class="variable">typedef</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">PROFESSION_INFO</span><span class="operator">)</span> <span class="variable">PROFESSION_INFOS</span><span class="operator">;</span>
+ <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">Admissions_st</span> <span class="variable">ADMISSIONS</span><span class="operator">;</span>
+ <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">AdmissionSyntax_st</span> <span class="variable">ADMISSION_SYNTAX</span><span class="operator">;</span>
+ 
+ <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*NAMING_AUTHORITY_get0_authorityId</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">NAMING_AUTHORITY</span> <span class="variable">*n</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">NAMING_AUTHORITY_set0_authorityId</span><span class="operator">(</span><span class="variable">NAMING_AUTHORITY</span> <span class="variable">*n</span><span class="operator">,</span>
+     <span class="variable">ASN1_OBJECT</span><span class="operator">*</span> <span class="variable">namingAuthorityId</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">ASN1_IA5STRING</span> <span class="variable">*NAMING_AUTHORITY_get0_authorityURL</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">NAMING_AUTHORITY</span> <span class="variable">*n</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">NAMING_AUTHORITY_set0_authorityURL</span><span class="operator">(</span><span class="variable">NAMING_AUTHORITY</span> <span class="variable">*n</span><span class="operator">,</span>
+     <span class="variable">ASN1_IA5STRING</span><span class="operator">*</span> <span class="variable">namingAuthorityUrl</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">ASN1_STRING</span> <span class="variable">*NAMING_AUTHORITY_get0_authorityText</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">NAMING_AUTHORITY</span> <span class="variable">*n</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">NAMING_AUTHORITY_set0_authorityText</span><span class="operator">(</span><span class="variable">NAMING_AUTHORITY</span> <span class="variable">*n</span><span class="operator">,</span>
+     <span class="variable">ASN1_STRING</span><span class="operator">*</span> <span class="variable">namingAuthorityText</span><span class="operator">);</span>
+ 
+ <span class="variable">const</span> <span class="variable">GENERAL_NAME</span> <span class="variable">*ADMISSION_SYNTAX_get0_admissionAuthority</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">ADMISSION_SYNTAX</span> <span class="variable">*as</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">ADMISSION_SYNTAX_set0_admissionAuthority</span><span class="operator">(</span>
+     <span class="variable">ADMISSION_SYNTAX</span> <span class="variable">*as</span><span class="operator">,</span> <span class="variable">GENERAL_NAME</span> <span class="variable">*aa</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">ADMISSIONS</span><span class="operator">)</span> <span class="variable">*ADMISSION_SYNTAX_get0_contentsOfAdmissions</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">ADMISSION_SYNTAX</span> <span class="variable">*as</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">ADMISSION_SYNTAX_set0_contentsOfAdmissions</span><span class="operator">(</span>
+     <span class="variable">ADMISSION_SYNTAX</span> <span class="variable">*as</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">ADMISSIONS</span><span class="operator">)</span> <span class="variable">*a</span><span class="operator">);</span>
+ 
+ <span class="variable">const</span> <span class="variable">GENERAL_NAME</span> <span class="variable">*ADMISSIONS_get0_admissionAuthority</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ADMISSIONS</span> <span class="variable">*a</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">ADMISSIONS_set0_admissionAuthority</span><span class="operator">(</span><span class="variable">ADMISSIONS</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">GENERAL_NAME</span> <span class="variable">*aa</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">NAMING_AUTHORITY</span> <span class="variable">*ADMISSIONS_get0_namingAuthority</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ADMISSIONS</span> <span class="variable">*a</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">ADMISSIONS_set0_namingAuthority</span><span class="operator">(</span><span class="variable">ADMISSIONS</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">NAMING_AUTHORITY</span> <span class="variable">*na</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">PROFESSION_INFOS</span> <span class="variable">*ADMISSIONS_get0_professionInfos</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ADMISSIONS</span> <span class="variable">*a</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">ADMISSIONS_set0_professionInfos</span><span class="operator">(</span><span class="variable">ADMISSIONS</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">PROFESSION_INFOS</span> <span class="variable">*pi</span><span class="operator">);</span>
+ 
+ <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*PROFESSION_INFO_get0_addProfessionInfo</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">PROFESSION_INFO_set0_addProfessionInfo</span><span class="operator">(</span>
+     <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">,</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*aos</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">NAMING_AUTHORITY</span> <span class="variable">*PROFESSION_INFO_get0_namingAuthority</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">PROFESSION_INFO_set0_namingAuthority</span><span class="operator">(</span>
+     <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">,</span> <span class="variable">NAMING_AUTHORITY</span> <span class="variable">*na</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">ASN1_STRING</span><span class="operator">)</span> <span class="variable">*PROFESSION_INFO_get0_professionItems</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">PROFESSION_INFO_set0_professionItems</span><span class="operator">(</span>
+     <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">ASN1_STRING</span><span class="operator">)</span> <span class="variable">*as</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">ASN1_OBJECT</span><span class="operator">)</span> <span class="variable">*PROFESSION_INFO_get0_professionOIDs</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">PROFESSION_INFO_set0_professionOIDs</span><span class="operator">(</span>
+     <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">ASN1_OBJECT</span><span class="operator">)</span> <span class="variable">*po</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">ASN1_PRINTABLESTRING</span> <span class="variable">*PROFESSION_INFO_get0_registrationNumber</span><span class="operator">(</span>
+     <span class="variable">const</span> <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">PROFESSION_INFO_set0_registrationNumber</span><span class="operator">(</span>
+     <span class="variable">PROFESSION_INFO</span> <span class="variable">*pi</span><span class="operator">,</span> <span class="variable">ASN1_PRINTABLESTRING</span> <span class="variable">*rn</span><span class="operator">);</span>
+</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The <b>PROFESSION_INFOS</b>, <b>ADMISSION_SYNTAX</b>, <b>ADMISSIONS</b>, and <b>PROFESSION_INFO</b> types are opaque structures representing the analogous types defined in the Common PKI Specification published by <a href="https://www.t7ev.org">https://www.t7ev.org</a>. Knowledge of those structures and their semantics is assumed.</p>
+
+<p>The conventional routines to convert between DER and the local format are described in <a href="../man3/d2i_X509.html">d2i_X509(3)</a>. The conventional routines to allocate and free the types are defined in <a href="../man3/X509_dup.html">X509_dup(3)</a>.</p>
+
+<p>The <b>PROFESSION_INFOS</b> type is a stack of <b>PROFESSION_INFO</b>; see <a href="../man3/DEFINE_STACK_OF.html">DEFINE_STACK_OF(3)</a> for details.</p>
+
+<p>The <b>NAMING_AUTHORITY</b> type has an authority ID and URL, and text fields. The NAMING_AUTHORITY_get0_authorityId(), NAMING_AUTHORITY_get0_get0_authorityURL(), and NAMING_AUTHORITY_get0_get0_authorityText(), functions return pointers to those values within the object. The NAMING_AUTHORITY_set0_authorityId(), NAMING_AUTHORITY_set0_get0_authorityURL(), and NAMING_AUTHORITY_set0_get0_authorityText(), functions free any existing value and set the pointer to the specified value.</p>
+
+<p>The <b>ADMISSION_SYNTAX</b> type has an authority name and a stack of <b>ADMISSION</b> objects. The ADMISSION_SYNTAX_get0_admissionAuthority() and ADMISSION_SYNTAX_get0_contentsOfAdmissions() functions return pointers to those values within the object. The ADMISSION_SYNTAX_set0_admissionAuthority() and ADMISSION_SYNTAX_set0_contentsOfAdmissions() functions free any existing value and set the pointer to the specified value.</p>
+
+<p>The <b>ADMISSION</b> type has an authority name, authority object, and a stack of <b>PROFSSION_INFO</b> items. The ADMISSIONS_get0_admissionAuthority(), ADMISSIONS_get0_namingAuthority(), and ADMISSIONS_get0_professionInfos() functions return pointers to those values within the object. The ADMISSIONS_set0_admissionAuthority(), ADMISSIONS_set0_namingAuthority(), and ADMISSIONS_set0_professionInfos() functions free any existing value and set the pointer to the specified value.</p>
+
+<p>The <b>PROFESSION_INFO</b> type has a name authority, stacks of profession Items and OIDs, a registration number, and additional profession info. The functions PROFESSION_INFO_get0_addProfessionInfo(), PROFESSION_INFO_get0_namingAuthority(), PROFESSION_INFO_get0_professionItems(), PROFESSION_INFO_get0_professionOIDs(), and PROFESSION_INFO_get0_registrationNumber() functions return pointers to those values within the object. The PROFESSION_INFO_set0_addProfessionInfo(), PROFESSION_INFO_set0_namingAuthority(), PROFESSION_INFO_set0_professionItems(), PROFESSION_INFO_set0_professionOIDs(), and PROFESSION_INFO_set0_registrationNumber() functions free any existing value and set the pointer to the specified value.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>Described above. Note that all of the <i>get0</i> functions return a pointer to the internal data structure and must not be freed.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man3/X509_dup.html">X509_dup(3)</a>, <a href="../man3/d2i_X509.html">d2i_X509(3)</a>,</p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2017-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+

@@ -29,7 +29,9 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/cms.h&gt;</span>
  
- <span class="variable">CMS_SignerInfo</span> <span class="variable">*CMS_add1_signer</span><span class="operator">(</span><span class="variable">CMS_ContentInfo</span> <span class="variable">*cms</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*signcert</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
+ <span class="variable">CMS_SignerInfo</span> <span class="variable">*CMS_add1_signer</span><span class="operator">(</span><span class="variable">CMS_ContentInfo</span> <span class="variable">*cms</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*signcert</span><span class="operator">,</span>
+                                 <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span>
+                                 <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">CMS_SignerInfo_sign</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">);</span>
 </code></pre>
@@ -72,7 +74,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/CMS_sign.html>CMS_sign(3)</a>, <a href="../man3/CMS_final.html>CMS_final(3)</a>,</p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/CMS_sign.html">CMS_sign(3)</a>, <a href="../man3/CMS_final.html">CMS_final(3)</a>,</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

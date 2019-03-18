@@ -54,7 +54,7 @@
 
 <p>SSL_set_default_passwd_cb(), SSL_set_default_passwd_cb_userdata(), SSL_get_default_passwd_cb() and SSL_get_default_passwd_cb_userdata() perform the same function as their SSL_CTX counterparts, but using an SSL object.</p>
 
-<p>The password callback, which must be provided by the application, hands back the password to be used during decryption. On invocation a pointer to userdata is provided. The function must store the password into the provided buffer <b>buf</b> which is of size <b>size</b>. The actual length of the password must be returned to the calling function. <b>rwflag</b> indicates whether the callback is used for reading/decryption (rwflag=0) or writing/encryption (rwflag=1). For more details, see <a href="../man3/pem_password_cb.html>pem_password_cb(3)</a>.</p>
+<p>The password callback, which must be provided by the application, hands back the password to be used during decryption. On invocation a pointer to userdata is provided. The function must store the password into the provided buffer <b>buf</b> which is of size <b>size</b>. The actual length of the password must be returned to the calling function. <b>rwflag</b> indicates whether the callback is used for reading/decryption (rwflag=0) or writing/encryption (rwflag=1). For more details, see <a href="../man3/pem_password_cb.html">pem_password_cb(3)</a>.</p>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -74,19 +74,19 @@
 
 <pre><code> <span class="keyword">int</span> <span class="variable">my_cb</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rwflag</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">)</span>
  <span class="operator">{</span>
-      <span class="variable">strncpy</span><span class="operator">(</span><span class="variable">buf</span><span class="operator">,</span> <span class="operator">(</span><span class="variable">char</span> <span class="operator">*)</span><span class="variable">u</span><span class="operator">,</span> <span class="variable">size</span><span class="operator">);</span>
-      <span class="variable">buf</span><span class="operator">[</span><span class="variable">size</span> <span class="operator">-</span> <span class="number">1</span><span class="operator">]</span> <span class="operator">=</span> <span class="string">'\0'</span><span class="operator">;</span>
-      <span class="keyword">return</span> <span class="variable">strlen</span><span class="operator">(</span><span class="variable">buf</span><span class="operator">);</span>
+     <span class="variable">strncpy</span><span class="operator">(</span><span class="variable">buf</span><span class="operator">,</span> <span class="operator">(</span><span class="variable">char</span> <span class="operator">*)</span><span class="variable">u</span><span class="operator">,</span> <span class="variable">size</span><span class="operator">);</span>
+     <span class="variable">buf</span><span class="operator">[</span><span class="variable">size</span> <span class="operator">-</span> <span class="number">1</span><span class="operator">]</span> <span class="operator">=</span> <span class="string">'\0'</span><span class="operator">;</span>
+     <span class="keyword">return</span> <span class="variable">strlen</span><span class="operator">(</span><span class="variable">buf</span><span class="operator">);</span>
  <span class="operator">}</span>
 </code></pre>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>SSL_CTX_get_default_passwd_cb(), SSL_CTX_get_default_passwd_cb_userdata(), SSL_set_default_passwd_cb() and SSL_set_default_passwd_cb_userdata() were first added to OpenSSL 1.1.0</p>
+<p>SSL_CTX_get_default_passwd_cb(), SSL_CTX_get_default_passwd_cb_userdata(), SSL_set_default_passwd_cb() and SSL_set_default_passwd_cb_userdata() were added in OpenSSL 1.1.0.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_CTX_use_certificate.html>SSL_CTX_use_certificate(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_CTX_use_certificate.html">SSL_CTX_use_certificate(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

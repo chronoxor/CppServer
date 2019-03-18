@@ -15,7 +15,7 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
-  <li><a href="#RETURN-VALUE">RETURN VALUE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -26,16 +26,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code>   <span class="comment">#include &lt;openssl/x509v3.h&gt;</span>
-   
-   <span class="keyword">int</span> <span class="variable">X509_check_ca</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*cert</span><span class="operator">);</span>
+<pre><code> <span class="comment">#include &lt;openssl/x509v3.h&gt;</span>
+ 
+ <span class="keyword">int</span> <span class="variable">X509_check_ca</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*cert</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
 <p>This function checks if given certificate is CA certificate (can be used to sign other certificates).</p>
 
-<h1 id="RETURN-VALUE">RETURN VALUE</h1>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>Function return 0, if it is not CA certificate, 1 if it is proper X509v3 CA certificate with <b>basicConstraints</b> extension CA:TRUE, 3, if it is self-signed X509 v1 certificate, 4, if it is certificate with <b>keyUsage</b> extension with bit <b>keyCertSign</b> set, but without <b>basicConstraints</b>, and 5 if it has outdated Netscape Certificate Type extension telling that it is CA certificate.</p>
 
@@ -43,11 +43,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/X509_verify_cert.html>X509_verify_cert(3)</a>, <a href="../man3/X509_check_issued.html>X509_check_issued(3)</a>, <a href="../man3/X509_check_purpose.html>X509_check_purpose(3)</a></p>
+<p><a href="../man3/X509_verify_cert.html">X509_verify_cert(3)</a>, <a href="../man3/X509_check_issued.html">X509_check_issued(3)</a>, <a href="../man3/X509_check_purpose.html">X509_check_purpose(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

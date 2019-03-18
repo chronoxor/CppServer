@@ -30,7 +30,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>verify</b> [<b>-help</b>] [<b>-CAfile file</b>] [<b>-CApath directory</b>] [<b>-no-CAfile</b>] [<b>-no-CApath</b>] [<b>-allow_proxy_certs</b>] [<b>-attime timestamp</b>] [<b>-check_ss_sig</b>] [<b>-CRLfile file</b>] [<b>-crl_download</b>] [<b>-crl_check</b>] [<b>-crl_check_all</b>] [<b>-engine id</b>] [<b>-explicit_policy</b>] [<b>-extended_crl</b>] [<b>-ignore_critical</b>] [<b>-inhibit_any</b>] [<b>-inhibit_map</b>] [<b>-no_check_time</b>] [<b>-partial_chain</b>] [<b>-policy arg</b>] [<b>-policy_check</b>] [<b>-policy_print</b>] [<b>-purpose purpose</b>] [<b>-suiteB_128</b>] [<b>-suiteB_128_only</b>] [<b>-suiteB_192</b>] [<b>-trusted_first</b>] [<b>-no_alt_chains</b>] [<b>-untrusted file</b>] [<b>-trusted file</b>] [<b>-use_deltas</b>] [<b>-verbose</b>] [<b>-auth_level level</b>] [<b>-verify_depth num</b>] [<b>-verify_email email</b>] [<b>-verify_hostname hostname</b>] [<b>-verify_ip ip</b>] [<b>-verify_name name</b>] [<b>-x509_strict</b>] [<b>-show_chain</b>] [<b>-</b>] [certificates]</p>
+<p><b>openssl</b> <b>verify</b> [<b>-help</b>] [<b>-CAfile file</b>] [<b>-CApath directory</b>] [<b>-no-CAfile</b>] [<b>-no-CApath</b>] [<b>-allow_proxy_certs</b>] [<b>-attime timestamp</b>] [<b>-check_ss_sig</b>] [<b>-CRLfile file</b>] [<b>-crl_download</b>] [<b>-crl_check</b>] [<b>-crl_check_all</b>] [<b>-engine id</b>] [<b>-explicit_policy</b>] [<b>-extended_crl</b>] [<b>-ignore_critical</b>] [<b>-inhibit_any</b>] [<b>-inhibit_map</b>] [<b>-nameopt option</b>] [<b>-no_check_time</b>] [<b>-partial_chain</b>] [<b>-policy arg</b>] [<b>-policy_check</b>] [<b>-policy_print</b>] [<b>-purpose purpose</b>] [<b>-suiteB_128</b>] [<b>-suiteB_128_only</b>] [<b>-suiteB_192</b>] [<b>-trusted_first</b>] [<b>-no_alt_chains</b>] [<b>-untrusted file</b>] [<b>-trusted file</b>] [<b>-use_deltas</b>] [<b>-verbose</b>] [<b>-auth_level level</b>] [<b>-verify_depth num</b>] [<b>-verify_email email</b>] [<b>-verify_hostname hostname</b>] [<b>-verify_ip ip</b>] [<b>-verify_name name</b>] [<b>-x509_strict</b>] [<b>-show_chain</b>] [<b>-</b>] [certificates]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -61,19 +61,19 @@
 <dt id="no-CAfile"><b>-no-CAfile</b></dt>
 <dd>
 
-<p>Do not load the trusted CA certificates from the default file location</p>
+<p>Do not load the trusted CA certificates from the default file location.</p>
 
 </dd>
 <dt id="no-CApath"><b>-no-CApath</b></dt>
 <dd>
 
-<p>Do not load the trusted CA certificates from the default directory location</p>
+<p>Do not load the trusted CA certificates from the default directory location.</p>
 
 </dd>
 <dt id="allow_proxy_certs"><b>-allow_proxy_certs</b></dt>
 <dd>
 
-<p>Allow the verification of proxy certificates</p>
+<p>Allow the verification of proxy certificates.</p>
 
 </dd>
 <dt id="attime-timestamp"><b>-attime timestamp</b></dt>
@@ -115,7 +115,7 @@
 <dt id="engine-id"><b>-engine id</b></dt>
 <dd>
 
-<p>Specifying an engine <b>id</b> will cause <a href="../man1/verify.html>verify(1)</a> to attempt to load the specified engine. The engine will then be set as the default for all its supported algorithms. If you want to load certificates or CRLs that require engine support via any of the <b>-trusted</b>, <b>-untrusted</b> or <b>-CRLfile</b> options, the <b>-engine</b> option must be specified before those options.</p>
+<p>Specifying an engine <b>id</b> will cause <a href="../man1/verify.html">verify(1)</a> to attempt to load the specified engine. The engine will then be set as the default for all its supported algorithms. If you want to load certificates or CRLs that require engine support via any of the <b>-trusted</b>, <b>-untrusted</b> or <b>-CRLfile</b> options, the <b>-engine</b> option must be specified before those options.</p>
 
 </dd>
 <dt id="explicit_policy"><b>-explicit_policy</b></dt>
@@ -146,6 +146,12 @@
 <dd>
 
 <p>Set policy variable inhibit-policy-mapping (see RFC5280).</p>
+
+</dd>
+<dt id="nameopt-option"><b>-nameopt option</b></dt>
+<dd>
+
+<p>Option which determines how the subject or issuer names are displayed. The <b>option</b> argument can be a single option or multiple options separated by commas. Alternatively the <b>-nameopt</b> switch may be used more than once to set multiple options. See the <a href="../man1/x509.html">x509(1)</a> manual page for details.</p>
 
 </dd>
 <dt id="no_check_time"><b>-no_check_time</b></dt>
@@ -187,7 +193,7 @@
 <dt id="suiteB_128_only--suiteB_128--suiteB_192"><b>-suiteB_128_only</b>, <b>-suiteB_128</b>, <b>-suiteB_192</b></dt>
 <dd>
 
-<p>enable the Suite B mode operation at 128 bit Level of Security, 128 bit or 192 bit, or only 192 bit Level of Security respectively. See RFC6460 for details. In particular the supported signature algorithms are reduced to support only ECDSA and SHA256 or SHA384 and only the elliptic curves P-256 and P-384.</p>
+<p>Enable the Suite B mode operation at 128 bit Level of Security, 128 bit or 192 bit, or only 192 bit Level of Security respectively. See RFC6460 for details. In particular the supported signature algorithms are reduced to support only ECDSA and SHA256 or SHA384 and only the elliptic curves P-256 and P-384.</p>
 
 </dd>
 <dt id="trusted_first"><b>-trusted_first</b></dt>
@@ -229,7 +235,7 @@
 <dt id="auth_level-level"><b>-auth_level level</b></dt>
 <dd>
 
-<p>Set the certificate chain authentication security level to <b>level</b>. The authentication security level determines the acceptable signature and public key strength when verifying certificate chains. For a certificate chain to validate, the public keys of all the certificates must meet the specified security <b>level</b>. The signature algorithm security level is enforced for all the certificates in the chain except for the chain&#39;s <i>trust anchor</i>, which is either directly trusted or validated by means other than its signature. See <a href="../man3/SSL_CTX_set_security_level.html>SSL_CTX_set_security_level(3)</a> for the definitions of the available levels. The default security level is -1, or &quot;not set&quot;. At security level 0 or lower all algorithms are acceptable. Security level 1 requires at least 80-bit-equivalent security and is broadly interoperable, though it will, for example, reject MD5 signatures or RSA keys shorter than 1024 bits.</p>
+<p>Set the certificate chain authentication security level to <b>level</b>. The authentication security level determines the acceptable signature and public key strength when verifying certificate chains. For a certificate chain to validate, the public keys of all the certificates must meet the specified security <b>level</b>. The signature algorithm security level is enforced for all the certificates in the chain except for the chain&#39;s <i>trust anchor</i>, which is either directly trusted or validated by means other than its signature. See <a href="../man3/SSL_CTX_set_security_level.html">SSL_CTX_set_security_level(3)</a> for the definitions of the available levels. The default security level is -1, or &quot;not set&quot;. At security level 0 or lower all algorithms are acceptable. Security level 1 requires at least 80-bit-equivalent security and is broadly interoperable, though it will, for example, reject MD5 signatures or RSA keys shorter than 1024 bits.</p>
 
 </dd>
 <dt id="verify_depth-num"><b>-verify_depth num</b></dt>
@@ -259,7 +265,7 @@
 <dt id="verify_name-name"><b>-verify_name name</b></dt>
 <dd>
 
-<p>Use default verification policies like trust model and required certificate policies identified by <b>name</b>. The trust model determines which auxiliary trust or reject OIDs are applicable to verifying the given certificate chain. See the <b>-addtrust</b> and <b>-addreject</b> options of the <a href="../man1/x509.html>x509(1)</a> command-line utility. Supported policy names include: <b>default</b>, <b>pkcs7</b>, <b>smime_sign</b>, <b>ssl_client</b>, <b>ssl_server</b>. These mimics the combinations of purpose and trust settings used in SSL, CMS and S/MIME. As of OpenSSL 1.1.0, the trust model is inferred from the purpose when not specified, so the <b>-verify_name</b> options are functionally equivalent to the corresponding <b>-purpose</b> settings.</p>
+<p>Use default verification policies like trust model and required certificate policies identified by <b>name</b>. The trust model determines which auxiliary trust or reject OIDs are applicable to verifying the given certificate chain. See the <b>-addtrust</b> and <b>-addreject</b> options of the <a href="../man1/x509.html">x509(1)</a> command-line utility. Supported policy names include: <b>default</b>, <b>pkcs7</b>, <b>smime_sign</b>, <b>ssl_client</b>, <b>ssl_server</b>. These mimics the combinations of purpose and trust settings used in SSL, CMS and S/MIME. As of OpenSSL 1.1.0, the trust model is inferred from the purpose when not specified, so the <b>-verify_name</b> options are functionally equivalent to the corresponding <b>-purpose</b> settings.</p>
 
 </dd>
 <dt id="x509_strict"><b>-x509_strict</b></dt>
@@ -488,7 +494,7 @@
 <dt id="X509_V_ERR_CERT_UNTRUSTED"><b>X509_V_ERR_CERT_UNTRUSTED</b></dt>
 <dd>
 
-<p>the root CA is not marked as trusted for the specified purpose.</p>
+<p>The root CA is not marked as trusted for the specified purpose.</p>
 
 </dd>
 <dt id="X509_V_ERR_CERT_REJECTED"><b>X509_V_ERR_CERT_REJECTED</b></dt>
@@ -500,7 +506,7 @@
 <dt id="X509_V_ERR_SUBJECT_ISSUER_MISMATCH"><b>X509_V_ERR_SUBJECT_ISSUER_MISMATCH</b></dt>
 <dd>
 
-<p>not used as of OpenSSL 1.1.0 as a result of the deprecation of the <b>-issuer_checks</b> option.</p>
+<p>Not used as of OpenSSL 1.1.0 as a result of the deprecation of the <b>-issuer_checks</b> option.</p>
 
 </dd>
 <dt id="X509_V_ERR_AKID_SKID_MISMATCH"><b>X509_V_ERR_AKID_SKID_MISMATCH</b></dt>
@@ -722,7 +728,67 @@
 <dt id="X509_V_ERR_DANE_NO_MATCH"><b>X509_V_ERR_DANE_NO_MATCH</b></dt>
 <dd>
 
-<p>DANE TLSA authentication is enabled, but no TLSA records matched the certificate chain. This error is only possible in <a href="../man1/s_client.html>s_client(1)</a>.</p>
+<p>DANE TLSA authentication is enabled, but no TLSA records matched the certificate chain. This error is only possible in <a href="../man1/s_client.html">s_client(1)</a>.</p>
+
+</dd>
+<dt id="X509_V_ERR_EE_KEY_TOO_SMALL"><b>X509_V_ERR_EE_KEY_TOO_SMALL</b></dt>
+<dd>
+
+<p>EE certificate key too weak.</p>
+
+</dd>
+<dt id="X509_ERR_CA_KEY_TOO_SMALL"><b>X509_ERR_CA_KEY_TOO_SMALL</b></dt>
+<dd>
+
+<p>CA certificate key too weak.</p>
+
+</dd>
+<dt id="X509_ERR_CA_MD_TOO_WEAK"><b>X509_ERR_CA_MD_TOO_WEAK</b></dt>
+<dd>
+
+<p>CA signature digest algorithm too weak.</p>
+
+</dd>
+<dt id="X509_V_ERR_INVALID_CALL"><b>X509_V_ERR_INVALID_CALL</b></dt>
+<dd>
+
+<p>nvalid certificate verification context.</p>
+
+</dd>
+<dt id="X509_V_ERR_STORE_LOOKUP"><b>X509_V_ERR_STORE_LOOKUP</b></dt>
+<dd>
+
+<p>Issuer certificate lookup error.</p>
+
+</dd>
+<dt id="X509_V_ERR_NO_VALID_SCTS"><b>X509_V_ERR_NO_VALID_SCTS</b></dt>
+<dd>
+
+<p>Certificate Transparency required, but no valid SCTs found.</p>
+
+</dd>
+<dt id="X509_V_ERR_PROXY_SUBJECT_NAME_VIOLATION"><b>X509_V_ERR_PROXY_SUBJECT_NAME_VIOLATION</b></dt>
+<dd>
+
+<p>Proxy subject name violation.</p>
+
+</dd>
+<dt id="X509_V_ERR_OCSP_VERIFY_NEEDED"><b>X509_V_ERR_OCSP_VERIFY_NEEDED</b></dt>
+<dd>
+
+<p>Returned by the verify callback to indicate an OCSP verification is needed.</p>
+
+</dd>
+<dt id="X509_V_ERR_OCSP_VERIFY_FAILED"><b>X509_V_ERR_OCSP_VERIFY_FAILED</b></dt>
+<dd>
+
+<p>Returned by the verify callback to indicate OCSP verification failed.</p>
+
+</dd>
+<dt id="X509_V_ERR_OCSP_CERT_UNKNOWN"><b>X509_V_ERR_OCSP_CERT_UNKNOWN</b></dt>
+<dd>
+
+<p>Returned by the verify callback to indicate that the certificate is not recognized by the OCSP responder.</p>
 
 </dd>
 </dl>
@@ -737,17 +803,17 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/x509.html>x509(1)</a></p>
+<p><a href="../man1/x509.html">x509(1)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>The <b>-show_chain</b> option was first added to OpenSSL 1.1.0.</p>
+<p>The <b>-show_chain</b> option was added in OpenSSL 1.1.0.</p>
 
 <p>The <b>-issuer_checks</b> option is deprecated as of OpenSSL 1.1.0 and is silently ignored.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

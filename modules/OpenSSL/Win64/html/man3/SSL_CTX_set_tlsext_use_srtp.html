@@ -79,7 +79,7 @@
 
 <p>After a handshake has been completed the negotiated SRTP protection profile (if any) can be obtained (on the client or the server) by calling SSL_get_selected_srtp_profile(). This function will return NULL if no SRTP protection profile was negotiated. The memory returned from this function should not be freed by the caller.</p>
 
-<p>If an SRTP protection profile has been sucessfully negotiated then the SRTP keying material (on both the client and server) should be obtained via a call to <a href="../man3/SSL_export_keying_material.html>SSL_export_keying_material(3)</a>. This call should provide a label value of &quot;EXTRACTOR-dtls_srtp&quot; and a NULL context value (use_context is 0). The total length of keying material obtained should be equal to two times the sum of the master key length and the salt length as defined for the protection profile in use. This provides the client write master key, the server write master key, the client write master salt and the server write master salt in that order.</p>
+<p>If an SRTP protection profile has been successfully negotiated then the SRTP keying material (on both the client and server) should be obtained via a call to <a href="../man3/SSL_export_keying_material.html">SSL_export_keying_material(3)</a>. This call should provide a label value of &quot;EXTRACTOR-dtls_srtp&quot; and a NULL context value (use_context is 0). The total length of keying material obtained should be equal to two times the sum of the master key length and the salt length as defined for the protection profile in use. This provides the client write master key, the server write master key, the client write master salt and the server write master salt in that order.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -91,11 +91,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/SSL_export_keying_material.html>SSL_export_keying_material(3)</a></p>
+<p><a href="../man3/SSL_export_keying_material.html">SSL_export_keying_material(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2017-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

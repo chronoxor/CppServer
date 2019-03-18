@@ -56,7 +56,7 @@
 
 <p>These functions, other than BIO_f_buffer(), are implemented as macros.</p>
 
-<p>Buffering BIOs implement BIO_gets() by using BIO_read() operations on the next BIO in the chain. By prepending a buffering BIO to a chain it is therefore possible to provide BIO_gets() functionality if the following BIOs do not support it (for example SSL BIOs).</p>
+<p>Buffering BIOs implement BIO_gets() by using BIO_read_ex() operations on the next BIO in the chain. By prepending a buffering BIO to a chain it is therefore possible to provide BIO_gets() functionality if the following BIOs do not support it (for example SSL BIOs).</p>
 
 <p>Data is only written to the next BIO in the chain when the write buffer fills or when BIO_flush() is called. It is therefore important to call BIO_flush() whenever any pending data should be written such as when removing a buffering BIO using BIO_pop(). BIO_flush() may need to be retried if the ultimate source/sink BIO is non blocking.</p>
 
@@ -72,7 +72,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/BIO.html>BIO(3)</a>, <a href="../man3/BIO_reset.html>BIO_reset(3)</a>, <a href="../man3/BIO_flush.html>BIO_flush(3)</a>, <a href="../man3/BIO_pop.html>BIO_pop(3)</a>, <a href="../man3/BIO_ctrl.html>BIO_ctrl(3)</a>.</p>
+<p><a href="../man7/bio.html">bio(7)</a>, <a href="../man3/BIO_reset.html">BIO_reset(3)</a>, <a href="../man3/BIO_flush.html">BIO_flush(3)</a>, <a href="../man3/BIO_pop.html">BIO_pop(3)</a>, <a href="../man3/BIO_ctrl.html">BIO_ctrl(3)</a>.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

@@ -71,28 +71,27 @@
  
  <span class="comment">#define MAX_SESSION_ID_ATTEMPTS 10</span>
  <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">generate_session_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*id</span><span class="operator">,</span>
-                              <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*id_len</span><span class="operator">)</span>
+                                <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*id_len</span><span class="operator">)</span>
  <span class="operator">{</span>
-      <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
-      <span class="keyword">do</span> <span class="operator">{</span>
-          <span class="variable">RAND_pseudo_bytes</span><span class="operator">(</span><span class="variable">id</span><span class="operator">,</span> <span class="variable">*id_len</span><span class="operator">);</span>
-          <span class="regex">/*
-           * Prefix the session_id with the required prefix. NB: If our
-           * prefix is too long, clip it - but there will be worse effects
-           * anyway, eg. the server could only possibly create 1 session
-           * ID (ie. the prefix!) so all future session negotiations will
-           * fail due to conflicts.
-           */</span>
-          <span class="variable">memcpy</span><span class="operator">(</span><span class="variable">id</span><span class="operator">,</span> <span class="variable">session_id_prefix</span><span class="operator">,</span>
-                 <span class="operator">(</span><span class="variable">strlen</span><span class="operator">(</span><span class="variable">session_id_prefix</span><span class="operator">)</span> <span class="operator">&lt;</span> <span class="variable">*id_len</span><span class="operator">)</span> <span class="operator">?</span>
-                    <span class="variable">strlen</span><span class="operator">(</span><span class="variable">session_id_prefix</span><span class="operator">)</span> <span class="operator">:</span> <span class="variable">*id_len</span><span class="operator">);</span>
-      <span class="operator">}</span>
-      <span class="keyword">while</span> <span class="operator">(</span><span class="variable">SSL_has_matching_session_id</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">,</span> <span class="variable">id</span><span class="operator">,</span> <span class="variable">*id_len</span><span class="operator">)</span> <span class="operator">&amp;&amp;</span>
-              <span class="operator">(++</span><span class="variable">count</span> <span class="operator">&lt;</span> <span class="variable">MAX_SESSION_ID_ATTEMPTS</span><span class="operator">));</span>
-      <span class="keyword">if</span> <span class="operator">(</span><span class="variable">count</span> <span class="operator">&gt;=</span> <span class="variable">MAX_SESSION_ID_ATTEMPTS</span><span class="operator">)</span>
-              <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-      <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
-  <span class="operator">}</span>
+     <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+ 
+     <span class="keyword">do</span> <span class="operator">{</span>
+         <span class="variable">RAND_pseudo_bytes</span><span class="operator">(</span><span class="variable">id</span><span class="operator">,</span> <span class="variable">*id_len</span><span class="operator">);</span>
+         <span class="regex">/*
+          * Prefix the session_id with the required prefix. NB: If our
+          * prefix is too long, clip it - but there will be worse effects
+          * anyway, eg. the server could only possibly create 1 session
+          * ID (ie. the prefix!) so all future session negotiations will
+          * fail due to conflicts.
+          */</span>
+         <span class="variable">memcpy</span><span class="operator">(</span><span class="variable">id</span><span class="operator">,</span> <span class="variable">session_id_prefix</span><span class="operator">,</span> <span class="variable">strlen</span><span class="operator">(</span><span class="variable">session_id_prefix</span><span class="operator">)</span> <span class="operator">&lt;</span> <span class="variable">*id_len</span> <span class="operator">?</span>
+                                       <span class="variable">strlen</span><span class="operator">(</span><span class="variable">session_id_prefix</span><span class="operator">)</span> <span class="operator">:</span> <span class="variable">*id_len</span><span class="operator">);</span>
+     <span class="operator">}</span> <span class="keyword">while</span> <span class="operator">(</span><span class="variable">SSL_has_matching_session_id</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">,</span> <span class="variable">id</span><span class="operator">,</span> <span class="variable">*id_len</span><span class="operator">)</span>
+               <span class="operator">&amp;&amp;</span> <span class="operator">++</span><span class="variable">count</span> <span class="operator">&lt;</span> <span class="variable">MAX_SESSION_ID_ATTEMPTS</span><span class="operator">);</span>
+     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">count</span> <span class="operator">&gt;=</span> <span class="variable">MAX_SESSION_ID_ATTEMPTS</span><span class="operator">)</span>
+         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
+     <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
+ <span class="operator">}</span>
 </code></pre>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
@@ -103,7 +102,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man7/ssl.html>ssl(7)</a>, <a href="../man3/SSL_get_version.html>SSL_get_version(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_get_version.html">SSL_get_version(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

@@ -33,8 +33,8 @@
  
  <span class="keyword">int</span> <span class="variable">EVP_PKEY_encrypt_init</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_PKEY_encrypt</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*outlen</span><span class="operator">,</span>
-                        <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">inlen</span><span class="operator">);</span>
+                      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*outlen</span><span class="operator">,</span>
+                      <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">inlen</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -55,7 +55,7 @@
 
 <h1 id="EXAMPLE">EXAMPLE</h1>
 
-<p>Encrypt data using OAEP (for RSA keys). See also <a href="../man3/PEM_read_PUBKEY.html>PEM_read_PUBKEY(3)</a> or <a href="../man3/d2i_X509.html>d2i_X509(3)</a> for means to load a public key. You may also simply set &#39;eng = NULL;&#39; to start with the default OpenSSL RSA implementation:</p>
+<p>Encrypt data using OAEP (for RSA keys). See also <a href="../man3/PEM_read_PUBKEY.html">PEM_read_PUBKEY(3)</a> or <a href="../man3/d2i_X509.html">d2i_X509(3)</a> for means to load a public key. You may also simply set &#39;eng = NULL;&#39; to start with the default OpenSSL RSA implementation:</p>
 
 <pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
  <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
@@ -66,39 +66,41 @@
  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">*in</span><span class="operator">;</span>
  <span class="variable">size_t</span> <span class="variable">outlen</span><span class="operator">,</span> <span class="variable">inlen</span><span class="operator">;</span>
  <span class="variable">EVP_PKEY</span> <span class="variable">*key</span><span class="operator">;</span>
- <span class="regex">/* NB: assumes eng, key, in, inlen are already set up,
+ 
+ <span class="regex">/*
+  * NB: assumes eng, key, in, inlen are already set up,
   * and that key is an RSA public key
   */</span>
  <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new</span><span class="operator">(</span><span class="variable">key</span><span class="operator">,</span> <span class="variable">eng</span><span class="operator">);</span>
  <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ctx</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="variable">occurred</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="variable">occurred</span> <span class="operator">*/</span>
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_encrypt_init</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_rsa_padding</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">RSA_OAEP_PADDING</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  
  <span class="regex">/* Determine buffer length */</span>
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_encrypt</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">outlen</span><span class="operator">,</span> <span class="variable">in</span><span class="operator">,</span> <span class="variable">inlen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  
  <span class="variable">out</span> <span class="operator">=</span> <span class="variable">OPENSSL_malloc</span><span class="operator">(</span><span class="variable">outlen</span><span class="operator">);</span>
  
  <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">out</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">malloc</span> <span class="variable">failure</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">malloc</span> <span class="variable">failure</span> <span class="operator">*/</span>
  
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_encrypt</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">out</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">outlen</span><span class="operator">,</span> <span class="variable">in</span><span class="operator">,</span> <span class="variable">inlen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  
  <span class="regex">/* Encrypted data is outlen bytes written to buffer out */</span>
 </code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/d2i_X509.html>d2i_X509(3)</a>, <a href="../man3/engine.html>engine(3)</a>, <a href="../man3/EVP_PKEY_CTX_new.html>EVP_PKEY_CTX_new(3)</a>, <a href="../man3/EVP_PKEY_decrypt.html>EVP_PKEY_decrypt(3)</a>, <a href="../man3/EVP_PKEY_sign.html>EVP_PKEY_sign(3)</a>, <a href="../man3/EVP_PKEY_verify.html>EVP_PKEY_verify(3)</a>, <a href="../man3/EVP_PKEY_verify_recover.html>EVP_PKEY_verify_recover(3)</a>, <a href="../man3/EVP_PKEY_derive.html>EVP_PKEY_derive(3)</a></p>
+<p><a href="../man3/d2i_X509.html">d2i_X509(3)</a>, <a href="../man3/ENGINE_by_id.html">ENGINE_by_id(3)</a>, <a href="../man3/EVP_PKEY_CTX_new.html">EVP_PKEY_CTX_new(3)</a>, <a href="../man3/EVP_PKEY_decrypt.html">EVP_PKEY_decrypt(3)</a>, <a href="../man3/EVP_PKEY_sign.html">EVP_PKEY_sign(3)</a>, <a href="../man3/EVP_PKEY_verify.html">EVP_PKEY_verify(3)</a>, <a href="../man3/EVP_PKEY_verify_recover.html">EVP_PKEY_verify_recover(3)</a>, <a href="../man3/EVP_PKEY_derive.html">EVP_PKEY_derive(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>These functions were first added to OpenSSL 1.0.0.</p>
+<p>These functions were added in OpenSSL 1.0.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

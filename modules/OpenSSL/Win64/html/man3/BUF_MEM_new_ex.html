@@ -25,8 +25,6 @@
 
 <p>BUF_MEM_new, BUF_MEM_new_ex, BUF_MEM_free, BUF_MEM_grow, BUF_MEM_grow_clean, BUF_reverse - simple character array structure</p>
 
-<p>standard C library equivalents</p>
-
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/buffer.h&gt;</span>
@@ -49,7 +47,7 @@
 
 <p>BUF_MEM_new() allocates a new buffer of zero size.</p>
 
-<p>BUF_MEM_new_ex() allocates a buffer with the specified flags. The flag <b>BUF_MEM_FLAG_SECURE</b> specifies that the <b>data</b> pointer should be allocated on the secure heap; see <a href="../man3/CRYPTO_secure_malloc.html>CRYPTO_secure_malloc(3)</a>.</p>
+<p>BUF_MEM_new_ex() allocates a buffer with the specified flags. The flag <b>BUF_MEM_FLAG_SECURE</b> specifies that the <b>data</b> pointer should be allocated on the secure heap; see <a href="../man3/CRYPTO_secure_malloc.html">CRYPTO_secure_malloc(3)</a>.</p>
 
 <p>BUF_MEM_free() frees up an already existing buffer. The data is zeroed before freeing up in case the buffer contains sensitive data.</p>
 
@@ -69,15 +67,15 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man7/bio.html>bio(7)</a>, <a href="../man3/CRYPTO_secure_malloc.html>CRYPTO_secure_malloc(3)</a>.</p>
+<p><a href="../man7/bio.html">bio(7)</a>, <a href="../man3/CRYPTO_secure_malloc.html">CRYPTO_secure_malloc(3)</a>.</p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>BUF_MEM_new_ex() was added in OpenSSL 1.1.0.</p>
+<p>The BUF_MEM_new_ex() function was added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

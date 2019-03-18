@@ -15,19 +15,20 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
-  <li><a href="#RETURN-VALUE">RETURN VALUE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
 <h1 id="NAME">NAME</h1>
 
-<p>OPENSSL_VERSION_NUMBER, OpenSSL_version, OpenSSL_version_num - get OpenSSL version number</p>
+<p>OPENSSL_VERSION_NUMBER, OPENSSL_VERSION_TEXT, OpenSSL_version, OpenSSL_version_num - get OpenSSL version number</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/opensslv.h&gt;</span>
  <span class="comment">#define OPENSSL_VERSION_NUMBER 0xnnnnnnnnnL</span>
+ <span class="comment">#define OPENSSL_VERSION_TEXT "OpenSSL x.y.z xx XXX xxxx"</span>
  
  <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
  
@@ -59,6 +60,8 @@
  0x000905000 == 0.9.5 dev</code></pre>
 
 <p>Version 0.9.5a had an interim interpretation that is like the current one, except the patch level got the highest bit set, to keep continuity. The number was therefore 0x0090581f.</p>
+
+<p>OPENSSL_VERSION_TEXT is the text variant of the version number and the release date. For example, &quot;OpenSSL 1.0.1a 15 Oct 2015&quot;.</p>
 
 <p>OpenSSL_version_num() returns the version number.</p>
 
@@ -106,13 +109,15 @@
 
 <p>For an unknown <b>t</b>, the text &quot;not available&quot; is returned.</p>
 
-<h1 id="RETURN-VALUE">RETURN VALUE</h1>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>The version number.</p>
+<p>OpenSSL_version_num() returns the version number.</p>
+
+<p>OpenSSL_version() returns requested version strings.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/crypto.html>crypto(3)</a></p>
+<p><a href="../man7/crypto.html">crypto(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

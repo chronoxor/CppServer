@@ -28,10 +28,8 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/tls1.h&gt;</span>
  
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_tlsext_status_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                   <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="operator">*,</span> <span class="variable">void</span> <span class="operator">*));</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_get_tlsext_status_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                   <span class="keyword">int</span> <span class="operator">(**</span><span class="variable">callback</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="operator">*,</span> <span class="variable">void</span> <span class="operator">*));</span>
+ <span class="variable">long</span> <span class="variable">SSL_CTX_set_tlsext_status_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="operator">*,</span> <span class="variable">void</span> <span class="operator">*));</span>
+ <span class="variable">long</span> <span class="variable">SSL_CTX_get_tlsext_status_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(**</span><span class="variable">callback</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="operator">*,</span> <span class="variable">void</span> <span class="operator">*));</span>
  
  <span class="variable">long</span> <span class="variable">SSL_CTX_set_tlsext_status_arg</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
  <span class="variable">long</span> <span class="variable">SSL_CTX_get_tlsext_status_arg</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">**</span><span class="variable">arg</span><span class="operator">);</span>
@@ -74,7 +72,7 @@
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>SSL_get_tlsext_status_type(), SSL_CTX_get_tlsext_status_type() and SSL_CTX_set_tlsext_status_type() were added in OpenSSL 1.1.0.</p>
+<p>The SSL_get_tlsext_status_type(), SSL_CTX_get_tlsext_status_type() and SSL_CTX_set_tlsext_status_type() functions were added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

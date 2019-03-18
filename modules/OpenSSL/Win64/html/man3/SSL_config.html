@@ -43,7 +43,7 @@
 
 <p>By calling SSL_CTX_config() or SSL_config() an application can perform many complex tasks based on the contents of the configuration file: greatly simplifying application configuration code. A degree of future proofing can also be achieved: an application can support configuration features in newer versions of OpenSSL automatically.</p>
 
-<p>A configuration file must have been previously loaded, for example using CONF_modules_load_file(). See <a href="../man3/config.html>config(3)</a> for details of the configuration file syntax.</p>
+<p>A configuration file must have been previously loaded, for example using CONF_modules_load_file(). See <a href="../man5/config.html">config(5)</a> for details of the configuration file syntax.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -61,11 +61,9 @@
  ssl_conf = ssl_sect
 
  [ssl_sect]
-
  server = server_section
 
  [server_section]
-
  RSA.Certificate = server-rsa.pem
  ECDSA.Certificate = server-ecdsa.pem
  Ciphers = ALL:!RC4</code></pre>
@@ -73,8 +71,8 @@
 <p>An application could call:</p>
 
 <pre><code> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">CONF_modules_load_file</span><span class="operator">(</span><span class="string">"config.cnf"</span><span class="operator">,</span> <span class="string">"testapp"</span><span class="operator">,</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-      <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error processing config file\n"</span><span class="operator">);</span>
-      <span class="keyword">goto</span> <span class="variable">err</span><span class="operator">;</span>
+     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error processing config file\n"</span><span class="operator">);</span>
+     <span class="keyword">goto</span> <span class="variable">err</span><span class="operator">;</span>
  <span class="operator">}</span>
  
  <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">SSL_CTX_new</span><span class="operator">(</span><span class="variable">TLS_server_method</span><span class="operator">());</span>
@@ -89,11 +87,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/config.html>config(3)</a>, <a href="../man3/SSL_CONF_cmd.html>SSL_CONF_cmd(3)</a>, <a href="../man3/CONF_modules_load_file.html>CONF_modules_load_file(3)</a></p>
+<p><a href="../man5/config.html">config(5)</a>, <a href="../man3/SSL_CONF_cmd.html">SSL_CONF_cmd(3)</a>, <a href="../man3/CONF_modules_load_file.html">CONF_modules_load_file(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>SSL_CTX_config() and SSL_config() were first added to OpenSSL 1.1.0</p>
+<p>The SSL_CTX_config() and SSL_config() functions were added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

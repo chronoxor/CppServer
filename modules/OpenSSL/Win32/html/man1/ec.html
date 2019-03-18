@@ -53,7 +53,7 @@
 <dt id="outform-DER-PEM"><b>-outform DER|PEM</b></dt>
 <dd>
 
-<p>This specifies the output format, the options have the same meaning as the <b>-inform</b> option.</p>
+<p>This specifies the output format, the options have the same meaning and default as the <b>-inform</b> option.</p>
 
 </dd>
 <dt id="in-filename"><b>-in filename</b></dt>
@@ -65,7 +65,7 @@
 <dt id="passin-arg"><b>-passin arg</b></dt>
 <dd>
 
-<p>the input file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html>openssl(1)</a>.</p>
+<p>The input file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
 
 </dd>
 <dt id="out-filename"><b>-out filename</b></dt>
@@ -77,7 +77,7 @@
 <dt id="passout-arg"><b>-passout arg</b></dt>
 <dd>
 
-<p>the output file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html>openssl(1)</a>.</p>
+<p>The output file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
 
 </dd>
 <dt id="des--des3--idea"><b>-des|-des3|-idea</b></dt>
@@ -89,31 +89,25 @@
 <dt id="text"><b>-text</b></dt>
 <dd>
 
-<p>prints out the public, private key components and parameters.</p>
+<p>Prints out the public, private key components and parameters.</p>
 
 </dd>
 <dt id="noout"><b>-noout</b></dt>
 <dd>
 
-<p>this option prevents output of the encoded version of the key.</p>
-
-</dd>
-<dt id="modulus"><b>-modulus</b></dt>
-<dd>
-
-<p>this option prints out the value of the public key component of the key.</p>
+<p>This option prevents output of the encoded version of the key.</p>
 
 </dd>
 <dt id="pubin"><b>-pubin</b></dt>
 <dd>
 
-<p>by default a private key is read from the input file: with this option a public key is read instead.</p>
+<p>By default, a private key is read from the input file. With this option a public key is read instead.</p>
 
 </dd>
 <dt id="pubout"><b>-pubout</b></dt>
 <dd>
 
-<p>by default a private key is output. With this option a public key will be output instead. This option is automatically set if the input is a public key.</p>
+<p>By default a private key is output. With this option a public key will be output instead. This option is automatically set if the input is a public key.</p>
 
 </dd>
 <dt id="conv_form"><b>-conv_form</b></dt>
@@ -137,13 +131,13 @@
 <dt id="check"><b>-check</b></dt>
 <dd>
 
-<p>this option checks the consistency of an EC private or public key.</p>
+<p>This option checks the consistency of an EC private or public key.</p>
 
 </dd>
 <dt id="engine-id"><b>-engine id</b></dt>
 <dd>
 
-<p>specifying an engine (by its unique <b>id</b> string) will cause <b>ec</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+<p>Specifying an engine (by its unique <b>id</b> string) will cause <b>ec</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
 
 </dd>
 </dl>
@@ -188,11 +182,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/ecparam.html>ecparam(1)</a>, <a href="../man1/dsa.html>dsa(1)</a>, <a href="../man1/rsa.html>rsa(1)</a></p>
+<p><a href="../man1/ecparam.html">ecparam(1)</a>, <a href="../man1/dsa.html">dsa(1)</a>, <a href="../man1/rsa.html">rsa(1)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2003-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2003-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

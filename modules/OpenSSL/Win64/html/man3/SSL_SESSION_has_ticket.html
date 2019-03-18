@@ -15,6 +15,7 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -42,17 +43,23 @@
 
 <p>SSL_SESSION_get0_ticket obtains a pointer to the ticket associated with a session. The length of the ticket is written to <b>*len</b>. If <b>tick</b> is non NULL then a pointer to the ticket is written to <b>*tick</b>. The pointer is only valid while the connection is in use. The session (and hence the ticket pointer) may also become invalid as a result of a call to SSL_CTX_flush_sessions().</p>
 
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>SSL_SESSION_has_ticket() returns 1 if session ticket exists or 0 otherwise.</p>
+
+<p>SSL_SESSION_get_ticket_lifetime_hint() returns the number of seconds.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man7/ssl.html>ssl(7)</a>, <a href="../man3/d2i_SSL_SESSION.html>d2i_SSL_SESSION(3)</a>, <a href="../man3/SSL_SESSION_get_time.html>SSL_SESSION_get_time(3)</a>, <a href="../man3/SSL_SESSION_free.html>SSL_SESSION_free(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/d2i_SSL_SESSION.html">d2i_SSL_SESSION(3)</a>, <a href="../man3/SSL_SESSION_get_time.html">SSL_SESSION_get_time(3)</a>, <a href="../man3/SSL_SESSION_free.html">SSL_SESSION_free(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>SSL_SESSION_has_ticket, SSL_SESSION_get_ticket_lifetime_hint and SSL_SESSION_get0_ticket were added in OpenSSL 1.1.0.</p>
+<p>The SSL_SESSION_has_ticket(), SSL_SESSION_get_ticket_lifetime_hint() and SSL_SESSION_get0_ticket() functions were added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

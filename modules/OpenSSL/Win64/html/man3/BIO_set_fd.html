@@ -42,7 +42,7 @@
 
 <p>BIO_s_fd() returns the file descriptor BIO method. This is a wrapper round the platforms file descriptor routines such as read() and write().</p>
 
-<p>BIO_read() and BIO_write() read or write the underlying descriptor. BIO_puts() is supported but BIO_gets() is not.</p>
+<p>BIO_read_ex() and BIO_write_ex() read or write the underlying descriptor. BIO_puts() is supported but BIO_gets() is not.</p>
 
 <p>If the close flag is set then close() is called on the underlying file descriptor when the BIO is freed.</p>
 
@@ -60,7 +60,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>The behaviour of BIO_read() and BIO_write() depends on the behavior of the platforms read() and write() calls on the descriptor. If the underlying file descriptor is in a non blocking mode then the BIO will behave in the manner described in the <a href="../man3/BIO_read.html>BIO_read(3)</a> and <a href="../man3/BIO_should_retry.html>BIO_should_retry(3)</a> manual pages.</p>
+<p>The behaviour of BIO_read_ex() and BIO_write_ex() depends on the behavior of the platforms read() and write() calls on the descriptor. If the underlying file descriptor is in a non blocking mode then the BIO will behave in the manner described in the <a href="../man3/BIO_read_ex.html">BIO_read_ex(3)</a> and <a href="../man3/BIO_should_retry.html">BIO_should_retry(3)</a> manual pages.</p>
 
 <p>File descriptor BIOs should not be used for socket I/O. Use socket BIOs instead.</p>
 
@@ -89,7 +89,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/BIO_seek.html>BIO_seek(3)</a>, <a href="../man3/BIO_tell.html>BIO_tell(3)</a>, <a href="../man3/BIO_reset.html>BIO_reset(3)</a>, <a href="../man3/BIO_read.html>BIO_read(3)</a>, <a href="../man3/BIO_write.html>BIO_write(3)</a>, <a href="../man3/BIO_puts.html>BIO_puts(3)</a>, <a href="../man3/BIO_gets.html>BIO_gets(3)</a>, <a href="../man3/BIO_printf.html>BIO_printf(3)</a>, <a href="../man3/BIO_set_close.html>BIO_set_close(3)</a>, <a href="../man3/BIO_get_close.html>BIO_get_close(3)</a></p>
+<p><a href="../man3/BIO_seek.html">BIO_seek(3)</a>, <a href="../man3/BIO_tell.html">BIO_tell(3)</a>, <a href="../man3/BIO_reset.html">BIO_reset(3)</a>, <a href="../man3/BIO_read_ex.html">BIO_read_ex(3)</a>, <a href="../man3/BIO_write_ex.html">BIO_write_ex(3)</a>, <a href="../man3/BIO_puts.html">BIO_puts(3)</a>, <a href="../man3/BIO_gets.html">BIO_gets(3)</a>, <a href="../man3/BIO_printf.html">BIO_printf(3)</a>, <a href="../man3/BIO_set_close.html">BIO_set_close(3)</a>, <a href="../man3/BIO_get_close.html">BIO_get_close(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

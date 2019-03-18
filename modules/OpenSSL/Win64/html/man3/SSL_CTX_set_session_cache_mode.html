@@ -47,7 +47,7 @@
 
 <p>A server will look up the session in its internal session storage. If the session is not found in internal storage or lookups for the internal storage have been deactivated (SSL_SESS_CACHE_NO_INTERNAL_LOOKUP), the server will try the external storage if available.</p>
 
-<p>Since a client may try to reuse a session intended for use in a different context, the session id context must be set by the server (see <a href="../man3/SSL_CTX_set_session_id_context.html>SSL_CTX_set_session_id_context(3)</a>).</p>
+<p>Since a client may try to reuse a session intended for use in a different context, the session id context must be set by the server (see <a href="../man3/SSL_CTX_set_session_id_context.html">SSL_CTX_set_session_id_context(3)</a>).</p>
 
 <p>The following session cache modes and modifiers are available:</p>
 
@@ -62,7 +62,7 @@
 <dt id="SSL_SESS_CACHE_CLIENT">SSL_SESS_CACHE_CLIENT</dt>
 <dd>
 
-<p>Client sessions are added to the session cache. As there is no reliable way for the OpenSSL library to know whether a session should be reused or which session to choose (due to the abstract BIO layer the SSL engine does not have details about the connection), the application must select the session to be reused by using the <a href="../man3/SSL_set_session.html>SSL_set_session(3)</a> function. This option is not activated by default.</p>
+<p>Client sessions are added to the session cache. As there is no reliable way for the OpenSSL library to know whether a session should be reused or which session to choose (due to the abstract BIO layer the SSL engine does not have details about the connection), the application must select the session to be reused by using the <a href="../man3/SSL_set_session.html">SSL_set_session(3)</a> function. This option is not activated by default.</p>
 
 </dd>
 <dt id="SSL_SESS_CACHE_SERVER">SSL_SESS_CACHE_SERVER</dt>
@@ -80,7 +80,7 @@
 <dt id="SSL_SESS_CACHE_NO_AUTO_CLEAR">SSL_SESS_CACHE_NO_AUTO_CLEAR</dt>
 <dd>
 
-<p>Normally the session cache is checked for expired sessions every 255 connections using the <a href="../man3/SSL_CTX_flush_sessions.html>SSL_CTX_flush_sessions(3)</a> function. Since this may lead to a delay which cannot be controlled, the automatic flushing may be disabled and <a href="../man3/SSL_CTX_flush_sessions.html>SSL_CTX_flush_sessions(3)</a> can be called explicitly by the application.</p>
+<p>Normally the session cache is checked for expired sessions every 255 connections using the <a href="../man3/SSL_CTX_flush_sessions.html">SSL_CTX_flush_sessions(3)</a> function. Since this may lead to a delay which cannot be controlled, the automatic flushing may be disabled and <a href="../man3/SSL_CTX_flush_sessions.html">SSL_CTX_flush_sessions(3)</a> can be called explicitly by the application.</p>
 
 </dd>
 <dt id="SSL_SESS_CACHE_NO_INTERNAL_LOOKUP">SSL_SESS_CACHE_NO_INTERNAL_LOOKUP</dt>
@@ -92,7 +92,7 @@
 <dt id="SSL_SESS_CACHE_NO_INTERNAL_STORE">SSL_SESS_CACHE_NO_INTERNAL_STORE</dt>
 <dd>
 
-<p>Depending on the presence of SSL_SESS_CACHE_CLIENT and/or SSL_SESS_CACHE_SERVER, sessions negotiated in an SSL/TLS handshake may be cached for possible reuse. Normally a new session is added to the internal cache as well as any external session caching (callback) that is configured for the SSL_CTX. This flag will prevent sessions being stored in the internal cache (though the application can add them manually using <a href="../man3/SSL_CTX_add_session.html>SSL_CTX_add_session(3)</a>). Note: in any SSL/TLS servers where external caching is configured, any successful session lookups in the external cache (ie. for session-resume requests) would normally be copied into the local cache before processing continues - this flag prevents these additions to the internal cache as well.</p>
+<p>Depending on the presence of SSL_SESS_CACHE_CLIENT and/or SSL_SESS_CACHE_SERVER, sessions negotiated in an SSL/TLS handshake may be cached for possible reuse. Normally a new session is added to the internal cache as well as any external session caching (callback) that is configured for the SSL_CTX. This flag will prevent sessions being stored in the internal cache (though the application can add them manually using <a href="../man3/SSL_CTX_add_session.html">SSL_CTX_add_session(3)</a>). Note: in any SSL/TLS servers where external caching is configured, any successful session lookups in the external cache (ie. for session-resume requests) would normally be copied into the local cache before processing continues - this flag prevents these additions to the internal cache as well.</p>
 
 </dd>
 <dt id="SSL_SESS_CACHE_NO_INTERNAL">SSL_SESS_CACHE_NO_INTERNAL</dt>
@@ -113,7 +113,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_set_session.html>SSL_set_session(3)</a>, <a href="../man3/SSL_session_reused.html>SSL_session_reused(3)</a>, <a href="../man3/SSL_CTX_add_session.html>SSL_CTX_add_session(3)</a>, <a href="../man3/SSL_CTX_sess_number.html>SSL_CTX_sess_number(3)</a>, <a href="../man3/SSL_CTX_sess_set_cache_size.html>SSL_CTX_sess_set_cache_size(3)</a>, <a href="../man3/SSL_CTX_sess_set_get_cb.html>SSL_CTX_sess_set_get_cb(3)</a>, <a href="../man3/SSL_CTX_set_session_id_context.html>SSL_CTX_set_session_id_context(3)</a>, <a href="../man3/SSL_CTX_set_timeout.html>SSL_CTX_set_timeout(3)</a>, <a href="../man3/SSL_CTX_flush_sessions.html>SSL_CTX_flush_sessions(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_set_session.html">SSL_set_session(3)</a>, <a href="../man3/SSL_session_reused.html">SSL_session_reused(3)</a>, <a href="../man3/SSL_CTX_add_session.html">SSL_CTX_add_session(3)</a>, <a href="../man3/SSL_CTX_sess_number.html">SSL_CTX_sess_number(3)</a>, <a href="../man3/SSL_CTX_sess_set_cache_size.html">SSL_CTX_sess_set_cache_size(3)</a>, <a href="../man3/SSL_CTX_sess_set_get_cb.html">SSL_CTX_sess_set_get_cb(3)</a>, <a href="../man3/SSL_CTX_set_session_id_context.html">SSL_CTX_set_session_id_context(3)</a>, <a href="../man3/SSL_CTX_set_timeout.html">SSL_CTX_set_timeout(3)</a>, <a href="../man3/SSL_CTX_flush_sessions.html">SSL_CTX_flush_sessions(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

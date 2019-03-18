@@ -50,15 +50,15 @@
 
 <p>SSL_CTX_sess_connect_good() returns the number of successfully established SSL/TLS sessions in client mode.</p>
 
-<p>SSL_CTX_sess_connect_renegotiate() returns the number of start renegotiations in client mode.</p>
+<p>SSL_CTX_sess_connect_renegotiate() returns the number of started renegotiations in client mode.</p>
 
 <p>SSL_CTX_sess_accept() returns the number of started SSL/TLS handshakes in server mode.</p>
 
 <p>SSL_CTX_sess_accept_good() returns the number of successfully established SSL/TLS sessions in server mode.</p>
 
-<p>SSL_CTX_sess_accept_renegotiate() returns the number of start renegotiations in server mode.</p>
+<p>SSL_CTX_sess_accept_renegotiate() returns the number of started renegotiations in server mode.</p>
 
-<p>SSL_CTX_sess_hits() returns the number of successfully reused sessions. In client mode a session set with <a href="../man3/SSL_set_session.html>SSL_set_session(3)</a> successfully reused is counted as a hit. In server mode a session successfully retrieved from internal or external cache is counted as a hit.</p>
+<p>SSL_CTX_sess_hits() returns the number of successfully reused sessions. In client mode a session set with <a href="../man3/SSL_set_session.html">SSL_set_session(3)</a> successfully reused is counted as a hit. In server mode a session successfully retrieved from internal or external cache is counted as a hit.</p>
 
 <p>SSL_CTX_sess_cb_hits() returns the number of successfully retrieved sessions from the external session cache in server mode.</p>
 
@@ -74,7 +74,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_set_session.html>SSL_set_session(3)</a>, <a href="../man3/SSL_CTX_set_session_cache_mode.html>SSL_CTX_set_session_cache_mode(3)</a> <a href="../man3/SSL_CTX_sess_set_cache_size.html>SSL_CTX_sess_set_cache_size(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_set_session.html">SSL_set_session(3)</a>, <a href="../man3/SSL_CTX_set_session_cache_mode.html">SSL_CTX_set_session_cache_mode(3)</a> <a href="../man3/SSL_CTX_sess_set_cache_size.html">SSL_CTX_sess_set_cache_size(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

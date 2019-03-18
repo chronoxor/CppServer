@@ -55,22 +55,22 @@
 <dt id="SSL_SENT_SHUTDOWN">SSL_SENT_SHUTDOWN</dt>
 <dd>
 
-<p>A &quot;close notify&quot; shutdown alert was sent to the peer, the connection is being considered closed and the session is closed and correct.</p>
+<p>A close_notify shutdown alert was sent to the peer, the connection is being considered closed and the session is closed and correct.</p>
 
 </dd>
 <dt id="SSL_RECEIVED_SHUTDOWN">SSL_RECEIVED_SHUTDOWN</dt>
 <dd>
 
-<p>A shutdown alert was received form the peer, either a normal &quot;close notify&quot; or a fatal error.</p>
+<p>A shutdown alert was received form the peer, either a normal close_notify or a fatal error.</p>
 
 </dd>
 </dl>
 
 <p>SSL_SENT_SHUTDOWN and SSL_RECEIVED_SHUTDOWN can be set at the same time.</p>
 
-<p>The shutdown state of the connection is used to determine the state of the ssl session. If the session is still open, when <a href="../man3/SSL_clear.html>SSL_clear(3)</a> or <a href="../man3/SSL_free.html>SSL_free(3)</a> is called, it is considered bad and removed according to RFC2246. The actual condition for a correctly closed session is SSL_SENT_SHUTDOWN (according to the TLS RFC, it is acceptable to only send the &quot;close notify&quot; alert but to not wait for the peer&#39;s answer, when the underlying connection is closed). SSL_set_shutdown() can be used to set this state without sending a close alert to the peer (see <a href="../man3/SSL_shutdown.html>SSL_shutdown(3)</a>).</p>
+<p>The shutdown state of the connection is used to determine the state of the ssl session. If the session is still open, when <a href="../man3/SSL_clear.html">SSL_clear(3)</a> or <a href="../man3/SSL_free.html">SSL_free(3)</a> is called, it is considered bad and removed according to RFC2246. The actual condition for a correctly closed session is SSL_SENT_SHUTDOWN (according to the TLS RFC, it is acceptable to only send the close_notify alert but to not wait for the peer&#39;s answer, when the underlying connection is closed). SSL_set_shutdown() can be used to set this state without sending a close alert to the peer (see <a href="../man3/SSL_shutdown.html">SSL_shutdown(3)</a>).</p>
 
-<p>If a &quot;close notify&quot; was received, SSL_RECEIVED_SHUTDOWN will be set, for setting SSL_SENT_SHUTDOWN the application must however still call <a href="../man3/SSL_shutdown.html>SSL_shutdown(3)</a> or SSL_set_shutdown() itself.</p>
+<p>If a close_notify was received, SSL_RECEIVED_SHUTDOWN will be set, for setting SSL_SENT_SHUTDOWN the application must however still call <a href="../man3/SSL_shutdown.html">SSL_shutdown(3)</a> or SSL_set_shutdown() itself.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -80,11 +80,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_shutdown.html>SSL_shutdown(3)</a>, <a href="../man3/SSL_CTX_set_quiet_shutdown.html>SSL_CTX_set_quiet_shutdown(3)</a>, <a href="../man3/SSL_clear.html>SSL_clear(3)</a>, <a href="../man3/SSL_free.html>SSL_free(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_shutdown.html">SSL_shutdown(3)</a>, <a href="../man3/SSL_CTX_set_quiet_shutdown.html">SSL_CTX_set_quiet_shutdown(3)</a>, <a href="../man3/SSL_clear.html">SSL_clear(3)</a>, <a href="../man3/SSL_free.html">SSL_free(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2001-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2001-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

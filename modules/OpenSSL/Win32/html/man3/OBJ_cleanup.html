@@ -82,13 +82,13 @@
 
 <p>OBJ_dup() returns a copy of <b>o</b>.</p>
 
-<p>OBJ_create() adds a new object to the internal table. <b>oid</b> is the numerical form of the object, <b>sn</b> the short name and <b>ln</b> the long name. A new NID is returned for the created object.</p>
+<p>OBJ_create() adds a new object to the internal table. <b>oid</b> is the numerical form of the object, <b>sn</b> the short name and <b>ln</b> the long name. A new NID is returned for the created object in case of success and NID_undef in case of failure.</p>
 
 <p>OBJ_length() returns the size of the content octets of <b>obj</b>.</p>
 
 <p>OBJ_get0_data() returns a pointer to the content octets of <b>obj</b>. The returned pointer is an internal pointer which <b>must not</b> be freed.</p>
 
-<p>In OpenSSL versions prior to 1.1.0 OBJ_cleanup() cleaned up OpenSSLs internal object table and was called before an application exits if any new objects were added using OBJ_create(). This function is deprecated in version 1.1.0 and now does nothing if called. No explicit de-initialisation is now required. See <a href="../man3/OPENSSL_init_crypto.html>OPENSSL_init_crypto(3)</a> for further information.</p>
+<p>OBJ_cleanup() releases any resources allocated by creating new objects.</p>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -117,23 +117,18 @@
 
 <p>Create an object for <b>commonName</b>:</p>
 
-<pre><code> <span class="variable">ASN1_OBJECT</span> <span class="variable">*o</span><span class="operator">;</span>
- <span class="variable">o</span> <span class="operator">=</span> <span class="variable">OBJ_nid2obj</span><span class="operator">(</span><span class="variable">NID_commonName</span><span class="operator">);</span>
+<pre><code> <span class="variable">ASN1_OBJECT</span> <span class="variable">*o</span> <span class="operator">=</span> <span class="variable">OBJ_nid2obj</span><span class="operator">(</span><span class="variable">NID_commonName</span><span class="operator">);</span>
 </code></pre>
 
 <p>Check if an object is <b>commonName</b></p>
 
 <pre><code> if (OBJ_obj2nid(obj) == NID_commonName)
-        /* Do something */</code></pre>
+     /* Do something */</code></pre>
 
 <p>Create a new NID and initialize an object from it:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">new_nid</span><span class="operator">;</span>
- <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">;</span>
- 
- <span class="variable">new_nid</span> <span class="operator">=</span> <span class="variable">OBJ_create</span><span class="operator">(</span><span class="string">"1.2.3.4"</span><span class="operator">,</span> <span class="string">"NewOID"</span><span class="operator">,</span> <span class="string">"New Object Identifier"</span><span class="operator">);</span>
- 
- <span class="variable">obj</span> <span class="operator">=</span> <span class="variable">OBJ_nid2obj</span><span class="operator">(</span><span class="variable">new_nid</span><span class="operator">);</span>
+<pre><code> <span class="keyword">int</span> <span class="variable">new_nid</span> <span class="operator">=</span> <span class="variable">OBJ_create</span><span class="operator">(</span><span class="string">"1.2.3.4"</span><span class="operator">,</span> <span class="string">"NewOID"</span><span class="operator">,</span> <span class="string">"New Object Identifier"</span><span class="operator">);</span>
+ <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span> <span class="operator">=</span> <span class="variable">OBJ_nid2obj</span><span class="operator">(</span><span class="variable">new_nid</span><span class="operator">);</span>
 </code></pre>
 
 <p>Create a new object directly:</p>
@@ -155,11 +150,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>OBJ_cleanup() was deprecated in OpenSSL 1.1.0.</p>
+<p>OBJ_cleanup() was deprecated in OpenSSL 1.1.0 by <a href="../man3/OPENSSL_init_crypto.html">OPENSSL_init_crypto(3)</a> and should not be used.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

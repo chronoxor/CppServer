@@ -40,7 +40,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>x509</b> [<b>-help</b>] [<b>-inform DER|PEM|NET</b>] [<b>-outform DER|PEM|NET</b>] [<b>-keyform DER|PEM</b>] [<b>-CAform DER|PEM</b>] [<b>-CAkeyform DER|PEM</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-serial</b>] [<b>-hash</b>] [<b>-subject_hash</b>] [<b>-issuer_hash</b>] [<b>-ocspid</b>] [<b>-subject</b>] [<b>-issuer</b>] [<b>-nameopt option</b>] [<b>-email</b>] [<b>-ocsp_uri</b>] [<b>-startdate</b>] [<b>-enddate</b>] [<b>-purpose</b>] [<b>-dates</b>] [<b>-checkend num</b>] [<b>-modulus</b>] [<b>-pubkey</b>] [<b>-fingerprint</b>] [<b>-alias</b>] [<b>-noout</b>] [<b>-trustout</b>] [<b>-clrtrust</b>] [<b>-clrreject</b>] [<b>-addtrust arg</b>] [<b>-addreject arg</b>] [<b>-setalias arg</b>] [<b>-days arg</b>] [<b>-set_serial n</b>] [<b>-signkey filename</b>] [<b>-passin arg</b>] [<b>-x509toreq</b>] [<b>-req</b>] [<b>-CA filename</b>] [<b>-CAkey filename</b>] [<b>-CAcreateserial</b>] [<b>-CAserial filename</b>] [<b>-force_pubkey key</b>] [<b>-text</b>] [<b>-certopt option</b>] [<b>-C</b>] [<b>-[digest]</b>] [<b>-clrext</b>] [<b>-extfile filename</b>] [<b>-extensions section</b>] [<b>-engine id</b>]</p>
+<p><b>openssl</b> <b>x509</b> [<b>-help</b>] [<b>-inform DER|PEM</b>] [<b>-outform DER|PEM</b>] [<b>-keyform DER|PEM</b>] [<b>-CAform DER|PEM</b>] [<b>-CAkeyform DER|PEM</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-serial</b>] [<b>-hash</b>] [<b>-subject_hash</b>] [<b>-issuer_hash</b>] [<b>-ocspid</b>] [<b>-subject</b>] [<b>-issuer</b>] [<b>-nameopt option</b>] [<b>-email</b>] [<b>-ocsp_uri</b>] [<b>-startdate</b>] [<b>-enddate</b>] [<b>-purpose</b>] [<b>-dates</b>] [<b>-checkend num</b>] [<b>-modulus</b>] [<b>-pubkey</b>] [<b>-fingerprint</b>] [<b>-alias</b>] [<b>-noout</b>] [<b>-trustout</b>] [<b>-clrtrust</b>] [<b>-clrreject</b>] [<b>-addtrust arg</b>] [<b>-addreject arg</b>] [<b>-setalias arg</b>] [<b>-days arg</b>] [<b>-set_serial n</b>] [<b>-signkey filename</b>] [<b>-passin arg</b>] [<b>-x509toreq</b>] [<b>-req</b>] [<b>-CA filename</b>] [<b>-CAkey filename</b>] [<b>-CAcreateserial</b>] [<b>-CAserial filename</b>] [<b>-force_pubkey key</b>] [<b>-text</b>] [<b>-ext extensions</b>] [<b>-certopt option</b>] [<b>-C</b>] [<b>-<i>digest</i></b>] [<b>-clrext</b>] [<b>-extfile filename</b>] [<b>-extensions section</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-engine id</b>] [<b>-preserve_dates</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -60,16 +60,16 @@
 <p>Print out a usage message.</p>
 
 </dd>
-<dt id="inform-DER-PEM-NET"><b>-inform DER|PEM|NET</b></dt>
+<dt id="inform-DER-PEM"><b>-inform DER|PEM</b></dt>
 <dd>
 
-<p>This specifies the input format normally the command will expect an X509 certificate but this can change if other options such as <b>-req</b> are present. The DER format is the DER encoding of the certificate and PEM is the base64 encoding of the DER encoding with header and footer lines added. The NET option is an obscure Netscape server format that is now obsolete.</p>
+<p>This specifies the input format normally the command will expect an X509 certificate but this can change if other options such as <b>-req</b> are present. The DER format is the DER encoding of the certificate and PEM is the base64 encoding of the DER encoding with header and footer lines added. The default format is PEM.</p>
 
 </dd>
-<dt id="outform-DER-PEM-NET"><b>-outform DER|PEM|NET</b></dt>
+<dt id="outform-DER-PEM"><b>-outform DER|PEM</b></dt>
 <dd>
 
-<p>This specifies the output format, the options have the same meaning as the <b>-inform</b> option.</p>
+<p>This specifies the output format, the options have the same meaning and default as the <b>-inform</b> option.</p>
 
 </dd>
 <dt id="in-filename"><b>-in filename</b></dt>
@@ -84,16 +84,34 @@
 <p>This specifies the output filename to write to or standard output by default.</p>
 
 </dd>
-<dt id="digest"><b>-[digest]</b></dt>
+<dt id="digest"><b>-<i>digest</i></b></dt>
 <dd>
 
-<p>the digest to use. This affects any signing or display option that uses a message digest, such as the <b>-fingerprint</b>, <b>-signkey</b> and <b>-CA</b> options. Any digest supported by the OpenSSL <b>dgst</b> command can be used. If not specified then SHA1 is used with <b>-fingerprint</b> or the default digest for the signing algorithm is used, typically SHA256.</p>
+<p>The digest to use. This affects any signing or display option that uses a message digest, such as the <b>-fingerprint</b>, <b>-signkey</b> and <b>-CA</b> options. Any digest supported by the OpenSSL <b>dgst</b> command can be used. If not specified then SHA1 is used with <b>-fingerprint</b> or the default digest for the signing algorithm is used, typically SHA256.</p>
+
+</dd>
+<dt id="rand-file"><b>-rand file...</b></dt>
+<dd>
+
+<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+
+</dd>
+<dt id="writerand-file">[<b>-writerand file</b>]</dt>
+<dd>
+
+<p>Writes random data to the specified <i>file</i> upon exit. This can be used with a subsequent <b>-rand</b> flag.</p>
 
 </dd>
 <dt id="engine-id"><b>-engine id</b></dt>
 <dd>
 
-<p>specifying an engine (by its unique <b>id</b> string) will cause <b>x509</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+<p>Specifying an engine (by its unique <b>id</b> string) will cause <b>x509</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+
+</dd>
+<dt id="preserve_dates"><b>-preserve_dates</b></dt>
+<dd>
+
+<p>When signing a certificate, preserve the &quot;notBefore&quot; and &quot;notAfter&quot; dates instead of adjusting them to current time and duration. Cannot be used with the <b>-days</b> option.</p>
 
 </dd>
 </dl>
@@ -107,127 +125,133 @@
 <dt id="text"><b>-text</b></dt>
 <dd>
 
-<p>prints out the certificate in text form. Full details are output including the public key, signature algorithms, issuer and subject names, serial number any extensions present and any trust settings.</p>
+<p>Prints out the certificate in text form. Full details are output including the public key, signature algorithms, issuer and subject names, serial number any extensions present and any trust settings.</p>
+
+</dd>
+<dt id="ext-extensions"><b>-ext extensions</b></dt>
+<dd>
+
+<p>Prints out the certificate extensions in text form. Extensions are specified with a comma separated string, e.g., &quot;subjectAltName,subjectKeyIdentifier&quot;. See the <a href="../man5/x509v3_config.html">x509v3_config(5)</a> manual page for the extension names.</p>
 
 </dd>
 <dt id="certopt-option"><b>-certopt option</b></dt>
 <dd>
 
-<p>customise the output format used with <b>-text</b>. The <b>option</b> argument can be a single option or multiple options separated by commas. The <b>-certopt</b> switch may be also be used more than once to set multiple options. See the <b>TEXT OPTIONS</b> section for more information.</p>
+<p>Customise the output format used with <b>-text</b>. The <b>option</b> argument can be a single option or multiple options separated by commas. The <b>-certopt</b> switch may be also be used more than once to set multiple options. See the <b>TEXT OPTIONS</b> section for more information.</p>
 
 </dd>
 <dt id="noout"><b>-noout</b></dt>
 <dd>
 
-<p>this option prevents output of the encoded version of the request.</p>
+<p>This option prevents output of the encoded version of the certificate.</p>
 
 </dd>
 <dt id="pubkey"><b>-pubkey</b></dt>
 <dd>
 
-<p>outputs the certificate&#39;s SubjectPublicKeyInfo block in PEM format.</p>
+<p>Outputs the certificate&#39;s SubjectPublicKeyInfo block in PEM format.</p>
 
 </dd>
 <dt id="modulus"><b>-modulus</b></dt>
 <dd>
 
-<p>this option prints out the value of the modulus of the public key contained in the certificate.</p>
+<p>This option prints out the value of the modulus of the public key contained in the certificate.</p>
 
 </dd>
 <dt id="serial"><b>-serial</b></dt>
 <dd>
 
-<p>outputs the certificate serial number.</p>
+<p>Outputs the certificate serial number.</p>
 
 </dd>
 <dt id="subject_hash"><b>-subject_hash</b></dt>
 <dd>
 
-<p>outputs the &quot;hash&quot; of the certificate subject name. This is used in OpenSSL to form an index to allow certificates in a directory to be looked up by subject name.</p>
+<p>Outputs the &quot;hash&quot; of the certificate subject name. This is used in OpenSSL to form an index to allow certificates in a directory to be looked up by subject name.</p>
 
 </dd>
 <dt id="issuer_hash"><b>-issuer_hash</b></dt>
 <dd>
 
-<p>outputs the &quot;hash&quot; of the certificate issuer name.</p>
+<p>Outputs the &quot;hash&quot; of the certificate issuer name.</p>
 
 </dd>
 <dt id="ocspid"><b>-ocspid</b></dt>
 <dd>
 
-<p>outputs the OCSP hash values for the subject name and public key.</p>
+<p>Outputs the OCSP hash values for the subject name and public key.</p>
 
 </dd>
 <dt id="hash"><b>-hash</b></dt>
 <dd>
 
-<p>synonym for &quot;-subject_hash&quot; for backward compatibility reasons.</p>
+<p>Synonym for &quot;-subject_hash&quot; for backward compatibility reasons.</p>
 
 </dd>
 <dt id="subject_hash_old"><b>-subject_hash_old</b></dt>
 <dd>
 
-<p>outputs the &quot;hash&quot; of the certificate subject name using the older algorithm as used by OpenSSL versions before 1.0.0.</p>
+<p>Outputs the &quot;hash&quot; of the certificate subject name using the older algorithm as used by OpenSSL before version 1.0.0.</p>
 
 </dd>
 <dt id="issuer_hash_old"><b>-issuer_hash_old</b></dt>
 <dd>
 
-<p>outputs the &quot;hash&quot; of the certificate issuer name using the older algorithm as used by OpenSSL versions before 1.0.0.</p>
+<p>Outputs the &quot;hash&quot; of the certificate issuer name using the older algorithm as used by OpenSSL before version 1.0.0.</p>
 
 </dd>
 <dt id="subject"><b>-subject</b></dt>
 <dd>
 
-<p>outputs the subject name.</p>
+<p>Outputs the subject name.</p>
 
 </dd>
 <dt id="issuer"><b>-issuer</b></dt>
 <dd>
 
-<p>outputs the issuer name.</p>
+<p>Outputs the issuer name.</p>
 
 </dd>
 <dt id="nameopt-option"><b>-nameopt option</b></dt>
 <dd>
 
-<p>option which determines how the subject or issuer names are displayed. The <b>option</b> argument can be a single option or multiple options separated by commas. Alternatively the <b>-nameopt</b> switch may be used more than once to set multiple options. See the <b>NAME OPTIONS</b> section for more information.</p>
+<p>Option which determines how the subject or issuer names are displayed. The <b>option</b> argument can be a single option or multiple options separated by commas. Alternatively the <b>-nameopt</b> switch may be used more than once to set multiple options. See the <b>NAME OPTIONS</b> section for more information.</p>
 
 </dd>
 <dt id="email"><b>-email</b></dt>
 <dd>
 
-<p>outputs the email address(es) if any.</p>
+<p>Outputs the email address(es) if any.</p>
 
 </dd>
 <dt id="ocsp_uri"><b>-ocsp_uri</b></dt>
 <dd>
 
-<p>outputs the OCSP responder address(es) if any.</p>
+<p>Outputs the OCSP responder address(es) if any.</p>
 
 </dd>
 <dt id="startdate"><b>-startdate</b></dt>
 <dd>
 
-<p>prints out the start date of the certificate, that is the notBefore date.</p>
+<p>Prints out the start date of the certificate, that is the notBefore date.</p>
 
 </dd>
 <dt id="enddate"><b>-enddate</b></dt>
 <dd>
 
-<p>prints out the expiry date of the certificate, that is the notAfter date.</p>
+<p>Prints out the expiry date of the certificate, that is the notAfter date.</p>
 
 </dd>
 <dt id="dates"><b>-dates</b></dt>
 <dd>
 
-<p>prints out the start and expiry dates of a certificate.</p>
+<p>Prints out the start and expiry dates of a certificate.</p>
 
 </dd>
 <dt id="checkend-arg"><b>-checkend arg</b></dt>
 <dd>
 
-<p>checks if the certificate expires within the next <b>arg</b> seconds and exits non-zero if yes it will expire or zero if not.</p>
+<p>Checks if the certificate expires within the next <b>arg</b> seconds and exits non-zero if yes it will expire or zero if not.</p>
 
 </dd>
 <dt id="fingerprint"><b>-fingerprint</b></dt>
@@ -239,7 +263,7 @@
 <dt id="C"><b>-C</b></dt>
 <dd>
 
-<p>this outputs the certificate in the form of a C source file.</p>
+<p>This outputs the certificate in the form of a C source file.</p>
 
 </dd>
 </dl>
@@ -261,49 +285,49 @@
 <dt id="trustout"><b>-trustout</b></dt>
 <dd>
 
-<p>this causes <b>x509</b> to output a <b>trusted</b> certificate. An ordinary or trusted certificate can be input but by default an ordinary certificate is output and any trust settings are discarded. With the <b>-trustout</b> option a trusted certificate is output. A trusted certificate is automatically output if any trust settings are modified.</p>
+<p>This causes <b>x509</b> to output a <b>trusted</b> certificate. An ordinary or trusted certificate can be input but by default an ordinary certificate is output and any trust settings are discarded. With the <b>-trustout</b> option a trusted certificate is output. A trusted certificate is automatically output if any trust settings are modified.</p>
 
 </dd>
 <dt id="setalias-arg"><b>-setalias arg</b></dt>
 <dd>
 
-<p>sets the alias of the certificate. This will allow the certificate to be referred to using a nickname for example &quot;Steve&#39;s Certificate&quot;.</p>
+<p>Sets the alias of the certificate. This will allow the certificate to be referred to using a nickname for example &quot;Steve&#39;s Certificate&quot;.</p>
 
 </dd>
 <dt id="alias"><b>-alias</b></dt>
 <dd>
 
-<p>outputs the certificate alias, if any.</p>
+<p>Outputs the certificate alias, if any.</p>
 
 </dd>
 <dt id="clrtrust"><b>-clrtrust</b></dt>
 <dd>
 
-<p>clears all the permitted or trusted uses of the certificate.</p>
+<p>Clears all the permitted or trusted uses of the certificate.</p>
 
 </dd>
 <dt id="clrreject"><b>-clrreject</b></dt>
 <dd>
 
-<p>clears all the prohibited or rejected uses of the certificate.</p>
+<p>Clears all the prohibited or rejected uses of the certificate.</p>
 
 </dd>
 <dt id="addtrust-arg"><b>-addtrust arg</b></dt>
 <dd>
 
-<p>adds a trusted certificate use. Any object name can be used here but currently only <b>clientAuth</b> (SSL client use), <b>serverAuth</b> (SSL server use), <b>emailProtection</b> (S/MIME email) and <b>anyExtendedKeyUsage</b> are used. As of OpenSSL 1.1.0, the last of these blocks all purposes when rejected or enables all purposes when trusted. Other OpenSSL applications may define additional uses.</p>
+<p>Adds a trusted certificate use. Any object name can be used here but currently only <b>clientAuth</b> (SSL client use), <b>serverAuth</b> (SSL server use), <b>emailProtection</b> (S/MIME email) and <b>anyExtendedKeyUsage</b> are used. As of OpenSSL 1.1.0, the last of these blocks all purposes when rejected or enables all purposes when trusted. Other OpenSSL applications may define additional uses.</p>
 
 </dd>
 <dt id="addreject-arg"><b>-addreject arg</b></dt>
 <dd>
 
-<p>adds a prohibited use. It accepts the same values as the <b>-addtrust</b> option.</p>
+<p>Adds a prohibited use. It accepts the same values as the <b>-addtrust</b> option.</p>
 
 </dd>
 <dt id="purpose"><b>-purpose</b></dt>
 <dd>
 
-<p>this option performs tests on the certificate extensions and outputs the results. For a more complete description see the <b>CERTIFICATE EXTENSIONS</b> section.</p>
+<p>This option performs tests on the certificate extensions and outputs the results. For a more complete description see the <b>CERTIFICATE EXTENSIONS</b> section.</p>
 
 </dd>
 </dl>
@@ -317,7 +341,7 @@
 <dt id="signkey-filename"><b>-signkey filename</b></dt>
 <dd>
 
-<p>this option causes the input file to be self signed using the supplied private key.</p>
+<p>This option causes the input file to be self signed using the supplied private key.</p>
 
 <p>If the input file is a certificate it sets the issuer name to the subject name (i.e. makes it self signed) changes the public key to the supplied value and changes the start and end dates. The start date is set to the current time and the end date is set to a value determined by the <b>-days</b> option. Any certificate extensions are retained unless the <b>-clrext</b> option is supplied; this includes, for example, any existing key identifier extensions.</p>
 
@@ -327,43 +351,43 @@
 <dt id="passin-arg"><b>-passin arg</b></dt>
 <dd>
 
-<p>the key password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html>openssl(1)</a>.</p>
+<p>The key password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
 
 </dd>
 <dt id="clrext"><b>-clrext</b></dt>
 <dd>
 
-<p>delete any extensions from a certificate. This option is used when a certificate is being created from another certificate (for example with the <b>-signkey</b> or the <b>-CA</b> options). Normally all extensions are retained.</p>
+<p>Delete any extensions from a certificate. This option is used when a certificate is being created from another certificate (for example with the <b>-signkey</b> or the <b>-CA</b> options). Normally all extensions are retained.</p>
 
 </dd>
 <dt id="keyform-PEM-DER"><b>-keyform PEM|DER</b></dt>
 <dd>
 
-<p>specifies the format (DER or PEM) of the private key file used in the <b>-signkey</b> option.</p>
+<p>Specifies the format (DER or PEM) of the private key file used in the <b>-signkey</b> option.</p>
 
 </dd>
 <dt id="days-arg"><b>-days arg</b></dt>
 <dd>
 
-<p>specifies the number of days to make a certificate valid for. The default is 30 days.</p>
+<p>Specifies the number of days to make a certificate valid for. The default is 30 days. Cannot be used with the <b>-preserve_dates</b> option.</p>
 
 </dd>
 <dt id="x509toreq"><b>-x509toreq</b></dt>
 <dd>
 
-<p>converts a certificate into a certificate request. The <b>-signkey</b> option is used to pass the required private key.</p>
+<p>Converts a certificate into a certificate request. The <b>-signkey</b> option is used to pass the required private key.</p>
 
 </dd>
 <dt id="req"><b>-req</b></dt>
 <dd>
 
-<p>by default a certificate is expected on input. With this option a certificate request is expected instead.</p>
+<p>By default a certificate is expected on input. With this option a certificate request is expected instead.</p>
 
 </dd>
 <dt id="set_serial-n"><b>-set_serial n</b></dt>
 <dd>
 
-<p>specifies the serial number to use. This option can be used with either the <b>-signkey</b> or <b>-CA</b> options. If used in conjunction with the <b>-CA</b> option the serial number file (as specified by the <b>-CAserial</b> or <b>-CAcreateserial</b> options) is not used.</p>
+<p>Specifies the serial number to use. This option can be used with either the <b>-signkey</b> or <b>-CA</b> options. If used in conjunction with the <b>-CA</b> option the serial number file (as specified by the <b>-CAserial</b> or <b>-CAcreateserial</b> options) is not used.</p>
 
 <p>The serial number can be decimal or hex (if preceded by <b>0x</b>).</p>
 
@@ -371,7 +395,7 @@
 <dt id="CA-filename"><b>-CA filename</b></dt>
 <dd>
 
-<p>specifies the CA certificate to be used for signing. When this option is present <b>x509</b> behaves like a &quot;mini CA&quot;. The input file is signed by this CA using this option: that is its issuer name is set to the subject name of the CA and it is digitally signed using the CAs private key.</p>
+<p>Specifies the CA certificate to be used for signing. When this option is present <b>x509</b> behaves like a &quot;mini CA&quot;. The input file is signed by this CA using this option: that is its issuer name is set to the subject name of the CA and it is digitally signed using the CAs private key.</p>
 
 <p>This option is normally combined with the <b>-req</b> option. Without the <b>-req</b> option the input is a certificate which must be self signed.</p>
 
@@ -379,15 +403,15 @@
 <dt id="CAkey-filename"><b>-CAkey filename</b></dt>
 <dd>
 
-<p>sets the CA private key to sign a certificate with. If this option is not specified then it is assumed that the CA private key is present in the CA certificate file.</p>
+<p>Sets the CA private key to sign a certificate with. If this option is not specified then it is assumed that the CA private key is present in the CA certificate file.</p>
 
 </dd>
 <dt id="CAserial-filename"><b>-CAserial filename</b></dt>
 <dd>
 
-<p>sets the CA serial number file to use.</p>
+<p>Sets the CA serial number file to use.</p>
 
-<p>When the <b>-CA</b> option is used to sign a certificate it uses a serial number specified in a file. This file consist of one line containing an even number of hex digits with the serial number to use. After each use the serial number is incremented and written out to the file again.</p>
+<p>When the <b>-CA</b> option is used to sign a certificate it uses a serial number specified in a file. This file consists of one line containing an even number of hex digits with the serial number to use. After each use the serial number is incremented and written out to the file again.</p>
 
 <p>The default filename consists of the CA certificate file base name with &quot;.srl&quot; appended. For example if the CA certificate file is called &quot;mycacert.pem&quot; it expects to find a serial number file called &quot;mycacert.srl&quot;.</p>
 
@@ -395,25 +419,25 @@
 <dt id="CAcreateserial"><b>-CAcreateserial</b></dt>
 <dd>
 
-<p>with this option the CA serial number file is created if it does not exist: it will contain the serial number &quot;02&quot; and the certificate being signed will have the 1 as its serial number. If the <b>-CA</b> option is specified and the serial number file does not exist a random number is generated; this is the recommended practice.</p>
+<p>With this option the CA serial number file is created if it does not exist: it will contain the serial number &quot;02&quot; and the certificate being signed will have the 1 as its serial number. If the <b>-CA</b> option is specified and the serial number file does not exist a random number is generated; this is the recommended practice.</p>
 
 </dd>
 <dt id="extfile-filename"><b>-extfile filename</b></dt>
 <dd>
 
-<p>file containing certificate extensions to use. If not specified then no extensions are added to the certificate.</p>
+<p>File containing certificate extensions to use. If not specified then no extensions are added to the certificate.</p>
 
 </dd>
 <dt id="extensions-section"><b>-extensions section</b></dt>
 <dd>
 
-<p>the section to add certificate extensions from. If this option is not specified then the extensions should either be contained in the unnamed (default) section or the default section should contain a variable called &quot;extensions&quot; which contains the section to use. See the <a href="../man5/x509v3_config.html>x509v3_config(5)</a> manual page for details of the extension section format.</p>
+<p>The section to add certificate extensions from. If this option is not specified then the extensions should either be contained in the unnamed (default) section or the default section should contain a variable called &quot;extensions&quot; which contains the section to use. See the <a href="../man5/x509v3_config.html">x509v3_config(5)</a> manual page for details of the extension section format.</p>
 
 </dd>
 <dt id="force_pubkey-key"><b>-force_pubkey key</b></dt>
 <dd>
 
-<p>when a certificate is created set its public key to <b>key</b> instead of the key in the certificate or certificate request. This option is useful for creating certificates where the algorithm can&#39;t normally sign requests, for example DH.</p>
+<p>When a certificate is created set its public key to <b>key</b> instead of the key in the certificate or certificate request. This option is useful for creating certificates where the algorithm can&#39;t normally sign requests, for example DH.</p>
 
 <p>The format or <b>key</b> can be specified using the <b>-keyform</b> option.</p>
 
@@ -429,127 +453,127 @@
 <dt id="compat"><b>compat</b></dt>
 <dd>
 
-<p>use the old format.</p>
+<p>Use the old format.</p>
 
 </dd>
 <dt id="RFC2253"><b>RFC2253</b></dt>
 <dd>
 
-<p>displays names compatible with RFC2253 equivalent to <b>esc_2253</b>, <b>esc_ctrl</b>, <b>esc_msb</b>, <b>utf8</b>, <b>dump_nostr</b>, <b>dump_unknown</b>, <b>dump_der</b>, <b>sep_comma_plus</b>, <b>dn_rev</b> and <b>sname</b>.</p>
+<p>Displays names compatible with RFC2253 equivalent to <b>esc_2253</b>, <b>esc_ctrl</b>, <b>esc_msb</b>, <b>utf8</b>, <b>dump_nostr</b>, <b>dump_unknown</b>, <b>dump_der</b>, <b>sep_comma_plus</b>, <b>dn_rev</b> and <b>sname</b>.</p>
 
 </dd>
 <dt id="oneline"><b>oneline</b></dt>
 <dd>
 
-<p>a oneline format which is more readable than RFC2253. It is equivalent to specifying the <b>esc_2253</b>, <b>esc_ctrl</b>, <b>esc_msb</b>, <b>utf8</b>, <b>dump_nostr</b>, <b>dump_der</b>, <b>use_quote</b>, <b>sep_comma_plus_space</b>, <b>space_eq</b> and <b>sname</b> options. This is the <i>default</i> of no name options are given explicitly.</p>
+<p>A oneline format which is more readable than RFC2253. It is equivalent to specifying the <b>esc_2253</b>, <b>esc_ctrl</b>, <b>esc_msb</b>, <b>utf8</b>, <b>dump_nostr</b>, <b>dump_der</b>, <b>use_quote</b>, <b>sep_comma_plus_space</b>, <b>space_eq</b> and <b>sname</b> options. This is the <i>default</i> of no name options are given explicitly.</p>
 
 </dd>
 <dt id="multiline"><b>multiline</b></dt>
 <dd>
 
-<p>a multiline format. It is equivalent <b>esc_ctrl</b>, <b>esc_msb</b>, <b>sep_multiline</b>, <b>space_eq</b>, <b>lname</b> and <b>align</b>.</p>
+<p>A multiline format. It is equivalent <b>esc_ctrl</b>, <b>esc_msb</b>, <b>sep_multiline</b>, <b>space_eq</b>, <b>lname</b> and <b>align</b>.</p>
 
 </dd>
 <dt id="esc_2253"><b>esc_2253</b></dt>
 <dd>
 
-<p>escape the &quot;special&quot; characters required by RFC2253 in a field. That is <b>,+&quot;&lt;&gt;;</b>. Additionally <b>#</b> is escaped at the beginning of a string and a space character at the beginning or end of a string.</p>
+<p>Escape the &quot;special&quot; characters required by RFC2253 in a field. That is <b>,+&quot;&lt;&gt;;</b>. Additionally <b>#</b> is escaped at the beginning of a string and a space character at the beginning or end of a string.</p>
 
 </dd>
 <dt id="esc_2254"><b>esc_2254</b></dt>
 <dd>
 
-<p>escape the &quot;special&quot; characters required by RFC2254 in a field. That is the <b>NUL</b> character as well as and <b>()*</b>.</p>
+<p>Escape the &quot;special&quot; characters required by RFC2254 in a field. That is the <b>NUL</b> character as well as and <b>()*</b>.</p>
 
 </dd>
 <dt id="esc_ctrl"><b>esc_ctrl</b></dt>
 <dd>
 
-<p>escape control characters. That is those with ASCII values less than 0x20 (space) and the delete (0x7f) character. They are escaped using the RFC2253 \XX notation (where XX are two hex digits representing the character value).</p>
+<p>Escape control characters. That is those with ASCII values less than 0x20 (space) and the delete (0x7f) character. They are escaped using the RFC2253 \XX notation (where XX are two hex digits representing the character value).</p>
 
 </dd>
 <dt id="esc_msb"><b>esc_msb</b></dt>
 <dd>
 
-<p>escape characters with the MSB set, that is with ASCII values larger than 127.</p>
+<p>Escape characters with the MSB set, that is with ASCII values larger than 127.</p>
 
 </dd>
 <dt id="use_quote"><b>use_quote</b></dt>
 <dd>
 
-<p>escapes some characters by surrounding the whole string with <b>&quot;</b> characters, without the option all escaping is done with the <b>\</b> character.</p>
+<p>Escapes some characters by surrounding the whole string with <b>&quot;</b> characters, without the option all escaping is done with the <b>\</b> character.</p>
 
 </dd>
 <dt id="utf8"><b>utf8</b></dt>
 <dd>
 
-<p>convert all strings to UTF8 format first. This is required by RFC2253. If you are lucky enough to have a UTF8 compatible terminal then the use of this option (and <b>not</b> setting <b>esc_msb</b>) may result in the correct display of multibyte (international) characters. Is this option is not present then multibyte characters larger than 0xff will be represented using the format \UXXXX for 16 bits and \WXXXXXXXX for 32 bits. Also if this option is off any UTF8Strings will be converted to their character form first.</p>
+<p>Convert all strings to UTF8 format first. This is required by RFC2253. If you are lucky enough to have a UTF8 compatible terminal then the use of this option (and <b>not</b> setting <b>esc_msb</b>) may result in the correct display of multibyte (international) characters. Is this option is not present then multibyte characters larger than 0xff will be represented using the format \UXXXX for 16 bits and \WXXXXXXXX for 32 bits. Also if this option is off any UTF8Strings will be converted to their character form first.</p>
 
 </dd>
 <dt id="ignore_type"><b>ignore_type</b></dt>
 <dd>
 
-<p>this option does not attempt to interpret multibyte characters in any way. That is their content octets are merely dumped as though one octet represents each character. This is useful for diagnostic purposes but will result in rather odd looking output.</p>
+<p>This option does not attempt to interpret multibyte characters in any way. That is their content octets are merely dumped as though one octet represents each character. This is useful for diagnostic purposes but will result in rather odd looking output.</p>
 
 </dd>
 <dt id="show_type"><b>show_type</b></dt>
 <dd>
 
-<p>show the type of the ASN1 character string. The type precedes the field contents. For example &quot;BMPSTRING: Hello World&quot;.</p>
+<p>Show the type of the ASN1 character string. The type precedes the field contents. For example &quot;BMPSTRING: Hello World&quot;.</p>
 
 </dd>
 <dt id="dump_der"><b>dump_der</b></dt>
 <dd>
 
-<p>when this option is set any fields that need to be hexdumped will be dumped using the DER encoding of the field. Otherwise just the content octets will be displayed. Both options use the RFC2253 <b>#XXXX...</b> format.</p>
+<p>When this option is set any fields that need to be hexdumped will be dumped using the DER encoding of the field. Otherwise just the content octets will be displayed. Both options use the RFC2253 <b>#XXXX...</b> format.</p>
 
 </dd>
 <dt id="dump_nostr"><b>dump_nostr</b></dt>
 <dd>
 
-<p>dump non character string types (for example OCTET STRING) if this option is not set then non character string types will be displayed as though each content octet represents a single character.</p>
+<p>Dump non character string types (for example OCTET STRING) if this option is not set then non character string types will be displayed as though each content octet represents a single character.</p>
 
 </dd>
 <dt id="dump_all"><b>dump_all</b></dt>
 <dd>
 
-<p>dump all fields. This option when used with <b>dump_der</b> allows the DER encoding of the structure to be unambiguously determined.</p>
+<p>Dump all fields. This option when used with <b>dump_der</b> allows the DER encoding of the structure to be unambiguously determined.</p>
 
 </dd>
 <dt id="dump_unknown"><b>dump_unknown</b></dt>
 <dd>
 
-<p>dump any field whose OID is not recognised by OpenSSL.</p>
+<p>Dump any field whose OID is not recognised by OpenSSL.</p>
 
 </dd>
 <dt id="sep_comma_plus-sep_comma_plus_space-sep_semi_plus_space-sep_multiline"><b>sep_comma_plus</b>, <b>sep_comma_plus_space</b>, <b>sep_semi_plus_space</b>, <b>sep_multiline</b></dt>
 <dd>
 
-<p>these options determine the field separators. The first character is between RDNs and the second between multiple AVAs (multiple AVAs are very rare and their use is discouraged). The options ending in &quot;space&quot; additionally place a space after the separator to make it more readable. The <b>sep_multiline</b> uses a linefeed character for the RDN separator and a spaced <b>+</b> for the AVA separator. It also indents the fields by four characters. If no field separator is specified then <b>sep_comma_plus_space</b> is used by default.</p>
+<p>These options determine the field separators. The first character is between RDNs and the second between multiple AVAs (multiple AVAs are very rare and their use is discouraged). The options ending in &quot;space&quot; additionally place a space after the separator to make it more readable. The <b>sep_multiline</b> uses a linefeed character for the RDN separator and a spaced <b>+</b> for the AVA separator. It also indents the fields by four characters. If no field separator is specified then <b>sep_comma_plus_space</b> is used by default.</p>
 
 </dd>
 <dt id="dn_rev"><b>dn_rev</b></dt>
 <dd>
 
-<p>reverse the fields of the DN. This is required by RFC2253. As a side effect this also reverses the order of multiple AVAs but this is permissible.</p>
+<p>Reverse the fields of the DN. This is required by RFC2253. As a side effect this also reverses the order of multiple AVAs but this is permissible.</p>
 
 </dd>
 <dt id="nofname-sname-lname-oid"><b>nofname</b>, <b>sname</b>, <b>lname</b>, <b>oid</b></dt>
 <dd>
 
-<p>these options alter how the field name is displayed. <b>nofname</b> does not display the field at all. <b>sname</b> uses the &quot;short name&quot; form (CN for commonName for example). <b>lname</b> uses the long form. <b>oid</b> represents the OID in numerical form and is useful for diagnostic purpose.</p>
+<p>These options alter how the field name is displayed. <b>nofname</b> does not display the field at all. <b>sname</b> uses the &quot;short name&quot; form (CN for commonName for example). <b>lname</b> uses the long form. <b>oid</b> represents the OID in numerical form and is useful for diagnostic purpose.</p>
 
 </dd>
 <dt id="align"><b>align</b></dt>
 <dd>
 
-<p>align field values for a more readable output. Only usable with <b>sep_multiline</b>.</p>
+<p>Align field values for a more readable output. Only usable with <b>sep_multiline</b>.</p>
 
 </dd>
 <dt id="space_eq"><b>space_eq</b></dt>
 <dd>
 
-<p>places spaces round the <b>=</b> character which follows the field name.</p>
+<p>Places spaces round the <b>=</b> character which follows the field name.</p>
 
 </dd>
 </dl>
@@ -563,85 +587,85 @@
 <dt id="compatible"><b>compatible</b></dt>
 <dd>
 
-<p>use the old format. This is equivalent to specifying no output options at all.</p>
+<p>Use the old format. This is equivalent to specifying no output options at all.</p>
 
 </dd>
 <dt id="no_header"><b>no_header</b></dt>
 <dd>
 
-<p>don&#39;t print header information: that is the lines saying &quot;Certificate&quot; and &quot;Data&quot;.</p>
+<p>Don&#39;t print header information: that is the lines saying &quot;Certificate&quot; and &quot;Data&quot;.</p>
 
 </dd>
 <dt id="no_version"><b>no_version</b></dt>
 <dd>
 
-<p>don&#39;t print out the version number.</p>
+<p>Don&#39;t print out the version number.</p>
 
 </dd>
 <dt id="no_serial"><b>no_serial</b></dt>
 <dd>
 
-<p>don&#39;t print out the serial number.</p>
+<p>Don&#39;t print out the serial number.</p>
 
 </dd>
 <dt id="no_signame"><b>no_signame</b></dt>
 <dd>
 
-<p>don&#39;t print out the signature algorithm used.</p>
+<p>Don&#39;t print out the signature algorithm used.</p>
 
 </dd>
 <dt id="no_validity"><b>no_validity</b></dt>
 <dd>
 
-<p>don&#39;t print the validity, that is the <b>notBefore</b> and <b>notAfter</b> fields.</p>
+<p>Don&#39;t print the validity, that is the <b>notBefore</b> and <b>notAfter</b> fields.</p>
 
 </dd>
 <dt id="no_subject"><b>no_subject</b></dt>
 <dd>
 
-<p>don&#39;t print out the subject name.</p>
+<p>Don&#39;t print out the subject name.</p>
 
 </dd>
 <dt id="no_issuer"><b>no_issuer</b></dt>
 <dd>
 
-<p>don&#39;t print out the issuer name.</p>
+<p>Don&#39;t print out the issuer name.</p>
 
 </dd>
 <dt id="no_pubkey"><b>no_pubkey</b></dt>
 <dd>
 
-<p>don&#39;t print out the public key.</p>
+<p>Don&#39;t print out the public key.</p>
 
 </dd>
 <dt id="no_sigdump"><b>no_sigdump</b></dt>
 <dd>
 
-<p>don&#39;t give a hexadecimal dump of the certificate signature.</p>
+<p>Don&#39;t give a hexadecimal dump of the certificate signature.</p>
 
 </dd>
 <dt id="no_aux"><b>no_aux</b></dt>
 <dd>
 
-<p>don&#39;t print out certificate trust information.</p>
+<p>Don&#39;t print out certificate trust information.</p>
 
 </dd>
 <dt id="no_extensions"><b>no_extensions</b></dt>
 <dd>
 
-<p>don&#39;t print out any X509V3 extensions.</p>
+<p>Don&#39;t print out any X509V3 extensions.</p>
 
 </dd>
 <dt id="ext_default"><b>ext_default</b></dt>
 <dd>
 
-<p>retain default extension behaviour: attempt to print out unsupported certificate extensions.</p>
+<p>Retain default extension behaviour: attempt to print out unsupported certificate extensions.</p>
 
 </dd>
 <dt id="ext_error"><b>ext_error</b></dt>
 <dd>
 
-<p>print an error message for unsupported certificate extensions.</p>
+<p>Print an error message for unsupported certificate extensions.</p>
 
 </dd>
 <dt id="ext_parse"><b>ext_parse</b></dt>
@@ -653,13 +677,13 @@
 <dt id="ext_dump"><b>ext_dump</b></dt>
 <dd>
 
-<p>hex dump unsupported extensions.</p>
+<p>Hex dump unsupported extensions.</p>
 
 </dd>
 <dt id="ca_default"><b>ca_default</b></dt>
 <dd>
 
-<p>the value used by the <b>ca</b> utility, equivalent to <b>no_issuer</b>, <b>no_pubkey</b>, <b>no_header</b>, and <b>no_version</b>.</p>
+<p>The value used by the <b>ca</b> utility, equivalent to <b>no_issuer</b>, <b>no_pubkey</b>, <b>no_header</b>, and <b>no_version</b>.</p>
 
 </dd>
 </dl>
@@ -671,6 +695,14 @@
 <p>Display the contents of a certificate:</p>
 
 <pre><code> openssl x509 -in cert.pem -noout -text</code></pre>
+
+<p>Display the &quot;Subject Alternative Name&quot; extension of a certificate:</p>
+
+<pre><code> openssl x509 -in cert.pem -noout -ext subjectAltName</code></pre>
+
+<p>Display more extensions of a certificate:</p>
+
+<pre><code> openssl x509 -in cert.pem -noout -ext subjectAltName,nsCertType</code></pre>
 
 <p>Display the certificate serial number:</p>
 
@@ -795,7 +827,7 @@
 <dt id="S-MIME-Signing"><b>S/MIME Signing</b></dt>
 <dd>
 
-<p>In addition to the common S/MIME client tests the digitalSignature bit must be set if the keyUsage extension is present.</p>
+<p>In addition to the common S/MIME client tests the digitalSignature bit or the nonRepudiation bit must be set if the keyUsage extension is present.</p>
 
 </dd>
 <dt id="S-MIME-Encryption"><b>S/MIME Encryption</b></dt>
@@ -834,7 +866,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/req.html>req(1)</a>, <a href="../man1/ca.html>ca(1)</a>, <a href="../man1/genrsa.html>genrsa(1)</a>, <a href="../man1/gendsa.html>gendsa(1)</a>, <a href="../man1/verify.html>verify(1)</a>, <a href="../man5/x509v3_config.html>x509v3_config(5)</a></p>
+<p><a href="../man1/req.html">req(1)</a>, <a href="../man1/ca.html">ca(1)</a>, <a href="../man1/genrsa.html">genrsa(1)</a>, <a href="../man1/gendsa.html">gendsa(1)</a>, <a href="../man1/verify.html">verify(1)</a>, <a href="../man5/x509v3_config.html">x509v3_config(5)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
@@ -842,7 +874,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

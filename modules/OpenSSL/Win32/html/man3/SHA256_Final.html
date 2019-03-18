@@ -33,36 +33,36 @@
  <span class="keyword">int</span> <span class="variable">SHA1_Update</span><span class="operator">(</span><span class="variable">SHA_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SHA1_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">SHA_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*SHA1</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">n</span><span class="operator">,</span>
-      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
+                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">SHA224_Init</span><span class="operator">(</span><span class="variable">SHA256_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SHA224_Update</span><span class="operator">(</span><span class="variable">SHA256_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SHA224_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">SHA256_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*SHA224</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">n</span><span class="operator">,</span>
-      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
+                       <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">SHA256_Init</span><span class="operator">(</span><span class="variable">SHA256_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SHA256_Update</span><span class="operator">(</span><span class="variable">SHA256_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SHA256_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">SHA256_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*SHA256</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">n</span><span class="operator">,</span>
-      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
+                       <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">SHA384_Init</span><span class="operator">(</span><span class="variable">SHA512_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SHA384_Update</span><span class="operator">(</span><span class="variable">SHA512_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SHA384_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">SHA512_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*SHA384</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">n</span><span class="operator">,</span>
-      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
+                       <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">SHA512_Init</span><span class="operator">(</span><span class="variable">SHA512_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SHA512_Update</span><span class="operator">(</span><span class="variable">SHA512_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SHA512_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">SHA512_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*SHA512</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">n</span><span class="operator">,</span>
-      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
+                       <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>Applications should use the higher level functions <a href="../man3/EVP_DigestInit.html>EVP_DigestInit(3)</a> etc. instead of calling the hash functions directly.</p>
+<p>Applications should use the higher level functions <a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a> etc. instead of calling the hash functions directly.</p>
 
 <p>SHA-1 (Secure Hash Algorithm) is a cryptographic hash function with a 160 bit output.</p>
 
@@ -92,7 +92,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/EVP_DigestInit.html>EVP_DigestInit(3)</a></p>
+<p><a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

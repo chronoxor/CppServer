@@ -19,6 +19,7 @@
   <li><a href="#KEY-GENERATION-OPTIONS">KEY GENERATION OPTIONS</a>
     <ul>
       <li><a href="#RSA-Key-Generation-Options">RSA Key Generation Options</a></li>
+      <li><a href="#RSA-PSS-Key-Generation-Options">RSA-PSS Key Generation Options</a></li>
       <li><a href="#EC-Key-Generation-Options">EC Key Generation Options</a></li>
     </ul>
   </li>
@@ -72,7 +73,7 @@
 <dt id="pass-arg"><b>-pass arg</b></dt>
 <dd>
 
-<p>The output file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html>openssl(1)</a>.</p>
+<p>The output file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
 
 </dd>
 <dt id="cipher"><b>-<i>cipher</i></b></dt>
@@ -92,7 +93,7 @@
 
 <p>Public key algorithm to use such as RSA, DSA or DH. If used this option must precede any <b>-pkeyopt</b> options. The options <b>-paramfile</b> and <b>-algorithm</b> are mutually exclusive. Engines may add algorithms in addition to the standard built-in ones.</p>
 
-<p>Valid built-in algorithm names for private key generation are RSA and EC.</p>
+<p>Valid built-in algorithm names for private key generation are RSA, RSA-PSS, EC, X25519, X448, ED25519 and ED448.</p>
 
 <p>Valid built-in algorithm names for parameter generation (see the <b>-genparam</b> option) are DH, DSA and EC.</p>
 
@@ -127,7 +128,7 @@
 
 <h1 id="KEY-GENERATION-OPTIONS">KEY GENERATION OPTIONS</h1>
 
-<p>The options supported by each algorithm and indeed each implementation of an algorithm can vary. The options for the OpenSSL implementations are detailed below.</p>
+<p>The options supported by each algorithm and indeed each implementation of an algorithm can vary. The options for the OpenSSL implementations are detailed below. There are no key generation options defined for the X25519, X448, ED25519 or ED448 algorithms.</p>
 
 <h2 id="RSA-Key-Generation-Options">RSA Key Generation Options</h2>
 
@@ -139,10 +140,48 @@
 <p>The number of bits in the generated key. If not specified 1024 is used.</p>
 
 </dd>
+<dt id="rsa_keygen_primes:numprimes"><b>rsa_keygen_primes:numprimes</b></dt>
+<dd>
+
+<p>The number of primes in the generated key. If not specified 2 is used.</p>
+
+</dd>
 <dt id="rsa_keygen_pubexp:value"><b>rsa_keygen_pubexp:value</b></dt>
 <dd>
 
 <p>The RSA public exponent value. This can be a large decimal or hexadecimal value if preceded by <b>0x</b>. Default value is 65537.</p>
+
+</dd>
+</dl>
+
+<h2 id="RSA-PSS-Key-Generation-Options">RSA-PSS Key Generation Options</h2>
+
+<p>Note: by default an <b>RSA-PSS</b> key has no parameter restrictions.</p>
+
+<dl>
+
+<dt id="rsa_keygen_bits:numbits-rsa_keygen_primes:numprimes-rsa_keygen_pubexp:value"><b>rsa_keygen_bits:numbits</b>, <b>rsa_keygen_primes:numprimes</b>, <b>rsa_keygen_pubexp:value</b></dt>
+<dd>
+
+<p>These options have the same meaning as the <b>RSA</b> algorithm.</p>
+
+</dd>
+<dt id="rsa_pss_keygen_md:digest"><b>rsa_pss_keygen_md:digest</b></dt>
+<dd>
+
+<p>If set the key is restricted and can only use <b>digest</b> for signing.</p>
+
+</dd>
+<dt id="rsa_pss_keygen_mgf1_md:digest"><b>rsa_pss_keygen_mgf1_md:digest</b></dt>
+<dd>
+
+<p>If set the key is restricted and can only use <b>digest</b> as it&#39;s MGF1 parameter.</p>
+
+</dd>
+<dt id="rsa_pss_keygen_saltlen:len"><b>rsa_pss_keygen_saltlen:len</b></dt>
+<dd>
+
+<p>If set the key is restricted and <b>len</b> specifies the minimum salt length.</p>
 
 </dd>
 </dl>
@@ -251,13 +290,13 @@
 
 <p>Generate a 2048 bit RSA key using 3 as the public exponent:</p>
 
-<pre><code> openssl genpkey -algorithm RSA -out key.pem -pkeyopt rsa_keygen_bits:2048 \
-                                                -pkeyopt rsa_keygen_pubexp:3</code></pre>
+<pre><code> openssl genpkey -algorithm RSA -out key.pem \
+     -pkeyopt rsa_keygen_bits:2048 -pkeyopt rsa_keygen_pubexp:3</code></pre>
 
 <p>Generate 2048 bit DSA parameters:</p>
 
 <pre><code> openssl genpkey -genparam -algorithm DSA -out dsap.pem \
-                                                -pkeyopt dsa_paramgen_bits:2048</code></pre>
+     -pkeyopt dsa_paramgen_bits:2048</code></pre>
 
 <p>Generate DSA key from parameters:</p>
 
@@ -266,13 +305,13 @@
 <p>Generate 2048 bit DH parameters:</p>
 
 <pre><code> openssl genpkey -genparam -algorithm DH -out dhp.pem \
-                                        -pkeyopt dh_paramgen_prime_len:2048</code></pre>
+     -pkeyopt dh_paramgen_prime_len:2048</code></pre>
 
 <p>Generate 2048 bit X9.42 DH parameters:</p>
 
 <pre><code> openssl genpkey -genparam -algorithm DH -out dhpx.pem \
-                                        -pkeyopt dh_paramgen_prime_len:2048 \
-                                        -pkeyopt dh_paramgen_type:1</code></pre>
+     -pkeyopt dh_paramgen_prime_len:2048 \
+     -pkeyopt dh_paramgen_type:1</code></pre>
 
 <p>Output RFC5114 2048 bit DH parameters with 224 bit subgroup:</p>
 
@@ -302,9 +341,13 @@
 
 <pre><code> openssl genpkey -algorithm X25519 -out xkey.pem</code></pre>
 
+<p>Generate an ED448 private key:</p>
+
+<pre><code> openssl genpkey -algorithm ED448 -out xkey.pem</code></pre>
+
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>The ability to use NIST curve names, and to generate an EC key directly, were added in OpenSSL 1.0.2. The ability to generate X25519 keys was added in OpenSSL 1.1.0.</p>
+<p>The ability to use NIST curve names, and to generate an EC key directly, were added in OpenSSL 1.0.2. The ability to generate X25519 keys was added in OpenSSL 1.1.0. The ability to generate X448, ED25519 and ED448 keys was added in OpenSSL 1.1.1.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

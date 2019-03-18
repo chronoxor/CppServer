@@ -15,6 +15,7 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -35,15 +36,21 @@
 
 <p>These functions decode and encode PKCS#3 DH parameters using the DHparameter structure described in PKCS#3.</p>
 
-<p>Otherwise these behave in a similar way to d2i_X509() and i2d_X509() described in the <a href="../man3/d2i_X509.html>d2i_X509(3)</a> manual page.</p>
+<p>Otherwise these behave in a similar way to d2i_X509() and i2d_X509() described in the <a href="../man3/d2i_X509.html">d2i_X509(3)</a> manual page.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>d2i_DHparams() returns a valid <b>DH</b> structure or NULL if an error occurred.</p>
+
+<p>i2d_DHparams() returns the length of encoded data on success or a value which is less than or equal to 0 on error.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/d2i_X509.html>d2i_X509(3)</a></p>
+<p><a href="../man3/d2i_X509.html">d2i_X509(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -69,9 +69,9 @@
 
 <p>When looking up CA certificates, the OpenSSL library will first search the certificates in <b>CAfile</b>, then those in <b>CApath</b>. Certificate matching is done based on the subject name, the key identifier (if present), and the serial number as taken from the certificate to be verified. If these data do not match, the next certificate will be tried. If a first certificate matching the parameters is found, the verification process will be performed; no other certificates for the same parameters will be searched in case of failure.</p>
 
-<p>In server mode, when requesting a client certificate, the server must send the list of CAs of which it will accept client certificates. This list is not influenced by the contents of <b>CAfile</b> or <b>CApath</b> and must explicitly be set using the <a href="../man3/SSL_CTX_set_client_CA_list.html>SSL_CTX_set_client_CA_list(3)</a> family of functions.</p>
+<p>In server mode, when requesting a client certificate, the server must send the list of CAs of which it will accept client certificates. This list is not influenced by the contents of <b>CAfile</b> or <b>CApath</b> and must explicitly be set using the <a href="../man3/SSL_CTX_set_client_CA_list.html">SSL_CTX_set_client_CA_list(3)</a> family of functions.</p>
 
-<p>When building its own certificate chain, an OpenSSL client/server will try to fill in missing certificates from <b>CAfile</b>/<b>CApath</b>, if the certificate chain was not explicitly specified (see <a href="../man3/SSL_CTX_add_extra_chain_cert.html>SSL_CTX_add_extra_chain_cert(3)</a>, <a href="../man3/SSL_CTX_use_certificate.html>SSL_CTX_use_certificate(3)</a>.</p>
+<p>When building its own certificate chain, an OpenSSL client/server will try to fill in missing certificates from <b>CAfile</b>/<b>CApath</b>, if the certificate chain was not explicitly specified (see <a href="../man3/SSL_CTX_add_extra_chain_cert.html">SSL_CTX_add_extra_chain_cert(3)</a>, <a href="../man3/SSL_CTX_use_certificate.html">SSL_CTX_use_certificate(3)</a>.</p>
 
 <h1 id="WARNINGS">WARNINGS</h1>
 
@@ -84,7 +84,7 @@
 <pre><code> <span class="comment">#!/bin/sh</span>
  <span class="variable">rm</span> <span class="variable">CAfile</span><span class="operator">.</span><span class="variable">pem</span>
  <span class="keyword">for</span> <span class="variable">i</span> <span class="variable">in</span> <span class="variable">ca1</span><span class="operator">.</span><span class="variable">pem</span> <span class="variable">ca2</span><span class="operator">.</span><span class="variable">pem</span> <span class="variable">ca3</span><span class="operator">.</span><span class="variable">pem</span> <span class="operator">;</span> <span class="keyword">do</span>
-   <span class="variable">openssl</span> <span class="variable">x509</span> <span class="operator">-</span><span class="variable">in</span> <span class="variable">$i</span> <span class="operator">-</span><span class="variable">text</span> <span class="operator">&gt;&gt;</span> <span class="variable">CAfile</span><span class="operator">.</span><span class="variable">pem</span>
+     <span class="variable">openssl</span> <span class="variable">x509</span> <span class="operator">-</span><span class="variable">in</span> <span class="variable">$i</span> <span class="operator">-</span><span class="variable">text</span> <span class="operator">&gt;&gt;</span> <span class="variable">CAfile</span><span class="operator">.</span><span class="variable">pem</span>
  <span class="variable">done</span>
 </code></pre>
 
@@ -117,7 +117,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_CTX_set_client_CA_list.html>SSL_CTX_set_client_CA_list(3)</a>, <a href="../man3/SSL_get_client_CA_list.html>SSL_get_client_CA_list(3)</a>, <a href="../man3/SSL_CTX_use_certificate.html>SSL_CTX_use_certificate(3)</a>, <a href="../man3/SSL_CTX_add_extra_chain_cert.html>SSL_CTX_add_extra_chain_cert(3)</a>, <a href="../man3/SSL_CTX_set_cert_store.html>SSL_CTX_set_cert_store(3)</a>, <a href="../man3/SSL_CTX_set_client_CA_list.html>SSL_CTX_set_client_CA_list(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_CTX_set_client_CA_list.html">SSL_CTX_set_client_CA_list(3)</a>, <a href="../man3/SSL_get_client_CA_list.html">SSL_get_client_CA_list(3)</a>, <a href="../man3/SSL_CTX_use_certificate.html">SSL_CTX_use_certificate(3)</a>, <a href="../man3/SSL_CTX_add_extra_chain_cert.html">SSL_CTX_add_extra_chain_cert(3)</a>, <a href="../man3/SSL_CTX_set_cert_store.html">SSL_CTX_set_cert_store(3)</a>, <a href="../man3/SSL_CTX_set_client_CA_list.html">SSL_CTX_set_client_CA_list(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

@@ -24,6 +24,7 @@
   </li>
   <li><a href="#NOTES">NOTES</a></li>
   <li><a href="#EXAMPLES">EXAMPLES</a></li>
+  <li><a href="#ENVIRONMENT">ENVIRONMENT</a></li>
   <li><a href="#BUGS">BUGS</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -45,6 +46,12 @@
 
 <p>Comments can be included by preceding them with the <b>#</b> character</p>
 
+<p>Other files can be included using the <b>.include</b> directive followed by a path. If the path points to a directory all files with names ending with <b>.cnf</b> or <b>.conf</b> are included from the directory. Recursive inclusion of directories from files in such directory is not supported. That means the files in the included directory can also contain <b>.include</b> directives but only inclusion of regular files is supported there. The inclusion of directories is not supported on systems without POSIX IO support.</p>
+
+<p>It is strongly recommended to use absolute paths with the <b>.include</b> directive. Relative paths are evaluated based on the application current working directory so unless the configuration file containing the <b>.include</b> directive is application specific the inclusion will not work as expected.</p>
+
+<p>There can be optional <b>=</b> character and whitespace characters between <b>.include</b> directive and the path which can be useful in cases the configuration file needs to be loaded by old OpenSSL versions which do not support the <b>.include</b> syntax. They would bail out with error if the <b>=</b> character is not present but with it they just ignore the include.</p>
+
 <p>Each section in a configuration file consists of a number of name and value pairs of the form <b>name=value</b></p>
 
 <p>The <b>name</b> string can contain any alphanumeric characters as well as a few punctuation symbols such as <b>.</b> <b>,</b> <b>;</b> and <b>_</b>.</p>
@@ -55,15 +62,18 @@
 
 <p>It is possible to escape certain characters by using any kind of quote or the <b>\</b> character. By making the last character of a line a <b>\</b> a <b>value</b> string can be spread across multiple lines. In addition the sequences <b>\n</b>, <b>\r</b>, <b>\b</b> and <b>\t</b> are recognized.</p>
 
+<p>All expansion and escape rules as described above that apply to <b>value</b> also apply to the path of the <b>.include</b> directive.</p>
+
 <h1 id="OPENSSL-LIBRARY-CONFIGURATION">OPENSSL LIBRARY CONFIGURATION</h1>
 
 <p>Applications can automatically configure certain aspects of OpenSSL using the master OpenSSL configuration file, or optionally an alternative configuration file. The <b>openssl</b> utility includes this functionality: any sub command uses the master OpenSSL configuration file unless an option is used in the sub command to use an alternative configuration file.</p>
 
-<p>To enable library configuration the default section needs to contain an appropriate line which points to the main configuration section. The default name is <b>openssl_conf</b> which is used by the <b>openssl</b> utility. Other applications may use an alternative name such as <b>myapplicaton_conf</b>.</p>
+<p>To enable library configuration the default section needs to contain an appropriate line which points to the main configuration section. The default name is <b>openssl_conf</b> which is used by the <b>openssl</b> utility. Other applications may use an alternative name such as <b>myapplication_conf</b>. All library configuration lines appear in the default section at the start of the configuration file.</p>
 
-<p>The configuration section should consist of a set of name value pairs which contain specific module configuration information. The <b>name</b> represents the name of the <i>configuration module</i> the meaning of the <b>value</b> is module specific: it may, for example, represent a further configuration section containing configuration module specific information. E.g.</p>
+<p>The configuration section should consist of a set of name value pairs which contain specific module configuration information. The <b>name</b> represents the name of the <i>configuration module</i>. The meaning of the <b>value</b> is module specific: it may, for example, represent a further configuration section containing configuration module specific information. E.g.:</p>
 
-<pre><code> openssl_conf = openssl_init
+<pre><code> # This must be in the default section
+ openssl_conf = openssl_init
 
  [openssl_init]
 
@@ -155,15 +165,7 @@
 
 <p>This modules has the name <b>alg_section</b> which points to a section containing algorithm commands.</p>
 
-<p>Currently the only algorithm command supported is <b>fips_mode</b> whose value should be a boolean string such as <b>on</b> or <b>off</b>. If the value is <b>on</b> this attempt to enter FIPS mode. If the call fails or the library is not FIPS capable then an error occurs.</p>
-
-<p>For example:</p>
-
-<pre><code> alg_section = evp_settings
-
- [evp_settings]
-
- fips_mode = on</code></pre>
+<p>Currently the only algorithm command supported is <b>fips_mode</b> whose value can only be the boolean string <b>off</b>. If <b>fips_mode</b> is set to <b>on</b>, an error occurs as this library version is not FIPS capable.</p>
 
 <h2 id="SSL-Configuration-Module">SSL Configuration Module</h2>
 
@@ -188,6 +190,20 @@
  RSA.Certificate = server-rsa.pem
  ECDSA.Certificate = server-ecdsa.pem
  Ciphers = ALL:!RC4</code></pre>
+
+<p>The system default configuration with name <b>system_default</b> if present will be applied during any creation of the <b>SSL_CTX</b> structure.</p>
+
+<p>Example of a configuration with the system default:</p>
+
+<pre><code> ssl_conf = ssl_sect
+
+ [ssl_sect]
+
+ system_default = system_default_sect
+
+ [system_default_sect]
+
+ MinProtocol = TLSv1.2</code></pre>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -289,6 +305,24 @@
 
 <p>showing that the OID &quot;newoid1&quot; has been added as &quot;1.2.3.4.1&quot;.</p>
 
+<h1 id="ENVIRONMENT">ENVIRONMENT</h1>
+
+<dl>
+
+<dt id="OPENSSL_CONF"><b>OPENSSL_CONF</b></dt>
+<dd>
+
+<p>The path to the config file. Ignored in set-user-ID and set-group-ID programs.</p>
+
+</dd>
+<dt id="OPENSSL_ENGINES"><b>OPENSSL_ENGINES</b></dt>
+<dd>
+
+<p>The path to the engines directory. Ignored in set-user-ID and set-group-ID programs.</p>
+
+</dd>
+</dl>
+
 <h1 id="BUGS">BUGS</h1>
 
 <p>Currently there is no way to include characters using the octal <b>\nnn</b> form. Strings are all null terminated so nulls cannot form part of the value.</p>
@@ -299,11 +333,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/x509.html>x509(1)</a>, <a href="../man1/req.html>req(1)</a>, <a href="../man1/ca.html>ca(1)</a></p>
+<p><a href="../man1/x509.html">x509(1)</a>, <a href="../man1/req.html">req(1)</a>, <a href="../man1/ca.html">ca(1)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

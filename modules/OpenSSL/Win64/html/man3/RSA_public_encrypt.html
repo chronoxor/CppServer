@@ -30,11 +30,11 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
  
- <span class="keyword">int</span> <span class="variable">RSA_public_encrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">RSA_public_encrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
+                        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
  
- <span class="keyword">int</span> <span class="variable">RSA_private_decrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">RSA_private_decrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
+                         <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -79,7 +79,7 @@
 
 <p>RSA_public_encrypt() returns the size of the encrypted data (i.e., RSA_size(<b>rsa</b>)). RSA_private_decrypt() returns the size of the recovered plaintext.</p>
 
-<p>On error, -1 is returned; the error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>On error, -1 is returned; the error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="WARNING">WARNING</h1>
 
@@ -91,7 +91,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/rand.html>rand(3)</a>, <a href="../man3/RSA_size.html>RSA_size(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/RSA_size.html">RSA_size(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

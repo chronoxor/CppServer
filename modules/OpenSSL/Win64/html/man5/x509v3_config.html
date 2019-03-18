@@ -177,7 +177,7 @@
 
 <p>The value of <b>dirName</b> should point to a section containing the distinguished name to use as a set of name value pairs. Multi values AVAs can be formed by prefacing the name with a <b>+</b> character.</p>
 
-<p>otherName can include arbitrary data associated with an OID: the value should be the OID followed by a semicolon and the content in standard <a href="../man3/ASN1_generate_nconf.html>ASN1_generate_nconf(3)</a> format.</p>
+<p>otherName can include arbitrary data associated with an OID: the value should be the OID followed by a semicolon and the content in standard <a href="../man3/ASN1_generate_nconf.html">ASN1_generate_nconf(3)</a> format.</p>
 
 <p>Examples:</p>
 
@@ -202,7 +202,7 @@
 
 <p>Example:</p>
 
-<pre><code> issuserAltName = issuer:copy</code></pre>
+<pre><code> issuerAltName = issuer:copy</code></pre>
 
 <h2 id="Authority-Info-Access">Authority Info Access.</h2>
 
@@ -314,6 +314,11 @@
 
 <p>The <b>ia5org</b> option changes the type of the <i>organization</i> field. In RFC2459 it can only be of type DisplayText. In RFC3280 IA5String is also permissible. Some software (for example some versions of MSIE) may require ia5org.</p>
 
+<p>ASN1 type of explicitText can be specified by prepending <b>UTF8</b>, <b>BMP</b> or <b>VISIBLE</b> prefix followed by colon. For example:</p>
+
+<pre><code> [notice]
+ explicitText=&quot;UTF8:Explicit Text Here&quot;</code></pre>
+
 <h2 id="Policy-Constraints">Policy Constraints</h2>
 
 <p>This is a multi-valued extension which consisting of the names <b>requireExplicitPolicy</b> or <b>inhibitPolicyMapping</b> and a non negative integer value. At least one component must be present.</p>
@@ -387,7 +392,7 @@
 
 <p>There are two ways to encode arbitrary extensions.</p>
 
-<p>The first way is to use the word ASN1 followed by the extension content using the same syntax as <a href="../man3/ASN1_generate_nconf.html>ASN1_generate_nconf(3)</a>. For example:</p>
+<p>The first way is to use the word ASN1 followed by the extension content using the same syntax as <a href="../man3/ASN1_generate_nconf.html">ASN1_generate_nconf(3)</a>. For example:</p>
 
 <pre><code> 1.2.3.4=critical,ASN1:UTF8String:Some random data
 
@@ -446,7 +451,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/req.html>req(1)</a>, <a href="../man1/ca.html>ca(1)</a>, <a href="../man1/x509.html>x509(1)</a>, <a href="../man3/ASN1_generate_nconf.html>ASN1_generate_nconf(3)</a></p>
+<p><a href="../man1/req.html">req(1)</a>, <a href="../man1/ca.html">ca(1)</a>, <a href="../man1/x509.html">x509(1)</a>, <a href="../man3/ASN1_generate_nconf.html">ASN1_generate_nconf(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

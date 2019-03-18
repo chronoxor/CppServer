@@ -17,7 +17,6 @@
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#THE-RAND_METHOD-STRUCTURE">THE RAND_METHOD STRUCTURE</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
-  <li><a href="#NOTES">NOTES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -30,53 +29,50 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/rand.h&gt;</span>
  
+ <span class="variable">RAND_METHOD</span> <span class="variable">*RAND_OpenSSL</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
+ 
  <span class="variable">void</span> <span class="variable">RAND_set_rand_method</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RAND_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
  
  <span class="variable">const</span> <span class="variable">RAND_METHOD</span> <span class="variable">*RAND_get_rand_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">RAND_METHOD</span> <span class="variable">*RAND_OpenSSL</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>A <b>RAND_METHOD</b> specifies the functions that OpenSSL uses for random number generation. By modifying the method, alternative implementations such as hardware RNGs may be used. IMPORTANT: See the NOTES section for important information about how these RAND API functions are affected by the use of <b>ENGINE</b> API calls.</p>
+<p>A <b>RAND_METHOD</b> specifies the functions that OpenSSL uses for random number generation.</p>
 
-<p>Initially, the default RAND_METHOD is the OpenSSL internal implementation, as returned by RAND_OpenSSL().</p>
+<p>RAND_OpenSSL() returns the default <b>RAND_METHOD</b> implementation by OpenSSL. This implementation ensures that the PRNG state is unique for each thread.</p>
 
-<p>RAND_set_default_method() makes <b>meth</b> the method for PRNG use. <b>NB</b>: This is true only whilst no ENGINE has been set as a default for RAND, so this function is no longer recommended.</p>
+<p>If an <b>ENGINE</b> is loaded that provides the RAND API, however, it will be used instead of the method returned by RAND_OpenSSL().</p>
 
-<p>RAND_get_default_method() returns a pointer to the current RAND_METHOD. However, the meaningfulness of this result is dependent on whether the ENGINE API is being used, so this function is no longer recommended.</p>
+<p>RAND_set_rand_method() makes <b>meth</b> the method for PRNG use. If an ENGINE was providing the method, it will be released first.</p>
+
+<p>RAND_get_rand_method() returns a pointer to the current <b>RAND_METHOD</b>.</p>
 
 <h1 id="THE-RAND_METHOD-STRUCTURE">THE RAND_METHOD STRUCTURE</h1>
 
-<pre><code> <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">rand_meth_st</span>
- <span class="operator">{</span>
-        <span class="variable">void</span> <span class="operator">(</span><span class="variable">*seed</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
-        <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*bytes</span><span class="operator">)(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
-        <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cleanup</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">);</span>
-        <span class="variable">void</span> <span class="operator">(</span><span class="variable">*add</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">entropy</span><span class="operator">);</span>
-        <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pseudorand</span><span class="operator">)(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
-        <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*status</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">);</span>
+<pre><code> <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">rand_meth_st</span> <span class="operator">{</span>
+     <span class="variable">void</span> <span class="operator">(</span><span class="variable">*seed</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
+     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*bytes</span><span class="operator">)(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
+     <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cleanup</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">);</span>
+     <span class="variable">void</span> <span class="operator">(</span><span class="variable">*add</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">randomness</span><span class="operator">);</span>
+     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pseudorand</span><span class="operator">)(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
+     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*status</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">);</span>
  <span class="operator">}</span> <span class="variable">RAND_METHOD</span><span class="operator">;</span>
 </code></pre>
 
-<p>The components point to method implementations used by (or called by), in order, RAND_seed(), RAND_bytes(), internal RAND cleanup, RAND_add(), RAND_pseudo_rand() and RAND_status(). Each component may be NULL if the function is not implemented.</p>
+<p>The fields point to functions that are used by, in order, RAND_seed(), RAND_bytes(), internal RAND cleanup, RAND_add(), RAND_pseudo_rand() and RAND_status(). Each pointer may be NULL if the function is not implemented.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>RAND_set_rand_method() returns no value. RAND_get_rand_method() and RAND_OpenSSL() return pointers to the respective methods.</p>
 
-<h1 id="NOTES">NOTES</h1>
-
-<p>RAND_METHOD implementations are grouped together with other algorithmic APIs (eg. RSA_METHOD, EVP_CIPHER, etc) in <b>ENGINE</b> modules. If a default ENGINE is specified for RAND functionality using an ENGINE API function, that will override any RAND defaults set using the RAND API (ie. RAND_set_rand_method()). For this reason, the ENGINE API is the recommended way to control default implementations for use in RAND and other cryptographic algorithms.</p>
-
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/rand.html>rand(3)</a>, <a href="../man3/engine.html>engine(3)</a></p>
+<p><a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/ENGINE_by_id.html">ENGINE_by_id(3)</a>, <a href="../man7/RAND.html">RAND(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -32,7 +32,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>req</b> [<b>-help</b>] [<b>-inform PEM|DER</b>] [<b>-outform PEM|DER</b>] [<b>-in filename</b>] [<b>-passin arg</b>] [<b>-out filename</b>] [<b>-passout arg</b>] [<b>-text</b>] [<b>-pubkey</b>] [<b>-noout</b>] [<b>-verify</b>] [<b>-modulus</b>] [<b>-new</b>] [<b>-rand file(s)</b>] [<b>-newkey rsa:bits</b>] [<b>-newkey alg:file</b>] [<b>-nodes</b>] [<b>-key filename</b>] [<b>-keyform PEM|DER</b>] [<b>-keyout filename</b>] [<b>-keygen_engine id</b>] [<b>-[digest]</b>] [<b>-config filename</b>] [<b>-multivalue-rdn</b>] [<b>-x509</b>] [<b>-days n</b>] [<b>-set_serial n</b>] [<b>-newhdr</b>] [<b>-extensions section</b>] [<b>-reqexts section</b>] [<b>-utf8</b>] [<b>-nameopt</b>] [<b>-reqopt</b>] [<b>-subject</b>] [<b>-subj arg</b>] [<b>-batch</b>] [<b>-verbose</b>] [<b>-engine id</b>]</p>
+<p><b>openssl</b> <b>req</b> [<b>-help</b>] [<b>-inform PEM|DER</b>] [<b>-outform PEM|DER</b>] [<b>-in filename</b>] [<b>-passin arg</b>] [<b>-out filename</b>] [<b>-passout arg</b>] [<b>-text</b>] [<b>-pubkey</b>] [<b>-noout</b>] [<b>-verify</b>] [<b>-modulus</b>] [<b>-new</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-newkey rsa:bits</b>] [<b>-newkey alg:file</b>] [<b>-nodes</b>] [<b>-key filename</b>] [<b>-keyform PEM|DER</b>] [<b>-keyout filename</b>] [<b>-keygen_engine id</b>] [<b>-<i>digest</i></b>] [<b>-config filename</b>] [<b>-multivalue-rdn</b>] [<b>-x509</b>] [<b>-days n</b>] [<b>-set_serial n</b>] [<b>-newhdr</b>] [<b>-addext ext</b>] [<b>-extensions section</b>] [<b>-reqexts section</b>] [<b>-precert</b>] [<b>-utf8</b>] [<b>-nameopt</b>] [<b>-reqopt</b>] [<b>-subject</b>] [<b>-subj arg</b>] [<b>-batch</b>] [<b>-verbose</b>] [<b>-engine id</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -57,7 +57,7 @@
 <dt id="outform-DER-PEM"><b>-outform DER|PEM</b></dt>
 <dd>
 
-<p>This specifies the output format, the options have the same meaning as the <b>-inform</b> option.</p>
+<p>This specifies the output format, the options have the same meaning and default as the <b>-inform</b> option.</p>
 
 </dd>
 <dt id="in-filename"><b>-in filename</b></dt>
@@ -69,7 +69,7 @@
 <dt id="passin-arg"><b>-passin arg</b></dt>
 <dd>
 
-<p>the input file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html>openssl(1)</a>.</p>
+<p>The input file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
 
 </dd>
 <dt id="out-filename"><b>-out filename</b></dt>
@@ -81,63 +81,69 @@
 <dt id="passout-arg"><b>-passout arg</b></dt>
 <dd>
 
-<p>the output file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html>openssl(1)</a>.</p>
+<p>The output file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
 
 </dd>
 <dt id="text"><b>-text</b></dt>
 <dd>
 
-<p>prints out the certificate request in text form.</p>
+<p>Prints out the certificate request in text form.</p>
 
 </dd>
 <dt id="subject"><b>-subject</b></dt>
 <dd>
 
-<p>prints out the request subject (or certificate subject if <b>-x509</b> is specified)</p>
+<p>Prints out the request subject (or certificate subject if <b>-x509</b> is specified)</p>
 
 </dd>
 <dt id="pubkey"><b>-pubkey</b></dt>
 <dd>
 
-<p>outputs the public key.</p>
+<p>Outputs the public key.</p>
 
 </dd>
 <dt id="noout"><b>-noout</b></dt>
 <dd>
 
-<p>this option prevents output of the encoded version of the request.</p>
+<p>This option prevents output of the encoded version of the request.</p>
 
 </dd>
 <dt id="modulus"><b>-modulus</b></dt>
 <dd>
 
-<p>this option prints out the value of the modulus of the public key contained in the request.</p>
+<p>This option prints out the value of the modulus of the public key contained in the request.</p>
 
 </dd>
 <dt id="verify"><b>-verify</b></dt>
 <dd>
 
-<p>verifies the signature on the request.</p>
+<p>Verifies the signature on the request.</p>
 
 </dd>
 <dt id="new"><b>-new</b></dt>
 <dd>
 
-<p>this option generates a new certificate request. It will prompt the user for the relevant field values. The actual fields prompted for and their maximum and minimum sizes are specified in the configuration file and any requested extensions.</p>
+<p>This option generates a new certificate request. It will prompt the user for the relevant field values. The actual fields prompted for and their maximum and minimum sizes are specified in the configuration file and any requested extensions.</p>
 
 <p>If the <b>-key</b> option is not used it will generate a new RSA private key using information specified in the configuration file.</p>
 
 </dd>
-<dt id="rand-file-s"><b>-rand file(s)</b></dt>
+<dt id="rand-file"><b>-rand file...</b></dt>
 <dd>
 
-<p>a file or files containing random data used to seed the random number generator, or an EGD socket (see <a href="../man3/RAND_egd.html>RAND_egd(3)</a>). Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+
+</dd>
+<dt id="writerand-file">[<b>-writerand file</b>]</dt>
+<dd>
+
+<p>Writes random data to the specified <i>file</i> upon exit. This can be used with a subsequent <b>-rand</b> flag.</p>
 
 </dd>
 <dt id="newkey-arg"><b>-newkey arg</b></dt>
 <dd>
 
-<p>this option creates a new certificate request and a new private key. The argument takes one of several forms. <b>rsa:nbits</b>, where <b>nbits</b> is the number of bits, generates an RSA key <b>nbits</b> in size. If <b>nbits</b> is omitted, i.e. <b>-newkey rsa</b> specified, the default key size, specified in the configuration file is used.</p>
+<p>This option creates a new certificate request and a new private key. The argument takes one of several forms. <b>rsa:nbits</b>, where <b>nbits</b> is the number of bits, generates an RSA key <b>nbits</b> in size. If <b>nbits</b> is omitted, i.e. <b>-newkey rsa</b> specified, the default key size, specified in the configuration file is used.</p>
 
 <p>All other algorithms support the <b>-newkey alg:file</b> form, where file may be an algorithm parameter file, created by the <b>genpkey -genparam</b> command or and X.509 certificate for a key with appropriate algorithm.</p>
 
@@ -149,7 +155,7 @@
 <dt id="pkeyopt-opt:value"><b>-pkeyopt opt:value</b></dt>
 <dd>
 
-<p>set the public key algorithm option <b>opt</b> to <b>value</b>. The precise set of options supported depends on the public key algorithm used and its implementation. See <b>KEY GENERATION OPTIONS</b> in the <b>genpkey</b> manual page for more details.</p>
+<p>Set the public key algorithm option <b>opt</b> to <b>value</b>. The precise set of options supported depends on the public key algorithm used and its implementation. See <b>KEY GENERATION OPTIONS</b> in the <b>genpkey</b> manual page for more details.</p>
 
 </dd>
 <dt id="key-filename"><b>-key filename</b></dt>
@@ -161,45 +167,45 @@
 <dt id="keyform-PEM-DER"><b>-keyform PEM|DER</b></dt>
 <dd>
 
-<p>the format of the private key file specified in the <b>-key</b> argument. PEM is the default.</p>
+<p>The format of the private key file specified in the <b>-key</b> argument. PEM is the default.</p>
 
 </dd>
 <dt id="keyout-filename"><b>-keyout filename</b></dt>
 <dd>
 
-<p>this gives the filename to write the newly created private key to. If this option is not specified then the filename present in the configuration file is used.</p>
+<p>This gives the filename to write the newly created private key to. If this option is not specified then the filename present in the configuration file is used.</p>
 
 </dd>
 <dt id="nodes"><b>-nodes</b></dt>
 <dd>
 
-<p>if this option is specified then if a private key is created it will not be encrypted.</p>
+<p>If this option is specified then if a private key is created it will not be encrypted.</p>
 
 </dd>
-<dt id="digest"><b>-[digest]</b></dt>
+<dt id="digest"><b>-<i>digest</i></b></dt>
 <dd>
 
-<p>this specifies the message digest to sign the request. Any digest supported by the OpenSSL <b>dgst</b> command can be used. This overrides the digest algorithm specified in the configuration file.</p>
+<p>This specifies the message digest to sign the request. Any digest supported by the OpenSSL <b>dgst</b> command can be used. This overrides the digest algorithm specified in the configuration file.</p>
 
-<p>Some public key algorithms may override this choice. For instance, DSA signatures always use SHA1, GOST R 34.10 signatures always use GOST R 34.11-94 (<b>-md_gost94</b>).</p>
+<p>Some public key algorithms may override this choice. For instance, DSA signatures always use SHA1, GOST R 34.10 signatures always use GOST R 34.11-94 (<b>-md_gost94</b>), Ed25519 and Ed448 never use any digest.</p>
 
 </dd>
 <dt id="config-filename"><b>-config filename</b></dt>
 <dd>
 
-<p>this allows an alternative configuration file to be specified. Optional; for a description of the default value, see <a href="../man1/openssl.html>&quot;COMMAND SUMMARY&quot; in openssl(1)</a>.</p>
+<p>This allows an alternative configuration file to be specified. Optional; for a description of the default value, see <a href="../man1/openssl.html">&quot;COMMAND SUMMARY&quot; in openssl(1)</a>.</p>
 
 </dd>
 <dt id="subj-arg"><b>-subj arg</b></dt>
 <dd>
 
-<p>sets subject name for new request or supersedes the subject name when processing a request. The arg must be formatted as <i>/type0=value0/type1=value1/type2=...</i>, characters may be escaped by \ (backslash), no spaces are skipped.</p>
+<p>Sets subject name for new request or supersedes the subject name when processing a request. The arg must be formatted as <i>/type0=value0/type1=value1/type2=...</i>. Keyword characters may be escaped by \ (backslash), and whitespace is retained. Empty values are permitted, but the corresponding type will not be included in the request.</p>
 
 </dd>
 <dt id="multivalue-rdn"><b>-multivalue-rdn</b></dt>
 <dd>
 
-<p>this option causes the -subj argument to be interpreted with full support for multivalued RDNs. Example:</p>
+<p>This option causes the -subj argument to be interpreted with full support for multivalued RDNs. Example:</p>
 
 <p><i>/DC=org/DC=OpenSSL/DC=users/UID=123456+CN=John Doe</i></p>
 
@@ -209,7 +215,7 @@
 <dt id="x509"><b>-x509</b></dt>
 <dd>
 
-<p>this option outputs a self signed certificate instead of a certificate request. This is typically used to generate a test certificate or a self signed root CA. The extensions added to the certificate (if any) are specified in the configuration file. Unless specified using the <b>set_serial</b> option, a large random number will be used for the serial number.</p>
+<p>This option outputs a self signed certificate instead of a certificate request. This is typically used to generate a test certificate or a self signed root CA. The extensions added to the certificate (if any) are specified in the configuration file. Unless specified using the <b>set_serial</b> option, a large random number will be used for the serial number.</p>
 
 <p>If existing request is specified with the <b>-in</b> option, it is converted to the self signed certificate otherwise new request is created.</p>
 
@@ -217,13 +223,21 @@
 <dt id="days-n"><b>-days n</b></dt>
 <dd>
 
-<p>when the <b>-x509</b> option is being used this specifies the number of days to certify the certificate for. The default is 30 days.</p>
+<p>When the <b>-x509</b> option is being used this specifies the number of days to certify the certificate for, otherwise it is ignored. <b>n</b> should be a positive integer. The default is 30 days.</p>
 
 </dd>
 <dt id="set_serial-n"><b>-set_serial n</b></dt>
 <dd>
 
-<p>serial number to use when outputting a self signed certificate. This may be specified as a decimal value or a hex value if preceded by <b>0x</b>.</p>
+<p>Serial number to use when outputting a self signed certificate. This may be specified as a decimal value or a hex value if preceded by <b>0x</b>.</p>
+
+</dd>
+<dt id="addext-ext"><b>-addext ext</b></dt>
+<dd>
+
+<p>Add a specific extension to the certificate (if the <b>-x509</b> option is present) or certificate request. The argument must have the form of a key=value pair as it would appear in a config file.</p>
+
+<p>This option can be given multiple times.</p>
 
 </dd>
 <dt id="extensions-section"><b>-extensions section</b></dt>
@@ -233,27 +247,35 @@
 <dt id="reqexts-section"><b>-reqexts section</b></dt>
 <dd>
 
-<p>these options specify alternative sections to include certificate extensions (if the <b>-x509</b> option is present) or certificate request extensions. This allows several different sections to be used in the same configuration file to specify requests for a variety of purposes.</p>
+<p>These options specify alternative sections to include certificate extensions (if the <b>-x509</b> option is present) or certificate request extensions. This allows several different sections to be used in the same configuration file to specify requests for a variety of purposes.</p>
+
+</dd>
+<dt id="precert"><b>-precert</b></dt>
+<dd>
+
+<p>A poison extension will be added to the certificate, making it a &quot;pre-certificate&quot; (see RFC6962). This can be submitted to Certificate Transparency logs in order to obtain signed certificate timestamps (SCTs). These SCTs can then be embedded into the pre-certificate as an extension, before removing the poison and signing the certificate.</p>
+
+<p>This implies the <b>-new</b> flag.</p>
 
 </dd>
 <dt id="utf8"><b>-utf8</b></dt>
 <dd>
 
-<p>this option causes field values to be interpreted as UTF8 strings, by default they are interpreted as ASCII. This means that the field values, whether prompted from a terminal or obtained from a configuration file, must be valid UTF8 strings.</p>
+<p>This option causes field values to be interpreted as UTF8 strings, by default they are interpreted as ASCII. This means that the field values, whether prompted from a terminal or obtained from a configuration file, must be valid UTF8 strings.</p>
 
 </dd>
 <dt id="nameopt-option"><b>-nameopt option</b></dt>
 <dd>
 
-<p>option which determines how the subject or issuer names are displayed. The <b>option</b> argument can be a single option or multiple options separated by commas. Alternatively the <b>-nameopt</b> switch may be used more than once to set multiple options. See the <a href="../man1/x509.html>x509(1)</a> manual page for details.</p>
+<p>Option which determines how the subject or issuer names are displayed. The <b>option</b> argument can be a single option or multiple options separated by commas. Alternatively the <b>-nameopt</b> switch may be used more than once to set multiple options. See the <a href="../man1/x509.html">x509(1)</a> manual page for details.</p>
 
 </dd>
 <dt id="reqopt"><b>-reqopt</b></dt>
 <dd>
 
-<p>customise the output format used with <b>-text</b>. The <b>option</b> argument can be a single option or multiple options separated by commas.</p>
+<p>Customise the output format used with <b>-text</b>. The <b>option</b> argument can be a single option or multiple options separated by commas.</p>
 
-<p>See discussion of the <b>-certopt</b> parameter in the <a href="../man1/x509.html>x509(1)</a> command.</p>
+<p>See discussion of the <b>-certopt</b> parameter in the <a href="../man1/x509.html">x509(1)</a> command.</p>
 
 </dd>
 <dt id="newhdr"><b>-newhdr</b></dt>
@@ -265,25 +287,25 @@
 <dt id="batch"><b>-batch</b></dt>
 <dd>
 
-<p>non-interactive mode.</p>
+<p>Non-interactive mode.</p>
 
 </dd>
 <dt id="verbose"><b>-verbose</b></dt>
 <dd>
 
-<p>print extra details about the operations being performed.</p>
+<p>Print extra details about the operations being performed.</p>
 
 </dd>
 <dt id="engine-id"><b>-engine id</b></dt>
 <dd>
 
-<p>specifying an engine (by its unique <b>id</b> string) will cause <b>req</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+<p>Specifying an engine (by its unique <b>id</b> string) will cause <b>req</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
 
 </dd>
 <dt id="keygen_engine-id"><b>-keygen_engine id</b></dt>
 <dd>
 
-<p>specifies an engine (by its unique <b>id</b> string) which would be used for key generation operations.</p>
+<p>Specifies an engine (by its unique <b>id</b> string) which would be used for key generation operations.</p>
 
 </dd>
 </dl>
@@ -331,7 +353,7 @@
 <dt id="RANDFILE"><b>RANDFILE</b></dt>
 <dd>
 
-<p>This specifies a filename in which random number seed information is placed and read from, or an EGD socket (see <a href="../man3/RAND_egd.html>RAND_egd(3)</a>). It is used for private key generation.</p>
+<p>At startup the specified file is loaded into the random number generator, and at exit 256 bytes will be written to it. It is used for private key generation.</p>
 
 </dd>
 <dt id="encrypt_key"><b>encrypt_key</b></dt>
@@ -343,7 +365,7 @@
 <dt id="default_md"><b>default_md</b></dt>
 <dd>
 
-<p>This option specifies the digest algorithm to use. Any digest supported by the OpenSSL <b>dgst</b> command can be used. If not present then MD5 is used. This option can be overridden on the command line.</p>
+<p>This option specifies the digest algorithm to use. Any digest supported by the OpenSSL <b>dgst</b> command can be used. This option can be overridden on the command line. Certain signing algorithms (i.e. Ed25519 and Ed448) will ignore any digest that has been set.</p>
 
 </dd>
 <dt id="string_mask"><b>string_mask</b></dt>
@@ -357,31 +379,31 @@
 <dt id="req_extensions"><b>req_extensions</b></dt>
 <dd>
 
-<p>this specifies the configuration file section containing a list of extensions to add to the certificate request. It can be overridden by the <b>-reqexts</b> command line switch. See the <a href="../man5/x509v3_config.html>x509v3_config(5)</a> manual page for details of the extension section format.</p>
+<p>This specifies the configuration file section containing a list of extensions to add to the certificate request. It can be overridden by the <b>-reqexts</b> command line switch. See the <a href="../man5/x509v3_config.html">x509v3_config(5)</a> manual page for details of the extension section format.</p>
 
 </dd>
 <dt id="x509_extensions"><b>x509_extensions</b></dt>
 <dd>
 
-<p>this specifies the configuration file section containing a list of extensions to add to certificate generated when the <b>-x509</b> switch is used. It can be overridden by the <b>-extensions</b> command line switch.</p>
+<p>This specifies the configuration file section containing a list of extensions to add to certificate generated when the <b>-x509</b> switch is used. It can be overridden by the <b>-extensions</b> command line switch.</p>
 
 </dd>
 <dt id="prompt"><b>prompt</b></dt>
 <dd>
 
-<p>if set to the value <b>no</b> this disables prompting of certificate fields and just takes values from the config file directly. It also changes the expected format of the <b>distinguished_name</b> and <b>attributes</b> sections.</p>
+<p>If set to the value <b>no</b> this disables prompting of certificate fields and just takes values from the config file directly. It also changes the expected format of the <b>distinguished_name</b> and <b>attributes</b> sections.</p>
 
 </dd>
 <dt id="utf81"><b>utf8</b></dt>
 <dd>
 
-<p>if set to the value <b>yes</b> then field values to be interpreted as UTF8 strings, by default they are interpreted as ASCII. This means that the field values, whether prompted from a terminal or obtained from a configuration file, must be valid UTF8 strings.</p>
+<p>If set to the value <b>yes</b> then field values to be interpreted as UTF8 strings, by default they are interpreted as ASCII. This means that the field values, whether prompted from a terminal or obtained from a configuration file, must be valid UTF8 strings.</p>
 
 </dd>
 <dt id="attributes"><b>attributes</b></dt>
 <dd>
 
-<p>this specifies the section containing any request attributes: its format is the same as <b>distinguished_name</b>. Typically these may contain the challengePassword or unstructuredName types. They are currently ignored by OpenSSL&#39;s request signing utilities but some CAs might want them.</p>
+<p>This specifies the section containing any request attributes: its format is the same as <b>distinguished_name</b>. Typically these may contain the challengePassword or unstructuredName types. They are currently ignored by OpenSSL&#39;s request signing utilities but some CAs might want them.</p>
 
 </dd>
 <dt id="distinguished_name"><b>distinguished_name</b></dt>
@@ -415,7 +437,7 @@
 
 <p>Some fields (such as organizationName) can be used more than once in a DN. This presents a problem because configuration files will not recognize the same name occurring twice. To avoid this problem if the fieldName contains some characters followed by a full stop they will be ignored. So for example a second organizationName can be input by calling it &quot;1.organizationName&quot;.</p>
 
-<p>The actual permitted field names are any object identifier short or long names. These are compiled into OpenSSL and include the usual values such as commonName, countryName, localityName, organizationName, organizationalUnitName, stateOrProvinceName. Additionally emailAddress is include as well as name, surname, givenName initials and dnQualifier.</p>
+<p>The actual permitted field names are any object identifier short or long names. These are compiled into OpenSSL and include the usual values such as commonName, countryName, localityName, organizationName, organizationalUnitName, stateOrProvinceName. Additionally emailAddress is included as well as name, surname, givenName, initials, and dnQualifier.</p>
 
 <p>Additional object identifiers can be defined with the <b>oid_file</b> or <b>oid_section</b> options in the configuration file. Any additional fields will be treated as though they were a DirectoryString.</p>
 
@@ -511,6 +533,13 @@
  [ req_attributes ]
  challengePassword              = A challenge password</code></pre>
 
+<p>Example of giving the most common attributes (subject and extensions) on the command line:</p>
+
+<pre><code> openssl req -new -subj &quot;/C=GB/CN=foo&quot; \
+                  -addext &quot;subjectAltName = DNS:foo.co.uk&quot; \
+                  -addext &quot;certificatePolicies = 1.2.3.4&quot; \
+                  -newkey rsa:2048 -keyout key.pem -out req.pem</code></pre>
+
 <h1 id="NOTES">NOTES</h1>
 
 <p>The header and footer lines in the <b>PEM</b> format are normally:</p>
@@ -562,11 +591,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/x509.html>x509(1)</a>, <a href="../man1/ca.html>ca(1)</a>, <a href="../man1/genrsa.html>genrsa(1)</a>, <a href="../man1/gendsa.html>gendsa(1)</a>, <a href="../man5/config.html>config(5)</a>, <a href="../man5/x509v3_config.html>x509v3_config(5)</a></p>
+<p><a href="../man1/x509.html">x509(1)</a>, <a href="../man1/ca.html">ca(1)</a>, <a href="../man1/genrsa.html">genrsa(1)</a>, <a href="../man1/gendsa.html">gendsa(1)</a>, <a href="../man5/config.html">config(5)</a>, <a href="../man5/x509v3_config.html">x509v3_config(5)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

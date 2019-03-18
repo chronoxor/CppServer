@@ -106,7 +106,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>X509_STORE_set_verify_cb() sets the verification callback of <b>ctx</b> to <b>verify_cb</b> overwriting the previous callback. The callback assigned with this function becomes a default for the one that can be assigned directly to the corresponding <b>X509_STORE_CTX</b>, please see <a href="../man3/X509_STORE_CTX_set_verify_cb.html>X509_STORE_CTX_set_verify_cb(3)</a> for further information.</p>
+<p>X509_STORE_set_verify_cb() sets the verification callback of <b>ctx</b> to <b>verify_cb</b> overwriting the previous callback. The callback assigned with this function becomes a default for the one that can be assigned directly to the corresponding <b>X509_STORE_CTX</b>, please see <a href="../man3/X509_STORE_CTX_set_verify_cb.html">X509_STORE_CTX_set_verify_cb(3)</a> for further information.</p>
 
 <p>X509_STORE_set_verify() sets the final chain verification function for <b>ctx</b> to <b>verify</b>. Its purpose is to go through the chain of certificates and check that all signatures are valid and that the current time is within the limits of each certificate&#39;s first and last validity time. The final chain verification functions must return 0 on failure and 1 on success. <i>If no chain verification function is provided, the internal default function will be used instead.</i></p>
 
@@ -134,7 +134,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>All the callbacks from a <b>X509_STORE</b> are inherited by the corresponding <b>X509_STORE_CTX</b> structure when it is initialized. See <a href="../man3/X509_STORE_CTX_set_verify_cb.html>X509_STORE_CTX_set_verify_cb(3)</a> for further details.</p>
+<p>All the callbacks from a <b>X509_STORE</b> are inherited by the corresponding <b>X509_STORE_CTX</b> structure when it is initialized. See <a href="../man3/X509_STORE_CTX_set_verify_cb.html">X509_STORE_CTX_set_verify_cb(3)</a> for further details.</p>
 
 <h1 id="BUGS">BUGS</h1>
 
@@ -148,13 +148,13 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/X509_STORE_CTX_set_verify_cb.html>X509_STORE_CTX_set_verify_cb(3)</a>, <a href="../man3/X509_STORE_CTX_get0_chain.html>X509_STORE_CTX_get0_chain(3)</a>, <a href="../man3/X509_STORE_CTX_verify_cb.html>X509_STORE_CTX_verify_cb(3)</a>, <a href="../man3/X509_STORE_CTX_verify_fn.html>X509_STORE_CTX_verify_fn(3)</a>, <a href="../man3/CMS_verify.html>CMS_verify(3)</a></p>
+<p><a href="../man3/X509_STORE_CTX_set_verify_cb.html">X509_STORE_CTX_set_verify_cb(3)</a>, <a href="../man3/X509_STORE_CTX_get0_chain.html">X509_STORE_CTX_get0_chain(3)</a>, <a href="../man3/X509_STORE_CTX_verify_cb.html">X509_STORE_CTX_verify_cb(3)</a>, <a href="../man3/X509_STORE_CTX_verify_fn.html">X509_STORE_CTX_verify_fn(3)</a>, <a href="../man3/CMS_verify.html">CMS_verify(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>X509_STORE_set_verify_cb() was added to OpenSSL 1.0.0.</p>
+<p>The X509_STORE_set_verify_cb() function was added in OpenSSL 1.0.0.</p>
 
-<p>X509_STORE_set_verify_cb(), X509_STORE_get_verify_cb(), X509_STORE_set_verify(), X509_STORE_CTX_get_verify(), X509_STORE_set_get_issuer(), X509_STORE_get_get_issuer(), X509_STORE_set_check_issued(), X509_STORE_get_check_issued(), X509_STORE_set_check_revocation(), X509_STORE_get_check_revocation(), X509_STORE_set_get_crl(), X509_STORE_get_get_crl(), X509_STORE_set_check_crl(), X509_STORE_get_check_crl(), X509_STORE_set_cert_crl(), X509_STORE_get_cert_crl(), X509_STORE_set_check_policy(), X509_STORE_get_check_policy(), X509_STORE_set_lookup_certs(), X509_STORE_get_lookup_certs(), X509_STORE_set_lookup_crls(), X509_STORE_get_lookup_crls(), X509_STORE_set_cleanup() and X509_STORE_get_cleanup() were added in OpenSSL 1.1.0.</p>
+<p>The functions X509_STORE_set_verify_cb(), X509_STORE_get_verify_cb(), X509_STORE_set_verify(), X509_STORE_CTX_get_verify(), X509_STORE_set_get_issuer(), X509_STORE_get_get_issuer(), X509_STORE_set_check_issued(), X509_STORE_get_check_issued(), X509_STORE_set_check_revocation(), X509_STORE_get_check_revocation(), X509_STORE_set_get_crl(), X509_STORE_get_get_crl(), X509_STORE_set_check_crl(), X509_STORE_get_check_crl(), X509_STORE_set_cert_crl(), X509_STORE_get_cert_crl(), X509_STORE_set_check_policy(), X509_STORE_get_check_policy(), X509_STORE_set_lookup_certs(), X509_STORE_get_lookup_certs(), X509_STORE_set_lookup_crls(), X509_STORE_get_lookup_crls(), X509_STORE_set_cleanup() and X509_STORE_get_cleanup() were added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

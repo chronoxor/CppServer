@@ -16,6 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -39,7 +40,7 @@
 
 <p><b>pass</b> is the passphrase to use. <b>name</b> is the <b>friendlyName</b> to use for the supplied certificate and key. <b>pkey</b> is the private key to include in the structure and <b>cert</b> its corresponding certificates. <b>ca</b>, if not <b>NULL</b> is an optional set of certificates to also include in the structure.</p>
 
-<p><b>nid_key</b> and <b>nid_cert</b> are the encryption algorithms that should be used for the key and certificate respectively. <b>iter</b> is the encryption algorithm iteration count to use and <b>mac_iter</b> is the MAC iteration count to use. <b>keytype</b> is the type of key.</p>
+<p><b>nid_key</b> and <b>nid_cert</b> are the encryption algorithms that should be used for the key and certificate respectively. The modes GCM, CCM, XTS, and OCB are unsupported. <b>iter</b> is the encryption algorithm iteration count to use and <b>mac_iter</b> is the MAC iteration count to use. <b>keytype</b> is the type of key.</p>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -59,13 +60,19 @@
 
 <p><b>mac_iter</b> can be set to -1 and the MAC will then be omitted entirely.</p>
 
+<p>PKCS12_create() makes assumptions regarding the encoding of the given pass phrase. See <a href="../man7/passphrase-encoding.html">passphrase-encoding(7)</a> for more information.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>PKCS12_create() returns a valid <b>PKCS12</b> structure or NULL if an error occurred.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/d2i_PKCS12.html>d2i_PKCS12(3)</a></p>
+<p><a href="../man3/d2i_PKCS12.html">d2i_PKCS12(3)</a>, <a href="../man7/passphrase-encoding.html">passphrase-encoding(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2002-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2002-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

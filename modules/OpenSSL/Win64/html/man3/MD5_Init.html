@@ -30,34 +30,28 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/md2.h&gt;</span>
  
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*MD2</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span>
-                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
+ <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*MD2</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">MD2_Init</span><span class="operator">(</span><span class="variable">MD2_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">MD2_Update</span><span class="operator">(</span><span class="variable">MD2_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">,</span>
-                  <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">MD2_Update</span><span class="operator">(</span><span class="variable">MD2_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">MD2_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">MD2_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  
  
  <span class="comment">#include &lt;openssl/md4.h&gt;</span>
  
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*MD4</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span>
-                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
+ <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*MD4</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">MD4_Init</span><span class="operator">(</span><span class="variable">MD4_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">MD4_Update</span><span class="operator">(</span><span class="variable">MD4_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span>
-                  <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">MD4_Update</span><span class="operator">(</span><span class="variable">MD4_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">MD4_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">MD4_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
  
  
  <span class="comment">#include &lt;openssl/md5.h&gt;</span>
  
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*MD5</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span>
-                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
+ <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*MD5</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">MD5_Init</span><span class="operator">(</span><span class="variable">MD5_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">MD5_Update</span><span class="operator">(</span><span class="variable">MD5_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span>
-                  <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">MD5_Update</span><span class="operator">(</span><span class="variable">MD5_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">MD5_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">MD5_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
 </code></pre>
 
@@ -77,7 +71,7 @@
 
 <p>MD4_Init(), MD4_Update(), MD4_Final(), MD5_Init(), MD5_Update(), and MD5_Final() are analogous using an <b>MD4_CTX</b> and <b>MD5_CTX</b> structure.</p>
 
-<p>Applications should use the higher level functions <a href="../man3/EVP_DigestInit.html>EVP_DigestInit(3)</a> etc. instead of calling the hash functions directly.</p>
+<p>Applications should use the higher level functions <a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a> etc. instead of calling the hash functions directly.</p>
 
 <h1 id="NOTE">NOTE</h1>
 
@@ -95,7 +89,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/EVP_DigestInit.html>EVP_DigestInit(3)</a></p>
+<p><a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

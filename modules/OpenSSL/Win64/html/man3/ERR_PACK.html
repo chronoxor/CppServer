@@ -15,7 +15,7 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
-  <li><a href="#RETURN-VALUE">RETURN VALUE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -43,8 +43,8 @@
 
 <pre><code> <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">ERR_string_data_st</span>
  <span class="operator">{</span>
-        <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">error</span><span class="operator">;</span>
-        <span class="variable">char</span> <span class="variable">*string</span><span class="operator">;</span>
+     <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">error</span><span class="operator">;</span>
+     <span class="variable">char</span> <span class="variable">*string</span><span class="operator">;</span>
  <span class="operator">}</span> <span class="variable">ERR_STRING_DATA</span><span class="operator">;</span>
 </code></pre>
 
@@ -54,17 +54,17 @@
 
 <p>ERR_get_next_error_library() can be used to assign library numbers to user libraries at runtime.</p>
 
-<h1 id="RETURN-VALUE">RETURN VALUE</h1>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>ERR_load_strings() returns no value. ERR_PACK() return the error code. ERR_get_next_error_library() returns zero on failure, otherwise a new library number.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_load_strings.html>ERR_load_strings(3)</a></p>
+<p><a href="../man3/ERR_load_strings.html">ERR_load_strings(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

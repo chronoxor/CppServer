@@ -33,9 +33,11 @@
                        <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*salt</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">saltlen</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">iter</span><span class="operator">,</span>
                        <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*digest</span><span class="operator">,</span>
                        <span class="keyword">int</span> <span class="variable">keylen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">);</span>
+ 
+ <span class="keyword">int</span> <span class="variable">PKCS5_PBKDF2_HMAC_SHA1</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*pass</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">passlen</span><span class="operator">,</span>
+                            <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*salt</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">saltlen</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">iter</span><span class="operator">,</span>
+                            <span class="keyword">int</span> <span class="variable">keylen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">);</span>
 </code></pre>
-
-<p>int PKCS5_PBKDF2_HMAC_SHA1(const char *pass, int passlen, const unsigned char *salt, int saltlen, int iter, int keylen, unsigned char *out);</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -57,17 +59,19 @@
 
 <p>Increasing the <b>iter</b> parameter slows down the algorithm which makes it harder for an attacker to perform a brute force attack using a large number of candidate passwords.</p>
 
+<p>These functions make no assumption regarding the given password. It will simply be treated as a byte sequence.</p>
+
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>PKCS5_PBKDF2_HMAC() and PBKCS5_PBKDF2_HMAC_SHA1() return 1 on success or 0 on error.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/evp.html>evp(3)</a>, <a href="../man3/rand.html>rand(3)</a>, <a href="../man3/EVP_BytesToKey.html>EVP_BytesToKey(3)</a></p>
+<p><a href="../man7/evp.html">evp(7)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/EVP_BytesToKey.html">EVP_BytesToKey(3)</a>, <a href="../man7/passphrase-encoding.html">passphrase-encoding(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2014-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2014-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

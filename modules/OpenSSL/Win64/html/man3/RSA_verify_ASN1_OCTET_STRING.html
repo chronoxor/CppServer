@@ -30,12 +30,12 @@
 <pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_sign_ASN1_OCTET_STRING</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">dummy</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*m</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_len</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*siglen</span><span class="operator">,</span>
-    <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
+                                <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_len</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigret</span><span class="operator">,</span>
+                                <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*siglen</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RSA_verify_ASN1_OCTET_STRING</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">dummy</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*m</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_len</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span>
-    <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
+                                  <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_len</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span>
+                                  <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -52,7 +52,7 @@
 
 <p>RSA_sign_ASN1_OCTET_STRING() returns 1 on success, 0 otherwise. RSA_verify_ASN1_OCTET_STRING() returns 1 on successful verification, 0 otherwise.</p>
 
-<p>The error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="BUGS">BUGS</h1>
 
@@ -60,7 +60,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/rand.html>rand(3)</a>, <a href="../man3/RSA_sign.html>RSA_sign(3)</a>, <a href="../man3/RSA_verify.html>RSA_verify(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/RSA_sign.html">RSA_sign(3)</a>, <a href="../man3/RSA_verify.html">RSA_verify(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

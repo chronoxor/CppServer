@@ -25,7 +25,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>DECLARE_LHASH_OF, OPENSSL_LH_COMPFUNC, OPENSSL_LH_HASHFUNC, OPENSSL_LH_DOALL_FUNC, LHASH_DOALL_ARG_FN_TYPE, IMPLEMENT_LHASH_HASH_FN, IMPLEMENT_LHASH_COMP_FN, lh_TYPE_new, lh_TYPE_free, lh_TYPE_insert, lh_TYPE_delete, lh_TYPE_retrieve, lh_TYPE_doall, lh_TYPE_doall_arg, lh_TYPE_error - dynamic hash table</p>
+<p>LHASH, DECLARE_LHASH_OF, OPENSSL_LH_COMPFUNC, OPENSSL_LH_HASHFUNC, OPENSSL_LH_DOALL_FUNC, LHASH_DOALL_ARG_FN_TYPE, IMPLEMENT_LHASH_HASH_FN, IMPLEMENT_LHASH_COMP_FN, lh_TYPE_new, lh_TYPE_free, lh_TYPE_insert, lh_TYPE_delete, lh_TYPE_retrieve, lh_TYPE_doall, lh_TYPE_doall_arg, lh_TYPE_error - dynamic hash table</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -33,16 +33,16 @@
  
  <span class="variable">DECLARE_LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">);</span>
  
- <span class="variable">LHASH</span> <span class="variable">*lh_TYPE_new</span><span class="operator">();</span>
- <span class="variable">void</span> <span class="variable">lh_TYPE_free</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span> <span class="variable">*table</span><span class="operator">);</span>
+ <span class="variable">LHASH</span> <span class="variable">*lh_TYPE_new</span><span class="operator">(</span><span class="variable">OPENSSL_LH_HASHFUNC</span> <span class="variable">hash</span><span class="operator">,</span> <span class="variable">OPENSSL_LH_COMPFUNC</span> <span class="variable">compare</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">lh_TYPE_free</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">);</span>
  
- <span class="variable">TYPE</span> <span class="variable">*lh_TYPE_insert</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*data</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*lh_TYPE_delete</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*data</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*lh_retrieve</span><span class="operator">(</span><span class="variable">LHASH_OFTYPE</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*data</span><span class="operator">);</span>
+ <span class="variable">TYPE</span> <span class="variable">*lh_TYPE_insert</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*data</span><span class="operator">);</span>
+ <span class="variable">TYPE</span> <span class="variable">*lh_TYPE_delete</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*data</span><span class="operator">);</span>
+ <span class="variable">TYPE</span> <span class="variable">*lh_retrieve</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*data</span><span class="operator">);</span>
  
- <span class="variable">void</span> <span class="variable">lh_TYPE_doall</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">OPENSSL_LH_DOALL_FUNC</span> <span class="variable">func</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">lh_TYPE_doall</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">OPENSSL_LH_DOALL_FUNC</span> <span class="variable">func</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">lh_TYPE_doall_arg</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">OPENSSL_LH_DOALL_FUNCARG</span> <span class="variable">func</span><span class="operator">,</span>
-          <span class="variable">TYPE</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*arg</span><span class="operator">);</span>
+                        <span class="variable">TYPE</span> <span class="variable">*arg</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">lh_TYPE_error</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">);</span>
  
@@ -141,13 +141,13 @@
 
 <p>lh_TYPE_retrieve() returns the hash table entry if it has been found, <b>NULL</b> otherwise.</p>
 
-<p>lh_TYPE_error() returns 1 if an error occurred in the last operation, 0 otherwise.</p>
+<p>lh_TYPE_error() returns 1 if an error occurred in the last operation, 0 otherwise. It&#39;s meaningful only after non-retrieve operations.</p>
 
 <p>lh_TYPE_free(), lh_TYPE_doall() and lh_TYPE_doall_arg() return no values.</p>
 
 <h1 id="NOTE">NOTE</h1>
 
-<p>The various LHASH macros and callback types exist to make it possible to write type-checked code without resorting to function-prototype casting - an evil that makes application code much harder to audit/verify and also opens the window of opportunity for stack corruption and other hard-to-find bugs. It also, apparently, violates ANSI-C.</p>
+<p>The LHASH code is not thread safe. All updating operations, as well as lh_TYPE_error call must be performed under a write lock. All retrieve operations should be performed under a read lock, <i>unless</i> accurate usage statistics are desired. In which case, a write lock should be used for retrieve operations as well. For output of the usage statistics, using the functions from <a href="../man3/OPENSSL_LH_stats.html">OPENSSL_LH_stats(3)</a>, a read lock suffices.</p>
 
 <p>The LHASH code regards table entries as constant data. As such, it internally represents lh_insert()&#39;d items with a &quot;const void *&quot; pointer type. This is why callbacks such as those used by lh_doall() and lh_doall_arg() declare their prototypes with &quot;const&quot;, even for the parameters that pass back the table items&#39; data pointers - for consistency, user-provided data is &quot;const&quot; at all times as far as the LHASH code is concerned. However, as callers are themselves providing these pointers, they can choose whether they too should be treating all such parameters as constant.</p>
 
@@ -161,7 +161,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/lh_stats.html>lh_stats(3)</a></p>
+<p><a href="../man3/OPENSSL_LH_stats.html">OPENSSL_LH_stats(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
@@ -169,7 +169,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

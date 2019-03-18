@@ -50,18 +50,18 @@
 
 <p>OpenSSL implements asynchronous capabilities through an ASYNC_JOB. This represents code that can be started and executes until some event occurs. At that point the code can be paused and control returns to user code until some subsequent event indicates that the job can be resumed.</p>
 
-<p>The creation of an ASYNC_JOB is a relatively expensive operation. Therefore, for efficiency reasons, jobs can be created up front and reused many times. They are held in a pool until they are needed, at which point they are removed from the pool, used, and then returned to the pool when the job completes. If the user application is multi-threaded, then ASYNC_init_thread() may be called for each thread that will initiate asynchronous jobs. Before user code exits per-thread resources need to be cleaned up. This will normally occur automatically (see <a href="../man3/OPENSSL_init_crypto.html>OPENSSL_init_crypto(3)</a>) but may be explicitly initiated by using ASYNC_cleanup_thread(). No asynchronous jobs must be outstanding for the thread when ASYNC_cleanup_thread() is called. Failing to ensure this will result in memory leaks.</p>
+<p>The creation of an ASYNC_JOB is a relatively expensive operation. Therefore, for efficiency reasons, jobs can be created up front and reused many times. They are held in a pool until they are needed, at which point they are removed from the pool, used, and then returned to the pool when the job completes. If the user application is multi-threaded, then ASYNC_init_thread() may be called for each thread that will initiate asynchronous jobs. Before user code exits per-thread resources need to be cleaned up. This will normally occur automatically (see <a href="../man3/OPENSSL_init_crypto.html">OPENSSL_init_crypto(3)</a>) but may be explicitly initiated by using ASYNC_cleanup_thread(). No asynchronous jobs must be outstanding for the thread when ASYNC_cleanup_thread() is called. Failing to ensure this will result in memory leaks.</p>
 
 <p>The <b>max_size</b> argument limits the number of ASYNC_JOBs that will be held in the pool. If <b>max_size</b> is set to 0 then no upper limit is set. When an ASYNC_JOB is needed but there are none available in the pool already then one will be automatically created, as long as the total of ASYNC_JOBs managed by the pool does not exceed <b>max_size</b>. When the pool is first initialised <b>init_size</b> ASYNC_JOBs will be created immediately. If ASYNC_init_thread() is not called before the pool is first used then it will be called automatically with a <b>max_size</b> of 0 (no upper limit) and an <b>init_size</b> of 0 (no ASYNC_JOBs created up front).</p>
 
-<p>An asynchronous job is started by calling the ASYNC_start_job() function. Initially <b>*job</b> should be NULL. <b>ctx</b> should point to an ASYNC_WAIT_CTX object created through the <a href="../man3/ASYNC_WAIT_CTX_new.html>ASYNC_WAIT_CTX_new(3)</a> function. <b>ret</b> should point to a location where the return value of the asynchronous function should be stored on completion of the job. <b>func</b> represents the function that should be started asynchronously. The data pointed to by <b>args</b> and of size <b>size</b> will be copied and then passed as an argument to <b>func</b> when the job starts. ASYNC_start_job will return one of the following values:</p>
+<p>An asynchronous job is started by calling the ASYNC_start_job() function. Initially <b>*job</b> should be NULL. <b>ctx</b> should point to an ASYNC_WAIT_CTX object created through the <a href="../man3/ASYNC_WAIT_CTX_new.html">ASYNC_WAIT_CTX_new(3)</a> function. <b>ret</b> should point to a location where the return value of the asynchronous function should be stored on completion of the job. <b>func</b> represents the function that should be started asynchronously. The data pointed to by <b>args</b> and of size <b>size</b> will be copied and then passed as an argument to <b>func</b> when the job starts. ASYNC_start_job will return one of the following values:</p>
 
 <dl>
 
 <dt id="ASYNC_ERR"><b>ASYNC_ERR</b></dt>
 <dd>
 
-<p>An error occurred trying to start the job. Check the OpenSSL error queue (e.g. see <a href="../man3/ERR_print_errors.html>ERR_print_errors(3)</a>) for more details.</p>
+<p>An error occurred trying to start the job. Check the OpenSSL error queue (e.g. see <a href="../man3/ERR_print_errors.html">ERR_print_errors(3)</a>) for more details.</p>
 
 </dd>
 <dt id="ASYNC_NO_JOBS"><b>ASYNC_NO_JOBS</b></dt>
@@ -90,7 +90,7 @@
 
 <p>ASYNC_get_wait_ctx() can be used to get a pointer to the ASYNC_WAIT_CTX for the <b>job</b>. ASYNC_WAIT_CTXs can have a &quot;wait&quot; file descriptor associated with them. Applications can wait for the file descriptor to be ready for &quot;read&quot; using a system function call such as select or poll (being ready for &quot;read&quot; indicates that the job should be resumed). If no file descriptor is made available then an application will have to periodically &quot;poll&quot; the job by attempting to restart it to see if it is ready to continue.</p>
 
-<p>An example of typical usage might be an async capable engine. User code would initiate cryptographic operations. The engine would initiate those operations asynchronously and then call <a href="../man3/ASYNC_WAIT_CTX_set_wait_fd.html>ASYNC_WAIT_CTX_set_wait_fd(3)</a> followed by ASYNC_pause_job() to return control to the user code. The user code can then perform other tasks or wait for the job to be ready by calling &quot;select&quot; or other similar function on the wait file descriptor. The engine can signal to the user code that the job should be resumed by making the wait file descriptor &quot;readable&quot;. Once resumed the engine should clear the wake signal on the wait file descriptor.</p>
+<p>An example of typical usage might be an async capable engine. User code would initiate cryptographic operations. The engine would initiate those operations asynchronously and then call <a href="../man3/ASYNC_WAIT_CTX_set_wait_fd.html">ASYNC_WAIT_CTX_set_wait_fd(3)</a> followed by ASYNC_pause_job() to return control to the user code. The user code can then perform other tasks or wait for the job to be ready by calling &quot;select&quot; or other similar function on the wait file descriptor. The engine can signal to the user code that the job should be resumed by making the wait file descriptor &quot;readable&quot;. Once resumed the engine should clear the wake signal on the wait file descriptor.</p>
 
 <p>The ASYNC_block_pause() function will prevent the currently active job from pausing. The block will remain in place until a subsequent call to ASYNC_unblock_pause(). These functions can be nested, e.g. if you call ASYNC_block_pause() twice then you must call ASYNC_unblock_pause() twice in order to re-enable pausing. If these functions are called while there is no currently active job then they have no effect. This functionality can be useful to avoid deadlock scenarios. For example during the execution of an ASYNC_JOB an application acquires a lock. It then calls some cryptographic function which invokes ASYNC_pause_job(). This returns control back to the code that created the ASYNC_JOB. If that code then attempts to acquire the same lock before resuming the original job then a deadlock can occur. By calling ASYNC_block_pause() immediately after acquiring the lock and ASYNC_unblock_pause() immediately before releasing it then this situation cannot occur.</p>
 
@@ -131,6 +131,7 @@
  <span class="variable">void</span> <span class="variable">cleanup</span><span class="operator">(</span><span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">r</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*vw</span><span class="operator">)</span>
  <span class="operator">{</span>
      <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*w</span> <span class="operator">=</span> <span class="operator">(</span><span class="variable">OSSL_ASYNC_FD</span> <span class="operator">*)</span><span class="variable">vw</span><span class="operator">;</span>
+ 
      <span class="keyword">close</span><span class="operator">(</span><span class="variable">r</span><span class="operator">);</span>
      <span class="keyword">close</span><span class="operator">(</span><span class="variable">*w</span><span class="operator">);</span>
      <span class="variable">OPENSSL_free</span><span class="operator">(</span><span class="variable">w</span><span class="operator">);</span>
@@ -206,17 +207,17 @@
      <span class="operator">}</span>
  
      <span class="keyword">for</span> <span class="operator">(;;)</span> <span class="operator">{</span>
-         <span class="variable">switch</span><span class="operator">(</span><span class="variable">ASYNC_start_job</span><span class="operator">(&amp;</span><span class="variable">job</span><span class="operator">,</span> <span class="variable">ctx</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">ret</span><span class="operator">,</span> <span class="variable">jobfunc</span><span class="operator">,</span> <span class="variable">msg</span><span class="operator">,</span> <span class="variable">sizeof</span><span class="operator">(</span><span class="variable">msg</span><span class="operator">)))</span> <span class="operator">{</span>
+         <span class="variable">switch</span> <span class="operator">(</span><span class="variable">ASYNC_start_job</span><span class="operator">(&amp;</span><span class="variable">job</span><span class="operator">,</span> <span class="variable">ctx</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">ret</span><span class="operator">,</span> <span class="variable">jobfunc</span><span class="operator">,</span> <span class="variable">msg</span><span class="operator">,</span> <span class="variable">sizeof</span><span class="operator">(</span><span class="variable">msg</span><span class="operator">)))</span> <span class="operator">{</span>
          <span class="variable">case</span> <span class="variable">ASYNC_ERR</span><span class="operator">:</span>
          <span class="variable">case</span> <span class="variable">ASYNC_NO_JOBS</span><span class="operator">:</span>
-                 <span class="keyword">printf</span><span class="operator">(</span><span class="string">"An error occurred\n"</span><span class="operator">);</span>
-                 <span class="keyword">goto</span> <span class="variable">end</span><span class="operator">;</span>
+             <span class="keyword">printf</span><span class="operator">(</span><span class="string">"An error occurred\n"</span><span class="operator">);</span>
+             <span class="keyword">goto</span> <span class="variable">end</span><span class="operator">;</span>
          <span class="variable">case</span> <span class="variable">ASYNC_PAUSE</span><span class="operator">:</span>
-                 <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Job was paused\n"</span><span class="operator">);</span>
-                 <span class="keyword">break</span><span class="operator">;</span>
+             <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Job was paused\n"</span><span class="operator">);</span>
+             <span class="keyword">break</span><span class="operator">;</span>
          <span class="variable">case</span> <span class="variable">ASYNC_FINISH</span><span class="operator">:</span>
-                 <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Job finished with return value %d\n"</span><span class="operator">,</span> <span class="variable">ret</span><span class="operator">);</span>
-                 <span class="keyword">goto</span> <span class="variable">end</span><span class="operator">;</span>
+             <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Job finished with return value %d\n"</span><span class="operator">,</span> <span class="variable">ret</span><span class="operator">);</span>
+             <span class="keyword">goto</span> <span class="variable">end</span><span class="operator">;</span>
          <span class="operator">}</span>
  
          <span class="regex">/* Wait for the job to be woken */</span>
@@ -254,11 +255,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/crypto.html>crypto(3)</a>, <a href="../man3/ERR_print_errors.html>ERR_print_errors(3)</a></p>
+<p><a href="../man7/crypto.html">crypto(7)</a>, <a href="../man3/ERR_print_errors.html">ERR_print_errors(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>ASYNC_init_thread, ASYNC_cleanup_thread, ASYNC_start_job, ASYNC_pause_job, ASYNC_get_current_job, ASYNC_get_wait_ctx(), ASYNC_block_pause(), ASYNC_unblock_pause() and ASYNC_is_capable() were first added to OpenSSL 1.1.0.</p>
+<p>ASYNC_init_thread, ASYNC_cleanup_thread, ASYNC_start_job, ASYNC_pause_job, ASYNC_get_current_job, ASYNC_get_wait_ctx(), ASYNC_block_pause(), ASYNC_unblock_pause() and ASYNC_is_capable() were first added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

@@ -24,14 +24,16 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>SSL_CTX_set_mode, SSL_set_mode, SSL_CTX_get_mode, SSL_get_mode - manipulate SSL engine mode</p>
+<p>SSL_CTX_set_mode, SSL_CTX_clear_mode, SSL_set_mode, SSL_clear_mode, SSL_CTX_get_mode, SSL_get_mode - manipulate SSL engine mode</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
  
  <span class="variable">long</span> <span class="variable">SSL_CTX_set_mode</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">mode</span><span class="operator">);</span>
+ <span class="variable">long</span> <span class="variable">SSL_CTX_clear_mode</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">mode</span><span class="operator">);</span>
  <span class="variable">long</span> <span class="variable">SSL_set_mode</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">mode</span><span class="operator">);</span>
+ <span class="variable">long</span> <span class="variable">SSL_clear_mode</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">mode</span><span class="operator">);</span>
  
  <span class="variable">long</span> <span class="variable">SSL_CTX_get_mode</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  <span class="variable">long</span> <span class="variable">SSL_get_mode</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
@@ -39,9 +41,9 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>SSL_CTX_set_mode() adds the mode set via bitmask in <b>mode</b> to <b>ctx</b>. Options already set before are not cleared.</p>
+<p>SSL_CTX_set_mode() adds the mode set via bitmask in <b>mode</b> to <b>ctx</b>. Options already set before are not cleared. SSL_CTX_clear_mode() removes the mode set via bitmask in <b>mode</b> from <b>ctx</b>.</p>
 
-<p>SSL_set_mode() adds the mode set via bitmask in <b>mode</b> to <b>ssl</b>. Options already set before are not cleared.</p>
+<p>SSL_set_mode() adds the mode set via bitmask in <b>mode</b> to <b>ssl</b>. Options already set before are not cleared. SSL_clear_mode() removes the mode set via bitmask in <b>mode</b> from <b>ssl</b>.</p>
 
 <p>SSL_CTX_get_mode() returns the mode set for <b>ctx</b>.</p>
 
@@ -56,19 +58,25 @@
 <dt id="SSL_MODE_ENABLE_PARTIAL_WRITE">SSL_MODE_ENABLE_PARTIAL_WRITE</dt>
 <dd>
 
-<p>Allow SSL_write(..., n) to return r with 0 &lt; r &lt; n (i.e. report success when just a single record has been written). When not set (the default), SSL_write() will only report success once the complete chunk was written. Once SSL_write() returns with r, r bytes have been successfully written and the next call to SSL_write() must only send the n-r bytes left, imitating the behaviour of write().</p>
+<p>Allow SSL_write_ex(..., n, &amp;r) to return with 0 &lt; r &lt; n (i.e. report success when just a single record has been written). This works in a similar way for SSL_write(). When not set (the default), SSL_write_ex() or SSL_write() will only report success once the complete chunk was written. Once SSL_write_ex() or SSL_write() returns successful, <b>r</b> bytes have been written and the next call to SSL_write_ex() or SSL_write() must only send the n-r bytes left, imitating the behaviour of write().</p>
 
 </dd>
 <dt id="SSL_MODE_ACCEPT_MOVING_WRITE_BUFFER">SSL_MODE_ACCEPT_MOVING_WRITE_BUFFER</dt>
 <dd>
 
-<p>Make it possible to retry SSL_write() with changed buffer location (the buffer contents must stay the same). This is not the default to avoid the misconception that non-blocking SSL_write() behaves like non-blocking write().</p>
+<p>Make it possible to retry SSL_write_ex() or SSL_write() with changed buffer location (the buffer contents must stay the same). This is not the default to avoid the misconception that non-blocking SSL_write() behaves like non-blocking write().</p>
 
 </dd>
 <dt id="SSL_MODE_AUTO_RETRY">SSL_MODE_AUTO_RETRY</dt>
 <dd>
 
-<p>Never bother the application with retries if the transport is blocking. If a renegotiation take place during normal operation, a <a href="../man3/SSL_read.html>SSL_read(3)</a> or <a href="../man3/SSL_write.html>SSL_write(3)</a> would return with -1 and indicate the need to retry with SSL_ERROR_WANT_READ. In a non-blocking environment applications must be prepared to handle incomplete read/write operations. In a blocking environment, applications are not always prepared to deal with read/write operations returning without success report. The flag SSL_MODE_AUTO_RETRY will cause read/write operations to only return after the handshake and successful completion.</p>
+<p>During normal operations, non-application data records might need to be sent or received that the application is not aware of. If a non-application data record was processed, <a href="../man3/SSL_read_ex.html">SSL_read_ex(3)</a> and <a href="../man3/SSL_read.html">SSL_read(3)</a> can return with a failure and indicate the need to retry with <b>SSL_ERROR_WANT_READ</b>. If such a non-application data record was processed, the flag <b>SSL_MODE_AUTO_RETRY</b> causes it to try to process the next record instead of returning.</p>
+
+<p>In a non-blocking environment applications must be prepared to handle incomplete read/write operations. Setting <b>SSL_MODE_AUTO_RETRY</b> for a non-blocking <b>BIO</b> will process non-application data records until either no more data is available or an application data record has been processed.</p>
+
+<p>In a blocking environment, applications are not always prepared to deal with the functions returning intermediate reports such as retry requests, and setting the <b>SSL_MODE_AUTO_RETRY</b> flag will cause the functions to only return after successfully processing an application data record or a failure.</p>
+
+<p>Turning off <b>SSL_MODE_AUTO_RETRY</b> can be useful with blocking <b>BIO</b>s in case they are used in combination with something like select() or poll(). Otherwise the call to SSL_read() or SSL_read_ex() might hang when a non-application record was sent and no application data was sent.</p>
 
 </dd>
 <dt id="SSL_MODE_RELEASE_BUFFERS">SSL_MODE_RELEASE_BUFFERS</dt>
@@ -88,10 +96,18 @@
 <dt id="SSL_MODE_ASYNC">SSL_MODE_ASYNC</dt>
 <dd>
 
-<p>Enable asynchronous processing. TLS I/O operations may indicate a retry with SSL_ERROR_WANT_ASYNC with this mode set if an asynchronous capable engine is used to perform cryptographic operations. See <a href="../man3/SSL_get_error.html>SSL_get_error(3)</a>.</p>
+<p>Enable asynchronous processing. TLS I/O operations may indicate a retry with SSL_ERROR_WANT_ASYNC with this mode set if an asynchronous capable engine is used to perform cryptographic operations. See <a href="../man3/SSL_get_error.html">SSL_get_error(3)</a>.</p>
+
+</dd>
+<dt id="SSL_MODE_DTLS_SCTP_LABEL_LENGTH_BUG">SSL_MODE_DTLS_SCTP_LABEL_LENGTH_BUG</dt>
+<dd>
+
+<p>Older versions of OpenSSL had a bug in the computation of the label length used for computing the endpoint-pair shared secret. The bug was that the terminating zero was included in the length of the label. Setting this option enables this behaviour to allow interoperability with such broken implementations. Please note that setting this option breaks interoperability with correct implementations. This option only applies to DTLS over SCTP.</p>
 
 </dd>
 </dl>
+
+<p>All modes are off by default except for SSL_MODE_AUTO_RETRY which is on by default since 1.1.1.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -101,15 +117,15 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_read.html>SSL_read(3)</a>, <a href="../man3/SSL_write.html>SSL_write(3)</a>, <a href="../man3/SSL_get_error.html>SSL_get_error(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_read_ex.html">SSL_read_ex(3)</a>, <a href="../man3/SSL_read.html">SSL_read(3)</a>, <a href="../man3/SSL_write_ex.html">SSL_write_ex(3)</a> or <a href="../man3/SSL_write.html">SSL_write(3)</a>, <a href="../man3/SSL_get_error.html">SSL_get_error(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>SSL_MODE_ASYNC was first added to OpenSSL 1.1.0.</p>
+<p>SSL_MODE_ASYNC was added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2001-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2001-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

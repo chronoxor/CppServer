@@ -22,28 +22,38 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>X509_cmp_time - X509 time functions</p>
+<p>X509_cmp_time, X509_cmp_current_time, X509_time_adj, X509_time_adj_ex - X509 time functions</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="variable">X509_cmp_time</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*asn1_time</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">*cmp_time</span><span class="operator">);</span>
+<pre><code> <span class="keyword">int</span> <span class="variable">X509_cmp_time</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*asn1_time</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">*in_tm</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">X509_cmp_current_time</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*asn1_time</span><span class="operator">);</span>
+ <span class="variable">ASN1_TIME</span> <span class="variable">*X509_time_adj</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*asn1_time</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">offset_sec</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">*in_tm</span><span class="operator">);</span>
+ <span class="variable">ASN1_TIME</span> <span class="variable">*X509_time_adj_ex</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*asn1_time</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">offset_day</span><span class="operator">,</span> <span class="variable">long</span>
+                             <span class="variable">offset_sec</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">*in_tm</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>X509_cmp_time() compares the ASN1_TIME in <b>asn1_time</b> with the time in &lt;cmp_time&gt;.</p>
+<p>X509_cmp_time() compares the ASN1_TIME in <b>asn1_time</b> with the time in &lt;cmp_time&gt;. X509_cmp_current_time() compares the ASN1_TIME in <b>asn1_time</b> with the current time, expressed as time_t. <b>asn1_time</b> must satisfy the ASN1_TIME format mandated by RFC 5280, i.e., its format must be either YYMMDDHHMMSSZ or YYYYMMDDHHMMSSZ.</p>
 
-<p><b>asn1_time</b> must satisfy the ASN1_TIME format mandated by RFC 5280, i.e., its format must be either YYMMDDHHMMSSZ or YYYYMMDDHHMMSSZ.</p>
+<p>X509_time_adj_ex() sets the ASN1_TIME structure <b>asn1_time</b> to the time <b>offset_day</b> and <b>offset_sec</b> after <b>in_tm</b>.</p>
 
-<p>If <b>cmp_time</b> is NULL the current time is used.</p>
+<p>X509_time_adj() sets the ASN1_TIME structure <b>asn1_time</b> to the time <b>offset_sec</b> after <b>in_tm</b>. This method can only handle second offsets up to the capacity of long, so the newer X509_time_adj_ex() API should be preferred.</p>
+
+<p>In both methods, if <b>asn1_time</b> is NULL, a new ASN1_TIME structure is allocated and returned.</p>
+
+<p>In all methods, if <b>in_tm</b> is NULL, the current time, expressed as time_t, is used.</p>
 
 <h1 id="BUGS">BUGS</h1>
 
-<p>Unlike many standard comparison functions, X509_cmp_time returns 0 on error.</p>
+<p>Unlike many standard comparison functions, X509_cmp_time() and X509_cmp_current_time() return 0 on error.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>X509_cmp_time() returns -1 if <b>asn1_time</b> is earlier than, or equal to, <b>cmp_time</b>, and 1 otherwise. It returns 0 on error.</p>
+<p>X509_cmp_time() and X509_cmp_current_time() return -1 if <b>asn1_time</b> is earlier than, or equal to, <b>cmp_time</b> (resp. current time), and 1 otherwise. These methods return 0 on error.</p>
+
+<p>X509_time_adj() and X509_time_adj_ex() return a pointer to the updated ASN1_TIME structure, and NULL on error.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

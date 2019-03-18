@@ -39,13 +39,13 @@
 
 <p>SSL_free() also calls the free()ing procedures for indirectly affected items, if applicable: the buffering BIO, the read and write BIOs, cipher lists specially created for this <b>ssl</b>, the <b>SSL_SESSION</b>. Do not explicitly free these indirectly freed up items before or after calling SSL_free(), as trying to free things twice may lead to program failure.</p>
 
-<p>The ssl session has reference counts from two users: the SSL object, for which the reference count is removed by SSL_free() and the internal session cache. If the session is considered bad, because <a href="../man3/SSL_shutdown.html>SSL_shutdown(3)</a> was not called for the connection and <a href="../man3/SSL_set_shutdown.html>SSL_set_shutdown(3)</a> was not used to set the SSL_SENT_SHUTDOWN state, the session will also be removed from the session cache as required by RFC2246.</p>
+<p>The ssl session has reference counts from two users: the SSL object, for which the reference count is removed by SSL_free() and the internal session cache. If the session is considered bad, because <a href="../man3/SSL_shutdown.html">SSL_shutdown(3)</a> was not called for the connection and <a href="../man3/SSL_set_shutdown.html">SSL_set_shutdown(3)</a> was not used to set the SSL_SENT_SHUTDOWN state, the session will also be removed from the session cache as required by RFC2246.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>SSL_free() does not provide diagnostic information.</p>
 
-<p><a href="../man3/SSL_new.html>SSL_new(3)</a>, <a href="../man3/SSL_clear.html>SSL_clear(3)</a>, <a href="../man3/SSL_shutdown.html>SSL_shutdown(3)</a>, <a href="../man3/SSL_set_shutdown.html>SSL_set_shutdown(3)</a>, <a href="../man3/ssl.html>ssl(3)</a></p>
+<p><a href="../man3/SSL_new.html">SSL_new(3)</a>, <a href="../man3/SSL_clear.html">SSL_clear(3)</a>, <a href="../man3/SSL_shutdown.html">SSL_shutdown(3)</a>, <a href="../man3/SSL_set_shutdown.html">SSL_set_shutdown(3)</a>, <a href="../man7/ssl.html">ssl(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

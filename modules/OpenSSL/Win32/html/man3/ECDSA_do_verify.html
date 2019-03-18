@@ -24,7 +24,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>ECDSA_SIG_get0, ECDSA_SIG_set0, ECDSA_SIG_new, ECDSA_SIG_free, i2d_ECDSA_SIG, d2i_ECDSA_SIG, ECDSA_size, ECDSA_sign, ECDSA_do_sign, ECDSA_verify, ECDSA_do_verify, ECDSA_sign_setup, ECDSA_sign_ex, ECDSA_do_sign_ex - low level elliptic curve digital signature algorithm (ECDSA) functions</p>
+<p>ECDSA_SIG_get0, ECDSA_SIG_get0_r, ECDSA_SIG_get0_s, ECDSA_SIG_set0, ECDSA_SIG_new, ECDSA_SIG_free, i2d_ECDSA_SIG, d2i_ECDSA_SIG, ECDSA_size, ECDSA_sign, ECDSA_do_sign, ECDSA_verify, ECDSA_do_verify, ECDSA_sign_setup, ECDSA_sign_ex, ECDSA_do_sign_ex - low level elliptic curve digital signature algorithm (ECDSA) functions</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -33,6 +33,8 @@
  <span class="variable">ECDSA_SIG</span> <span class="variable">*ECDSA_SIG_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">ECDSA_SIG_free</span><span class="operator">(</span><span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">ECDSA_SIG_get0</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">pr</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">ps</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*ECDSA_SIG_get0_r</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*ECDSA_SIG_get0_s</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">ECDSA_SIG_set0</span><span class="operator">(</span><span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*s</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">i2d_ECDSA_SIG</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
  <span class="variable">ECDSA_SIG</span> <span class="variable">*d2i_ECDSA_SIG</span><span class="operator">(</span><span class="variable">ECDSA_SIG</span> <span class="operator">**</span><span class="variable">sig</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
@@ -59,7 +61,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>Note: these functions provide a low level interface to ECDSA. Most applications should use the higher level <b>EVP</b> interface such as <a href="../man3/EVP_DigestSignInit.html>EVP_DigestSignInit(3)</a> or <a href="../man3/EVP_DigestVerifyInit.html>EVP_DigestVerifyInit(3)</a> instead.</p>
+<p>Note: these functions provide a low level interface to ECDSA. Most applications should use the higher level <b>EVP</b> interface such as <a href="../man3/EVP_DigestSignInit.html">EVP_DigestSignInit(3)</a> or <a href="../man3/EVP_DigestVerifyInit.html">EVP_DigestVerifyInit(3)</a> instead.</p>
 
 <p><b>ECDSA_SIG</b> is an opaque structure consisting of two BIGNUMs for the <b>r</b> and <b>s</b> value of an ECDSA signature (see X9.62 or FIPS 186-2).</p>
 
@@ -67,7 +69,9 @@
 
 <p>ECDSA_SIG_free() frees the <b>ECDSA_SIG</b> structure <b>sig</b>.</p>
 
-<p>ECDSA_SIG_get0() returns internal pointers the <b>r</b> and <b>s</b> values contained in <b>sig</b>.</p>
+<p>ECDSA_SIG_get0() returns internal pointers the <b>r</b> and <b>s</b> values contained in <b>sig</b> and stores them in <b>*pr</b> and <b>*ps</b>, respectively. The pointer <b>pr</b> or <b>ps</b> can be NULL, in which case the corresponding value is not returned.</p>
+
+<p>The values <b>r</b>, <b>s</b> can also be retrieved separately by the corresponding function ECDSA_SIG_get0_r() and ECDSA_SIG_get0_s(), respectively.</p>
 
 <p>The <b>r</b> and <b>s</b> values can be set by calling ECDSA_SIG_set0() and passing the new values for <b>r</b> and <b>s</b> as parameters to the function. Calling this function transfers the memory management of the values to the ECDSA_SIG object, and therefore the values that have been passed in should not be freed directly after this function has been called.</p>
 
@@ -99,13 +103,15 @@
 
 <p>ECDSA_SIG_set0() returns 1 on success or 0 on failure.</p>
 
+<p>ECDSA_SIG_get0_r() and ECDSA_SIG_get0_s() return the corresponding value, or NULL if it is unset.</p>
+
 <p>ECDSA_size() returns the maximum length signature or 0 on error.</p>
 
 <p>ECDSA_sign(), ECDSA_sign_ex() and ECDSA_sign_setup() return 1 if successful or 0 on error.</p>
 
 <p>ECDSA_do_sign() and ECDSA_do_sign_ex() return a pointer to an allocated <b>ECDSA_SIG</b> structure or NULL on error.</p>
 
-<p>ECDSA_verify() and ECDSA_do_verify() return 1 for a valid signature, 0 for an invalid signature and -1 on error. The error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>ECDSA_verify() and ECDSA_do_verify() return 1 for a valid signature, 0 for an invalid signature and -1 on error. The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="EXAMPLES">EXAMPLES</h1>
 
@@ -113,36 +119,34 @@
 
 <p>First step: create an EC_KEY object (note: this part is <b>not</b> ECDSA specific)</p>
 
-<pre><code> <span class="keyword">int</span>        <span class="variable">ret</span><span class="operator">;</span>
+<pre><code> <span class="keyword">int</span> <span class="variable">ret</span><span class="operator">;</span>
  <span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">;</span>
- <span class="variable">EC_KEY</span>    <span class="variable">*eckey</span><span class="operator">;</span>
+ <span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">;</span>
+ 
  <span class="variable">eckey</span> <span class="operator">=</span> <span class="variable">EC_KEY_new_by_curve_name</span><span class="operator">(</span><span class="variable">NID_X9_62_prime256v1</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">eckey</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-    <span class="regex">/* error */</span>
- <span class="operator">}</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EC_KEY_generate_key</span><span class="operator">(</span><span class="variable">eckey</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-    <span class="regex">/* error */</span>
- <span class="operator">}</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">eckey</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
+     <span class="operator">/*</span> <span class="variable">error</span> <span class="operator">*/</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EC_KEY_generate_key</span><span class="operator">(</span><span class="variable">eckey</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span>
+     <span class="operator">/*</span> <span class="variable">error</span> <span class="operator">*/</span>
 </code></pre>
 
 <p>Second step: compute the ECDSA signature of a SHA-256 hash value using ECDSA_do_sign():</p>
 
 <pre><code> <span class="variable">sig</span> <span class="operator">=</span> <span class="variable">ECDSA_do_sign</span><span class="operator">(</span><span class="variable">digest</span><span class="operator">,</span> <span class="number">32</span><span class="operator">,</span> <span class="variable">eckey</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">sig</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-    <span class="regex">/* error */</span>
- <span class="operator">}</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">sig</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
+     <span class="operator">/*</span> <span class="variable">error</span> <span class="operator">*/</span>
 </code></pre>
 
 <p>or using ECDSA_sign():</p>
 
 <pre><code> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buffer</span><span class="operator">,</span> <span class="variable">*pp</span><span class="operator">;</span>
- <span class="keyword">int</span>            <span class="variable">buf_len</span><span class="operator">;</span>
+ <span class="keyword">int</span> <span class="variable">buf_len</span><span class="operator">;</span>
+ 
  <span class="variable">buf_len</span> <span class="operator">=</span> <span class="variable">ECDSA_size</span><span class="operator">(</span><span class="variable">eckey</span><span class="operator">);</span>
- <span class="variable">buffer</span>  <span class="operator">=</span> <span class="variable">OPENSSL_malloc</span><span class="operator">(</span><span class="variable">buf_len</span><span class="operator">);</span>
+ <span class="variable">buffer</span> <span class="operator">=</span> <span class="variable">OPENSSL_malloc</span><span class="operator">(</span><span class="variable">buf_len</span><span class="operator">);</span>
  <span class="variable">pp</span> <span class="operator">=</span> <span class="variable">buffer</span><span class="operator">;</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ECDSA_sign</span><span class="operator">(</span><span class="number">0</span><span class="operator">,</span> <span class="variable">dgst</span><span class="operator">,</span> <span class="variable">dgstlen</span><span class="operator">,</span> <span class="variable">pp</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">buf_len</span><span class="operator">,</span> <span class="variable">eckey</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-    <span class="regex">/* error */</span>
- <span class="operator">}</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ECDSA_sign</span><span class="operator">(</span><span class="number">0</span><span class="operator">,</span> <span class="variable">dgst</span><span class="operator">,</span> <span class="variable">dgstlen</span><span class="operator">,</span> <span class="variable">pp</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">buf_len</span><span class="operator">,</span> <span class="variable">eckey</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span>
+     <span class="operator">/*</span> <span class="variable">error</span> <span class="operator">*/</span>
 </code></pre>
 
 <p>Third step: verify the created ECDSA signature using ECDSA_do_verify():</p>
@@ -157,14 +161,12 @@
 
 <p>and finally evaluate the return value:</p>
 
-<pre><code> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ret</span> <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> <span class="operator">{</span>
-    <span class="regex">/* signature ok */</span>
- <span class="operator">}</span> <span class="keyword">else</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ret</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-    <span class="regex">/* incorrect signature */</span>
- <span class="operator">}</span> <span class="keyword">else</span> <span class="operator">{</span>
-    <span class="regex">/* error */</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> if (ret == 1)
+     /* signature ok */
+ else if (ret == 0)
+     /* incorrect signature */
+ else
+     /* error */</code></pre>
 
 <h1 id="CONFORMING-TO">CONFORMING TO</h1>
 
@@ -172,7 +174,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/DSA_new.html>DSA_new(3)</a>, <a href="../man3/EVP_DigestSignInit.html>EVP_DigestSignInit(3)</a>, <a href="../man3/EVP_DigestVerifyInit.html>EVP_DigestVerifyInit(3)</a></p>
+<p><a href="../man3/DSA_new.html">DSA_new(3)</a>, <a href="../man3/EVP_DigestSignInit.html">EVP_DigestSignInit(3)</a>, <a href="../man3/EVP_DigestVerifyInit.html">EVP_DigestVerifyInit(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

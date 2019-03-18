@@ -31,7 +31,8 @@
  
  <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span><span class="operator">)</span> <span class="variable">*CMS_get0_SignerInfos</span><span class="operator">(</span><span class="variable">CMS_ContentInfo</span> <span class="variable">*cms</span><span class="operator">);</span>
  
- <span class="keyword">int</span> <span class="variable">CMS_SignerInfo_get0_signer_id</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">,</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">keyid</span><span class="operator">,</span> <span class="variable">X509_NAME</span> <span class="operator">**</span><span class="variable">issuer</span><span class="operator">,</span> <span class="variable">ASN1_INTEGER</span> <span class="operator">**</span><span class="variable">sno</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">CMS_SignerInfo_get0_signer_id</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">,</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">keyid</span><span class="operator">,</span>
+                                   <span class="variable">X509_NAME</span> <span class="operator">**</span><span class="variable">issuer</span><span class="operator">,</span> <span class="variable">ASN1_INTEGER</span> <span class="operator">**</span><span class="variable">sno</span><span class="operator">);</span>
  <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*CMS_SignerInfo_get0_signature</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">CMS_SignerInfo_cert_cmp</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*cert</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">CMS_SignerInfo_set1_signer_cert</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*signer</span><span class="operator">);</span>
@@ -69,11 +70,11 @@
 
 <p>CMS_SignerInfo_set1_signer_cert() does not return a value.</p>
 
-<p>Any error can be obtained from <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a></p>
+<p>Any error can be obtained from <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a></p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/CMS_verify.html>CMS_verify(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/CMS_verify.html">CMS_verify(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

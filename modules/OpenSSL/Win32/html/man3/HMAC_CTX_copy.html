@@ -24,21 +24,21 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>HMAC, HMAC_CTX_new, HMAC_CTX_reset, HMAC_CTX_free, HMAC_Init, HMAC_Init_ex, HMAC_Update, HMAC_Final, HMAC_CTX_copy, HMAC_CTX_set_flags, HMAC_CTX_get_md - HMAC message authentication code</p>
+<p>HMAC, HMAC_CTX_new, HMAC_CTX_reset, HMAC_CTX_free, HMAC_Init, HMAC_Init_ex, HMAC_Update, HMAC_Final, HMAC_CTX_copy, HMAC_CTX_set_flags, HMAC_CTX_get_md, HMAC_size - HMAC message authentication code</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/hmac.h&gt;</span>
  
  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*HMAC</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*evp_md</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*key</span><span class="operator">,</span>
-               <span class="keyword">int</span> <span class="variable">key_len</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">,</span>
-               <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*md_len</span><span class="operator">);</span>
+                     <span class="keyword">int</span> <span class="variable">key_len</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">,</span>
+                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*md_len</span><span class="operator">);</span>
  
  <span class="variable">HMAC_CTX</span> <span class="variable">*HMAC_CTX_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">HMAC_CTX_reset</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">HMAC_Init_ex</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*key</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">key_len</span><span class="operator">,</span>
-                   <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">);</span>
+                  <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">HMAC_Update</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">HMAC_Final</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*len</span><span class="operator">);</span>
  
@@ -47,6 +47,8 @@
  <span class="keyword">int</span> <span class="variable">HMAC_CTX_copy</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*dctx</span><span class="operator">,</span> <span class="variable">HMAC_CTX</span> <span class="variable">*sctx</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">HMAC_CTX_set_flags</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*HMAC_CTX_get_md</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+ 
+ <span class="variable">size_t</span> <span class="variable">HMAC_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">HMAC_CTX</span> <span class="variable">*e</span><span class="operator">);</span>
 </code></pre>
 
 <p>Deprecated:</p>
@@ -75,11 +77,11 @@
 
 <p>The following functions may be used if the message is not completely stored in memory:</p>
 
-<p>HMAC_Init() initializes a <b>HMAC_CTX</b> structure to use the hash function <b>evp_md</b> and the key <b>key</b> which is <b>key_len</b> bytes long. It is deprecated and only included for backward compatibility with OpenSSL 0.9.6b.</p>
+<p>HMAC_Init_ex() initializes or reuses a <b>HMAC_CTX</b> structure to use the hash function <b>evp_md</b> and key <b>key</b>. If both are NULL, or if <b>key</b> is NULL and <b>evp_md</b> is the same as the previous call, then the existing key is reused. <b>ctx</b> must have been created with HMAC_CTX_new() before the first use of an <b>HMAC_CTX</b> in this function.</p>
 
-<p>HMAC_Init_ex() initializes or reuses a <b>HMAC_CTX</b> structure to use the hash function <b>evp_md</b> and key <b>key</b>. If both are NULL (or <b>evp_md</b> is the same as the previous digest used by <b>ctx</b> and <b>key</b> is NULL) the existing key is reused. <b>ctx</b> must have been created with HMAC_CTX_new() before the first use of an <b>HMAC_CTX</b> in this function. <b>N.B. HMAC_Init() had this undocumented behaviour in previous versions of OpenSSL - failure to switch to HMAC_Init_ex() in programs that expect it will cause them to stop working</b>.</p>
+<p>If HMAC_Init_ex() is called with <b>key</b> NULL and <b>evp_md</b> is not the same as the previous digest used by <b>ctx</b> then an error is returned because reuse of an existing key with a different digest is not supported.</p>
 
-<p><b>NOTE:</b> If HMAC_Init_ex() is called with <b>key</b> NULL and <b>evp_md</b> is not the same as the previous digest used by <b>ctx</b> then an error is returned because reuse of an existing key with a different digest is not supported.</p>
+<p>HMAC_Init() initializes a <b>HMAC_CTX</b> structure to use the hash function <b>evp_md</b> and the key <b>key</b> which is <b>key_len</b> bytes long.</p>
 
 <p>HMAC_Update() can be called repeatedly with chunks of the message to be authenticated (<b>len</b> bytes at <b>data</b>).</p>
 
@@ -87,9 +89,11 @@
 
 <p>HMAC_CTX_copy() copies all of the internal state from <b>sctx</b> into <b>dctx</b>.</p>
 
-<p>HMAC_CTX_set_flags() applies the specified flags to the internal EVP_MD_CTXs. These flags have the same meaning as for <a href="../man3/EVP_MD_CTX_set_flags.html>EVP_MD_CTX_set_flags(3)</a>.</p>
+<p>HMAC_CTX_set_flags() applies the specified flags to the internal EVP_MD_CTXs. These flags have the same meaning as for <a href="../man3/EVP_MD_CTX_set_flags.html">EVP_MD_CTX_set_flags(3)</a>.</p>
 
 <p>HMAC_CTX_get_md() returns the EVP_MD that has previously been set for the supplied HMAC_CTX.</p>
+
+<p>HMAC_size() returns the length in bytes of the underlying hash function output.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -101,27 +105,29 @@
 
 <p>HMAC_CTX_get_md() return the EVP_MD previously set for the supplied HMAC_CTX or NULL if no EVP_MD has been set.</p>
 
+<p>HMAC_size() returns the length in bytes of the underlying hash function output or zero on error.</p>
+
 <h1 id="CONFORMING-TO">CONFORMING TO</h1>
 
 <p>RFC 2104</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/sha.html>sha(3)</a>, <a href="../man3/evp.html>evp(3)</a></p>
+<p><a href="../man3/SHA1.html">SHA1(3)</a>, <a href="../man7/evp.html">evp(7)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>HMAC_CTX_init() was replaced with HMAC_CTX_reset() in OpenSSL versions 1.1.0.</p>
+<p>HMAC_CTX_init() was replaced with HMAC_CTX_reset() in OpenSSL 1.1.0.</p>
 
-<p>HMAC_CTX_cleanup() existed in OpenSSL versions before 1.1.0.</p>
+<p>HMAC_CTX_cleanup() existed in OpenSSL before version 1.1.0.</p>
 
-<p>HMAC_CTX_new(), HMAC_CTX_free() and HMAC_CTX_get_md() are new in OpenSSL version 1.1.0.</p>
+<p>HMAC_CTX_new(), HMAC_CTX_free() and HMAC_CTX_get_md() are new in OpenSSL 1.1.0.</p>
 
-<p>HMAC_Init_ex(), HMAC_Update() and HMAC_Final() did not return values in versions of OpenSSL before 1.0.0.</p>
+<p>HMAC_Init_ex(), HMAC_Update() and HMAC_Final() did not return values in OpenSSL before version 1.0.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

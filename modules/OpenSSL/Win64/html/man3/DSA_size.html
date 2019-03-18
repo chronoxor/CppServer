@@ -15,14 +15,14 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
-  <li><a href="#RETURN-VALUE">RETURN VALUE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
 <h1 id="NAME">NAME</h1>
 
-<p>DSA_size, DSA_bits - get DSA signature size or key bits</p>
+<p>DSA_size, DSA_bits, DSA_security_bits - get DSA signature size, key bits or security bits</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -30,6 +30,7 @@
  
  <span class="keyword">int</span> <span class="variable">DSA_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">DSA_bits</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">DSA_security_bits</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -40,19 +41,21 @@
 
 <p>DSA_bits() returns the number of bits in key <b>dsa</b>: this is the number of bits in the <b>p</b> parameter.</p>
 
-<h1 id="RETURN-VALUE">RETURN VALUE</h1>
+<p>DSA_security_bits() returns the number of security bits of the given <b>dsa</b> key. See <a href="../man3/BN_security_bits.html">BN_security_bits(3)</a>.</p>
 
-<p>DSA_size() returns the size in bytes.</p>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>DSA_size() returns the signature size in bytes.</p>
 
 <p>DSA_bits() returns the number of bits in the key.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/dsa.html>dsa(3)</a>, <a href="../man3/DSA_sign.html>DSA_sign(3)</a></p>
+<p><a href="../man3/DSA_new.html">DSA_new(3)</a>, <a href="../man3/DSA_sign.html">DSA_sign(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

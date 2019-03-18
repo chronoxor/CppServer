@@ -39,7 +39,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>SSL_load_client_CA_file() reads a file of PEM formatted certificates and extracts the X509_NAMES of the certificates found. While the name suggests the specific usage as support function for <a href="../man3/SSL_CTX_set_client_CA_list.html>SSL_CTX_set_client_CA_list(3)</a>, it is not limited to CA certificates.</p>
+<p>SSL_load_client_CA_file() reads a file of PEM formatted certificates and extracts the X509_NAMES of the certificates found. While the name suggests the specific usage as support function for <a href="../man3/SSL_CTX_set_client_CA_list.html">SSL_CTX_set_client_CA_list(3)</a>, it is not limited to CA certificates.</p>
 
 <h1 id="EXAMPLES">EXAMPLES</h1>
 
@@ -51,9 +51,9 @@
  <span class="operator">...</span>
  <span class="variable">cert_names</span> <span class="operator">=</span> <span class="variable">SSL_load_client_CA_file</span><span class="operator">(</span><span class="string">"/path/to/CAfile.pem"</span><span class="operator">);</span>
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">cert_names</span> <span class="operator">!=</span> <span class="variable">NULL</span><span class="operator">)</span>
-   <span class="variable">SSL_CTX_set_client_CA_list</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">cert_names</span><span class="operator">);</span>
+     <span class="variable">SSL_CTX_set_client_CA_list</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">cert_names</span><span class="operator">);</span>
  <span class="keyword">else</span>
-   <span class="variable">error_handling</span><span class="operator">();</span>
+     <span class="operator">/*</span> <span class="variable">error</span> <span class="operator">*/</span>
  <span class="operator">...</span>
 </code></pre>
 
@@ -79,7 +79,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_CTX_set_client_CA_list.html>SSL_CTX_set_client_CA_list(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_CTX_set_client_CA_list.html">SSL_CTX_set_client_CA_list(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

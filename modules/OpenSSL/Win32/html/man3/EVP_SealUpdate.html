@@ -33,9 +33,8 @@
                   <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">ek</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*ekl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">,</span>
                   <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">pubk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">npubk</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_SealUpdate</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-         <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">inl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_SealFinal</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-         <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
+                    <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">inl</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EVP_SealFinal</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -48,7 +47,7 @@
 
 <p>If the cipher does not require an IV then the <b>iv</b> parameter is ignored and can be <b>NULL</b>.</p>
 
-<p>EVP_SealUpdate() and EVP_SealFinal() have exactly the same properties as the EVP_EncryptUpdate() and EVP_EncryptFinal() routines, as documented on the <a href="../man3/EVP_EncryptInit.html>EVP_EncryptInit(3)</a> manual page.</p>
+<p>EVP_SealUpdate() and EVP_SealFinal() have exactly the same properties as the EVP_EncryptUpdate() and EVP_EncryptFinal() routines, as documented on the <a href="../man3/EVP_EncryptInit.html">EVP_EncryptInit(3)</a> manual page.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -68,7 +67,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/evp.html>evp(3)</a>, <a href="../man3/rand.html>rand(3)</a>, <a href="../man3/EVP_EncryptInit.html>EVP_EncryptInit(3)</a>, <a href="../man3/EVP_OpenInit.html>EVP_OpenInit(3)</a></p>
+<p><a href="../man7/evp.html">evp(7)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/EVP_EncryptInit.html">EVP_EncryptInit(3)</a>, <a href="../man3/EVP_OpenInit.html">EVP_OpenInit(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

@@ -32,7 +32,8 @@
  
  <span class="keyword">int</span> <span class="variable">EVP_VerifyInit_ex</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*type</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_VerifyUpdate</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">cnt</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_VerifyFinal</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EVP_VerifyFinal</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span>
+                     <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">EVP_VerifyInit</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*type</span><span class="operator">);</span>
 </code></pre>
@@ -55,7 +56,7 @@
 
 <p>EVP_VerifyFinal() returns 1 for a correct signature, 0 for failure and -1 if some other error occurred.</p>
 
-<p>The error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -63,7 +64,7 @@
 
 <p>The call to EVP_VerifyFinal() internally finalizes a copy of the digest context. This means that calls to EVP_VerifyUpdate() and EVP_VerifyFinal() can be called later to digest and verify additional data.</p>
 
-<p>Since only a copy of the digest context is ever finalized the context must be cleaned up after use by calling EVP_MD_CTX_cleanup() or a memory leak will occur.</p>
+<p>Since only a copy of the digest context is ever finalized the context must be cleaned up after use by calling EVP_MD_CTX_free() or a memory leak will occur.</p>
 
 <h1 id="BUGS">BUGS</h1>
 
@@ -77,7 +78,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man7/evp.html>evp(7)</a>, <a href="../man3/EVP_SignInit.html>EVP_SignInit(3)</a>, <a href="../man3/EVP_DigestInit.html>EVP_DigestInit(3)</a>, <a href="../man7/evp.html>evp(7)</a>, <a href="../man3/HMAC.html>HMAC(3)</a>, <a href="../man3/MD2.html>MD2(3)</a>, <a href="../man3/MD5.html>MD5(3)</a>, <a href="../man3/MDC2.html>MDC2(3)</a>, <a href="../man3/RIPEMD160.html>RIPEMD160(3)</a>, <a href="../man3/SHA1.html>SHA1(3)</a>, <a href="../man1/dgst.html>dgst(1)</a></p>
+<p><a href="../man7/evp.html">evp(7)</a>, <a href="../man3/EVP_SignInit.html">EVP_SignInit(3)</a>, <a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a>, <a href="../man7/evp.html">evp(7)</a>, <a href="../man3/HMAC.html">HMAC(3)</a>, <a href="../man3/MD2.html">MD2(3)</a>, <a href="../man3/MD5.html">MD5(3)</a>, <a href="../man3/MDC2.html">MDC2(3)</a>, <a href="../man3/RIPEMD160.html">RIPEMD160(3)</a>, <a href="../man3/SHA1.html">SHA1(3)</a>, <a href="../man1/dgst.html">dgst(1)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

@@ -55,7 +55,7 @@
 
 <p>BN_bin2bn() converts the positive integer in big-endian form of length <b>len</b> at <b>s</b> into a <b>BIGNUM</b> and places it in <b>ret</b>. If <b>ret</b> is NULL, a new <b>BIGNUM</b> is created.</p>
 
-<p>BN_bn2lebinpad() and BN_bin2lbn() are identical to BN_bn2binpad() and BN_bin2bn() except the buffer is in little-endian format.</p>
+<p>BN_bn2lebinpad() and BN_lebin2bn() are identical to BN_bn2binpad() and BN_bin2bn() except the buffer is in little-endian format.</p>
 
 <p>BN_bn2hex() and BN_bn2dec() return printable strings containing the hexadecimal and decimal encoding of <b>a</b> respectively. For negative numbers, the string is prefaced with a leading &#39;-&#39;. The string must be freed later using OPENSSL_free().</p>
 
@@ -81,11 +81,11 @@
 
 <p>BN_bn2mpi() returns the length of the representation. BN_mpi2bn() returns the <b>BIGNUM</b>, and NULL on error.</p>
 
-<p>The error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/BN_zero.html>BN_zero(3)</a>, <a href="../man3/ASN1_INTEGER_to_BN.html>ASN1_INTEGER_to_BN(3)</a>, <a href="../man3/BN_num_bytes.html>BN_num_bytes(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/BN_zero.html">BN_zero(3)</a>, <a href="../man3/ASN1_INTEGER_to_BN.html">ASN1_INTEGER_to_BN(3)</a>, <a href="../man3/BN_num_bytes.html">BN_num_bytes(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

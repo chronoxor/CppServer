@@ -28,7 +28,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>rsautl</b> [<b>-help</b>] [<b>-in file</b>] [<b>-out file</b>] [<b>-inkey file</b>] [<b>-keyform PEM|DER|ENGINE</b>] [<b>-pubin</b>] [<b>-certin</b>] [<b>-sign</b>] [<b>-verify</b>] [<b>-encrypt</b>] [<b>-decrypt</b>] [<b>-pkcs</b>] [<b>-ssl</b>] [<b>-raw</b>] [<b>-hexdump</b>] [<b>-asn1parse</b>]</p>
+<p><b>openssl</b> <b>rsautl</b> [<b>-help</b>] [<b>-in file</b>] [<b>-out file</b>] [<b>-inkey file</b>] [<b>-keyform PEM|DER|ENGINE</b>] [<b>-pubin</b>] [<b>-certin</b>] [<b>-sign</b>] [<b>-verify</b>] [<b>-encrypt</b>] [<b>-decrypt</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-pkcs</b>] [<b>-ssl</b>] [<b>-raw</b>] [<b>-hexdump</b>] [<b>-asn1parse</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -53,73 +53,85 @@
 <dt id="out-filename"><b>-out filename</b></dt>
 <dd>
 
-<p>specifies the output filename to write to or standard output by default.</p>
+<p>Specifies the output filename to write to or standard output by default.</p>
 
 </dd>
 <dt id="inkey-file"><b>-inkey file</b></dt>
 <dd>
 
-<p>the input key file, by default it should be an RSA private key.</p>
+<p>The input key file, by default it should be an RSA private key.</p>
 
 </dd>
 <dt id="keyform-PEM-DER-ENGINE"><b>-keyform PEM|DER|ENGINE</b></dt>
 <dd>
 
-<p>the key format PEM, DER or ENGINE.</p>
+<p>The key format PEM, DER or ENGINE.</p>
 
 </dd>
 <dt id="pubin"><b>-pubin</b></dt>
 <dd>
 
-<p>the input file is an RSA public key.</p>
+<p>The input file is an RSA public key.</p>
 
 </dd>
 <dt id="certin"><b>-certin</b></dt>
 <dd>
 
-<p>the input is a certificate containing an RSA public key.</p>
+<p>The input is a certificate containing an RSA public key.</p>
 
 </dd>
 <dt id="sign"><b>-sign</b></dt>
 <dd>
 
-<p>sign the input data and output the signed result. This requires an RSA private key.</p>
+<p>Sign the input data and output the signed result. This requires an RSA private key.</p>
 
 </dd>
 <dt id="verify"><b>-verify</b></dt>
 <dd>
 
-<p>verify the input data and output the recovered data.</p>
+<p>Verify the input data and output the recovered data.</p>
 
 </dd>
 <dt id="encrypt"><b>-encrypt</b></dt>
 <dd>
 
-<p>encrypt the input data using an RSA public key.</p>
+<p>Encrypt the input data using an RSA public key.</p>
 
 </dd>
 <dt id="decrypt"><b>-decrypt</b></dt>
 <dd>
 
-<p>decrypt the input data using an RSA private key.</p>
+<p>Decrypt the input data using an RSA private key.</p>
+
+</dd>
+<dt id="rand-file"><b>-rand file...</b></dt>
+<dd>
+
+<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+
+</dd>
+<dt id="writerand-file">[<b>-writerand file</b>]</dt>
+<dd>
+
+<p>Writes random data to the specified <i>file</i> upon exit. This can be used with a subsequent <b>-rand</b> flag.</p>
 
 </dd>
 <dt id="pkcs--oaep--ssl--raw"><b>-pkcs, -oaep, -ssl, -raw</b></dt>
 <dd>
 
-<p>the padding to use: PKCS#1 v1.5 (the default), PKCS#1 OAEP, special padding used in SSL v2 backwards compatible handshakes, or no padding, respectively. For signatures, only <b>-pkcs</b> and <b>-raw</b> can be used.</p>
+<p>The padding to use: PKCS#1 v1.5 (the default), PKCS#1 OAEP, special padding used in SSL v2 backwards compatible handshakes, or no padding, respectively. For signatures, only <b>-pkcs</b> and <b>-raw</b> can be used.</p>
 
 </dd>
 <dt id="hexdump"><b>-hexdump</b></dt>
 <dd>
 
-<p>hex dump the output data.</p>
+<p>Hex dump the output data.</p>
 
 </dd>
 <dt id="asn1parse"><b>-asn1parse</b></dt>
 <dd>
 
-<p>asn1parse the output data, this is useful when combined with the <b>-verify</b> option.</p>
+<p>Parse the ASN.1 output data, this is useful when combined with the <b>-verify</b> option.</p>
 
 </dd>
 </dl>
@@ -208,11 +220,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/dgst.html>dgst(1)</a>, <a href="../man1/rsa.html>rsa(1)</a>, <a href="../man1/genrsa.html>genrsa(1)</a></p>
+<p><a href="../man1/dgst.html">dgst(1)</a>, <a href="../man1/rsa.html">rsa(1)</a>, <a href="../man1/genrsa.html">genrsa(1)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -28,11 +28,11 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
  
- <span class="keyword">int</span> <span class="variable">RSA_private_encrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">RSA_private_encrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
+                         <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
  
- <span class="keyword">int</span> <span class="variable">RSA_public_decrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">RSA_public_decrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
+                        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -48,7 +48,7 @@
 <dt id="RSA_PKCS1_PADDING">RSA_PKCS1_PADDING</dt>
 <dd>
 
-<p>PKCS #1 v1.5 padding. This function does not handle the <b>algorithmIdentifier</b> specified in PKCS #1. When generating or verifying PKCS #1 signatures, <a href="../man3/RSA_sign.html>RSA_sign(3)</a> and <a href="../man3/RSA_verify.html>RSA_verify(3)</a> should be used.</p>
+<p>PKCS #1 v1.5 padding. This function does not handle the <b>algorithmIdentifier</b> specified in PKCS #1. When generating or verifying PKCS #1 signatures, <a href="../man3/RSA_sign.html">RSA_sign(3)</a> and <a href="../man3/RSA_verify.html">RSA_verify(3)</a> should be used.</p>
 
 </dd>
 <dt id="RSA_NO_PADDING">RSA_NO_PADDING</dt>
@@ -65,11 +65,11 @@
 
 <p>RSA_private_encrypt() returns the size of the signature (i.e., RSA_size(rsa)). RSA_public_decrypt() returns the size of the recovered message digest.</p>
 
-<p>On error, -1 is returned; the error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>On error, -1 is returned; the error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/RSA_sign.html>RSA_sign(3)</a>, <a href="../man3/RSA_verify.html>RSA_verify(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RSA_sign.html">RSA_sign(3)</a>, <a href="../man3/RSA_verify.html">RSA_verify(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

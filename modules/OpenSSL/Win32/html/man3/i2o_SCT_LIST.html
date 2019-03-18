@@ -29,7 +29,8 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
  
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="variable">*o2i_SCT_LIST</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
+ <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="variable">*o2i_SCT_LIST</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span>
+                             <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">i2o_SCT_LIST</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
  <span class="variable">SCT</span> <span class="variable">*o2i_SCT</span><span class="operator">(</span><span class="variable">SCT</span> <span class="operator">**</span><span class="variable">psct</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">in</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">i2o_SCT</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">);</span>
@@ -45,7 +46,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ct.html>ct(3)</a>, <a href="../man3/d2i_SCT_LIST.html>d2i_SCT_LIST(3)</a>, <a href="../man3/i2d_SCT_LIST.html>i2d_SCT_LIST(3)</a></p>
+<p><a href="../man7/ct.html">ct(7)</a>, <a href="../man3/d2i_SCT_LIST.html">d2i_SCT_LIST(3)</a>, <a href="../man3/i2d_SCT_LIST.html">i2d_SCT_LIST(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

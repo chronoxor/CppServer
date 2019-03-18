@@ -16,7 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#NOTES">NOTES</a></li>
-  <li><a href="#RETURN-VALUE">RETURN VALUE</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -28,17 +28,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code>   <span class="comment">#include &lt;openssl/x509v3.h&gt;</span>
-   
-   <span class="variable">long</span> <span class="variable">X509_get_pathlen</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
-   <span class="variable">uint32_t</span> <span class="variable">X509_get_extension_flags</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
-   <span class="variable">uint32_t</span> <span class="variable">X509_get_key_usage</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
-   <span class="variable">uint32_t</span> <span class="variable">X509_get_extended_key_usage</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
-   <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*X509_get0_subject_key_id</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
-   <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*X509_get0_authority_key_id</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
-   <span class="variable">void</span> <span class="variable">X509_set_proxy_flag</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
-   <span class="variable">void</span> <span class="variable">X509_set_proxy_pathlen</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">l</span><span class="operator">);</span>
-   <span class="variable">long</span> <span class="variable">X509_get_proxy_pathlen</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+<pre><code> <span class="comment">#include &lt;openssl/x509v3.h&gt;</span>
+ 
+ <span class="variable">long</span> <span class="variable">X509_get_pathlen</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">uint32_t</span> <span class="variable">X509_get_extension_flags</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">uint32_t</span> <span class="variable">X509_get_key_usage</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">uint32_t</span> <span class="variable">X509_get_extended_key_usage</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*X509_get0_subject_key_id</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*X509_get0_authority_key_id</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">X509_set_proxy_flag</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">X509_set_proxy_pathlen</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">l</span><span class="operator">);</span>
+ <span class="variable">long</span> <span class="variable">X509_get_proxy_pathlen</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -141,7 +141,7 @@
 
 <p>If X509_get0_subject_key_id() returns <b>NULL</b> then the extension may be absent or malformed. Applications can determine the precise reason using X509_get_ext_d2i().</p>
 
-<h1 id="RETURN-VALUE">RETURN VALUE</h1>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>X509_get_pathlen() returns the path length value, or -1 if the extension is not present.</p>
 
@@ -153,7 +153,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/X509_check_purpose.html>X509_check_purpose(3)</a></p>
+<p><a href="../man3/X509_check_purpose.html">X509_check_purpose(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

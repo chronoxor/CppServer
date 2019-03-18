@@ -41,13 +41,15 @@
 
 <p>A <b>BN_CTX</b> is a structure that holds <b>BIGNUM</b> temporary variables used by library functions. Since dynamic memory allocation to create <b>BIGNUM</b>s is rather expensive when used in conjunction with repeated subroutine calls, the <b>BN_CTX</b> structure is used.</p>
 
-<p>BN_CTX_new() allocates and initializes a <b>BN_CTX</b> structure. BN_CTX_secure_new() allocates and initializes a <b>BN_CTX</b> structure but uses the secure heap (see <a href="../man3/CRYPTO_secure_malloc.html>CRYPTO_secure_malloc(3)</a>) to hold the <b>BIGNUM</b>s.</p>
+<p>BN_CTX_new() allocates and initializes a <b>BN_CTX</b> structure. BN_CTX_secure_new() allocates and initializes a <b>BN_CTX</b> structure but uses the secure heap (see <a href="../man3/CRYPTO_secure_malloc.html">CRYPTO_secure_malloc(3)</a>) to hold the <b>BIGNUM</b>s.</p>
 
-<p>BN_CTX_free() frees the components of the <b>BN_CTX</b>, and if it was created by BN_CTX_new(), also the structure itself. If <a href="../man3/BN_CTX_start.html>BN_CTX_start(3)</a> has been used on the <b>BN_CTX</b>, <a href="../man3/BN_CTX_end.html>BN_CTX_end(3)</a> must be called before the <b>BN_CTX</b> may be freed by BN_CTX_free(). If <b>c</b> is NULL, nothing is done.</p>
+<p>BN_CTX_free() frees the components of the <b>BN_CTX</b> and the structure itself. Since BN_CTX_start() is required in order to obtain <b>BIGNUM</b>s from the <b>BN_CTX</b>, in most cases BN_CTX_end() must be called before the <b>BN_CTX</b> may be freed by BN_CTX_free(). If <b>c</b> is NULL, nothing is done.</p>
+
+<p>A given <b>BN_CTX</b> must only be used by a single thread of execution. No locking is performed, and the internal pool allocator will not properly handle multiple threads of execution.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>BN_CTX_new() and BN_CTX_secure_new() return a pointer to the <b>BN_CTX</b>. If the allocation fails, they return <b>NULL</b> and sets an error code that can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+<p>BN_CTX_new() and BN_CTX_secure_new() return a pointer to the <b>BN_CTX</b>. If the allocation fails, they return <b>NULL</b> and sets an error code that can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <p>BN_CTX_free() has no return values.</p>
 
@@ -60,14 +62,15 @@
 
 <pre><code> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
  <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">BN_CTX_new</span><span class="operator">();</span>
- <span class="keyword">if</span><span class="operator">(!</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">/*</span> <span class="variable">Handle</span> <span class="variable">error</span> <span class="operator">*/</span>
+ <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ctx</span><span class="operator">)</span>
+     <span class="operator">/*</span> <span class="variable">error</span> <span class="operator">*/</span>
  <span class="operator">...</span>
  <span class="variable">BN_CTX_free</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/BN_add.html>BN_add(3)</a>, <a href="../man3/BN_CTX_start.html>BN_CTX_start(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/BN_add.html">BN_add(3)</a>, <a href="../man3/BN_CTX_start.html">BN_CTX_start(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

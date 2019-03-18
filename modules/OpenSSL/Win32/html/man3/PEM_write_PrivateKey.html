@@ -20,7 +20,7 @@
   <li><a href="#NOTES">NOTES</a></li>
   <li><a href="#PEM-ENCRYPTION-FORMAT">PEM ENCRYPTION FORMAT</a></li>
   <li><a href="#BUGS">BUGS</a></li>
-  <li><a href="#RETURN-CODES">RETURN CODES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -162,11 +162,11 @@
 
 <p>For more details about the meaning of arguments see the <b>PEM FUNCTION ARGUMENTS</b> section.</p>
 
-<p>Each operation has four functions associated with it. For clarity the term &quot;<b>foobar</b> functions&quot; will be used to collectively refer to the PEM_read_bio_foobar(), PEM_read_foobar(), PEM_write_bio_foobar() and PEM_write_foobar() functions.</p>
+<p>Each operation has four functions associated with it. For brevity the term &quot;<b>TYPE</b> functions&quot; will be used below to collectively refer to the PEM_read_bio_TYPE(), PEM_read_TYPE(), PEM_write_bio_TYPE(), and PEM_write_TYPE() functions.</p>
 
 <p>The <b>PrivateKey</b> functions read or write a private key in PEM format using an EVP_PKEY structure. The write routines use PKCS#8 private key format and are equivalent to PEM_write_bio_PKCS8PrivateKey().The read functions transparently handle traditional and PKCS#8 format encrypted and unencrypted keys.</p>
 
-<p>PEM_write_bio_PrivateKey_traditional() writes out a private key in legacy &quot;traditional&quot; format.</p>
+<p>PEM_write_bio_PrivateKey_traditional() writes out a private key in the &quot;traditional&quot; format with a simple private key marker and should only be used for compatibility with legacy programs.</p>
 
 <p>PEM_write_bio_PKCS8PrivateKey() and PEM_write_PKCS8PrivateKey() write a private key in an EVP_PKEY structure in PKCS#8 EncryptedPrivateKeyInfo format using PKCS#5 v2.0 password based encryption algorithms. The <b>cipher</b> argument specifies the encryption algorithm to use: unlike some other PEM routines the encryption is applied at the PKCS#8 level and not in the PEM headers. If <b>cipher</b> is NULL then no encryption is used and a PKCS#8 PrivateKeyInfo structure is used instead.</p>
 
@@ -230,47 +230,41 @@
 <p>Read a certificate in PEM format from a BIO:</p>
 
 <pre><code> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">;</span>
+ 
  <span class="operator">x</span> <span class="operator">=</span> <span class="variable">PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(x</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="regex">/* Error */</span>
- <span class="operator">}</span>
+ <span class="keyword">if</span> <span class="operator">(x</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
 </code></pre>
 
 <p>Alternative method:</p>
 
 <pre><code> <span class="variable">X509</span> <span class="variable">*x</span> <span class="operator">=</span> <span class="variable">NULL</span><span class="operator">;</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="operator">&amp;x,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">))</span> <span class="operator">{</span>
-     <span class="regex">/* Error */</span>
- <span class="operator">}</span>
+ 
+ <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="operator">&amp;x,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">))</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
 </code></pre>
 
 <p>Write a certificate to a BIO:</p>
 
-<pre><code> <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">PEM_write_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="operator">x))</span> <span class="operator">{</span>
-     <span class="regex">/* Error */</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> if (!PEM_write_bio_X509(bp, x))
+     /* Error */</code></pre>
 
 <p>Write a private key (using traditional format) to a BIO using triple DES encryption, the pass phrase is prompted for:</p>
 
-<pre><code> <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">PEM_write_bio_PrivateKey</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">,</span> <span class="variable">EVP_des_ede3_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">))</span> <span class="operator">{</span>
-     <span class="regex">/* Error */</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> if (!PEM_write_bio_PrivateKey(bp, key, EVP_des_ede3_cbc(), NULL, 0, 0, NULL))
+     /* Error */</code></pre>
 
 <p>Write a private key (using PKCS#8 format) to a BIO using triple DES encryption, using the pass phrase &quot;hello&quot;:</p>
 
-<pre><code> <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">PEM_write_bio_PKCS8PrivateKey</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">,</span> <span class="variable">EVP_des_ede3_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="string">"hello"</span><span class="operator">))</span> <span class="operator">{</span>
-     <span class="regex">/* Error */</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> if (!PEM_write_bio_PKCS8PrivateKey(bp, key, EVP_des_ede3_cbc(),
+                                    NULL, 0, 0, &quot;hello&quot;))
+     /* Error */</code></pre>
 
 <p>Read a private key from a BIO using a pass phrase callback:</p>
 
 <pre><code> <span class="variable">key</span> <span class="operator">=</span> <span class="variable">PEM_read_bio_PrivateKey</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">pass_cb</span><span class="operator">,</span> <span class="string">"My Private Key"</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="regex">/* Error */</span>
- <span class="operator">}</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
 </code></pre>
 
 <p>Skeleton pass phrase callback:</p>
@@ -304,10 +298,13 @@
 <p>A frequent cause of problems is attempting to use the PEM routines like this:</p>
 
 <pre><code> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">;</span>
+ 
  <span class="variable">PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="operator">&amp;x,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
 </code></pre>
 
 <p>this is a bug because an attempt will be made to reuse the data at <b>x</b> which is an uninitialised pointer.</p>
+
+<p>These functions make no assumption regarding the pass phrase received from the password callback. It will simply be treated as a byte sequence.</p>
 
 <h1 id="PEM-ENCRYPTION-FORMAT">PEM ENCRYPTION FORMAT</h1>
 
@@ -340,9 +337,8 @@
  
  <span class="variable">memcpy</span><span class="operator">(</span><span class="variable">iv</span><span class="operator">,</span> <span class="variable">HexToBin</span><span class="operator">(</span><span class="string">"3F17F5316E2BAC89"</span><span class="operator">),</span> <span class="variable">niv</span><span class="operator">);</span>
  <span class="variable">rc</span> <span class="operator">=</span> <span class="variable">EVP_BytesToKey</span><span class="operator">(</span><span class="variable">cipher</span><span class="operator">,</span> <span class="variable">md</span><span class="operator">,</span> <span class="variable">iv</span> <span class="operator">/</span><span class="variable">*salt</span><span class="operator">*/,</span> <span class="variable">pword</span><span class="operator">,</span> <span class="variable">plen</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">,</span> <span class="variable">NULL</span> <span class="operator">/</span><span class="variable">*iv</span><span class="operator">*/);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">rc</span> <span class="operator">!=</span> <span class="variable">nkey</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="regex">/* Error */</span>
- <span class="operator">}</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">rc</span> <span class="operator">!=</span> <span class="variable">nkey</span><span class="operator">)</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  
  <span class="regex">/* On success, use key and iv to initialize the cipher */</span>
 </code></pre>
@@ -362,7 +358,7 @@
 
 <p>is guaranteed to work.</p>
 
-<h1 id="RETURN-CODES">RETURN CODES</h1>
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>The read routines return either a pointer to the structure read or NULL if an error occurred.</p>
 
@@ -370,11 +366,11 @@
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>The old Netscape certificate sequences were no longer documented in OpenSSL 1.1; applications should use the PKCS7 standard instead as they will be formally deprecated in a future releases.</p>
+<p>The old Netscape certificate sequences were no longer documented in OpenSSL 1.1.0; applications should use the PKCS7 standard instead as they will be formally deprecated in a future releases.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/EVP_EncryptInit.html>EVP_EncryptInit(3)</a>, <a href="../man3/EVP_BytesToKey.html>EVP_BytesToKey(3)</a></p>
+<p><a href="../man3/EVP_EncryptInit.html">EVP_EncryptInit(3)</a>, <a href="../man3/EVP_BytesToKey.html">EVP_BytesToKey(3)</a>, <a href="../man7/passphrase-encoding.html">passphrase-encoding(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

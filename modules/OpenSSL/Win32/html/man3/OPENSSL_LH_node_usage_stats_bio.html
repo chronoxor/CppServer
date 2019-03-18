@@ -16,6 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#NOTE">NOTE</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -39,7 +40,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The <b>LHASH</b> structure records statistics about most aspects of accessing the hash table. This is mostly a legacy of Eric Young writing this library for the reasons of implementing what looked like a nice algorithm rather than for a particular software product.</p>
+<p>The <b>LHASH</b> structure records statistics about most aspects of accessing the hash table.</p>
 
 <p>OPENSSL_LH_stats() prints out statistics on the size of the hash table, how many entries are in it, and the number and result of calls to the routines in this library.</p>
 
@@ -53,13 +54,17 @@
 
 <p>These functions do not return values.</p>
 
+<h1 id="NOTE">NOTE</h1>
+
+<p>These calls should be made under a read lock. Refer to <a href="../man3/OPENSSL_LH_COMPFUNC.html">&quot;NOTE&quot; in OPENSSL_LH_COMPFUNC(3)</a> for more details about the locks required when using the LHASH data structure.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/bio.html>bio(3)</a>, <a href="../man3/lhash.html>lhash(3)</a></p>
+<p><a href="../man7/bio.html">bio(7)</a>, <a href="../man3/OPENSSL_LH_COMPFUNC.html">OPENSSL_LH_COMPFUNC(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

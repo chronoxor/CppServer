@@ -41,9 +41,9 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>ts</b> <b>-query</b> [<b>-rand</b> file:file...] [<b>-config</b> configfile] [<b>-data</b> file_to_hash] [<b>-digest</b> digest_bytes] [<b>-[digest]</b>] [<b>-tspolicy</b> object_id] [<b>-no_nonce</b>] [<b>-cert</b>] [<b>-in</b> request.tsq] [<b>-out</b> request.tsq] [<b>-text</b>]</p>
+<p><b>openssl</b> <b>ts</b> <b>-query</b> [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-config</b> configfile] [<b>-data</b> file_to_hash] [<b>-digest</b> digest_bytes] [<b>-<i>digest</i></b>] [<b>-tspolicy</b> object_id] [<b>-no_nonce</b>] [<b>-cert</b>] [<b>-in</b> request.tsq] [<b>-out</b> request.tsq] [<b>-text</b>]</p>
 
-<p><b>openssl</b> <b>ts</b> <b>-reply</b> [<b>-config</b> configfile] [<b>-section</b> tsa_section] [<b>-queryfile</b> request.tsq] [<b>-passin</b> password_src] [<b>-signer</b> tsa_cert.pem] [<b>-inkey</b> file_or_id] [<b>-sha1|-sha224|-sha256|-sha384|-sha512</b>] [<b>-chain</b> certs_file.pem] [<b>-tspolicy</b> object_id] [<b>-in</b> response.tsr] [<b>-token_in</b>] [<b>-out</b> response.tsr] [<b>-token_out</b>] [<b>-text</b>] [<b>-engine</b> id]</p>
+<p><b>openssl</b> <b>ts</b> <b>-reply</b> [<b>-config</b> configfile] [<b>-section</b> tsa_section] [<b>-queryfile</b> request.tsq] [<b>-passin</b> password_src] [<b>-signer</b> tsa_cert.pem] [<b>-inkey</b> file_or_id] [<b>-<i>digest</i></b>] [<b>-chain</b> certs_file.pem] [<b>-tspolicy</b> object_id] [<b>-in</b> response.tsr] [<b>-token_in</b>] [<b>-out</b> response.tsr] [<b>-token_out</b>] [<b>-text</b>] [<b>-engine</b> id]</p>
 
 <p><b>openssl</b> <b>ts</b> <b>-verify</b> [<b>-data</b> file_to_hash] [<b>-digest</b> digest_bytes] [<b>-queryfile</b> request.tsq] [<b>-in</b> response.tsr] [<b>-token_in</b>] [<b>-CApath</b> trusted_cert_path] [<b>-CAfile</b> trusted_certs.pem] [<b>-untrusted</b> cert_file.pem] [<i>verify options</i>]</p>
 
@@ -78,16 +78,22 @@
 
 <dl>
 
-<dt id="rand-file:file"><b>-rand</b> file:file...</dt>
+<dt id="rand-file"><b>-rand file...</b></dt>
 <dd>
 
-<p>The files containing random data for seeding the random number generator. Multiple files can be specified, the separator is <b>;</b> for MS-Windows, <b>,</b> for VMS and <b>:</b> for all other platforms. (Optional)</p>
+<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+
+</dd>
+<dt id="writerand-file">[<b>-writerand file</b>]</dt>
+<dd>
+
+<p>Writes random data to the specified <i>file</i> upon exit. This can be used with a subsequent <b>-rand</b> flag.</p>
 
 </dd>
 <dt id="config-configfile"><b>-config</b> configfile</dt>
 <dd>
 
-<p>The configuration file to use. Optional; for a description of the default value, see <a href="../man1/openssl.html>&quot;COMMAND SUMMARY&quot; in openssl(1)</a>.</p>
+<p>The configuration file to use. Optional; for a description of the default value, see <a href="../man1/openssl.html">&quot;COMMAND SUMMARY&quot; in openssl(1)</a>.</p>
 
 </dd>
 <dt id="data-file_to_hash"><b>-data</b> file_to_hash</dt>
@@ -102,7 +108,7 @@
 <p>It is possible to specify the message imprint explicitly without the data file. The imprint must be specified in a hexadecimal format, two characters per byte, the bytes optionally separated by colons (e.g. 1A:F6:01:... or 1AF601...). The number of bytes must match the message digest algorithm in use. (Optional)</p>
 
 </dd>
-<dt id="digest"><b>-[digest]</b></dt>
+<dt id="digest"><b>-<i>digest</i></b></dt>
 <dd>
 
 <p>The message digest to apply to the data file. Any digest supported by the OpenSSL <b>dgst</b> command can be used. The default is SHA-1. (Optional)</p>
@@ -155,7 +161,7 @@
 <dt id="config-configfile1"><b>-config</b> configfile</dt>
 <dd>
 
-<p>The configuration file to use. Optional; for a description of the default value, see <a href="../man1/openssl.html>&quot;COMMAND SUMMARY&quot; in openssl(1)</a>. See <b>CONFIGURATION FILE OPTIONS</b> for configurable variables.</p>
+<p>The configuration file to use. Optional; for a description of the default value, see <a href="../man1/openssl.html">&quot;COMMAND SUMMARY&quot; in openssl(1)</a>. See <b>CONFIGURATION FILE OPTIONS</b> for configurable variables.</p>
 
 </dd>
 <dt id="section-tsa_section"><b>-section</b> tsa_section</dt>
@@ -173,7 +179,7 @@
 <dt id="passin-password_src"><b>-passin</b> password_src</dt>
 <dd>
 
-<p>Specifies the password source for the private key of the TSA. See <b>PASS PHRASE ARGUMENTS</b> in <a href="../man1/openssl.html>openssl(1)</a>. (Optional)</p>
+<p>Specifies the password source for the private key of the TSA. See <b>PASS PHRASE ARGUMENTS</b> in <a href="../man1/openssl.html">openssl(1)</a>. (Optional)</p>
 
 </dd>
 <dt id="signer-tsa_cert.pem"><b>-signer</b> tsa_cert.pem</dt>
@@ -188,7 +194,7 @@
 <p>The signer private key of the TSA in PEM format. Overrides the <b>signer_key</b> config file option. (Optional) If no engine is used, the argument is taken as a file; if an engine is specified, the argument is given to the engine as a key identifier.</p>
 
 </dd>
-<dt id="sha1--sha224--sha256--sha384--sha512"><b>-sha1|-sha224|-sha256|-sha384|-sha512</b></dt>
+<dt id="digest1"><b>-<i>digest</i></b></dt>
 <dd>
 
 <p>Signing digest to use. Overrides the <b>signer_digest</b> config file option. (Optional)</p>
@@ -283,13 +289,13 @@
 <dt id="CApath-trusted_cert_path"><b>-CApath</b> trusted_cert_path</dt>
 <dd>
 
-<p>The name of the directory containing the trusted CA certificates of the client. See the similar option of <a href="../man1/verify.html>verify(1)</a> for additional details. Either this option or <b>-CAfile</b> must be specified. (Optional)</p>
+<p>The name of the directory containing the trusted CA certificates of the client. See the similar option of <a href="../man1/verify.html">verify(1)</a> for additional details. Either this option or <b>-CAfile</b> must be specified. (Optional)</p>
 
 </dd>
 <dt id="CAfile-trusted_certs.pem"><b>-CAfile</b> trusted_certs.pem</dt>
 <dd>
 
-<p>The name of the file containing a set of trusted self-signed CA certificates in PEM format. See the similar option of <a href="../man1/verify.html>verify(1)</a> for additional details. Either this option or <b>-CApath</b> must be specified. (Optional)</p>
+<p>The name of the file containing a set of trusted self-signed CA certificates in PEM format. See the similar option of <a href="../man1/verify.html">verify(1)</a> for additional details. Either this option or <b>-CApath</b> must be specified. (Optional)</p>
 
 </dd>
 <dt id="untrusted-cert_file.pem"><b>-untrusted</b> cert_file.pem</dt>
@@ -301,14 +307,14 @@
 <dt id="verify-options"><i>verify options</i></dt>
 <dd>
 
-<p>The options <b>-attime timestamp</b>, <b>-check_ss_sig</b>, <b>-crl_check</b>, <b>-crl_check_all</b>, <b>-explicit_policy</b>, <b>-extended_crl</b>, <b>-ignore_critical</b>, <b>-inhibit_any</b>, <b>-inhibit_map</b>, <b>-issuer_checks</b>, <b>-no_alt_chains</b>, <b>-no_check_time</b>, <b>-partial_chain</b>, <b>-policy</b>, <b>-policy_check</b>, <b>-policy_print</b>, <b>-purpose</b>, <b>-suiteB_128</b>, <b>-suiteB_128_only</b>, <b>-suiteB_192</b>, <b>-trusted_first</b>, <b>-use_deltas</b>, <b>-auth_level</b>, <b>-verify_depth</b>, <b>-verify_email</b>, <b>-verify_hostname</b>, <b>-verify_ip</b>, <b>-verify_name</b>, and <b>-x509_strict</b> can be used to control timestamp verification. See <a href="../man1/verify.html>verify(1)</a>.</p>
+<p>The options <b>-attime timestamp</b>, <b>-check_ss_sig</b>, <b>-crl_check</b>, <b>-crl_check_all</b>, <b>-explicit_policy</b>, <b>-extended_crl</b>, <b>-ignore_critical</b>, <b>-inhibit_any</b>, <b>-inhibit_map</b>, <b>-issuer_checks</b>, <b>-no_alt_chains</b>, <b>-no_check_time</b>, <b>-partial_chain</b>, <b>-policy</b>, <b>-policy_check</b>, <b>-policy_print</b>, <b>-purpose</b>, <b>-suiteB_128</b>, <b>-suiteB_128_only</b>, <b>-suiteB_192</b>, <b>-trusted_first</b>, <b>-use_deltas</b>, <b>-auth_level</b>, <b>-verify_depth</b>, <b>-verify_email</b>, <b>-verify_hostname</b>, <b>-verify_ip</b>, <b>-verify_name</b>, and <b>-x509_strict</b> can be used to control timestamp verification. See <a href="../man1/verify.html">verify(1)</a>.</p>
 
 </dd>
 </dl>
 
 <h1 id="CONFIGURATION-FILE-OPTIONS">CONFIGURATION FILE OPTIONS</h1>
 
-<p>The <b>-query</b> and <b>-reply</b> commands make use of a configuration file. See <a href="../man5/config.html>config(5)</a> for a general description of the syntax of the config file. The <b>-query</b> command uses only the symbolic OID names section and it can work without it. However, the <b>-reply</b> command needs the config file for its operation.</p>
+<p>The <b>-query</b> and <b>-reply</b> commands make use of a configuration file. See <a href="../man5/config.html">config(5)</a> for a general description of the syntax of the config file. The <b>-query</b> command uses only the symbolic OID names section and it can work without it. However, the <b>-reply</b> command needs the config file for its operation.</p>
 
 <p>When there is a command line switch equivalent of a variable the switch always overrides the settings in the config file.</p>
 
@@ -323,19 +329,19 @@
 <dt id="oid_file"><b>oid_file</b></dt>
 <dd>
 
-<p>See <a href="../man1/ca.html>ca(1)</a> for description. (Optional)</p>
+<p>See <a href="../man1/ca.html">ca(1)</a> for description. (Optional)</p>
 
 </dd>
 <dt id="oid_section"><b>oid_section</b></dt>
 <dd>
 
-<p>See <a href="../man1/ca.html>ca(1)</a> for description. (Optional)</p>
+<p>See <a href="../man1/ca.html">ca(1)</a> for description. (Optional)</p>
 
 </dd>
 <dt id="RANDFILE"><b>RANDFILE</b></dt>
 <dd>
 
-<p>See <a href="../man1/ca.html>ca(1)</a> for description. (Optional)</p>
+<p>See <a href="../man1/ca.html">ca(1)</a> for description. (Optional)</p>
 
 </dd>
 <dt id="serial"><b>serial</b></dt>
@@ -371,7 +377,7 @@
 <dt id="signer_digest"><b>signer_digest</b></dt>
 <dd>
 
-<p>Signing digest to use. The same as the <b>-sha1|-sha224|-sha256|-sha384|-sha512</b> command line option. (Optional)</p>
+<p>Signing digest to use. The same as the <b>-<i>digest</i></b> command line option. (Optional)</p>
 
 </dd>
 <dt id="default_policy"><b>default_policy</b></dt>
@@ -422,6 +428,12 @@
 <p>The SignedData objects created by the TSA always contain the certificate identifier of the signing certificate in a signed attribute (see RFC 2634, Enhanced Security Services). If this option is set to yes and either the <b>certs</b> variable or the <b>-chain</b> option is specified then the certificate identifiers of the chain will also be included in the SigningCertificate signed attribute. If this variable is set to no, only the signing certificate identifier is included. Default is no. (Optional)</p>
 
 </dd>
+<dt id="ess_cert_id_alg"><b>ess_cert_id_alg</b></dt>
+<dd>
+
+<p>This option specifies the hash function to be used to calculate the TSA&#39;s public key certificate identifier. Default is sha1. (Optional)</p>
+
+</dd>
 </dl>
 
 <h1 id="EXAMPLES">EXAMPLES</h1>
@@ -451,7 +463,11 @@
 
 <h2 id="Time-Stamp-Response">Time Stamp Response</h2>
 
-<p>Before generating a response a signing certificate must be created for the TSA that contains the <b>timeStamping</b> critical extended key usage extension without any other key usage extensions. You can add the &#39;extendedKeyUsage = critical,timeStamping&#39; line to the user certificate section of the config file to generate a proper certificate. See <a href="../man1/req.html>req(1)</a>, <a href="../man1/ca.html>ca(1)</a>, <a href="../man1/x509.html>x509(1)</a> for instructions. The examples below assume that cacert.pem contains the certificate of the CA, tsacert.pem is the signing certificate issued by cacert.pem and tsakey.pem is the private key of the TSA.</p>
+<p>Before generating a response a signing certificate must be created for the TSA that contains the <b>timeStamping</b> critical extended key usage extension without any other key usage extensions. You can add this line to the user certificate section of the config file to generate a proper certificate;</p>
+
+<pre><code>   extendedKeyUsage = critical,timeStamping</code></pre>
+
+<p>See <a href="../man1/req.html">req(1)</a>, <a href="../man1/ca.html">ca(1)</a>, and <a href="../man1/x509.html">x509(1)</a> for instructions. The examples below assume that cacert.pem contains the certificate of the CA, tsacert.pem is the signing certificate issued by cacert.pem and tsakey.pem is the private key of the TSA.</p>
 
 <p>To create a time stamp response for a request:</p>
 
@@ -502,14 +518,12 @@
 
 <h1 id="BUGS">BUGS</h1>
 
-<p>If you find any bugs or you have suggestions please write to Zoltan Glozik &lt;zglozik@opentsa.org&gt;. Known issues:</p>
-
 <ul>
 
-<li><p>No support for time stamps over SMTP, though it is quite easy to implement an automatic e-mail based TSA with <a href="../man1/procmail.html>procmail(1)</a> and <a href="../man1/perl.html>perl(1)</a>. HTTP server support is provided in the form of a separate apache module. HTTP client support is provided by <a href="../man1/tsget.html>tsget(1)</a>. Pure TCP/IP protocol is not supported.</p>
+<li><p>No support for time stamps over SMTP, though it is quite easy to implement an automatic e-mail based TSA with <a href="../man1/procmail.html">procmail(1)</a> and <a href="../man1/perl.html">perl(1)</a>. HTTP server support is provided in the form of a separate apache module. HTTP client support is provided by <a href="../man1/tsget.html">tsget(1)</a>. Pure TCP/IP protocol is not supported.</p>
 
 </li>
-<li><p>The file containing the last serial number of the TSA is not locked when being read or written. This is a problem if more than one instance of <a href="../man1/openssl.html>openssl(1)</a> is trying to create a time stamp response at the same time. This is not an issue when using the apache server module, it does proper locking.</p>
+<li><p>The file containing the last serial number of the TSA is not locked when being read or written. This is a problem if more than one instance of <a href="../man1/openssl.html">openssl(1)</a> is trying to create a time stamp response at the same time. This is not an issue when using the apache server module, it does proper locking.</p>
 
 </li>
 <li><p>Look for the FIXME word in the source files.</p>
@@ -525,11 +539,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/tsget.html>tsget(1)</a>, <a href="../man1/openssl.html>openssl(1)</a>, <a href="../man1/req.html>req(1)</a>, <a href="../man1/x509.html>x509(1)</a>, <a href="../man1/ca.html>ca(1)</a>, <a href="../man1/genrsa.html>genrsa(1)</a>, <a href="../man5/config.html>config(5)</a></p>
+<p><a href="../man1/tsget.html">tsget(1)</a>, <a href="../man1/openssl.html">openssl(1)</a>, <a href="../man1/req.html">req(1)</a>, <a href="../man1/x509.html">x509(1)</a>, <a href="../man1/ca.html">ca(1)</a>, <a href="../man1/genrsa.html">genrsa(1)</a>, <a href="../man5/config.html">config(5)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2006-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2006-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

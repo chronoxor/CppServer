@@ -16,6 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -30,7 +31,7 @@
  
  <span class="keyword">int</span> <span class="variable">X509_NAME_print_ex</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*nm</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">X509_NAME_print_ex_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*nm</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="operator">*</span> <span class="variable">X509_NAME_oneline</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">);</span>
+ <span class="variable">char</span> <span class="variable">*X509_NAME_oneline</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">X509_NAME_print</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">obase</span><span class="operator">);</span>
 </code></pre>
 
@@ -46,9 +47,9 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>The functions X509_NAME_oneline() and X509_NAME_print() are legacy functions which produce a non standard output form, they don&#39;t handle multi character fields and have various quirks and inconsistencies. Their use is strongly discouraged in new applications.</p>
+<p>The functions X509_NAME_oneline() and X509_NAME_print() produce a non standard output form, they don&#39;t handle multi character fields and have various quirks and inconsistencies. Their use is strongly discouraged in new applications and they could be deprecated in a future release.</p>
 
-<p>Although there are a large number of possible flags for most purposes <b>XN_FLAG_ONELINE</b>, <b>XN_FLAG_MULTILINE</b> or <b>XN_FLAG_RFC2253</b> will suffice. As noted on the <a href="../man3/ASN1_STRING_print_ex.html>ASN1_STRING_print_ex(3)</a> manual page for UTF8 terminals the <b>ASN1_STRFLGS_ESC_MSB</b> should be unset: so for example <b>XN_FLAG_ONELINE &amp; ~ASN1_STRFLGS_ESC_MSB</b> would be used.</p>
+<p>Although there are a large number of possible flags for most purposes <b>XN_FLAG_ONELINE</b>, <b>XN_FLAG_MULTILINE</b> or <b>XN_FLAG_RFC2253</b> will suffice. As noted on the <a href="../man3/ASN1_STRING_print_ex.html">ASN1_STRING_print_ex(3)</a> manual page for UTF8 terminals the <b>ASN1_STRFLGS_ESC_MSB</b> should be unset: so for example <b>XN_FLAG_ONELINE &amp; ~ASN1_STRFLGS_ESC_MSB</b> would be used.</p>
 
 <p>The complete set of the flags supported by X509_NAME_print_ex() is listed below.</p>
 
@@ -80,13 +81,21 @@
 
 <p><b>XN_FLAG_COMPAT</b> uses a format identical to X509_NAME_print(): in fact it calls X509_NAME_print() internally.</p>
 
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>X509_NAME_oneline() returns a valid string on success or NULL on error.</p>
+
+<p>X509_NAME_print() returns 1 on success or 0 on error.</p>
+
+<p>X509_NAME_print_ex() and X509_NAME_print_ex_fp() return 1 on success or 0 on error if the <b>XN_FLAG_COMPAT</b> is set, which is the same as X509_NAME_print(). Otherwise, it returns -1 on error or other values on success.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ASN1_STRING_print_ex.html>ASN1_STRING_print_ex(3)</a></p>
+<p><a href="../man3/ASN1_STRING_print_ex.html">ASN1_STRING_print_ex(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2002-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2002-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

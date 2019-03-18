@@ -37,26 +37,26 @@
  <span class="keyword">int</span> <span class="variable">EVP_CIPHER_meth_set_flags</span><span class="operator">(</span><span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_CIPHER_meth_set_impl_ctx_size</span><span class="operator">(</span><span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">ctx_size</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_CIPHER_meth_set_init</span><span class="operator">(</span><span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span>
-                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*init</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                           <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span>
-                                           <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">,</span>
-                                           <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">));</span>
+                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*init</span><span class="operator">)(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                                          <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span>
+                                          <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">,</span>
+                                          <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">));</span>
  <span class="keyword">int</span> <span class="variable">EVP_CIPHER_meth_set_do_cipher</span><span class="operator">(</span><span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span>
-                                   <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*do_cipher</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-                                                     <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span>
-                                                     <span class="variable">size_t</span> <span class="variable">inl</span><span class="operator">));</span>
+                                   <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*do_cipher</span><span class="operator">)(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                                                    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
+                                                    <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span>
+                                                    <span class="variable">size_t</span> <span class="variable">inl</span><span class="operator">));</span>
  <span class="keyword">int</span> <span class="variable">EVP_CIPHER_meth_set_cleanup</span><span class="operator">(</span><span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span>
-                                 <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cleanup</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*));</span>
+                                 <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cleanup</span><span class="operator">)(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*));</span>
  <span class="keyword">int</span> <span class="variable">EVP_CIPHER_meth_set_set_asn1_params</span><span class="operator">(</span><span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span>
-                                         <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*set_asn1_parameters</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*,</span>
-                                                                     <span class="variable">ASN1_TYPE</span> <span class="operator">*));</span>
+                                         <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*set_asn1_parameters</span><span class="operator">)(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*,</span>
+                                                                    <span class="variable">ASN1_TYPE</span> <span class="operator">*));</span>
  <span class="keyword">int</span> <span class="variable">EVP_CIPHER_meth_set_get_asn1_params</span><span class="operator">(</span><span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span>
-                                         <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*get_asn1_parameters</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*,</span>
-                                                                     <span class="variable">ASN1_TYPE</span> <span class="operator">*));</span>
+                                         <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*get_asn1_parameters</span><span class="operator">)(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*,</span>
+                                                                    <span class="variable">ASN1_TYPE</span> <span class="operator">*));</span>
  <span class="keyword">int</span> <span class="variable">EVP_CIPHER_meth_set_ctrl</span><span class="operator">(</span><span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span>
-                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*ctrl</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span>
-                                           <span class="keyword">int</span> <span class="variable">arg</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">));</span>
+                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*ctrl</span><span class="operator">)(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span>
+                                          <span class="keyword">int</span> <span class="variable">arg</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">));</span>
  
  <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*EVP_CIPHER_meth_get_init</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">))(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
                                                            <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span>
@@ -70,7 +70,7 @@
  <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*EVP_CIPHER_meth_get_set_asn1_params</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">))(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*,</span>
                                                                       <span class="variable">ASN1_TYPE</span> <span class="operator">*);</span>
  <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*EVP_CIPHER_meth_get_get_asn1_params</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">))(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*,</span>
-                                                                <span class="variable">ASN1_TYPE</span> <span class="operator">*);</span>
+                                                                      <span class="variable">ASN1_TYPE</span> <span class="operator">*);</span>
  <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*EVP_CIPHER_meth_get_ctrl</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">))(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="operator">*,</span>
                                                            <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">arg</span><span class="operator">,</span>
                                                            <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">);</span>
@@ -86,7 +86,7 @@
 
 <p>EVP_CIPHER_meth_free() destroys a <b>EVP_CIPHER</b> structure.</p>
 
-<p>EVP_CIPHER_meth_iv_length() sets the length of the IV. This is only needed when the implemented cipher mode requires it.</p>
+<p>EVP_CIPHER_meth_set_iv_length() sets the length of the IV. This is only needed when the implemented cipher mode requires it.</p>
 
 <p>EVP_CIPHER_meth_set_flags() sets the flags to describe optional behaviours in the particular <b>cipher</b>. With the exception of cipher modes, of which only one may be present, several flags can be or&#39;d together. The available flags are:</p>
 
@@ -155,7 +155,7 @@
 <dt id="EVP_CIPH_FLAG_LENGTH_BITS">EVP_CIPH_FLAG_LENGTH_BITS</dt>
 <dd>
 
-<p>Signals that the length of the input buffer for encryption / decryption is to be understood as the number of bits bits instead of bytes for this implementation. This is only useful for CFB1 ciphers.</p>
+<p>Signals that the length of the input buffer for encryption / decryption is to be understood as the number of bits instead of bytes for this implementation. This is only useful for CFB1 ciphers.</p>
 
 </dd>
 <dt id="EVP_CIPH_FLAG_CUSTOM_CIPHER">EVP_CIPH_FLAG_CUSTOM_CIPHER</dt>
@@ -198,15 +198,15 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="/../crypto/EVP_EncryptInit.html">EVP_EncryptInit</a></p>
+<p><a href="/man3/EVP_EncryptInit.html">EVP_EncryptInit</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>The <b>EVP_CIPHER</b> structure was openly available in OpenSSL before version 1.1.0. The functions described here were added in OpenSSL 1.1.0.</p>
+<p>The functions described here were added in OpenSSL 1.1.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

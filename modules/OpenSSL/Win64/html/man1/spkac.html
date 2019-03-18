@@ -28,7 +28,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>spkac</b> [<b>-help</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-key keyfile</b>] [<b>-passin arg</b>] [<b>-challenge string</b>] [<b>-pubkey</b>] [<b>-spkac spkacname</b>] [<b>-spksect section</b>] [<b>-noout</b>] [<b>-verify</b>] [<b>-engine id</b>]</p>
+<p><b>openssl</b> <b>spkac</b> [<b>-help</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-key keyfile</b>] [<b>-keyform PEM|DER|ENGINE</b>] [<b>-passin arg</b>] [<b>-challenge string</b>] [<b>-pubkey</b>] [<b>-spkac spkacname</b>] [<b>-spksect section</b>] [<b>-noout</b>] [<b>-verify</b>] [<b>-engine id</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -53,61 +53,67 @@
 <dt id="out-filename"><b>-out filename</b></dt>
 <dd>
 
-<p>specifies the output filename to write to or standard output by default.</p>
+<p>Specifies the output filename to write to or standard output by default.</p>
 
 </dd>
 <dt id="key-keyfile"><b>-key keyfile</b></dt>
 <dd>
 
-<p>create an SPKAC file using the private key in <b>keyfile</b>. The <b>-in</b>, <b>-noout</b>, <b>-spksect</b> and <b>-verify</b> options are ignored if present.</p>
+<p>Create an SPKAC file using the private key in <b>keyfile</b>. The <b>-in</b>, <b>-noout</b>, <b>-spksect</b> and <b>-verify</b> options are ignored if present.</p>
+
+</dd>
+<dt id="keyform-PEM-DER-ENGINE"><b>-keyform PEM|DER|ENGINE</b></dt>
+<dd>
+
+<p>Whether the key format is PEM, DER, or an engine-backed key. The default is PEM.</p>
 
 </dd>
 <dt id="passin-password"><b>-passin password</b></dt>
 <dd>
 
-<p>the input file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html>openssl(1)</a>.</p>
+<p>The input file password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
 
 </dd>
 <dt id="challenge-string"><b>-challenge string</b></dt>
 <dd>
 
-<p>specifies the challenge string if an SPKAC is being created.</p>
+<p>Specifies the challenge string if an SPKAC is being created.</p>
 
 </dd>
 <dt id="spkac-spkacname"><b>-spkac spkacname</b></dt>
 <dd>
 
-<p>allows an alternative name form the variable containing the SPKAC. The default is &quot;SPKAC&quot;. This option affects both generated and input SPKAC files.</p>
+<p>Allows an alternative name form the variable containing the SPKAC. The default is &quot;SPKAC&quot;. This option affects both generated and input SPKAC files.</p>
 
 </dd>
 <dt id="spksect-section"><b>-spksect section</b></dt>
 <dd>
 
-<p>allows an alternative name form the section containing the SPKAC. The default is the default section.</p>
+<p>Allows an alternative name form the section containing the SPKAC. The default is the default section.</p>
 
 </dd>
 <dt id="noout"><b>-noout</b></dt>
 <dd>
 
-<p>don&#39;t output the text version of the SPKAC (not used if an SPKAC is being created).</p>
+<p>Don&#39;t output the text version of the SPKAC (not used if an SPKAC is being created).</p>
 
 </dd>
 <dt id="pubkey"><b>-pubkey</b></dt>
 <dd>
 
-<p>output the public key of an SPKAC (not used if an SPKAC is being created).</p>
+<p>Output the public key of an SPKAC (not used if an SPKAC is being created).</p>
 
 </dd>
 <dt id="verify"><b>-verify</b></dt>
 <dd>
 
-<p>verifies the digital signature on the supplied SPKAC.</p>
+<p>Verifies the digital signature on the supplied SPKAC.</p>
 
 </dd>
 <dt id="engine-id"><b>-engine id</b></dt>
 <dd>
 
-<p>specifying an engine (by its unique <b>id</b> string) will cause <b>spkac</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
+<p>Specifying an engine (by its unique <b>id</b> string) will cause <b>spkac</b> to attempt to obtain a functional reference to the specified engine, thus initialising it if needed. The engine will then be set as the default for all available algorithms.</p>
 
 </dd>
 </dl>
@@ -128,11 +134,12 @@
 
 <p>Example of an SPKAC, (long lines split up for clarity):</p>
 
-<pre><code> SPKAC=MIG5MGUwXDANBgkqhkiG9w0BAQEFAANLADBIAkEA1cCoq2Wa3Ixs47uI7F\
- PVwHVIPDx5yso105Y6zpozam135a8R0CpoRvkkigIyXfcCjiVi5oWk+6FfPaD03u\
- PFoQIDAQABFgVoZWxsbzANBgkqhkiG9w0BAQQFAANBAFpQtY/FojdwkJh1bEIYuc\
- 2EeM2KHTWPEepWYeawvHD0gQ3DngSC75YCWnnDdq+NQ3F+X4deMx9AaEglZtULwV\
- 4=</code></pre>
+<pre><code> SPKAC=MIG5MGUwXDANBgkqhkiG9w0BAQEFAANLADBIAkEA\
+ 1cCoq2Wa3Ixs47uI7FPVwHVIPDx5yso105Y6zpozam135a\
+ 8R0CpoRvkkigIyXfcCjiVi5oWk+6FfPaD03uPFoQIDAQAB\
+ FgVoZWxsbzANBgkqhkiG9w0BAQQFAANBAFpQtY/FojdwkJ\
+ h1bEIYuc2EeM2KHTWPEepWYeawvHD0gQ3DngSC75YCWnnD\
+ dq+NQ3F+X4deMx9AaEglZtULwV4=</code></pre>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -144,11 +151,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/ca.html>ca(1)</a></p>
+<p><a href="../man1/ca.html">ca(1)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

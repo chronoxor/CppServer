@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>srp</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#OPTIONS">OPTIONS</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>openssl-srp, srp - maintain SRP password file</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<p><b>openssl srp</b> [<b>-help</b>] [<b>-verbose</b>] [<b>-add</b>] [<b>-modify</b>] [<b>-delete</b>] [<b>-list</b>] [<b>-name section</b>] [<b>-config file</b>] [<b>-srpvfile file</b>] [<b>-gn identifier</b>] [<b>-userinfo text...</b>] [<b>-passin arg</b>] [<b>-passout arg</b>] [<i>user...</i>]</p>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The <b>srp</b> command is user to maintain an SRP (secure remote password) file. At most one of the <b>-add</b>, <b>-modify</b>, <b>-delete</b>, and <b>-list</b> options can be specified. These options take zero or more usernames as parameters and perform the appropriate operation on the SRP file. For <b>-list</b>, if no <b>user</b> is given then all users are displayed.</p>
+
+<p>The configuration file to use, and the section within the file, can be specified with the <b>-config</b> and <b>-name</b> flags, respectively. If the config file is not specified, the <b>-srpvfile</b> can be used to just specify the file to operate on.</p>
+
+<p>The <b>-userinfo</b> option specifies additional information to add when adding or modifying a user.</p>
+
+<p>The <b>-gn</b> flag specifies the <b>g</b> and <b>N</b> values, using one of the strengths defined in IETF RFC 5054.</p>
+
+<p>The <b>-passin</b> and <b>-passout</b> arguments are parsed as described in the <a href="../man1/openssl.html">openssl(1)</a> command.</p>
+
+<h1 id="OPTIONS">OPTIONS</h1>
+
+<dl>
+
+<dt id="help">[<b>-help</b>]</dt>
+<dd>
+
+<p>Display an option summary.</p>
+
+</dd>
+<dt id="verbose">[<b>-verbose</b>]</dt>
+<dd>
+
+<p>Generate verbose output while processing.</p>
+
+</dd>
+</dl>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+

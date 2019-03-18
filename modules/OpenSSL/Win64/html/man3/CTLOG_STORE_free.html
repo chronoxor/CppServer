@@ -41,7 +41,7 @@
 
 <p>A CTLOG_STORE is a container for a list of CTLOGs (Certificate Transparency logs). The list can be loaded from one or more files and then searched by LogID (see RFC 6962, Section 3.2, for the definition of a LogID).</p>
 
-<p>CTLOG_STORE_new() creates an empty list of CT logs. This is then populated by CTLOG_STORE_load_default_file() or CTLOG_STORE_load_file(). CTLOG_STORE_load_default_file() loads from the default file, which is named &quot;ct_log_list.cnf&quot; in OPENSSLDIR (see the output of <a href="/../apps/version.html">version</a>). This can be overridden using an environment variable named &quot;CTLOG_FILE&quot;. CTLOG_STORE_load_file() loads from a caller-specified file path instead. Both of these functions append any loaded CT logs to the CTLOG_STORE.</p>
+<p>CTLOG_STORE_new() creates an empty list of CT logs. This is then populated by CTLOG_STORE_load_default_file() or CTLOG_STORE_load_file(). CTLOG_STORE_load_default_file() loads from the default file, which is named &quot;ct_log_list.cnf&quot; in OPENSSLDIR (see the output of <a href="/man1/version.html">version</a>). This can be overridden using an environment variable named &quot;CTLOG_FILE&quot;. CTLOG_STORE_load_file() loads from a caller-specified file path instead. Both of these functions append any loaded CT logs to the CTLOG_STORE.</p>
 
 <p>The expected format of the file is:</p>
 
@@ -67,7 +67,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ct.html>ct(3)</a>, <a href="../man3/CTLOG_STORE_get0_log_by_id.html>CTLOG_STORE_get0_log_by_id(3)</a>, <a href="../man3/SSL_CTX_set_ctlog_list_file.html>SSL_CTX_set_ctlog_list_file(3)</a></p>
+<p><a href="../man7/ct.html">ct(7)</a>, <a href="../man3/CTLOG_STORE_get0_log_by_id.html">CTLOG_STORE_get0_log_by_id(3)</a>, <a href="../man3/SSL_CTX_set_ctlog_list_file.html">SSL_CTX_set_ctlog_list_file(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

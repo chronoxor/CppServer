@@ -37,27 +37,27 @@
  <span class="keyword">int</span> <span class="variable">BN_sqr</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_div</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*dv</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*rem</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*d</span><span class="operator">,</span>
-         <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+            <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_mod</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*rem</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_nnmod</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_mod_add</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span>
-         <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+                <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_mod_sub</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span>
-         <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+                <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_mod_mul</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span>
-         <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+                <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_mod_sqr</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_exp</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_mod_exp</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span>
-         <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+                <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">BN_gcd</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
 </code></pre>
@@ -68,7 +68,7 @@
 
 <p>BN_sub() subtracts <i>b</i> from <i>a</i> and places the result in <i>r</i> (<code>r=a-b</code>). <i>r</i> may be the same <b>BIGNUM</b> as <i>a</i> or <i>b</i>.</p>
 
-<p>BN_mul() multiplies <i>a</i> and <i>b</i> and places the result in <i>r</i> (<code>r=a*b</code>). <i>r</i> may be the same <b>BIGNUM</b> as <i>a</i> or <i>b</i>. For multiplication by powers of 2, use <a href="../man3/BN_lshift.html>BN_lshift(3)</a>.</p>
+<p>BN_mul() multiplies <i>a</i> and <i>b</i> and places the result in <i>r</i> (<code>r=a*b</code>). <i>r</i> may be the same <b>BIGNUM</b> as <i>a</i> or <i>b</i>. For multiplication by powers of 2, use <a href="../man3/BN_lshift.html">BN_lshift(3)</a>.</p>
 
 <p>BN_sqr() takes the square of <i>a</i> and places the result in <i>r</i> (<code>r=a^2</code>). <i>r</i> and <i>a</i> may be the same <b>BIGNUM</b>. This function is faster than BN_mul(r,a,a).</p>
 
@@ -82,7 +82,7 @@
 
 <p>BN_mod_sub() subtracts <i>b</i> from <i>a</i> modulo <i>m</i> and places the non-negative result in <i>r</i>.</p>
 
-<p>BN_mod_mul() multiplies <i>a</i> by <i>b</i> and finds the non-negative remainder respective to modulus <i>m</i> (<code>r=(a*b) mod m</code>). <i>r</i> may be the same <b>BIGNUM</b> as <i>a</i> or <i>b</i>. For more efficient algorithms for repeated computations using the same modulus, see <a href="../man3/BN_mod_mul_montgomery.html>BN_mod_mul_montgomery(3)</a> and <a href="../man3/BN_mod_mul_reciprocal.html>BN_mod_mul_reciprocal(3)</a>.</p>
+<p>BN_mod_mul() multiplies <i>a</i> by <i>b</i> and finds the non-negative remainder respective to modulus <i>m</i> (<code>r=(a*b) mod m</code>). <i>r</i> may be the same <b>BIGNUM</b> as <i>a</i> or <i>b</i>. For more efficient algorithms for repeated computations using the same modulus, see <a href="../man3/BN_mod_mul_montgomery.html">BN_mod_mul_montgomery(3)</a> and <a href="../man3/BN_mod_mul_reciprocal.html">BN_mod_mul_reciprocal(3)</a>.</p>
 
 <p>BN_mod_sqr() takes the square of <i>a</i> modulo <b>m</b> and places the result in <i>r</i>.</p>
 
@@ -92,18 +92,18 @@
 
 <p>BN_gcd() computes the greatest common divisor of <i>a</i> and <i>b</i> and places the result in <i>r</i>. <i>r</i> may be the same <b>BIGNUM</b> as <i>a</i> or <i>b</i>.</p>
 
-<p>For all functions, <i>ctx</i> is a previously allocated <b>BN_CTX</b> used for temporary variables; see <a href="../man3/BN_CTX_new.html>BN_CTX_new(3)</a>.</p>
+<p>For all functions, <i>ctx</i> is a previously allocated <b>BN_CTX</b> used for temporary variables; see <a href="../man3/BN_CTX_new.html">BN_CTX_new(3)</a>.</p>
 
 <p>Unless noted otherwise, the result <b>BIGNUM</b> must be different from the arguments.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>For all functions, 1 is returned for success, 0 on error. The return value should always be checked (e.g., <code><span class="keyword">if</span> <span class="operator">(!</span><span class="variable">BN_add</span><span class="operator">(</span><span class="variable">r</span><span class="operator">,</span><span class="variable">a</span><span class="operator">,</span><span class="variable">b</span><span class="operator">))</span> <span class="keyword">goto</span> <span class="variable">err</span><span class="operator">;</span>
-</code>). The error codes can be obtained by <a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>.</p>
+</code>). The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html>ERR_get_error(3)</a>, <a href="../man3/BN_CTX_new.html>BN_CTX_new(3)</a>, <a href="../man3/BN_add_word.html>BN_add_word(3)</a>, <a href="../man3/BN_set_bit.html>BN_set_bit(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/BN_CTX_new.html">BN_CTX_new(3)</a>, <a href="../man3/BN_add_word.html">BN_add_word(3)</a>, <a href="../man3/BN_set_bit.html">BN_set_bit(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

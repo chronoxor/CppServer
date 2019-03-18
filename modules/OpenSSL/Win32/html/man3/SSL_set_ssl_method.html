@@ -31,12 +31,12 @@
  
  <span class="keyword">int</span> <span class="variable">SSL_CTX_set_ssl_version</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*method</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">SSL_set_ssl_method</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*method</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*SSL_get_ssl_method</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*SSL_get_ssl_method</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>SSL_CTX_set_ssl_version() sets a new default TLS/SSL <b>method</b> for SSL objects newly created from this <b>ctx</b>. SSL objects already created with <a href="../man3/SSL_new.html>SSL_new(3)</a> are not affected, except when <a href="../man3/SSL_clear.html>SSL_clear(3)</a> is being called.</p>
+<p>SSL_CTX_set_ssl_version() sets a new default TLS/SSL <b>method</b> for SSL objects newly created from this <b>ctx</b>. SSL objects already created with <a href="../man3/SSL_new.html">SSL_new(3)</a> are not affected, except when <a href="../man3/SSL_clear.html">SSL_clear(3)</a> is being called.</p>
 
 <p>SSL_set_ssl_method() sets a new TLS/SSL <b>method</b> for a particular <b>ssl</b> object. It may be reset, when SSL_clear() is called.</p>
 
@@ -44,9 +44,9 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>The available <b>method</b> choices are described in <a href="../man3/SSL_CTX_new.html>SSL_CTX_new(3)</a>.</p>
+<p>The available <b>method</b> choices are described in <a href="../man3/SSL_CTX_new.html">SSL_CTX_new(3)</a>.</p>
 
-<p>When <a href="../man3/SSL_clear.html>SSL_clear(3)</a> is called and no session is connected to an SSL object, the method of the SSL object is reset to the method currently set in the corresponding SSL_CTX object.</p>
+<p>When <a href="../man3/SSL_clear.html">SSL_clear(3)</a> is called and no session is connected to an SSL object, the method of the SSL object is reset to the method currently set in the corresponding SSL_CTX object.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -70,11 +70,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/SSL_CTX_new.html>SSL_CTX_new(3)</a>, <a href="../man3/SSL_new.html>SSL_new(3)</a>, <a href="../man3/SSL_clear.html>SSL_clear(3)</a>, <a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_set_connect_state.html>SSL_set_connect_state(3)</a></p>
+<p><a href="../man3/SSL_CTX_new.html">SSL_CTX_new(3)</a>, <a href="../man3/SSL_new.html">SSL_new(3)</a>, <a href="../man3/SSL_clear.html">SSL_clear(3)</a>, <a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_set_connect_state.html">SSL_set_connect_state(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

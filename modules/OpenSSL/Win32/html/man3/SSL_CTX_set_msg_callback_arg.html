@@ -16,7 +16,9 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
@@ -28,20 +30,26 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
  
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_msg_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">write_p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">content_type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">));</span>
+ <span class="variable">void</span> <span class="variable">SSL_CTX_set_msg_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                               <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">write_p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">,</span>
+                                          <span class="keyword">int</span> <span class="variable">content_type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span>
+                                          <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">));</span>
  <span class="variable">void</span> <span class="variable">SSL_CTX_set_msg_callback_arg</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
  
- <span class="variable">void</span> <span class="variable">SSL_set_msg_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">write_p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">content_type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">));</span>
+ <span class="variable">void</span> <span class="variable">SSL_set_msg_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span>
+                           <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">write_p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">,</span>
+                                      <span class="keyword">int</span> <span class="variable">content_type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span>
+                                      <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">));</span>
  <span class="variable">void</span> <span class="variable">SSL_set_msg_callback_arg</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>SSL_CTX_set_msg_callback() or SSL_set_msg_callback() can be used to define a message callback function <i>cb</i> for observing all SSL/TLS protocol messages (such as handshake messages) that are received or sent. SSL_CTX_set_msg_callback_arg() and SSL_set_msg_callback_arg() can be used to set argument <i>arg</i> to the callback function, which is available for arbitrary application use.</p>
+<p>SSL_CTX_set_msg_callback() or SSL_set_msg_callback() can be used to define a message callback function <i>cb</i> for observing all SSL/TLS protocol messages (such as handshake messages) that are received or sent, as well as other events that occur during processing. SSL_CTX_set_msg_callback_arg() and SSL_set_msg_callback_arg() can be used to set argument <i>arg</i> to the callback function, which is available for arbitrary application use.</p>
 
-<p>SSL_CTX_set_msg_callback() and SSL_CTX_set_msg_callback_arg() specify default settings that will be copied to new <b>SSL</b> objects by <a href="../man3/SSL_new.html>SSL_new(3)</a>. SSL_set_msg_callback() and SSL_set_msg_callback_arg() modify the actual settings of an <b>SSL</b> object. Using a <b>0</b> pointer for <i>cb</i> disables the message callback.</p>
+<p>SSL_CTX_set_msg_callback() and SSL_CTX_set_msg_callback_arg() specify default settings that will be copied to new <b>SSL</b> objects by <a href="../man3/SSL_new.html">SSL_new(3)</a>. SSL_set_msg_callback() and SSL_set_msg_callback_arg() modify the actual settings of an <b>SSL</b> object. Using a <b>NULL</b> pointer for <i>cb</i> disables the message callback.</p>
 
-<p>When <i>cb</i> is called by the SSL/TLS library for a protocol message, the function arguments have the following meaning:</p>
+<p>When <i>cb</i> is called by the SSL/TLS library the function arguments have the following meaning:</p>
 
 <dl>
 
@@ -54,19 +62,19 @@
 <dt id="version"><i>version</i></dt>
 <dd>
 
-<p>The protocol version according to which the protocol message is interpreted by the library. Currently, this is one of <b>SSL2_VERSION</b>, <b>SSL3_VERSION</b> and <b>TLS1_VERSION</b> (for SSL 2.0, SSL 3.0 and TLS 1.0, respectively).</p>
+<p>The protocol version according to which the protocol message is interpreted by the library such as <b>TLS1_3_VERSION</b>, <b>TLS1_2_VERSION</b> etc. This is set to 0 for the SSL3_RT_HEADER pseudo content type (see NOTES below).</p>
 
 </dd>
 <dt id="content_type"><i>content_type</i></dt>
 <dd>
 
-<p>In the case of SSL 2.0, this is always <b>0</b>. In the case of SSL 3.0 or TLS 1.0, this is one of the <b>ContentType</b> values defined in the protocol specification (<b>change_cipher_spec(20)</b>, <b>alert(21)</b>, <b>handshake(22)</b>; but never <b>application_data(23)</b> because the callback will only be called for protocol messages).</p>
+<p>This is one of the content type values defined in the protocol specification (<b>SSL3_RT_CHANGE_CIPHER_SPEC</b>, <b>SSL3_RT_ALERT</b>, <b>SSL3_RT_HANDSHAKE</b>; but never <b>SSL3_RT_APPLICATION_DATA</b> because the callback will only be called for protocol messages). Alternatively it may be a &quot;pseudo&quot; content type. These pseudo content types are used to signal some other event in the processing of data (see NOTES below).</p>
 
 </dd>
 <dt id="buf-len"><i>buf</i>, <i>len</i></dt>
 <dd>
 
-<p><i>buf</i> points to a buffer containing the protocol message, which consists of <i>len</i> bytes. The buffer is no longer valid after the callback function has returned.</p>
+<p><i>buf</i> points to a buffer containing the protocol message or other data (in the case of pseudo content types), which consists of <i>len</i> bytes. The buffer is no longer valid after the callback function has returned.</p>
 
 </dd>
 <dt id="ssl"><i>ssl</i></dt>
@@ -91,13 +99,39 @@
 
 <p>Due to automatic protocol version negotiation, <i>version</i> is not necessarily the protocol version used by the sender of the message: If a TLS 1.0 ClientHello message is received by an SSL 3.0-only server, <i>version</i> will be <b>SSL3_VERSION</b>.</p>
 
+<p>Pseudo content type values may be sent at various points during the processing of data. The following pseudo content types are currently defined:</p>
+
+<dl>
+
+<dt id="SSL3_RT_HEADER"><b>SSL3_RT_HEADER</b></dt>
+<dd>
+
+<p>Used when a record is sent or received. The <b>buf</b> contains the record header bytes only.</p>
+
+</dd>
+<dt id="SSL3_RT_INNER_CONTENT_TYPE"><b>SSL3_RT_INNER_CONTENT_TYPE</b></dt>
+<dd>
+
+<p>Used when an encrypted TLSv1.3 record is sent or received. In encrypted TLSv1.3 records the content type in the record header is always SSL3_RT_APPLICATION_DATA. The real content type for the record is contained in an &quot;inner&quot; content type. <b>buf</b> contains the encoded &quot;inner&quot; content type byte.</p>
+
+</dd>
+</dl>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>SSL_CTX_set_msg_callback(), SSL_CTX_set_msg_callback_arg(), SSL_set_msg_callback() and SSL_set_msg_callback_arg() do not return values.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ssl.html>ssl(3)</a>, <a href="../man3/SSL_new.html>SSL_new(3)</a></p>
+<p><a href="../man7/ssl.html">ssl(7)</a>, <a href="../man3/SSL_new.html">SSL_new(3)</a></p>
+
+<h1 id="HISTORY">HISTORY</h1>
+
+<p>The pseudo content type <b>SSL3_RT_INNER_CONTENT_TYPE</b> was added in OpenSSL 1.1.1.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2001-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2001-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -31,12 +31,12 @@
 <pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
  
  <span class="variable">typedef</span> <span class="variable">enum</span> <span class="operator">{</span>
-  <span class="variable">SCT_VALIDATION_STATUS_NOT_SET</span><span class="operator">,</span>
-  <span class="variable">SCT_VALIDATION_STATUS_UNKNOWN_LOG</span><span class="operator">,</span>
-  <span class="variable">SCT_VALIDATION_STATUS_VALID</span><span class="operator">,</span>
-  <span class="variable">SCT_VALIDATION_STATUS_INVALID</span><span class="operator">,</span>
-  <span class="variable">SCT_VALIDATION_STATUS_UNVERIFIED</span><span class="operator">,</span>
-  <span class="variable">SCT_VALIDATION_STATUS_UNKNOWN_VERSION</span>
+     <span class="variable">SCT_VALIDATION_STATUS_NOT_SET</span><span class="operator">,</span>
+     <span class="variable">SCT_VALIDATION_STATUS_UNKNOWN_LOG</span><span class="operator">,</span>
+     <span class="variable">SCT_VALIDATION_STATUS_VALID</span><span class="operator">,</span>
+     <span class="variable">SCT_VALIDATION_STATUS_INVALID</span><span class="operator">,</span>
+     <span class="variable">SCT_VALIDATION_STATUS_UNVERIFIED</span><span class="operator">,</span>
+     <span class="variable">SCT_VALIDATION_STATUS_UNKNOWN_VERSION</span>
  <span class="operator">}</span> <span class="variable">sct_validation_status_t</span><span class="operator">;</span>
  
  <span class="keyword">int</span> <span class="variable">SCT_validate</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
@@ -89,7 +89,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man7/ct.html>ct(7)</a></p>
+<p><a href="../man7/ct.html">ct(7)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

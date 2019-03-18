@@ -73,7 +73,7 @@
 
 <p>SSL_CTX_set_current_cert() changes the current certificate to a value based on the <b>op</b> argument. Currently <b>op</b> can be <b>SSL_CERT_SET_FIRST</b> to use the first valid certificate or <b>SSL_CERT_SET_NEXT</b> to set the next valid certificate after the current certificate. These two operations can be used to iterate over all certificates in an <b>SSL_CTX</b> structure.</p>
 
-<p>SSL_set_current_cert() also supports the option <b>SSL_CERT_SET_SERVER</b>. If <b>ssl</b> is a server and has sent a certificate to a connected client this option sets that certificate to the current certificate and returns 1. If the negotiated ciphersuite is anonymous (and thus no certificate will be sent) 2 is returned and the current certificate is unchanged. If <b>ssl</b> is not a server or a certificate has not been sent 0 is returned and the current certificate is unchanged.</p>
+<p>SSL_set_current_cert() also supports the option <b>SSL_CERT_SET_SERVER</b>. If <b>ssl</b> is a server and has sent a certificate to a connected client this option sets that certificate to the current certificate and returns 1. If the negotiated cipher suite is anonymous (and thus no certificate will be sent) 2 is returned and the current certificate is unchanged. If <b>ssl</b> is not a server or a certificate has not been sent 0 is returned and the current certificate is unchanged.</p>
 
 <p>All these functions are implemented as macros. Those containing a <b>1</b> increment the reference count of the supplied certificate or chain so it must be freed at some point after the operation. Those containing a <b>0</b> do not increment reference counts and the supplied certificate or chain <b>MUST NOT</b> be freed after the operation.</p>
 
@@ -95,7 +95,7 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>SSL_set_current_cert() with <b>SSL_CERT_SET_SERVER</b> return 1 for success, 2 if no server certificate is used because the ciphersuites is anonymous and 0 for failure.</p>
+<p>SSL_set_current_cert() with <b>SSL_CERT_SET_SERVER</b> return 1 for success, 2 if no server certificate is used because the cipher suites is anonymous and 0 for failure.</p>
 
 <p>SSL_CTX_build_cert_chain() and SSL_build_cert_chain() return 1 for success and 0 for failure. If the flag <b>SSL_BUILD_CHAIN_FLAG_IGNORE_ERROR</b> and a verification error occurs then 2 is returned.</p>
 
@@ -103,11 +103,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/SSL_CTX_add_extra_chain_cert.html>SSL_CTX_add_extra_chain_cert(3)</a></p>
+<p><a href="../man3/SSL_CTX_add_extra_chain_cert.html">SSL_CTX_add_extra_chain_cert(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>These functions were first added to OpenSSL 1.0.2.</p>
+<p>These functions were added in OpenSSL 1.0.2.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

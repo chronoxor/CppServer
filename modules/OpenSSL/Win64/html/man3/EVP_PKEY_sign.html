@@ -33,8 +33,8 @@
  
  <span class="keyword">int</span> <span class="variable">EVP_PKEY_sign_init</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_PKEY_sign</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*siglen</span><span class="operator">,</span>
-                        <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*tbs</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">tbslen</span><span class="operator">);</span>
+                   <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*siglen</span><span class="operator">,</span>
+                   <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*tbs</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">tbslen</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -45,9 +45,9 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>EVP_PKEY_sign() does not hash the data to be signed, and therefore is normally used to sign digests. For signing arbitrary messages, see the <a href="../man3/EVP_DigestSignInit.html>EVP_DigestSignInit(3)</a> and <a href="../man3/EVP_SignInit.html>EVP_SignInit(3)</a> signing interfaces instead.</p>
+<p>EVP_PKEY_sign() does not hash the data to be signed, and therefore is normally used to sign digests. For signing arbitrary messages, see the <a href="../man3/EVP_DigestSignInit.html">EVP_DigestSignInit(3)</a> and <a href="../man3/EVP_SignInit.html">EVP_SignInit(3)</a> signing interfaces instead.</p>
 
-<p>After the call to EVP_PKEY_sign_init() algorithm specific control operations can be performed to set any appropriate parameters for the operation (see <a href="../man3/EVP_PKEY_CTX_ctrl.html>EVP_PKEY_CTX_ctrl(3)</a>).</p>
+<p>After the call to EVP_PKEY_sign_init() algorithm specific control operations can be performed to set any appropriate parameters for the operation (see <a href="../man3/EVP_PKEY_CTX_ctrl.html">EVP_PKEY_CTX_ctrl(3)</a>).</p>
 
 <p>The function EVP_PKEY_sign() can be called more than once on the same context if several operations are performed using the same parameters.</p>
 
@@ -75,36 +75,36 @@
   */</span>
  <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new</span><span class="operator">(</span><span class="variable">signing_key</span><span class="operator">,</span> <span class="variable">NULL</span> <span class="operator">/*</span> <span class="keyword">no</span> <span class="variable">engine</span> <span class="operator">*/);</span>
  <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ctx</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="variable">occurred</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="variable">occurred</span> <span class="operator">*/</span>
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_sign_init</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_rsa_padding</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">RSA_PKCS1_PADDING</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_signature_md</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">())</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  
  <span class="regex">/* Determine buffer length */</span>
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_sign</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">siglen</span><span class="operator">,</span> <span class="variable">md</span><span class="operator">,</span> <span class="variable">mdlen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  
  <span class="variable">sig</span> <span class="operator">=</span> <span class="variable">OPENSSL_malloc</span><span class="operator">(</span><span class="variable">siglen</span><span class="operator">);</span>
  
  <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">sig</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">malloc</span> <span class="variable">failure</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">malloc</span> <span class="variable">failure</span> <span class="operator">*/</span>
  
  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_sign</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">sig</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">siglen</span><span class="operator">,</span> <span class="variable">md</span><span class="operator">,</span> <span class="variable">mdlen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-        <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
+     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
  
  <span class="regex">/* Signature is siglen bytes written to buffer sig */</span>
 </code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/EVP_PKEY_CTX_new.html>EVP_PKEY_CTX_new(3)</a>, <a href="../man3/EVP_PKEY_CTX_ctrl.html>EVP_PKEY_CTX_ctrl(3)</a>, <a href="../man3/EVP_PKEY_encrypt.html>EVP_PKEY_encrypt(3)</a>, <a href="../man3/EVP_PKEY_decrypt.html>EVP_PKEY_decrypt(3)</a>, <a href="../man3/EVP_PKEY_verify.html>EVP_PKEY_verify(3)</a>, <a href="../man3/EVP_PKEY_verify_recover.html>EVP_PKEY_verify_recover(3)</a>, <a href="../man3/EVP_PKEY_derive.html>EVP_PKEY_derive(3)</a></p>
+<p><a href="../man3/EVP_PKEY_CTX_new.html">EVP_PKEY_CTX_new(3)</a>, <a href="../man3/EVP_PKEY_CTX_ctrl.html">EVP_PKEY_CTX_ctrl(3)</a>, <a href="../man3/EVP_PKEY_encrypt.html">EVP_PKEY_encrypt(3)</a>, <a href="../man3/EVP_PKEY_decrypt.html">EVP_PKEY_decrypt(3)</a>, <a href="../man3/EVP_PKEY_verify.html">EVP_PKEY_verify(3)</a>, <a href="../man3/EVP_PKEY_verify_recover.html">EVP_PKEY_verify_recover(3)</a>, <a href="../man3/EVP_PKEY_derive.html">EVP_PKEY_derive(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
-<p>These functions were first added to OpenSSL 1.0.0.</p>
+<p>These functions were added in OpenSSL 1.0.0.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

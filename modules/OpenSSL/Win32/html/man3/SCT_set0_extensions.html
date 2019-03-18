@@ -31,21 +31,21 @@
 <pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
  
  <span class="variable">typedef</span> <span class="variable">enum</span> <span class="operator">{</span>
-  <span class="variable">CT_LOG_ENTRY_TYPE_NOT_SET</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span>
-  <span class="variable">CT_LOG_ENTRY_TYPE_X509</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">,</span>
-  <span class="variable">CT_LOG_ENTRY_TYPE_PRECERT</span> <span class="operator">=</span> <span class="number">1</span>
+     <span class="variable">CT_LOG_ENTRY_TYPE_NOT_SET</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span>
+     <span class="variable">CT_LOG_ENTRY_TYPE_X509</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">,</span>
+     <span class="variable">CT_LOG_ENTRY_TYPE_PRECERT</span> <span class="operator">=</span> <span class="number">1</span>
  <span class="operator">}</span> <span class="variable">ct_log_entry_type_t</span><span class="operator">;</span>
  
  <span class="variable">typedef</span> <span class="variable">enum</span> <span class="operator">{</span>
-  <span class="variable">SCT_VERSION_NOT_SET</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span>
-  <span class="variable">SCT_VERSION_V1</span> <span class="operator">=</span> <span class="number">0</span>
+     <span class="variable">SCT_VERSION_NOT_SET</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span>
+     <span class="variable">SCT_VERSION_V1</span> <span class="operator">=</span> <span class="number">0</span>
  <span class="operator">}</span> <span class="variable">sct_version_t</span><span class="operator">;</span>
  
  <span class="variable">typedef</span> <span class="variable">enum</span> <span class="operator">{</span>
-  <span class="variable">SCT_SOURCE_UNKNOWN</span><span class="operator">,</span>
-  <span class="variable">SCT_SOURCE_TLS_EXTENSION</span><span class="operator">,</span>
-  <span class="variable">SCT_SOURCE_X509V3_EXTENSION</span><span class="operator">,</span>
-  <span class="variable">SCT_SOURCE_OCSP_STAPLED_RESPONSE</span>
+     <span class="variable">SCT_SOURCE_UNKNOWN</span><span class="operator">,</span>
+     <span class="variable">SCT_SOURCE_TLS_EXTENSION</span><span class="operator">,</span>
+     <span class="variable">SCT_SOURCE_X509V3_EXTENSION</span><span class="operator">,</span>
+     <span class="variable">SCT_SOURCE_OCSP_STAPLED_RESPONSE</span>
  <span class="operator">}</span> <span class="variable">sct_source_t</span><span class="operator">;</span>
  
  <span class="variable">SCT</span> <span class="variable">*SCT_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
@@ -138,9 +138,7 @@
 <li><p>The LogID (see RFC 6962, Section 3.2), base64 encoded.</p>
 
 </li>
-<li><p>The type of certificate the SCT was issued for:</p>
-
-<p><b>CT_LOG_ENTRY_TYPE_X509</b> for a normal certificate. <b>CT_LOG_ENTRY_TYPE_PRECERT</b> for a pre-certificate.</p>
+<li><p>The type of certificate the SCT was issued for: <b>CT_LOG_ENTRY_TYPE_X509</b> for a normal certificate. <b>CT_LOG_ENTRY_TYPE_PRECERT</b> for a pre-certificate.</p>
 
 </li>
 <li><p>The time that the SCT was issued (epoch time in milliseconds).</p>
@@ -160,7 +158,7 @@
 
 <p>Some of the setters return int, instead of void. These will all return 1 on success, 0 on failure. They will not make changes on failure.</p>
 
-<p>All of the setters will reset the validation status of the SCT to SCT_VALIDATION_STATUS_NOT_SET (see <a href="../man3/SCT_validate.html>SCT_validate(3)</a>).</p>
+<p>All of the setters will reset the validation status of the SCT to SCT_VALIDATION_STATUS_NOT_SET (see <a href="../man3/SCT_validate.html">SCT_validate(3)</a>).</p>
 
 <p>SCT_set_source() will call SCT_set_log_entry_type() if the type of certificate the SCT was issued for can be inferred from where the SCT was found. For example, an SCT found in an X.509 extension must have been issued for a pre- certificate.</p>
 
@@ -182,7 +180,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man7/ct.html>ct(7)</a>, <a href="../man3/SCT_validate.html>SCT_validate(3)</a>, <a href="../man3/OBJ_nid2obj.html>OBJ_nid2obj(3)</a></p>
+<p><a href="../man7/ct.html">ct(7)</a>, <a href="../man3/SCT_validate.html">SCT_validate(3)</a>, <a href="../man3/OBJ_nid2obj.html">OBJ_nid2obj(3)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

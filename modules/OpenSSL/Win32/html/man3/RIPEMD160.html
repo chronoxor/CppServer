@@ -31,11 +31,10 @@
 <pre><code> <span class="comment">#include &lt;openssl/ripemd.h&gt;</span>
  
  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*RIPEMD160</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span>
-                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
+                          <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">RIPEMD160_Init</span><span class="operator">(</span><span class="variable">RIPEMD160_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RIPEMD160_Update</span><span class="operator">(</span><span class="variable">RIPEMD_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span>
-                  <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">RIPEMD160_Update</span><span class="operator">(</span><span class="variable">RIPEMD160_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">RIPEMD160_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">RIPEMD160_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
 </code></pre>
 
@@ -61,19 +60,19 @@
 
 <h1 id="NOTE">NOTE</h1>
 
-<p>Applications should use the higher level functions <a href="../man3/EVP_DigestInit.html>EVP_DigestInit(3)</a> etc. instead of calling these functions directly.</p>
+<p>Applications should use the higher level functions <a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a> etc. instead of calling these functions directly.</p>
 
 <h1 id="CONFORMING-TO">CONFORMING TO</h1>
 
-<p>ISO/IEC 10118-3 (draft) (??)</p>
+<p>ISO/IEC 10118-3:2016 Dedicated Hash-Function 1 (RIPEMD-160).</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/EVP_DigestInit.html>EVP_DigestInit(3)</a></p>
+<p><a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 
