@@ -93,7 +93,7 @@ protected:
 
 } // namespace
 
-TEST_CASE("UDP server test", "[CppServer][Asio]")
+TEST_CASE("UDP server test", "[CppServer][UDP]")
 {
     const std::string address = "127.0.0.1";
     const int port = 3333;
@@ -161,7 +161,7 @@ TEST_CASE("UDP server test", "[CppServer][Asio]")
     REQUIRE(!client->errors);
 }
 
-TEST_CASE("UDP server random test", "[CppServer][Asio]")
+TEST_CASE("UDP server random test", "[CppServer][UDP]")
 {
     const std::string address = "127.0.0.1";
     const int port = 3334;

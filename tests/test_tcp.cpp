@@ -123,7 +123,7 @@ protected:
 
 } // namespace
 
-TEST_CASE("TCP server test", "[CppServer][Asio]")
+TEST_CASE("TCP server test", "[CppServer][TCP]")
 {
     const std::string address = "127.0.0.1";
     const int port = 1111;
@@ -193,7 +193,7 @@ TEST_CASE("TCP server test", "[CppServer][Asio]")
     REQUIRE(!client->errors);
 }
 
-TEST_CASE("TCP server multicast test", "[CppServer][Asio]")
+TEST_CASE("TCP server multicast test", "[CppServer][TCP]")
 {
     const std::string address = "127.0.0.1";
     const int port = 1112;
@@ -317,7 +317,7 @@ TEST_CASE("TCP server multicast test", "[CppServer][Asio]")
     REQUIRE(!client3->errors);
 }
 
-TEST_CASE("TCP server random test", "[CppServer][Asio]")
+TEST_CASE("TCP server random test", "[CppServer][TCP]")
 {
     const std::string address = "127.0.0.1";
     const int port = 1113;
