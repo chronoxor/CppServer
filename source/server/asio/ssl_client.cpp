@@ -1038,8 +1038,6 @@ private:
             _bytes_pending = 0;
             _bytes_sending += _send_buffer_flush.size();
         }
-        else
-            return;
 
         // Check if the flush buffer is empty
         if (_send_buffer_flush.empty())
