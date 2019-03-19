@@ -29,11 +29,7 @@ std::atomic<uint64_t> total_messages(0);
 class MulticastClient : public SSLClient
 {
 public:
-    MulticastClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port)
-        : SSLClient(service, context, address, port),
-          _handshaked(false)
-    {
-    }
+    using SSLClient::SSLClient;
 
     bool handshaked() const noexcept { return _handshaked; }
 
@@ -55,7 +51,7 @@ protected:
     }
 
 private:
-    std::atomic<bool> _handshaked;
+    std::atomic<bool> _handshaked{false};
 };
 
 int main(int argc, char** argv)

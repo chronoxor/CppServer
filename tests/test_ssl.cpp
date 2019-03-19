@@ -20,22 +20,7 @@ namespace {
 class EchoSSLService : public Service
 {
 public:
-    std::atomic<bool> thread_initialize;
-    std::atomic<bool> thread_cleanup;
-    std::atomic<bool> started;
-    std::atomic<bool> stopped;
-    std::atomic<bool> idle;
-    std::atomic<bool> errors;
-
-    EchoSSLService()
-        : thread_initialize(false),
-          thread_cleanup(false),
-          started(false),
-          stopped(false),
-          idle(false),
-          errors(false)
-    {
-    }
+    using Service::Service;
 
 protected:
     void onThreadInitialize() override { thread_initialize = true; }
@@ -44,24 +29,20 @@ protected:
     void onStopped() override { stopped = true; }
     void onIdle() override { idle = true; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> thread_initialize{false};
+    std::atomic<bool> thread_cleanup{false};
+    std::atomic<bool> started{false};
+    std::atomic<bool> stopped{false};
+    std::atomic<bool> idle{false};
+    std::atomic<bool> errors{false};
 };
 
 class EchoSSLClient : public SSLClient
 {
 public:
-    std::atomic<bool> connected;
-    std::atomic<bool> handshaked;
-    std::atomic<bool> disconnected;
-    std::atomic<bool> errors;
-
-    EchoSSLClient(std::shared_ptr<EchoSSLService> service, std::shared_ptr<SSLContext> context, const std::string& address, int port)
-        : SSLClient(service, context, address, port),
-          connected(false),
-          handshaked(false),
-          disconnected(false),
-          errors(false)
-    {
-    }
+    using SSLClient::SSLClient;
 
     static std::shared_ptr<SSLContext> CreateContext()
     {
@@ -78,24 +59,18 @@ protected:
     void onHandshaked() override { handshaked = true; }
     void onDisconnected() override { disconnected = true; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> connected{false};
+    std::atomic<bool> handshaked{false};
+    std::atomic<bool> disconnected{false};
+    std::atomic<bool> errors{false};
 };
 
 class EchoSSLSession : public SSLSession
 {
 public:
-    std::atomic<bool> connected;
-    std::atomic<bool> handshaked;
-    std::atomic<bool> disconnected;
-    std::atomic<bool> errors;
-
-    explicit EchoSSLSession(std::shared_ptr<SSLServer> server)
-        : SSLSession(server),
-          connected(false),
-          handshaked(false),
-          disconnected(false),
-          errors(false)
-    {
-    }
+    using SSLSession::SSLSession;
 
 protected:
     void onConnected() override { connected = true; }
@@ -103,29 +78,18 @@ protected:
     void onDisconnected() override { disconnected = true; }
     void onReceived(const void* buffer, size_t size) override { SendAsync(buffer, size); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> connected{false};
+    std::atomic<bool> handshaked{false};
+    std::atomic<bool> disconnected{false};
+    std::atomic<bool> errors{false};
 };
 
 class EchoSSLServer : public SSLServer
 {
 public:
-    std::atomic<bool> started;
-    std::atomic<bool> stopped;
-    std::atomic<bool> connected;
-    std::atomic<bool> handshaked;
-    std::atomic<bool> disconnected;
-    std::atomic<size_t> clients;
-    std::atomic<bool> errors;
-
-    EchoSSLServer(std::shared_ptr<EchoSSLService> service, std::shared_ptr<SSLContext> context, int port)
-        : SSLServer(service, context, port),
-          started(false),
-          stopped(false),
-          connected(false),
-          disconnected(false),
-          clients(0),
-          errors(false)
-    {
-    }
+    using SSLServer::SSLServer;
 
     static std::shared_ptr<SSLContext> CreateContext()
     {
@@ -147,6 +111,15 @@ protected:
     void onHandshaked(std::shared_ptr<SSLSession>& session) override { handshaked = true; ++clients; }
     void onDisconnected(std::shared_ptr<SSLSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> started{false};
+    std::atomic<bool> stopped{false};
+    std::atomic<bool> connected{false};
+    std::atomic<bool> handshaked{false};
+    std::atomic<bool> disconnected{false};
+    std::atomic<size_t> clients{0};
+    std::atomic<bool> errors{false};
 };
 
 } // namespace

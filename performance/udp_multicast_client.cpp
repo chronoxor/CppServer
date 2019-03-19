@@ -31,7 +31,6 @@ class MulticastClient : public UDPClient
 public:
     MulticastClient(std::shared_ptr<Service> service, const std::string& address, const std::string& multicast, int port)
         : UDPClient(service, address, port),
-          _connected(false),
           _multicast(multicast)
     {
     }
@@ -65,7 +64,7 @@ protected:
     }
 
 private:
-    std::atomic<bool> _connected;
+    std::atomic<bool> _connected{false};
     std::string _multicast;
 };
 

@@ -33,11 +33,8 @@ class EchoClient : public TCPClient
 public:
     EchoClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
         : TCPClient(service, address, port),
-          _connected(false),
           _messages_output(messages),
-          _messages_input(messages),
-          _sent(0),
-          _received(0)
+          _messages_input(messages)
     {
     }
 
@@ -80,11 +77,11 @@ protected:
     }
 
 private:
-    std::atomic<bool> _connected;
+    std::atomic<bool> _connected{false};
     int _messages_output;
     int _messages_input;
-    size_t _sent;
-    size_t _received;
+    size_t _sent{0};
+    size_t _received{0};
 
     void SendMessage()
     {

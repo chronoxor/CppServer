@@ -20,22 +20,7 @@ namespace {
 class EchoTCPService : public Service
 {
 public:
-    std::atomic<bool> thread_initialize;
-    std::atomic<bool> thread_cleanup;
-    std::atomic<bool> started;
-    std::atomic<bool> stopped;
-    std::atomic<bool> idle;
-    std::atomic<bool> errors;
-
-    EchoTCPService()
-        : thread_initialize(false),
-          thread_cleanup(false),
-          started(false),
-          stopped(false),
-          idle(false),
-          errors(false)
-    {
-    }
+    using Service::Service;
 
 protected:
     void onThreadInitialize() override { thread_initialize = true; }
@@ -44,71 +29,53 @@ protected:
     void onStopped() override { stopped = true; }
     void onIdle() override { idle = true; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> thread_initialize{false};
+    std::atomic<bool> thread_cleanup{false};
+    std::atomic<bool> started{false};
+    std::atomic<bool> stopped{false};
+    std::atomic<bool> idle{false};
+    std::atomic<bool> errors{false};
 };
 
 class EchoTCPClient : public TCPClient
 {
 public:
-    std::atomic<bool> connected;
-    std::atomic<bool> disconnected;
-    std::atomic<bool> errors;
-
-    EchoTCPClient(std::shared_ptr<EchoTCPService> service, const std::string& address, int port)
-        : TCPClient(service, address, port),
-          connected(false),
-          disconnected(false),
-          errors(false)
-    {
-    }
+    using TCPClient::TCPClient;
 
 protected:
     void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> connected{false};
+    std::atomic<bool> disconnected{false};
+    std::atomic<bool> errors{false};
 };
 
 class EchoTCPSession : public TCPSession
 {
 public:
-    std::atomic<bool> connected;
-    std::atomic<bool> disconnected;
-    std::atomic<bool> errors;
-
-    explicit EchoTCPSession(std::shared_ptr<TCPServer> server)
-        : TCPSession(server),
-          connected(false),
-          disconnected(false),
-          errors(false)
-    {
-    }
+    using TCPSession::TCPSession;
 
 protected:
     void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; }
     void onReceived(const void* buffer, size_t size) override { SendAsync(buffer, size); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> connected{false};
+    std::atomic<bool> disconnected{false};
+    std::atomic<bool> errors{false};
 };
 
 class EchoTCPServer : public TCPServer
 {
 public:
-    std::atomic<bool> started;
-    std::atomic<bool> stopped;
-    std::atomic<bool> connected;
-    std::atomic<bool> disconnected;
-    std::atomic<size_t> clients;
-    std::atomic<bool> errors;
-
-    EchoTCPServer(std::shared_ptr<EchoTCPService> service, int port)
-        : TCPServer(service, port),
-          started(false),
-          stopped(false),
-          connected(false),
-          disconnected(false),
-          clients(0),
-          errors(false)
-    {
-    }
+    using TCPServer::TCPServer;
 
 protected:
     std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) override { return std::make_shared<EchoTCPSession>(server); }
@@ -119,6 +86,14 @@ protected:
     void onConnected(std::shared_ptr<TCPSession>& session) override { connected = true; ++clients; }
     void onDisconnected(std::shared_ptr<TCPSession>& session) override { disconnected = true; --clients; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> started{false};
+    std::atomic<bool> stopped{false};
+    std::atomic<bool> connected{false};
+    std::atomic<bool> disconnected{false};
+    std::atomic<size_t> clients{0};
+    std::atomic<bool> errors{false};
 };
 
 } // namespace

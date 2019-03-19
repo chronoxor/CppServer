@@ -20,22 +20,7 @@ namespace {
 class EchoUDPService : public Service
 {
 public:
-    std::atomic<bool> thread_initialize;
-    std::atomic<bool> thread_cleanup;
-    std::atomic<bool> started;
-    std::atomic<bool> stopped;
-    std::atomic<bool> idle;
-    std::atomic<bool> errors;
-
-    EchoUDPService()
-        : thread_initialize(false),
-          thread_cleanup(false),
-          started(false),
-          stopped(false),
-          idle(false),
-          errors(false)
-    {
-    }
+    using Service::Service;
 
 protected:
     void onThreadInitialize() override { thread_initialize = true; }
@@ -44,44 +29,37 @@ protected:
     void onStopped() override { stopped = true; }
     void onIdle() override { idle = true; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> thread_initialize{false};
+    std::atomic<bool> thread_cleanup{false};
+    std::atomic<bool> started{false};
+    std::atomic<bool> stopped{false};
+    std::atomic<bool> idle{false};
+    std::atomic<bool> errors{false};
 };
 
 class EchoUDPClient : public UDPClient
 {
 public:
-    std::atomic<bool> connected;
-    std::atomic<bool> disconnected;
-    std::atomic<bool> errors;
-
-    EchoUDPClient(std::shared_ptr<EchoUDPService> service, const std::string& address, int port)
-        : UDPClient(service, address, port),
-          connected(false),
-          disconnected(false),
-          errors(false)
-    {
-    }
+    using UDPClient::UDPClient;
 
 protected:
     void onConnected() override { connected = true; ReceiveAsync(); }
     void onDisconnected() override { disconnected = true; }
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { ReceiveAsync(); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> connected{false};
+    std::atomic<bool> disconnected{false};
+    std::atomic<bool> errors{false};
 };
 
 class EchoUDPServer : public UDPServer
 {
 public:
-    std::atomic<bool> started;
-    std::atomic<bool> stopped;
-    std::atomic<bool> errors;
-
-    EchoUDPServer(std::shared_ptr<EchoUDPService> service, int port)
-        : UDPServer(service, port),
-          started(false),
-          stopped(false),
-          errors(false)
-    {
-    }
+    using UDPServer::UDPServer;
 
 protected:
     void onStarted() override { started = true; ReceiveAsync(); }
@@ -89,6 +67,11 @@ protected:
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override { SendAsync(endpoint, buffer, size); }
     void onSent(const asio::ip::udp::endpoint& endpoint, size_t sent) override { ReceiveAsync(); }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> started{false};
+    std::atomic<bool> stopped{false};
+    std::atomic<bool> errors{false};
 };
 
 } // namespace

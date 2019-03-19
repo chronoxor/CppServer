@@ -17,11 +17,7 @@
 class ChatClient : public CppServer::Asio::SSLClient
 {
 public:
-    ChatClient(std::shared_ptr<CppServer::Asio::Service> service, std::shared_ptr<CppServer::Asio::SSLContext> context, const std::string& address, int port)
-        : CppServer::Asio::SSLClient(service, context, address, port)
-    {
-        _stop = false;
-    }
+    using CppServer::Asio::SSLClient::SSLClient;
 
     void DisconnectAndStop()
     {
@@ -65,7 +61,7 @@ protected:
     }
 
 private:
-    std::atomic<bool> _stop;
+    std::atomic<bool> _stop{false};
 };
 
 int main(int argc, char** argv)

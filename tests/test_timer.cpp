@@ -15,17 +15,7 @@ namespace {
 class AsioTimer : public Timer
 {
 public:
-    std::atomic<bool> canceled;
-    std::atomic<bool> expired;
-    std::atomic<bool> errors;
-
-    AsioTimer(std::shared_ptr<Service> service)
-        : Timer(service),
-          canceled(false),
-          expired(false),
-          errors(false)
-    {
-    }
+    using Timer::Timer;
 
 protected:
     void onTimer(bool aborted) override
@@ -37,6 +27,11 @@ protected:
     }
 
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
+
+public:
+    std::atomic<bool> canceled{false};
+    std::atomic<bool> expired{false};
+    std::atomic<bool> errors{false};
 };
 
 } // namespace

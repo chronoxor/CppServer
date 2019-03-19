@@ -32,8 +32,7 @@ class EchoClient : public UDPClient
 {
 public:
     EchoClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
-        : UDPClient(service, address, port),
-          _connected(false)
+        : UDPClient(service, address, port)
     {
         _messages = messages;
     }
@@ -70,7 +69,7 @@ protected:
     }
 
 private:
-    std::atomic<bool> _connected;
+    std::atomic<bool> _connected{false};
     int _messages;
 
     void SendMessage()

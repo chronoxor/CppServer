@@ -21,7 +21,6 @@ public:
         : CppServer::Asio::UDPClient(service, address, port),
           _multicast(multicast)
     {
-        _stop = false;
     }
 
     void DisconnectAndStop()
@@ -70,7 +69,7 @@ protected:
     }
 
 private:
-    std::atomic<bool> _stop;
+    std::atomic<bool> _stop{false};
     std::string _multicast;
 };
 

@@ -29,11 +29,7 @@ std::atomic<uint64_t> total_messages(0);
 class MulticastClient : public TCPClient
 {
 public:
-    MulticastClient(std::shared_ptr<Service> service, const std::string& address, int port)
-        : TCPClient(service, address, port),
-          _connected(false)
-    {
-    }
+    using TCPClient::TCPClient;
 
     bool connected() const noexcept { return _connected; }
 
@@ -55,7 +51,7 @@ protected:
     }
 
 private:
-    std::atomic<bool> _connected;
+    std::atomic<bool> _connected{false};
 };
 
 int main(int argc, char** argv)
