@@ -36,14 +36,14 @@ public:
         \param status - HTTP status
         \param protocol - Protocol version (default is "HTTP/1.1")
     */
-    HTTPResponse(int status, const std::string_view& protocol = "HTTP/1.1") { SetBegin(status, protocol); }
+    HTTPResponse(int status, std::string_view protocol = "HTTP/1.1") { SetBegin(status, protocol); }
     //! Initialize a new HTTP response with a given status, status phrase and protocol
     /*!
         \param status - HTTP status
         \param status_phrase - HTTP status phrase
         \param protocol - Protocol version
     */
-    HTTPResponse(int status, const std::string_view& status_phrase, const std::string_view& protocol) { SetBegin(status, status_phrase, protocol); }
+    HTTPResponse(int status, std::string_view status_phrase, std::string_view protocol) { SetBegin(status, status_phrase, protocol); }
     HTTPResponse(const HTTPResponse&) = default;
     HTTPResponse(HTTPResponse&&) = default;
     ~HTTPResponse() = default;
@@ -77,25 +77,25 @@ public:
         \param status - HTTP status
         \param protocol - Protocol version (default is "HTTP/1.1")
     */
-    void SetBegin(int status, const std::string_view& protocol = "HTTP/1.1");
+    void SetBegin(int status, std::string_view protocol = "HTTP/1.1");
     //! Set the HTTP response begin with a given status, status phrase and protocol
     /*!
         \param status - HTTP status
         \param status_phrase - HTTP status phrase
         \param protocol - Protocol version
     */
-    void SetBegin(int status, const std::string_view& status_phrase, const std::string_view& protocol);
+    void SetBegin(int status, std::string_view status_phrase, std::string_view protocol);
     //! Set the HTTP response header
     /*!
         \param key - Header key
         \param value - Header value
     */
-    void SetHeader(const std::string_view& key, const std::string_view& value);
+    void SetHeader(std::string_view key, std::string_view value);
     //! Set the HTTP response body
     /*!
         \param body - Body content (default is "")
     */
-    void SetBody(const std::string_view& body = "");
+    void SetBody(std::string_view body = "");
     //! Set the HTTP response body length
     /*!
         \param length - Body length

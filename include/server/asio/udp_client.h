@@ -180,7 +180,7 @@ public:
         \param text - Text to send
         \return Size of sent datagram
     */
-    virtual size_t Send(const std::string_view& text) { return Send(text.data(), text.size()); }
+    virtual size_t Send(std::string_view text) { return Send(text.data(), text.size()); }
     //! Send datagram to the given endpoint (synchronous)
     /*!
         \param endpoint - Endpoint to send
@@ -195,7 +195,7 @@ public:
         \param text - Text to send
         \return Size of sent datagram
     */
-    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return Send(endpoint, text.data(), text.size()); }
+    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, std::string_view text) { return Send(endpoint, text.data(), text.size()); }
 
     //! Send datagram to the connected server with timeout (synchronous)
     /*!
@@ -211,7 +211,7 @@ public:
         \param timeout - Timeout
         \return Size of sent datagram
     */
-    virtual size_t Send(const std::string_view& text, const CppCommon::Timespan& timeout) { return Send(text.data(), text.size(), timeout); }
+    virtual size_t Send(std::string_view text, const CppCommon::Timespan& timeout) { return Send(text.data(), text.size(), timeout); }
     //! Send datagram to the given endpoint with timeout (synchronous)
     /*!
         \param endpoint - Endpoint to send
@@ -228,7 +228,7 @@ public:
         \param timeout - Timeout
         \return Size of sent datagram
     */
-    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, const std::string_view& text, const CppCommon::Timespan& timeout) { return Send(endpoint, text.data(), text.size(), timeout); }
+    virtual size_t Send(const asio::ip::udp::endpoint& endpoint, std::string_view text, const CppCommon::Timespan& timeout) { return Send(endpoint, text.data(), text.size(), timeout); }
 
     //! Send datagram to the connected server (asynchronous)
     /*!
@@ -242,7 +242,7 @@ public:
         \param text - Text to send
         \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
-    virtual bool SendAsync(const std::string_view& text) { return SendAsync(text.data(), text.size()); }
+    virtual bool SendAsync(std::string_view text) { return SendAsync(text.data(), text.size()); }
     //! Send datagram to the given endpoint (asynchronous)
     /*!
         \param endpoint - Endpoint to send
@@ -257,7 +257,7 @@ public:
         \param text - Text to send
         \return 'true' if the text was successfully sent, 'false' if the text was not sent
     */
-    virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, const std::string_view& text) { return SendAsync(endpoint, text.data(), text.size()); }
+    virtual bool SendAsync(const asio::ip::udp::endpoint& endpoint, std::string_view text) { return SendAsync(endpoint, text.data(), text.size()); }
 
     //! Receive datagram from the given endpoint (synchronous)
     /*!

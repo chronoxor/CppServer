@@ -90,7 +90,7 @@ public:
         \param text - Text to send
         \return Size of sent text
     */
-    virtual size_t Send(const std::string_view& text) { return Send(text.data(), text.size()); }
+    virtual size_t Send(std::string_view text) { return Send(text.data(), text.size()); }
 
     //! Send data to the client with timeout (synchronous)
     /*!
@@ -106,7 +106,7 @@ public:
         \param timeout - Timeout
         \return Size of sent text
     */
-    virtual size_t Send(const std::string_view& text, const CppCommon::Timespan& timeout) { return Send(text.data(), text.size(), timeout); }
+    virtual size_t Send(std::string_view text, const CppCommon::Timespan& timeout) { return Send(text.data(), text.size(), timeout); }
 
     //! Send data to the client (asynchronous)
     /*!
@@ -120,7 +120,7 @@ public:
         \param text - Text to send
         \return 'true' if the text was successfully sent, 'false' if the session is not connected
     */
-    virtual bool SendAsync(const std::string_view& text) { return SendAsync(text.data(), text.size()); }
+    virtual bool SendAsync(std::string_view text) { return SendAsync(text.data(), text.size()); }
 
     //! Receive data from the client (synchronous)
     /*!

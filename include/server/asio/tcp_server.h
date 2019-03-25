@@ -127,7 +127,7 @@ public:
         \param text - Text to multicast
         \return 'true' if the text was successfully multicast, 'false' if the server is not started
     */
-    virtual bool Multicast(const std::string_view& text) { return Multicast(text.data(), text.size()); }
+    virtual bool Multicast(std::string_view text) { return Multicast(text.data(), text.size()); }
 
     //! Disconnect all connected sessions
     /*!

@@ -39,7 +39,7 @@ void HTTPResponse::Clear()
     _cache.clear();
 }
 
-void HTTPResponse::SetBegin(int status, const std::string_view& protocol)
+void HTTPResponse::SetBegin(int status, std::string_view protocol)
 {
     std::string status_phrase;
 
@@ -123,7 +123,7 @@ void HTTPResponse::SetBegin(int status, const std::string_view& protocol)
     SetBegin(status, status_phrase, protocol);
 }
 
-void HTTPResponse::SetBegin(int status, const std::string_view& status_phrase, const std::string_view& protocol)
+void HTTPResponse::SetBegin(int status, std::string_view status_phrase, std::string_view protocol)
 {
     // Clear the HTTP response cache
     Clear();
@@ -153,7 +153,7 @@ void HTTPResponse::SetBegin(int status, const std::string_view& status_phrase, c
     _cache.append("\r\n");
 }
 
-void HTTPResponse::SetHeader(const std::string_view& key, const std::string_view& value)
+void HTTPResponse::SetHeader(std::string_view key, std::string_view value)
 {
     size_t index = _cache.size();
 
@@ -176,7 +176,7 @@ void HTTPResponse::SetHeader(const std::string_view& key, const std::string_view
     _headers.emplace_back(key_index, key_size, value_index, value_size);
 }
 
-void HTTPResponse::SetBody(const std::string_view& body)
+void HTTPResponse::SetBody(std::string_view body)
 {
     // Append non empty content length header
     if (!body.empty())

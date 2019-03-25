@@ -40,7 +40,7 @@ void HTTPRequest::Clear()
     _cache.clear();
 }
 
-void HTTPRequest::SetBegin(const std::string_view& method, const std::string_view& url, const std::string_view& protocol)
+void HTTPRequest::SetBegin(std::string_view method, std::string_view url, std::string_view protocol)
 {
     // Clear the HTTP request cache
     Clear();
@@ -71,7 +71,7 @@ void HTTPRequest::SetBegin(const std::string_view& method, const std::string_vie
     _cache.append("\r\n");
 }
 
-void HTTPRequest::SetHeader(const std::string_view& key, const std::string_view& value)
+void HTTPRequest::SetHeader(std::string_view key, std::string_view value)
 {
     size_t index = _cache.size();
 
@@ -94,7 +94,7 @@ void HTTPRequest::SetHeader(const std::string_view& key, const std::string_view&
     _headers.emplace_back(key_index, key_size, value_index, value_size);
 }
 
-void HTTPRequest::SetBody(const std::string_view& body)
+void HTTPRequest::SetBody(std::string_view body)
 {
     // Append non empty content length header
     if (!body.empty())

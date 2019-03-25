@@ -37,7 +37,7 @@ public:
         \param url - Requested URL
         \param protocol - Protocol version (default is "HTTP/1.1")
     */
-    HTTPRequest(const std::string_view& method, const std::string_view& url, const std::string_view& protocol = "HTTP/1.1") { SetBegin(method, url, protocol); }
+    HTTPRequest(std::string_view method, std::string_view url, std::string_view protocol = "HTTP/1.1") { SetBegin(method, url, protocol); }
     HTTPRequest(const HTTPRequest&) = default;
     HTTPRequest(HTTPRequest&&) = default;
     ~HTTPRequest() = default;
@@ -72,18 +72,18 @@ public:
         \param url - Requested URL
         \param protocol - Protocol version (default is "HTTP/1.1")
     */
-    void SetBegin(const std::string_view& method, const std::string_view& url, const std::string_view& protocol = "HTTP/1.1");
+    void SetBegin(std::string_view method, std::string_view url, std::string_view protocol = "HTTP/1.1");
     //! Set the HTTP request header
     /*!
         \param key - Header key
         \param value - Header value
     */
-    void SetHeader(const std::string_view& key, const std::string_view& value);
+    void SetHeader(std::string_view key, std::string_view value);
     //! Set the HTTP request body
     /*!
         \param body - Body content (default is "")
     */
-    void SetBody(const std::string_view& body = "");
+    void SetBody(std::string_view body = "");
     //! Set the HTTP request body length
     /*!
         \param length - Body length
