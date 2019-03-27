@@ -185,7 +185,7 @@ void Service::ServiceLoop(std::shared_ptr<Service> service, std::shared_ptr<asio
                     break;
                 }
             }
-            catch (asio::system_error& ex)
+            catch (const asio::system_error& ex)
             {
                 std::error_code ec = ex.code();
 
@@ -197,11 +197,11 @@ void Service::ServiceLoop(std::shared_ptr<Service> service, std::shared_ptr<asio
             }
         } while (service->IsStarted());
     }
-    catch (asio::system_error& ex)
+    catch (const asio::system_error& ex)
     {
         service->SendError(ex.code());
     }
-    catch (std::exception& ex)
+    catch (const std::exception& ex)
     {
         fatality(ex);
     }
