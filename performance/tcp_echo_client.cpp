@@ -160,18 +160,16 @@ int main(int argc, char** argv)
     for (auto& client : clients)
         client->ConnectAsync();
     std::cout << "Done!" << std::endl;
-    for (auto& client : clients)
+    for (const auto& client : clients)
         while (!client->connected())
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 
     // Wait for processing all messages
     std::cout << "Processing...";
-    for (auto& client : clients)
-    {
+    for (const auto& client : clients)
         while (client->IsConnected())
             Thread::Sleep(100);
-    }
     std::cout << "Done!" << std::endl;
 
     // Stop the Asio service

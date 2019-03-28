@@ -119,7 +119,7 @@ int main(int argc, char** argv)
     for (auto& client : clients)
         client->ConnectAsync();
     std::cout << "Done!" << std::endl;
-    for (auto& client : clients)
+    for (const auto& client : clients)
         while (!client->handshaked())
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
@@ -134,7 +134,7 @@ int main(int argc, char** argv)
     for (auto& client : clients)
         client->DisconnectAsync();
     std::cout << "Done!" << std::endl;
-    for (auto& client : clients)
+    for (const auto& client : clients)
         while (client->IsConnected())
             Thread::Yield();
     std::cout << "All clients disconnected!" << std::endl;
