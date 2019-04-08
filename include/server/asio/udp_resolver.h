@@ -29,11 +29,11 @@ public:
     */
     UDPResolver(std::shared_ptr<Service> service);
     UDPResolver(const UDPResolver&) = delete;
-    UDPResolver(UDPResolver&&) = default;
+    UDPResolver(UDPResolver&&) = delete;
     virtual ~UDPResolver() { Cancel(); }
 
     UDPResolver& operator=(const UDPResolver&) = delete;
-    UDPResolver& operator=(UDPResolver&&) = default;
+    UDPResolver& operator=(UDPResolver&&) = delete;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

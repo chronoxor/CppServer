@@ -35,11 +35,11 @@ public:
     */
     explicit SSLSession(std::shared_ptr<SSLServer> server);
     SSLSession(const SSLSession&) = delete;
-    SSLSession(SSLSession&&) = default;
+    SSLSession(SSLSession&&) = delete;
     virtual ~SSLSession() = default;
 
     SSLSession& operator=(const SSLSession&) = delete;
-    SSLSession& operator=(SSLSession&&) = default;
+    SSLSession& operator=(SSLSession&&) = delete;
 
     //! Get the session Id
     const CppCommon::UUID& id() const noexcept { return _id; }

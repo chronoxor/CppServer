@@ -66,11 +66,11 @@ public:
     */
     explicit Service(std::shared_ptr<asio::io_service> service, bool strands = false);
     Service(const Service&) = delete;
-    Service(Service&&) = default;
+    Service(Service&&) = delete;
     virtual ~Service() = default;
 
     Service& operator=(const Service&) = delete;
-    Service& operator=(Service&&) = default;
+    Service& operator=(Service&&) = delete;
 
     //! Get the number of working threads
     size_t threads() const noexcept { return _threads.size(); }

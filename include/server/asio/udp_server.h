@@ -46,11 +46,11 @@ public:
     */
     UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
     UDPServer(const UDPServer&) = delete;
-    UDPServer(UDPServer&&) = default;
+    UDPServer(UDPServer&&) = delete;
     virtual ~UDPServer() = default;
 
     UDPServer& operator=(const UDPServer&) = delete;
-    UDPServer& operator=(UDPServer&&) = default;
+    UDPServer& operator=(UDPServer&&) = delete;
 
     //! Get the server Id
     const CppCommon::UUID& id() const noexcept { return _id; }

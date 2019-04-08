@@ -53,11 +53,11 @@ public:
     */
     TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
     TCPServer(const TCPServer&) = delete;
-    TCPServer(TCPServer&&) = default;
+    TCPServer(TCPServer&&) = delete;
     virtual ~TCPServer() = default;
 
     TCPServer& operator=(const TCPServer&) = delete;
-    TCPServer& operator=(TCPServer&&) = default;
+    TCPServer& operator=(TCPServer&&) = delete;
 
     //! Get the server Id
     const CppCommon::UUID& id() const noexcept { return _id; }

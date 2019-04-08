@@ -1152,19 +1152,8 @@ SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContex
 {
 }
 
-SSLClient::SSLClient(SSLClient&& client) noexcept
-    : _pimpl(std::move(client._pimpl))
-{
-}
-
 SSLClient::~SSLClient()
 {
-}
-
-SSLClient& SSLClient::operator=(SSLClient&& client) noexcept
-{
-    _pimpl = std::move(client._pimpl);
-    return *this;
 }
 
 const CppCommon::UUID& SSLClient::id() const noexcept

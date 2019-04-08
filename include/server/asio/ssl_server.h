@@ -57,11 +57,11 @@ public:
     */
     SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const asio::ip::tcp::endpoint& endpoint);
     SSLServer(const SSLServer&) = delete;
-    SSLServer(SSLServer&&) = default;
+    SSLServer(SSLServer&&) = delete;
     virtual ~SSLServer() = default;
 
     SSLServer& operator=(const SSLServer&) = delete;
-    SSLServer& operator=(SSLServer&&) = default;
+    SSLServer& operator=(SSLServer&&) = delete;
 
     //! Get the server Id
     const CppCommon::UUID& id() const noexcept { return _id; }

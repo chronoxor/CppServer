@@ -30,11 +30,11 @@ public:
     using TCPClient::TCPClient;
 
     HTTPClient(const HTTPClient&) = delete;
-    HTTPClient(HTTPClient&&) = default;
+    HTTPClient(HTTPClient&&) = delete;
     virtual ~HTTPClient() = default;
 
     HTTPClient& operator=(const HTTPClient&) = delete;
-    HTTPClient& operator=(HTTPClient&&) = default;
+    HTTPClient& operator=(HTTPClient&&) = delete;
 
     //! Get the HTTP request
     HTTPRequest& request() noexcept { return _request; }

@@ -67,11 +67,11 @@ public:
     */
     Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action, const CppCommon::Timespan& timespan);
     Timer(const Timer&) = delete;
-    Timer(Timer&&) = default;
+    Timer(Timer&&) = delete;
     virtual ~Timer() = default;
 
     Timer& operator=(const Timer&) = delete;
-    Timer& operator=(Timer&&) = default;
+    Timer& operator=(Timer&&) = delete;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

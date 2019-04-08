@@ -30,11 +30,11 @@ public:
     using SSLClient::SSLClient;
 
     HTTPSClient(const HTTPSClient&) = delete;
-    HTTPSClient(HTTPSClient&&) = default;
+    HTTPSClient(HTTPSClient&&) = delete;
     virtual ~HTTPSClient() = default;
 
     HTTPSClient& operator=(const HTTPSClient&) = delete;
-    HTTPSClient& operator=(HTTPSClient&&) = default;
+    HTTPSClient& operator=(HTTPSClient&&) = delete;
 
     //! Get the HTTP request
     HTTPRequest& request() noexcept { return _request; }

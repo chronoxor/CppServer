@@ -29,11 +29,11 @@ public:
     */
     TCPResolver(std::shared_ptr<Service> service);
     TCPResolver(const TCPResolver&) = delete;
-    TCPResolver(TCPResolver&&) = default;
+    TCPResolver(TCPResolver&&) = delete;
     virtual ~TCPResolver() { Cancel(); }
 
     TCPResolver& operator=(const TCPResolver&) = delete;
-    TCPResolver& operator=(TCPResolver&&) = default;
+    TCPResolver& operator=(TCPResolver&&) = delete;
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }

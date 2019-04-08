@@ -50,11 +50,11 @@ public:
     */
     UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
     UDPClient(const UDPClient&) = delete;
-    UDPClient(UDPClient&&) = default;
+    UDPClient(UDPClient&&) = delete;
     virtual ~UDPClient() = default;
 
     UDPClient& operator=(const UDPClient&) = delete;
-    UDPClient& operator=(UDPClient&&) = default;
+    UDPClient& operator=(UDPClient&&) = delete;
 
     //! Get the client Id
     const CppCommon::UUID& id() const noexcept { return _id; }

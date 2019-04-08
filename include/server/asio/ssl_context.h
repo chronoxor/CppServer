@@ -26,11 +26,11 @@ public:
     using asio::ssl::context::context;
 
     SSLContext(const SSLContext&) = delete;
-    SSLContext(SSLContext&&) = default;
+    SSLContext(SSLContext&&) = delete;
     ~SSLContext() = default;
 
     SSLContext& operator=(const SSLContext&) = delete;
-    SSLContext& operator=(SSLContext&&) = default;
+    SSLContext& operator=(SSLContext&&) = delete;
 
     //! Configures the context to use system root certificates
     void set_root_certs();
