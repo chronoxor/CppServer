@@ -63,6 +63,8 @@ before_install:
   - if [ "$OS" == "osx" ]; then brew update; fi
   - if [ "$OS" == "osx" ]; then brew install doxygen; fi
   - if [ "$OS" == "osx" ]; then brew install graphviz; fi
+  # openssl
+  - if [ "$OS" == "osx" ]; then export OPENSSL_ROOT_DIR=$(brew --prefix openssl); fi
   # cmake
   - cmake --version
   # doxygen support
