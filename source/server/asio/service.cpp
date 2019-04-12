@@ -93,7 +93,7 @@ bool Service::Start(bool polling)
 
     // Start service working threads
     for (size_t thread = 0; thread < _threads.size(); ++thread)
-        _threads[thread] = CppCommon::Thread::Start([this, self, thread]() { ServiceLoop(self, _services[thread % _services.size()]); });
+        _threads[thread] = CppCommon::Thread::Start([this, self, thread]() { ServiceThread(self, _services[thread % _services.size()]); });
 
     return true;
 }
@@ -152,7 +152,7 @@ bool Service::Restart()
     return Start(polling);
 }
 
-void Service::ServiceLoop(std::shared_ptr<Service> service, std::shared_ptr<asio::io_service> io_service)
+void Service::ServiceThread(std::shared_ptr<Service> service, std::shared_ptr<asio::io_service> io_service)
 {
     bool polling = service->IsPolling();
 

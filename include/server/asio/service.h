@@ -174,8 +174,8 @@ private:
     std::atomic<bool> _started;
     std::atomic<size_t> _round_robin_index;
 
-    //! Service loop
-    static void ServiceLoop(std::shared_ptr<Service> service, std::shared_ptr<asio::io_service> io_service);
+    //! Service thread
+    static void ServiceThread(std::shared_ptr<Service> service, std::shared_ptr<asio::io_service> io_service);
 
     //! Send error notification
     void SendError(std::error_code ec);
