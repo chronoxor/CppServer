@@ -159,11 +159,11 @@ bool TCPClient::Connect()
     _bytes_sent = 0;
     _bytes_received = 0;
 
-    // Update the connected flag
-    _connected = true;
-
     // Call the client connected handler
     onConnected();
+
+    // Update the connected flag
+    _connected = true;
 
     // Call the empty send buffer handler
     if (_send_buffer_main.empty())
@@ -224,11 +224,11 @@ bool TCPClient::Connect(std::shared_ptr<TCPResolver> resolver)
     _bytes_sent = 0;
     _bytes_received = 0;
 
-    // Update the connected flag
-    _connected = true;
-
     // Call the client connected handler
     onConnected();
+
+    // Update the connected flag
+    _connected = true;
 
     // Call the empty send buffer handler
     if (_send_buffer_main.empty())
@@ -312,11 +312,11 @@ bool TCPClient::ConnectAsync()
                 _bytes_sent = 0;
                 _bytes_received = 0;
 
-                // Update the connected flag
-                _connected = true;
-
                 // Call the client connected handler
                 onConnected();
+
+                // Update the connected flag
+                _connected = true;
 
                 // Call the empty send buffer handler
                 if (_send_buffer_main.empty())
@@ -401,11 +401,11 @@ bool TCPClient::ConnectAsync(std::shared_ptr<TCPResolver> resolver)
                         _bytes_sent = 0;
                         _bytes_received = 0;
 
-                        // Update the connected flag
-                        _connected = true;
-
                         // Call the client connected handler
                         onConnected();
+
+                        // Update the connected flag
+                        _connected = true;
 
                         // Call the empty send buffer handler
                         if (_send_buffer_main.empty())

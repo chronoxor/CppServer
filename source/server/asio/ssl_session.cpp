@@ -77,15 +77,15 @@ void SSLSession::Connect()
     _bytes_sent = 0;
     _bytes_received = 0;
 
-    // Update the connected flag
-    _connected = true;
-
     // Call the session connected handler
     onConnected();
 
     // Call the session connected handler in the server
     auto connected_session(this->shared_from_this());
     _server->onConnected(connected_session);
+
+    // Update the connected flag
+    _connected = true;
 
     // Async SSL handshake with the handshake handler
     auto self(this->shared_from_this());
@@ -96,15 +96,15 @@ void SSLSession::Connect()
 
         if (!ec)
         {
-            // Update the handshaked flag
-            _handshaked = true;
-
             // Call the session handshaked handler
             onHandshaked();
 
             // Call the session handshaked handler in the server
             auto handshaked_session(this->shared_from_this());
             _server->onHandshaked(handshaked_session);
+
+            // Update the handshaked flag
+            _handshaked = true;
 
             // Call the empty send buffer handler
             if (_send_buffer_main.empty())
