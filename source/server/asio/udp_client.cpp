@@ -161,11 +161,11 @@ bool UDPClient::Connect()
     _datagrams_sent = 0;
     _datagrams_received = 0;
 
-    // Call the client connected handler
-    onConnected();
-
     // Update the connected flag
     _connected = true;
+
+    // Call the client connected handler
+    onConnected();
 
     return true;
 }
@@ -229,11 +229,11 @@ bool UDPClient::Connect(std::shared_ptr<UDPResolver> resolver)
     _datagrams_sent = 0;
     _datagrams_received = 0;
 
-    // Call the client connected handler
-    onConnected();
-
     // Update the connected flag
     _connected = true;
+
+    // Call the client connected handler
+    onConnected();
 
     return true;
 }
@@ -343,11 +343,11 @@ bool UDPClient::ConnectAsync(std::shared_ptr<UDPResolver> resolver)
                 _datagrams_sent = 0;
                 _datagrams_received = 0;
 
-                // Call the client connected handler
-                onConnected();
-
                 // Update the connected flag
                 _connected = true;
+
+                // Call the client connected handler
+                onConnected();
             }
             else
             {

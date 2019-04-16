@@ -76,15 +76,15 @@ void TCPSession::Connect()
     _bytes_sent = 0;
     _bytes_received = 0;
 
+    // Update the connected flag
+    _connected = true;
+
     // Call the session connected handler
     onConnected();
 
     // Call the session connected handler in the server
     auto connected_session(this->shared_from_this());
     _server->onConnected(connected_session);
-
-    // Update the connected flag
-    _connected = true;
 
     // Call the empty send buffer handler
     if (_send_buffer_main.empty())

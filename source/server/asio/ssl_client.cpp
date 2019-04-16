@@ -205,11 +205,11 @@ public:
         _bytes_sent = 0;
         _bytes_received = 0;
 
-        // Call the client connected handler
-        onConnected();
-
         // Update the connected flag
         _connected = true;
+
+        // Call the client connected handler
+        onConnected();
 
         // SSL handshake
         _stream.handshake(asio::ssl::stream_base::client, ec);
@@ -223,11 +223,11 @@ public:
             return false;
         }
 
-        // Call the client handshaked handler
-        onHandshaked();
-
         // Update the handshaked flag
         _handshaked = true;
+
+        // Call the client handshaked handler
+        onHandshaked();
 
         // Call the empty send buffer handler
         if (_send_buffer_main.empty())
@@ -291,11 +291,11 @@ public:
         _bytes_sent = 0;
         _bytes_received = 0;
 
-        // Call the client connected handler
-        onConnected();
-
         // Update the connected flag
         _connected = true;
+
+        // Call the client connected handler
+        onConnected();
 
         // SSL handshake
         _stream.handshake(asio::ssl::stream_base::client, ec);
@@ -309,11 +309,11 @@ public:
             return false;
         }
 
-        // Call the client handshaked handler
-        onHandshaked();
-
         // Update the handshaked flag
         _handshaked = true;
+
+        // Call the client handshaked handler
+        onHandshaked();
 
         // Call the empty send buffer handler
         if (_send_buffer_main.empty())
@@ -408,11 +408,11 @@ public:
                     _bytes_sent = 0;
                     _bytes_received = 0;
 
-                    // Call the client connected handler
-                    onConnected();
-
                     // Update the connected flag
                     _connected = true;
+
+                    // Call the client connected handler
+                    onConnected();
 
                     // Async SSL handshake with the handshake handler
                     _handshaking = true;
@@ -425,11 +425,11 @@ public:
 
                         if (!ec2)
                         {
-                            // Call the client handshaked handler
-                            onHandshaked();
-
                             // Update the handshaked flag
                             _handshaked = true;
+
+                            // Call the client handshaked handler
+                            onHandshaked();
 
                             // Call the empty send buffer handler
                             if (_send_buffer_main.empty())
@@ -529,11 +529,11 @@ public:
                             _bytes_sent = 0;
                             _bytes_received = 0;
 
-                            // Call the client connected handler
-                            onConnected();
-
                             // Update the connected flag
                             _connected = true;
+
+                            // Call the client connected handler
+                            onConnected();
 
                             // Async SSL handshake with the handshake handler
                             _handshaking = true;
@@ -546,11 +546,11 @@ public:
 
                                 if (!ec3)
                                 {
-                                    // Call the client handshaked handler
-                                    onHandshaked();
-
                                     // Update the handshaked flag
                                     _handshaked = true;
+
+                                    // Call the client handshaked handler
+                                    onHandshaked();
 
                                     // Call the empty send buffer handler
                                     if (_send_buffer_main.empty())
