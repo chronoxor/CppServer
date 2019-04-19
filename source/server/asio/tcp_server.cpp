@@ -248,7 +248,7 @@ bool TCPServer::Multicast(const void* buffer, size_t size)
         return true;
 
     {
-        std::lock_guard<std::mutex> locker(_multicast_lock);
+        std::scoped_lock locker(_multicast_lock);
 
         // Detect multiple multicast handlers
         bool multicast_required = _multicast_buffer.empty();
@@ -272,7 +272,7 @@ bool TCPServer::Multicast(const void* buffer, size_t size)
         if (!IsStarted())
             return;
 
-        std::lock_guard<std::mutex> locker1(_multicast_lock);
+        std::scoped_lock locker1(_multicast_lock);
 
         // Check for empty multicast buffer
         if (_multicast_buffer.empty())
@@ -358,7 +358,7 @@ void TCPServer::UnregisterSession(const CppCommon::UUID& id)
 
 void TCPServer::ClearBuffers()
 {
-    std::lock_guard<std::mutex> locker(_multicast_lock);
+    std::scoped_lock locker(_multicast_lock);
 
     _multicast_buffer.clear();
 

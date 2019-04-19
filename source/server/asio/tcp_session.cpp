@@ -267,7 +267,7 @@ bool TCPSession::SendAsync(const void* buffer, size_t size)
         return true;
 
     {
-        std::lock_guard<std::mutex> locker(_send_lock);
+        std::scoped_lock locker(_send_lock);
 
         // Detect multiple send handlers
         bool send_required = _send_buffer_main.empty() || _send_buffer_flush.empty();
@@ -478,7 +478,7 @@ void TCPSession::TrySend()
     // Swap send buffers
     if (_send_buffer_flush.empty())
     {
-        std::lock_guard<std::mutex> locker(_send_lock);
+        std::scoped_lock locker(_send_lock);
 
         // Swap flush and main buffers
         _send_buffer_flush.swap(_send_buffer_main);
@@ -548,7 +548,7 @@ void TCPSession::TrySend()
 void TCPSession::ClearBuffers()
 {
     {
-        std::lock_guard<std::mutex> locker(_send_lock);
+        std::scoped_lock locker(_send_lock);
 
         // Clear send buffers
         _send_buffer_main.clear();

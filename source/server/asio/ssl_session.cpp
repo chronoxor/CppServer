@@ -313,7 +313,7 @@ bool SSLSession::SendAsync(const void* buffer, size_t size)
         return true;
 
     {
-        std::lock_guard<std::mutex> locker(_send_lock);
+        std::scoped_lock locker(_send_lock);
 
         // Detect multiple send handlers
         bool send_required = _send_buffer_main.empty() || _send_buffer_flush.empty();
@@ -524,7 +524,7 @@ void SSLSession::TrySend()
     // Swap send buffers
     if (_send_buffer_flush.empty())
     {
-        std::lock_guard<std::mutex> locker(_send_lock);
+        std::scoped_lock locker(_send_lock);
 
         // Swap flush and main buffers
         _send_buffer_flush.swap(_send_buffer_main);
@@ -594,7 +594,7 @@ void SSLSession::TrySend()
 void SSLSession::ClearBuffers()
 {
     {
-        std::lock_guard<std::mutex> locker(_send_lock);
+        std::scoped_lock locker(_send_lock);
 
         // Clear send buffers
         _send_buffer_main.clear();
