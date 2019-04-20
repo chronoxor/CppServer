@@ -244,10 +244,6 @@ private:
     // Server sessions
     std::shared_mutex _sessions_lock;
     std::map<CppCommon::UUID, std::shared_ptr<SSLSession>> _sessions;
-    // Multicast buffer
-    std::mutex _multicast_lock;
-    std::vector<uint8_t> _multicast_buffer;
-    HandlerStorage _multicast_storage;
     // Options
     bool _option_keep_alive;
     bool _option_no_delay;

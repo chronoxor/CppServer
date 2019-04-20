@@ -262,55 +262,11 @@ bool SSLServer::Multicast(const void* buffer, size_t size)
     if (size == 0)
         return true;
 
-    {
-        std::scoped_lock locker(_multicast_lock);
+    std::shared_lock<std::shared_mutex> locker(_sessions_lock);
 
-        // Detect multiple multicast handlers
-        bool multicast_required = _multicast_buffer.empty();
-
-        // Fill the multicast buffer
-        const uint8_t* bytes = (const uint8_t*)buffer;
-        _multicast_buffer.insert(_multicast_buffer.end(), bytes, bytes + size);
-
-        // Update statistic
-        _bytes_pending += size;
-
-        // Avoid multiple multicast handlers
-        if (!multicast_required)
-            return true;
-    }
-
-    // Dispatch the multicast handler
-    auto self(this->shared_from_this());
-    auto multicast_handler = make_alloc_handler(_multicast_storage, [this, self]()
-    {
-        if (!IsStarted())
-            return;
-
-        std::scoped_lock locker1(_multicast_lock);
-
-        // Check for empty multicast buffer
-        if (_multicast_buffer.empty())
-            return;
-
-        // Multicast all sessions
-        {
-            std::shared_lock<std::shared_mutex> locker2(_sessions_lock);
-
-            for (auto& session : _sessions)
-                session.second->SendAsync(_multicast_buffer.data(), _multicast_buffer.size());
-        }
-
-        // Update statistic
-        _bytes_pending -= _multicast_buffer.size();
-
-        // Clear the multicast buffer
-        _multicast_buffer.clear();
-    });
-    if (_strand_required)
-        _strand.dispatch(multicast_handler);
-    else
-        _io_service->dispatch(multicast_handler);
+    // Multicast all sessions
+    for (auto& session : _sessions)
+        session.second->SendAsync(buffer, size);
 
     return true;
 }
