@@ -329,10 +329,6 @@ void SSLServer::UnregisterSession(const CppCommon::UUID& id)
 
 void SSLServer::ClearBuffers()
 {
-    std::scoped_lock locker(_multicast_lock);
-
-    _multicast_buffer.clear();
-
     // Update statistic
     _bytes_pending = 0;
 }
