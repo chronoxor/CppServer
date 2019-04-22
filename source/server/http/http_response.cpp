@@ -234,6 +234,66 @@ bool HTTPResponse::ReceiveHeader(const void* buffer, size_t size)
         // Check for HTTP header separator
         if ((_cache[i + 0] == '\r') && (_cache[i + 1] == '\n') && (_cache[i + 2] == '\r') && (_cache[i + 3] == '\n'))
         {
+            size_t index = 0;
+
+            // Parse protocol version
+            _protocol_index = index;
+            _protocol_size = 0;
+            while (_cache[index] != ' ')
+            {
+                if (index >= _cache.size())
+                {
+                    _error = true;
+                    return false;
+                }
+                ++_protocol_size;
+                ++index;
+            }
+            ++index;
+
+            // Parse status code
+            size_t status_index = index;
+            size_t status_size = 0;
+            while (_cache[index] != ' ')
+            {
+                if ((index >= _cache.size()) || ((_cache[index] < '0') || (_cache[index] > '9')))
+                {
+                    _error = true;
+                    return false;
+                }
+                ++status_size;
+                ++index;
+            }
+            _status = 0;
+            for (size_t j = status_index; j < (status_index + status_size); ++j)
+            {
+                _status *= 10;
+                _status += _cache[j] - '0';
+            }
+            ++index;
+
+            // Parse status phrase
+            size_t _status_phrase_index = index;
+            size_t _status_phrase_size = 0;
+            while (_cache[index] != '\r')
+            {
+                if (index >= _cache.size())
+                {
+                    _error = true;
+                    return false;
+                }
+                ++status_size;
+                ++index;
+            }
+            ++index;
+            if (_cache[index] != '\n')
+            {
+                _error = true;
+                return false;
+            }
+            ++index;
+
+            // Parse headers
 
         }
     }
