@@ -28,9 +28,12 @@ namespace HTTP {
 */
 class HTTPResponse
 {
+    friend class HTTPClient;
+    friend class HTTPSClient;
+
 public:
     //! Initialize an empty HTTP response
-    HTTPResponse() = default;
+    HTTPResponse() { Clear(); }
     //! Initialize a new HTTP response with a given status and protocol
     /*!
         \param status - HTTP status
@@ -51,6 +54,8 @@ public:
     HTTPResponse& operator=(const HTTPResponse&) = default;
     HTTPResponse& operator=(HTTPResponse&&) = default;
 
+    //! Get the HTTP response error flag
+    bool error() const noexcept { return _error; }
     //! Get the HTTP response status
     int status() const noexcept { return _status; }
     //! Get the HTTP response status phrase
@@ -103,6 +108,8 @@ public:
     void SetBodyLength(size_t length);
 
 private:
+    // HTTP response error flag
+    bool _error;
     // HTTP response status
     int _status;
     // HTTP response status phrase
@@ -120,6 +127,15 @@ private:
 
     // HTTP response cache
     std::string _cache;
+    size_t _cache_size;
+
+    // Is pending parts of HTTP response
+    bool IsPendingHeader() const;
+    bool IsPendingBody() const;
+
+    // Receive parts of HTTP response
+    bool ReceiveHeader(const void* buffer, size_t size);
+    bool ReceiveBody(const void* buffer, size_t size);
 };
 
 } // namespace HTTP

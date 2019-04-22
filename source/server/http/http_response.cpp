@@ -26,6 +26,7 @@ std::tuple<std::string_view, std::string_view> HTTPResponse::header(size_t i) co
 
 void HTTPResponse::Clear()
 {
+    _error = false;
     _status = 0;
     _status_phrase_index = 0;
     _status_phrase_size = 0;
@@ -37,6 +38,7 @@ void HTTPResponse::Clear()
     _body_length = 0;
 
     _cache.clear();
+    _cache_size = 0;
 }
 
 void HTTPResponse::SetBegin(int status, std::string_view protocol)
@@ -206,6 +208,45 @@ void HTTPResponse::SetBodyLength(size_t length)
     _body_index = index;
     _body_size = 0;
     _body_length = length;
+}
+
+bool HTTPResponse::IsPendingHeader() const
+{
+    return (!_error && (_body_index == 0));
+}
+
+bool HTTPResponse::IsPendingBody() const
+{
+    return (!_error && (_body_index > 0) && (_body_size > 0));
+}
+
+bool HTTPResponse::ReceiveHeader(const void* buffer, size_t size)
+{
+    _cache.insert(_cache.end(), (const char*)buffer, (const char*)buffer + size);
+
+    // Try to seek for HTTP header separator
+    for (size_t i = _cache_size; i < _cache.size(); ++i)
+    {
+        // Check for cache out of bounds
+        if ((i + 3) >= _cache.size())
+            break;
+
+        // Check for HTTP header separator
+        if ((_cache[i + 0] == '\r') && (_cache[i + 1] == '\n') && (_cache[i + 2] == '\r') && (_cache[i + 3] == '\n'))
+        {
+
+        }
+    }
+
+    // Update parsed cache size
+    _cache_size = (_cache.size() >= 3) ? (_cache.size() - 3) : 0;
+    return false;
+}
+
+bool HTTPResponse::ReceiveBody(const void* buffer, size_t size)
+{
+    _cache.insert(_cache.end(), (const char*)buffer, (const char*)buffer + size);
+    return false;
 }
 
 } // namespace HTTP

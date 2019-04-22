@@ -30,7 +30,7 @@ class HTTPRequest
 {
 public:
     //! Initialize an empty HTTP request
-    HTTPRequest() = default;
+    HTTPRequest() { Clear(); }
     //! Initialize a new HTTP request with a given method, URL and protocol
     /*!
         \param method - HTTP method
