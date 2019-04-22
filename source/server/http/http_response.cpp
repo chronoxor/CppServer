@@ -273,8 +273,8 @@ bool HTTPResponse::ReceiveHeader(const void* buffer, size_t size)
             ++index;
 
             // Parse status phrase
-            size_t _status_phrase_index = index;
-            size_t _status_phrase_size = 0;
+            _status_phrase_index = index;
+            _status_phrase_size = 0;
             while (_cache[index] != '\r')
             {
                 if (index >= _cache.size())
