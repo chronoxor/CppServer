@@ -4,9 +4,12 @@
 
 #include "test.h"
 
-#include "server/http/http_request.h"
-#include "server/http/http_response.h"
+#include "server/http/http_client.h"
+#include "server/http/https_client.h"
+#include "threads/thread.h"
 
+using namespace CppCommon;
+using namespace CppServer::Asio;
 using namespace CppServer::HTTP;
 
 TEST_CASE("HTTP request test", "[CppServer][HTTP]")
@@ -57,4 +60,83 @@ TEST_CASE("HTTP response test", "[CppServer][HTTP]")
     REQUIRE(std::get<0>(response.header(2)) == "Content-Length");
     REQUIRE(std::get<1>(response.header(2)) == "4");
     REQUIRE(response.body() == "test");
+}
+
+TEST_CASE("HTTP client test", "[CppServer][HTTP]")
+{
+    const std::string address = "example.com";
+
+    // Create and start Asio service
+    auto service = std::make_shared<Service>();
+    REQUIRE(service->Start());
+    while (!service->IsStarted())
+        Thread::Yield();
+
+    // Create a new HTTP client
+    auto client = std::make_shared<HTTPClientEx>(service, address, "http");
+
+    // Prepare HTTP request
+    client->request().SetBegin("GET", "/");
+    client->request().SetHeader("Host", "example.com");
+    client->request().SetHeader("User-Agent", "Mozilla/5.0");
+    client->request().SetBody();
+
+    // Send HTTP request
+    auto response = client->MakeRequest().get();
+
+    // Check HTTP response
+    REQUIRE(response.status() == 200);
+    REQUIRE(response.status_phrase() == "OK");
+    REQUIRE(response.protocol() == "HTTP/1.1");
+    REQUIRE(response.headers() > 0);
+    REQUIRE(response.body_length() > 0);
+    REQUIRE(response.body().size() > 0);
+
+    // Stop the Asio service
+    REQUIRE(service->Stop());
+    while (service->IsStarted())
+        Thread::Yield();
+}
+
+TEST_CASE("HTTPS client test", "[CppServer][HTTP]")
+{
+    const std::string address = "example.com";
+
+    // Create and start Asio service
+    auto service = std::make_shared<Service>();
+    REQUIRE(service->Start());
+    while (!service->IsStarted())
+        Thread::Yield();
+
+    // Create and prepare a new SSL client context
+    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
+    context->set_default_verify_paths();
+    context->set_root_certs();
+    context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);
+    context->set_verify_callback(asio::ssl::rfc2818_verification(address));
+
+    // Create a new HTTP client
+    auto client = std::make_shared<HTTPSClientEx>(service, context, address, "https");
+
+    // Prepare HTTP request
+    client->request().SetBegin("GET", "/");
+    client->request().SetHeader("Host", "example.com");
+    client->request().SetHeader("User-Agent", "Mozilla/5.0");
+    client->request().SetBody();
+
+    // Send HTTP request
+    auto response = client->MakeRequest().get();
+
+    // Check HTTP response
+    REQUIRE(response.status() == 200);
+    REQUIRE(response.status_phrase() == "OK");
+    REQUIRE(response.protocol() == "HTTP/1.1");
+    REQUIRE(response.headers() > 0);
+    REQUIRE(response.body_length() > 0);
+    REQUIRE(response.body().size() > 0);
+
+    // Stop the Asio service
+    REQUIRE(service->Stop());
+    while (service->IsStarted())
+        Thread::Yield();
 }

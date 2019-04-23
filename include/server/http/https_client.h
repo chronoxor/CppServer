@@ -162,6 +162,13 @@ protected:
     HTTPResponse _response;
 };
 
+//! HTTPS extended client
+/*!
+    HTTPS extended client make requests to HTTPS Web server with returning std::future
+    as a synchronization primitive.
+
+    Thread-safe.
+*/
 class HTTPSClientEx : public HTTPSClient
 {
 public:
