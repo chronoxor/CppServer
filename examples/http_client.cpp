@@ -60,7 +60,7 @@ int main(int argc, char** argv)
     for (size_t i = 0; i < response.headers(); ++i)
     {
         auto header = response.header(i);
-        std::cout << i << ") " << std::get<0>(header) << ": " << std::get<1>(header) << std::endl;
+        std::cout << std::get<0>(header) << ": " << std::get<1>(header) << std::endl;
     }
     std::cout << "Body:" << response.body_length() << std::endl;
     std::cout << response.body() << std::endl;

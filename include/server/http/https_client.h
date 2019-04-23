@@ -184,7 +184,7 @@ public:
     std::future<HTTPResponse> MakeRequest(const HTTPRequest& request);
 
 protected:
-    void onConnected() override;
+    void onHandshaked() override;
     void onReceivedResponse(const HTTPResponse& response) override;
     void onReceivedResponseError(const HTTPResponse& response, const std::string& error) override;
 

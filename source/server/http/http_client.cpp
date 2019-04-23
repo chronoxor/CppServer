@@ -19,25 +19,31 @@ void HTTPClient::onReceived(const void* buffer, size_t size)
         if (_response.ReceiveHeader(buffer, size))
             onReceivedResponseHeader(_response);
 
-        // Check for HTTP response error
-        if (_response.error())
-        {
-            onReceivedResponseError(_response, "Invalid HTTP response!");
-            DisconnectAsync();
-            return;
-        }
-
-        return;
+        size = 0;
     }
-
-    // Receive HTTP response body
-    if (_response.ReceiveBody(buffer, size))
-        onReceivedResponse(_response);
 
     // Check for HTTP response error
     if (_response.error())
     {
         onReceivedResponseError(_response, "Invalid HTTP response!");
+        _response.Clear();
+        DisconnectAsync();
+        return;
+    }
+
+    // Receive HTTP response body
+    if (_response.ReceiveBody(buffer, size))
+    {
+        onReceivedResponse(_response);
+        _response.Clear();
+        return;
+    }
+
+    // Check for HTTP response error
+    if (_response.error())
+    {
+        onReceivedResponseError(_response, "Invalid HTTP response!");
+        _response.Clear();
         DisconnectAsync();
         return;
     }
@@ -49,6 +55,7 @@ void HTTPClient::onDisconnected()
     if (_response.IsPendingBody())
     {
         onReceivedResponse(_response);
+        _response.Clear();
         return;
     }
 }

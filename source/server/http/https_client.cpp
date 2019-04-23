@@ -19,25 +19,31 @@ void HTTPSClient::onReceived(const void* buffer, size_t size)
         if (_response.ReceiveHeader(buffer, size))
             onReceivedResponseHeader(_response);
 
-        // Check for HTTP response error
-        if (_response.error())
-        {
-            onReceivedResponseError(_response, "Invalid HTTP response!");
-            DisconnectAsync();
-            return;
-        }
-
-        return;
+        size = 0;
     }
-
-    // Receive HTTP response body
-    if (_response.ReceiveBody(buffer, size))
-        onReceivedResponse(_response);
 
     // Check for HTTP response error
     if (_response.error())
     {
         onReceivedResponseError(_response, "Invalid HTTP response!");
+        _response.Clear();
+        DisconnectAsync();
+        return;
+    }
+
+    // Receive HTTP response body
+    if (_response.ReceiveBody(buffer, size))
+    {
+        onReceivedResponse(_response);
+        _response.Clear();
+        return;
+    }
+
+    // Check for HTTP response error
+    if (_response.error())
+    {
+        onReceivedResponseError(_response, "Invalid HTTP response!");
+        _response.Clear();
         DisconnectAsync();
         return;
     }
@@ -49,6 +55,7 @@ void HTTPSClient::onDisconnected()
     if (_response.IsPendingBody())
     {
         onReceivedResponse(_response);
+        _response.Clear();
         return;
     }
 }
@@ -69,7 +76,7 @@ std::future<HTTPResponse> HTTPSClientEx::MakeRequest(const HTTPRequest& request)
     return _promise.get_future();
 }
 
-void HTTPSClientEx::onConnected()
+void HTTPSClientEx::onHandshaked()
 {
     if (!SendRequestAsync())
         _promise.set_exception(std::make_exception_ptr(std::runtime_error("Send HTTP request failed!")));

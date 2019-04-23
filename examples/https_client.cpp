@@ -39,7 +39,7 @@ int main(int argc, char** argv)
     context->set_verify_callback(asio::ssl::rfc2818_verification(address));
 
     // Create a new HTTP client
-    auto client = std::make_shared<CppServer::HTTP::HTTPSClient>(service, context, address, "https");
+    auto client = std::make_shared<CppServer::HTTP::HTTPSClientEx>(service, context, address, "https");
 
     // Prepare HTTP request
     client->request().SetBegin("GET", "/");
@@ -47,30 +47,9 @@ int main(int argc, char** argv)
     client->request().SetHeader("User-Agent", "Mozilla/5.0");
     client->request().SetBody();
 
-    // Connect the client
-    std::cout << "Client connecting...";
-    client->Connect(std::make_shared<CppServer::Asio::TCPResolver>(service));
-    std::cout << "Done!" << std::endl;
-
     // Send HTTP request
     std::cout << "Send HTTP request...";
-    client->SendRequest();
-    std::cout << "Done!" << std::endl;
-
-    // Receive HTTP response
-    std::cout << "Receive HTTP response...";
-    std::string response;
-    std::string part;
-    do
-    {
-        part = client->Receive(8192, CppCommon::Timespan::seconds(1));
-        response += part;
-    } while (!part.empty());
-    std::cout << "Done!" << std::endl;
-
-    // Disconnect the client
-    std::cout << "Client disconnecting...";
-    client->Disconnect();
+    auto response = client->MakeRequest().get();
     std::cout << "Done!" << std::endl;
 
     // Stop the Asio service
@@ -81,7 +60,17 @@ int main(int argc, char** argv)
     std::cout << std::endl;
 
     // Show HTTP response content
-    std::cout << response;
+    std::cout << "Status: " << response.status() << std::endl;
+    std::cout << "Status phrase: " << response.status_phrase() << std::endl;
+    std::cout << "Protocol: " << response.protocol() << std::endl;
+    std::cout << "Headers: " << response.headers() << std::endl;
+    for (size_t i = 0; i < response.headers(); ++i)
+    {
+        auto header = response.header(i);
+        std::cout << std::get<0>(header) << ": " << std::get<1>(header) << std::endl;
+    }
+    std::cout << "Body:" << response.body_length() << std::endl;
+    std::cout << response.body() << std::endl;
 
     return 0;
 }
