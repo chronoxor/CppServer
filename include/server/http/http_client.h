@@ -14,6 +14,8 @@
 
 #include "server/asio/tcp_client.h"
 
+#include <future>
+
 namespace CppServer {
 namespace HTTP {
 
@@ -136,6 +138,15 @@ protected:
     */
     virtual void onReceivedResponseHeader(const HTTPResponse& response) {}
 
+    //! Handle HTTP response received notification
+    /*!
+        Notification is called when HTTP response was received
+        from the server.
+
+        \param response - HTTP response
+    */
+    virtual void onReceivedResponse(const HTTPResponse& response) {}
+
     //! Handle HTTP response error notification
     /*!
         Notification is called when HTTP response error was received
@@ -146,20 +157,42 @@ protected:
     */
     virtual void onReceivedResponseError(const HTTPResponse& response, const std::string& error) {}
 
-    //! Handle HTTP response received notification
-    /*!
-        Notification is called when HTTP response was received
-        from the server.
-
-        \param response - HTTP response
-    */
-    virtual void onReceivedResponse(const HTTPResponse& response) {}
-
-private:
+protected:
     // HTTP request
     HTTPRequest _request;
     // HTTP response
     HTTPResponse _response;
+};
+
+class HTTPClientEx : public HTTPClient
+{
+public:
+    using HTTPClient::HTTPClient;
+
+    //! Get the TCP resolver
+    std::shared_ptr<Asio::TCPResolver>& resolver() noexcept { return _resolver; }
+    const std::shared_ptr<Asio::TCPResolver>& resolver() const noexcept { return _resolver; }
+
+    //! Make HTTP request
+    /*!
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> MakeRequest() { return MakeRequest(_request); }
+    //! HTTP request
+    /*!
+        \param request - HTTP request
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> MakeRequest(const HTTPRequest& request);
+
+protected:
+    void onConnected() override;
+    void onReceivedResponse(const HTTPResponse& response) override;
+    void onReceivedResponseError(const HTTPResponse& response, const std::string& error) override;
+
+private:
+    std::shared_ptr<Asio::TCPResolver> _resolver;
+    std::promise<HTTPResponse> _promise;
 };
 
 /*! \example http_client.cpp HTTP client example */

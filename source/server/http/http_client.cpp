@@ -53,5 +53,37 @@ void HTTPClient::onDisconnected()
     }
 }
 
+std::future<HTTPResponse> HTTPClientEx::MakeRequest(const HTTPRequest& request)
+{
+    // Create TCP resolver if the current one is empty
+    if (!_resolver)
+        _resolver = std::make_shared<Asio::TCPResolver>(service());
+
+    _promise = std::promise<HTTPResponse>();
+    _request = request;
+
+    // Connect to Web server
+    if (!ConnectAsync(_resolver))
+        _promise.set_exception(std::make_exception_ptr(std::runtime_error("Connection failed!")));
+
+    return _promise.get_future();
+}
+
+void HTTPClientEx::onConnected()
+{
+    if (!SendRequestAsync())
+        _promise.set_exception(std::make_exception_ptr(std::runtime_error("Send HTTP request failed!")));
+}
+
+void HTTPClientEx::onReceivedResponse(const HTTPResponse& response)
+{
+    _promise.set_value(response);
+}
+
+void HTTPClientEx::onReceivedResponseError(const HTTPResponse& response, const std::string& error)
+{
+    _promise.set_exception(std::make_exception_ptr(std::runtime_error(error)));
+}
+
 } // namespace HTTP
 } // namespace CppServer
