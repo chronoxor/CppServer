@@ -1,6 +1,16 @@
 var searchData=
 [
-  ['value_5ftype',['value_type',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#af7b965f160f5e5a2c7b4f7a65b638fc5',1,'CppServer::Asio::HandlerAllocator']]],
-  ['version',['version',['../namespace_cpp_server.html#a972082695170ea74467c904dfb4e5038',1,'CppServer']]],
-  ['version_2eh',['version.h',['../version_8h.html',1,'']]]
+  ['udp_5fclient_2ecpp',['udp_client.cpp',['../udp__client_8cpp.html',1,'']]],
+  ['udp_5fclient_2eh',['udp_client.h',['../udp__client_8h.html',1,'']]],
+  ['udp_5fresolver_2ecpp',['udp_resolver.cpp',['../udp__resolver_8cpp.html',1,'']]],
+  ['udp_5fresolver_2eh',['udp_resolver.h',['../udp__resolver_8h.html',1,'']]],
+  ['udp_5fserver_2ecpp',['udp_server.cpp',['../udp__server_8cpp.html',1,'']]],
+  ['udp_5fserver_2eh',['udp_server.h',['../udp__server_8h.html',1,'']]],
+  ['udpclient',['UDPClient',['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a4d450184b81881cc21af0307ec5a0790',1,'CppServer::Asio::UDPClient::UDPClient(std::shared_ptr&lt; Service &gt; service, const std::string &amp;address, int port)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a3ef1ce80fe800ed7360ff4098e2d9dc5',1,'CppServer::Asio::UDPClient::UDPClient(std::shared_ptr&lt; Service &gt; service, const std::string &amp;address, const std::string &amp;scheme)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a16da073955f8bd17aaaeded3e3080b4f',1,'CppServer::Asio::UDPClient::UDPClient(std::shared_ptr&lt; Service &gt; service, const asio::ip::udp::endpoint &amp;endpoint)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a85afc526a2585f8278f82254afce61c1',1,'CppServer::Asio::UDPClient::UDPClient(const UDPClient &amp;)=delete'],['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a1f12d15f51c54fa74fd96e0a27b8a1e8',1,'CppServer::Asio::UDPClient::UDPClient(UDPClient &amp;&amp;)=delete']]],
+  ['udpclient',['UDPClient',['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html',1,'CppServer::Asio']]],
+  ['udpresolver',['UDPResolver',['../class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#add83cd9dcc34f26ea963ec8581d988fb',1,'CppServer::Asio::UDPResolver::UDPResolver(std::shared_ptr&lt; Service &gt; service)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#ae58fbb7b9f0e153a467a91744904272f',1,'CppServer::Asio::UDPResolver::UDPResolver(const UDPResolver &amp;)=delete'],['../class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#acb9bea9a0031703639a29f7487f40cfc',1,'CppServer::Asio::UDPResolver::UDPResolver(UDPResolver &amp;&amp;)=delete']]],
+  ['udpresolver',['UDPResolver',['../class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html',1,'CppServer::Asio']]],
+  ['udpserver',['UDPServer',['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html',1,'CppServer::Asio']]],
+  ['udpserver',['UDPServer',['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a99f2a421a8e90c83d4109e14851f0435',1,'CppServer::Asio::UDPServer::UDPServer(std::shared_ptr&lt; Service &gt; service, int port, InternetProtocol protocol=InternetProtocol::IPv4)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a847d378d2a9af2120318284465fa03d7',1,'CppServer::Asio::UDPServer::UDPServer(std::shared_ptr&lt; Service &gt; service, const std::string &amp;address, int port)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a421533bd0ea01444093c0f3591b3150d',1,'CppServer::Asio::UDPServer::UDPServer(std::shared_ptr&lt; Service &gt; service, const asio::ip::udp::endpoint &amp;endpoint)'],['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a53855a3634dbd22056ea83e86e7e22b4',1,'CppServer::Asio::UDPServer::UDPServer(const UDPServer &amp;)=delete'],['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a17462b108fffd815d455639a28c99462',1,'CppServer::Asio::UDPServer::UDPServer(UDPServer &amp;&amp;)=delete']]],
+  ['url',['url',['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#af0ab795ece4f2eba9efbbc42264eae4a',1,'CppServer::HTTP::HTTPRequest']]]
 ];
