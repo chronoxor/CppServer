@@ -60,11 +60,14 @@ void HTTPClient::onDisconnected()
     }
 }
 
-std::future<HTTPResponse> HTTPClientEx::MakeRequest(const HTTPRequest& request)
+std::future<HTTPResponse> HTTPClientEx::MakeRequest(const HTTPRequest& request, const CppCommon::Timespan& timeout)
 {
     // Create TCP resolver if the current one is empty
     if (!_resolver)
         _resolver = std::make_shared<Asio::TCPResolver>(service());
+    // Create timer if the current one is empty
+    if (!_timer)
+        _timer = std::make_shared<Asio::Timer>(service());
 
     _promise = std::promise<HTTPResponse>();
     _request = request;
@@ -72,6 +75,21 @@ std::future<HTTPResponse> HTTPClientEx::MakeRequest(const HTTPRequest& request)
     // Connect to Web server
     if (!ConnectAsync(_resolver))
         _promise.set_exception(std::make_exception_ptr(std::runtime_error("Connection failed!")));
+
+    // Setup timeout check timer
+    auto self(this->shared_from_this());
+    auto timeout_handler = [this, self](bool canceled)
+    {
+        if (canceled)
+            return;
+
+        // Disconnect on timeout
+        onReceivedResponseError(_response, "Timeout!");
+        _response.Clear();
+        DisconnectAsync();
+    };
+    if (!_timer->Setup(timeout_handler, timeout) || !_timer->WaitAsync())
+        _promise.set_exception(std::make_exception_ptr(std::runtime_error("Timeout setup failed!")));
 
     return _promise.get_future();
 }
@@ -82,13 +100,27 @@ void HTTPClientEx::onConnected()
         _promise.set_exception(std::make_exception_ptr(std::runtime_error("Send HTTP request failed!")));
 }
 
+void HTTPClientEx::onDisconnected()
+{
+    // Cancel timeout check timer
+    _timer->Cancel();
+
+    HTTPClient::onDisconnected();
+}
+
 void HTTPClientEx::onReceivedResponse(const HTTPResponse& response)
 {
+    // Cancel timeout check timer
+    _timer->Cancel();
+
     _promise.set_value(response);
 }
 
 void HTTPClientEx::onReceivedResponseError(const HTTPResponse& response, const std::string& error)
 {
+    // Cancel timeout check timer
+    _timer->Cancel();
+
     _promise.set_exception(std::make_exception_ptr(std::runtime_error(error)));
 }
 

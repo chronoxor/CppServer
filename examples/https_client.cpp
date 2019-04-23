@@ -48,29 +48,36 @@ int main(int argc, char** argv)
     client->request().SetBody();
 
     // Send HTTP request
-    std::cout << "Send HTTP request...";
-    auto response = client->MakeRequest().get();
-    std::cout << "Done!" << std::endl;
+    try
+    {
+        std::cout << "Send HTTP request...";
+        auto response = client->MakeRequest(CppCommon::Timespan::seconds(10)).get();
+        std::cout << "Done!" << std::endl;
+
+        std::cout << std::endl;
+
+        // Show HTTP response content
+        std::cout << "Status: " << response.status() << std::endl;
+        std::cout << "Status phrase: " << response.status_phrase() << std::endl;
+        std::cout << "Protocol: " << response.protocol() << std::endl;
+        std::cout << "Headers: " << response.headers() << std::endl;
+        for (size_t i = 0; i < response.headers(); ++i)
+        {
+            auto header = response.header(i);
+            std::cout << std::get<0>(header) << ": " << std::get<1>(header) << std::endl;
+        }
+        std::cout << "Body:" << response.body_length() << std::endl;
+        std::cout << response.body() << std::endl;
+    }
+    catch (const std::exception& ex)
+    {
+        std::cerr << ex.what() << std::endl;
+    }
 
     // Stop the Asio service
     std::cout << "Asio service stopping...";
     service->Stop();
     std::cout << "Done!" << std::endl;
-
-    std::cout << std::endl;
-
-    // Show HTTP response content
-    std::cout << "Status: " << response.status() << std::endl;
-    std::cout << "Status phrase: " << response.status_phrase() << std::endl;
-    std::cout << "Protocol: " << response.protocol() << std::endl;
-    std::cout << "Headers: " << response.headers() << std::endl;
-    for (size_t i = 0; i < response.headers(); ++i)
-    {
-        auto header = response.header(i);
-        std::cout << std::get<0>(header) << ": " << std::get<1>(header) << std::endl;
-    }
-    std::cout << "Body:" << response.body_length() << std::endl;
-    std::cout << response.body() << std::endl;
 
     return 0;
 }

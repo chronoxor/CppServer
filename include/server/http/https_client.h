@@ -13,6 +13,9 @@
 #include "http_response.h"
 
 #include "server/asio/ssl_client.h"
+#include "server/asio/timer.h"
+
+#include <future>
 
 namespace CppServer {
 namespace HTTP {
@@ -180,23 +183,27 @@ public:
 
     //! Make HTTP request
     /*!
+        \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeRequest() { return MakeRequest(_request); }
+    std::future<HTTPResponse> MakeRequest(const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1)) { return MakeRequest(_request, timeout); }
     //! HTTP request
     /*!
         \param request - HTTP request
+        \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeRequest(const HTTPRequest& request);
+    std::future<HTTPResponse> MakeRequest(const HTTPRequest& request, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
 
 protected:
     void onHandshaked() override;
+    void onDisconnected() override;
     void onReceivedResponse(const HTTPResponse& response) override;
     void onReceivedResponseError(const HTTPResponse& response, const std::string& error) override;
 
 private:
     std::shared_ptr<Asio::TCPResolver> _resolver;
+    std::shared_ptr<Asio::Timer> _timer;
     std::promise<HTTPResponse> _promise;
 };
 
