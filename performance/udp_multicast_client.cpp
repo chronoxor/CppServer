@@ -35,13 +35,9 @@ public:
     {
     }
 
-    bool connected() const noexcept { return _connected; }
-
 protected:
     void onConnected() override
     {
-        _connected = true;
-
         // Join UDP multicast group
         JoinMulticastGroup(_multicast);
 
@@ -64,7 +60,6 @@ protected:
     }
 
 private:
-    std::atomic<bool> _connected{false};
     std::string _multicast;
 };
 
@@ -127,7 +122,7 @@ int main(int argc, char** argv)
         client->ConnectAsync();
     std::cout << "Done!" << std::endl;
     for (const auto& client : clients)
-        while (!client->connected())
+        while (!client->IsConnected())
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 

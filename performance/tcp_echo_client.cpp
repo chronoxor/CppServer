@@ -33,28 +33,20 @@ class EchoClient : public TCPClient
 public:
     EchoClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
         : TCPClient(service, address, port),
-          _messages_output(messages),
-          _messages_input(messages)
+          _messages(messages)
     {
     }
-
-    bool connected() const noexcept { return _connected; }
 
 protected:
     void onConnected() override
     {
-        _connected = true;
-        SendMessage();
+        for (size_t i = _messages; i > 0; --i)
+            SendMessage();
     }
 
     void onSent(size_t sent, size_t pending) override
     {
         _sent += sent;
-        if (_sent >= message_to_send.size())
-        {
-            SendMessage();
-            _sent -= message_to_send.size();
-        }
     }
 
     void onReceived(const void* buffer, size_t size) override
@@ -62,7 +54,7 @@ protected:
         _received += size;
         while (_received >= message_to_send.size())
         {
-            ReceiveMessage();
+            SendMessage();
             _received -= message_to_send.size();
         }
 
@@ -77,23 +69,11 @@ protected:
     }
 
 private:
-    std::atomic<bool> _connected{false};
-    int _messages_output;
-    int _messages_input;
     size_t _sent{0};
     size_t _received{0};
+    size_t _messages{0};
 
-    void SendMessage()
-    {
-        if (_messages_output-- > 0)
-            SendAsync(message_to_send.data(), message_to_send.size());
-    }
-
-    void ReceiveMessage()
-    {
-        if (--_messages_input == 0)
-            DisconnectAsync();
-    }
+    void SendMessage() { SendAsync(message_to_send.data(), message_to_send.size()); }
 };
 
 int main(int argc, char** argv)
@@ -104,8 +84,9 @@ int main(int argc, char** argv)
     parser.add_option("-p", "--port").dest("port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").dest("threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").dest("clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
-    parser.add_option("-m", "--messages").dest("messages").action("store").type("int").set_default(1000000).help("Count of messages to send. Default: %default");
+    parser.add_option("-m", "--messages").dest("messages").action("store").type("int").set_default(1000).help("Count of messages to send at the same time. Default: %default");
     parser.add_option("-s", "--size").dest("size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
+    parser.add_option("-z", "--seconds").dest("seconds").action("store").type("int").set_default(10).help("Count of seconds to benchmarking. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 
@@ -123,13 +104,15 @@ int main(int argc, char** argv)
     int clients_count = options.get("clients");
     int messages_count = options.get("messages");
     int message_size = options.get("size");
+    int seconds_count = options.get("seconds");
 
     std::cout << "Server address: " << address << std::endl;
     std::cout << "Server port: " << port << std::endl;
     std::cout << "Working threads: " << threads_count << std::endl;
     std::cout << "Working clients: " << clients_count << std::endl;
-    std::cout << "Messages to send: " << messages_count << std::endl;
+    std::cout << "Working messages: " << messages_count << std::endl;
     std::cout << "Message size: " << message_size << std::endl;
+    std::cout << "Seconds to benchmarking: " << seconds_count << std::endl;
 
     std::cout << std::endl;
 
@@ -148,7 +131,8 @@ int main(int argc, char** argv)
     std::vector<std::shared_ptr<EchoClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
-        auto client = std::make_shared<EchoClient>(service, address, port, messages_count / clients_count);
+        // Create echo client
+        auto client = std::make_shared<EchoClient>(service, address, port, messages_count);
         // client->SetupNoDelay(true);
         clients.emplace_back(client);
     }
@@ -161,16 +145,24 @@ int main(int argc, char** argv)
         client->ConnectAsync();
     std::cout << "Done!" << std::endl;
     for (const auto& client : clients)
-        while (!client->connected())
+        while (!client->IsConnected())
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 
-    // Wait for processing all messages
-    std::cout << "Processing...";
+    // Wait for benchmarking
+    std::cout << "Benchmarking...";
+    Thread::Sleep(seconds_count * 1000);
+    std::cout << "Done!" << std::endl;
+
+    // Disconnect clients
+    std::cout << "Clients disconnecting...";
+    for (auto& client : clients)
+        client->DisconnectAsync();
+    std::cout << "Done!" << std::endl;
     for (const auto& client : clients)
         while (client->IsConnected())
-            Thread::Sleep(100);
-    std::cout << "Done!" << std::endl;
+            Thread::Yield();
+    std::cout << "All clients disconnected!" << std::endl;
 
     // Stop the Asio service
     std::cout << "Asio service stopping...";

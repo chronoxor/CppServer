@@ -31,14 +31,7 @@ class MulticastClient : public TCPClient
 public:
     using TCPClient::TCPClient;
 
-    bool connected() const noexcept { return _connected; }
-
 protected:
-    void onConnected() override
-    {
-        _connected = true;
-    }
-
     void onReceived(const void* buffer, size_t size) override
     {
         total_bytes += size;
@@ -49,9 +42,6 @@ protected:
         std::cout << "Client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
         ++total_errors;
     }
-
-private:
-    std::atomic<bool> _connected{false};
 };
 
 int main(int argc, char** argv)
@@ -113,7 +103,7 @@ int main(int argc, char** argv)
         client->ConnectAsync();
     std::cout << "Done!" << std::endl;
     for (const auto& client : clients)
-        while (!client->connected())
+        while (!client->IsConnected())
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 
