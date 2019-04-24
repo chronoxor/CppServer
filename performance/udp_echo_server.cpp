@@ -27,6 +27,10 @@ protected:
 
     void onReceived(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size) override
     {
+        // Continue receive datagrams
+        if (size == 0)
+            ReceiveAsync();
+
         // Resend the message back to the client
         SendAsync(endpoint, buffer, size);
     }

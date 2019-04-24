@@ -389,6 +389,10 @@ bool UDPServer::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
         if (ec)
         {
             SendError(ec);
+
+            // Call the buffer sent zero handler
+            onSent(_send_endpoint, 0);
+
             return;
         }
 
@@ -554,6 +558,10 @@ void UDPServer::TryReceive()
         if (ec)
         {
             SendError(ec);
+
+            // Call the datagram received zero handler
+            onReceived(_receive_endpoint, _receive_buffer.data(), 0);
+
             return;
         }
 
