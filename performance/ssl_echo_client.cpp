@@ -37,6 +37,8 @@ public:
     {
     }
 
+    void SendMessage() { SendAsync(message_to_send.data(), message_to_send.size()); }
+
 protected:
     void onHandshaked() override
     {
@@ -72,8 +74,6 @@ private:
     size_t _sent{0};
     size_t _received{0};
     size_t _messages{0};
-
-    void SendMessage() { SendAsync(message_to_send.data(), message_to_send.size()); }
 };
 
 int main(int argc, char** argv)

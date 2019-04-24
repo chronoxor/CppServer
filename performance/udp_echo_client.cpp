@@ -37,6 +37,8 @@ public:
     {
     }
 
+    void SendMessage() { Send(message_to_send.data(), message_to_send.size()); }
+
 protected:
     void onConnected() override
     {
@@ -67,8 +69,6 @@ protected:
 
 private:
     size_t _messages{0};
-
-    void SendMessage() { Send(message_to_send.data(), message_to_send.size()); }
 };
 
 int main(int argc, char** argv)
