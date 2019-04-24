@@ -29,7 +29,10 @@ protected:
     {
         // Continue receive datagrams
         if (size == 0)
+        {
             ReceiveAsync();
+            return;
+        }
 
         // Resend the message back to the client
         SendAsync(endpoint, buffer, size);
