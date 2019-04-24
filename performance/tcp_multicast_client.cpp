@@ -53,6 +53,7 @@ int main(int argc, char** argv)
     parser.add_option("-t", "--threads").dest("threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").dest("clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
     parser.add_option("-s", "--size").dest("size").action("store").type("int").set_default(32).help("Single message size. Default: %default");
+    parser.add_option("-z", "--seconds").dest("seconds").action("store").type("int").set_default(10).help("Count of seconds to benchmarking. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
 
@@ -69,12 +70,14 @@ int main(int argc, char** argv)
     int threads_count = options.get("threads");
     int clients_count = options.get("clients");
     int message_size = options.get("size");
+    int seconds_count = options.get("seconds");
 
     std::cout << "Server address: " << address << std::endl;
     std::cout << "Server port: " << port << std::endl;
     std::cout << "Working threads: " << threads_count << std::endl;
     std::cout << "Working clients: " << clients_count << std::endl;
     std::cout << "Message size: " << message_size << std::endl;
+    std::cout << "Seconds to benchmarking: " << seconds_count << std::endl;
 
     std::cout << std::endl;
 
@@ -107,9 +110,9 @@ int main(int argc, char** argv)
             Thread::Yield();
     std::cout << "All clients connected!" << std::endl;
 
-    // Sleep for 10 seconds...
-    std::cout << "Processing...";
-    Thread::Sleep(10000);
+    // Wait for benchmarking
+    std::cout << "Benchmarking...";
+    Thread::Sleep(seconds_count * 1000);
     std::cout << "Done!" << std::endl;
 
     // Disconnect clients
