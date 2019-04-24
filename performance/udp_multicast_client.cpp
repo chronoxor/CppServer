@@ -19,8 +19,8 @@
 using namespace CppCommon;
 using namespace CppServer::Asio;
 
-std::atomic<uint64_t> timestamp_start(0);
-std::atomic<uint64_t> timestamp_stop(0);
+std::atomic<uint64_t> timestamp_start(Timestamp::nano());
+std::atomic<uint64_t> timestamp_stop(Timestamp::nano());
 
 std::atomic<uint64_t> total_errors(0);
 std::atomic<uint64_t> total_bytes(0);
