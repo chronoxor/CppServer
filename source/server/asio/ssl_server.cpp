@@ -172,11 +172,11 @@ bool SSLServer::Stop()
         if (!IsStarted())
             return;
 
-        // Reset the session
-        _session.reset();
-
         // Close the server acceptor
         _acceptor.close();
+
+        // Reset the session
+        _session.reset();
 
         // Disconnect all sessions
         DisconnectAll();
