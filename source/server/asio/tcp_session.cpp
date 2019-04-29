@@ -561,6 +561,12 @@ void TCPSession::ClearBuffers()
     }
 }
 
+void TCPSession::ResetServer()
+{
+    // Reset cycle-reference to the server
+    _server.reset();
+}
+
 void TCPSession::SendError(std::error_code ec)
 {
     // Skip Asio disconnect errors

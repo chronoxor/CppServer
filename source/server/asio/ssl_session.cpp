@@ -607,6 +607,12 @@ void SSLSession::ClearBuffers()
     }
 }
 
+void SSLSession::ResetServer()
+{
+    // Reset cycle-reference to the server
+    _server.reset();
+}
+
 void SSLSession::SendError(std::error_code ec)
 {
     // Skip Asio disconnect errors

@@ -264,6 +264,8 @@ private:
 
     //! Clear send/receive buffers
     void ClearBuffers();
+    //! Reset server
+    void ResetServer();
 
     //! Send error notification
     void SendError(std::error_code ec);

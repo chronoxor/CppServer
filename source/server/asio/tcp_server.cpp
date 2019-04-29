@@ -160,6 +160,9 @@ bool TCPServer::Stop()
         // Close the server acceptor
         _acceptor.close();
 
+        // Reset the session
+        _session.ResetServer();
+
         // Disconnect all sessions
         DisconnectAll();
 
