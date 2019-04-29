@@ -176,7 +176,7 @@ bool SSLServer::Stop()
         _acceptor.close();
 
         // Reset the session
-        _session.ResetServer();
+        _session->ResetServer();
 
         // Disconnect all sessions
         DisconnectAll();
