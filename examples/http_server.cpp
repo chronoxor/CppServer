@@ -18,7 +18,7 @@ public:
     using CppServer::HTTP::HTTPSession::HTTPSession;
 
 protected:
-    void onReceivedRequest(const CppServer::HTTP::HTTPRequest& request)
+    void onReceivedRequest(const CppServer::HTTP::HTTPRequest& request) override
     {
         // Show HTTP request content
         std::cout << "Request method: " << request.method() << std::endl;
@@ -34,7 +34,7 @@ protected:
         std::cout << request.body() << std::endl;
     }
 
-    void onReceivedRequestError(const CppServer::HTTP::HTTPRequest& request, const std::string& error)
+    void onReceivedRequestError(const CppServer::HTTP::HTTPRequest& request, const std::string& error) override
     {
         std::cout << "Request error: " << error << std::endl;
     }
