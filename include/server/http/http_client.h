@@ -165,7 +165,6 @@ protected:
     HTTPResponse _response;
 };
 
-
 //! HTTP extended client
 /*!
     HTTP extended client make requests to HTTP Web server with returning std::future
