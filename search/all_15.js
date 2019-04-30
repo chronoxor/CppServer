@@ -7,6 +7,8 @@ var searchData=
   ['_7ehttprequest',['~HTTPRequest',['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#af7b3a3876771621b4712d213f1720322',1,'CppServer::HTTP::HTTPRequest']]],
   ['_7ehttpresponse',['~HTTPResponse',['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html#a9786f9771f7f8ee3a385219c0c5c4f69',1,'CppServer::HTTP::HTTPResponse']]],
   ['_7ehttpsclient',['~HTTPSClient',['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html#a4d17ef051816a17a02692b3d43a04042',1,'CppServer::HTTP::HTTPSClient']]],
+  ['_7ehttpserver',['~HTTPServer',['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#a9b7dd7109d4d1f97b10a7d95e17cc4b6',1,'CppServer::HTTP::HTTPServer']]],
+  ['_7ehttpsession',['~HTTPSession',['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#aa20526365eea839e393e385a37f966f5',1,'CppServer::HTTP::HTTPSession']]],
   ['_7eservice',['~Service',['../class_cpp_server_1_1_asio_1_1_service.html#a265e5f4ddab91bcbcff8ac0cdf9331c6',1,'CppServer::Asio::Service']]],
   ['_7esslclient',['~SSLClient',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3a454cb55dd13516fa68209ded2d5fcb',1,'CppServer::Asio::SSLClient']]],
   ['_7esslcontext',['~SSLContext',['../class_cpp_server_1_1_asio_1_1_s_s_l_context.html#a1dcd2ac6685853ae385c4bd564f5a798',1,'CppServer::Asio::SSLContext']]],
