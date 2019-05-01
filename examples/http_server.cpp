@@ -20,11 +20,39 @@ class Cache : public CppCommon::Singleton<Cache>
    friend CppCommon::Singleton<Cache>;
 
 public:
-    std::string GetCache(std::string_view key)
+    bool GetCache(std::string_view key, std::string& value)
     {
         std::scoped_lock locker(_cache_lock);
         auto it = _cache.find(key);
-        return (it != _cache.end()) ? it->second : "";
+        if (it != _cache.end())
+        {
+            value = it->second;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    void SetCache(std::string_view key, std::string_view value)
+    {
+        std::scoped_lock locker(_cache_lock);
+        auto it = _cache.emplace(key, value);
+        if (!it.second)
+            it.first->second = value;
+    }
+
+    bool DeleteCache(std::string_view key, std::string& value)
+    {
+        std::scoped_lock locker(_cache_lock);
+        auto it = _cache.find(key);
+        if (it != _cache.end())
+        {
+            value = it->second;
+            _cache.erase(it);
+            return true;
+        }
+        else
+            return false;
     }
 
 private:
@@ -49,9 +77,33 @@ protected:
         else if (request.method() == "GET")
         {
             // Get the cache value
-            auto cache = Cache::GetInstance().GetCache(request.url());
+            std::string cache;
+            if (Cache::GetInstance().GetCache(request.url(), cache))
+            {
+                // Response with the cache value
+                SendResponseAsync(response().MakeGetResponse(cache));
+            }
+            else
+                SendResponseAsync(response().MakeErrorResponse("Required cache value was not found for the key: " + std::string(request.url())));
+        }
+        else if ((request.method() == "POST") || (request.method() == "PUT"))
+        {
+            // Set the cache value
+            Cache::GetInstance().SetCache(request.url(), request.body());
             // Response with the cache value
-            SendResponseAsync(response().MakeGetResponse(cache));
+            SendResponseAsync(response().MakeOKResponse());
+        }
+        else if (request.method() == "DELETE")
+        {
+            // Delete the cache value
+            std::string cache;
+            if (Cache::GetInstance().DeleteCache(request.url(), cache))
+            {
+                // Response with the cache value
+                SendResponseAsync(response().MakeGetResponse(cache));
+            }
+            else
+                SendResponseAsync(response().MakeErrorResponse("Deleted cache value was not found for the key: " + std::string(request.url())));
         }
         else if (request.method() == "OPTIONS")
             SendResponseAsync(response().MakeOptionsResponse());

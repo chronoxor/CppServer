@@ -135,6 +135,30 @@ std::future<HTTPResponse> HTTPSClientEx::MakeGetRequest(std::string_view url, co
     return MakeRequest(_request, timeout);
 }
 
+std::future<HTTPResponse> HTTPSClientEx::MakePostRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout)
+{
+    _request.Clear();
+    _request.SetBegin("POST", url);
+    _request.SetBody(content);
+    return MakeRequest(_request, timeout);
+}
+
+std::future<HTTPResponse> HTTPSClientEx::MakePutRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout)
+{
+    _request.Clear();
+    _request.SetBegin("PUT", url);
+    _request.SetBody(content);
+    return MakeRequest(_request, timeout);
+}
+
+std::future<HTTPResponse> HTTPSClientEx::MakeDeleteRequest(std::string_view url, const CppCommon::Timespan& timeout)
+{
+    _request.Clear();
+    _request.SetBegin("DELETE", url);
+    _request.SetBody();
+    return MakeRequest(_request, timeout);
+}
+
 std::future<HTTPResponse> HTTPSClientEx::MakeOptionsRequest(std::string_view url, const CppCommon::Timespan& timeout)
 {
     _request.Clear();

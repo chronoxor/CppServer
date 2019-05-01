@@ -212,6 +212,24 @@ void HTTPResponse::SetBodyLength(size_t length)
     _body_length_provided = true;
 }
 
+HTTPResponse& HTTPResponse::MakeOKResponse(int status)
+{
+    Clear();
+    SetBegin(status);
+    SetHeader("Content-Type", "text/html; charset=UTF-8");
+    SetBodyLength(0);
+    return *this;
+}
+
+HTTPResponse& HTTPResponse::MakeErrorResponse(std::string_view error, int status)
+{
+    Clear();
+    SetBegin(status);
+    SetHeader("Content-Type", "text/html; charset=UTF-8");
+    SetBody(error);
+    return *this;
+}
+
 HTTPResponse& HTTPResponse::MakeHeadResponse()
 {
     Clear();

@@ -197,28 +197,55 @@ public:
 
     //! Make HEAD request
     /*!
+        \param url - URL to request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeHeadRequest(std::string_view url = "", const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    std::future<HTTPResponse> MakeHeadRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
     //! Make GET request
     /*!
+        \param url - URL to request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeGetRequest(std::string_view url = "", const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    std::future<HTTPResponse> MakeGetRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    //! Make POST request
+    /*!
+        \param url - URL to request
+        \param content - Content
+        \param timeout - HTTP request timeout
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> MakePostRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    //! Make PUT request
+    /*!
+        \param url - URL to request
+        \param content - Content
+        \param timeout - HTTP request timeout
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> MakePutRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    //! Make DELETE request
+    /*!
+        \param url - URL to request
+        \param timeout - HTTP request timeout
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> MakeDeleteRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
     //! Make OPTIONS request
     /*!
+        \param url - URL to request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeOptionsRequest(std::string_view url = "", const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    std::future<HTTPResponse> MakeOptionsRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
     //! Make TRACE request
     /*!
+        \param url - URL to request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeTraceRequest(std::string_view url = "", const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    std::future<HTTPResponse> MakeTraceRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
 
 protected:
     void onConnected() override;

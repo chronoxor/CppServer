@@ -114,6 +114,19 @@ public:
     */
     void SetBodyLength(size_t length);
 
+    //! Make OK response
+    /*!
+        \param status - OK status (default is 200 (OK))
+        \return HTTP response
+    */
+    HTTPResponse& MakeOKResponse(int status = 200);
+    //! Make ERROR response
+    /*!
+        \param error - Error content (default is "")
+        \param status - Error status (default is 500 (Internal Server Error))
+        \return HTTP response
+    */
+    HTTPResponse& MakeErrorResponse(std::string_view error = "", int status = 500);
     //! Make HEAD response
     /*!
         \return HTTP response
