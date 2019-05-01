@@ -305,7 +305,7 @@ bool HTTPRequest::ReceiveBody(const void* buffer, size_t size)
     _body_size += size;
 
     // GET request has no body
-    if ((method() == "HEAD") || (method() == "GET") || (method() == "TRACE"))
+    if ((method() == "HEAD") || (method() == "GET") || (method() == "OPTIONS") || (method() == "TRACE"))
     {
         _body_length = 0;
         _body_size = 0;

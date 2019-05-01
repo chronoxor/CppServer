@@ -77,6 +77,16 @@ protected:
             response.SetBody(cache);
             SendResponseAsync(response);
         }
+        else if (request.method() == "OPTIONS")
+        {
+            // Fill and send the corresponding HTTP response
+            auto& response = this->response();
+            response.Clear();
+            response.SetBegin(200);
+            response.SetHeader("Allow", "HEAD,GET,POST,PUT,DELETE,OPTIONS,TRACE");
+            response.SetBodyLength(0);
+            SendResponseAsync(response);
+        }
         else if (request.method() == "TRACE")
         {
             // Fill and send the corresponding HTTP response
