@@ -181,8 +181,7 @@ void HTTPResponse::SetHeader(std::string_view key, std::string_view value)
 void HTTPResponse::SetBody(std::string_view body)
 {
     // Append non empty content length header
-    if (!body.empty())
-        SetHeader("Content-Length", std::to_string(body.size()));
+    SetHeader("Content-Length", std::to_string(body.size()));
 
     _cache.append("\r\n");
 

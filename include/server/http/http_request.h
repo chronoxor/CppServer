@@ -28,6 +28,9 @@ namespace HTTP {
 */
 class HTTPRequest
 {
+    friend class HTTPSession;
+    friend class HTTPSSession;
+
 public:
     //! Initialize an empty HTTP request
     HTTPRequest() { Clear(); }
@@ -45,6 +48,8 @@ public:
     HTTPRequest& operator=(const HTTPRequest&) = default;
     HTTPRequest& operator=(HTTPRequest&&) = default;
 
+    //! Get the HTTP request error flag
+    bool error() const noexcept { return _error; }
     //! Get the HTTP request method
     std::string_view method() const noexcept { return std::string_view(_cache.data() + _method_index, _method_size); }
     //! Get the HTTP request URL
@@ -91,6 +96,8 @@ public:
     void SetBodyLength(size_t length);
 
 private:
+    // HTTP request error flag
+    bool _error;
     // HTTP request method
     size_t _method_index;
     size_t _method_size;
@@ -109,6 +116,15 @@ private:
 
     // HTTP request cache
     std::string _cache;
+    size_t _cache_size;
+
+    // Is pending parts of HTTP response
+    bool IsPendingHeader() const;
+    bool IsPendingBody() const;
+
+    // Receive parts of HTTP response
+    bool ReceiveHeader(const void* buffer, size_t size);
+    bool ReceiveBody(const void* buffer, size_t size);
 };
 
 } // namespace HTTP

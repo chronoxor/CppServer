@@ -9,8 +9,28 @@
 #include "asio_service.h"
 
 #include "server/http/http_server.h"
+#include "utility/singleton.h"
 
 #include <iostream>
+#include <map>
+#include <mutex>
+
+class Cache : public CppCommon::Singleton<Cache>
+{
+   friend CppCommon::Singleton<Cache>;
+
+public:
+    std::string GetCache(std::string_view key)
+    {
+        std::scoped_lock locker(_cache_lock);
+        auto it = _cache.find(key);
+        return (it != _cache.end()) ? it->second : "";
+    }
+
+private:
+    std::mutex _cache_lock;
+    std::map<std::string, std::string, std::less<>> _cache;
+};
 
 class HttpSession : public CppServer::HTTP::HTTPSession
 {
@@ -32,6 +52,43 @@ protected:
         }
         std::cout << "Request body:" << request.body_length() << std::endl;
         std::cout << request.body() << std::endl;
+
+        // Process HTTP request methods
+        if (request.method() == "HEAD")
+        {
+            // Fill and send the corresponding HTTP response
+            auto& response = this->response();
+            response.Clear();
+            response.SetBegin(200);
+            response.SetHeader("Content-Type", "text/html; charset=UTF-8");
+            response.SetBodyLength(0);
+            SendResponseAsync(response);
+        }
+        else if (request.method() == "GET")
+        {
+            // Get the cache value
+            auto cache = Cache::GetInstance().GetCache(request.url());
+
+            // Fill and send the corresponding HTTP response
+            auto& response = this->response();
+            response.Clear();
+            response.SetBegin(200);
+            response.SetHeader("Content-Type", "text/html; charset=UTF-8");
+            response.SetBody(cache);
+            SendResponseAsync(response);
+        }
+        else if (request.method() == "TRACE")
+        {
+            // Fill and send the corresponding HTTP response
+            auto& response = this->response();
+            response.Clear();
+            response.SetBegin(200);
+            response.SetHeader("Content-Type", "message/http");
+            response.SetBody(request.cache());
+            SendResponseAsync(response);
+        }
+        else
+            std::cout << "Unsupported HTTP method: " << request.method() << std::endl;
     }
 
     void onReceivedRequestError(const CppServer::HTTP::HTTPRequest& request, const std::string& error) override

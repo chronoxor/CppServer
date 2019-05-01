@@ -26,6 +26,7 @@ std::tuple<std::string_view, std::string_view> HTTPRequest::header(size_t i) con
 
 void HTTPRequest::Clear()
 {
+    _error = false;
     _method_index = 0;
     _method_size = 0;
     _url_index = 0;
@@ -38,6 +39,7 @@ void HTTPRequest::Clear()
     _body_length = 0;
 
     _cache.clear();
+    _cache_size = 0;
 }
 
 void HTTPRequest::SetBegin(std::string_view method, std::string_view url, std::string_view protocol)
@@ -96,9 +98,8 @@ void HTTPRequest::SetHeader(std::string_view key, std::string_view value)
 
 void HTTPRequest::SetBody(std::string_view body)
 {
-    // Append non empty content length header
-    if (!body.empty())
-        SetHeader("Content-Length", std::to_string(body.size()));
+    // Append content length header
+    SetHeader("Content-Length", std::to_string(body.size()));
 
     _cache.append("\r\n");
 
@@ -124,6 +125,201 @@ void HTTPRequest::SetBodyLength(size_t length)
     _body_index = index;
     _body_size = 0;
     _body_length = length;
+}
+
+bool HTTPRequest::IsPendingHeader() const
+{
+    return (!_error && (_body_index == 0));
+}
+
+bool HTTPRequest::IsPendingBody() const
+{
+    return (!_error && (_body_index > 0) && (_body_size > 0));
+}
+
+bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
+{
+    // Update the request cache
+    _cache.insert(_cache.end(), (const char*)buffer, (const char*)buffer + size);
+
+    // Try to seek for HTTP header separator
+    for (size_t i = _cache_size; i < _cache.size(); ++i)
+    {
+        // Check for the request cache out of bounds
+        if ((i + 3) >= _cache.size())
+            break;
+
+        // Check for the header separator
+        if ((_cache[i + 0] == '\r') && (_cache[i + 1] == '\n') && (_cache[i + 2] == '\r') && (_cache[i + 3] == '\n'))
+        {
+            size_t index = 0;
+
+            // Set the error flag for a while...
+            _error = true;
+
+            // Parse method
+            _method_index = index;
+            _method_size = 0;
+            while (_cache[index] != ' ')
+            {
+                ++_method_size;
+                ++index;
+                if (index >= _cache.size())
+                    return false;
+            }
+            ++index;
+            if (index >= _cache.size())
+                return false;
+
+            // Parse URL
+            _url_index = index;
+            _url_size = 0;
+            while (_cache[index] != ' ')
+            {
+                ++_url_size;
+                ++index;
+                if (index >= _cache.size())
+                    return false;
+            }
+            ++index;
+            if (index >= _cache.size())
+                return false;
+
+            // Parse protocol version
+            _protocol_index = index;
+            _protocol_size = 0;
+            while (_cache[index] != '\r')
+            {
+                ++_protocol_size;
+                ++index;
+                if (index >= _cache.size())
+                    return false;
+            }
+            ++index;
+            if ((index >= _cache.size()) || (_cache[index] != '\n'))
+                return false;
+            ++index;
+            if (index >= _cache.size())
+                return false;
+
+            // Parse headers
+            while ((index < _cache.size()) && (index < i))
+            {
+                // Parse header name
+                size_t header_name_index = index;
+                size_t header_name_size = 0;
+                while (_cache[index] != ':')
+                {
+                    ++header_name_size;
+                    ++index;
+                    if (index >= i)
+                        break;
+                    if (index >= _cache.size())
+                        return false;
+                }
+                ++index;
+                if (index >= i)
+                    break;
+                if (index >= _cache.size())
+                    return false;
+
+                // Skip all prefix space characters
+                while (std::isspace(_cache[index]))
+                {
+                    ++index;
+                    if (index >= i)
+                        break;
+                    if (index >= _cache.size())
+                        return false;
+                }
+
+                // Parse header value
+                size_t header_value_index = index;
+                size_t header_value_size = 0;
+                while (_cache[index] != '\r')
+                {
+                    ++header_value_size;
+                    ++index;
+                    if (index >= i)
+                        break;
+                    if (index >= _cache.size())
+                        return false;
+                }
+                ++index;
+                if ((index >= _cache.size()) || (_cache[index] != '\n'))
+                    return false;
+                ++index;
+                if (index >= _cache.size())
+                    return false;
+
+                // Validate header name and value
+                if ((header_name_size == 0) || (header_value_size == 0))
+                    return false;
+
+                // Add a new header
+                _headers.emplace_back(header_name_index, header_name_size, header_value_index, header_value_size);
+
+                // Try to find the body content length
+                if (std::string_view(_cache.data() + header_name_index, header_name_size) == "Content-Length")
+                {
+                    _body_length = 0;
+                    for (size_t j = header_value_index; j < (header_value_index + header_value_size); ++j)
+                    {
+                        if ((_cache[j] < '0') || (_cache[j] > '9'))
+                            return false;
+                        _body_length *= 10;
+                        _body_length += _cache[j] - '0';
+                    }
+                }
+            }
+
+            // Reset the error flag
+            _error = false;
+
+            // Update the body index and size
+            _body_index = i + 4;
+            _body_size = _cache.size() - i;
+
+            // Update the parsed cache size
+            _cache_size = _cache.size();
+
+            return true;
+        }
+    }
+
+    // Update the parsed cache size
+    _cache_size = (_cache.size() >= 3) ? (_cache.size() - 3) : 0;
+
+    return false;
+}
+
+bool HTTPRequest::ReceiveBody(const void* buffer, size_t size)
+{
+    // Update HTTP request cache
+    _cache.insert(_cache.end(), (const char*)buffer, (const char*)buffer + size);
+
+    // Update the parsed cache size
+    _cache_size = _cache.size();
+
+    // Update body size
+    _body_size += size;
+
+    // GET request has no body
+    if ((method() == "HEAD") || (method() == "GET") || (method() == "TRACE"))
+    {
+        _body_length = 0;
+        _body_size = 0;
+        return true;
+    }
+
+    // Check if the body was fully parsed
+    if ((_body_length > 0) && (_body_size >= _body_length))
+    {
+        _body_size = _body_length;
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace HTTP
