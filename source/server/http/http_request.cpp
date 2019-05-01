@@ -37,6 +37,7 @@ void HTTPRequest::Clear()
     _body_index = 0;
     _body_size = 0;
     _body_length = 0;
+    _body_length_provided = false;
 
     _cache.clear();
     _cache_size = 0;
@@ -110,6 +111,7 @@ void HTTPRequest::SetBody(std::string_view body)
     _body_index = index;
     _body_size = body.size();
     _body_length = body.size();
+    _body_length_provided = true;
 }
 
 void HTTPRequest::SetBodyLength(size_t length)
@@ -125,6 +127,7 @@ void HTTPRequest::SetBodyLength(size_t length)
     _body_index = index;
     _body_size = 0;
     _body_length = length;
+    _body_length_provided = true;
 }
 
 bool HTTPRequest::IsPendingHeader() const
@@ -269,6 +272,7 @@ bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
                             return false;
                         _body_length *= 10;
                         _body_length += _cache[j] - '0';
+                        _body_length_provided = true;
                     }
                 }
             }
@@ -278,7 +282,7 @@ bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
 
             // Update the body index and size
             _body_index = i + 4;
-            _body_size = _cache.size() - i;
+            _body_size = _cache.size() - i - 4;
 
             // Update the parsed cache size
             _cache_size = _cache.size();
@@ -313,13 +317,48 @@ bool HTTPRequest::ReceiveBody(const void* buffer, size_t size)
     }
 
     // Check if the body was fully parsed
-    if ((_body_length > 0) && (_body_size >= _body_length))
+    if (_body_length_provided && (_body_size >= _body_length))
     {
         _body_size = _body_length;
         return true;
     }
 
     return false;
+}
+
+std::ostream& operator<<(std::ostream& os, const HTTPRequest& request)
+{
+    os << "Request method: " << request.method() << std::endl;
+    os << "Request URL: " << request.url() << std::endl;
+    os << "Request protocol: " << request.protocol() << std::endl;
+    os << "Request headers: " << request.headers() << std::endl;
+    for (size_t i = 0; i < request.headers(); ++i)
+    {
+        auto header = request.header(i);
+        os << std::get<0>(header) << ": " << std::get<1>(header) << std::endl;
+    }
+    os << "Request body:" << request.body_length() << std::endl;
+    os << request.body() << std::endl;
+    return os;
+}
+
+void HTTPRequest::swap(HTTPRequest& request) noexcept
+{
+    using std::swap;
+    swap(_error, request._error);
+    swap(_method_index, request._method_index);
+    swap(_method_size, request._method_size);
+    swap(_url_index, request._url_index);
+    swap(_url_size, request._url_size);
+    swap(_protocol_index, request._protocol_index);
+    swap(_protocol_size, request._protocol_size);
+    swap(_headers, request._headers);
+    swap(_body_index, request._body_index);
+    swap(_body_size, request._body_size);
+    swap(_body_length, request._body_length);
+    swap(_body_length_provided, request._body_length_provided);
+    swap(_cache, request._cache);
+    swap(_cache_size, request._cache_size);
 }
 
 } // namespace HTTP

@@ -72,9 +72,31 @@ std::future<HTTPResponse> HTTPClientEx::MakeRequest(const HTTPRequest& request, 
     _promise = std::promise<HTTPResponse>();
     _request = request;
 
-    // Connect to Web server
-    if (!ConnectAsync(_resolver))
-        _promise.set_exception(std::make_exception_ptr(std::runtime_error("Connection failed!")));
+    // Check if the HTTP request is valid
+    if (_request.empty() || _request.error())
+    {
+        SetPromiseError("Invalid HTTP request!");
+        return _promise.get_future();
+    }
+
+    if (!IsConnected())
+    {
+        // Connect to the Web server
+        if (!ConnectAsync(_resolver))
+        {
+            SetPromiseError("Connection failed!");
+            return _promise.get_future();
+        }
+    }
+    else
+    {
+        // Send prepared HTTP request
+        if (!SendRequestAsync())
+        {
+            SetPromiseError("Failed to send HTTP request!");
+            return _promise.get_future();
+        }
+    }
 
     // Setup timeout check timer
     auto self(this->shared_from_this());
@@ -89,15 +111,52 @@ std::future<HTTPResponse> HTTPClientEx::MakeRequest(const HTTPRequest& request, 
         DisconnectAsync();
     };
     if (!_timer->Setup(timeout_handler, timeout) || !_timer->WaitAsync())
-        _promise.set_exception(std::make_exception_ptr(std::runtime_error("Timeout setup failed!")));
+    {
+        SetPromiseError("Failed to setup timeout timer!");
+        return _promise.get_future();
+    }
 
     return _promise.get_future();
 }
 
+std::future<HTTPResponse> HTTPClientEx::MakeHeadRequest(std::string_view url, const CppCommon::Timespan& timeout)
+{
+    _request.Clear();
+    _request.SetBegin("HEAD", url);
+    _request.SetBody();
+    return MakeRequest(_request, timeout);
+}
+
+std::future<HTTPResponse> HTTPClientEx::MakeGetRequest(std::string_view url, const CppCommon::Timespan& timeout)
+{
+    _request.Clear();
+    _request.SetBegin("GET", url);
+    _request.SetBody();
+    return MakeRequest(_request, timeout);
+}
+
+std::future<HTTPResponse> HTTPClientEx::MakeOptionsRequest(std::string_view url, const CppCommon::Timespan& timeout)
+{
+    _request.Clear();
+    _request.SetBegin("OPTIONS", url);
+    _request.SetBody();
+    return MakeRequest(_request, timeout);
+}
+
+std::future<HTTPResponse> HTTPClientEx::MakeTraceRequest(std::string_view url, const CppCommon::Timespan& timeout)
+{
+    _request.Clear();
+    _request.SetBegin("TRACE", url);
+    _request.SetBody();
+    return MakeRequest(_request, timeout);
+}
+
 void HTTPClientEx::onConnected()
 {
-    if (!SendRequestAsync())
-        _promise.set_exception(std::make_exception_ptr(std::runtime_error("Send HTTP request failed!")));
+    // Send prepared HTTP request on connect
+    if (!_request.empty() && !_request.error())
+        if (!SendRequestAsync())
+            SetPromiseError("Failed to send HTTP request!");
 }
 
 void HTTPClientEx::onDisconnected()
@@ -113,7 +172,7 @@ void HTTPClientEx::onReceivedResponse(const HTTPResponse& response)
     // Cancel timeout check timer
     _timer->Cancel();
 
-    _promise.set_value(response);
+    SetPromiseValue(response);
 }
 
 void HTTPClientEx::onReceivedResponseError(const HTTPResponse& response, const std::string& error)
@@ -121,7 +180,19 @@ void HTTPClientEx::onReceivedResponseError(const HTTPResponse& response, const s
     // Cancel timeout check timer
     _timer->Cancel();
 
+    SetPromiseError(error);
+}
+
+void HTTPClientEx::SetPromiseValue(const HTTPResponse& response)
+{
+    _promise.set_value(response);
+    _request.Clear();
+}
+
+void HTTPClientEx::SetPromiseError(const std::string& error)
+{
     _promise.set_exception(std::make_exception_ptr(std::runtime_error(error)));
+    _request.Clear();
 }
 
 } // namespace HTTP

@@ -9,13 +9,14 @@
 #include "asio_service.h"
 
 #include "server/http/http_client.h"
+#include "string/string_utils.h"
 
 #include <iostream>
 
 int main(int argc, char** argv)
 {
     // HTTP server address
-    std::string address = "example.com";
+    std::string address = "127.0.0.1";
     if (argc > 1)
         address = argv[1];
 
@@ -34,33 +35,56 @@ int main(int argc, char** argv)
     // Create a new HTTP client
     auto client = std::make_shared<CppServer::HTTP::HTTPClientEx>(service, address, "http");
 
-    // Prepare HTTP request
-    client->request().SetBegin("GET", "/");
-    client->request().SetHeader("Host", "example.com");
-    client->request().SetHeader("User-Agent", "Mozilla/5.0");
-    client->request().SetBody();
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
-    // Send HTTP request
     try
     {
-        std::cout << "Send HTTP request...";
-        auto response = client->MakeRequest().get();
-        std::cout << "Done!" << std::endl;
-
-        std::cout << std::endl;
-
-        // Show HTTP response content
-        std::cout << "Status: " << response.status() << std::endl;
-        std::cout << "Status phrase: " << response.status_phrase() << std::endl;
-        std::cout << "Protocol: " << response.protocol() << std::endl;
-        std::cout << "Headers: " << response.headers() << std::endl;
-        for (size_t i = 0; i < response.headers(); ++i)
+        // Perform text input
+        std::string line;
+        while (getline(std::cin, line))
         {
-            auto header = response.header(i);
-            std::cout << std::get<0>(header) << ": " << std::get<1>(header) << std::endl;
+            if (line.empty())
+                break;
+
+            // Reconnect the client
+            if (line == "!")
+            {
+                std::cout << "Client reconnecting...";
+                client->ReconnectAsync();
+                std::cout << "Done!" << std::endl;
+                continue;
+            }
+
+            auto commands = CppCommon::StringUtils::Split(line, ' ', true);
+            if (commands.size() < 2)
+            {
+                std::cout << "HTTP method and URL must be entered!" << std::endl;
+                continue;
+            }
+
+            if (CppCommon::StringUtils::ToUpper(commands[0]) == "HEAD")
+            {
+                auto response = client->MakeHeadRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "GET")
+            {
+                auto response = client->MakeGetRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "OPTIONS")
+            {
+                auto response = client->MakeOptionsRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "TRACE")
+            {
+                auto response = client->MakeTraceRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else
+                std::cout << "Unknown HTTP method: " << commands[0] << std::endl;
         }
-        std::cout << "Body:" << response.body_length() << std::endl;
-        std::cout << response.body() << std::endl;
     }
     catch (const std::exception& ex)
     {

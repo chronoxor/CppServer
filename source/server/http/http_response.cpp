@@ -36,6 +36,7 @@ void HTTPResponse::Clear()
     _body_index = 0;
     _body_size = 0;
     _body_length = 0;
+    _body_length_provided = false;
 
     _cache.clear();
     _cache_size = 0;
@@ -192,6 +193,7 @@ void HTTPResponse::SetBody(std::string_view body)
     _body_index = index;
     _body_size = body.size();
     _body_length = body.size();
+    _body_length_provided = true;
 }
 
 void HTTPResponse::SetBodyLength(size_t length)
@@ -207,6 +209,43 @@ void HTTPResponse::SetBodyLength(size_t length)
     _body_index = index;
     _body_size = 0;
     _body_length = length;
+    _body_length_provided = true;
+}
+
+HTTPResponse& HTTPResponse::MakeHeadResponse()
+{
+    Clear();
+    SetBegin(200);
+    SetHeader("Content-Type", "text/html; charset=UTF-8");
+    SetBodyLength(0);
+    return *this;
+}
+
+HTTPResponse& HTTPResponse::MakeGetResponse(std::string_view body)
+{
+    Clear();
+    SetBegin(200);
+    SetHeader("Content-Type", "text/html; charset=UTF-8");
+    SetBody(body);
+    return *this;
+}
+
+HTTPResponse& HTTPResponse::MakeOptionsResponse(std::string_view allow)
+{
+    Clear();
+    SetBegin(200);
+    SetHeader("Allow", allow);
+    SetBodyLength(0);
+    return *this;
+}
+
+HTTPResponse& HTTPResponse::MakeTraceResponse(std::string_view request)
+{
+    Clear();
+    SetBegin(200);
+    SetHeader("Content-Type", "message/http");
+    SetBody(request);
+    return *this;
 }
 
 bool HTTPResponse::IsPendingHeader() const
@@ -359,6 +398,7 @@ bool HTTPResponse::ReceiveHeader(const void* buffer, size_t size)
                             return false;
                         _body_length *= 10;
                         _body_length += _cache[j] - '0';
+                        _body_length_provided = true;
                     }
                 }
             }
@@ -368,7 +408,7 @@ bool HTTPResponse::ReceiveHeader(const void* buffer, size_t size)
 
             // Update the body index and size
             _body_index = i + 4;
-            _body_size = _cache.size() - i;
+            _body_size = _cache.size() - i - 4;
 
             // Update the parsed cache size
             _cache_size = _cache.size();
@@ -395,13 +435,47 @@ bool HTTPResponse::ReceiveBody(const void* buffer, size_t size)
     _body_size += size;
 
     // Check if the body was fully parsed
-    if ((_body_length > 0) && (_body_size >= _body_length))
+    if (_body_length_provided && (_body_size >= _body_length))
     {
         _body_size = _body_length;
         return true;
     }
 
     return false;
+}
+
+std::ostream& operator<<(std::ostream& os, const HTTPResponse& response)
+{
+    os << "Status: " << response.status() << std::endl;
+    os << "Status phrase: " << response.status_phrase() << std::endl;
+    os << "Protocol: " << response.protocol() << std::endl;
+    os << "Headers: " << response.headers() << std::endl;
+    for (size_t i = 0; i < response.headers(); ++i)
+    {
+        auto header = response.header(i);
+        os << std::get<0>(header) << ": " << std::get<1>(header) << std::endl;
+    }
+    os << "Body:" << response.body_length() << std::endl;
+    os << response.body() << std::endl;
+    return os;
+}
+
+void HTTPResponse::swap(HTTPResponse& response) noexcept
+{
+    using std::swap;
+    swap(_error, response._error);
+    swap(_status, response._status);
+    swap(_status_phrase_index, response._status_phrase_index);
+    swap(_status_phrase_size, response._status_phrase_size);
+    swap(_protocol_index, response._protocol_index);
+    swap(_protocol_size, response._protocol_size);
+    swap(_headers, response._headers);
+    swap(_body_index, response._body_index);
+    swap(_body_size, response._body_size);
+    swap(_body_length, response._body_length);
+    swap(_body_length_provided, response._body_length_provided);
+    swap(_cache, response._cache);
+    swap(_cache_size, response._cache_size);
 }
 
 } // namespace HTTP

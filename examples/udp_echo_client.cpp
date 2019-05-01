@@ -107,11 +107,11 @@ int main(int argc, char** argv)
         if (line.empty())
             break;
 
-        // Disconnect the client
+        // Reconnect the client
         if (line == "!")
         {
-            std::cout << "Client disconnecting...";
-            client->DisconnectAsync();
+            std::cout << "Client reconnecting...";
+            client->ReconnectAsync();
             std::cout << "Done!" << std::endl;
             continue;
         }

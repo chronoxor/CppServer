@@ -11,6 +11,7 @@
 
 #include "http.h"
 
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <tuple>
@@ -54,8 +55,11 @@ public:
     HTTPResponse& operator=(const HTTPResponse&) = default;
     HTTPResponse& operator=(HTTPResponse&&) = default;
 
-    //! Get the HTTP response error flag
+    //! Is the HTTP response empty?
+    bool empty() const noexcept { return _cache.empty(); }
+    //! Is the HTTP response error flag set?
     bool error() const noexcept { return _error; }
+
     //! Get the HTTP response status
     int status() const noexcept { return _status; }
     //! Get the HTTP response status phrase
@@ -73,6 +77,9 @@ public:
 
     //! Get the HTTP response cache content
     const std::string& cache() const noexcept { return _cache; }
+
+    //! Get string from the current HTTP response
+    std::string string() const { std::stringstream ss; ss << *this; return ss.str(); }
 
     //! Clear the HTTP response cache
     void Clear();
@@ -107,6 +114,37 @@ public:
     */
     void SetBodyLength(size_t length);
 
+    //! Make HEAD response
+    /*!
+        \return HTTP response
+    */
+    HTTPResponse& MakeHeadResponse();
+    //! Make GET response
+    /*!
+        \param body - Body content (default is "")
+        \return HTTP response
+    */
+    HTTPResponse& MakeGetResponse(std::string_view body = "");
+    //! Make OPTIONS response
+    /*!
+        \param allow - Allow methods (default is "HEAD,GET,POST,PUT,DELETE,OPTIONS,TRACE")
+        \return HTTP response
+    */
+    HTTPResponse& MakeOptionsResponse(std::string_view allow = "HEAD,GET,POST,PUT,DELETE,OPTIONS,TRACE");
+    //! Make TRACE response
+    /*!
+        \param request - Request content
+        \return HTTP response
+    */
+    HTTPResponse& MakeTraceResponse(std::string_view request);
+
+    //! Output instance into the given output stream
+    friend std::ostream& operator<<(std::ostream& os, const HTTPResponse& response);
+
+    //! Swap two instances
+    void swap(HTTPResponse& response) noexcept;
+    friend void swap(HTTPResponse& response1, HTTPResponse& response2) noexcept { response1.swap(response2); }
+
 private:
     // HTTP response error flag
     bool _error;
@@ -124,6 +162,7 @@ private:
     size_t _body_index;
     size_t _body_size;
     size_t _body_length;
+    bool _body_length_provided;
 
     // HTTP response cache
     std::string _cache;
@@ -140,5 +179,7 @@ private:
 
 } // namespace HTTP
 } // namespace CppServer
+
+#include "http_response.inl"
 
 #endif // CPPSERVER_HTTP_HTTP_RESPONSE_H

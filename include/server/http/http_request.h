@@ -11,6 +11,7 @@
 
 #include "http.h"
 
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <tuple>
@@ -48,8 +49,11 @@ public:
     HTTPRequest& operator=(const HTTPRequest&) = default;
     HTTPRequest& operator=(HTTPRequest&&) = default;
 
-    //! Get the HTTP request error flag
+    //! Is the HTTP request empty?
+    bool empty() const noexcept { return _cache.empty(); }
+    //! Is the HTTP request error flag set?
     bool error() const noexcept { return _error; }
+
     //! Get the HTTP request method
     std::string_view method() const noexcept { return std::string_view(_cache.data() + _method_index, _method_size); }
     //! Get the HTTP request URL
@@ -67,6 +71,9 @@ public:
 
     //! Get the HTTP request cache content
     const std::string& cache() const noexcept { return _cache; }
+
+    //! Get string from the current HTTP request
+    std::string string() const { std::stringstream ss; ss << *this; return ss.str(); }
 
     //! Clear the HTTP request cache
     void Clear();
@@ -95,6 +102,13 @@ public:
     */
     void SetBodyLength(size_t length);
 
+    //! Output instance into the given output stream
+    friend std::ostream& operator<<(std::ostream& os, const HTTPRequest& request);
+
+    //! Swap two instances
+    void swap(HTTPRequest& request) noexcept;
+    friend void swap(HTTPRequest& request1, HTTPRequest& request2) noexcept { request1.swap(request2); }
+
 private:
     // HTTP request error flag
     bool _error;
@@ -113,6 +127,7 @@ private:
     size_t _body_index;
     size_t _body_size;
     size_t _body_length;
+    bool _body_length_provided;
 
     // HTTP request cache
     std::string _cache;
@@ -129,5 +144,7 @@ private:
 
 } // namespace HTTP
 } // namespace CppServer
+
+#include "http_request.inl"
 
 #endif // CPPSERVER_HTTP_HTTP_REQUEST_H

@@ -195,6 +195,31 @@ public:
     */
     std::future<HTTPResponse> MakeRequest(const HTTPRequest& request, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
 
+    //! Make HEAD request
+    /*!
+        \param timeout - HTTP request timeout
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> MakeHeadRequest(std::string_view url = "", const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    //! Make GET request
+    /*!
+        \param timeout - HTTP request timeout
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> MakeGetRequest(std::string_view url = "", const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    //! Make OPTIONS request
+    /*!
+        \param timeout - HTTP request timeout
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> MakeOptionsRequest(std::string_view url = "", const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    //! Make TRACE request
+    /*!
+        \param timeout - HTTP request timeout
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> MakeTraceRequest(std::string_view url = "", const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+
 protected:
     void onHandshaked() override;
     void onDisconnected() override;
@@ -205,6 +230,9 @@ private:
     std::shared_ptr<Asio::TCPResolver> _resolver;
     std::shared_ptr<Asio::Timer> _timer;
     std::promise<HTTPResponse> _promise;
+
+    void SetPromiseValue(const HTTPResponse& response);
+    void SetPromiseError(const std::string& error);
 };
 
 /*! \example https_client.cpp HTTPS client example */

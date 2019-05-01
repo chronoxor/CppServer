@@ -41,62 +41,22 @@ protected:
     void onReceivedRequest(const CppServer::HTTP::HTTPRequest& request) override
     {
         // Show HTTP request content
-        std::cout << "Request method: " << request.method() << std::endl;
-        std::cout << "Request URL: " << request.url() << std::endl;
-        std::cout << "Request protocol: " << request.protocol() << std::endl;
-        std::cout << "Request headers: " << request.headers() << std::endl;
-        for (size_t i = 0; i < request.headers(); ++i)
-        {
-            auto header = request.header(i);
-            std::cout << std::get<0>(header) << ": " << std::get<1>(header) << std::endl;
-        }
-        std::cout << "Request body:" << request.body_length() << std::endl;
-        std::cout << request.body() << std::endl;
+        std::cout << std::endl << request;
 
         // Process HTTP request methods
         if (request.method() == "HEAD")
-        {
-            // Fill and send the corresponding HTTP response
-            auto& response = this->response();
-            response.Clear();
-            response.SetBegin(200);
-            response.SetHeader("Content-Type", "text/html; charset=UTF-8");
-            response.SetBodyLength(0);
-            SendResponseAsync(response);
-        }
+            SendResponseAsync(response().MakeHeadResponse());
         else if (request.method() == "GET")
         {
             // Get the cache value
             auto cache = Cache::GetInstance().GetCache(request.url());
-
-            // Fill and send the corresponding HTTP response
-            auto& response = this->response();
-            response.Clear();
-            response.SetBegin(200);
-            response.SetHeader("Content-Type", "text/html; charset=UTF-8");
-            response.SetBody(cache);
-            SendResponseAsync(response);
+            // Response with the cache value
+            SendResponseAsync(response().MakeGetResponse(cache));
         }
         else if (request.method() == "OPTIONS")
-        {
-            // Fill and send the corresponding HTTP response
-            auto& response = this->response();
-            response.Clear();
-            response.SetBegin(200);
-            response.SetHeader("Allow", "HEAD,GET,POST,PUT,DELETE,OPTIONS,TRACE");
-            response.SetBodyLength(0);
-            SendResponseAsync(response);
-        }
+            SendResponseAsync(response().MakeOptionsResponse());
         else if (request.method() == "TRACE")
-        {
-            // Fill and send the corresponding HTTP response
-            auto& response = this->response();
-            response.Clear();
-            response.SetBegin(200);
-            response.SetHeader("Content-Type", "message/http");
-            response.SetBody(request.cache());
-            SendResponseAsync(response);
-        }
+            SendResponseAsync(response().MakeTraceResponse(request.cache()));
         else
             std::cout << "Unsupported HTTP method: " << request.method() << std::endl;
     }
