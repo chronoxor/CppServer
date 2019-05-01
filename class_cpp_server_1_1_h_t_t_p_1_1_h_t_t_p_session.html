@@ -125,6 +125,47 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a19ddcaa609f9505137ad711b62f8026e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a19659fdeeae72960c1e956fac86f95"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html">HTTPSession</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a3a19659fdeeae72960c1e956fac86f95">operator=</a> (<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html">HTTPSession</a> &amp;&amp;)=delete</td></tr>
 <tr class="separator:a3a19659fdeeae72960c1e956fac86f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bc3633e12d220caa7305771080cfa73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a6bc3633e12d220caa7305771080cfa73">response</a> () noexcept</td></tr>
+<tr class="memdesc:a6bc3633e12d220caa7305771080cfa73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response.  <a href="#a6bc3633e12d220caa7305771080cfa73">More...</a><br /></td></tr>
+<tr class="separator:a6bc3633e12d220caa7305771080cfa73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdfa27857709332f53a78697f68e45da"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#afdfa27857709332f53a78697f68e45da">response</a> () const noexcept</td></tr>
+<tr class="separator:afdfa27857709332f53a78697f68e45da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7e31d370ef2d10eb268f98e90f8bb98"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#ae7e31d370ef2d10eb268f98e90f8bb98">SendResponse</a> ()</td></tr>
+<tr class="memdesc:ae7e31d370ef2d10eb268f98e90f8bb98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response (synchronous)  <a href="#ae7e31d370ef2d10eb268f98e90f8bb98">More...</a><br /></td></tr>
+<tr class="separator:ae7e31d370ef2d10eb268f98e90f8bb98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3f545f825df202e655e1284ad9fc408"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#aa3f545f825df202e655e1284ad9fc408">SendResponse</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a6bc3633e12d220caa7305771080cfa73">response</a>)</td></tr>
+<tr class="memdesc:aa3f545f825df202e655e1284ad9fc408"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response (synchronous)  <a href="#aa3f545f825df202e655e1284ad9fc408">More...</a><br /></td></tr>
+<tr class="separator:aa3f545f825df202e655e1284ad9fc408"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f85e4b8e2d109b7135cd0ff15573381"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a3f85e4b8e2d109b7135cd0ff15573381">SendResponseBody</a> (std::string_view body)</td></tr>
+<tr class="memdesc:a3f85e4b8e2d109b7135cd0ff15573381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body (synchronous)  <a href="#a3f85e4b8e2d109b7135cd0ff15573381">More...</a><br /></td></tr>
+<tr class="separator:a3f85e4b8e2d109b7135cd0ff15573381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe65464ef97608437b10c50ee56657f3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#afe65464ef97608437b10c50ee56657f3">SendResponseBody</a> (const void *buffer, size_t size)</td></tr>
+<tr class="memdesc:afe65464ef97608437b10c50ee56657f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body (synchronous)  <a href="#afe65464ef97608437b10c50ee56657f3">More...</a><br /></td></tr>
+<tr class="separator:afe65464ef97608437b10c50ee56657f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab999ff38bef03a0da7006ea7e48b4b36"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#ab999ff38bef03a0da7006ea7e48b4b36">SendResponse</a> (const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:ab999ff38bef03a0da7006ea7e48b4b36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response with timeout (synchronous)  <a href="#ab999ff38bef03a0da7006ea7e48b4b36">More...</a><br /></td></tr>
+<tr class="separator:ab999ff38bef03a0da7006ea7e48b4b36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7774000991a89c159aa29dbac2b61922"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a7774000991a89c159aa29dbac2b61922">SendResponse</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a6bc3633e12d220caa7305771080cfa73">response</a>, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a7774000991a89c159aa29dbac2b61922"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response with timeout (synchronous)  <a href="#a7774000991a89c159aa29dbac2b61922">More...</a><br /></td></tr>
+<tr class="separator:a7774000991a89c159aa29dbac2b61922"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8969bb594cf21d42f1cced1a25c06964"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a8969bb594cf21d42f1cced1a25c06964">SendResponseBody</a> (std::string_view body, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a8969bb594cf21d42f1cced1a25c06964"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body with timeout (synchronous)  <a href="#a8969bb594cf21d42f1cced1a25c06964">More...</a><br /></td></tr>
+<tr class="separator:a8969bb594cf21d42f1cced1a25c06964"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae436deca0a1346ac223f173c98a21bb3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#ae436deca0a1346ac223f173c98a21bb3">SendResponseBody</a> (const void *buffer, size_t size, const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:ae436deca0a1346ac223f173c98a21bb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body with timeout (synchronous)  <a href="#ae436deca0a1346ac223f173c98a21bb3">More...</a><br /></td></tr>
+<tr class="separator:ae436deca0a1346ac223f173c98a21bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf15d4364c69eb3df6476a52a54cf975"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#abf15d4364c69eb3df6476a52a54cf975">SendResponseAsync</a> ()</td></tr>
+<tr class="memdesc:abf15d4364c69eb3df6476a52a54cf975"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response (asynchronous)  <a href="#abf15d4364c69eb3df6476a52a54cf975">More...</a><br /></td></tr>
+<tr class="separator:abf15d4364c69eb3df6476a52a54cf975"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0f5b61a2fce36ff482a17c4d1f8a800"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#af0f5b61a2fce36ff482a17c4d1f8a800">SendResponseAsync</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a6bc3633e12d220caa7305771080cfa73">response</a>)</td></tr>
+<tr class="memdesc:af0f5b61a2fce36ff482a17c4d1f8a800"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response (asynchronous)  <a href="#af0f5b61a2fce36ff482a17c4d1f8a800">More...</a><br /></td></tr>
+<tr class="separator:af0f5b61a2fce36ff482a17c4d1f8a800"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f7220601e940d6219dffdc71c40a565"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a8f7220601e940d6219dffdc71c40a565">SendResponseBodyAsync</a> (std::string_view body)</td></tr>
+<tr class="memdesc:a8f7220601e940d6219dffdc71c40a565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body (asynchronous)  <a href="#a8f7220601e940d6219dffdc71c40a565">More...</a><br /></td></tr>
+<tr class="separator:a8f7220601e940d6219dffdc71c40a565"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0da987b9a2c3f66f1f2217abd92643f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a0da987b9a2c3f66f1f2217abd92643f6">SendResponseBodyAsync</a> (const void *buffer, size_t size)</td></tr>
+<tr class="memdesc:a0da987b9a2c3f66f1f2217abd92643f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body (asynchronous)  <a href="#a0da987b9a2c3f66f1f2217abd92643f6">More...</a><br /></td></tr>
+<tr class="separator:a0da987b9a2c3f66f1f2217abd92643f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html">CppServer::Asio::TCPSession</a></td></tr>
 <tr class="memitem:a80c7372cded2092b42407817b92b061b inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a80c7372cded2092b42407817b92b061b">TCPSession</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html">TCPServer</a> &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#abbc1c732570c7f3b3d0d3d4f3bb7cf03">server</a>)</td></tr>
 <tr class="memdesc:a80c7372cded2092b42407817b92b061b inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the session with a given server.  <a href="#a80c7372cded2092b42407817b92b061b">More...</a><br /></td></tr>
@@ -217,6 +258,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a87f5dcb912eeffc0dbdd3966e6dd4c0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a87f5dcb912eeffc0dbdd3966e6dd4c0a">onReceived</a> (const void *buffer, size_t size) override</td></tr>
+<tr class="memdesc:a87f5dcb912eeffc0dbdd3966e6dd4c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle buffer received notification.  <a href="#a87f5dcb912eeffc0dbdd3966e6dd4c0a">More...</a><br /></td></tr>
+<tr class="separator:a87f5dcb912eeffc0dbdd3966e6dd4c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a732c9d82c5390d824ff4bab316080088"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a732c9d82c5390d824ff4bab316080088">onDisconnected</a> () override</td></tr>
+<tr class="memdesc:a732c9d82c5390d824ff4bab316080088"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnected notification.  <a href="#a732c9d82c5390d824ff4bab316080088">More...</a><br /></td></tr>
+<tr class="separator:a732c9d82c5390d824ff4bab316080088"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4383cae275f5ade52beb73b918c0ba1a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a4383cae275f5ade52beb73b918c0ba1a">onReceivedRequestHeader</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;request)</td></tr>
 <tr class="memdesc:a4383cae275f5ade52beb73b918c0ba1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request header received notification.  <a href="#a4383cae275f5ade52beb73b918c0ba1a">More...</a><br /></td></tr>
 <tr class="separator:a4383cae275f5ade52beb73b918c0ba1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,12 +277,6 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a0759242c84135a0c6deb984ed4da057e inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a0759242c84135a0c6deb984ed4da057e">onConnected</a> ()</td></tr>
 <tr class="memdesc:a0759242c84135a0c6deb984ed4da057e inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session connected notification.  <a href="#a0759242c84135a0c6deb984ed4da057e">More...</a><br /></td></tr>
 <tr class="separator:a0759242c84135a0c6deb984ed4da057e inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c60bb261f5423ba3226e247d43a185e inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a6c60bb261f5423ba3226e247d43a185e">onDisconnected</a> ()</td></tr>
-<tr class="memdesc:a6c60bb261f5423ba3226e247d43a185e inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnected notification.  <a href="#a6c60bb261f5423ba3226e247d43a185e">More...</a><br /></td></tr>
-<tr class="separator:a6c60bb261f5423ba3226e247d43a185e inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b372295e885793c8788cfc36f38463d inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a5b372295e885793c8788cfc36f38463d">onReceived</a> (const void *buffer, size_t size)</td></tr>
-<tr class="memdesc:a5b372295e885793c8788cfc36f38463d inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle buffer received notification.  <a href="#a5b372295e885793c8788cfc36f38463d">More...</a><br /></td></tr>
-<tr class="separator:a5b372295e885793c8788cfc36f38463d inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ccda1e8d984193bfb17da0115da97f4 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a9ccda1e8d984193bfb17da0115da97f4">onSent</a> (size_t sent, size_t pending)</td></tr>
 <tr class="memdesc:a9ccda1e8d984193bfb17da0115da97f4 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle buffer sent notification.  <a href="#a9ccda1e8d984193bfb17da0115da97f4">More...</a><br /></td></tr>
 <tr class="separator:a9ccda1e8d984193bfb17da0115da97f4 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -327,6 +368,83 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a732c9d82c5390d824ff4bab316080088"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::HTTP::HTTPSession::onDisconnected </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle session disconnected notification. </p>
+
+<p>Reimplemented from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a6c60bb261f5423ba3226e247d43a185e">CppServer::Asio::TCPSession</a>.</p>
+
+<p>Definition at line <a class="el" href="http__session_8cpp_source.html#l00052">52</a> of file <a class="el" href="http__session_8cpp_source.html">http_session.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a87f5dcb912eeffc0dbdd3966e6dd4c0a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::HTTP::HTTPSession::onReceived </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle buffer received notification. </p>
+<p>Notification is called when another chunk of buffer was received from the client.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>- Received buffer </td></tr>
+    <tr><td class="paramname">size</td><td>- Received buffer size </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a5b372295e885793c8788cfc36f38463d">CppServer::Asio::TCPSession</a>.</p>
+
+<p>Definition at line <a class="el" href="http__session_8cpp_source.html#l00014">14</a> of file <a class="el" href="http__session_8cpp_source.html">http_session.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ad60d64578f47fe837c453a6be9110f54"></a>
 <div class="memitem">
 <div class="memproto">
@@ -357,9 +475,8 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a2">http_server.cpp</a>.</dd>
-</dl>
-<p>Definition at line <a class="el" href="http__session_8h_source.html#l00057">57</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00146">146</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
 </div>
 </div>
@@ -404,9 +521,8 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a11">http_server.cpp</a>.</dd>
-</dl>
-<p>Definition at line <a class="el" href="http__session_8h_source.html#l00067">67</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00156">156</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
 </div>
 </div>
@@ -441,7 +557,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="http__session_8h_source.html#l00048">48</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00137">137</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
 </div>
 </div>
@@ -493,8 +609,529 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a class="anchor" id="a6bc3633e12d220caa7305771080cfa73"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a>&amp; CppServer::HTTP::HTTPSession::response </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response. </p>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00041">41</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afdfa27857709332f53a78697f68e45da"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a>&amp; CppServer::HTTP::HTTPSession::response </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00042">42</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7e31d370ef2d10eb268f98e90f8bb98"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPSession::SendResponse </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response (synchronous) </p>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00048">48</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa3f545f825df202e655e1284ad9fc408"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPSession::SendResponse </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;&#160;</td>
+          <td class="paramname"><em>response</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">response</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00054">54</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab999ff38bef03a0da7006ea7e48b4b36"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPSession::SendResponse </td>
+          <td>(</td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00075">75</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7774000991a89c159aa29dbac2b61922"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPSession::SendResponse </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;&#160;</td>
+          <td class="paramname"><em>response</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">response</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00082">82</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf15d4364c69eb3df6476a52a54cf975"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CppServer::HTTP::HTTPSession::SendResponseAsync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response (asynchronous) </p>
+<dl class="section return"><dt>Returns</dt><dd>'true' if the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response was successfully sent, 'false' if the session is not connected </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00104">104</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af0f5b61a2fce36ff482a17c4d1f8a800"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CppServer::HTTP::HTTPSession::SendResponseAsync </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;&#160;</td>
+          <td class="paramname"><em>response</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response (asynchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">response</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>'true' if the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response was successfully sent, 'false' if the session is not connected </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00110">110</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3f85e4b8e2d109b7135cd0ff15573381"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPSession::SendResponseBody </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>body</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">body</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00061">61</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afe65464ef97608437b10c50ee56657f3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPSession::SendResponseBody </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body buffer </td></tr>
+    <tr><td class="paramname">size</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body size </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00068">68</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8969bb594cf21d42f1cced1a25c06964"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPSession::SendResponseBody </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>body</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">body</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00090">90</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae436deca0a1346ac223f173c98a21bb3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t CppServer::HTTP::HTTPSession::SendResponseBody </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body with timeout (synchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body buffer </td></tr>
+    <tr><td class="paramname">size</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body size </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00098">98</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8f7220601e940d6219dffdc71c40a565"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CppServer::HTTP::HTTPSession::SendResponseBodyAsync </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>body</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body (asynchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">body</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>'true' if the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response was successfully sent, 'false' if the session is not connected </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00117">117</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0da987b9a2c3f66f1f2217abd92643f6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CppServer::HTTP::HTTPSession::SendResponseBodyAsync </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body (asynchronous) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body buffer </td></tr>
+    <tr><td class="paramname">size</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response body size </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>'true' if the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response was successfully sent, 'false' if the session is not connected </dd></dl>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00124">124</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/server/http/<a class="el" href="http__session_8h_source.html">http_session.h</a></li>
+<li>source/server/http/<a class="el" href="http__session_8cpp_source.html">http_session.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

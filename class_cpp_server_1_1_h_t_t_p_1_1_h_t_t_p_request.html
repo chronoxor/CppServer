@@ -92,6 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">CppServer::HTTP::HTTPRequest Class Reference</div>  </div>
@@ -121,6 +122,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7fa7088a2cf71558164221f997df4325"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9d2bc59a07668a8f5a8b8186c084a3a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#aa9d2bc59a07668a8f5a8b8186c084a3a">operator=</a> (<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;&amp;)=default</td></tr>
 <tr class="separator:aa9d2bc59a07668a8f5a8b8186c084a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7642d768cefd6bbc54cef46d0be0d50"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#ad7642d768cefd6bbc54cef46d0be0d50">error</a> () const noexcept</td></tr>
+<tr class="memdesc:ad7642d768cefd6bbc54cef46d0be0d50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request error flag.  <a href="#ad7642d768cefd6bbc54cef46d0be0d50">More...</a><br /></td></tr>
+<tr class="separator:ad7642d768cefd6bbc54cef46d0be0d50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace1a6429fccea0c3e8fe2d291ea33538"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#ace1a6429fccea0c3e8fe2d291ea33538">method</a> () const noexcept</td></tr>
 <tr class="memdesc:ace1a6429fccea0c3e8fe2d291ea33538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request method.  <a href="#ace1a6429fccea0c3e8fe2d291ea33538">More...</a><br /></td></tr>
 <tr class="separator:ace1a6429fccea0c3e8fe2d291ea33538"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,12 +164,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7b52b0e2b46131e7f88c2e61c6926b20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#a7b52b0e2b46131e7f88c2e61c6926b20">SetBodyLength</a> (size_t length)</td></tr>
 <tr class="memdesc:a7b52b0e2b46131e7f88c2e61c6926b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request body length.  <a href="#a7b52b0e2b46131e7f88c2e61c6926b20">More...</a><br /></td></tr>
 <tr class="separator:a7b52b0e2b46131e7f88c2e61c6926b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:ae7d788b643cb6462359521d4e3820ecc"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#ae7d788b643cb6462359521d4e3820ecc">HTTPSession</a></td></tr>
+<tr class="separator:ae7d788b643cb6462359521d4e3820ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a100373703aa72c9e6ec297a92358be3f"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#a100373703aa72c9e6ec297a92358be3f">HTTPSSession</a></td></tr>
+<tr class="separator:a100373703aa72c9e6ec297a92358be3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request. </p>
 <p><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request is used to create or process parameters of <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> protocol request (method, URL, headers, etc).</p>
 <p>Not thread-safe. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#_a3">http_server.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#_a2">http_server.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="http__request_8h_source.html#l00029">29</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -192,7 +203,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Initialize an empty <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request. </p>
 
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00033">33</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00036">36</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -244,7 +255,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00040">40</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00043">43</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -342,9 +353,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request body. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a10">http_server.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a9">http_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00059">59</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00064">64</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -370,9 +381,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request body length. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a9">http_server.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a8">http_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00061">61</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00066">66</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -398,8 +409,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request cache content. </p>
-
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00064">64</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a10">http_server.cpp</a>.</dd>
+</dl>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00069">69</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -419,6 +431,33 @@ Public Member Functions</h2></td></tr>
 <p>Clear the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request cache. </p>
 
 <p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00027">27</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad7642d768cefd6bbc54cef46d0be0d50"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CppServer::HTTP::HTTPRequest::error </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request error flag. </p>
+
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00052">52</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -445,7 +484,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request header by index. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a8">http_server.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a7">http_server.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00016">16</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
@@ -473,9 +512,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request headers count. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a7">http_server.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a6">http_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00055">55</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00060">60</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -501,9 +540,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request method. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a4">http_server.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a3">http_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00049">49</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00054">54</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -577,9 +616,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request protocol version. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a6">http_server.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a5">http_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00053">53</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00058">58</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
@@ -623,7 +662,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00043">43</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00045">45</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -649,7 +688,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00097">97</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00099">99</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -675,7 +714,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00114">114</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00115">115</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -712,7 +751,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00074">74</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8cpp_source.html#l00076">76</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -738,9 +777,54 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request URL. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a5">http_server.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a4">http_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="http__request_8h_source.html#l00051">51</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00056">56</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a class="anchor" id="ae7d788b643cb6462359521d4e3820ecc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html">HTTPSession</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00031">31</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a100373703aa72c9e6ec297a92358be3f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class HTTPSSession</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="http__request_8h_source.html#l00032">32</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>
