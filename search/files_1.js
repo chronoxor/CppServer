@@ -13,5 +13,8 @@ var searchData=
   ['http_5fsession_2ecpp',['http_session.cpp',['../http__session_8cpp.html',1,'']]],
   ['http_5fsession_2eh',['http_session.h',['../http__session_8h.html',1,'']]],
   ['https_5fclient_2ecpp',['https_client.cpp',['../https__client_8cpp.html',1,'']]],
-  ['https_5fclient_2eh',['https_client.h',['../https__client_8h.html',1,'']]]
+  ['https_5fclient_2eh',['https_client.h',['../https__client_8h.html',1,'']]],
+  ['https_5fserver_2eh',['https_server.h',['../https__server_8h.html',1,'']]],
+  ['https_5fsession_2ecpp',['https_session.cpp',['../https__session_8cpp.html',1,'']]],
+  ['https_5fsession_2eh',['https_session.h',['../https__session_8h.html',1,'']]]
 ];

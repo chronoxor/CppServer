@@ -11,7 +11,7 @@ var searchData=
   ['const_5freference',['const_reference',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#ae6b4afe7cca3768bd9bde5feab171207',1,'CppServer::Asio::HandlerAllocator']]],
   ['context',['context',['../class_cpp_server_1_1_asio_1_1_s_s_l_client.html#ae5b682c4cf24601a55cbec257eb7d23a',1,'CppServer::Asio::SSLClient::context()'],['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a72a9d981a54d01628d6a700cf0951ee6',1,'CppServer::Asio::SSLServer::context()']]],
   ['cppserver',['CppServer',['../namespace_cpp_server.html',1,'']]],
-  ['createsession',['CreateSession',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a1b9d56c89221cb492fcbdc60592b32ac',1,'CppServer::Asio::SSLServer::CreateSession()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#adebdb8c027a9e20bf9fe968d75ffe04f',1,'CppServer::Asio::TCPServer::CreateSession()'],['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#a0f5b1ff4231a23a8fb6dfcdca662287c',1,'CppServer::HTTP::HTTPServer::CreateSession()']]],
+  ['createsession',['CreateSession',['../class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a1b9d56c89221cb492fcbdc60592b32ac',1,'CppServer::Asio::SSLServer::CreateSession()'],['../class_cpp_server_1_1_asio_1_1_t_c_p_server.html#adebdb8c027a9e20bf9fe968d75ffe04f',1,'CppServer::Asio::TCPServer::CreateSession()'],['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#a0f5b1ff4231a23a8fb6dfcdca662287c',1,'CppServer::HTTP::HTTPServer::CreateSession()'],['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#a23dc0f4b0cf42568ecc006ad4f488dfa',1,'CppServer::HTTP::HTTPSServer::CreateSession()']]],
   ['http',['HTTP',['../namespace_cpp_server_1_1_h_t_t_p.html',1,'CppServer']]],
   ['c_2b_2b_20server_20library',['C++ Server Library',['../index.html',1,'']]]
 ];
