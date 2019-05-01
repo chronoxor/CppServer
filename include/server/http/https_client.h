@@ -22,9 +22,9 @@ namespace HTTP {
 
 //! HTTPS client
 /*!
-    HTTPS client is used to communicate with HTTPS Web server.
-    It allows to send GET, POST, PUT, DELETE requests and
-    receive HTTP result using secure transport.
+    HTTPS client is used to communicate with secured HTTPS Web server.
+    It allows to send GET, POST, PUT, DELETE requests and receive HTTP
+    result using secure transport.
 
     Thread-safe.
 */

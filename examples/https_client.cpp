@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     context->set_default_verify_paths();
     context->set_root_certs();
     context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);
-    context->set_verify_callback(asio::ssl::rfc2818_verification(address));
+    context->load_verify_file("../tools/certificates/ca.pem");
 
     // Create a new HTTP client
     auto client = std::make_shared<CppServer::HTTP::HTTPSClientEx>(service, context, address, "https");
