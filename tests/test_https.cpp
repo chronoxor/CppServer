@@ -1,19 +1,19 @@
-/*!
-    \file https_server.cpp
-    \brief HTTPS server example
-    \author Ivan Shynkarenka
-    \date 30.04.2019
-    \copyright MIT License
-*/
+//
+// Created by Ivan Shynkarenka on 08.05.2019
+//
 
-#include "asio_service.h"
+#include "test.h"
 
+#include "server/http/https_client.h"
 #include "server/http/https_server.h"
-#include "utility/singleton.h"
+#include "threads/thread.h"
 
-#include <iostream>
 #include <map>
 #include <mutex>
+
+using namespace CppCommon;
+using namespace CppServer::Asio;
+using namespace CppServer::HTTP;
 
 class Cache : public CppCommon::Singleton<Cache>
 {
@@ -68,9 +68,6 @@ public:
 protected:
     void onReceivedRequest(const CppServer::HTTP::HTTPRequest& request) override
     {
-        // Show HTTP request content
-        std::cout << std::endl << request;
-
         // Process HTTP request methods
         if (request.method() == "HEAD")
             SendResponseAsync(response().MakeHeadResponse());
@@ -129,8 +126,18 @@ class HTTPSCacheServer : public CppServer::HTTP::HTTPSServer
 public:
     using CppServer::HTTP::HTTPSServer::HTTPSServer;
 
+    static std::shared_ptr<SSLContext> CreateContext()
+    {
+        auto context = std::make_shared<SSLContext>(asio::ssl::context::tlsv12);
+        context->set_password_callback([](size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
+        context->use_certificate_chain_file("../tools/certificates/server.pem");
+        context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
+        context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
+        return context;
+    }
+
 protected:
-    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
+    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override
     {
         return std::make_shared<HTTPSCacheSession>(server);
     }
@@ -142,68 +149,59 @@ protected:
     }
 };
 
-int main(int argc, char** argv)
+TEST_CASE("HTTPS server & client test", "[CppServer][HTTP]")
 {
-    // HTTPS server port
+    // HTTPS server address and port
+    std::string address = "127.0.0.1";
     int port = 443;
-    if (argc > 1)
-        port = std::atoi(argv[1]);
 
-    std::cout << "HTTPS server port: " << port << std::endl;
-
-    std::cout << std::endl;
-
-    // Create a new Asio service
-    auto service = std::make_shared<AsioService>();
-
-    // Start the Asio service
-    std::cout << "Asio service starting...";
-    service->Start();
-    std::cout << "Done!" << std::endl;
+    // Create and start Asio service
+    auto service = std::make_shared<Service>();
+    REQUIRE(service->Start());
+    while (!service->IsStarted())
+        Thread::Yield();
 
     // Create and prepare a new SSL server context
-    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
-    context->set_password_callback([](size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
-    context->use_certificate_chain_file("../tools/certificates/server.pem");
-    context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
-    context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
+    auto server_context = HTTPSCacheServer::CreateContext();
 
-    // Create a new HTTPS server
-    auto server = std::make_shared<HTTPSCacheServer>(service, context, port);
+    // Create and start HTTPS server
+    auto server = std::make_shared<HTTPSCacheServer>(service, server_context, port);
+    REQUIRE(server->Start());
+    while (!server->IsStarted())
+        Thread::Yield();
 
-    // Start the server
-    std::cout << "Server starting...";
-    server->Start();
-    std::cout << "Done!" << std::endl;
+    // Create and prepare a new SSL client context
+    auto client_context = HTTPSCacheServer::CreateContext();
 
-    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+    // Create a new HTTPS client
+    auto client = std::make_shared<CppServer::HTTP::HTTPSClientEx>(service, client_context, address, "https");
 
-    // Perform text input
-    std::string line;
-    while (getline(std::cin, line))
-    {
-        if (line.empty())
-            break;
+    // Test CRUD operations
+    auto response = client->SendGetRequest("/test").get();
+    REQUIRE(response.status() == 500);
+    response = client->SendPostRequest("/test", "old_value").get();
+    REQUIRE(response.status() == 200);
+    response = client->SendGetRequest("/test").get();
+    REQUIRE(response.status() == 200);
+    REQUIRE(response.body() == "old_value");
+    response = client->SendPutRequest("/test", "new_value").get();
+    REQUIRE(response.status() == 200);
+    response = client->SendGetRequest("/test").get();
+    REQUIRE(response.status() == 200);
+    REQUIRE(response.body() == "new_value");
+    response = client->SendDeleteRequest("/test").get();
+    REQUIRE(response.status() == 200);
+    REQUIRE(response.body() == "new_value");
+    response = client->SendGetRequest("/test").get();
+    REQUIRE(response.status() == 500);
 
-        // Restart the server
-        if (line == "!")
-        {
-            std::cout << "Server restarting...";
-            server->Restart();
-            std::cout << "Done!" << std::endl;
-            continue;
-        }
-    }
-
-    // Stop the server
-    std::cout << "Server stopping...";
-    server->Stop();
-    std::cout << "Done!" << std::endl;
+    // Stop the HTTPS server
+    REQUIRE(server->Stop());
+    while (server->IsStarted())
+        Thread::Yield();
 
     // Stop the Asio service
-    std::cout << "Asio service stopping...";
-    service->Stop();
-    std::cout << "Done!" << std::endl;
-
-    return 0;
+    REQUIRE(service->Stop());
+    while (service->IsStarted())
+        Thread::Yield();
 }

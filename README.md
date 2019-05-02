@@ -1359,7 +1359,7 @@ private:
     std::map<std::string, std::string, std::less<>> _cache;
 };
 
-class HttpSession : public CppServer::HTTP::HTTPSession
+class HTTPCacheSession : public CppServer::HTTP::HTTPSession
 {
 public:
     using CppServer::HTTP::HTTPSession::HTTPSession;
@@ -1423,7 +1423,7 @@ protected:
     }
 };
 
-class HttpServer : public CppServer::HTTP::HTTPServer
+class HTTPCacheServer : public CppServer::HTTP::HTTPServer
 {
 public:
     using CppServer::HTTP::HTTPServer::HTTPServer;
@@ -1431,7 +1431,7 @@ public:
 protected:
     std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(std::shared_ptr<CppServer::Asio::TCPServer> server) override
     {
-        return std::make_shared<HttpSession>(server);
+        return std::make_shared<HTTPCacheSession>(server);
     }
 
 protected:
@@ -1461,7 +1461,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new HTTP server
-    auto server = std::make_shared<HttpServer>(service, port);
+    auto server = std::make_shared<HTTPCacheServer>(service, port);
 
     // Start the server
     std::cout << "Server starting...";
@@ -1681,7 +1681,7 @@ private:
     std::map<std::string, std::string, std::less<>> _cache;
 };
 
-class HttpsSession : public CppServer::HTTP::HTTPSSession
+class HTTPSCacheSession : public CppServer::HTTP::HTTPSSession
 {
 public:
     using CppServer::HTTP::HTTPSSession::HTTPSSession;
@@ -1745,7 +1745,7 @@ protected:
     }
 };
 
-class HttpsServer : public CppServer::HTTP::HTTPSServer
+class HTTPSCacheServer : public CppServer::HTTP::HTTPSServer
 {
 public:
     using CppServer::HTTP::HTTPSServer::HTTPSServer;
@@ -1753,7 +1753,7 @@ public:
 protected:
     std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
     {
-        return std::make_shared<HttpsSession>(server);
+        return std::make_shared<HTTPSCacheSession>(server);
     }
 
 protected:
@@ -1790,7 +1790,7 @@ int main(int argc, char** argv)
     context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
 
     // Create a new HTTPS server
-    auto server = std::make_shared<HttpsServer>(service, context, port);
+    auto server = std::make_shared<HTTPSCacheServer>(service, context, port);
 
     // Start the server
     std::cout << "Server starting...";

@@ -27,10 +27,10 @@ std::atomic<uint64_t> total_errors(0);
 std::atomic<uint64_t> total_bytes(0);
 std::atomic<uint64_t> total_messages(0);
 
-class HttpsTraceClient : public HTTPSClient
+class HTTPSTraceClient : public HTTPSClient
 {
 public:
-    HttpsTraceClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port, int messages)
+    HTTPSTraceClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port, int messages)
         : HTTPSClient(service, context, address, port),
           _messages(messages)
     {
@@ -138,11 +138,11 @@ int main(int argc, char** argv)
     context->load_verify_file("../tools/certificates/ca.pem");
 
     // Create HTTPS Trace clients
-    std::vector<std::shared_ptr<HttpsTraceClient>> clients;
+    std::vector<std::shared_ptr<HTTPSTraceClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
         // Create echo client
-        auto client = std::make_shared<HttpsTraceClient>(service, context, address, port, messages_count);
+        auto client = std::make_shared<HTTPSTraceClient>(service, context, address, port, messages_count);
         // client->SetupNoDelay(true);
         clients.emplace_back(client);
     }

@@ -14,7 +14,7 @@ using namespace CppCommon;
 using namespace CppServer::Asio;
 using namespace CppServer::HTTP;
 
-class HttpsTraceSession : public HTTPSSession
+class HTTPSTraceSession : public HTTPSSession
 {
 public:
     using HTTPSSession::HTTPSSession;
@@ -40,15 +40,15 @@ protected:
     }
 };
 
-class HttpsTraceServer : public HTTPSServer
+class HTTPSTraceServer : public HTTPSServer
 {
 public:
     using HTTPSServer::HTTPSServer;
 
 protected:
-    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
+    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override
     {
-        return std::make_shared<HttpsTraceSession>(server);
+        return std::make_shared<HTTPSTraceSession>(server);
     }
 
 protected:
@@ -99,7 +99,7 @@ int main(int argc, char** argv)
     context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
 
     // Create a new HTTPS Trace server
-    auto server = std::make_shared<HttpsTraceServer>(service, context, port);
+    auto server = std::make_shared<HTTPSTraceServer>(service, context, port);
     // server->SetupNoDelay(true);
     server->SetupReuseAddress(true);
     server->SetupReusePort(true);

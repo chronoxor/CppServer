@@ -14,7 +14,7 @@ using namespace CppCommon;
 using namespace CppServer::Asio;
 using namespace CppServer::HTTP;
 
-class HttpTraceSession : public HTTPSession
+class HTTPTraceSession : public HTTPSession
 {
 public:
     using HTTPSession::HTTPSession;
@@ -40,15 +40,15 @@ protected:
     }
 };
 
-class HttpTraceServer : public HTTPServer
+class HTTPTraceServer : public HTTPServer
 {
 public:
     using HTTPServer::HTTPServer;
 
 protected:
-    std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(std::shared_ptr<CppServer::Asio::TCPServer> server) override
+    std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) override
     {
-        return std::make_shared<HttpTraceSession>(server);
+        return std::make_shared<HTTPTraceSession>(server);
     }
 
 protected:
@@ -92,7 +92,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new HTTP Trace server
-    auto server = std::make_shared<HttpTraceServer>(service, port);
+    auto server = std::make_shared<HTTPTraceServer>(service, port);
     // server->SetupNoDelay(true);
     server->SetupReuseAddress(true);
     server->SetupReusePort(true);

@@ -60,7 +60,7 @@ private:
     std::map<std::string, std::string, std::less<>> _cache;
 };
 
-class HttpSession : public CppServer::HTTP::HTTPSession
+class HTTPCacheSession : public CppServer::HTTP::HTTPSession
 {
 public:
     using CppServer::HTTP::HTTPSession::HTTPSession;
@@ -124,7 +124,7 @@ protected:
     }
 };
 
-class HttpServer : public CppServer::HTTP::HTTPServer
+class HTTPCacheServer : public CppServer::HTTP::HTTPServer
 {
 public:
     using CppServer::HTTP::HTTPServer::HTTPServer;
@@ -132,7 +132,7 @@ public:
 protected:
     std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(std::shared_ptr<CppServer::Asio::TCPServer> server) override
     {
-        return std::make_shared<HttpSession>(server);
+        return std::make_shared<HTTPCacheSession>(server);
     }
 
 protected:
@@ -162,7 +162,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create a new HTTP server
-    auto server = std::make_shared<HttpServer>(service, port);
+    auto server = std::make_shared<HTTPCacheServer>(service, port);
 
     // Start the server
     std::cout << "Server starting...";

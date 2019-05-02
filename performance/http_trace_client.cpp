@@ -27,10 +27,10 @@ std::atomic<uint64_t> total_errors(0);
 std::atomic<uint64_t> total_bytes(0);
 std::atomic<uint64_t> total_messages(0);
 
-class HttpTraceClient : public HTTPClient
+class HTTPTraceClient : public HTTPClient
 {
 public:
-    HttpTraceClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
+    HTTPTraceClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
         : HTTPClient(service, address, port),
           _messages(messages)
     {
@@ -131,11 +131,11 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create HTTP Trace clients
-    std::vector<std::shared_ptr<HttpTraceClient>> clients;
+    std::vector<std::shared_ptr<HTTPTraceClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
         // Create echo client
-        auto client = std::make_shared<HttpTraceClient>(service, address, port, messages_count);
+        auto client = std::make_shared<HTTPTraceClient>(service, address, port, messages_count);
         // client->SetupNoDelay(true);
         clients.emplace_back(client);
     }
