@@ -102,6 +102,51 @@ public:
     */
     void SetBodyLength(size_t length);
 
+    //! Make HEAD request
+    /*!
+        \param url - URL to request
+        \return HTTP request
+    */
+    HTTPRequest& MakeHeadRequest(std::string_view url);
+    //! Make GET request
+    /*!
+        \param url - URL to request
+        \return HTTP request
+    */
+    HTTPRequest& MakeGetRequest(std::string_view url);
+    //! Make POST request
+    /*!
+        \param url - URL to request
+        \param content - Content
+        \return HTTP request
+    */
+    HTTPRequest& MakePostRequest(std::string_view url, std::string_view content);
+    //! Make PUT request
+    /*!
+        \param url - URL to request
+        \param content - Content
+        \return HTTP request
+    */
+    HTTPRequest& MakePutRequest(std::string_view url, std::string_view content);
+    //! Make DELETE request
+    /*!
+        \param url - URL to request
+        \return HTTP request
+    */
+    HTTPRequest& MakeDeleteRequest(std::string_view url);
+    //! Make OPTIONS request
+    /*!
+        \param url - URL to request
+        \return HTTP request
+    */
+    HTTPRequest& MakeOptionsRequest(std::string_view url);
+    //! Make TRACE request
+    /*!
+        \param url - URL to request
+        \return HTTP request
+    */
+    HTTPRequest& MakeTraceRequest(std::string_view url);
+
     //! Output instance into the given output stream
     friend std::ostream& operator<<(std::ostream& os, const HTTPRequest& request);
 
@@ -140,6 +185,9 @@ private:
     // Receive parts of HTTP response
     bool ReceiveHeader(const void* buffer, size_t size);
     bool ReceiveBody(const void* buffer, size_t size);
+
+    // Fast convert integer value to the corresponding string representation
+    size_t FastConvert(size_t value, char* buffer, size_t size);
 };
 
 } // namespace HTTP

@@ -110,7 +110,7 @@ protected:
         else if (request.method() == "TRACE")
             SendResponseAsync(response().MakeTraceResponse(request.cache()));
         else
-            std::cout << "Unsupported HTTP method: " << request.method() << std::endl;
+            SendResponseAsync(response().MakeErrorResponse("Unsupported HTTP method: " + std::string(request.method())));
     }
 
     void onReceivedRequestError(const CppServer::HTTP::HTTPRequest& request, const std::string& error) override

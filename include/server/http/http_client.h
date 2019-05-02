@@ -181,71 +181,78 @@ public:
     std::shared_ptr<Asio::TCPResolver>& resolver() noexcept { return _resolver; }
     const std::shared_ptr<Asio::TCPResolver>& resolver() const noexcept { return _resolver; }
 
-    //! Make HTTP request
+    //! Send HTTP request
     /*!
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeRequest(const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1)) { return MakeRequest(_request, timeout); }
+    std::future<HTTPResponse> SendRequest(const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1)) { return SendRequest(_request, timeout); }
     //! HTTP request
     /*!
         \param request - HTTP request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeRequest(const HTTPRequest& request, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    std::future<HTTPResponse> SendRequest(const HTTPRequest& request, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
 
-    //! Make HEAD request
+    //! Send HEAD request
     /*!
         \param url - URL to request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeHeadRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
-    //! Make GET request
+    std::future<HTTPResponse> SendHeadRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1))
+    { return SendRequest(_request.MakeHeadRequest(url), timeout); }
+    //! Send GET request
     /*!
         \param url - URL to request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeGetRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
-    //! Make POST request
-    /*!
-        \param url - URL to request
-        \param content - Content
-        \param timeout - HTTP request timeout
-        \return HTTP request future
-    */
-    std::future<HTTPResponse> MakePostRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
-    //! Make PUT request
+    std::future<HTTPResponse> SendGetRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1))
+    { return SendRequest(_request.MakeGetRequest(url), timeout); }
+    //! Send POST request
     /*!
         \param url - URL to request
         \param content - Content
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakePutRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
-    //! Make DELETE request
+    std::future<HTTPResponse> SendPostRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1))
+    { return SendRequest(_request.MakePostRequest(url, content), timeout); }
+    //! Send PUT request
+    /*!
+        \param url - URL to request
+        \param content - Content
+        \param timeout - HTTP request timeout
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> SendPutRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1))
+    { return SendRequest(_request.MakePutRequest(url, content), timeout); }
+    //! Send DELETE request
     /*!
         \param url - URL to request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeDeleteRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
-    //! Make OPTIONS request
+    std::future<HTTPResponse> SendDeleteRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1))
+    { return SendRequest(_request.MakeDeleteRequest(url), timeout); }
+    //! Send OPTIONS request
     /*!
         \param url - URL to request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeOptionsRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
-    //! Make TRACE request
+    std::future<HTTPResponse> SendOptionsRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1))
+    { return SendRequest(_request.MakeOptionsRequest(url), timeout); }
+    //! Send TRACE request
     /*!
         \param url - URL to request
         \param timeout - HTTP request timeout
         \return HTTP request future
     */
-    std::future<HTTPResponse> MakeTraceRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1));
+    std::future<HTTPResponse> SendTraceRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1))
+    { return SendRequest(_request.MakeTraceRequest(url), timeout); }
 
 protected:
     void onConnected() override;

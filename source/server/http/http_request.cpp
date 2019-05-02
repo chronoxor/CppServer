@@ -7,6 +7,7 @@
 */
 
 #include "server/http/http_request.h"
+#include "utility/countof.h"
 
 #include <cassert>
 
@@ -100,7 +101,10 @@ void HTTPRequest::SetHeader(std::string_view key, std::string_view value)
 void HTTPRequest::SetBody(std::string_view body)
 {
     // Append content length header
-    SetHeader("Content-Length", std::to_string(body.size()));
+    char buffer[32];
+    size_t size = CppCommon::countof(buffer);
+    size_t offset = FastConvert(body.size(), buffer, size);
+    SetHeader("Content-Length", std::string_view(buffer + offset, size - offset));
 
     _cache.append("\r\n");
 
@@ -117,7 +121,10 @@ void HTTPRequest::SetBody(std::string_view body)
 void HTTPRequest::SetBodyLength(size_t length)
 {
     // Append content length header
-    SetHeader("Content-Length", std::to_string(length));
+    char buffer[32];
+    size_t size = CppCommon::countof(buffer);
+    size_t offset = FastConvert(length, buffer, size);
+    SetHeader("Content-Length", std::string_view(buffer + offset, size - offset));
 
     _cache.append("\r\n");
 
@@ -128,6 +135,62 @@ void HTTPRequest::SetBodyLength(size_t length)
     _body_size = 0;
     _body_length = length;
     _body_length_provided = true;
+}
+
+HTTPRequest& HTTPRequest::MakeHeadRequest(std::string_view url)
+{
+    Clear();
+    SetBegin("HEAD", url);
+    SetBody();
+    return *this;
+}
+
+HTTPRequest& HTTPRequest::MakeGetRequest(std::string_view url)
+{
+    Clear();
+    SetBegin("GET", url);
+    SetBody();
+    return *this;
+}
+
+HTTPRequest& HTTPRequest::MakePostRequest(std::string_view url, std::string_view content)
+{
+    Clear();
+    SetBegin("POST", url);
+    SetBody(content);
+    return *this;
+}
+
+HTTPRequest& HTTPRequest::MakePutRequest(std::string_view url, std::string_view content)
+{
+    Clear();
+    SetBegin("PUT", url);
+    SetBody(content);
+    return *this;
+}
+
+HTTPRequest& HTTPRequest::MakeDeleteRequest(std::string_view url)
+{
+    Clear();
+    SetBegin("DELETE", url);
+    SetBody();
+    return *this;
+}
+
+HTTPRequest& HTTPRequest::MakeOptionsRequest(std::string_view url)
+{
+    Clear();
+    SetBegin("OPTIONS", url);
+    SetBody();
+    return *this;
+}
+
+HTTPRequest& HTTPRequest::MakeTraceRequest(std::string_view url)
+{
+    Clear();
+    SetBegin("TRACE", url);
+    SetBody();
+    return *this;
 }
 
 bool HTTPRequest::IsPendingHeader() const
@@ -324,6 +387,18 @@ bool HTTPRequest::ReceiveBody(const void* buffer, size_t size)
     }
 
     return false;
+}
+
+size_t HTTPRequest::FastConvert(size_t value, char* buffer, size_t size)
+{
+    size_t index = size;
+    do
+    {
+        buffer[--index] = '0' + (value % 10);
+        value /= 10;
+    }
+    while (value > 0);
+    return index;
 }
 
 std::ostream& operator<<(std::ostream& os, const HTTPRequest& request)

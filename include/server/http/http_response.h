@@ -188,6 +188,9 @@ private:
     // Receive parts of HTTP response
     bool ReceiveHeader(const void* buffer, size_t size);
     bool ReceiveBody(const void* buffer, size_t size);
+
+    // Fast convert integer value to the corresponding string representation
+    size_t FastConvert(size_t value, char* buffer, size_t size);
 };
 
 } // namespace HTTP

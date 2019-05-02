@@ -71,12 +71,12 @@ int main(int argc, char** argv)
 
             if (CppCommon::StringUtils::ToUpper(commands[0]) == "HEAD")
             {
-                auto response = client->MakeHeadRequest(commands[1]).get();
+                auto response = client->SendHeadRequest(commands[1]).get();
                 std::cout << response << std::endl;
             }
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "GET")
             {
-                auto response = client->MakeGetRequest(commands[1]).get();
+                auto response = client->SendGetRequest(commands[1]).get();
                 std::cout << response << std::endl;
             }
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "POST")
@@ -86,7 +86,7 @@ int main(int argc, char** argv)
                     std::cout << "HTTP method, URL and body must be entered!" << std::endl;
                     continue;
                 }
-                auto response = client->MakePostRequest(commands[1], commands[2]).get();
+                auto response = client->SendPostRequest(commands[1], commands[2]).get();
                 std::cout << response << std::endl;
             }
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "PUT")
@@ -96,22 +96,22 @@ int main(int argc, char** argv)
                     std::cout << "HTTP method, URL and body must be entered!" << std::endl;
                     continue;
                 }
-                auto response = client->MakePutRequest(commands[1], commands[2]).get();
+                auto response = client->SendPutRequest(commands[1], commands[2]).get();
                 std::cout << response << std::endl;
             }
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "DELETE")
             {
-                auto response = client->MakeDeleteRequest(commands[1]).get();
+                auto response = client->SendDeleteRequest(commands[1]).get();
                 std::cout << response << std::endl;
             }
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "OPTIONS")
             {
-                auto response = client->MakeOptionsRequest(commands[1]).get();
+                auto response = client->SendOptionsRequest(commands[1]).get();
                 std::cout << response << std::endl;
             }
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "TRACE")
             {
-                auto response = client->MakeTraceRequest(commands[1]).get();
+                auto response = client->SendTraceRequest(commands[1]).get();
                 std::cout << response << std::endl;
             }
             else

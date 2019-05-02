@@ -60,7 +60,7 @@ void HTTPSClient::onDisconnected()
     }
 }
 
-std::future<HTTPResponse> HTTPSClientEx::MakeRequest(const HTTPRequest& request, const CppCommon::Timespan& timeout)
+std::future<HTTPResponse> HTTPSClientEx::SendRequest(const HTTPRequest& request, const CppCommon::Timespan& timeout)
 {
     // Create TCP resolver if the current one is empty
     if (!_resolver)
@@ -117,62 +117,6 @@ std::future<HTTPResponse> HTTPSClientEx::MakeRequest(const HTTPRequest& request,
     }
 
     return _promise.get_future();
-}
-
-std::future<HTTPResponse> HTTPSClientEx::MakeHeadRequest(std::string_view url, const CppCommon::Timespan& timeout)
-{
-    _request.Clear();
-    _request.SetBegin("HEAD", url);
-    _request.SetBody();
-    return MakeRequest(_request, timeout);
-}
-
-std::future<HTTPResponse> HTTPSClientEx::MakeGetRequest(std::string_view url, const CppCommon::Timespan& timeout)
-{
-    _request.Clear();
-    _request.SetBegin("GET", url);
-    _request.SetBody();
-    return MakeRequest(_request, timeout);
-}
-
-std::future<HTTPResponse> HTTPSClientEx::MakePostRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout)
-{
-    _request.Clear();
-    _request.SetBegin("POST", url);
-    _request.SetBody(content);
-    return MakeRequest(_request, timeout);
-}
-
-std::future<HTTPResponse> HTTPSClientEx::MakePutRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout)
-{
-    _request.Clear();
-    _request.SetBegin("PUT", url);
-    _request.SetBody(content);
-    return MakeRequest(_request, timeout);
-}
-
-std::future<HTTPResponse> HTTPSClientEx::MakeDeleteRequest(std::string_view url, const CppCommon::Timespan& timeout)
-{
-    _request.Clear();
-    _request.SetBegin("DELETE", url);
-    _request.SetBody();
-    return MakeRequest(_request, timeout);
-}
-
-std::future<HTTPResponse> HTTPSClientEx::MakeOptionsRequest(std::string_view url, const CppCommon::Timespan& timeout)
-{
-    _request.Clear();
-    _request.SetBegin("OPTIONS", url);
-    _request.SetBody();
-    return MakeRequest(_request, timeout);
-}
-
-std::future<HTTPResponse> HTTPSClientEx::MakeTraceRequest(std::string_view url, const CppCommon::Timespan& timeout)
-{
-    _request.Clear();
-    _request.SetBegin("TRACE", url);
-    _request.SetBody();
-    return MakeRequest(_request, timeout);
 }
 
 void HTTPSClientEx::onHandshaked()

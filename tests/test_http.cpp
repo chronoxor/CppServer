@@ -82,7 +82,7 @@ TEST_CASE("HTTP client test", "[CppServer][HTTP]")
     client->request().SetBody();
 
     // Send HTTP request
-    auto response = client->MakeRequest().get();
+    auto response = client->SendRequest().get();
 
     // Check HTTP response
     REQUIRE(response.status() == 200);
@@ -125,7 +125,7 @@ TEST_CASE("HTTPS client test", "[CppServer][HTTP]")
     client->request().SetBody();
 
     // Send HTTP request
-    auto response = client->MakeRequest().get();
+    auto response = client->SendRequest().get();
 
     // Check HTTP response
     REQUIRE(response.status() == 200);

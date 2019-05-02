@@ -7,6 +7,7 @@
 */
 
 #include "server/http/http_response.h"
+#include "utility/countof.h"
 
 #include <cassert>
 
@@ -142,7 +143,10 @@ void HTTPResponse::SetBegin(int status, std::string_view status_phrase, std::str
     index = _cache.size();
 
     // Append the HTTP response status
-    _cache.append(std::to_string(status));
+    char buffer[32];
+    size_t size = CppCommon::countof(buffer);
+    size_t offset = FastConvert(status, buffer, size);
+    _cache.append(std::string_view(buffer + offset, size - offset));
     _status = status;
 
     _cache.append(" ");
@@ -182,7 +186,10 @@ void HTTPResponse::SetHeader(std::string_view key, std::string_view value)
 void HTTPResponse::SetBody(std::string_view body)
 {
     // Append non empty content length header
-    SetHeader("Content-Length", std::to_string(body.size()));
+    char buffer[32];
+    size_t size = CppCommon::countof(buffer);
+    size_t offset = FastConvert(body.size(), buffer, size);
+    SetHeader("Content-Length", std::string_view(buffer + offset, size - offset));
 
     _cache.append("\r\n");
 
@@ -199,7 +206,10 @@ void HTTPResponse::SetBody(std::string_view body)
 void HTTPResponse::SetBodyLength(size_t length)
 {
     // Append content length header
-    SetHeader("Content-Length", std::to_string(length));
+    char buffer[32];
+    size_t size = CppCommon::countof(buffer);
+    size_t offset = FastConvert(length, buffer, size);
+    SetHeader("Content-Length", std::string_view(buffer + offset, size - offset));
 
     _cache.append("\r\n");
 
@@ -217,7 +227,7 @@ HTTPResponse& HTTPResponse::MakeOKResponse(int status)
     Clear();
     SetBegin(status);
     SetHeader("Content-Type", "text/html; charset=UTF-8");
-    SetBodyLength(0);
+    SetBody();
     return *this;
 }
 
@@ -235,7 +245,7 @@ HTTPResponse& HTTPResponse::MakeHeadResponse()
     Clear();
     SetBegin(200);
     SetHeader("Content-Type", "text/html; charset=UTF-8");
-    SetBodyLength(0);
+    SetBody();
     return *this;
 }
 
@@ -253,7 +263,7 @@ HTTPResponse& HTTPResponse::MakeOptionsResponse(std::string_view allow)
     Clear();
     SetBegin(200);
     SetHeader("Allow", allow);
-    SetBodyLength(0);
+    SetBody();
     return *this;
 }
 
@@ -460,6 +470,18 @@ bool HTTPResponse::ReceiveBody(const void* buffer, size_t size)
     }
 
     return false;
+}
+
+size_t HTTPResponse::FastConvert(size_t value, char* buffer, size_t size)
+{
+    size_t index = size;
+    do
+    {
+        buffer[--index] = '0' + (value % 10);
+        value /= 10;
+    }
+    while (value > 0);
+    return index;
 }
 
 std::ostream& operator<<(std::ostream& os, const HTTPResponse& response)
