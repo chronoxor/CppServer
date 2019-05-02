@@ -144,9 +144,7 @@ void HTTPResponse::SetBegin(int status, std::string_view status_phrase, std::str
 
     // Append the HTTP response status
     char buffer[32];
-    size_t size = CppCommon::countof(buffer);
-    size_t offset = FastConvert(status, buffer, size);
-    _cache.append(std::string_view(buffer + offset, size - offset));
+    _cache.append(FastConvert(status, buffer, CppCommon::countof(buffer)));
     _status = status;
 
     _cache.append(" ");
@@ -187,9 +185,7 @@ void HTTPResponse::SetBody(std::string_view body)
 {
     // Append non empty content length header
     char buffer[32];
-    size_t size = CppCommon::countof(buffer);
-    size_t offset = FastConvert(body.size(), buffer, size);
-    SetHeader("Content-Length", std::string_view(buffer + offset, size - offset));
+    SetHeader("Content-Length", FastConvert(body.size(), buffer, CppCommon::countof(buffer)));
 
     _cache.append("\r\n");
 
@@ -207,9 +203,7 @@ void HTTPResponse::SetBodyLength(size_t length)
 {
     // Append content length header
     char buffer[32];
-    size_t size = CppCommon::countof(buffer);
-    size_t offset = FastConvert(length, buffer, size);
-    SetHeader("Content-Length", std::string_view(buffer + offset, size - offset));
+    SetHeader("Content-Length", FastConvert(length, buffer, CppCommon::countof(buffer)));
 
     _cache.append("\r\n");
 
@@ -472,7 +466,7 @@ bool HTTPResponse::ReceiveBody(const void* buffer, size_t size)
     return false;
 }
 
-size_t HTTPResponse::FastConvert(size_t value, char* buffer, size_t size)
+std::string_view HTTPResponse::FastConvert(size_t value, char* buffer, size_t size)
 {
     size_t index = size;
     do
@@ -481,7 +475,7 @@ size_t HTTPResponse::FastConvert(size_t value, char* buffer, size_t size)
         value /= 10;
     }
     while (value > 0);
-    return index;
+    return std::string_view(buffer + index, size - index);
 }
 
 std::ostream& operator<<(std::ostream& os, const HTTPResponse& response)

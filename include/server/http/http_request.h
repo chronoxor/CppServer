@@ -187,7 +187,7 @@ private:
     bool ReceiveBody(const void* buffer, size_t size);
 
     // Fast convert integer value to the corresponding string representation
-    size_t FastConvert(size_t value, char* buffer, size_t size);
+    std::string_view FastConvert(size_t value, char* buffer, size_t size);
 };
 
 } // namespace HTTP
