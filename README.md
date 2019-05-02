@@ -6,7 +6,7 @@
 [![Windows build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=Windows)](https://ci.appveyor.com/project/chronoxor/CppServer)
 
 Ultra fast and low latency asynchronous socket server & client C++ library with
-support TCP, SSL, UDP protocols and [10K connections problem](https://en.wikipedia.org/wiki/C10k_problem)
+support TCP, SSL, UDP, HTTP, HTTPS protocols and [10K connections problem](https://en.wikipedia.org/wiki/C10k_problem)
 solution.
 
 [CppServer API reference](https://chronoxor.github.io/CppServer/index.html)
@@ -26,6 +26,10 @@ solution.
     * [Example: UDP echo client](#example-udp-echo-client)
     * [Example: UDP multicast server](#example-udp-multicast-server)
     * [Example: UDP multicast client](#example-udp-multicast-client)
+    * [Example: HTTP server](#example-http-server)
+    * [Example: HTTP client](#example-http-client)
+    * [Example: HTTPS server](#example-https-server)
+    * [Example: HTTPS client](#example-https-client)
   * [Performance](#performance)
     * [Benchmark: Round-trip](#benchmark-round-trip)
       * [TCP echo server](#tcp-echo-server)
@@ -47,6 +51,7 @@ solution.
 * Supported CPU scalability designs: IO service per thread, thread pool
 * Supported transport protocols: [TCP](#example-tcp-chat-server), [SSL](#example-ssl-chat-server),
   [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server)
+* Supported Web protocols: [HTTP](#example-http-server), [HTTPS](#example-https-server)
 
 # Requirements
 * Linux (binutils-dev uuid-dev openssl)
@@ -1297,6 +1302,664 @@ int main(int argc, char** argv)
 }
 ```
 
+## Example: HTTP server
+Here comes the example of the HTTP cache server. It allows to manipulate
+cache data with HTTP methods (GET, POST, PUT and DELETE).
+
+```c++
+#include "server/http/http_server.h"
+#include "utility/singleton.h"
+
+#include <iostream>
+#include <map>
+#include <mutex>
+
+class Cache : public CppCommon::Singleton<Cache>
+{
+   friend CppCommon::Singleton<Cache>;
+
+public:
+    bool GetCache(std::string_view key, std::string& value)
+    {
+        std::scoped_lock locker(_cache_lock);
+        auto it = _cache.find(key);
+        if (it != _cache.end())
+        {
+            value = it->second;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    void SetCache(std::string_view key, std::string_view value)
+    {
+        std::scoped_lock locker(_cache_lock);
+        auto it = _cache.emplace(key, value);
+        if (!it.second)
+            it.first->second = value;
+    }
+
+    bool DeleteCache(std::string_view key, std::string& value)
+    {
+        std::scoped_lock locker(_cache_lock);
+        auto it = _cache.find(key);
+        if (it != _cache.end())
+        {
+            value = it->second;
+            _cache.erase(it);
+            return true;
+        }
+        else
+            return false;
+    }
+
+private:
+    std::mutex _cache_lock;
+    std::map<std::string, std::string, std::less<>> _cache;
+};
+
+class HttpSession : public CppServer::HTTP::HTTPSession
+{
+public:
+    using CppServer::HTTP::HTTPSession::HTTPSession;
+
+protected:
+    void onReceivedRequest(const CppServer::HTTP::HTTPRequest& request) override
+    {
+        // Show HTTP request content
+        std::cout << std::endl << request;
+
+        // Process HTTP request methods
+        if (request.method() == "HEAD")
+            SendResponseAsync(response().MakeHeadResponse());
+        else if (request.method() == "GET")
+        {
+            // Get the cache value
+            std::string cache;
+            if (Cache::GetInstance().GetCache(request.url(), cache))
+            {
+                // Response with the cache value
+                SendResponseAsync(response().MakeGetResponse(cache));
+            }
+            else
+                SendResponseAsync(response().MakeErrorResponse("Required cache value was not found for the key: " + std::string(request.url())));
+        }
+        else if ((request.method() == "POST") || (request.method() == "PUT"))
+        {
+            // Set the cache value
+            Cache::GetInstance().SetCache(request.url(), request.body());
+            // Response with the cache value
+            SendResponseAsync(response().MakeOKResponse());
+        }
+        else if (request.method() == "DELETE")
+        {
+            // Delete the cache value
+            std::string cache;
+            if (Cache::GetInstance().DeleteCache(request.url(), cache))
+            {
+                // Response with the cache value
+                SendResponseAsync(response().MakeGetResponse(cache));
+            }
+            else
+                SendResponseAsync(response().MakeErrorResponse("Deleted cache value was not found for the key: " + std::string(request.url())));
+        }
+        else if (request.method() == "OPTIONS")
+            SendResponseAsync(response().MakeOptionsResponse());
+        else if (request.method() == "TRACE")
+            SendResponseAsync(response().MakeTraceResponse(request.cache()));
+        else
+            SendResponseAsync(response().MakeErrorResponse("Unsupported HTTP method: " + std::string(request.method())));
+    }
+
+    void onReceivedRequestError(const CppServer::HTTP::HTTPRequest& request, const std::string& error) override
+    {
+        std::cout << "Request error: " << error << std::endl;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "HTTP session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class HttpServer : public CppServer::HTTP::HTTPServer
+{
+public:
+    using CppServer::HTTP::HTTPServer::HTTPServer;
+
+protected:
+    std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(std::shared_ptr<CppServer::Asio::TCPServer> server) override
+    {
+        return std::make_shared<HttpSession>(server);
+    }
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "HTTP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // HTTP server port
+    int port = 80;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "HTTP server port: " << port << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new HTTP server
+    auto server = std::make_shared<HttpServer>(service, port);
+
+    // Start the server
+    std::cout << "Server starting...";
+    server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+    }
+
+    // Stop the server
+    std::cout << "Server stopping...";
+    server->Stop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: HTTP client
+Here comes the example of the HTTP client. It allows to send HTTP requests
+(GET, POST, PUT and DELETE) and receive HTTP responses.
+
+```c++
+#include "server/http/http_client.h"
+#include "string/string_utils.h"
+
+#include <iostream>
+
+int main(int argc, char** argv)
+{
+    // HTTP server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    std::cout << "HTTP server address: " << address << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new HTTP client
+    auto client = std::make_shared<CppServer::HTTP::HTTPClientEx>(service, address, "http");
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
+
+    try
+    {
+        // Perform text input
+        std::string line;
+        while (getline(std::cin, line))
+        {
+            if (line.empty())
+                break;
+
+            // Reconnect the client
+            if (line == "!")
+            {
+                std::cout << "Client reconnecting...";
+                client->ReconnectAsync();
+                std::cout << "Done!" << std::endl;
+                continue;
+            }
+
+            auto commands = CppCommon::StringUtils::Split(line, ' ', true);
+            if (commands.size() < 2)
+            {
+                std::cout << "HTTP method and URL must be entered!" << std::endl;
+                continue;
+            }
+
+            if (CppCommon::StringUtils::ToUpper(commands[0]) == "HEAD")
+            {
+                auto response = client->SendHeadRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "GET")
+            {
+                auto response = client->SendGetRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "POST")
+            {
+                if (commands.size() < 3)
+                {
+                    std::cout << "HTTP method, URL and body must be entered!" << std::endl;
+                    continue;
+                }
+                auto response = client->SendPostRequest(commands[1], commands[2]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "PUT")
+            {
+                if (commands.size() < 3)
+                {
+                    std::cout << "HTTP method, URL and body must be entered!" << std::endl;
+                    continue;
+                }
+                auto response = client->SendPutRequest(commands[1], commands[2]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "DELETE")
+            {
+                auto response = client->SendDeleteRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "OPTIONS")
+            {
+                auto response = client->SendOptionsRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "TRACE")
+            {
+                auto response = client->SendTraceRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else
+                std::cout << "Unknown HTTP method: " << commands[0] << std::endl;
+        }
+    }
+    catch (const std::exception& ex)
+    {
+        std::cerr << ex.what() << std::endl;
+    }
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: HTTPS server
+Here comes the example of the HTTPS cache server. It allows to manipulate
+cache data with HTTP methods (GET, POST, PUT and DELETE) with secured
+transport protocol.
+
+```c++
+#include "server/http/https_server.h"
+#include "utility/singleton.h"
+
+#include <iostream>
+#include <map>
+#include <mutex>
+
+class Cache : public CppCommon::Singleton<Cache>
+{
+   friend CppCommon::Singleton<Cache>;
+
+public:
+    bool GetCache(std::string_view key, std::string& value)
+    {
+        std::scoped_lock locker(_cache_lock);
+        auto it = _cache.find(key);
+        if (it != _cache.end())
+        {
+            value = it->second;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    void SetCache(std::string_view key, std::string_view value)
+    {
+        std::scoped_lock locker(_cache_lock);
+        auto it = _cache.emplace(key, value);
+        if (!it.second)
+            it.first->second = value;
+    }
+
+    bool DeleteCache(std::string_view key, std::string& value)
+    {
+        std::scoped_lock locker(_cache_lock);
+        auto it = _cache.find(key);
+        if (it != _cache.end())
+        {
+            value = it->second;
+            _cache.erase(it);
+            return true;
+        }
+        else
+            return false;
+    }
+
+private:
+    std::mutex _cache_lock;
+    std::map<std::string, std::string, std::less<>> _cache;
+};
+
+class HttpsSession : public CppServer::HTTP::HTTPSSession
+{
+public:
+    using CppServer::HTTP::HTTPSSession::HTTPSSession;
+
+protected:
+    void onReceivedRequest(const CppServer::HTTP::HTTPRequest& request) override
+    {
+        // Show HTTP request content
+        std::cout << std::endl << request;
+
+        // Process HTTP request methods
+        if (request.method() == "HEAD")
+            SendResponseAsync(response().MakeHeadResponse());
+        else if (request.method() == "GET")
+        {
+            // Get the cache value
+            std::string cache;
+            if (Cache::GetInstance().GetCache(request.url(), cache))
+            {
+                // Response with the cache value
+                SendResponseAsync(response().MakeGetResponse(cache));
+            }
+            else
+                SendResponseAsync(response().MakeErrorResponse("Required cache value was not found for the key: " + std::string(request.url())));
+        }
+        else if ((request.method() == "POST") || (request.method() == "PUT"))
+        {
+            // Set the cache value
+            Cache::GetInstance().SetCache(request.url(), request.body());
+            // Response with the cache value
+            SendResponseAsync(response().MakeOKResponse());
+        }
+        else if (request.method() == "DELETE")
+        {
+            // Delete the cache value
+            std::string cache;
+            if (Cache::GetInstance().DeleteCache(request.url(), cache))
+            {
+                // Response with the cache value
+                SendResponseAsync(response().MakeGetResponse(cache));
+            }
+            else
+                SendResponseAsync(response().MakeErrorResponse("Deleted cache value was not found for the key: " + std::string(request.url())));
+        }
+        else if (request.method() == "OPTIONS")
+            SendResponseAsync(response().MakeOptionsResponse());
+        else if (request.method() == "TRACE")
+            SendResponseAsync(response().MakeTraceResponse(request.cache()));
+        else
+            SendResponseAsync(response().MakeErrorResponse("Unsupported HTTP method: " + std::string(request.method())));
+    }
+
+    void onReceivedRequestError(const CppServer::HTTP::HTTPRequest& request, const std::string& error) override
+    {
+        std::cout << "Request error: " << error << std::endl;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "HTTPS session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class HttpsServer : public CppServer::HTTP::HTTPSServer
+{
+public:
+    using CppServer::HTTP::HTTPSServer::HTTPSServer;
+
+protected:
+    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
+    {
+        return std::make_shared<HttpsSession>(server);
+    }
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "HTTPS server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // HTTPS server port
+    int port = 443;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "HTTPS server port: " << port << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create and prepare a new SSL server context
+    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
+    context->set_password_callback([](size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
+    context->use_certificate_chain_file("../tools/certificates/server.pem");
+    context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
+    context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
+
+    // Create a new HTTPS server
+    auto server = std::make_shared<HttpsServer>(service, context, port);
+
+    // Start the server
+    std::cout << "Server starting...";
+    server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+    }
+
+    // Stop the server
+    std::cout << "Server stopping...";
+    server->Stop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: HTTPS client
+Here comes the example of the HTTPS client. It allows to send HTTP requests
+(GET, POST, PUT and DELETE) and receive HTTP responses with secured
+transport protocol.
+
+```c++
+#include "server/http/https_client.h"
+#include "string/string_utils.h"
+
+#include <iostream>
+
+int main(int argc, char** argv)
+{
+    // HTTP server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    std::cout << "HTTPS server address: " << address << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create and prepare a new SSL client context
+    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
+    context->set_default_verify_paths();
+    context->set_root_certs();
+    context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);
+    context->load_verify_file("../tools/certificates/ca.pem");
+
+    // Create a new HTTP client
+    auto client = std::make_shared<CppServer::HTTP::HTTPSClientEx>(service, context, address, "https");
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
+
+    try
+    {
+        // Perform text input
+        std::string line;
+        while (getline(std::cin, line))
+        {
+            if (line.empty())
+                break;
+
+            // Reconnect the client
+            if (line == "!")
+            {
+                std::cout << "Client reconnecting...";
+                client->ReconnectAsync();
+                std::cout << "Done!" << std::endl;
+                continue;
+            }
+
+            auto commands = CppCommon::StringUtils::Split(line, ' ', true);
+            if (commands.size() < 2)
+            {
+                std::cout << "HTTP method and URL must be entered!" << std::endl;
+                continue;
+            }
+
+            if (CppCommon::StringUtils::ToUpper(commands[0]) == "HEAD")
+            {
+                auto response = client->SendHeadRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "GET")
+            {
+                auto response = client->SendGetRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "POST")
+            {
+                if (commands.size() < 3)
+                {
+                    std::cout << "HTTP method, URL and body must be entered!" << std::endl;
+                    continue;
+                }
+                auto response = client->SendPostRequest(commands[1], commands[2]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "PUT")
+            {
+                if (commands.size() < 3)
+                {
+                    std::cout << "HTTP method, URL and body must be entered!" << std::endl;
+                    continue;
+                }
+                auto response = client->SendPutRequest(commands[1], commands[2]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "DELETE")
+            {
+                auto response = client->SendDeleteRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "OPTIONS")
+            {
+                auto response = client->SendOptionsRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "TRACE")
+            {
+                auto response = client->SendTraceRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else
+                std::cout << "Unknown HTTP method: " << commands[0] << std::endl;
+        }
+    }
+    catch (const std::exception& ex)
+    {
+        std::cerr << ex.what() << std::endl;
+    }
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
 # Performance
 
 Here comes several communication scenarios with timing measurements.
@@ -1330,133 +1993,139 @@ of errors.
 ### TCP echo server
 
 * [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
-* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 1 -m 1000000 -t 1
+* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 1 -t 1
 
 ```
 Server address: 127.0.0.1
 Server port: 1111
 Working threads: 1
 Working clients: 1
-Messages to send: 1000000
+Working messages: 1000
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 3.047 s
-Total bytes: 32000000
-Total messages: 1000000
-Data throughput: 10.500 MiB/s
-Message latency: 3.047 mcs
-Message throughput: 328126 msg/s
+Round-trip time: 10.001 s
+Total data: 1.692 GiB
+Total messages: 56261685
+Data throughput: 171.693 MiB/s
+Message latency: 177 ns
+Message throughput: 5625528 msg/s
 ```
 
 * [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
-* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 100 -m 1000000 -t 4
+* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 100 -t 4
 
 ```
 Server address: 127.0.0.1
 Server port: 1111
 Working threads: 4
 Working clients: 100
-Messages to send: 1000000
+Working messages: 1000
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 1.186 s
-Total bytes: 32000000
-Total messages: 1000000
-Data throughput: 26.972 MiB/s
-Message latency: 1.186 mcs
-Message throughput: 842887 msg/s
+Round-trip time: 10.007 s
+Total data: 1.151 GiB
+Total messages: 38503396
+Data throughput: 117.423 MiB/s
+Message latency: 259 ns
+Message throughput: 3847402 msg/s
 ```
 
 ### SSL echo server
 
 * [cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
-* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 1 -m 1000000 -t 1
+* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 1 -t 1
 
 ```
 Server address: 127.0.0.1
 Server port: 2222
 Working threads: 1
 Working clients: 1
-Messages to send: 1000000
+Working messages: 1000
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 5.534 s
-Total data: 30.530 MiB
-Total messages: 1000000
-Data throughput: 5.526 MiB/s
-Message latency: 5.534 mcs
-Message throughput: 180697 msg/s
+Round-trip time: 10.012 s
+Total data: 296.350 MiB
+Total messages: 9710535
+Data throughput: 29.612 MiB/s
+Message latency: 1.031 mcs
+Message throughput: 969878 msg/s
 ```
 
 * [cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
-* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 100 -m 1000000 -t 4
+* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 100 -t 4
 
 ```
 Server address: 127.0.0.1
 Server port: 2222
 Working threads: 4
 Working clients: 100
-Messages to send: 1000000
+Working messages: 1000
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 2.995 s
-Total data: 30.530 MiB
-Total messages: 1000000
-Data throughput: 10.190 MiB/s
-Message latency: 2.995 mcs
-Message throughput: 333784 msg/s
+Round-trip time: 10.341 s
+Total data: 390.660 MiB
+Total messages: 12800660
+Data throughput: 37.792 MiB/s
+Message latency: 807 ns
+Message throughput: 1237782 msg/s
 ```
 
 ### UDP echo server
 
 * [cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
-* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 1 -m 1000000 -t 1
+* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 1 -t 1
 
 ```
 Server address: 127.0.0.1
 Server port: 3333
 Working threads: 1
 Working clients: 1
-Messages to send: 1000000
+Working messages: 1000
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 15.037 s
-Total bytes: 32000000
-Total messages: 1000000
-Data throughput: 2.128 MiB/s
-Messages latency: 15.037 mcs
-Messages throughput: 66502 msg/s
+Round-trip time: 10.002 s
+Total data: 46.032 MiB
+Total messages: 1508355
+Data throughput: 4.616 MiB/s
+Message latency: 6.631 mcs
+Message throughput: 150801 msg/s
 ```
 
 * [cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
-* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 100 -m 1000000 -t 4
+* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 100 -t 4
 
 ```
 Server address: 127.0.0.1
 Server port: 3333
 Working threads: 4
 Working clients: 100
-Messages to send: 1000000
+Working messages: 1000
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 4.499 s
-Total bytes: 32000000
-Total messages: 1000000
-Data throughput: 7.112 MiB/s
-Message latency: 4.499 mcs
-Message throughput: 222236 msg/s
+Round-trip time: 10.152 s
+Total data: 32.185 MiB
+Total messages: 1054512
+Data throughput: 3.173 MiB/s
+Message latency: 9.627 mcs
+Message throughput: 103867 msg/s
 ```
 
 ## Benchmark: Multicast
@@ -1479,15 +2148,16 @@ Server port: 1111
 Working threads: 1
 Working clients: 1
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.002 s
-Total data: 874.869 MiB
-Total messages: 28667069
-Data throughput: 87.475 MiB/s
-Message latency: 348 ns
-Message throughput: 2866016 msg/s
+Multicast time: 10.001 s
+Total data: 1.907 GiB
+Total messages: 63283367
+Data throughput: 193.103 MiB/s
+Message latency: 158 ns
+Message throughput: 6327549 msg/s
 ```
 
 * [cppserver-performance-tcp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_server.cpp)
@@ -1499,15 +2169,16 @@ Server port: 1111
 Working threads: 4
 Working clients: 100
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
 Multicast time: 10.006 s
-Total data: 3.732 GiB
-Total messages: 124660845
-Data throughput: 380.186 MiB/s
-Message latency: 80 ns
-Message throughput: 12457815 msg/s
+Total data: 1.1006 GiB
+Total messages: 66535013
+Data throughput: 202.930 MiB/s
+Message latency: 150 ns
+Message throughput: 6648899 msg/s
 ```
 
 ### SSL multicast server
@@ -1521,15 +2192,16 @@ Server port: 2222
 Working threads: 1
 Working clients: 1
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.007 s
-Total data: 756.186 MiB
-Total messages: 24778582
-Data throughput: 75.578 MiB/s
-Message latency: 403 ns
-Message throughput: 2476113 msg/s
+Multicast time: 10.014 s
+Total data: 1.535 GiB
+Total messages: 51100073
+Data throughput: 155.738 MiB/s
+Message latency: 195 ns
+Message throughput: 5102683 msg/s
 ```
 
 * [cppserver-performance-ssl_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_server.cpp)
@@ -1541,15 +2213,16 @@ Server port: 2222
 Working threads: 4
 Working clients: 100
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.333 s
-Total data: 3.525 GiB
-Total messages: 117870969
-Data throughput: 348.105 MiB/s
-Message latency: 87 ns
-Message throughput: 11406648 msg/s
+Multicast time: 10.691 s
+Total data: 1.878 GiB
+Total messages: 62334478
+Data throughput: 177.954 MiB/s
+Message latency: 171 ns
+Message throughput: 5830473 msg/s
 ```
 
 ### UDP multicast server
@@ -1563,15 +2236,16 @@ Server port: 3333
 Working threads: 1
 Working clients: 1
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.001 s
-Total data: 21.537 MiB
-Total messages: 705319
-Data throughput: 2.155 MiB/s
-Message latency: 14.180 mcs
-Message throughput: 70521 msg/s
+Multicast time: 10.002 s
+Total data: 23.777 MiB
+Total messages: 778555
+Data throughput: 2.384 MiB/s
+Message latency: 12.847 mcs
+Message throughput: 77833 msg/s
 ```
 
 * [cppserver-performance-udp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_server.cpp)
@@ -1583,15 +2257,16 @@ Server port: 3333
 Working threads: 4
 Working clients: 100
 Message size: 32
+Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.012 s
-Total data: 76.771 MiB
-Total messages: 2515041
-Data throughput: 7.681 MiB/s
-Message latency: 3.981 mcs
-Message throughput: 251184 msg/s
+Multicast time: 10.004 s
+Total data: 52.457 MiB
+Total messages: 1718575
+Data throughput: 5.248 MiB/s
+Message latency: 5.821 mcs
+Message throughput: 171784 msg/s
 ```
 
 # OpenSSL certificates
