@@ -93,7 +93,7 @@ int main(int argc, char** argv)
     parser.add_option("-p", "--port").dest("port").action("store").type("int").set_default(80).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").dest("threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").dest("clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
-    parser.add_option("-m", "--messages").dest("messages").action("store").type("int").set_default(1000).help("Count of messages to send at the same time. Default: %default");
+    parser.add_option("-m", "--messages").dest("messages").action("store").type("int").set_default(1).help("Count of messages to send at the same time. Default: %default");
     parser.add_option("-z", "--seconds").dest("seconds").action("store").type("int").set_default(10).help("Count of seconds to benchmarking. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
