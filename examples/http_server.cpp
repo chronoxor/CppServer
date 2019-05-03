@@ -145,7 +145,7 @@ protected:
 int main(int argc, char** argv)
 {
     // HTTP server port
-    int port = 80;
+    int port = 8080;
     if (argc > 1)
         port = std::atoi(argv[1]);
 

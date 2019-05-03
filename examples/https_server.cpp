@@ -145,7 +145,7 @@ protected:
 int main(int argc, char** argv)
 {
     // HTTPS server port
-    int port = 443;
+    int port = 8443;
     if (argc > 1)
         port = std::atoi(argv[1]);
 

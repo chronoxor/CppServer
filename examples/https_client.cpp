@@ -19,8 +19,13 @@ int main(int argc, char** argv)
     std::string address = "127.0.0.1";
     if (argc > 1)
         address = argv[1];
+    // HTTP server port
+    int port = 8443;
+    if (argc > 2)
+        port = std::atoi(argv[2]);
 
     std::cout << "HTTPS server address: " << address << std::endl;
+    std::cout << "HTTPS server port: " << port << std::endl;
 
     std::cout << std::endl;
 
@@ -40,7 +45,7 @@ int main(int argc, char** argv)
     context->load_verify_file("../tools/certificates/ca.pem");
 
     // Create a new HTTP client
-    auto client = std::make_shared<CppServer::HTTP::HTTPSClientEx>(service, context, address, "https");
+    auto client = std::make_shared<CppServer::HTTP::HTTPSClientEx>(service, context, address, port);
 
     std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
 
