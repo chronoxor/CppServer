@@ -143,7 +143,7 @@ TEST_CASE("HTTP server & client test", "[CppServer][HTTP]")
 {
     // HTTP server address and port
     std::string address = "127.0.0.1";
-    int port = 80;
+    int port = 8080;
 
     // Create and start Asio service
     auto service = std::make_shared<Service>();
@@ -158,7 +158,7 @@ TEST_CASE("HTTP server & client test", "[CppServer][HTTP]")
         Thread::Yield();
 
     // Create a new HTTP client
-    auto client = std::make_shared<CppServer::HTTP::HTTPClientEx>(service, address, "http");
+    auto client = std::make_shared<CppServer::HTTP::HTTPClientEx>(service, address, port);
 
     // Test CRUD operations
     auto response = client->SendGetRequest("/test").get();
