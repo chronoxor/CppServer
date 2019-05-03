@@ -113,11 +113,13 @@ protected:
     void onReceivedRequestError(const CppServer::HTTP::HTTPRequest& request, const std::string& error) override
     {
         std::cout << "Request error: " << error << std::endl;
+        FAIL();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "HTTPS session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        FAIL();
     }
 };
 
@@ -146,6 +148,7 @@ protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "HTTPS server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        FAIL();
     }
 };
 
