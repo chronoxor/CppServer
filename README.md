@@ -39,6 +39,9 @@ solution.
       * [TCP multicast server](#tcp-multicast-server)
       * [SSL multicast server](#ssl-multicast-server)
       * [UDP multicast server](#udp-multicast-server)
+    * [Benchmark: Web Server](#benchmark-web-server)
+      * [HTTP Trace server](#http-trace-server)
+      * [HTTPS Trace server](#https-trace-server)
   * [OpenSSL certificates](#openssl-certificates)
     * [Certificate Authority](#certificate-authority)
     * [SSL Server certificate](#ssl-server-certificate)
@@ -2267,6 +2270,96 @@ Total messages: 1718575
 Data throughput: 5.248 MiB/s
 Message latency: 5.821 mcs
 Message throughput: 171784 msg/s
+```
+
+## Benchmark: Web Server
+
+### HTTP Trace server
+
+* [cppserver-performance-http_trace_server](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_server.cpp)
+* [cppserver-performance-http_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_client.cpp) -c 1 -t 1
+
+```
+Server address: 127.0.0.1
+Server port: 80
+Working threads: 1
+Working clients: 1
+Working messages: 1
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Round-trip time: 10.001 s
+Total data: 58.476 MiB
+Total messages: 578353
+Data throughput: 5.865 MiB/s
+Message latency: 17.293 mcs
+Message throughput: 57825 msg/s
+```
+
+* [cppserver-performance-http_trace_server](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_server.cpp)
+* [cppserver-performance-http_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_client.cpp) -c 100 -t 4
+
+```
+Server address: 127.0.0.1
+Server port: 80
+Working threads: 4
+Working clients: 100
+Working messages: 1
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Round-trip time: 10.006 s
+Total data: 310.730 MiB
+Total messages: 3073650
+Data throughput: 31.051 MiB/s
+Message latency: 3.255 mcs
+Message throughput: 307154 msg/s
+```
+
+### HTTPS Trace server
+
+* [cppserver-performance-https_trace_server](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_server.cpp)
+* [cppserver-performance-https_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_client.cpp) -c 1 -t 1
+
+```
+Server address: 127.0.0.1
+Server port: 443
+Working threads: 1
+Working clients: 1
+Working messages: 1
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Round-trip time: 10.003 s
+Total data: 37.475 MiB
+Total messages: 370602
+Data throughput: 3.763 MiB/s
+Message latency: 26.992 mcs
+Message throughput: 37047 msg/s
+```
+
+* [cppserver-performance-https_trace_server](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_server.cpp)
+* [cppserver-performance-https_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_client.cpp) -c 100 -t 4
+
+```
+Server address: 127.0.0.1
+Server port: 443
+Working threads: 4
+Working clients: 100
+Working messages: 1
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Round-trip time: 10.035 s
+Total data: 204.531 MiB
+Total messages: 2023152
+Data throughput: 20.389 MiB/s
+Message latency: 4.960 mcs
+Message throughput: 201602 msg/s
 ```
 
 # OpenSSL certificates
