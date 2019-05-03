@@ -143,7 +143,7 @@ TEST_CASE("HTTP server & client test", "[CppServer][HTTP]")
 {
     // HTTP server address and port
     std::string address = "127.0.0.1";
-    int port = 4444;
+    int port = 80;
 
     // Create and start Asio service
     auto service = std::make_shared<Service>();
