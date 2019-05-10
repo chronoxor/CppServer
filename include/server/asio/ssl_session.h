@@ -76,7 +76,7 @@ public:
     /*!
         \return 'true' if the section was successfully disconnected, 'false' if the section is already disconnected
     */
-    virtual bool Disconnect() { return Disconnect(false); }
+    virtual bool Disconnect() { return DisconnectAsync(false); }
 
     //! Send data to the client (synchronous)
     /*!
@@ -250,12 +250,14 @@ private:
 
     //! Connect the session
     void Connect();
-    //! Disconnect the session
+    //! Disconnect the session with error
+    void Disconnect(std::error_code ec);
+    //! Disconnect the session (asynchronous)
     /*!
         \param dispatch - Dispatch flag
         \return 'true' if the session was successfully disconnected, 'false' if the session is already disconnected
     */
-    bool Disconnect(bool dispatch);
+    bool DisconnectAsync(bool dispatch);
 
     //! Try to receive new data
     void TryReceive();

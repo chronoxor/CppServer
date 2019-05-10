@@ -117,7 +117,7 @@ void SSLSession::Connect()
         {
             // Disconnect in case of the bad handshake
             SendError(ec);
-            Disconnect(true);
+            Disconnect(ec);
         }
     };
     if (_strand_required)
@@ -126,7 +126,47 @@ void SSLSession::Connect()
         _stream.async_handshake(asio::ssl::stream_base::server, async_handshake_handler);
 }
 
-bool SSLSession::Disconnect(bool dispatch)
+void SSLSession::Disconnect(std::error_code ec)
+{
+    if (!IsConnected())
+        return;
+
+    // Close the session socket
+    socket().close();
+
+    // Update the handshaked flag
+    _handshaked = false;
+
+    // Update the connected flag
+    _connected = false;
+
+    // Update sending/receiving flags
+    _receiving = false;
+    _sending = false;
+
+    // Clear send/receive buffers
+    ClearBuffers();
+
+    // Call the session disconnected handler
+    onDisconnected();
+
+    // Call the session disconnected handler in the server
+    auto disconnected_session(this->shared_from_this());
+    _server->onDisconnected(disconnected_session);
+
+    // Dispatch the unregister session handler
+    auto self(this->shared_from_this());
+    auto unregister_session_handler = [this, self]()
+    {
+        _server->UnregisterSession(id());
+    };
+    if (_server->_strand_required)
+        _server->_strand.dispatch(unregister_session_handler);
+    else
+        _server->_io_service->dispatch(unregister_session_handler);
+}
+
+bool SSLSession::DisconnectAsync(bool dispatch)
 {
     if (!IsConnected())
         return false;
@@ -138,45 +178,17 @@ bool SSLSession::Disconnect(bool dispatch)
         if (!IsConnected())
             return;
 
-        // Async SSL shutdown with the shutdown handler
-        auto async_shutdown_handler = [this, self](std::error_code ec)
+        // Cancel the session socket
+        std::error_code ec;
+        socket().cancel(ec);
+        if (ec)
         {
-            if (!IsConnected())
-                return;
+            Disconnect(ec);
+            return;
+        }
 
-            // Close the session socket
-            socket().close();
-
-            // Update the handshaked flag
-            _handshaked = false;
-
-            // Update the connected flag
-            _connected = false;
-
-            // Update sending/receiving flags
-            _receiving = false;
-            _sending = false;
-
-            // Clear send/receive buffers
-            ClearBuffers();
-
-            // Call the session disconnected handler
-            onDisconnected();
-
-            // Call the session disconnected handler in the server
-            auto disconnected_session(this->shared_from_this());
-            _server->onDisconnected(disconnected_session);
-
-            // Dispatch the unregister session handler
-            auto unregister_session_handler = [this, self]()
-            {
-                _server->UnregisterSession(id());
-            };
-            if (_server->_strand_required)
-                _server->_strand.dispatch(unregister_session_handler);
-            else
-                _server->_io_service->dispatch(unregister_session_handler);
-        };
+        // Async SSL shutdown with the shutdown handler
+        auto async_shutdown_handler = [this, self](std::error_code ec) { Disconnect(ec); };
         if (_strand_required)
             _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));
         else
@@ -230,7 +242,7 @@ size_t SSLSession::Send(const void* buffer, size_t size)
     if (ec)
     {
         SendError(ec);
-        Disconnect();
+        Disconnect(ec);
     }
 
     return sent;
@@ -294,7 +306,7 @@ size_t SSLSession::Send(const void* buffer, size_t size, const CppCommon::Timesp
     if (error && (error != asio::error::timed_out))
     {
         SendError(error);
-        Disconnect();
+        Disconnect(error);
     }
 
     return sent;
@@ -375,7 +387,7 @@ size_t SSLSession::Receive(void* buffer, size_t size)
     if (ec)
     {
         SendError(ec);
-        Disconnect();
+        Disconnect(ec);
     }
 
     return received;
@@ -446,7 +458,7 @@ size_t SSLSession::Receive(void* buffer, size_t size, const CppCommon::Timespan&
     if (error && (error != asio::error::timed_out))
     {
         SendError(error);
-        Disconnect();
+        Disconnect(error);
     }
 
     return received;
@@ -504,7 +516,7 @@ void SSLSession::TryReceive()
         else
         {
             SendError(ec);
-            Disconnect(true);
+            Disconnect(ec);
         }
     });
     if (_strand_required)
@@ -582,7 +594,7 @@ void SSLSession::TrySend()
         else
         {
             SendError(ec);
-            Disconnect(true);
+            Disconnect(ec);
         }
     });
     if (_strand_required)
