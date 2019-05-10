@@ -53,7 +53,7 @@ public:
     //! Get the session SSL stream
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     //! Get the session socket
-    asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
+    asio::ssl::stream<asio::ip::tcp::socket>::next_layer_type& socket() noexcept { return _stream.next_layer(); }
 
     //! Get the number of bytes pending sent by the session
     uint64_t bytes_pending() const noexcept { return _bytes_pending + _bytes_sending; }

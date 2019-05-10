@@ -34,27 +34,27 @@ SSLSession::SSLSession(std::shared_ptr<SSLServer> server)
 size_t SSLSession::option_receive_buffer_size() const
 {
     asio::socket_base::receive_buffer_size option;
-    _stream.lowest_layer().get_option(option);
+    _stream.next_layer().get_option(option);
     return option.value();
 }
 
 size_t SSLSession::option_send_buffer_size() const
 {
     asio::socket_base::send_buffer_size option;
-    _stream.lowest_layer().get_option(option);
+    _stream.next_layer().get_option(option);
     return option.value();
 }
 
 void SSLSession::SetupReceiveBufferSize(size_t size)
 {
     asio::socket_base::receive_buffer_size option((int)size);
-    _stream.lowest_layer().set_option(option);
+    _stream.next_layer().set_option(option);
 }
 
 void SSLSession::SetupSendBufferSize(size_t size)
 {
     asio::socket_base::send_buffer_size option((int)size);
-    _stream.lowest_layer().set_option(option);
+    _stream.next_layer().set_option(option);
 }
 
 void SSLSession::Connect()
@@ -261,7 +261,7 @@ size_t SSLSession::Send(const void* buffer, size_t size, const CppCommon::Timesp
         if (done++ == 0)
         {
             error = ec;
-            _stream.lowest_layer().cancel();
+            _stream.next_layer().cancel();
             timer.cancel();
         }
         cv.notify_one();
@@ -413,7 +413,7 @@ size_t SSLSession::Receive(void* buffer, size_t size, const CppCommon::Timespan&
         if (done++ == 0)
         {
             error = ec;
-            _stream.lowest_layer().cancel();
+            _stream.next_layer().cancel();
             timer.cancel();
         }
         cv.notify_one();

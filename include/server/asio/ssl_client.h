@@ -75,7 +75,7 @@ public:
     //! Get the client SSL stream
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept;
     //! Get the client socket
-    asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept;
+    asio::ssl::stream<asio::ip::tcp::socket>::next_layer_type& socket() noexcept;
 
     //! Get the server address
     const std::string& address() const noexcept;

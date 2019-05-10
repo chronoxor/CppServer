@@ -134,7 +134,7 @@ public:
     std::shared_ptr<SSLContext>& context() noexcept { return _context; }
     asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
-    asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& socket() noexcept { return _stream.lowest_layer(); }
+    asio::ssl::stream<asio::ip::tcp::socket>::next_layer_type& socket() noexcept { return _stream.next_layer(); }
 
     const std::string& address() const noexcept { return _address; }
     const std::string& scheme() const noexcept { return _scheme; }
@@ -150,14 +150,14 @@ public:
     size_t option_receive_buffer_size() const
     {
         asio::socket_base::receive_buffer_size option;
-        _stream.lowest_layer().get_option(option);
+        _stream.next_layer().get_option(option);
         return option.value();
     }
 
     size_t option_send_buffer_size() const
     {
         asio::socket_base::send_buffer_size option;
-        _stream.lowest_layer().get_option(option);
+        _stream.next_layer().get_option(option);
         return option.value();
     }
 
@@ -698,7 +698,7 @@ public:
             if (done++ == 0)
             {
                 error = ec;
-                _stream.lowest_layer().cancel();
+                _stream.next_layer().cancel();
                 timer.cancel();
             }
             cv.notify_one();
@@ -848,7 +848,7 @@ public:
             if (done++ == 0)
             {
                 error = ec;
-                _stream.lowest_layer().cancel();
+                _stream.next_layer().cancel();
                 timer.cancel();
             }
             cv.notify_one();
@@ -905,13 +905,13 @@ public:
     void SetupReceiveBufferSize(size_t size)
     {
         asio::socket_base::receive_buffer_size option((int)size);
-        _stream.lowest_layer().set_option(option);
+        _stream.next_layer().set_option(option);
     }
 
     void SetupSendBufferSize(size_t size)
     {
         asio::socket_base::send_buffer_size option((int)size);
-        _stream.lowest_layer().set_option(option);
+        _stream.next_layer().set_option(option);
     }
 
 protected:
@@ -1191,7 +1191,7 @@ asio::ssl::stream<asio::ip::tcp::socket>& SSLClient::stream() noexcept
     return _pimpl->stream();
 }
 
-asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& SSLClient::socket() noexcept
+asio::ssl::stream<asio::ip::tcp::socket>::next_layer_type& SSLClient::socket() noexcept
 {
     return _pimpl->socket();
 }
