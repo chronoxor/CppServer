@@ -179,11 +179,11 @@ bool SSLSession::DisconnectAsync(bool dispatch)
             return;
 
         // Cancel the session socket
-        std::error_code ec;
-        socket().cancel(ec);
-        if (ec)
+        std::error_code error;
+        socket().cancel(error);
+        if (error)
         {
-            Disconnect(ec);
+            Disconnect(error);
             return;
         }
 
