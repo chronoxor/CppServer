@@ -2009,7 +2009,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.001 s
+Total time: 10.001 s
 Total data: 1.692 GiB
 Total messages: 56261685
 Data throughput: 171.693 MiB/s
@@ -2031,7 +2031,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.007 s
+Total time: 10.007 s
 Total data: 1.151 GiB
 Total messages: 38503396
 Data throughput: 117.423 MiB/s
@@ -2055,7 +2055,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.012 s
+Total time: 10.012 s
 Total data: 296.350 MiB
 Total messages: 9710535
 Data throughput: 29.612 MiB/s
@@ -2077,7 +2077,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.341 s
+Total time: 10.341 s
 Total data: 390.660 MiB
 Total messages: 12800660
 Data throughput: 37.792 MiB/s
@@ -2101,7 +2101,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.002 s
+Total time: 10.002 s
 Total data: 46.032 MiB
 Total messages: 1508355
 Data throughput: 4.616 MiB/s
@@ -2123,7 +2123,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.152 s
+Total time: 10.152 s
 Total data: 32.185 MiB
 Total messages: 1054512
 Data throughput: 3.173 MiB/s
@@ -2289,7 +2289,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.001 s
+Total time: 10.001 s
 Total data: 58.476 MiB
 Total messages: 578353
 Data throughput: 5.865 MiB/s
@@ -2310,7 +2310,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.006 s
+Total time: 10.006 s
 Total data: 310.730 MiB
 Total messages: 3073650
 Data throughput: 31.051 MiB/s
@@ -2333,7 +2333,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.003 s
+Total time: 10.003 s
 Total data: 37.475 MiB
 Total messages: 370602
 Data throughput: 3.763 MiB/s
@@ -2354,7 +2354,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Round-trip time: 10.035 s
+Total time: 10.035 s
 Total data: 204.531 MiB
 Total messages: 2023152
 Data throughput: 20.389 MiB/s
