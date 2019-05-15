@@ -25,7 +25,7 @@ std::tuple<std::string_view, std::string_view> HTTPResponse::header(size_t i) co
     return std::make_tuple(std::string_view(_cache.data() + std::get<0>(item), std::get<1>(item)), std::string_view(_cache.data() + std::get<2>(item), std::get<3>(item)));
 }
 
-void HTTPResponse::Clear()
+HTTPResponse& HTTPResponse::Clear()
 {
     _error = false;
     _status = 0;
@@ -41,9 +41,10 @@ void HTTPResponse::Clear()
 
     _cache.clear();
     _cache_size = 0;
+    return *this;
 }
 
-void HTTPResponse::SetBegin(int status, std::string_view protocol)
+HTTPResponse& HTTPResponse::SetBegin(int status, std::string_view protocol)
 {
     std::string status_phrase;
 
@@ -125,9 +126,10 @@ void HTTPResponse::SetBegin(int status, std::string_view protocol)
     }
 
     SetBegin(status, status_phrase, protocol);
+    return *this;
 }
 
-void HTTPResponse::SetBegin(int status, std::string_view status_phrase, std::string_view protocol)
+HTTPResponse& HTTPResponse::SetBegin(int status, std::string_view status_phrase, std::string_view protocol)
 {
     // Clear the HTTP response cache
     Clear();
@@ -156,9 +158,10 @@ void HTTPResponse::SetBegin(int status, std::string_view status_phrase, std::str
     _status_phrase_size = status_phrase.size();
 
     _cache.append("\r\n");
+    return *this;
 }
 
-void HTTPResponse::SetHeader(std::string_view key, std::string_view value)
+HTTPResponse& HTTPResponse::SetHeader(std::string_view key, std::string_view value)
 {
     size_t index = _cache.size();
 
@@ -179,9 +182,10 @@ void HTTPResponse::SetHeader(std::string_view key, std::string_view value)
 
     // Add the header to the corresponding collection
     _headers.emplace_back(key_index, key_size, value_index, value_size);
+    return *this;
 }
 
-void HTTPResponse::SetBody(std::string_view body)
+HTTPResponse& HTTPResponse::SetBody(std::string_view body)
 {
     // Append non empty content length header
     char buffer[32];
@@ -197,9 +201,10 @@ void HTTPResponse::SetBody(std::string_view body)
     _body_size = body.size();
     _body_length = body.size();
     _body_length_provided = true;
+    return *this;
 }
 
-void HTTPResponse::SetBodyLength(size_t length)
+HTTPResponse& HTTPResponse::SetBodyLength(size_t length)
 {
     // Append content length header
     char buffer[32];
@@ -214,6 +219,7 @@ void HTTPResponse::SetBodyLength(size_t length)
     _body_size = 0;
     _body_length = length;
     _body_length_provided = true;
+    return *this;
 }
 
 HTTPResponse& HTTPResponse::MakeOKResponse(int status)

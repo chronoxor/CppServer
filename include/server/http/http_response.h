@@ -82,37 +82,37 @@ public:
     std::string string() const { std::stringstream ss; ss << *this; return ss.str(); }
 
     //! Clear the HTTP response cache
-    void Clear();
+    HTTPResponse& Clear();
 
     //! Set the HTTP response begin with a given status and protocol
     /*!
         \param status - HTTP status
         \param protocol - Protocol version (default is "HTTP/1.1")
     */
-    void SetBegin(int status, std::string_view protocol = "HTTP/1.1");
+    HTTPResponse& SetBegin(int status, std::string_view protocol = "HTTP/1.1");
     //! Set the HTTP response begin with a given status, status phrase and protocol
     /*!
         \param status - HTTP status
         \param status_phrase - HTTP status phrase
         \param protocol - Protocol version
     */
-    void SetBegin(int status, std::string_view status_phrase, std::string_view protocol);
+    HTTPResponse& SetBegin(int status, std::string_view status_phrase, std::string_view protocol);
     //! Set the HTTP response header
     /*!
         \param key - Header key
         \param value - Header value
     */
-    void SetHeader(std::string_view key, std::string_view value);
+    HTTPResponse& SetHeader(std::string_view key, std::string_view value);
     //! Set the HTTP response body
     /*!
         \param body - Body content (default is "")
     */
-    void SetBody(std::string_view body = "");
+    HTTPResponse& SetBody(std::string_view body = "");
     //! Set the HTTP response body length
     /*!
         \param length - Body length
     */
-    void SetBodyLength(size_t length);
+    HTTPResponse& SetBodyLength(size_t length);
 
     //! Make OK response
     /*!

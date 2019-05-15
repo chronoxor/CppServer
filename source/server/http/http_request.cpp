@@ -25,7 +25,7 @@ std::tuple<std::string_view, std::string_view> HTTPRequest::header(size_t i) con
     return std::make_tuple(std::string_view(_cache.data() + std::get<0>(item), std::get<1>(item)), std::string_view(_cache.data() + std::get<2>(item), std::get<3>(item)));
 }
 
-void HTTPRequest::Clear()
+HTTPRequest& HTTPRequest::Clear()
 {
     _error = false;
     _method_index = 0;
@@ -42,9 +42,10 @@ void HTTPRequest::Clear()
 
     _cache.clear();
     _cache_size = 0;
+    return *this;
 }
 
-void HTTPRequest::SetBegin(std::string_view method, std::string_view url, std::string_view protocol)
+HTTPRequest& HTTPRequest::SetBegin(std::string_view method, std::string_view url, std::string_view protocol)
 {
     // Clear the HTTP request cache
     Clear();
@@ -73,9 +74,10 @@ void HTTPRequest::SetBegin(std::string_view method, std::string_view url, std::s
     _protocol_size = protocol.size();
 
     _cache.append("\r\n");
+    return *this;
 }
 
-void HTTPRequest::SetHeader(std::string_view key, std::string_view value)
+HTTPRequest& HTTPRequest::SetHeader(std::string_view key, std::string_view value)
 {
     size_t index = _cache.size();
 
@@ -96,9 +98,10 @@ void HTTPRequest::SetHeader(std::string_view key, std::string_view value)
 
     // Add the header to the corresponding collection
     _headers.emplace_back(key_index, key_size, value_index, value_size);
+    return *this;
 }
 
-void HTTPRequest::SetBody(std::string_view body)
+HTTPRequest& HTTPRequest::SetBody(std::string_view body)
 {
     // Append content length header
     char buffer[32];
@@ -114,9 +117,10 @@ void HTTPRequest::SetBody(std::string_view body)
     _body_size = body.size();
     _body_length = body.size();
     _body_length_provided = true;
+    return *this;
 }
 
-void HTTPRequest::SetBodyLength(size_t length)
+HTTPRequest& HTTPRequest::SetBodyLength(size_t length)
 {
     // Append content length header
     char buffer[32];
@@ -131,6 +135,7 @@ void HTTPRequest::SetBodyLength(size_t length)
     _body_size = 0;
     _body_length = length;
     _body_length_provided = true;
+    return *this;
 }
 
 HTTPRequest& HTTPRequest::MakeHeadRequest(std::string_view url)
