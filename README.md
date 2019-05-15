@@ -2155,7 +2155,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.001 s
+Total time: 10.001 s
 Total data: 1.907 GiB
 Total messages: 63283367
 Data throughput: 193.103 MiB/s
@@ -2176,7 +2176,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.006 s
+Total time: 10.006 s
 Total data: 1.1006 GiB
 Total messages: 66535013
 Data throughput: 202.930 MiB/s
@@ -2199,7 +2199,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.014 s
+Total time: 10.014 s
 Total data: 1.535 GiB
 Total messages: 51100073
 Data throughput: 155.738 MiB/s
@@ -2220,7 +2220,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.691 s
+Total time: 10.691 s
 Total data: 1.878 GiB
 Total messages: 62334478
 Data throughput: 177.954 MiB/s
@@ -2243,7 +2243,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.002 s
+Total time: 10.002 s
 Total data: 23.777 MiB
 Total messages: 778555
 Data throughput: 2.384 MiB/s
@@ -2264,7 +2264,7 @@ Seconds to benchmarking: 10
 
 Errors: 0
 
-Multicast time: 10.004 s
+Total time: 10.004 s
 Total data: 52.457 MiB
 Total messages: 1718575
 Data throughput: 5.248 MiB/s
