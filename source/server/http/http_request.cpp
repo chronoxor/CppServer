@@ -105,7 +105,7 @@ HTTPRequest& HTTPRequest::SetBody(std::string_view body)
 {
     // Append content length header
     char buffer[32];
-    SetHeader("content-length", FastConvert(body.size(), buffer, CppCommon::countof(buffer)));
+    SetHeader("Content-Length", FastConvert(body.size(), buffer, CppCommon::countof(buffer)));
 
     _cache.append("\r\n");
 
@@ -124,7 +124,7 @@ HTTPRequest& HTTPRequest::SetBodyLength(size_t length)
 {
     // Append content length header
     char buffer[32];
-    SetHeader("content-length", FastConvert(length, buffer, CppCommon::countof(buffer)));
+    SetHeader("Content-Length", FastConvert(length, buffer, CppCommon::countof(buffer)));
 
     _cache.append("\r\n");
 
