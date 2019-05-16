@@ -97,6 +97,11 @@ public:
         \param protocol - Protocol version
     */
     HTTPResponse& SetBegin(int status, std::string_view status_phrase, std::string_view protocol);
+    //! Set the HTTP response content type
+    /*!
+        \param extension - Content extension
+    */
+    HTTPResponse& SetContentType(std::string_view extension);
     //! Set the HTTP response header
     /*!
         \param key - Header key
