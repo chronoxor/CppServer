@@ -164,123 +164,121 @@ HTTPResponse& HTTPResponse::SetBegin(int status, std::string_view status_phrase,
 HTTPResponse& HTTPResponse::SetContentType(std::string_view extension)
 {
     // Base content types
-    if (extension == "html")
+    if (extension == ".html")
         return SetHeader("content-type", "text/html");
-    else if (extension == "css")
+    else if (extension == ".css")
         return SetHeader("content-type", "text/css");
-    else if (extension == "js")
+    else if (extension == ".js")
         return SetHeader("content-type", "text/javascript");
-    else if (extension == "xml")
+    else if (extension == ".xml")
         return SetHeader("content-type", "text/xml");
 
     // Common content types
-    if (extension == "gzip")
+    if (extension == ".gzip")
         return SetHeader("content-type", "application/gzip");
-    else if (extension == "json")
+    else if (extension == ".json")
         return SetHeader("content-type", "application/json");
-    else if (extension == "map")
+    else if (extension == ".map")
         return SetHeader("content-type", "application/json");
-    else if (extension == "pdf")
+    else if (extension == ".pdf")
         return SetHeader("content-type", "application/pdf");
-    else if (extension == "zip")
+    else if (extension == ".zip")
         return SetHeader("content-type", "application/zip");
-    else if (extension == "mp3")
+    else if (extension == ".mp3")
         return SetHeader("content-type", "audio/mpeg");
-    else if (extension == "jpg")
+    else if (extension == ".jpg")
         return SetHeader("content-type", "image/jpeg");
-    else if (extension == "gif")
+    else if (extension == ".gif")
         return SetHeader("content-type", "image/gif");
-    else if (extension == "png")
+    else if (extension == ".png")
         return SetHeader("content-type", "image/png");
-    else if (extension == "svg")
+    else if (extension == ".svg")
         return SetHeader("content-type", "image/svg+xml");
-    else if (extension == "mp4")
+    else if (extension == ".mp4")
         return SetHeader("content-type", "video/mp4");
 
     // Application content types
-    if (extension == "atom")
+    if (extension == ".atom")
         return SetHeader("content-type", "application/atom+xml");
-    else if (extension == "fastsoap")
+    else if (extension == ".fastsoap")
         return SetHeader("content-type", "application/fastsoap");
-    else if (extension == "ps")
+    else if (extension == ".ps")
         return SetHeader("content-type", "application/postscript");
-    else if (extension == "soap")
+    else if (extension == ".soap")
         return SetHeader("content-type", "application/soap+xml");
-    else if (extension == "sql")
+    else if (extension == ".sql")
         return SetHeader("content-type", "application/sql");
-    else if (extension == "xslt")
+    else if (extension == ".xslt")
         return SetHeader("content-type", "application/xslt+xml");
-    else if (extension == "zlib")
+    else if (extension == ".zlib")
         return SetHeader("content-type", "application/zlib");
 
     // Audio content types
-    if (extension == "aac")
+    if (extension == ".aac")
         return SetHeader("content-type", "audio/aac");
-    else if (extension == "ac3")
+    else if (extension == ".ac3")
         return SetHeader("content-type", "audio/ac3");
-    else if (extension == "ogg")
+    else if (extension == ".ogg")
         return SetHeader("content-type", "audio/ogg");
 
     // Font content types
-    if (extension == "ttf")
+    if (extension == ".ttf")
         return SetHeader("content-type", "font/ttf");
 
     // Image content types
-    if (extension == "bmp")
+    if (extension == ".bmp")
         return SetHeader("content-type", "image/bmp");
-    else if (extension == "jpm")
+    else if (extension == ".jpm")
         return SetHeader("content-type", "image/jpm");
-    else if (extension == "jpx")
+    else if (extension == ".jpx")
         return SetHeader("content-type", "image/jpx");
-    else if (extension == "jrx")
+    else if (extension == ".jrx")
         return SetHeader("content-type", "image/jrx");
-    else if (extension == "tiff")
+    else if (extension == ".tiff")
         return SetHeader("content-type", "image/tiff");
-    else if (extension == "emf")
+    else if (extension == ".emf")
         return SetHeader("content-type", "image/emf");
-    else if (extension == "wmf")
+    else if (extension == ".wmf")
         return SetHeader("content-type", "image/wmf");
 
     // Message content types
-    if (extension == "http")
+    if (extension == ".http")
         return SetHeader("content-type", "message/http");
-    else if (extension == "s-http")
+    else if (extension == ".s-http")
         return SetHeader("content-type", "message/s-http");
 
     // Model content types
-    if (extension == "mesh")
+    if (extension == ".mesh")
         return SetHeader("content-type", "model/mesh");
-    else if (extension == "vrml")
+    else if (extension == ".vrml")
         return SetHeader("content-type", "model/vrml");
 
     // Text content types
-    if (extension == "csv")
+    if (extension == ".csv")
         return SetHeader("content-type", "text/csv");
-    else if (extension == "plain")
+    else if (extension == ".plain")
         return SetHeader("content-type", "text/plain");
-    else if (extension == "richtext")
+    else if (extension == ".richtext")
         return SetHeader("content-type", "text/richtext");
-    else if (extension == "rtf")
+    else if (extension == ".rtf")
         return SetHeader("content-type", "text/rtf");
-    else if (extension == "rtx")
+    else if (extension == ".rtx")
         return SetHeader("content-type", "text/rtx");
-    else if (extension == "sgml")
+    else if (extension == ".sgml")
         return SetHeader("content-type", "text/sgml");
-    else if (extension == "strings")
+    else if (extension == ".strings")
         return SetHeader("content-type", "text/strings");
-    else if (extension == "url")
+    else if (extension == ".url")
         return SetHeader("content-type", "text/uri-list");
 
     // Video content types
-    if (extension == "H264")
+    if (extension == ".H264")
         return SetHeader("content-type", "video/H264");
-    else if (extension == "H265")
+    else if (extension == ".H265")
         return SetHeader("content-type", "video/H265");
-    else if (extension == "mpeg")
+    else if (extension == ".mpeg")
         return SetHeader("content-type", "video/mpeg");
-    else if (extension == "ogg")
-        return SetHeader("content-type", "video/ogg");
-    else if (extension == "raw")
+    else if (extension == ".raw")
         return SetHeader("content-type", "video/raw");
 
     return *this;
