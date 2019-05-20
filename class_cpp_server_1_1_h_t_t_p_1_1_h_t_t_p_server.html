@@ -125,6 +125,23 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a98ddd147e50851e7e1ba072f4dcd31fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c7e0c446b9e5fad5d2e6953851c204a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html">HTTPServer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#a0c7e0c446b9e5fad5d2e6953851c204a">operator=</a> (<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html">HTTPServer</a> &amp;&amp;)=delete</td></tr>
 <tr class="separator:a0c7e0c446b9e5fad5d2e6953851c204a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cb3141e11edb30fdc832b22d8158685"><td class="memItemLeft" align="right" valign="top">CppCommon::FileCache &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#a6cb3141e11edb30fdc832b22d8158685">cache</a> () noexcept</td></tr>
+<tr class="memdesc:a6cb3141e11edb30fdc832b22d8158685"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the static content cache.  <a href="#a6cb3141e11edb30fdc832b22d8158685">More...</a><br /></td></tr>
+<tr class="separator:a6cb3141e11edb30fdc832b22d8158685"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b5f2696b97b192c719e2e19dfd64d3c"><td class="memItemLeft" align="right" valign="top">const CppCommon::FileCache &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#a8b5f2696b97b192c719e2e19dfd64d3c">cache</a> () const noexcept</td></tr>
+<tr class="separator:a8b5f2696b97b192c719e2e19dfd64d3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94785e78744dacc88bb20c626c9bbcaf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#a94785e78744dacc88bb20c626c9bbcaf">AddStaticContent</a> (const CppCommon::Path &amp;path, const CppCommon::Timespan &amp;timeout=CppCommon::Timespan::hours(1))</td></tr>
+<tr class="memdesc:a94785e78744dacc88bb20c626c9bbcaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add static content cache.  <a href="#a94785e78744dacc88bb20c626c9bbcaf">More...</a><br /></td></tr>
+<tr class="separator:a94785e78744dacc88bb20c626c9bbcaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af471b091da15394ba1cb8f7768fabd44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#af471b091da15394ba1cb8f7768fabd44">RemoveStaticContent</a> (const CppCommon::Path &amp;path)</td></tr>
+<tr class="memdesc:af471b091da15394ba1cb8f7768fabd44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove static content cache.  <a href="#af471b091da15394ba1cb8f7768fabd44">More...</a><br /></td></tr>
+<tr class="separator:af471b091da15394ba1cb8f7768fabd44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a8707abc183916faaf5ed4f3c511cbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#a5a8707abc183916faaf5ed4f3c511cbf">ClearStaticContent</a> ()</td></tr>
+<tr class="memdesc:a5a8707abc183916faaf5ed4f3c511cbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear static content cache.  <a href="#a5a8707abc183916faaf5ed4f3c511cbf">More...</a><br /></td></tr>
+<tr class="separator:a5a8707abc183916faaf5ed4f3c511cbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4a979f2c271dc125d7fcdd31435bc61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#ae4a979f2c271dc125d7fcdd31435bc61">Watchdog</a> (const CppCommon::UtcTimestamp &amp;utc=CppCommon::UtcTimestamp())</td></tr>
+<tr class="memdesc:ae4a979f2c271dc125d7fcdd31435bc61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Watchdog the static content cache.  <a href="#ae4a979f2c271dc125d7fcdd31435bc61">More...</a><br /></td></tr>
+<tr class="separator:ae4a979f2c271dc125d7fcdd31435bc61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_server"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_server')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html">CppServer::Asio::TCPServer</a></td></tr>
 <tr class="memitem:a29f8b6e569df255be96095bcdca17948 inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_server"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a29f8b6e569df255be96095bcdca17948">TCPServer</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a9b35ff9e0abbfa5a75ee266e4f7ebfb8">service</a>, int <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#aab553e2209670f58a2b77789b3b71571">port</a>, <a class="el" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">InternetProtocol</a> protocol=<a class="el" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626">InternetProtocol::IPv4</a>)</td></tr>
 <tr class="memdesc:a29f8b6e569df255be96095bcdca17948 inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_server"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize TCP server with a given <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions. ">Asio</a> service and port number.  <a href="#a29f8b6e569df255be96095bcdca17948">More...</a><br /></td></tr>
@@ -260,7 +277,7 @@ Protected Member Functions</h2></td></tr>
 <p>Thread-safe. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#_a3">http_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="http__server_8h_source.html#l00028">28</a> of file <a class="el" href="http__server_8h_source.html">http_server.h</a>.</p>
+<p>Definition at line <a class="el" href="http__server_8h_source.html#l00029">29</a> of file <a class="el" href="http__server_8h_source.html">http_server.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aad8ae92b99ab929c846494757bcb120b"></a>
 <div class="memitem">
@@ -335,6 +352,122 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a94785e78744dacc88bb20c626c9bbcaf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::HTTP::HTTPServer::AddStaticContent </td>
+          <td>(</td>
+          <td class="paramtype">const CppCommon::Path &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>CppCommon::Timespan::hours(1)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add static content cache. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>- Static content path </td></tr>
+    <tr><td class="paramname">timeout</td><td>- Refresh cache timeout (default is 1 hour) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="http__server_8cpp_source.html#l00016">16</a> of file <a class="el" href="http__server_8cpp_source.html">http_server.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6cb3141e11edb30fdc832b22d8158685"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CppCommon::FileCache&amp; CppServer::HTTP::HTTPServer::cache </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the static content cache. </p>
+
+<p>Definition at line <a class="el" href="http__server_8h_source.html#l00042">42</a> of file <a class="el" href="http__server_8h_source.html">http_server.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8b5f2696b97b192c719e2e19dfd64d3c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const CppCommon::FileCache&amp; CppServer::HTTP::HTTPServer::cache </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="http__server_8h_source.html#l00043">43</a> of file <a class="el" href="http__server_8h_source.html">http_server.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5a8707abc183916faaf5ed4f3c511cbf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::HTTP::HTTPServer::ClearStaticContent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clear static content cache. </p>
+
+<p>Definition at line <a class="el" href="http__server_8h_source.html#l00057">57</a> of file <a class="el" href="http__server_8h_source.html">http_server.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a0f5b1ff4231a23a8fb6dfcdca662287c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -357,7 +490,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="http__server_8h_source.html#l00041">41</a> of file <a class="el" href="http__server_8h_source.html">http_server.h</a>.</p>
+<p>Definition at line <a class="el" href="http__server_8h_source.html#l00063">63</a> of file <a class="el" href="http__server_8h_source.html">http_server.h</a>.</p>
 
 </div>
 </div>
@@ -409,8 +542,71 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a class="anchor" id="af471b091da15394ba1cb8f7768fabd44"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::HTTP::HTTPServer::RemoveStaticContent </td>
+          <td>(</td>
+          <td class="paramtype">const CppCommon::Path &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remove static content cache. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>- Static content path </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="http__server_8h_source.html#l00055">55</a> of file <a class="el" href="http__server_8h_source.html">http_server.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae4a979f2c271dc125d7fcdd31435bc61"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::HTTP::HTTPServer::Watchdog </td>
+          <td>(</td>
+          <td class="paramtype">const CppCommon::UtcTimestamp &amp;&#160;</td>
+          <td class="paramname"><em>utc</em> = <code>CppCommon::UtcTimestamp()</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Watchdog the static content cache. </p>
+
+<p>Definition at line <a class="el" href="http__server_8h_source.html#l00060">60</a> of file <a class="el" href="http__server_8h_source.html">http_server.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/server/http/<a class="el" href="http__server_8h_source.html">http_server.h</a></li>
+<li>source/server/http/<a class="el" href="http__server_8cpp_source.html">http_server.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
