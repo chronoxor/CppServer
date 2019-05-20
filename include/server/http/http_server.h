@@ -11,6 +11,7 @@
 
 #include "http_session.h"
 
+#include "cache/filecache.h"
 #include "server/asio/tcp_server.h"
 
 namespace CppServer {
@@ -37,8 +38,33 @@ public:
     HTTPServer& operator=(const HTTPServer&) = delete;
     HTTPServer& operator=(HTTPServer&&) = delete;
 
+    //! Get the static content cache
+    CppCommon::FileCache& cache() noexcept { return _cache; }
+    const CppCommon::FileCache& cache() const noexcept { return _cache; }
+
+    //! Add static content cache
+    /*!
+        \param path - Static content path
+        \param timeout - Refresh cache timeout (default is 1 hour)
+    */
+    void AddStaticContent(const CppCommon::Path& path, const CppCommon::Timespan& timeout = CppCommon::Timespan::hours(1));
+    //! Remove static content cache
+    /*!
+        \param path - Static content path
+    */
+    void RemoveStaticContent(const CppCommon::Path& path) { _cache.remove_path(path); }
+    //! Clear static content cache
+    void ClearStaticContent() { _cache.clear(); }
+
+    //! Watchdog the static content cache
+    void Watchdog(const CppCommon::UtcTimestamp& utc = CppCommon::UtcTimestamp()) { _cache.watchdog(utc); }
+
 protected:
-    std::shared_ptr<Asio::TCPSession> CreateSession(std::shared_ptr<Asio::TCPServer> server) override { return std::make_shared<HTTPSession>(server); }
+    std::shared_ptr<Asio::TCPSession> CreateSession(std::shared_ptr<Asio::TCPServer> server) override { return std::make_shared<HTTPSession>(server, _cache); }
+
+private:
+    // Static content cache
+    CppCommon::FileCache _cache;
 };
 
 /*! \example http_server.cpp HTTP server example */

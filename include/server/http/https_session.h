@@ -12,6 +12,7 @@
 #include "http_request.h"
 #include "http_response.h"
 
+#include "cache/filecache.h"
 #include "server/asio/ssl_session.h"
 
 namespace CppServer {
@@ -28,14 +29,17 @@ class HTTPSServer;
 class HTTPSSession : public Asio::SSLSession
 {
 public:
-    using SSLSession::SSLSession;
-
+    explicit HTTPSSession(std::shared_ptr<Asio::SSLServer> server, CppCommon::FileCache& cache) : Asio::SSLSession(server), _cache(cache) {}
     HTTPSSession(const HTTPSSession&) = delete;
     HTTPSSession(HTTPSSession&&) = delete;
     virtual ~HTTPSSession() = default;
 
     HTTPSSession& operator=(const HTTPSSession&) = delete;
     HTTPSSession& operator=(HTTPSSession&&) = delete;
+
+    //! Get the static content cache
+    CppCommon::FileCache& cache() noexcept { return _cache; }
+    const CppCommon::FileCache& cache() const noexcept { return _cache; }
 
     //! Get the HTTP response
     HTTPResponse& response() noexcept { return _response; }
@@ -156,10 +160,14 @@ protected:
     virtual void onReceivedRequestError(const HTTPRequest& request, const std::string& error) {}
 
 private:
+    // Static content cache
+    CppCommon::FileCache& _cache;
     // HTTP request
     HTTPRequest _request;
     // HTTP response
     HTTPResponse _response;
+
+    void onReceivedRequestInternal(const HTTPRequest& request);
 };
 
 } // namespace HTTP

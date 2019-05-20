@@ -132,7 +132,7 @@ public:
 protected:
     std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(std::shared_ptr<CppServer::Asio::TCPServer> server) override
     {
-        return std::make_shared<HTTPCacheSession>(server);
+        return std::make_shared<HTTPCacheSession>(server, cache());
     }
 
 protected:

@@ -48,7 +48,7 @@ public:
 protected:
     std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) override
     {
-        return std::make_shared<HTTPTraceSession>(server);
+        return std::make_shared<HTTPTraceSession>(server, cache());
     }
 
 protected:

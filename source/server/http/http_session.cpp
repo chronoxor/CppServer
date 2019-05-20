@@ -34,7 +34,7 @@ void HTTPSession::onReceived(const void* buffer, size_t size)
     // Receive HTTP request body
     if (_request.ReceiveBody(buffer, size))
     {
-        onReceivedRequest(_request);
+        onReceivedRequestInternal(_request);
         _request.Clear();
         return;
     }
@@ -54,10 +54,27 @@ void HTTPSession::onDisconnected()
     // Receive HTTP request body
     if (_request.IsPendingBody())
     {
-        onReceivedRequest(_request);
+        onReceivedRequestInternal(_request);
         _request.Clear();
         return;
     }
+}
+
+void HTTPSession::onReceivedRequestInternal(const HTTPRequest& request)
+{
+    // Try to get the cached response
+    if (request.method() == "GET")
+    {
+        auto response = cache().find(std::string(request.url()));
+        if (response.first)
+        {
+            SendAsync(response.second);
+            return;
+        }
+    }
+
+    // Process the request
+    onReceivedRequest(request);
 }
 
 } // namespace HTTP

@@ -12,6 +12,7 @@
 #include "http_request.h"
 #include "http_response.h"
 
+#include "cache/filecache.h"
 #include "server/asio/tcp_session.h"
 
 namespace CppServer {
@@ -28,14 +29,17 @@ class HTTPServer;
 class HTTPSession : public Asio::TCPSession
 {
 public:
-    using TCPSession::TCPSession;
-
+    explicit HTTPSession(std::shared_ptr<Asio::TCPServer> server, CppCommon::FileCache& cache) : Asio::TCPSession(server), _cache(cache) {}
     HTTPSession(const HTTPSession&) = delete;
     HTTPSession(HTTPSession&&) = delete;
     virtual ~HTTPSession() = default;
 
     HTTPSession& operator=(const HTTPSession&) = delete;
     HTTPSession& operator=(HTTPSession&&) = delete;
+
+    //! Get the static content cache
+    CppCommon::FileCache& cache() noexcept { return _cache; }
+    const CppCommon::FileCache& cache() const noexcept { return _cache; }
 
     //! Get the HTTP response
     HTTPResponse& response() noexcept { return _response; }
@@ -156,10 +160,14 @@ protected:
     virtual void onReceivedRequestError(const HTTPRequest& request, const std::string& error) {}
 
 private:
+    // Static content cache
+    CppCommon::FileCache& _cache;
     // HTTP request
     HTTPRequest _request;
     // HTTP response
     HTTPResponse _response;
+
+    void onReceivedRequestInternal(const HTTPRequest& request);
 };
 
 } // namespace HTTP

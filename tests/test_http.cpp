@@ -131,7 +131,7 @@ public:
 protected:
     std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) override
     {
-        return std::make_shared<HTTPCacheSession>(server);
+        return std::make_shared<HTTPCacheSession>(server, cache());
     }
 
 protected:
