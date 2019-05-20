@@ -3,7 +3,9 @@
 build
 cmake
 cmake-build-*
-modules
+modules/*
+!modules/CMakeLists.txt
+!modules/*.cmake
 temp
 
 # Ctags files
