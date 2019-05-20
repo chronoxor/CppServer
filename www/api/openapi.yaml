@@ -77,6 +77,13 @@ paths:
       - Cache
       summary: Delete the cache value
       operationId: DeleteCacheValue
+      requestBody:
+        description: Cache value to delete
+        content:
+          text/plain:
+            schema:
+              type: string
+        required: true
       responses:
         200:
           description: Success
