@@ -148,8 +148,13 @@ int main(int argc, char** argv)
     int port = 8080;
     if (argc > 1)
         port = std::atoi(argv[1]);
+    // HTTP server content path
+    std::string www = "../www";
+    if (argc > 2)
+        www = argv[2];
 
     std::cout << "HTTP server port: " << port << std::endl;
+    std::cout << "HTTP server static content path: " << www << std::endl;
 
     std::cout << std::endl;
 
@@ -163,6 +168,7 @@ int main(int argc, char** argv)
 
     // Create a new HTTP server
     auto server = std::make_shared<HTTPCacheServer>(service, port);
+    server->AddStaticContent(www);
 
     // Start the server
     std::cout << "Server starting...";
