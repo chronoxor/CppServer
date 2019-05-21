@@ -1439,7 +1439,7 @@ public:
 protected:
     std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(std::shared_ptr<CppServer::Asio::TCPServer> server) override
     {
-        return std::make_shared<HTTPCacheSession>(server);
+        return std::make_shared<HTTPCacheSession>(server, cache());
     }
 
 protected:
@@ -1452,16 +1452,21 @@ protected:
 int main(int argc, char** argv)
 {
     // HTTP server port
-    int port = 80;
+    int port = 8080;
     if (argc > 1)
         port = std::atoi(argv[1]);
+    // HTTP server content path
+    std::string www = "../www";
+    if (argc > 2)
+        www = argv[2];
 
     std::cout << "HTTP server port: " << port << std::endl;
+    std::cout << "HTTP server static content path: " << www << std::endl;
 
     std::cout << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<CppServer::Asio::Service>();
+    auto service = std::make_shared<AsioService>();
 
     // Start the Asio service
     std::cout << "Asio service starting...";
@@ -1470,6 +1475,7 @@ int main(int argc, char** argv)
 
     // Create a new HTTP server
     auto server = std::make_shared<HTTPCacheServer>(service, port);
+    server->AddStaticContent(www);
 
     // Start the server
     std::cout << "Server starting...";
@@ -1765,7 +1771,7 @@ public:
 protected:
     std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
     {
-        return std::make_shared<HTTPSCacheSession>(server);
+        return std::make_shared<HTTPSCacheSession>(server, cache());
     }
 
 protected:
@@ -1778,16 +1784,21 @@ protected:
 int main(int argc, char** argv)
 {
     // HTTPS server port
-    int port = 443;
+    int port = 8443;
     if (argc > 1)
         port = std::atoi(argv[1]);
+    // HTTPS server content path
+    std::string www = "../www";
+    if (argc > 2)
+        www = argv[2];
 
     std::cout << "HTTPS server port: " << port << std::endl;
+    std::cout << "HTTPS server static content path: " << www << std::endl;
 
     std::cout << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<CppServer::Asio::Service>();
+    auto service = std::make_shared<AsioService>();
 
     // Start the Asio service
     std::cout << "Asio service starting...";
@@ -1803,6 +1814,7 @@ int main(int argc, char** argv)
 
     // Create a new HTTPS server
     auto server = std::make_shared<HTTPSCacheServer>(service, context, port);
+    server->AddStaticContent(www);
 
     // Start the server
     std::cout << "Server starting...";
