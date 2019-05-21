@@ -55,6 +55,7 @@ solution.
 * Supported transport protocols: [TCP](#example-tcp-chat-server), [SSL](#example-ssl-chat-server),
   [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server)
 * Supported Web protocols: [HTTP](#example-http-server), [HTTPS](#example-https-server)
+* Supported [Swagger OpenAPI](https://swagger.io/specification/) iterative documentation
 
 # Requirements
 * Linux (binutils-dev uuid-dev openssl)
@@ -1309,6 +1310,10 @@ int main(int argc, char** argv)
 Here comes the example of the HTTP cache server. It allows to manipulate
 cache data with HTTP methods (GET, POST, PUT and DELETE).
 
+Use the following link to open [Swagger OpenAPI](https://swagger.io/specification/) iterative documentation: http://localhost:8080/api/index.html
+
+![OpenAPI-HTTP](https://github.com/chronoxor/CppServer/raw/master/images/openapi-http.png)
+
 ```c++
 #include "server/http/http_server.h"
 #include "utility/singleton.h"
@@ -1630,6 +1635,10 @@ int main(int argc, char** argv)
 Here comes the example of the HTTPS cache server. It allows to manipulate
 cache data with HTTP methods (GET, POST, PUT and DELETE) with secured
 transport protocol.
+
+Use the following link to open [Swagger OpenAPI](https://swagger.io/specification/) iterative documentation: https://localhost:8443/api/index.html
+
+![OpenAPI-HTTPS](https://github.com/chronoxor/CppServer/raw/master/images/openapi-https.png)
 
 ```c++
 #include "server/http/https_server.h"
