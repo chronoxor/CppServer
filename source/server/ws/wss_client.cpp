@@ -48,6 +48,7 @@ void WSSClient::onHandshaked()
     _request.SetHeader("Upgrade", "websocket");
     _request.SetHeader("Connection", "Upgrade");
     _request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
+    _request.SetHeader("Sec-WebSocket-Protocol", "chat, superchat");
     _request.SetHeader("Sec-WebSocket-Version", "13");
 
     // Allows to update WebSocket upgrade HTTP request in user code

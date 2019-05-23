@@ -237,15 +237,15 @@ void TCPServer::Accept()
 
 bool TCPServer::Multicast(const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return false;
-
     if (!IsStarted())
         return false;
 
     if (size == 0)
         return true;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return false;
 
     std::shared_lock<std::shared_mutex> locker(_sessions_lock);
 

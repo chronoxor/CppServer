@@ -56,6 +56,12 @@ protected:
             ConnectAsync();
     }
 
+    void onReceived(const void* buffer, size_t size) override
+    {
+        WSClient::onReceived(buffer, size);
+        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+    }
+
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Chat WebSocket client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;

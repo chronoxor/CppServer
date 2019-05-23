@@ -490,14 +490,14 @@ bool TCPClient::ReconnectAsync()
 
 size_t TCPClient::Send(const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return 0;
-
     if (!IsConnected())
         return 0;
 
     if (size == 0)
+        return 0;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
         return 0;
 
     asio::error_code ec;
@@ -525,14 +525,14 @@ size_t TCPClient::Send(const void* buffer, size_t size)
 
 size_t TCPClient::Send(const void* buffer, size_t size, const CppCommon::Timespan& timeout)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return 0;
-
     if (!IsConnected())
         return 0;
 
     if (size == 0)
+        return 0;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
         return 0;
 
     int done = 0;
@@ -588,15 +588,15 @@ size_t TCPClient::Send(const void* buffer, size_t size, const CppCommon::Timespa
 
 bool TCPClient::SendAsync(const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return false;
-
     if (!IsConnected())
         return false;
 
     if (size == 0)
         return true;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return false;
 
     {
         std::scoped_lock locker(_send_lock);
@@ -633,14 +633,14 @@ bool TCPClient::SendAsync(const void* buffer, size_t size)
 
 size_t TCPClient::Receive(void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return 0;
-
     if (!IsConnected())
         return 0;
 
     if (size == 0)
+        return 0;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
         return 0;
 
     asio::error_code ec;
@@ -675,14 +675,14 @@ std::string TCPClient::Receive(size_t size)
 
 size_t TCPClient::Receive(void* buffer, size_t size, const CppCommon::Timespan& timeout)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return 0;
-
     if (!IsConnected())
         return 0;
 
     if (size == 0)
+        return 0;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
         return 0;
 
     int done = 0;

@@ -474,14 +474,14 @@ size_t UDPClient::Send(const void* buffer, size_t size)
 
 size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return 0;
-
     if (!IsConnected())
         return 0;
 
     if (size == 0)
+        return 0;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
         return 0;
 
     asio::error_code ec;
@@ -516,14 +516,14 @@ size_t UDPClient::Send(const void* buffer, size_t size, const CppCommon::Timespa
 
 size_t UDPClient::Send(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size, const CppCommon::Timespan& timeout)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return 0;
-
     if (!IsConnected())
         return 0;
 
     if (size == 0)
+        return 0;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
         return 0;
 
     int done = 0;
@@ -586,10 +586,6 @@ bool UDPClient::SendAsync(const void* buffer, size_t size)
 
 bool UDPClient::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return false;
-
     if (_sending)
         return false;
 
@@ -598,6 +594,10 @@ bool UDPClient::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
 
     if (size == 0)
         return true;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
+        return false;
 
     // Fill the main send buffer
     const uint8_t* bytes = (const uint8_t*)buffer;
@@ -651,14 +651,14 @@ bool UDPClient::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
 
 size_t UDPClient::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_t size)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return 0;
-
     if (!IsConnected())
         return 0;
 
     if (size == 0)
+        return 0;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
         return 0;
 
     asio::error_code ec;
@@ -694,14 +694,14 @@ std::string UDPClient::Receive(asio::ip::udp::endpoint& endpoint, size_t size)
 
 size_t UDPClient::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_t size, const CppCommon::Timespan& timeout)
 {
-    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-    if (buffer == nullptr)
-        return 0;
-
     if (!IsConnected())
         return 0;
 
     if (size == 0)
+        return 0;
+
+    assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+    if (buffer == nullptr)
         return 0;
 
     int done = 0;

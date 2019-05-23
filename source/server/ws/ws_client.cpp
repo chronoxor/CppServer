@@ -48,6 +48,7 @@ void WSClient::onConnected()
     _request.SetHeader("Upgrade", "websocket");
     _request.SetHeader("Connection", "Upgrade");
     _request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
+    _request.SetHeader("Sec-WebSocket-Protocol", "chat, superchat");
     _request.SetHeader("Sec-WebSocket-Version", "13");
 
     // Allows to update WebSocket upgrade HTTP request in user code
@@ -159,6 +160,7 @@ void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
 
         // WebSocket successfully handshaked!
         _handshaked = true;
+        _mask = rand();
         onWSConnected(response);
 
         return;
@@ -167,6 +169,11 @@ void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
     // Disconnect on WebSocket handshake
     onError(asio::error::fault, "WebSocket error", "Invalid WebSocket response status: {}"_format(response.status()));
     DisconnectAsync();
+}
+
+void WSClient::PrepareWebSocketFrame(uint32_t opcode, const void* buffer, size_t size)
+{
+    _ws_send_buffer.clear();
 }
 
 } // namespace WS

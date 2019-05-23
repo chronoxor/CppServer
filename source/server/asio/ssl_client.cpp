@@ -640,14 +640,14 @@ public:
 
     size_t Send(const void* buffer, size_t size)
     {
-        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-        if (buffer == nullptr)
-            return 0;
-
         if (!IsHandshaked())
             return 0;
 
         if (size == 0)
+            return 0;
+
+        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+        if (buffer == nullptr)
             return 0;
 
         asio::error_code ec;
@@ -675,14 +675,14 @@ public:
 
     size_t Send(const void* buffer, size_t size, const CppCommon::Timespan& timeout)
     {
-        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-        if (buffer == nullptr)
-            return 0;
-
         if (!IsHandshaked())
             return 0;
 
         if (size == 0)
+            return 0;
+
+        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+        if (buffer == nullptr)
             return 0;
 
         int done = 0;
@@ -738,15 +738,15 @@ public:
 
     bool SendAsync(const void* buffer, size_t size)
     {
-        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-        if (buffer == nullptr)
-            return false;
-
         if (!IsHandshaked())
             return false;
 
         if (size == 0)
             return true;
+
+        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+        if (buffer == nullptr)
+            return false;
 
         {
             std::scoped_lock locker(_send_lock);
@@ -783,14 +783,14 @@ public:
 
     size_t Receive(void* buffer, size_t size)
     {
-        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-        if (buffer == nullptr)
-            return 0;
-
         if (!IsHandshaked())
             return 0;
 
         if (size == 0)
+            return 0;
+
+        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+        if (buffer == nullptr)
             return 0;
 
         asio::error_code ec;
@@ -825,14 +825,14 @@ public:
 
     size_t Receive(void* buffer, size_t size, const CppCommon::Timespan& timeout)
     {
-        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
-        if (buffer == nullptr)
-            return 0;
-
         if (!IsHandshaked())
             return 0;
 
         if (size == 0)
+            return 0;
+
+        assert((buffer != nullptr) && "Pointer to the buffer should not be null!");
+        if (buffer == nullptr)
             return 0;
 
         int done = 0;
