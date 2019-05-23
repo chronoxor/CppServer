@@ -6,5 +6,10 @@ var searchData=
   ['ws_2eh',['ws.h',['../ws_8h.html',1,'']]],
   ['ws_5fclient_2ecpp',['ws_client.cpp',['../ws__client_8cpp.html',1,'']]],
   ['ws_5fclient_2eh',['ws_client.h',['../ws__client_8h.html',1,'']]],
-  ['wsclient',['WSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_client.html',1,'CppServer::WS::WSClient'],['../class_cpp_server_1_1_w_s_1_1_w_s_client.html#a52f3f1ed4f2ab326bd5bd48e6a1b145d',1,'CppServer::WS::WSClient::WSClient(const WSClient &amp;)=delete'],['../class_cpp_server_1_1_w_s_1_1_w_s_client.html#ab2cfc1596e60e41ee84cb6a8e4fa35ec',1,'CppServer::WS::WSClient::WSClient(WSClient &amp;&amp;)=delete']]]
+  ['wsclient',['WSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_client.html#a52f3f1ed4f2ab326bd5bd48e6a1b145d',1,'CppServer::WS::WSClient::WSClient(const WSClient &amp;)=delete'],['../class_cpp_server_1_1_w_s_1_1_w_s_client.html#ab2cfc1596e60e41ee84cb6a8e4fa35ec',1,'CppServer::WS::WSClient::WSClient(WSClient &amp;&amp;)=delete']]],
+  ['wsclient',['WSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_client.html',1,'CppServer::WS']]],
+  ['wss_5fclient_2ecpp',['wss_client.cpp',['../wss__client_8cpp.html',1,'']]],
+  ['wss_5fclient_2eh',['wss_client.h',['../wss__client_8h.html',1,'']]],
+  ['wssclient',['WSSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#acd8d47107e91162dba552ba9e3d82ee5',1,'CppServer::WS::WSSClient::WSSClient(const WSSClient &amp;)=delete'],['../class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a2a1ec677000139b3826523e7270e0030',1,'CppServer::WS::WSSClient::WSSClient(WSSClient &amp;&amp;)=delete']]],
+  ['wssclient',['WSSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_s_client.html',1,'CppServer::WS']]]
 ];
