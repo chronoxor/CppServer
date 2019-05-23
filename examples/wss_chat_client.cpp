@@ -1,6 +1,6 @@
 /*!
-    \file ws_chat_client.cpp
-    \brief WebSocket chat client example
+    \file wss_chat_client.cpp
+    \brief WebSocket secure chat client example
     \author Ivan Shynkarenka
     \date 22.05.2019
     \copyright MIT License
@@ -8,16 +8,16 @@
 
 #include "asio_service.h"
 
-#include "server/ws/ws_client.h"
+#include "server/ws/wss_client.h"
 #include "threads/thread.h"
 
 #include <atomic>
 #include <iostream>
 
-class ChatClient : public CppServer::WS::WSClient
+class ChatClient : public CppServer::WS::WSSClient
 {
 public:
-    using CppServer::WS::WSClient::WSClient;
+    using CppServer::WS::WSSClient::WSSClient;
 
     void DisconnectAndStop()
     {
@@ -31,22 +31,22 @@ protected:
     void onWSConnecting(CppServer::HTTP::HTTPRequest& request) override
     {
         request.SetHeader("Host", "echo.websocket.org");
-        request.SetHeader("Origin", "http://websocket.org");
+        request.SetHeader("Origin", "https://websocket.org");
     }
 
     void onWSConnected(const CppServer::HTTP::HTTPResponse& response) override
     {
-        std::cout << "Chat WebSocket client connected a new session with Id " << id() << std::endl;
+        std::cout << "Chat WebSocket secure client connected a new session with Id " << id() << std::endl;
     }
 
     void onWSDisconnected() override
     {
-        std::cout << "Chat WebSocket client disconnected a session with Id " << id() << std::endl;
+        std::cout << "Chat WebSocket secure client disconnected a session with Id " << id() << std::endl;
     }
 
     void onDisconnected() override
     {
-        WSClient::onDisconnected();
+        WSSClient::onDisconnected();
 
         // Wait for a while...
         CppCommon::Thread::Sleep(1000);
@@ -58,7 +58,7 @@ protected:
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Chat WebSocket client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "Chat WebSocket secure client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 
 private:
@@ -73,12 +73,12 @@ int main(int argc, char** argv)
         address = argv[1];
 
     // WebSocket server port
-    int port = 80;
+    int port = 443;
     if (argc > 2)
         port = std::atoi(argv[2]);
 
-    std::cout << "WebSocket server address: " << address << std::endl;
-    std::cout << "WebSocket server port: " << port << std::endl;
+    std::cout << "WebSocket secure server address: " << address << std::endl;
+    std::cout << "WebSocket secure server port: " << port << std::endl;
 
     std::cout << std::endl;
 
@@ -90,8 +90,15 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
+    // Create and prepare a new SSL client context
+    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
+    context->set_default_verify_paths();
+    context->set_root_certs();
+    context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);
+    context->set_verify_callback(asio::ssl::rfc2818_verification("echo.websocket.org"));
+
     // Create a new WebSocket chat client
-    auto client = std::make_shared<ChatClient>(service, address, port);
+    auto client = std::make_shared<ChatClient>(service, context, address, port);
 
     // Connect the client
     std::cout << "Client connecting...";

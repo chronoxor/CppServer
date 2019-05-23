@@ -1,36 +1,36 @@
 /*!
-    \file ws_client.h
-    \brief WebSocket client definition
+    \file wss_client.h
+    \brief WebSocket secure client definition
     \author Ivan Shynkarenka
-    \date 22.05.2019
+    \date 23.05.2019
     \copyright MIT License
 */
 
-#ifndef CPPSERVER_HTTP_WS_CLIENT_H
-#define CPPSERVER_HTTP_WS_CLIENT_H
+#ifndef CPPSERVER_HTTP_WSS_CLIENT_H
+#define CPPSERVER_HTTP_WSS_CLIENT_H
 
-#include "server/http/http_client.h"
+#include "server/http/https_client.h"
 
 namespace CppServer {
 namespace WS {
 
-//! WebSocket client
+//! WebSocket secure client
 /*!
-    WebSocket client is used to communicate with WebSocket server.
+    WebSocket secure client is used to communicate with secure WebSocket server.
 
     Thread-safe.
 */
-class WSClient : public HTTP::HTTPClient
+class WSSClient : public HTTP::HTTPSClient
 {
 public:
-    using HTTPClient::HTTPClient;
+    using HTTPSClient::HTTPSClient;
 
-    WSClient(const WSClient&) = delete;
-    WSClient(WSClient&&) = delete;
-    virtual ~WSClient() = default;
+    WSSClient(const WSSClient&) = delete;
+    WSSClient(WSSClient&&) = delete;
+    virtual ~WSSClient() = default;
 
-    WSClient& operator=(const WSClient&) = delete;
-    WSClient& operator=(WSClient&&) = delete;
+    WSSClient& operator=(const WSSClient&) = delete;
+    WSSClient& operator=(WSSClient&&) = delete;
 
     bool Connect() override;
     bool Connect(std::shared_ptr<Asio::TCPResolver> resolver) override;
@@ -38,7 +38,7 @@ public:
     bool ConnectAsync(std::shared_ptr<Asio::TCPResolver> resolver) override;
 
 protected:
-    void onConnected() override;
+    void onHandshaked() override;
     void onDisconnected() override;
     void onReceived(const void* buffer, size_t size) override;
     void onReceivedResponseHeader(const HTTP::HTTPResponse& response) override;
@@ -64,9 +64,9 @@ private:
     bool _sync_connect;
 };
 
-/*! \example ws_client.cpp WebSocket client example */
+/*! \example wss_client.cpp WebSocket secure client example */
 
 } // namespace WS
 } // namespace CppServer
 
-#endif // CPPSERVER_HTTP_WS_CLIENT_H
+#endif // CPPSERVER_HTTP_WSS_CLIENT_H

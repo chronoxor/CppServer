@@ -1,12 +1,12 @@
 /*!
-    \file ws_client.cpp
-    \brief WebSocket client implementation
+    \file wss_client.cpp
+    \brief WebSocket secure client implementation
     \author Ivan Shynkarenka
-    \date 22.05.2019
+    \date 23.05.2019
     \copyright MIT License
 */
 
-#include "server/ws/ws_client.h"
+#include "server/ws/wss_client.h"
 
 #include "string/format.h"
 #include "system/uuid.h"
@@ -17,31 +17,31 @@
 namespace CppServer {
 namespace WS {
 
-bool WSClient::Connect()
+bool WSSClient::Connect()
 {
     _sync_connect = true;
-    return HTTPClient::Connect();
+    return HTTPSClient::Connect();
 }
 
-bool WSClient::Connect(std::shared_ptr<Asio::TCPResolver> resolver)
+bool WSSClient::Connect(std::shared_ptr<Asio::TCPResolver> resolver)
 {
     _sync_connect = true;
-    return HTTPClient::Connect(resolver);
+    return HTTPSClient::Connect(resolver);
 }
 
-bool WSClient::ConnectAsync()
+bool WSSClient::ConnectAsync()
 {
     _sync_connect = false;
-    return HTTPClient::ConnectAsync();
+    return HTTPSClient::ConnectAsync();
 }
 
-bool WSClient::ConnectAsync(std::shared_ptr<Asio::TCPResolver> resolver)
+bool WSSClient::ConnectAsync(std::shared_ptr<Asio::TCPResolver> resolver)
 {
     _sync_connect = false;
-    return HTTPClient::ConnectAsync(resolver);
+    return HTTPSClient::ConnectAsync(resolver);
 }
 
-void WSClient::onConnected()
+void WSSClient::onHandshaked()
 {
     // Fill the WebSocket upgrade HTTP request
     _request.SetBegin("GET", "/");
@@ -63,7 +63,7 @@ void WSClient::onConnected()
         SendAsync(_request.cache());
 }
 
-void WSClient::onDisconnected()
+void WSSClient::onDisconnected()
 {
     // Disconnect WebSocket
     if (_handshaked)
@@ -77,14 +77,14 @@ void WSClient::onDisconnected()
     _response.Clear();
 }
 
-void WSClient::onReceived(const void* buffer, size_t size)
+void WSSClient::onReceived(const void* buffer, size_t size)
 {
     // Perfrom the WebSocket handshake
     if (!_handshaked)
-        HTTPClient::onReceived(buffer, size);
+        HTTPSClient::onReceived(buffer, size);
 }
 
-void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
+void WSSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
 {
     // Check for WebSocket handshaked status
     if (_handshaked)
