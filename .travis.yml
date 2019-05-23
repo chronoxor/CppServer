@@ -6,14 +6,14 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      env: OS=linux COMPILER=gcc GCC_VERSION=8
+      env: OS=linux COMPILER=gcc GCC_VERSION=9
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-8
-            - g++-8
+            - gcc-9
+            - g++-9
             - cmake
             - doxygen
             - graphviz
