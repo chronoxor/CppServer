@@ -23,5 +23,6 @@ var searchData=
   ['_7etimer',['~Timer',['../class_cpp_server_1_1_asio_1_1_timer.html#a37eae98a00c58eed3c44ae74efedf975',1,'CppServer::Asio::Timer']]],
   ['_7eudpclient',['~UDPClient',['../class_cpp_server_1_1_asio_1_1_u_d_p_client.html#a6c7a13dc2e7cf6485a0c30b174c1693a',1,'CppServer::Asio::UDPClient']]],
   ['_7eudpresolver',['~UDPResolver',['../class_cpp_server_1_1_asio_1_1_u_d_p_resolver.html#aef4770b528a273088748e07d1910b42b',1,'CppServer::Asio::UDPResolver']]],
-  ['_7eudpserver',['~UDPServer',['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a3b6bfce92a3cf98347bfdb0938d8c8c4',1,'CppServer::Asio::UDPServer']]]
+  ['_7eudpserver',['~UDPServer',['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a3b6bfce92a3cf98347bfdb0938d8c8c4',1,'CppServer::Asio::UDPServer']]],
+  ['_7ewsclient',['~WSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_client.html#a2404b54bde8e9a9f9b845dcaad847260',1,'CppServer::WS::WSClient']]]
 ];

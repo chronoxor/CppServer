@@ -110,6 +110,7 @@ Inheritance diagram for CppServer::Asio::TCPClient:</div>
   <img src="class_cpp_server_1_1_asio_1_1_t_c_p_client.png" usemap="#CppServer::Asio::TCPClient_map" alt=""/>
   <map id="CppServer::Asio::TCPClient_map" name="CppServer::Asio::TCPClient_map">
 <area href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client.html" title="HTTP client. " alt="CppServer::HTTP::HTTPClient" shape="rect" coords="0,112,256,136"/>
+<area href="class_cpp_server_1_1_w_s_1_1_w_s_client.html" title="WebSocket client. " alt="CppServer::WS::WSClient" shape="rect" coords="266,112,522,136"/>
 <area href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client_ex.html" title="HTTP extended client. " alt="CppServer::HTTP::HTTPClientEx" shape="rect" coords="0,168,256,192"/>
 </map>
  </div></div>
@@ -616,6 +617,8 @@ Protected Member Functions</h2></td></tr>
 <p>Connect the client (synchronous) </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_client.html#a71441f90128b8f649c829cc456bd686d">CppServer::WS::WSClient</a>.</p>
+
 <p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00124">124</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
@@ -678,6 +681,8 @@ Protected Member Functions</h2></td></tr>
 
 <p>Connect the client (asynchronous) </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_client.html#a36b576f6a23b33633793ab56d724b54f">CppServer::WS::WSClient</a>.</p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a7">tcp_chat_client.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00274">274</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
@@ -909,7 +914,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Handle client connected notification. </p>
 
-<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client_ex.html#a9ab1eea36f3306e20648f5275e3569d7">CppServer::HTTP::HTTPClientEx</a>.</p>
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client_ex.html#a9ab1eea36f3306e20648f5275e3569d7">CppServer::HTTP::HTTPClientEx</a>, and <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_client.html#a8fcc5028395b8736ec64a0c55bb8c574">CppServer::WS::WSClient</a>.</p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a4">tcp_chat_client.cpp</a>.</dd>
 </dl>
 <p>Definition at line <a class="el" href="tcp__client_8h_source.html#l00253">253</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
