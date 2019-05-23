@@ -9,7 +9,6 @@
 #include "server/ws/wss_client.h"
 
 #include "string/format.h"
-#include "system/uuid.h"
 
 #include <algorithm>
 #include <openssl/sha.h>
@@ -44,14 +43,6 @@ bool WSSClient::ConnectAsync(std::shared_ptr<Asio::TCPResolver> resolver)
 void WSSClient::onHandshaked()
 {
     // Fill the WebSocket upgrade HTTP request
-    _request.SetBegin("GET", "/");
-    _request.SetHeader("Upgrade", "websocket");
-    _request.SetHeader("Connection", "Upgrade");
-    _request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
-    _request.SetHeader("Sec-WebSocket-Protocol", "chat, superchat");
-    _request.SetHeader("Sec-WebSocket-Version", "13");
-
-    // Allows to update WebSocket upgrade HTTP request in user code
     onWSConnecting(_request);
 
     // Set empty body of the WebSocket upgrade HTTP request
@@ -160,6 +151,7 @@ void WSSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
 
         // WebSocket successfully handshaked!
         _handshaked = true;
+        *((uint32_t*)_mask) = rand();
         onWSConnected(response);
 
         return;
@@ -168,6 +160,48 @@ void WSSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
     // Disconnect on WebSocket handshake
     onError(asio::error::fault, "WebSocket error", "Invalid WebSocket response status: {}"_format(response.status()));
     DisconnectAsync();
+}
+
+void WSSClient::PrepareWebSocketFrame(uint8_t opcode, const void* buffer, size_t size, int status)
+{
+    // Clear the previous WebSocket send buffer
+    _ws_send_buffer.clear();
+
+    // Append WebSocket frame opcode
+    _ws_send_buffer.push_back(opcode);
+
+    // Append WebSocket frame size
+    if (size <= 125)
+        _ws_send_buffer.push_back((size & 0xFF) | 0x80);
+    else if (size <= 65535)
+    {
+        _ws_send_buffer.push_back(126 | 0x80);
+        _ws_send_buffer.push_back((size >> 8) & 0xFF);
+        _ws_send_buffer.push_back(size & 0xFF);
+    }
+    else
+    {
+        _ws_send_buffer.push_back(127 | 0x80);
+        for (int i = 3; i >= 0; --i)
+            _ws_send_buffer.push_back(0);
+        for (int i = 3; i >= 0; --i)
+            _ws_send_buffer.push_back((size >> (8 * i)) & 0xFF);
+    }
+
+    // Append WebSocket frame mask
+    _ws_send_buffer.push_back(_mask[0]);
+    _ws_send_buffer.push_back(_mask[1]);
+    _ws_send_buffer.push_back(_mask[2]);
+    _ws_send_buffer.push_back(_mask[3]);
+
+    // Resize WebSocket frame buffer
+    size_t offset = _ws_send_buffer.size();
+    _ws_send_buffer.resize(offset + size);
+
+    // Pack WebSocket frame content
+    const uint8_t* data = (const uint8_t*)buffer;
+    for (size_t i = 0; i < size; ++i)
+        _ws_send_buffer[offset + i] = data[i] ^ _mask[i % 4];
 }
 
 } // namespace WS

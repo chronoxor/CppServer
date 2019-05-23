@@ -30,8 +30,14 @@ public:
 protected:
     void onWSConnecting(CppServer::HTTP::HTTPRequest& request) override
     {
+        request.SetBegin("GET", "/");
         request.SetHeader("Host", "echo.websocket.org");
         request.SetHeader("Origin", "http://websocket.org");
+        request.SetHeader("Upgrade", "websocket");
+        request.SetHeader("Connection", "Upgrade");
+        request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
+        request.SetHeader("Sec-WebSocket-Protocol", "chat, superchat");
+        request.SetHeader("Sec-WebSocket-Version", "13");
     }
 
     void onWSConnected(const CppServer::HTTP::HTTPResponse& response) override
@@ -123,7 +129,7 @@ int main(int argc, char** argv)
         }
 
         // Send the entered text to the chat server
-        client->SendAsync(line);
+        client->SendTextAsync(line);
     }
 
     // Disconnect the client
