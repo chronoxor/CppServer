@@ -93,6 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">CppServer::HTTP::HTTPSession Class Reference</div>  </div>
@@ -110,13 +111,14 @@ Inheritance diagram for CppServer::HTTP::HTTPSession:</div>
   <img src="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.png" usemap="#CppServer::HTTP::HTTPSession_map" alt=""/>
   <map id="CppServer::HTTP::HTTPSession_map" name="CppServer::HTTP::HTTPSession_map">
 <area href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html" title="TCP session. " alt="CppServer::Asio::TCPSession" shape="rect" coords="0,56,268,80"/>
+<area href="class_cpp_server_1_1_w_s_1_1_w_s_session.html" title="WebSocket session. " alt="CppServer::WS::WSSession" shape="rect" coords="0,168,268,192"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a713b4d38bc0884379d7209f6b6cfe257"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a713b4d38bc0884379d7209f6b6cfe257">HTTPSession</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html">Asio::TCPServer</a> &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#abbc1c732570c7f3b3d0d3d4f3bb7cf03">server</a>, CppCommon::FileCache &amp;<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#ac217fca98c52ba2bf0672d0ed40e2d45">cache</a>)</td></tr>
-<tr class="separator:a713b4d38bc0884379d7209f6b6cfe257"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af26b446b96d3534ba1de23a5fda0fd3a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#af26b446b96d3534ba1de23a5fda0fd3a">HTTPSession</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html">HTTPServer</a> &gt; <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#abbc1c732570c7f3b3d0d3d4f3bb7cf03">server</a>)</td></tr>
+<tr class="separator:af26b446b96d3534ba1de23a5fda0fd3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b4ccf9665aa0a2ca9919283eafd42fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a9b4ccf9665aa0a2ca9919283eafd42fd">HTTPSession</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html">HTTPSession</a> &amp;)=delete</td></tr>
 <tr class="separator:a9b4ccf9665aa0a2ca9919283eafd42fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0b28d9a4da3ede905eed94eb13d5689"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#af0b28d9a4da3ede905eed94eb13d5689">HTTPSession</a> (<a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html">HTTPSession</a> &amp;&amp;)=delete</td></tr>
@@ -293,6 +295,15 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:abe591d14f713dbdf7570c1aea0896fb1 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#abe591d14f713dbdf7570c1aea0896fb1">onError</a> (int error, const std::string &amp;category, const std::string &amp;message)</td></tr>
 <tr class="memdesc:abe591d14f713dbdf7570c1aea0896fb1 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle error notification.  <a href="#abe591d14f713dbdf7570c1aea0896fb1">More...</a><br /></td></tr>
 <tr class="separator:abe591d14f713dbdf7570c1aea0896fb1 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a203c4b716b3b6dbec375d3015f821559"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a203c4b716b3b6dbec375d3015f821559">_request</a></td></tr>
+<tr class="memdesc:a203c4b716b3b6dbec375d3015f821559"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request.  <a href="#a203c4b716b3b6dbec375d3015f821559">More...</a><br /></td></tr>
+<tr class="separator:a203c4b716b3b6dbec375d3015f821559"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab098dc157af7b2fc1c760588d1a76b3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#ab098dc157af7b2fc1c760588d1a76b3b">_response</a></td></tr>
+<tr class="memdesc:ab098dc157af7b2fc1c760588d1a76b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response.  <a href="#ab098dc157af7b2fc1c760588d1a76b3b">More...</a><br /></td></tr>
+<tr class="separator:ab098dc157af7b2fc1c760588d1a76b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> session. </p>
@@ -302,7 +313,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <p>Definition at line <a class="el" href="http__session_8h_source.html#l00029">29</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a713b4d38bc0884379d7209f6b6cfe257"></a>
+<a class="anchor" id="af26b446b96d3534ba1de23a5fda0fd3a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -312,30 +323,20 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">CppServer::HTTP::HTTPSession::HTTPSession </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html">Asio::TCPServer</a> &gt;&#160;</td>
-          <td class="paramname"><em>server</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html">HTTPServer</a> &gt;&#160;</td>
+          <td class="paramname"><em>server</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">CppCommon::FileCache &amp;&#160;</td>
-          <td class="paramname"><em>cache</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="http_server_8cpp-example.html#a1">http_server.cpp</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="http__session_8h_source.html#l00032">32</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+<p>Definition at line <a class="el" href="http__session_8cpp_source.html#l00015">15</a> of file <a class="el" href="http__session_8cpp_source.html">http_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -488,7 +489,9 @@ Protected Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a6c60bb261f5423ba3226e247d43a185e">CppServer::Asio::TCPSession</a>.</p>
 
-<p>Definition at line <a class="el" href="http__session_8cpp_source.html#l00052">52</a> of file <a class="el" href="http__session_8cpp_source.html">http_session.cpp</a>.</p>
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#af4cae2a0bf627fe4f9b3a6f108695bca">CppServer::WS::WSSession</a>.</p>
+
+<p>Definition at line <a class="el" href="http__session_8cpp_source.html#l00059">59</a> of file <a class="el" href="http__session_8cpp_source.html">http_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -536,7 +539,9 @@ Protected Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a5b372295e885793c8788cfc36f38463d">CppServer::Asio::TCPSession</a>.</p>
 
-<p>Definition at line <a class="el" href="http__session_8cpp_source.html#l00014">14</a> of file <a class="el" href="http__session_8cpp_source.html">http_session.cpp</a>.</p>
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#a1908bb0e0341937c994e619e1d574850">CppServer::WS::WSSession</a>.</p>
+
+<p>Definition at line <a class="el" href="http__session_8cpp_source.html#l00021">21</a> of file <a class="el" href="http__session_8cpp_source.html">http_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -570,6 +575,8 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#a3439ba55cff478dc6f0d42b8bddaf56a">CppServer::WS::WSSession</a>.</p>
 
 <p>Definition at line <a class="el" href="http__session_8h_source.html#l00150">150</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
@@ -617,6 +624,8 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#aae441b9d23fe5489c94577afd0f184d1">CppServer::WS::WSSession</a>.</p>
+
 <p>Definition at line <a class="el" href="http__session_8h_source.html#l00160">160</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
 </div>
@@ -651,6 +660,8 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#a64d9df3bdc182cee4fd87f4da314b5f7">CppServer::WS::WSSession</a>.</p>
 
 <p>Definition at line <a class="el" href="http__session_8h_source.html#l00141">141</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
@@ -1221,6 +1232,55 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the current <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response was successfully sent, 'false' if the session is not connected </dd></dl>
 
 <p>Definition at line <a class="el" href="http__session_8h_source.html#l00128">128</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a203c4b716b3b6dbec375d3015f821559"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> CppServer::HTTP::HTTPSession::_request</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> request. </p>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00164">164</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab098dc157af7b2fc1c760588d1a76b3b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> CppServer::HTTP::HTTPSession::_response</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions. ">HTTP</a> response. </p>
+
+<p>Definition at line <a class="el" href="http__session_8h_source.html#l00166">166</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
 </div>
 </div>

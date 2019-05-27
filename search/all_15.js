@@ -26,5 +26,7 @@ var searchData=
   ['_7eudpserver',['~UDPServer',['../class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a3b6bfce92a3cf98347bfdb0938d8c8c4',1,'CppServer::Asio::UDPServer']]],
   ['_7ewebsocket',['~WebSocket',['../class_cpp_server_1_1_w_s_1_1_web_socket.html#a2646383384a1adebdde09da9f891a713',1,'CppServer::WS::WebSocket']]],
   ['_7ewsclient',['~WSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_client.html#a2404b54bde8e9a9f9b845dcaad847260',1,'CppServer::WS::WSClient']]],
-  ['_7ewssclient',['~WSSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a8d514d3e55ea114e23fdc5cb39ac9570',1,'CppServer::WS::WSSClient']]]
+  ['_7ewssclient',['~WSSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a8d514d3e55ea114e23fdc5cb39ac9570',1,'CppServer::WS::WSSClient']]],
+  ['_7ewsserver',['~WSServer',['../class_cpp_server_1_1_w_s_1_1_w_s_server.html#a3e9fc3a1bfe84efbc11d52616b169544',1,'CppServer::WS::WSServer']]],
+  ['_7ewssession',['~WSSession',['../class_cpp_server_1_1_w_s_1_1_w_s_session.html#a51bbafa4cd64fc78338551ec0d8fbd0f',1,'CppServer::WS::WSSession']]]
 ];
