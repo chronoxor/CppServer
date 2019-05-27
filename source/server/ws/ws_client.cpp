@@ -37,6 +37,9 @@ bool WSClient::ConnectAsync(std::shared_ptr<Asio::TCPResolver> resolver)
 
 void WSClient::onConnected()
 {
+    // Clear WebSocket send/receive buffers
+    ClearWSBuffers();
+
     // Fill the WebSocket upgrade HTTP request
     onWSConnecting(_request);
 
@@ -62,13 +65,26 @@ void WSClient::onDisconnected()
     // Reset WebSocket upgrade HTTP request and response
     _request.Clear();
     _response.Clear();
+
+    // Clear WebSocket send/receive buffers
+    ClearWSBuffers();
 }
 
 void WSClient::onReceived(const void* buffer, size_t size)
 {
     // Perfrom the WebSocket handshake
     if (!_handshaked)
+    {
         HTTPClient::onReceived(buffer, size);
+
+        // Prepare receive frame from the remaining request body
+        auto body = _request.body();
+        PrepareReceiveFrame(body.data(), body.size());
+        return;
+    }
+
+    // Prepare receive frame
+    PrepareReceiveFrame(buffer, size);
 }
 
 void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
@@ -83,6 +99,109 @@ void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
         DisconnectAsync();
         return;
     }
+}
+
+std::string WSClient::ReceiveText()
+{
+    std::string result;
+
+    if (!_handshaked)
+        return result;
+
+    std::vector<uint8_t> cache;
+
+    // Receive WebSocket frame data
+    while (!_ws_received)
+    {
+        size_t required = RequiredReceiveFrameSize();
+        cache.resize(required);
+        size_t received = HTTPClient::Receive(cache.data(), required);
+        if (received != required)
+            return result;
+    }
+
+    // Copy WebSocket frame data
+    result.insert(result.end(), _ws_receive_buffer.data() + _ws_header_size, _ws_receive_buffer.data() + _ws_header_size + _ws_payload_size);
+    PrepareReceiveFrame(nullptr, 0);
+    return result;
+}
+
+std::string WSClient::ReceiveText(const CppCommon::Timespan& timeout)
+{
+    std::string result;
+
+    if (!_handshaked)
+        return result;
+
+    std::vector<uint8_t> cache;
+
+    // Receive WebSocket frame data
+    while (!_ws_received)
+    {
+        size_t required = RequiredReceiveFrameSize();
+        cache.resize(required);
+        size_t received = HTTPClient::Receive(cache.data(), required, timeout);
+        if (received != required)
+            return result;
+        PrepareReceiveFrame(cache.data(), received);
+    }
+
+    // Copy WebSocket frame data
+    result.insert(result.end(), _ws_receive_buffer.data() + _ws_header_size, _ws_receive_buffer.data() + _ws_header_size + _ws_payload_size);
+    PrepareReceiveFrame(nullptr, 0);
+    return result;
+}
+
+std::vector<uint8_t> WSClient::ReceiveBinary()
+{
+    std::vector<uint8_t> result;
+
+    if (!_handshaked)
+        return result;
+
+    std::vector<uint8_t> cache;
+
+    // Receive WebSocket frame data
+    while (!_ws_received)
+    {
+        size_t required = RequiredReceiveFrameSize();
+        cache.resize(required);
+        size_t received = HTTPClient::Receive(cache.data(), required);
+        if (received != required)
+            return result;
+        PrepareReceiveFrame(cache.data(), received);
+    }
+
+    // Copy WebSocket frame data
+    result.insert(result.end(), _ws_receive_buffer.data() + _ws_header_size, _ws_receive_buffer.data() + _ws_header_size + _ws_payload_size);
+    PrepareReceiveFrame(nullptr, 0);
+    return result;
+}
+
+std::vector<uint8_t> WSClient::ReceiveBinary(const CppCommon::Timespan& timeout)
+{
+    std::vector<uint8_t> result;
+
+    if (!_handshaked)
+        return result;
+
+    std::vector<uint8_t> cache;
+
+    // Receive WebSocket frame data
+    while (!_ws_received)
+    {
+        size_t required = RequiredReceiveFrameSize();
+        cache.resize(required);
+        size_t received = HTTPClient::Receive(cache.data(), required, timeout);
+        if (received != required)
+            return result;
+        PrepareReceiveFrame(cache.data(), received);
+    }
+
+    // Copy WebSocket frame data
+    result.insert(result.end(), _ws_receive_buffer.data() + _ws_header_size, _ws_receive_buffer.data() + _ws_header_size + _ws_payload_size);
+    PrepareReceiveFrame(nullptr, 0);
+    return result;
 }
 
 } // namespace WS

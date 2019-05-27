@@ -81,6 +81,12 @@ public:
     bool SendPongAsync(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_PONG, buffer, size); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
     bool SendPongAsync(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_PONG, text.data(), text.size()); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
 
+    // WebSocket receive methods
+    std::string ReceiveText();
+    std::string ReceiveText(const CppCommon::Timespan& timeout);
+    std::vector<uint8_t> ReceiveBinary();
+    std::vector<uint8_t> ReceiveBinary(const CppCommon::Timespan& timeout);
+
 protected:
     void onConnected() override;
     void onDisconnected() override;

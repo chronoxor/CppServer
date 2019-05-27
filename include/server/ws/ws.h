@@ -64,6 +64,19 @@ public:
     */
     void PrepareSendFrame(uint8_t opcode, const void* buffer, size_t size, int status = 0);
 
+    //! Required WebSocket receive frame size
+    size_t RequiredReceiveFrameSize();
+
+    //! Prepare WebSocket receive frame
+    /*!
+        \param buffer - Received buffer
+        \param size - Received buffer size
+    */
+    void PrepareReceiveFrame(const void* buffer, size_t size);
+
+    //! Clear WebSocket send/receive buffers
+    void ClearWSBuffers();
+
 protected:
     //! Handle WebSocket client connecting notification
     /*!
@@ -87,6 +100,13 @@ protected:
     //! Handle WebSocket pong notification
     virtual void onWSPong() {}
 
+    //! Handle WebSocket received notification
+    /*!
+        \param buffer - Received buffer
+        \param size - Received buffer size
+    */
+    virtual void onWSReceived(const void* buffer, size_t size) {}
+
     //! Handle WebSocket error notification
     /*!
         \param message - Error message
@@ -97,13 +117,23 @@ protected:
     // Handshaked flag
     bool _handshaked{false};
 
-    //! Random mask
-    uint8_t _mask[4];
+    //! Received frame flag
+    bool _ws_received{false};
+    //! Received frame header size
+    size_t _ws_header_size{0};
+    //! Received frame payload size
+    size_t _ws_payload_size{0};
+    //! Receive buffer
+    std::vector<uint8_t> _ws_receive_buffer;
+    //! Receive mask
+    uint8_t _ws_receive_mask[4];
 
     //! Send buffer lock
     std::mutex _ws_send_lock;
     //! Send buffer
     std::vector<uint8_t> _ws_send_buffer;
+    //! Send mask
+    uint8_t _ws_send_mask[4];
 };
 
 } // namespace WS

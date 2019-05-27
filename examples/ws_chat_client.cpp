@@ -50,6 +50,11 @@ protected:
         std::cout << "Chat WebSocket client disconnected a session with Id " << id() << std::endl;
     }
 
+    void onWSReceived(const void* buffer, size_t size) override
+    {
+        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+    }
+
     void onDisconnected() override
     {
         WSClient::onDisconnected();
@@ -60,12 +65,6 @@ protected:
         // Try to connect again
         if (!_stop)
             ConnectAsync();
-    }
-
-    void onReceived(const void* buffer, size_t size) override
-    {
-        WSClient::onReceived(buffer, size);
-        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
