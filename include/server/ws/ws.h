@@ -40,12 +40,12 @@ public:
     static const uint8_t WS_PONG = 0x8A;
 
     WebSocket() = default;
-    WebSocket(const WebSocket&) = default;
-    WebSocket(WebSocket&&) = default;
+    WebSocket(const WebSocket&) = delete;
+    WebSocket(WebSocket&&) = delete;
     ~WebSocket() = default;
 
-    WebSocket& operator=(const WebSocket&) = default;
-    WebSocket& operator=(WebSocket&&) = default;
+    WebSocket& operator=(const WebSocket&) = delete;
+    WebSocket& operator=(WebSocket&&) = delete;
 
     //! Perform WebSocket upgrade on a server side
     /*!
