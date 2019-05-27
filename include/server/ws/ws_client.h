@@ -97,7 +97,7 @@ protected:
     void onReceivedResponse(const HTTP::HTTPResponse& response) override;
 
     //! Handle WebSocket error notification
-    void onWSError(const std::string& message) { onError(asio::error::fault, "WebSocket error", message); }
+    void onWSError(const std::string& message) override { onError(asio::error::fault, "WebSocket error", message); }
 
 private:
     // Sync connect flag

@@ -42,7 +42,7 @@ protected:
     void onReceivedRequestError(const HTTP::HTTPRequest& request, const std::string& error) override { onError(asio::error::fault, "WebSocket error", error); }
 
     //! Handle WebSocket error notification
-    void onWSError(const std::string& message) { onError(asio::error::fault, "WebSocket error", message); }
+    void onWSError(const std::string& message) override { onError(asio::error::fault, "WebSocket error", message); }
 };
 
 } // namespace WS
