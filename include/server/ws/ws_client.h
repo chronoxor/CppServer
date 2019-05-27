@@ -19,6 +19,8 @@ namespace WS {
 /*!
     WebSocket client is used to communicate with WebSocket server.
 
+    https://en.wikipedia.org/wiki/WebSocket
+
     Thread-safe.
 */
 class WSClient : public HTTP::HTTPClient, protected WebSocket
@@ -92,6 +94,7 @@ protected:
     void onDisconnected() override;
     void onReceived(const void* buffer, size_t size) override;
     void onReceivedResponseHeader(const HTTP::HTTPResponse& response) override;
+    void onReceivedResponse(const HTTP::HTTPResponse& response) override;
 
     //! Handle WebSocket error notification
     void onWSError(const std::string& message) { onError(asio::error::fault, "WebSocket error", message); }

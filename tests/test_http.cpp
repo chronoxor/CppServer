@@ -15,9 +15,9 @@ using namespace CppCommon;
 using namespace CppServer::Asio;
 using namespace CppServer::HTTP;
 
-class Cache : public CppCommon::Singleton<Cache>
+class Cache : public Singleton<Cache>
 {
-   friend CppCommon::Singleton<Cache>;
+   friend Singleton<Cache>;
 
 public:
     bool GetCache(std::string_view key, std::string& value)
@@ -60,13 +60,13 @@ private:
     std::map<std::string, std::string, std::less<>> _cache;
 };
 
-class HTTPCacheSession : public CppServer::HTTP::HTTPSession
+class HTTPCacheSession : public HTTPSession
 {
 public:
-    using CppServer::HTTP::HTTPSession::HTTPSession;
+    using HTTPSession::HTTPSession;
 
 protected:
-    void onReceivedRequest(const CppServer::HTTP::HTTPRequest& request) override
+    void onReceivedRequest(const HTTPRequest& request) override
     {
         // Process HTTP request methods
         if (request.method() == "HEAD")
@@ -110,7 +110,7 @@ protected:
             SendResponseAsync(response().MakeErrorResponse("Unsupported HTTP method: " + std::string(request.method())));
     }
 
-    void onReceivedRequestError(const CppServer::HTTP::HTTPRequest& request, const std::string& error) override
+    void onReceivedRequestError(const HTTPRequest& request, const std::string& error) override
     {
         std::cout << "Request error: " << error << std::endl;
         FAIL();
@@ -123,15 +123,15 @@ protected:
     }
 };
 
-class HTTPCacheServer : public CppServer::HTTP::HTTPServer
+class HTTPCacheServer : public HTTPServer
 {
 public:
-    using CppServer::HTTP::HTTPServer::HTTPServer;
+    using HTTPServer::HTTPServer;
 
 protected:
     std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) override
     {
-        return std::make_shared<HTTPCacheSession>(server, cache());
+        return std::make_shared<HTTPCacheSession>(std::dynamic_pointer_cast<HTTPServer>(server));
     }
 
 protected:
@@ -161,7 +161,7 @@ TEST_CASE("HTTP server & client test", "[CppServer][HTTP]")
         Thread::Yield();
 
     // Create a new HTTP client
-    auto client = std::make_shared<CppServer::HTTP::HTTPClientEx>(service, address, port);
+    auto client = std::make_shared<HTTPClientEx>(service, address, port);
 
     // Test CRUD operations
     auto response = client->SendGetRequest("/test").get();

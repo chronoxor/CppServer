@@ -29,7 +29,7 @@ class HTTPSServer;
 class HTTPSSession : public Asio::SSLSession
 {
 public:
-    explicit HTTPSSession(std::shared_ptr<Asio::SSLServer> server, CppCommon::FileCache& cache) : Asio::SSLSession(server), _cache(cache) {}
+    explicit HTTPSSession(std::shared_ptr<HTTPSServer> server);
     HTTPSSession(const HTTPSSession&) = delete;
     HTTPSSession(HTTPSSession&&) = delete;
     virtual ~HTTPSSession() = default;
@@ -159,13 +159,15 @@ protected:
     */
     virtual void onReceivedRequestError(const HTTPRequest& request, const std::string& error) {}
 
+protected:
+    //! HTTP request
+    HTTPRequest _request;
+    //! HTTP response
+    HTTPResponse _response;
+
 private:
     // Static content cache
     CppCommon::FileCache& _cache;
-    // HTTP request
-    HTTPRequest _request;
-    // HTTP response
-    HTTPResponse _response;
 
     void onReceivedRequestInternal(const HTTPRequest& request);
 };

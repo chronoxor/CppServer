@@ -48,7 +48,7 @@ public:
 protected:
     std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override
     {
-        return std::make_shared<HTTPSTraceSession>(server, cache());
+        return std::make_shared<HTTPSTraceSession>(std::dynamic_pointer_cast<HTTPSServer>(server));
     }
 
 protected:

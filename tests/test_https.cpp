@@ -15,9 +15,9 @@ using namespace CppCommon;
 using namespace CppServer::Asio;
 using namespace CppServer::HTTP;
 
-class Cache : public CppCommon::Singleton<Cache>
+class Cache : public Singleton<Cache>
 {
-   friend CppCommon::Singleton<Cache>;
+   friend Singleton<Cache>;
 
 public:
     bool GetCache(std::string_view key, std::string& value)
@@ -60,13 +60,13 @@ private:
     std::map<std::string, std::string, std::less<>> _cache;
 };
 
-class HTTPSCacheSession : public CppServer::HTTP::HTTPSSession
+class HTTPSCacheSession : public HTTPSSession
 {
 public:
-    using CppServer::HTTP::HTTPSSession::HTTPSSession;
+    using HTTPSSession::HTTPSSession;
 
 protected:
-    void onReceivedRequest(const CppServer::HTTP::HTTPRequest& request) override
+    void onReceivedRequest(const HTTPRequest& request) override
     {
         // Process HTTP request methods
         if (request.method() == "HEAD")
@@ -110,7 +110,7 @@ protected:
             SendResponseAsync(response().MakeErrorResponse("Unsupported HTTP method: " + std::string(request.method())));
     }
 
-    void onReceivedRequestError(const CppServer::HTTP::HTTPRequest& request, const std::string& error) override
+    void onReceivedRequestError(const HTTPRequest& request, const std::string& error) override
     {
         std::cout << "Request error: " << error << std::endl;
         FAIL();
@@ -123,10 +123,10 @@ protected:
     }
 };
 
-class HTTPSCacheServer : public CppServer::HTTP::HTTPSServer
+class HTTPSCacheServer : public HTTPSServer
 {
 public:
-    using CppServer::HTTP::HTTPSServer::HTTPSServer;
+    using HTTPSServer::HTTPSServer;
 
     static std::shared_ptr<SSLContext> CreateContext()
     {
@@ -141,7 +141,7 @@ public:
 protected:
     std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override
     {
-        return std::make_shared<HTTPSCacheSession>(server, cache());
+        return std::make_shared<HTTPSCacheSession>(std::dynamic_pointer_cast<HTTPSServer>(server));
     }
 
 protected:
@@ -177,7 +177,7 @@ TEST_CASE("HTTPS server & client test", "[CppServer][HTTP]")
     auto client_context = HTTPSCacheServer::CreateContext();
 
     // Create a new HTTPS client
-    auto client = std::make_shared<CppServer::HTTP::HTTPSClientEx>(service, client_context, address, port);
+    auto client = std::make_shared<HTTPSClientEx>(service, client_context, address, port);
 
     // Test CRUD operations
     auto response = client->SendGetRequest("/test").get();

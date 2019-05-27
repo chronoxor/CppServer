@@ -132,7 +132,7 @@ public:
 protected:
     std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
     {
-        return std::make_shared<HTTPSCacheSession>(server, cache());
+        return std::make_shared<HTTPSCacheSession>(std::dynamic_pointer_cast<CppServer::HTTP::HTTPSServer>(server));
     }
 
 protected:

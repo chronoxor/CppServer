@@ -48,7 +48,7 @@ namespace Asio {
 
     Thread-safe.
 
-    http://think-async.com
+    https://think-async.com
 */
 class Service : public std::enable_shared_from_this<Service>
 {

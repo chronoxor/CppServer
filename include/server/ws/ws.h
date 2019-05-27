@@ -47,10 +47,16 @@ public:
     WebSocket& operator=(const WebSocket&) = default;
     WebSocket& operator=(WebSocket&&) = default;
 
-    //! Perform WebSocket upgrade
+    //! Perform WebSocket upgrade on a server side
+    /*!
+        \param request - WebSocket upgrade HTTP request
+        \return 'true' if the WebSocket was successfully upgrade, 'false' if the WebSocket was not upgrade
+    */
+    bool PerformUpgrade(const HTTP::HTTPRequest& request);
+    //! Perform WebSocket upgrade on a client side
     /*!
         \param response - WebSocket upgrade HTTP response
-        \param id - WebSocket Id
+        \param id - WebSocket client Id
         \return 'true' if the WebSocket was successfully upgrade, 'false' if the WebSocket was not upgrade
     */
     bool PerformUpgrade(const HTTP::HTTPResponse& response, const CppCommon::UUID& id);
@@ -87,6 +93,16 @@ protected:
         \param request - WebSocket upgrade HTTP request
     */
     virtual void onWSConnecting(HTTP::HTTPRequest& request) {}
+    //! Handle WebSocket client validating notification
+    /*!
+        Notification is called when WebSocket client is connecting
+        to the server. You can handle the connection and validate
+        WebSocket upgrade HTTP request.
+
+        \param request - WebSocket upgrade HTTP request
+        \return 'true' if the WebSocket update request is valid, 'false' if the WebSocket update request is not valid
+    */
+    virtual bool onWSValidating(const HTTP::HTTPRequest& request) { return true; }
     //! Handle WebSocket client connected notification
     /*!
         \param response - WebSocket upgrade HTTP response

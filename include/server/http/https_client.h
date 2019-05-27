@@ -159,9 +159,9 @@ protected:
     virtual void onReceivedResponseError(const HTTPResponse& response, const std::string& error) {}
 
 protected:
-    // HTTP request
+    //! HTTP request
     HTTPRequest _request;
-    // HTTP response
+    //! HTTP response
     HTTPResponse _response;
 };
 

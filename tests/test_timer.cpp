@@ -48,28 +48,28 @@ TEST_CASE("Asio timer test", "[CppServer][Timer]")
     auto timer = std::make_shared<AsioTimer>(service);
 
     // Setup and synchronously wait for the timer
-    timer->Setup(CppCommon::UtcTime() + CppCommon::Timespan::seconds(1));
+    timer->Setup(UtcTime() + Timespan::seconds(1));
     timer->WaitSync();
 
     // Setup and asynchronously wait for the timer
-    timer->Setup(CppCommon::Timespan::seconds(1));
+    timer->Setup(Timespan::seconds(1));
     timer->WaitAsync();
 
     // Wait for a while...
-    CppCommon::Thread::Sleep(2000);
+    Thread::Sleep(2000);
 
     // Setup and asynchronously wait for the timer
-    timer->Setup(CppCommon::Timespan::seconds(1));
+    timer->Setup(Timespan::seconds(1));
     timer->WaitAsync();
 
     // Wait for a while...
-    CppCommon::Thread::Sleep(500);
+    Thread::Sleep(500);
 
     // Cancel the timer
     timer->Cancel();
 
     // Wait for a while...
-    CppCommon::Thread::Sleep(500);
+    Thread::Sleep(500);
 
     // Stop the Asio service
     REQUIRE(service->Stop());

@@ -17,6 +17,11 @@
 namespace CppServer {
 namespace WS {
 
+bool WebSocket::PerformUpgrade(const HTTP::HTTPRequest& request)
+{
+    return true;
+}
+
 bool WebSocket::PerformUpgrade(const HTTP::HTTPResponse& response, const CppCommon::UUID& id)
 {
     // Try to perform WebSocket handshake

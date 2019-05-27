@@ -7,9 +7,16 @@
 */
 
 #include "server/http/http_session.h"
+#include "server/http/http_server.h"
 
 namespace CppServer {
 namespace HTTP {
+
+HTTPSession::HTTPSession(std::shared_ptr<HTTPServer> server)
+    : Asio::TCPSession(server),
+      _cache(server->cache())
+{
+}
 
 void HTTPSession::onReceived(const void* buffer, size_t size)
 {

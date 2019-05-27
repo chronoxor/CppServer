@@ -76,10 +76,6 @@ void WSClient::onReceived(const void* buffer, size_t size)
     if (!_handshaked)
     {
         HTTPClient::onReceived(buffer, size);
-
-        // Prepare receive frame from the remaining request body
-        auto body = _request.body();
-        PrepareReceiveFrame(body.data(), body.size());
         return;
     }
 
@@ -98,6 +94,17 @@ void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
     {
         DisconnectAsync();
         return;
+    }
+}
+
+void WSClient::onReceivedResponse(const HTTP::HTTPResponse& response)
+{
+    // Check for WebSocket handshaked status
+    if (_handshaked)
+    {
+        // Prepare receive frame from the remaining request body
+        auto body = _request.body();
+        PrepareReceiveFrame(body.data(), body.size());
     }
 }
 
