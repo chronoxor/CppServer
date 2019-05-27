@@ -203,6 +203,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae170046b5aa8268b530b3cd8a64899df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4544cd8ba995f8abd99df6ea9aebcf5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#aa4544cd8ba995f8abd99df6ea9aebcf5">SendPongAsync</a> (std::string_view text)</td></tr>
 <tr class="separator:aa4544cd8ba995f8abd99df6ea9aebcf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d8e87c6beb90cda833dcb66c9ac1d08"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a8d8e87c6beb90cda833dcb66c9ac1d08">ReceiveText</a> ()</td></tr>
+<tr class="separator:a8d8e87c6beb90cda833dcb66c9ac1d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4326f758b8335e0d516f59f5eb2c148a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a4326f758b8335e0d516f59f5eb2c148a">ReceiveText</a> (const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="separator:a4326f758b8335e0d516f59f5eb2c148a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f41cad4d83530f05b1031ab91673e6c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a2f41cad4d83530f05b1031ab91673e6c">ReceiveBinary</a> ()</td></tr>
+<tr class="separator:a2f41cad4d83530f05b1031ab91673e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e5d15dbc645c12555882d9d0a71d6d4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a8e5d15dbc645c12555882d9d0a71d6d4">ReceiveBinary</a> (const CppCommon::Timespan &amp;timeout)</td></tr>
+<tr class="separator:a8e5d15dbc645c12555882d9d0a71d6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html">CppServer::HTTP::HTTPSClient</a></td></tr>
 <tr class="memitem:a0609689b5b56665d3ef28d1e2fe2a0d7 inherit pub_methods_class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html#a0609689b5b56665d3ef28d1e2fe2a0d7">HTTPSClient</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html">HTTPSClient</a> &amp;)=delete</td></tr>
 <tr class="separator:a0609689b5b56665d3ef28d1e2fe2a0d7 inherit pub_methods_class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -446,6 +454,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ac3f3a3d3d51bad4f745a02b9ea00a200 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#ac3f3a3d3d51bad4f745a02b9ea00a200">onWSPong</a> ()</td></tr>
 <tr class="memdesc:ac3f3a3d3d51bad4f745a02b9ea00a200 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class. ">WebSocket</a> pong notification.  <a href="#ac3f3a3d3d51bad4f745a02b9ea00a200">More...</a><br /></td></tr>
 <tr class="separator:ac3f3a3d3d51bad4f745a02b9ea00a200 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a694032f8a32f3912420c3ca635b83506">onWSReceived</a> (const void *buffer, size_t size)</td></tr>
+<tr class="memdesc:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class. ">WebSocket</a> received notification.  <a href="#a694032f8a32f3912420c3ca635b83506">More...</a><br /></td></tr>
+<tr class="separator:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbcb2b8a0c2973f5df4b8a6abe7e7b2a inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#adbcb2b8a0c2973f5df4b8a6abe7e7b2a">WebSocket</a> ()=default</td></tr>
 <tr class="separator:adbcb2b8a0c2973f5df4b8a6abe7e7b2a inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacbb819e0ad1d2547891f41e25c222d9 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#aacbb819e0ad1d2547891f41e25c222d9">WebSocket</a> (const <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html">WebSocket</a> &amp;)=default</td></tr>
@@ -464,6 +475,15 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ade2b8a7d37ee35d0ea57d70b294b1052 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#ade2b8a7d37ee35d0ea57d70b294b1052">PrepareSendFrame</a> (uint8_t opcode, const void *buffer, size_t size, int status=0)</td></tr>
 <tr class="memdesc:ade2b8a7d37ee35d0ea57d70b294b1052 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class. ">WebSocket</a> send frame.  <a href="#ade2b8a7d37ee35d0ea57d70b294b1052">More...</a><br /></td></tr>
 <tr class="separator:ade2b8a7d37ee35d0ea57d70b294b1052 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9941f993b43dc7af547128bcacb58bef inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a9941f993b43dc7af547128bcacb58bef">RequiredReceiveFrameSize</a> ()</td></tr>
+<tr class="memdesc:a9941f993b43dc7af547128bcacb58bef inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Required <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class. ">WebSocket</a> receive frame size.  <a href="#a9941f993b43dc7af547128bcacb58bef">More...</a><br /></td></tr>
+<tr class="separator:a9941f993b43dc7af547128bcacb58bef inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed8a2224d8554a44021c80a8fc04bd8 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a5ed8a2224d8554a44021c80a8fc04bd8">PrepareReceiveFrame</a> (const void *buffer, size_t size)</td></tr>
+<tr class="memdesc:a5ed8a2224d8554a44021c80a8fc04bd8 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class. ">WebSocket</a> receive frame.  <a href="#a5ed8a2224d8554a44021c80a8fc04bd8">More...</a><br /></td></tr>
+<tr class="separator:a5ed8a2224d8554a44021c80a8fc04bd8 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f74785aab6fb81044590d1986f2ec2a inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a8f74785aab6fb81044590d1986f2ec2a">ClearWSBuffers</a> ()</td></tr>
+<tr class="memdesc:a8f74785aab6fb81044590d1986f2ec2a inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class. ">WebSocket</a> send/receive buffers.  <a href="#a8f74785aab6fb81044590d1986f2ec2a">More...</a><br /></td></tr>
+<tr class="separator:a8f74785aab6fb81044590d1986f2ec2a inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -475,15 +495,30 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html">CppServer::WS::WebSocket</a></td></tr>
 <tr class="memitem:aa3755f18010593acc558c60e8127e8cf inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#aa3755f18010593acc558c60e8127e8cf">_handshaked</a> {false}</td></tr>
 <tr class="separator:aa3755f18010593acc558c60e8127e8cf inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedc5639b5d399f53fe3b42725042312c inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#aedc5639b5d399f53fe3b42725042312c">_mask</a> [4]</td></tr>
-<tr class="memdesc:aedc5639b5d399f53fe3b42725042312c inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Random mask.  <a href="#aedc5639b5d399f53fe3b42725042312c">More...</a><br /></td></tr>
-<tr class="separator:aedc5639b5d399f53fe3b42725042312c inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a248f40cdeb4ef83c937a88a1c1e06a00 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a248f40cdeb4ef83c937a88a1c1e06a00">_ws_received</a> {false}</td></tr>
+<tr class="memdesc:a248f40cdeb4ef83c937a88a1c1e06a00 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Received frame flag.  <a href="#a248f40cdeb4ef83c937a88a1c1e06a00">More...</a><br /></td></tr>
+<tr class="separator:a248f40cdeb4ef83c937a88a1c1e06a00 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaf02cd7859e5e1dcc556296f70e58c7 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#adaf02cd7859e5e1dcc556296f70e58c7">_ws_header_size</a> {0}</td></tr>
+<tr class="memdesc:adaf02cd7859e5e1dcc556296f70e58c7 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Received frame header size.  <a href="#adaf02cd7859e5e1dcc556296f70e58c7">More...</a><br /></td></tr>
+<tr class="separator:adaf02cd7859e5e1dcc556296f70e58c7 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a020f2f91b68aebd5e314e4aa28cc2915 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a020f2f91b68aebd5e314e4aa28cc2915">_ws_payload_size</a> {0}</td></tr>
+<tr class="memdesc:a020f2f91b68aebd5e314e4aa28cc2915 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Received frame payload size.  <a href="#a020f2f91b68aebd5e314e4aa28cc2915">More...</a><br /></td></tr>
+<tr class="separator:a020f2f91b68aebd5e314e4aa28cc2915 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa142d9a8af9653b822663fd1db770501 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#aa142d9a8af9653b822663fd1db770501">_ws_receive_buffer</a></td></tr>
+<tr class="memdesc:aa142d9a8af9653b822663fd1db770501 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive buffer.  <a href="#aa142d9a8af9653b822663fd1db770501">More...</a><br /></td></tr>
+<tr class="separator:aa142d9a8af9653b822663fd1db770501 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e787718a6cdb67218c5364cd20334c1 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a7e787718a6cdb67218c5364cd20334c1">_ws_receive_mask</a> [4]</td></tr>
+<tr class="memdesc:a7e787718a6cdb67218c5364cd20334c1 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive mask.  <a href="#a7e787718a6cdb67218c5364cd20334c1">More...</a><br /></td></tr>
+<tr class="separator:a7e787718a6cdb67218c5364cd20334c1 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86f401fa3bf446cdee6fb02973578e7c inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a86f401fa3bf446cdee6fb02973578e7c">_ws_send_lock</a></td></tr>
 <tr class="memdesc:a86f401fa3bf446cdee6fb02973578e7c inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send buffer lock.  <a href="#a86f401fa3bf446cdee6fb02973578e7c">More...</a><br /></td></tr>
 <tr class="separator:a86f401fa3bf446cdee6fb02973578e7c inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d575639556725341623b0fce323f759 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a9d575639556725341623b0fce323f759">_ws_send_buffer</a></td></tr>
 <tr class="memdesc:a9d575639556725341623b0fce323f759 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send buffer.  <a href="#a9d575639556725341623b0fce323f759">More...</a><br /></td></tr>
 <tr class="separator:a9d575639556725341623b0fce323f759 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7f8b25c82fc478ba24faca98dc9a5d7 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#aa7f8b25c82fc478ba24faca98dc9a5d7">_ws_send_mask</a> [4]</td></tr>
+<tr class="memdesc:aa7f8b25c82fc478ba24faca98dc9a5d7 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send mask.  <a href="#aa7f8b25c82fc478ba24faca98dc9a5d7">More...</a><br /></td></tr>
+<tr class="separator:aa7f8b25c82fc478ba24faca98dc9a5d7 inherit pro_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_static_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td colspan="2" onclick="javascript:toggleInherit('pro_static_attribs_class_cpp_server_1_1_w_s_1_1_web_socket')"><img src="closed.png" alt="-"/>&#160;Static Protected Attributes inherited from <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html">CppServer::WS::WebSocket</a></td></tr>
 <tr class="memitem:a0b711849819d16f70a590b86155de360 inherit pro_static_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a0b711849819d16f70a590b86155de360">WS_TEXT</a> = 0x81</td></tr>
 <tr class="memdesc:a0b711849819d16f70a590b86155de360 inherit pro_static_attribs_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text frame.  <a href="#a0b711849819d16f70a590b86155de360">More...</a><br /></td></tr>
@@ -777,7 +812,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html#a3cefb45d97839c2f35c224b503dc0afb">CppServer::HTTP::HTTPSClient</a>.</p>
 
-<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00053">53</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00056">56</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -854,7 +889,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html#ae53e6d4288b1cf456fc2a30ec4c561e8">CppServer::HTTP::HTTPSClient</a>.</p>
 
-<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00067">67</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00073">73</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -891,7 +926,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html#ad66b458263e890e2f02478e1a4817994">CppServer::HTTP::HTTPSClient</a>.</p>
 
-<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00074">74</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00090">90</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -921,7 +956,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a979af15582c8c9d9876f50406772fee6">CppServer::WS::WebSocket</a>.</p>
 
-<p>Definition at line <a class="el" href="wss__client_8h_source.html#l00091">91</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
+<p>Definition at line <a class="el" href="wss__client_8h_source.html#l00097">97</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
 
 </div>
 </div>
@@ -970,6 +1005,76 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2f41cad4d83530f05b1031ab91673e6c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; uint8_t &gt; CppServer::WS::WSSClient::ReceiveBinary </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00155">155</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8e5d15dbc645c12555882d9d0a71d6d4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; uint8_t &gt; CppServer::WS::WSSClient::ReceiveBinary </td>
+          <td>(</td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00181">181</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8d8e87c6beb90cda833dcb66c9ac1d08"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string CppServer::WS::WSSClient::ReceiveText </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00104">104</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4326f758b8335e0d516f59f5eb2c148a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string CppServer::WS::WSSClient::ReceiveText </td>
+          <td>(</td>
+          <td class="paramtype">const CppCommon::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00129">129</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
