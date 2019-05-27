@@ -104,7 +104,7 @@ private:
     bool _sync_connect;
 };
 
-/*! \example ws_client.cpp WebSocket client example */
+/*! \example ws_chat_client.cpp WebSocket chat client example */
 
 } // namespace WS
 } // namespace CppServer

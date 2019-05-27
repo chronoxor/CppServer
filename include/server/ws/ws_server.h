@@ -41,7 +41,7 @@ protected:
     std::shared_ptr<Asio::TCPSession> CreateSession(std::shared_ptr<Asio::TCPServer> server) override { return std::make_shared<WSSession>(std::dynamic_pointer_cast<WSServer>(server)); }
 };
 
-/*! \example ws_server.cpp WebSocket server example */
+/*! \example ws_chat_server.cpp WebSocket chat server example */
 
 } // namespace WS
 } // namespace CppServer

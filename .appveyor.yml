@@ -2,7 +2,7 @@
 version: "1.0.0.{build}"
 
 # Image to use
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 # Branches to build
 branches:
@@ -36,9 +36,6 @@ install:
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
   - if "%type%"=="MinGW" set PATH=C:\mingw64\bin;%PATH:C:\Program Files\Git\usr\bin;=%
   - if "%type%"=="MinGW" set INCLUDE=C:\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
-  # Visual Studio
-  - if "%type%"=="VisualStudio" set INCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um;C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared;%INCLUDE%
-  - if "%type%"=="VisualStudio" set LIB=C:\Program Files (x86)\Windows Kits\10\Lib\10.0.17763.0\um\x64;%LIB%
   # CMake
   - '%command% "cmake --version"'
   # gil
