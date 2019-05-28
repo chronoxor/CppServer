@@ -6,7 +6,7 @@
 [![Windows build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=Windows)](https://ci.appveyor.com/project/chronoxor/CppServer)
 
 Ultra fast and low latency asynchronous socket server & client C++ library with
-support TCP, SSL, UDP, HTTP, HTTPS protocols and [10K connections problem](https://en.wikipedia.org/wiki/C10k_problem)
+support TCP, SSL, UDP, HTTP, HTTPS, WebSocket protocols and [10K connections problem](https://en.wikipedia.org/wiki/C10k_problem)
 solution.
 
 [CppServer API reference](https://chronoxor.github.io/CppServer/index.html)
@@ -30,15 +30,23 @@ solution.
     * [Example: HTTP client](#example-http-client)
     * [Example: HTTPS server](#example-https-server)
     * [Example: HTTPS client](#example-https-client)
+    * [Example: WebSocket chat server](#example-websocket-chat-server)
+    * [Example: WebSocket chat client](#example-websocket-chat-client)
+    * [Example: WebSocket secure chat server](#example-websocket-secure-chat-server)
+    * [Example: WebSocket secure chat client](#example-websocket-secure-chat-client)
   * [Performance](#performance)
     * [Benchmark: Round-trip](#benchmark-round-trip)
       * [TCP echo server](#tcp-echo-server)
       * [SSL echo server](#ssl-echo-server)
       * [UDP echo server](#udp-echo-server)
+      * [WebSocket echo server](#websocket-echo-server)
+      * [WebSocket secure echo server](#websocket-secure-echo-server)
     * [Benchmark: Multicast](#benchmark-multicast)
       * [TCP multicast server](#tcp-multicast-server)
       * [SSL multicast server](#ssl-multicast-server)
       * [UDP multicast server](#udp-multicast-server)
+      * [WebSocket multicast server](#websocket-multicast-server)
+      * [WebSocket secure multicast server](#websocket-secure-multicast-server)
     * [Benchmark: Web Server](#benchmark-web-server)
       * [HTTP Trace server](#http-trace-server)
       * [HTTPS Trace server](#https-trace-server)
@@ -54,7 +62,8 @@ solution.
 * Supported CPU scalability designs: IO service per thread, thread pool
 * Supported transport protocols: [TCP](#example-tcp-chat-server), [SSL](#example-ssl-chat-server),
   [UDP](#example-udp-echo-server), [UDP multicast](#example-udp-multicast-server)
-* Supported Web protocols: [HTTP](#example-http-server), [HTTPS](#example-https-server)
+* Supported Web protocols: [HTTP](#example-http-server), [HTTPS](#example-https-server),
+  [WebSocket](#example-websocket-chat-server), [WebSocket secure](#example-websocket-secure-chat-server)
 * Supported [Swagger OpenAPI](https://swagger.io/specification/) iterative documentation
 
 # Requirements
@@ -1466,7 +1475,7 @@ int main(int argc, char** argv)
     std::cout << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<AsioService>();
+    auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the Asio service
     std::cout << "Asio service starting...";
@@ -1798,7 +1807,7 @@ int main(int argc, char** argv)
     std::cout << std::endl;
 
     // Create a new Asio service
-    auto service = std::make_shared<AsioService>();
+    auto service = std::make_shared<CppServer::Asio::Service>();
 
     // Start the Asio service
     std::cout << "Asio service starting...";
@@ -1984,6 +1993,596 @@ int main(int argc, char** argv)
 }
 ```
 
+## Example: WebSocket chat server
+Here comes the example of the WebSocket chat server. It handles multiple
+WebSocket client sessions and multicast received message from any session
+to all ones. Also it is possible to send admin message directly from the
+server.
+
+```c++
+#include "server/ws/ws_server.h"
+
+#include <iostream>
+
+class ChatSession : public CppServer::WS::WSSession
+{
+public:
+    using CppServer::WS::WSSession::WSSession;
+
+protected:
+    void onWSConnected(const CppServer::HTTP::HTTPRequest& request) override
+    {
+        std::cout << "Chat WebSocket session with Id " << id() << " connected!" << std::endl;
+
+        // Send invite message
+        std::string message("Hello from WebSocket chat! Please send a message or '!' to disconnect the client!");
+        SendTextAsync(message);
+    }
+
+    void onWSDisconnected() override
+    {
+        std::cout << "Chat WebSocket session with Id " << id() << " disconnected!" << std::endl;
+    }
+
+    void onWSReceived(const void* buffer, size_t size) override
+    {
+        std::string message((const char*)buffer, size);
+        std::cout << "Incoming: " << message << std::endl;
+
+        // Multicast message to all connected sessions
+        std::dynamic_pointer_cast<CppServer::WS::WSServer>(server())->MulticastText(message);
+
+        // If the buffer starts with '!' the disconnect the current session
+        if (message == "!")
+            Close(1000);
+    }
+
+    void onWSPing(const void* buffer, size_t size) override
+    {
+        SendPongAsync(buffer, size);
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class ChatServer : public CppServer::WS::WSServer
+{
+public:
+    using CppServer::WS::WSServer::WSServer;
+
+protected:
+    std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(std::shared_ptr<CppServer::Asio::TCPServer> server) override
+    {
+        return std::make_shared<ChatSession>(std::dynamic_pointer_cast<CppServer::WS::WSServer>(server));
+    }
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // WebSocket server port
+    int port = 8080;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "WebSocket server port: " << port << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new WebSocket chat server
+    auto server = std::make_shared<ChatServer>(service, port);
+
+    // Start the server
+    std::cout << "Server starting...";
+    server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Multicast admin message to all sessions
+        line = "(admin) " + line;
+        server->MulticastText(line);
+    }
+
+    // Stop the server
+    std::cout << "Server stopping...";
+    server->Stop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: WebSocket chat client
+Here comes the example of the WebSocket chat client. It connects to the
+WebSocket chat server and allows to send message to it and receive new
+messages.
+
+```c++
+#include "server/ws/ws_client.h"
+#include "threads/thread.h"
+
+#include <atomic>
+#include <iostream>
+
+class ChatClient : public CppServer::WS::WSClient
+{
+public:
+    using CppServer::WS::WSClient::WSClient;
+
+    void DisconnectAndStop()
+    {
+        _stop = true;
+        CloseAsync(1000);
+        while (IsConnected())
+            CppCommon::Thread::Yield();
+    }
+
+protected:
+    void onWSConnecting(CppServer::HTTP::HTTPRequest& request) override
+    {
+        request.SetBegin("GET", "/");
+        request.SetHeader("Host", "localhost");
+        request.SetHeader("Origin", "http://localhost");
+        request.SetHeader("Upgrade", "websocket");
+        request.SetHeader("Connection", "Upgrade");
+        request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
+        request.SetHeader("Sec-WebSocket-Protocol", "chat, superchat");
+        request.SetHeader("Sec-WebSocket-Version", "13");
+    }
+
+    void onWSConnected(const CppServer::HTTP::HTTPResponse& response) override
+    {
+        std::cout << "Chat WebSocket client connected a new session with Id " << id() << std::endl;
+    }
+
+    void onWSDisconnected() override
+    {
+        std::cout << "Chat WebSocket client disconnected a session with Id " << id() << std::endl;
+    }
+
+    void onWSReceived(const void* buffer, size_t size) override
+    {
+        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+    }
+
+    void onWSPing(const void* buffer, size_t size) override
+    {
+        SendPongAsync(buffer, size);
+    }
+
+    void onDisconnected() override
+    {
+        WSClient::onDisconnected();
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        if (!_stop)
+            ConnectAsync();
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+
+private:
+    std::atomic<bool> _stop{false};
+};
+
+int main(int argc, char** argv)
+{
+    // WebSocket server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    // WebSocket server port
+    int port = 8080;
+    if (argc > 2)
+        port = std::atoi(argv[2]);
+
+    std::cout << "WebSocket server address: " << address << std::endl;
+    std::cout << "WebSocket server port: " << port << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new WebSocket chat client
+    auto client = std::make_shared<ChatClient>(service, address, port);
+
+    // Connect the client
+    std::cout << "Client connecting...";
+    client->ConnectAsync();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Reconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client reconnecting...";
+            client->ReconnectAsync();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Send the entered text to the chat server
+        client->SendTextAsync(line);
+    }
+
+    // Disconnect the client
+    std::cout << "Client disconnecting...";
+    client->DisconnectAndStop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: WebSocket secure chat server
+Here comes the example of the WebSocket secure chat server. It handles
+multiple WebSocket secure client sessions and multicast received message
+from any session to all ones. Also it is possible to send admin message
+directly from the server.
+
+This example is very similar to the WebSocket one except the code that
+prepares WebSocket secure context and handshake handler.
+
+```c++
+#include "server/ws/wss_server.h"
+
+#include <iostream>
+
+class ChatSession : public CppServer::WS::WSSSession
+{
+public:
+    using CppServer::WS::WSSSession::WSSSession;
+
+protected:
+    void onWSConnected(const CppServer::HTTP::HTTPRequest& request) override
+    {
+        std::cout << "Chat WebSocket secure session with Id " << id() << " connected!" << std::endl;
+
+        // Send invite message
+        std::string message("Hello from WebSocket secure chat! Please send a message or '!' to disconnect the client!");
+        SendTextAsync(message);
+    }
+
+    void onWSDisconnected() override
+    {
+        std::cout << "Chat WebSocket secure session with Id " << id() << " disconnected!" << std::endl;
+    }
+
+    void onWSReceived(const void* buffer, size_t size) override
+    {
+        std::string message((const char*)buffer, size);
+        std::cout << "Incoming: " << message << std::endl;
+
+        // Multicast message to all connected sessions
+        std::dynamic_pointer_cast<CppServer::WS::WSSServer>(server())->MulticastText(message);
+
+        // If the buffer starts with '!' the disconnect the current session
+        if (message == "!")
+            Close(1000);
+    }
+
+    void onWSPing(const void* buffer, size_t size) override
+    {
+        SendPongAsync(buffer, size);
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket secure session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+class ChatServer : public CppServer::WS::WSSServer
+{
+public:
+    using CppServer::WS::WSSServer::WSSServer;
+
+protected:
+    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
+    {
+        return std::make_shared<ChatSession>(std::dynamic_pointer_cast<CppServer::WS::WSSServer>(server));
+    }
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket secure server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    // WebSocket secure server port
+    int port = 8443;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "WebSocket secure server port: " << port << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create and prepare a new SSL server context
+    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
+    context->set_password_callback([](size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
+    context->use_certificate_chain_file("../tools/certificates/server.pem");
+    context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
+    context->use_tmp_dh_file("../tools/certificates/dh4096.pem");
+
+    // Create a new WebSocket secure chat server
+    auto server = std::make_shared<ChatServer>(service, context, port);
+
+    // Start the server
+    std::cout << "Server starting...";
+    server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Multicast admin message to all sessions
+        line = "(admin) " + line;
+        server->MulticastText(line);
+    }
+
+    // Stop the server
+    std::cout << "Server stopping...";
+    server->Stop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: WebSocket secure chat client
+Here comes the example of the WebSocket secure chat client. It connects to
+the WebSocket secure chat server and allows to send message to it and receive
+new messages.
+
+This example is very similar to the WebSocket one except the code that
+prepares WebSocket secure context and handshake handler.
+
+```c++
+#include "server/ws/wss_client.h"
+#include "threads/thread.h"
+
+#include <atomic>
+#include <iostream>
+
+class ChatClient : public CppServer::WS::WSSClient
+{
+public:
+    using CppServer::WS::WSSClient::WSSClient;
+
+    void DisconnectAndStop()
+    {
+        _stop = true;
+        CloseAsync(1000);
+        while (IsConnected())
+            CppCommon::Thread::Yield();
+    }
+
+protected:
+    void onWSConnecting(CppServer::HTTP::HTTPRequest& request) override
+    {
+        request.SetBegin("GET", "/");
+        request.SetHeader("Host", "localhost");
+        request.SetHeader("Origin", "https://localhost");
+        request.SetHeader("Upgrade", "websocket");
+        request.SetHeader("Connection", "Upgrade");
+        request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
+        request.SetHeader("Sec-WebSocket-Protocol", "chat, superchat");
+        request.SetHeader("Sec-WebSocket-Version", "13");
+    }
+
+    void onWSConnected(const CppServer::HTTP::HTTPResponse& response) override
+    {
+        std::cout << "Chat WebSocket secure client connected a new session with Id " << id() << std::endl;
+    }
+
+    void onWSDisconnected() override
+    {
+        std::cout << "Chat WebSocket secure client disconnected a session with Id " << id() << std::endl;
+    }
+
+    void onWSReceived(const void* buffer, size_t size) override
+    {
+        std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+    }
+
+    void onWSPing(const void* buffer, size_t size) override
+    {
+        SendPongAsync(buffer, size);
+    }
+
+    void onDisconnected() override
+    {
+        WSSClient::onDisconnected();
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        if (!_stop)
+            ConnectAsync();
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Chat WebSocket secure client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+
+private:
+    std::atomic<bool> _stop{false};
+};
+
+int main(int argc, char** argv)
+{
+    // WebSocket server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    // WebSocket server port
+    int port = 8443;
+    if (argc > 2)
+        port = std::atoi(argv[2]);
+
+    std::cout << "WebSocket secure server address: " << address << std::endl;
+    std::cout << "WebSocket secure server port: " << port << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<CppServer::Asio::Service>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create and prepare a new SSL client context
+    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
+    context->set_default_verify_paths();
+    context->set_root_certs();
+    context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);
+    context->load_verify_file("../tools/certificates/ca.pem");
+
+    // Create a new WebSocket chat client
+    auto client = std::make_shared<ChatClient>(service, context, address, port);
+
+    // Connect the client
+    std::cout << "Client connecting...";
+    client->ConnectAsync();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Reconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client reconnecting...";
+            client->ReconnectAsync();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Send the entered text to the chat server
+        client->SendTextAsync(line);
+    }
+
+    // Disconnect the client
+    std::cout << "Client disconnecting...";
+    client->DisconnectAndStop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
 # Performance
 
 Here comes several communication scenarios with timing measurements.
@@ -2152,6 +2751,98 @@ Message latency: 9.627 mcs
 Message throughput: 103867 msg/s
 ```
 
+### WebSocket echo server
+
+* [cppserver-performance-ws_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_server.cpp)
+* [cppserver-performance-ws_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_client.cpp) -c 1 -t 1
+
+```
+Server address: 127.0.0.1
+Server port: 8080
+Working threads: 1
+Working clients: 1
+Working messages: 1000
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 9.994 s
+Total data: 48.958 MiB
+Total messages: 1603548
+Data throughput: 4.918 MiB/s
+Message latency: 6.232 mcs
+Message throughput: 160448 msg/s
+```
+
+* [cppserver-performance-ws_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_server.cpp)
+* [cppserver-performance-ws_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_client.cpp) -c 100 -t 4
+
+```
+Server address: 127.0.0.1
+Server port: 8080
+Working threads: 4
+Working clients: 100
+Working messages: 1000
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 11.402 s
+Total data: 206.827 MiB
+Total messages: 6776702
+Data throughput: 18.140 MiB/s
+Message latency: 1.682 mcs
+Message throughput: 594328 msg/s
+```
+
+### WebSocket secure echo server
+
+* [cppserver-performance-wss_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_server.cpp)
+* [cppserver-performance-wss_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_client.cpp) -c 1 -t 1
+
+```
+Server address: 127.0.0.1
+Server port: 8443
+Working threads: 1
+Working clients: 1
+Working messages: 1000
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 10.001 s
+Total data: 62.068 MiB
+Total messages: 2033811
+Data throughput: 6.210 MiB/s
+Message latency: 4.917 mcs
+Message throughput: 203343 msg/s
+```
+
+* [cppserver-performance-wss_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_server.cpp)
+* [cppserver-performance-wss_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_client.cpp) -c 100 -t 4
+
+```
+Server address: 127.0.0.1
+Server port: 8443
+Working threads: 4
+Working clients: 100
+Working messages: 1000
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 10.011 s
+Total data: 249.1023 MiB
+Total messages: 8191971
+Data throughput: 24.993 MiB/s
+Message latency: 1.222 mcs
+Message throughput: 818230 msg/s
+```
+
 ## Benchmark: Multicast
 
 ![Multicast](https://github.com/chronoxor/CppServer/raw/master/images/multicast.png)
@@ -2291,6 +2982,94 @@ Total messages: 1718575
 Data throughput: 5.248 MiB/s
 Message latency: 5.821 mcs
 Message throughput: 171784 msg/s
+```
+
+### WebSocket multicast server
+
+* [cppserver-performance-ws_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_server.cpp)
+* [cppserver-performance-ws_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_client.cpp) -c 1 -t 1
+
+```
+Server address: 127.0.0.1
+Server port: 8080
+Working threads: 1
+Working clients: 1
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 10.001 s
+Total data: 960.902 MiB
+Total messages: 31486166
+Data throughput: 96.075 MiB/s
+Message latency: 317 ns
+Message throughput: 3148135 msg/s
+```
+
+* [cppserver-performance-ws_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_server.cpp)
+* [cppserver-performance-ws_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_client.cpp) -c 100 -t 4
+
+```
+Server address: 127.0.0.1
+Server port: 8080
+Working threads: 4
+Working clients: 100
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 10.020 s
+Total data: 986.489 MiB
+Total messages: 32324898
+Data throughput: 98.459 MiB/s
+Message latency: 309 ns
+Message throughput: 3225965 msg/s
+```
+
+### WebSocket secure multicast server
+
+* [cppserver-performance-wss_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_server.cpp)
+* [cppserver-performance-wss_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_client.cpp) -c 1 -t 1
+
+```
+Server address: 127.0.0.1
+Server port: 8443
+Working threads: 1
+Working clients: 1
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 10.002 s
+Total data: 1.041 GiB
+Total messages: 34903186
+Data throughput: 106.505 MiB/s
+Message latency: 286 ns
+Message throughput: 3489578 msg/s
+```
+
+* [cppserver-performance-wss_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_server.cpp)
+* [cppserver-performance-wss_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_client.cpp) -c 100 -t 4
+
+```
+Server address: 127.0.0.1
+Server port: 8443
+Working threads: 4
+Working clients: 100
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 10.013 s
+Total data: 1.569 GiB
+Total messages: 52225588
+Data throughput: 159.172 MiB/s
+Message latency: 191 ns
+Message throughput: 5215639 msg/s
 ```
 
 ## Benchmark: Web Server
