@@ -129,9 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae940e46b4d906feeeba4ec27c9c1e38f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a309b181a5a6e6b3b8bae56a0a4ac448f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html">WSSession</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#a309b181a5a6e6b3b8bae56a0a4ac448f">operator=</a> (<a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html">WSSession</a> &amp;&amp;)=delete</td></tr>
 <tr class="separator:a309b181a5a6e6b3b8bae56a0a4ac448f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5ee9e1ad3ac5c76fb671858d0ced8dd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#ab5ee9e1ad3ac5c76fb671858d0ced8dd">Disconnect</a> () override</td></tr>
-<tr class="memdesc:ab5ee9e1ad3ac5c76fb671858d0ced8dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect the session.  <a href="#ab5ee9e1ad3ac5c76fb671858d0ced8dd">More...</a><br /></td></tr>
-<tr class="separator:ab5ee9e1ad3ac5c76fb671858d0ced8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab38616f9d685a8a075d5c80b18ab0d85"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#ab38616f9d685a8a075d5c80b18ab0d85">Disconnect</a> (int status)</td></tr>
+<tr class="separator:ab38616f9d685a8a075d5c80b18ab0d85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada04e3b0db36bff95f6eb88c80c5f7b6"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#ada04e3b0db36bff95f6eb88c80c5f7b6">SendText</a> (const void *buffer, size_t size)</td></tr>
 <tr class="separator:ada04e3b0db36bff95f6eb88c80c5f7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a692d0e3a2bea6d88c3f5061a51e9125d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#a692d0e3a2bea6d88c3f5061a51e9125d">SendText</a> (std::string_view text)</td></tr>
@@ -306,6 +305,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a49741421719d6e31c55ffcb38267f53b inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a49741421719d6e31c55ffcb38267f53b">IsConnected</a> () const noexcept</td></tr>
 <tr class="memdesc:a49741421719d6e31c55ffcb38267f53b inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the session connected?  <a href="#a49741421719d6e31c55ffcb38267f53b">More...</a><br /></td></tr>
 <tr class="separator:a49741421719d6e31c55ffcb38267f53b inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3e5da612a0ad44cf9ea9214519399ab inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#ad3e5da612a0ad44cf9ea9214519399ab">Disconnect</a> ()</td></tr>
+<tr class="memdesc:ad3e5da612a0ad44cf9ea9214519399ab inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect the session.  <a href="#ad3e5da612a0ad44cf9ea9214519399ab">More...</a><br /></td></tr>
+<tr class="separator:ad3e5da612a0ad44cf9ea9214519399ab inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47286713781178ba9b1ad8c5d726bb38 inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a47286713781178ba9b1ad8c5d726bb38">Send</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a47286713781178ba9b1ad8c5d726bb38 inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data to the client (synchronous)  <a href="#a47286713781178ba9b1ad8c5d726bb38">More...</a><br /></td></tr>
 <tr class="separator:a47286713781178ba9b1ad8c5d726bb38 inherit pub_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -602,7 +604,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab5ee9e1ad3ac5c76fb671858d0ced8dd"></a>
+<a class="anchor" id="ab38616f9d685a8a075d5c80b18ab0d85"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -610,25 +612,20 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool CppServer::WS::WSSession::Disconnect </td>
+          <td class="memname">virtual bool CppServer::WS::WSSession::Disconnect </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Disconnect the session. </p>
-<dl class="section return"><dt>Returns</dt><dd>'true' if the section was successfully disconnected, 'false' if the section is already disconnected </dd></dl>
-
-<p>Reimplemented from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#ad3e5da612a0ad44cf9ea9214519399ab">CppServer::Asio::TCPSession</a>.</p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ws_chat_server_8cpp-example.html#a10">ws_chat_server.cpp</a>.</dd>
-</dl>
 <p>Definition at line <a class="el" href="ws__session_8h_source.html#l00038">38</a> of file <a class="el" href="ws__session_8h_source.html">ws_session.h</a>.</p>
 
 </div>
