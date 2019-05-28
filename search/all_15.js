@@ -28,5 +28,7 @@ var searchData=
   ['_7ewsclient',['~WSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_client.html#a2404b54bde8e9a9f9b845dcaad847260',1,'CppServer::WS::WSClient']]],
   ['_7ewssclient',['~WSSClient',['../class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a8d514d3e55ea114e23fdc5cb39ac9570',1,'CppServer::WS::WSSClient']]],
   ['_7ewsserver',['~WSServer',['../class_cpp_server_1_1_w_s_1_1_w_s_server.html#a3e9fc3a1bfe84efbc11d52616b169544',1,'CppServer::WS::WSServer']]],
-  ['_7ewssession',['~WSSession',['../class_cpp_server_1_1_w_s_1_1_w_s_session.html#a51bbafa4cd64fc78338551ec0d8fbd0f',1,'CppServer::WS::WSSession']]]
+  ['_7ewssession',['~WSSession',['../class_cpp_server_1_1_w_s_1_1_w_s_session.html#a51bbafa4cd64fc78338551ec0d8fbd0f',1,'CppServer::WS::WSSession']]],
+  ['_7ewssserver',['~WSSServer',['../class_cpp_server_1_1_w_s_1_1_w_s_s_server.html#a368ded675ff5036538ed7e30dcfb3eb9',1,'CppServer::WS::WSSServer']]],
+  ['_7ewsssession',['~WSSSession',['../class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#aba6c9339b0e381466540c605ddc5a205',1,'CppServer::WS::WSSSession']]]
 ];

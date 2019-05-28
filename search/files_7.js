@@ -8,5 +8,8 @@ var searchData=
   ['ws_5fsession_2ecpp',['ws_session.cpp',['../ws__session_8cpp.html',1,'']]],
   ['ws_5fsession_2eh',['ws_session.h',['../ws__session_8h.html',1,'']]],
   ['wss_5fclient_2ecpp',['wss_client.cpp',['../wss__client_8cpp.html',1,'']]],
-  ['wss_5fclient_2eh',['wss_client.h',['../wss__client_8h.html',1,'']]]
+  ['wss_5fclient_2eh',['wss_client.h',['../wss__client_8h.html',1,'']]],
+  ['wss_5fserver_2eh',['wss_server.h',['../wss__server_8h.html',1,'']]],
+  ['wss_5fsession_2ecpp',['wss_session.cpp',['../wss__session_8cpp.html',1,'']]],
+  ['wss_5fsession_2eh',['wss_session.h',['../wss__session_8h.html',1,'']]]
 ];
