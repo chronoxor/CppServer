@@ -37,6 +37,9 @@ public:
     WSSServer& operator=(const WSSServer&) = delete;
     WSSServer& operator=(WSSServer&&) = delete;
 
+    // WebSocket connection methods
+    virtual bool CloseAll(int status);
+
     // WebSocket multicast text methods
     size_t MulticastText(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, buffer, size); return HTTPSServer::Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()); }
     size_t MulticastText(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, text.data(), text.size()); return HTTPSServer::Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()); }
