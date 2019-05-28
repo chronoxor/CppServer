@@ -59,11 +59,13 @@ protected:
     }
     void onWSConnected(const CppServer::HTTP::HTTPResponse& response) override { connected = true; }
     void onWSDisconnected() override { disconnected = true; }
+    void onWSReceived(const void* buffer, size_t size) override { received += size; }
     void onError(int error, const std::string& category, const std::string& message) override { errors = true; }
 
 public:
     std::atomic<bool> connected{false};
     std::atomic<bool> disconnected{false};
+    std::atomic<size_t> received{0};
     std::atomic<bool> errors{false};
 };
 
@@ -130,19 +132,19 @@ TEST_CASE("WebSocket server test", "[CppServer][WebSocket]")
     // Create and connect Echo client
     auto client = std::make_shared<EchoWSClient>(service, address, port);
     REQUIRE(client->ConnectAsync());
-    while (!client->IsConnected() || (server->clients != 1))
+    while (!client->connected || (server->clients != 1))
         Thread::Yield();
 
     // Send a message to the Echo server
     client->SendTextAsync("test");
 
     // Wait for all data processed...
-    while (client->bytes_received() != 4)
+    while (client->received != 4)
         Thread::Yield();
 
     // Disconnect the Echo client
-    REQUIRE(client->DisconnectAsync());
-    while (client->IsConnected() || (server->clients != 0))
+    REQUIRE(client->CloseAsync(1000));
+    while (!client->disconnected || (server->clients != 0))
         Thread::Yield();
 
     // Stop the Echo server
@@ -168,15 +170,15 @@ TEST_CASE("WebSocket server test", "[CppServer][WebSocket]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
-    REQUIRE(server->bytes_sent() == 4);
-    REQUIRE(server->bytes_received() == 4);
+    REQUIRE(server->bytes_sent() == 130);
+    REQUIRE(server->bytes_received() == 274);
     REQUIRE(!server->errors);
 
     // Check the Echo client state
     REQUIRE(client->connected);
     REQUIRE(client->disconnected);
-    REQUIRE(client->bytes_sent() == 4);
-    REQUIRE(client->bytes_received() == 4);
+    REQUIRE(client->bytes_sent() == 268);
+    REQUIRE(client->bytes_received() == 130);
     REQUIRE(!client->errors);
 }
 
@@ -200,69 +202,69 @@ TEST_CASE("WebSocket server multicast test", "[CppServer][WebSocket]")
     // Create and connect Echo client
     auto client1 = std::make_shared<EchoWSClient>(service, address, port);
     REQUIRE(client1->ConnectAsync());
-    while (!client1->IsConnected() || (server->clients != 1))
+    while (!client1->connected || (server->clients != 1))
         Thread::Yield();
 
     // Multicast some data to all clients
     server->MulticastText("test");
 
     // Wait for all data processed...
-    while (client1->bytes_received() != 4)
+    while (client1->received != 4)
         Thread::Yield();
 
     // Create and connect Echo client
     auto client2 = std::make_shared<EchoWSClient>(service, address, port);
     REQUIRE(client2->ConnectAsync());
-    while (!client2->IsConnected() || (server->clients != 2))
+    while (!client2->connected || (server->clients != 2))
         Thread::Yield();
 
     // Multicast some data to all clients
     server->MulticastText("test");
 
     // Wait for all data processed...
-    while ((client1->bytes_received() != 8) || (client2->bytes_received() != 4))
+    while ((client1->received != 8) || (client2->received != 4))
         Thread::Yield();
 
     // Create and connect Echo client
     auto client3 = std::make_shared<EchoWSClient>(service, address, port);
     REQUIRE(client3->ConnectAsync());
-    while (!client3->IsConnected() || (server->clients != 3))
+    while (!client3->connected || (server->clients != 3))
         Thread::Yield();
 
     // Multicast some data to all clients
     server->MulticastText("test");
 
     // Wait for all data processed...
-    while ((client1->bytes_received() != 12) || (client2->bytes_received() != 8) || (client3->bytes_received() != 4))
+    while ((client1->received != 12) || (client2->received != 8) || (client3->received != 4))
         Thread::Yield();
 
     // Disconnect the Echo client
-    REQUIRE(client1->DisconnectAsync());
-    while (client1->IsConnected() || (server->clients != 2))
+    REQUIRE(client1->CloseAsync(1000));
+    while (!client1->disconnected || (server->clients != 2))
         Thread::Yield();
 
     // Multicast some data to all clients
     server->MulticastText("test");
 
     // Wait for all data processed...
-    while ((client1->bytes_received() != 12) || (client2->bytes_received() != 12) || (client3->bytes_received() != 8))
+    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 8))
         Thread::Yield();
 
     // Disconnect the Echo client
-    REQUIRE(client2->DisconnectAsync());
-    while (client2->IsConnected() || (server->clients != 1))
+    REQUIRE(client2->CloseAsync(1000));
+    while (!client2->disconnected || (server->clients != 1))
         Thread::Yield();
 
     // Multicast some data to all clients
     server->MulticastText("test");
 
     // Wait for all data processed...
-    while ((client1->bytes_received() != 12) || (client2->bytes_received() != 12) || (client3->bytes_received() != 12))
+    while ((client1->received != 12) || (client2->received != 12) || (client3->received != 12))
         Thread::Yield();
 
     // Disconnect the Echo client
-    REQUIRE(client3->DisconnectAsync());
-    while (client3->IsConnected() || (server->clients != 0))
+    REQUIRE(client3->CloseAsync(1000));
+    while (!client3->disconnected || (server->clients != 0))
         Thread::Yield();
 
     // Stop the Echo server
@@ -288,17 +290,17 @@ TEST_CASE("WebSocket server multicast test", "[CppServer][WebSocket]")
     REQUIRE(server->stopped);
     REQUIRE(server->connected);
     REQUIRE(server->disconnected);
-    REQUIRE(server->bytes_sent() == 36);
-    REQUIRE(server->bytes_received() == 0);
+    REQUIRE(server->bytes_sent() == 450);
+    REQUIRE(server->bytes_received() == 792);
     REQUIRE(!server->errors);
 
     // Check the Echo client state
-    REQUIRE(client1->bytes_sent() == 0);
-    REQUIRE(client2->bytes_sent() == 0);
-    REQUIRE(client3->bytes_sent() == 0);
-    REQUIRE(client1->bytes_received() == 12);
-    REQUIRE(client2->bytes_received() == 12);
-    REQUIRE(client3->bytes_received() == 12);
+    REQUIRE(client1->bytes_sent() == 258);
+    REQUIRE(client2->bytes_sent() == 258);
+    REQUIRE(client3->bytes_sent() == 258);
+    REQUIRE(client1->bytes_received() == 150);
+    REQUIRE(client2->bytes_received() == 150);
+    REQUIRE(client3->bytes_received() == 150);
     REQUIRE(!client1->errors);
     REQUIRE(!client2->errors);
     REQUIRE(!client3->errors);
