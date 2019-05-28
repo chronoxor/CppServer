@@ -1,23 +1,23 @@
 /*!
-    \file ws_session.cpp
-    \brief WebSocket session implementation
+    \file wss_session.cpp
+    \brief WebSocket secure session implementation
     \author Ivan Shynkarenka
-    \date 27.05.2019
+    \date 28.05.2019
     \copyright MIT License
 */
 
-#include "server/ws/ws_session.h"
-#include "server/ws/ws_server.h"
+#include "server/ws/wss_session.h"
+#include "server/ws/wss_server.h"
 
 namespace CppServer {
 namespace WS {
 
-WSSession::WSSession(std::shared_ptr<WSServer> server)
-    : HTTP::HTTPSession(server)
+WSSSession::WSSSession(std::shared_ptr<WSSServer> server)
+    : HTTP::HTTPSSession(server)
 {
 }
 
-void WSSession::onDisconnected()
+void WSSSession::onDisconnected()
 {
     // Disconnect WebSocket
     if (_ws_handshaked)
@@ -34,12 +34,12 @@ void WSSession::onDisconnected()
     ClearWSBuffers();
 }
 
-void WSSession::onReceived(const void* buffer, size_t size)
+void WSSSession::onReceived(const void* buffer, size_t size)
 {
     // Perfrom the WebSocket handshake
     if (!_ws_handshaked)
     {
-        HTTPSession::onReceived(buffer, size);
+        HTTPSSession::onReceived(buffer, size);
         return;
     }
 
@@ -47,7 +47,7 @@ void WSSession::onReceived(const void* buffer, size_t size)
     PrepareReceiveFrame(buffer, size);
 }
 
-void WSSession::onReceivedRequestHeader(const HTTP::HTTPRequest& request)
+void WSSSession::onReceivedRequestHeader(const HTTP::HTTPRequest& request)
 {
     // Check for WebSocket handshaked status
     if (_ws_handshaked)
@@ -61,7 +61,7 @@ void WSSession::onReceivedRequestHeader(const HTTP::HTTPRequest& request)
     }
 }
 
-void WSSession::onReceivedRequest(const HTTP::HTTPRequest& request)
+void WSSSession::onReceivedRequest(const HTTP::HTTPRequest& request)
 {
     // Check for WebSocket handshaked status
     if (_ws_handshaked)
@@ -72,7 +72,7 @@ void WSSession::onReceivedRequest(const HTTP::HTTPRequest& request)
     }
 }
 
-std::string WSSession::ReceiveText()
+std::string WSSSession::ReceiveText()
 {
     std::string result;
 
@@ -86,7 +86,7 @@ std::string WSSession::ReceiveText()
     {
         size_t required = RequiredReceiveFrameSize();
         cache.resize(required);
-        size_t received = HTTPSession::Receive(cache.data(), required);
+        size_t received = HTTPSSession::Receive(cache.data(), required);
         if (received != required)
             return result;
     }
@@ -97,7 +97,7 @@ std::string WSSession::ReceiveText()
     return result;
 }
 
-std::string WSSession::ReceiveText(const CppCommon::Timespan& timeout)
+std::string WSSSession::ReceiveText(const CppCommon::Timespan& timeout)
 {
     std::string result;
 
@@ -111,7 +111,7 @@ std::string WSSession::ReceiveText(const CppCommon::Timespan& timeout)
     {
         size_t required = RequiredReceiveFrameSize();
         cache.resize(required);
-        size_t received = HTTPSession::Receive(cache.data(), required, timeout);
+        size_t received = HTTPSSession::Receive(cache.data(), required, timeout);
         if (received != required)
             return result;
         PrepareReceiveFrame(cache.data(), received);
@@ -123,7 +123,7 @@ std::string WSSession::ReceiveText(const CppCommon::Timespan& timeout)
     return result;
 }
 
-std::vector<uint8_t> WSSession::ReceiveBinary()
+std::vector<uint8_t> WSSSession::ReceiveBinary()
 {
     std::vector<uint8_t> result;
 
@@ -137,7 +137,7 @@ std::vector<uint8_t> WSSession::ReceiveBinary()
     {
         size_t required = RequiredReceiveFrameSize();
         cache.resize(required);
-        size_t received = HTTPSession::Receive(cache.data(), required);
+        size_t received = HTTPSSession::Receive(cache.data(), required);
         if (received != required)
             return result;
         PrepareReceiveFrame(cache.data(), received);
@@ -149,7 +149,7 @@ std::vector<uint8_t> WSSession::ReceiveBinary()
     return result;
 }
 
-std::vector<uint8_t> WSSession::ReceiveBinary(const CppCommon::Timespan& timeout)
+std::vector<uint8_t> WSSSession::ReceiveBinary(const CppCommon::Timespan& timeout)
 {
     std::vector<uint8_t> result;
 
@@ -163,7 +163,7 @@ std::vector<uint8_t> WSSession::ReceiveBinary(const CppCommon::Timespan& timeout
     {
         size_t required = RequiredReceiveFrameSize();
         cache.resize(required);
-        size_t received = HTTPSession::Receive(cache.data(), required, timeout);
+        size_t received = HTTPSSession::Receive(cache.data(), required, timeout);
         if (received != required)
             return result;
         PrepareReceiveFrame(cache.data(), received);

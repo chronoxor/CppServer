@@ -17,12 +17,7 @@
 namespace CppServer {
 namespace WS {
 
-bool WebSocket::PerformUpgrade(const HTTP::HTTPRequest& request)
-{
-    return true;
-}
-
-bool WebSocket::PerformUpgrade(const HTTP::HTTPResponse& response, const CppCommon::UUID& id)
+bool WebSocket::PerformClientUpgrade(const HTTP::HTTPResponse& response, const CppCommon::UUID& id)
 {
     // Try to perform WebSocket handshake
     if (response.status() == 101)
@@ -71,7 +66,7 @@ bool WebSocket::PerformUpgrade(const HTTP::HTTPResponse& response, const CppComm
                 wskey = CppCommon::Encoding::Base64Decode(value);
 
                 // Compare original and received hashes
-                if (std::strncmp(wskey.data(), wshash, std::max(wskey.size(), sizeof(wshash))) != 0)
+                if (std::strncmp(wskey.data(), wshash, std::min(wskey.size(), sizeof(wshash))) != 0)
                 {
                     error = true;
                     onWSError("Invalid WebSocket handshaked response: 'Sec-WebSocket-Accept' value validation failed");
@@ -91,7 +86,7 @@ bool WebSocket::PerformUpgrade(const HTTP::HTTPResponse& response, const CppComm
         }
 
         // WebSocket successfully handshaked!
-        _handshaked = true;
+        _ws_handshaked = true;
         *((uint32_t*)_ws_send_mask) = rand();
         onWSConnected(response);
 
@@ -99,6 +94,124 @@ bool WebSocket::PerformUpgrade(const HTTP::HTTPResponse& response, const CppComm
     }
 
     onWSError("Invalid WebSocket response status: {}"_format(response.status()));
+    return false;
+}
+
+bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTTPResponse& response)
+{
+    // Try to perform WebSocket handshake
+    if (request.method() == "GET")
+    {
+        bool error = false;
+        bool connection = false;
+        bool upgrade = false;
+        bool ws_key = false;
+        bool ws_protocol = false;
+        bool ws_version = false;
+
+        std::string accept;
+
+        for (size_t i = 0; i < request.headers(); ++i)
+        {
+            auto header = request.header(i);
+            auto key = std::get<0>(header);
+            auto value = std::get<1>(header);
+
+            if (key == "Connection")
+            {
+                if (value != "Upgrade")
+                {
+                    error = true;
+                    response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Connection' header value must be 'Upgrade'", 400);
+                    break;
+                }
+
+                connection = true;
+            }
+            else if (key == "Upgrade")
+            {
+                if (value != "websocket")
+                {
+                    error = true;
+                    response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Upgrade' header value must be 'websocket'", 400);
+                    break;
+                }
+
+                upgrade = true;
+            }
+            else if (key == "Sec-WebSocket-Key")
+            {
+                if (value.empty())
+                {
+                    error = true;
+                    response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Sec-WebSocket-Key' header value must be non empty", 400);
+                    break;
+                }
+
+                // Calculate WebSocket accept value
+                std::string wskey = std::string(value) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+                char wshash[SHA_DIGEST_LENGTH];
+                SHA1((const unsigned char*)wskey.data(), wskey.size(), (unsigned char*)wshash);
+
+                ws_key = true;
+            }
+            else if (key == "Sec-WebSocket-Protocol")
+            {
+                if (value.empty())
+                {
+                    error = true;
+                    response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Sec-WebSocket-Protocol' header value must be non empty", 400);
+                    break;
+                }
+
+                ws_protocol = true;
+            }
+            else if (key == "Sec-WebSocket-Version")
+            {
+                if (value != "13")
+                {
+                    error = true;
+                    response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Sec-WebSocket-Version' header value must be '13'", 400);
+                    break;
+                }
+
+                ws_version = true;
+            }
+        }
+
+        // Failed to perfrom WebSocket handshake
+        if (!connection || !upgrade || !ws_key || !ws_protocol || !ws_version)
+        {
+            if (!error)
+                response.MakeErrorResponse("Invalid WebSocket response", 400);
+            SendResponse(response);
+            return false;
+        }
+
+        // Prepare WebSocket upgrade success response
+        response.Clear();
+        response.SetBegin(101);
+        response.SetHeader("Connection", "Upgrade");
+        response.SetHeader("Upgrade", "websocket");
+        response.SetHeader("Sec-WebSocket-Accept", accept);
+        response.SetBody();
+
+        // Validate WebSocket upgrade request and response
+        if (!onWSConnecting(request, response))
+            return false;
+
+        // Send WebSocket upgrade response
+        SendResponse(response);
+
+        // WebSocket successfully handshaked!
+        _ws_handshaked = true;
+        *((uint32_t*)_ws_send_mask) = rand();
+        onWSConnected(request);
+
+        return true;
+    }
+
+    response.MakeErrorResponse("Invalid WebSocket request method: {}"_format(request.method()), 400);
     return false;
 }
 
@@ -142,32 +255,6 @@ void WebSocket::PrepareSendFrame(uint8_t opcode, const void* buffer, size_t size
         _ws_send_buffer[offset + i] = data[i] ^ _ws_send_mask[i % 4];
 }
 
-size_t WebSocket::RequiredReceiveFrameSize()
-{
-    if (_ws_received)
-        return 0;
-
-    // Required WebSocket frame opcode and mask flag
-    if (_ws_receive_buffer.size() < 2)
-        return 2 - _ws_receive_buffer.size();
-
-    bool mask = ((_ws_receive_buffer[1] >> 7) & 0x01) != 0;
-    size_t payload = _ws_receive_buffer[1] & (~0x80);
-
-    // Required WebSocket frame size
-    if ((payload == 126) && (_ws_receive_buffer.size() < 4))
-        return 4 - _ws_receive_buffer.size();
-    if ((payload == 127) && (_ws_receive_buffer.size() < 10))
-        return 10 - _ws_receive_buffer.size();
-
-    // Required WebSocket frame mask
-    if ((mask) && (_ws_receive_buffer.size() < _ws_header_size))
-        return _ws_header_size - _ws_receive_buffer.size();
-
-    // Required WebSocket frame payload
-    return _ws_header_size + _ws_payload_size - _ws_receive_buffer.size();
-}
-
 void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
 {
     const uint8_t* data = (const uint8_t*)buffer;
@@ -195,7 +282,7 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
             }
         }
 
-        [[maybe_unused]] uint8_t opcode = _ws_receive_buffer[0] & 0x0F;
+        uint8_t opcode = _ws_receive_buffer[0] & 0x0F;
         [[maybe_unused]] bool fin = ((_ws_receive_buffer[0] >> 7) & 0x01) != 0;
         bool mask = ((_ws_receive_buffer[1] >> 7) & 0x01) != 0;
         size_t payload = _ws_receive_buffer[1] & (~0x80);
@@ -251,6 +338,7 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
                 {
                     if (size == 0)
                         return;
+                    _ws_receive_buffer.push_back(*data);
                     _ws_receive_mask[i] = *data;
                 }
             }
@@ -276,10 +364,54 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
 
             _ws_received = true;
 
-            // Call the WebSocket received handler
-            onWSReceived(_ws_receive_buffer.data() + offset, _ws_payload_size);
+            if (opcode & (WS_TEXT | WS_BINARY))
+            {
+                // Call the WebSocket received handler
+                onWSReceived(_ws_receive_buffer.data() + offset, _ws_payload_size);
+            }
+            else if (opcode & WS_CLOSE)
+            {
+                // Call the WebSocket close handler
+                onWSClose(_ws_receive_buffer.data() + offset, _ws_payload_size);
+            }
+            else if (opcode & WS_PING)
+            {
+                // Call the WebSocket ping handler
+                onWSPing(_ws_receive_buffer.data() + offset, _ws_payload_size);
+            }
+            else if (opcode & WS_PONG)
+            {
+                // Call the WebSocket pong handler
+                onWSPong(_ws_receive_buffer.data() + offset, _ws_payload_size);
+            }
         }
     }
+}
+
+size_t WebSocket::RequiredReceiveFrameSize()
+{
+    if (_ws_received)
+        return 0;
+
+    // Required WebSocket frame opcode and mask flag
+    if (_ws_receive_buffer.size() < 2)
+        return 2 - _ws_receive_buffer.size();
+
+    bool mask = ((_ws_receive_buffer[1] >> 7) & 0x01) != 0;
+    size_t payload = _ws_receive_buffer[1] & (~0x80);
+
+    // Required WebSocket frame size
+    if ((payload == 126) && (_ws_receive_buffer.size() < 4))
+        return 4 - _ws_receive_buffer.size();
+    if ((payload == 127) && (_ws_receive_buffer.size() < 10))
+        return 10 - _ws_receive_buffer.size();
+
+    // Required WebSocket frame mask
+    if ((mask) && (_ws_receive_buffer.size() < _ws_header_size))
+        return _ws_header_size - _ws_receive_buffer.size();
+
+    // Required WebSocket frame payload
+    return _ws_header_size + _ws_payload_size - _ws_receive_buffer.size();
 }
 
 void WebSocket::ClearWSBuffers()

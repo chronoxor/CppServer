@@ -56,9 +56,9 @@ void WSClient::onConnected()
 void WSClient::onDisconnected()
 {
     // Disconnect WebSocket
-    if (_handshaked)
+    if (_ws_handshaked)
     {
-        _handshaked = false;
+        _ws_handshaked = false;
         onWSDisconnected();
     }
 
@@ -73,7 +73,7 @@ void WSClient::onDisconnected()
 void WSClient::onReceived(const void* buffer, size_t size)
 {
     // Perfrom the WebSocket handshake
-    if (!_handshaked)
+    if (!_ws_handshaked)
     {
         HTTPClient::onReceived(buffer, size);
         return;
@@ -86,13 +86,13 @@ void WSClient::onReceived(const void* buffer, size_t size)
 void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
 {
     // Check for WebSocket handshaked status
-    if (_handshaked)
+    if (_ws_handshaked)
         return;
 
     // Try to perform WebSocket upgrade
-    if (!PerformUpgrade(response, id()))
+    if (!PerformClientUpgrade(response, id()))
     {
-        DisconnectAsync();
+        HTTPClient::DisconnectAsync();
         return;
     }
 }
@@ -100,7 +100,7 @@ void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
 void WSClient::onReceivedResponse(const HTTP::HTTPResponse& response)
 {
     // Check for WebSocket handshaked status
-    if (_handshaked)
+    if (_ws_handshaked)
     {
         // Prepare receive frame from the remaining request body
         auto body = _request.body();
@@ -112,7 +112,7 @@ std::string WSClient::ReceiveText()
 {
     std::string result;
 
-    if (!_handshaked)
+    if (!_ws_handshaked)
         return result;
 
     std::vector<uint8_t> cache;
@@ -137,7 +137,7 @@ std::string WSClient::ReceiveText(const CppCommon::Timespan& timeout)
 {
     std::string result;
 
-    if (!_handshaked)
+    if (!_ws_handshaked)
         return result;
 
     std::vector<uint8_t> cache;
@@ -163,7 +163,7 @@ std::vector<uint8_t> WSClient::ReceiveBinary()
 {
     std::vector<uint8_t> result;
 
-    if (!_handshaked)
+    if (!_ws_handshaked)
         return result;
 
     std::vector<uint8_t> cache;
@@ -189,7 +189,7 @@ std::vector<uint8_t> WSClient::ReceiveBinary(const CppCommon::Timespan& timeout)
 {
     std::vector<uint8_t> result;
 
-    if (!_handshaked)
+    if (!_ws_handshaked)
         return result;
 
     std::vector<uint8_t> cache;

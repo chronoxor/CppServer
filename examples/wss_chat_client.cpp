@@ -22,7 +22,7 @@ public:
     void DisconnectAndStop()
     {
         _stop = true;
-        DisconnectAsync();
+        DisconnectAsync(1000);
         while (IsConnected())
             CppCommon::Thread::Yield();
     }
@@ -31,8 +31,8 @@ protected:
     void onWSConnecting(CppServer::HTTP::HTTPRequest& request) override
     {
         request.SetBegin("GET", "/");
-        request.SetHeader("Host", "echo.websocket.org");
-        request.SetHeader("Origin", "https://websocket.org");
+        request.SetHeader("Host", "localhost");
+        request.SetHeader("Origin", "https://localhost");
         request.SetHeader("Upgrade", "websocket");
         request.SetHeader("Connection", "Upgrade");
         request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
@@ -53,6 +53,11 @@ protected:
     void onWSReceived(const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+    }
+
+    void onWSPing(const void* buffer, size_t size) override
+    {
+        SendPongAsync(buffer, size);
     }
 
     void onDisconnected() override
@@ -79,12 +84,12 @@ private:
 int main(int argc, char** argv)
 {
     // WebSocket server address
-    std::string address = "174.129.224.73";
+    std::string address = "127.0.0.1";
     if (argc > 1)
         address = argv[1];
 
     // WebSocket server port
-    int port = 443;
+    int port = 8443;
     if (argc > 2)
         port = std::atoi(argv[2]);
 
@@ -106,7 +111,7 @@ int main(int argc, char** argv)
     context->set_default_verify_paths();
     context->set_root_certs();
     context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);
-    context->set_verify_callback(asio::ssl::rfc2818_verification("echo.websocket.org"));
+    context->load_verify_file("../tools/certificates/ca.pem");
 
     // Create a new WebSocket chat client
     auto client = std::make_shared<ChatClient>(service, context, address, port);

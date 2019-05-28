@@ -22,7 +22,7 @@ public:
     void DisconnectAndStop()
     {
         _stop = true;
-        DisconnectAsync();
+        DisconnectAsync(1000);
         while (IsConnected())
             CppCommon::Thread::Yield();
     }
@@ -31,8 +31,8 @@ protected:
     void onWSConnecting(CppServer::HTTP::HTTPRequest& request) override
     {
         request.SetBegin("GET", "/");
-        request.SetHeader("Host", "echo.websocket.org");
-        request.SetHeader("Origin", "http://websocket.org");
+        request.SetHeader("Host", "localhost");
+        request.SetHeader("Origin", "http://localhost");
         request.SetHeader("Upgrade", "websocket");
         request.SetHeader("Connection", "Upgrade");
         request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
@@ -53,6 +53,11 @@ protected:
     void onWSReceived(const void* buffer, size_t size) override
     {
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
+    }
+
+    void onWSPing(const void* buffer, size_t size) override
+    {
+        SendPongAsync(buffer, size);
     }
 
     void onDisconnected() override
@@ -79,12 +84,12 @@ private:
 int main(int argc, char** argv)
 {
     // WebSocket server address
-    std::string address = "174.129.224.73";
+    std::string address = "127.0.0.1";
     if (argc > 1)
         address = argv[1];
 
     // WebSocket server port
-    int port = 80;
+    int port = 8080;
     if (argc > 2)
         port = std::atoi(argv[2]);
 
