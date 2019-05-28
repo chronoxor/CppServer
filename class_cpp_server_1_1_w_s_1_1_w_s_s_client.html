@@ -137,10 +137,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6abf72e0137d8fc18ff7baafd827ca59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05c9b0f2ad1e6d1b77c50166cb2776e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a05c9b0f2ad1e6d1b77c50166cb2776e0">ConnectAsync</a> (std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_resolver.html">Asio::TCPResolver</a> &gt; resolver) override</td></tr>
 <tr class="separator:a05c9b0f2ad1e6d1b77c50166cb2776e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0b883253459a84771093f91e30f492a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#ad0b883253459a84771093f91e30f492a">Disconnect</a> (int status)</td></tr>
-<tr class="separator:ad0b883253459a84771093f91e30f492a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a859f11d118217c6bc4ed9b2fb54c59d8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a859f11d118217c6bc4ed9b2fb54c59d8">DisconnectAsync</a> (int status)</td></tr>
-<tr class="separator:a859f11d118217c6bc4ed9b2fb54c59d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f516e3a6e86aa6d3c6047b68754b46c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a0f516e3a6e86aa6d3c6047b68754b46c">Close</a> (int status)</td></tr>
+<tr class="separator:a0f516e3a6e86aa6d3c6047b68754b46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c59d8c92435d9df85351356b57d2ad7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a7c59d8c92435d9df85351356b57d2ad7">CloseAsync</a> (int status)</td></tr>
+<tr class="separator:a7c59d8c92435d9df85351356b57d2ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad75a3284e18b236f1134639437d310ff"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#ad75a3284e18b236f1134639437d310ff">SendText</a> (const void *buffer, size_t size)</td></tr>
 <tr class="separator:ad75a3284e18b236f1134639437d310ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d7bdf49c3a72f0fd48299c47a847544"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a6d7bdf49c3a72f0fd48299c47a847544">SendText</a> (std::string_view text)</td></tr>
@@ -640,6 +640,59 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a0f516e3a6e86aa6d3c6047b68754b46c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool CppServer::WS::WSSClient::Close </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="wss__client_8h_source.html#l00043">43</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c59d8c92435d9df85351356b57d2ad7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool CppServer::WS::WSSClient::CloseAsync </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="wss_chat_client_8cpp-example.html#a2">wss_chat_client.cpp</a>.</dd>
+</dl>
+<p>Definition at line <a class="el" href="wss__client_8h_source.html#l00044">44</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a86f4d790387cea380bbd59c9dbb67b24"></a>
 <div class="memitem">
 <div class="memproto">
@@ -750,58 +803,6 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="wss__client_8cpp_source.html#l00032">32</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad0b883253459a84771093f91e30f492a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool CppServer::WS::WSSClient::Disconnect </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>status</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="wss__client_8h_source.html#l00043">43</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a859f11d118217c6bc4ed9b2fb54c59d8"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool CppServer::WS::WSSClient::DisconnectAsync </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>status</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="wss__client_8h_source.html#l00044">44</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
 
 </div>
 </div>

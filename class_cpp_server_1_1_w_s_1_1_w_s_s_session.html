@@ -129,8 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2afd5c8fa502fd45eb1bc2ab57793f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cc538b056b8afc9ee95aa6fe853ab60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html">WSSSession</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#a8cc538b056b8afc9ee95aa6fe853ab60">operator=</a> (<a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html">WSSSession</a> &amp;&amp;)=delete</td></tr>
 <tr class="separator:a8cc538b056b8afc9ee95aa6fe853ab60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0702cd5726bf003bc65fb5ef8bb97d99"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#a0702cd5726bf003bc65fb5ef8bb97d99">Disconnect</a> (int status)</td></tr>
-<tr class="separator:a0702cd5726bf003bc65fb5ef8bb97d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b9aaf3a8dc32059ea947e73da601b5f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#a2b9aaf3a8dc32059ea947e73da601b5f">Close</a> (int status)</td></tr>
+<tr class="separator:a2b9aaf3a8dc32059ea947e73da601b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc2ba2687a0bcbc30b56d47a3cc83a4a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#afc2ba2687a0bcbc30b56d47a3cc83a4a">SendText</a> (const void *buffer, size_t size)</td></tr>
 <tr class="separator:afc2ba2687a0bcbc30b56d47a3cc83a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe915bb66e9dd8fb28f2109388eea2fd"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#afe915bb66e9dd8fb28f2109388eea2fd">SendText</a> (std::string_view text)</td></tr>
@@ -613,7 +613,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a0702cd5726bf003bc65fb5ef8bb97d99"></a>
+<a class="anchor" id="a2b9aaf3a8dc32059ea947e73da601b5f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -621,7 +621,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool CppServer::WS::WSSSession::Disconnect </td>
+          <td class="memname">virtual bool CppServer::WS::WSSSession::Close </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>status</em></td><td>)</td>
@@ -634,7 +634,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="wss_chat_server_8cpp-example.html#a10">wss_chat_server.cpp</a>.</dd>
+</dl>
 <p>Definition at line <a class="el" href="wss__session_8h_source.html#l00038">38</a> of file <a class="el" href="wss__session_8h_source.html">wss_session.h</a>.</p>
 
 </div>
