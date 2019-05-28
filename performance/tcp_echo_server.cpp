@@ -27,7 +27,7 @@ protected:
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "TCP session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
@@ -45,7 +45,7 @@ protected:
 protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "TCP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 

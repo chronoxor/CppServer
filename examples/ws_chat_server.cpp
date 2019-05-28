@@ -42,7 +42,7 @@ protected:
 
         // If the buffer starts with '!' the disconnect the current session
         if (message == "!")
-            Disconnect();
+            Disconnect(1000);
     }
 
     void onWSPing(const void* buffer, size_t size) override

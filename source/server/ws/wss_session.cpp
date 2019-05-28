@@ -56,7 +56,7 @@ void WSSSession::onReceivedRequestHeader(const HTTP::HTTPRequest& request)
     // Try to perform WebSocket upgrade
     if (!PerformServerUpgrade(request, response()))
     {
-        Disconnect();
+        HTTPSSession::Disconnect();
         return;
     }
 }

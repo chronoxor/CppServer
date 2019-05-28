@@ -271,6 +271,16 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
 
     while (size > 0)
     {
+        // Clear received data after WebSocket frame was processed
+        if (_ws_received)
+        {
+            _ws_received = false;
+            _ws_header_size = 0;
+            _ws_payload_size = 0;
+            _ws_receive_buffer.clear();
+            *((uint32_t*)_ws_receive_mask) = 0;
+        }
+
         // Prepare WebSocket frame opcode and mask flag
         if (_ws_receive_buffer.size() < 2)
         {

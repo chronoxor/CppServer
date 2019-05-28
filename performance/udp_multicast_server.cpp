@@ -26,7 +26,7 @@ public:
 protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "Server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "UDP server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 

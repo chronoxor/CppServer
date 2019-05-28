@@ -35,7 +35,7 @@ public:
     WSSession& operator=(WSSession&&) = delete;
 
     // WebSocket connection methods
-    bool Disconnect() override { SendCloseAsync(1000, nullptr, 0); return HTTPSession::Disconnect(); }
+    virtual bool Disconnect(int status) { SendCloseAsync(status, nullptr, 0); return HTTPSession::Disconnect(); }
 
     // WebSocket send text methods
     size_t SendText(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, buffer, size); return HTTPSession::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
@@ -91,7 +91,7 @@ protected:
     void onReceivedRequestError(const HTTP::HTTPRequest& request, const std::string& error) override { onError(asio::error::fault, "WebSocket error", error); }
 
     //! Handle WebSocket close notification
-    void onWSClose(const void* buffer, size_t size) override { Disconnect(); }
+    void onWSClose(const void* buffer, size_t size) override { HTTPSession::Disconnect(); }
     //! Handle WebSocket error notification
     void onWSError(const std::string& message) override { onError(asio::error::fault, "WebSocket error", message); }
 

@@ -1,9 +1,9 @@
 //
-// Created by Ivan Shynkarenka on 15.03.2017
+// Created by Ivan Shynkarenka on 28.05.2019
 //
 
 #include "server/asio/service.h"
-#include "server/asio/tcp_client.h"
+#include "server/ws/wss_client.h"
 
 #include "benchmark/reporter_console.h"
 #include "system/cpu.h"
@@ -18,6 +18,7 @@
 
 using namespace CppCommon;
 using namespace CppServer::Asio;
+using namespace CppServer::WS;
 
 std::vector<uint8_t> message_to_send;
 
@@ -28,30 +29,37 @@ std::atomic<uint64_t> total_errors(0);
 std::atomic<uint64_t> total_bytes(0);
 std::atomic<uint64_t> total_messages(0);
 
-class EchoClient : public TCPClient
+class EchoClient : public WSSClient
 {
 public:
-    EchoClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
-        : TCPClient(service, address, port),
+    EchoClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port, int messages)
+        : WSSClient(service, context, address, port),
           _messages(messages)
     {
     }
 
-    void SendMessage() { SendAsync(message_to_send.data(), message_to_send.size()); }
+    void SendMessage() { SendBinaryAsync(message_to_send.data(), message_to_send.size()); }
 
 protected:
-    void onConnected() override
+    void onWSConnecting(CppServer::HTTP::HTTPRequest& request) override
+    {
+        request.SetBegin("GET", "/");
+        request.SetHeader("Host", "localhost");
+        request.SetHeader("Origin", "https://localhost");
+        request.SetHeader("Upgrade", "websocket");
+        request.SetHeader("Connection", "Upgrade");
+        request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
+        request.SetHeader("Sec-WebSocket-Protocol", "chat, superchat");
+        request.SetHeader("Sec-WebSocket-Version", "13");
+    }
+
+    void onWSConnected(const CppServer::HTTP::HTTPResponse& response) override
     {
         for (size_t i = _messages; i > 0; --i)
             SendMessage();
     }
 
-    void onSent(size_t sent, size_t pending) override
-    {
-        _sent += sent;
-    }
-
-    void onReceived(const void* buffer, size_t size) override
+    void onWSReceived(const void* buffer, size_t size) override
     {
         _received += size;
         while (_received >= message_to_send.size())
@@ -64,9 +72,19 @@ protected:
         total_bytes += size;
     }
 
+    void onWSPing(const void* buffer, size_t size) override
+    {
+        SendPongAsync(buffer, size);
+    }
+
+    void onSent(size_t sent, size_t pending) override
+    {
+        _sent += sent;
+    }
+
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "TCP client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "WebSocket secure client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
         ++total_errors;
     }
 
@@ -81,7 +99,7 @@ int main(int argc, char** argv)
     auto parser = optparse::OptionParser().version("1.0.0.0");
 
     parser.add_option("-a", "--address").dest("address").set_default("127.0.0.1").help("Server address. Default: %default");
-    parser.add_option("-p", "--port").dest("port").action("store").type("int").set_default(1111).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").dest("port").action("store").type("int").set_default(8443).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").dest("threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
     parser.add_option("-c", "--clients").dest("clients").action("store").type("int").set_default(100).help("Count of working clients. Default: %default");
     parser.add_option("-m", "--messages").dest("messages").action("store").type("int").set_default(1000).help("Count of messages to send at the same time. Default: %default");
@@ -127,12 +145,19 @@ int main(int argc, char** argv)
     service->Start();
     std::cout << "Done!" << std::endl;
 
+    // Create and prepare a new SSL client context
+    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
+    context->set_default_verify_paths();
+    context->set_root_certs();
+    context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);
+    context->load_verify_file("../tools/certificates/ca.pem");
+
     // Create echo clients
     std::vector<std::shared_ptr<EchoClient>> clients;
     for (int i = 0; i < clients_count; ++i)
     {
         // Create echo client
-        auto client = std::make_shared<EchoClient>(service, address, port, messages_count);
+        auto client = std::make_shared<EchoClient>(service, context, address, port, messages_count);
         // client->SetupNoDelay(true);
         clients.emplace_back(client);
     }
@@ -157,7 +182,7 @@ int main(int argc, char** argv)
     // Disconnect clients
     std::cout << "Clients disconnecting...";
     for (auto& client : clients)
-        client->DisconnectAsync();
+        client->DisconnectAsync(1000);
     std::cout << "Done!" << std::endl;
     for (const auto& client : clients)
         while (client->IsConnected())

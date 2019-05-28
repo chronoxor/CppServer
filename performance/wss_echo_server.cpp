@@ -1,9 +1,9 @@
 //
-// Created by Ivan Shynkarenka on 16.03.2017
+// Created by Ivan Shynkarenka on 28.05.2019
 //
 
 #include "server/asio/service.h"
-#include "server/asio/ssl_server.h"
+#include "server/ws/wss_server.h"
 #include "system/cpu.h"
 
 #include <iostream>
@@ -12,40 +12,46 @@
 
 using namespace CppCommon;
 using namespace CppServer::Asio;
+using namespace CppServer::WS;
 
-class EchoSession : public SSLSession
+class EchoSession : public WSSSession
 {
 public:
-    using SSLSession::SSLSession;
+    using WSSSession::WSSSession;
 
 protected:
-    void onReceived(const void* buffer, size_t size) override
+    void onWSReceived(const void* buffer, size_t size) override
     {
         // Resend the message back to the client
-        SendAsync(buffer, size);
+        SendBinaryAsync(buffer, size);
+    }
+
+    void onWSPing(const void* buffer, size_t size) override
+    {
+        SendPongAsync(buffer, size);
     }
 
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "SSL session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "WebSocket secure session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
-class EchoServer : public SSLServer
+class EchoServer : public WSSServer
 {
 public:
-    using SSLServer::SSLServer;
+    using WSSServer::WSSServer;
 
 protected:
     std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override
     {
-        return std::make_shared<EchoSession>(server);
+        return std::make_shared<EchoSession>(std::dynamic_pointer_cast<WSSServer>(server));
     }
 
 protected:
     void onError(int error, const std::string& category, const std::string& message) override
     {
-        std::cout << "SSL server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+        std::cout << "WebSocket secure server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
     }
 };
 
@@ -53,7 +59,7 @@ int main(int argc, char** argv)
 {
     auto parser = optparse::OptionParser().version("1.0.0.0");
 
-    parser.add_option("-p", "--port").dest("port").action("store").type("int").set_default(2222).help("Server port. Default: %default");
+    parser.add_option("-p", "--port").dest("port").action("store").type("int").set_default(8443).help("Server port. Default: %default");
     parser.add_option("-t", "--threads").dest("threads").action("store").type("int").set_default(CPU::PhysicalCores()).help("Count of working threads. Default: %default");
 
     optparse::Values options = parser.parse_args(argc, argv);
@@ -83,7 +89,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL server context
-    auto context = std::make_shared<SSLContext>(asio::ssl::context::tlsv12);
+    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
     context->set_password_callback([](size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
     context->use_certificate_chain_file("../tools/certificates/server.pem");
     context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
