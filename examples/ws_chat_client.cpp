@@ -22,7 +22,7 @@ public:
     void DisconnectAndStop()
     {
         _stop = true;
-        DisconnectAsync(1000);
+        CloseAsync(1000);
         while (IsConnected())
             CppCommon::Thread::Yield();
     }

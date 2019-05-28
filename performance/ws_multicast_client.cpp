@@ -136,7 +136,7 @@ int main(int argc, char** argv)
     // Disconnect clients
     std::cout << "Clients disconnecting...";
     for (auto& client : clients)
-        client->DisconnectAsync(1000);
+        client->CloseAsync(1000);
     std::cout << "Done!" << std::endl;
     for (const auto& client : clients)
         while (client->IsConnected())

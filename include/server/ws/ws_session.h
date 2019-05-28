@@ -35,7 +35,7 @@ public:
     WSSession& operator=(WSSession&&) = delete;
 
     // WebSocket connection methods
-    virtual bool Disconnect(int status) { SendCloseAsync(status, nullptr, 0); return HTTPSession::Disconnect(); }
+    virtual bool Close(int status) { SendCloseAsync(status, nullptr, 0); return HTTPSession::Disconnect(); }
 
     // WebSocket send text methods
     size_t SendText(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, buffer, size); return HTTPSession::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
