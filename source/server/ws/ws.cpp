@@ -365,25 +365,25 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
 
             _ws_received = true;
 
-            if (opcode & (WS_TEXT | WS_BINARY))
-            {
-                // Call the WebSocket received handler
-                onWSReceived(_ws_receive_buffer.data() + offset, _ws_payload_size);
-            }
-            else if (opcode & WS_CLOSE)
-            {
-                // Call the WebSocket close handler
-                onWSClose(_ws_receive_buffer.data() + offset, _ws_payload_size);
-            }
-            else if (opcode & WS_PING)
+            if ((opcode & WS_PING) == WS_PING)
             {
                 // Call the WebSocket ping handler
                 onWSPing(_ws_receive_buffer.data() + offset, _ws_payload_size);
             }
-            else if (opcode & WS_PONG)
+            else if ((opcode & WS_PONG) == WS_PONG)
             {
                 // Call the WebSocket pong handler
                 onWSPong(_ws_receive_buffer.data() + offset, _ws_payload_size);
+            }
+            else if ((opcode & WS_CLOSE) == WS_CLOSE)
+            {
+                // Call the WebSocket close handler
+                onWSClose(_ws_receive_buffer.data() + offset, _ws_payload_size);
+            }
+            else if (((opcode & WS_TEXT) == WS_TEXT) || ((opcode & WS_BINARY) == WS_BINARY))
+            {
+                // Call the WebSocket received handler
+                onWSReceived(_ws_receive_buffer.data() + offset, _ws_payload_size);
             }
         }
     }

@@ -1999,6 +1999,10 @@ WebSocket client sessions and multicast received message from any session
 to all ones. Also it is possible to send admin message directly from the
 server.
 
+Use the following link to open WebSocket chat server example: http://localhost:8080/chat/index.html
+
+![ws-chat](https://github.com/chronoxor/CppServer/raw/master/images/ws-chat.png)
+
 ```c++
 #include "server/ws/ws_server.h"
 
@@ -2286,6 +2290,10 @@ directly from the server.
 
 This example is very similar to the WebSocket one except the code that
 prepares WebSocket secure context and handshake handler.
+
+Use the following link to open WebSocket secure chat server example: https://localhost:8443/chat/index.html
+
+![wss-chat](https://github.com/chronoxor/CppServer/raw/master/images/wss-chat.png)
 
 ```c++
 #include "server/ws/wss_server.h"

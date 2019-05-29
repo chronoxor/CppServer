@@ -98,7 +98,7 @@ protected:
     void onReceivedResponseError(const HTTP::HTTPResponse& response, const std::string& error) override;
 
     //! Handle WebSocket close notification
-    void onWSClose(const void* buffer, size_t size) override { HTTPSClient::DisconnectAsync(); }
+    void onWSClose(const void* buffer, size_t size) override { CloseAsync(1000); }
     //! Handle WebSocket error notification
     void onWSError(const std::string& message) override { onError(asio::error::fault, "WebSocket error", message); }
 
