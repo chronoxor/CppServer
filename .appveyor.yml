@@ -36,7 +36,7 @@ install:
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
   - if "%type%"=="MinGW" set PATH=C:\mingw64\bin;%PATH:C:\Program Files\Git\usr\bin;=%
   - if "%type%"=="MinGW" set INCLUDE=C:\mingw64\x86_64-w64-mingw32\include;%INCLUDE%
-  - if "%type%"=="MinGW" set OPENSSL_DIR=C:\OpenSSL-v111-Win64
+  - if "%type%"=="MinGW" set OPENSSL_ROOT_DIR=C:\OpenSSL-v111-Win64
   # Visual Studio
   - if "%type%"=="VisualStudio" call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
   # CMake
