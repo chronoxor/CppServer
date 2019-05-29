@@ -131,9 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af94b225d2cbfc3ef7e19025c49695ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bafb85cf4f80ca7f27fde121df9d20b"><td class="memItemLeft" align="right" valign="top">const CppCommon::FileCache &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#a9bafb85cf4f80ca7f27fde121df9d20b">cache</a> () const noexcept</td></tr>
 <tr class="separator:a9bafb85cf4f80ca7f27fde121df9d20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43c898605233dbeb5ae0f65b06aae434"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#a43c898605233dbeb5ae0f65b06aae434">AddStaticContent</a> (const CppCommon::Path &amp;path, const CppCommon::Timespan &amp;timeout=CppCommon::Timespan::hours(1))</td></tr>
-<tr class="memdesc:a43c898605233dbeb5ae0f65b06aae434"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add static content cache.  <a href="#a43c898605233dbeb5ae0f65b06aae434">More...</a><br /></td></tr>
-<tr class="separator:a43c898605233dbeb5ae0f65b06aae434"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1db7969371be5248bafd3feb90a7bf82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#a1db7969371be5248bafd3feb90a7bf82">AddStaticContent</a> (const CppCommon::Path &amp;path, const std::string &amp;prefix=&quot;/&quot;, const CppCommon::Timespan &amp;timeout=CppCommon::Timespan::hours(1))</td></tr>
+<tr class="memdesc:a1db7969371be5248bafd3feb90a7bf82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add static content cache.  <a href="#a1db7969371be5248bafd3feb90a7bf82">More...</a><br /></td></tr>
+<tr class="separator:a1db7969371be5248bafd3feb90a7bf82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee6dc1b3cf160ad23f2826f166a4d690"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#aee6dc1b3cf160ad23f2826f166a4d690">RemoveStaticContent</a> (const CppCommon::Path &amp;path)</td></tr>
 <tr class="memdesc:aee6dc1b3cf160ad23f2826f166a4d690"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove static content cache.  <a href="#aee6dc1b3cf160ad23f2826f166a4d690">More...</a><br /></td></tr>
 <tr class="separator:aee6dc1b3cf160ad23f2826f166a4d690"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -359,7 +359,7 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a43c898605233dbeb5ae0f65b06aae434"></a>
+<a class="anchor" id="a1db7969371be5248bafd3feb90a7bf82"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -368,6 +368,12 @@ Protected Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">const CppCommon::Path &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>prefix</em> = <code>&quot;/&quot;</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -387,6 +393,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>- Static content path </td></tr>
+    <tr><td class="paramname">prefix</td><td>- Cache prefix (default is "/") </td></tr>
     <tr><td class="paramname">timeout</td><td>- Refresh cache timeout (default is 1 hour) </td></tr>
   </table>
   </dd>
@@ -471,7 +478,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Clear static content cache. </p>
 
-<p>Definition at line <a class="el" href="https__server_8h_source.html#l00057">57</a> of file <a class="el" href="https__server_8h_source.html">https_server.h</a>.</p>
+<p>Definition at line <a class="el" href="https__server_8h_source.html#l00058">58</a> of file <a class="el" href="https__server_8h_source.html">https_server.h</a>.</p>
 
 </div>
 </div>
@@ -497,7 +504,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="https__server_8h_source.html#l00063">63</a> of file <a class="el" href="https__server_8h_source.html">https_server.h</a>.</p>
+<p>Definition at line <a class="el" href="https__server_8h_source.html#l00064">64</a> of file <a class="el" href="https__server_8h_source.html">https_server.h</a>.</p>
 
 </div>
 </div>
@@ -579,7 +586,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="https__server_8h_source.html#l00055">55</a> of file <a class="el" href="https__server_8h_source.html">https_server.h</a>.</p>
+<p>Definition at line <a class="el" href="https__server_8h_source.html#l00056">56</a> of file <a class="el" href="https__server_8h_source.html">https_server.h</a>.</p>
 
 </div>
 </div>
@@ -607,7 +614,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Watchdog the static content cache. </p>
 
-<p>Definition at line <a class="el" href="https__server_8h_source.html#l00060">60</a> of file <a class="el" href="https__server_8h_source.html">https_server.h</a>.</p>
+<p>Definition at line <a class="el" href="https__server_8h_source.html#l00061">61</a> of file <a class="el" href="https__server_8h_source.html">https_server.h</a>.</p>
 
 </div>
 </div>

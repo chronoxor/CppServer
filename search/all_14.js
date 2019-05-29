@@ -4,7 +4,7 @@ var searchData=
   ['waitsync',['WaitSync',['../class_cpp_server_1_1_asio_1_1_timer.html#a6f817c53493f9ca8d0641b9f79e26ea2',1,'CppServer::Asio::Timer']]],
   ['watchdog',['Watchdog',['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_server.html#ae4a979f2c271dc125d7fcdd31435bc61',1,'CppServer::HTTP::HTTPServer::Watchdog()'],['../class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#ad940274f08faad53e6b6245b9e34e3b8',1,'CppServer::HTTP::HTTPSServer::Watchdog()']]],
   ['websocket',['WebSocket',['../class_cpp_server_1_1_w_s_1_1_web_socket.html',1,'CppServer::WS']]],
-  ['websocket',['WebSocket',['../class_cpp_server_1_1_w_s_1_1_web_socket.html#adbcb2b8a0c2973f5df4b8a6abe7e7b2a',1,'CppServer::WS::WebSocket::WebSocket()=default'],['../class_cpp_server_1_1_w_s_1_1_web_socket.html#a46cb4915e31b75f38f16e9dc9aef0d82',1,'CppServer::WS::WebSocket::WebSocket(const WebSocket &amp;)=delete'],['../class_cpp_server_1_1_w_s_1_1_web_socket.html#a8a473557fafb57c8b36bcc3ded137a1f',1,'CppServer::WS::WebSocket::WebSocket(WebSocket &amp;&amp;)=delete']]],
+  ['websocket',['WebSocket',['../class_cpp_server_1_1_w_s_1_1_web_socket.html#ab8cb77efb23eaff579b0bbc6423b947e',1,'CppServer::WS::WebSocket::WebSocket()'],['../class_cpp_server_1_1_w_s_1_1_web_socket.html#a46cb4915e31b75f38f16e9dc9aef0d82',1,'CppServer::WS::WebSocket::WebSocket(const WebSocket &amp;)=delete'],['../class_cpp_server_1_1_w_s_1_1_web_socket.html#a8a473557fafb57c8b36bcc3ded137a1f',1,'CppServer::WS::WebSocket::WebSocket(WebSocket &amp;&amp;)=delete']]],
   ['ws_2ecpp',['ws.cpp',['../ws_8cpp.html',1,'']]],
   ['ws_2eh',['ws.h',['../ws_8h.html',1,'']]],
   ['ws_5fbinary',['WS_BINARY',['../class_cpp_server_1_1_w_s_1_1_web_socket.html#a42d49f427563a2fc1ce56e3b5ea2eff0',1,'CppServer::WS::WebSocket']]],
