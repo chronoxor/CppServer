@@ -35,7 +35,6 @@ public:
     WSSSession& operator=(WSSSession&&) = delete;
 
     // WebSocket connection methods
-    bool Disconnect() override { return Close(1000); }
     virtual bool Close(int status) { SendCloseAsync(status, nullptr, 0); return HTTPSSession::Disconnect(); }
 
     // WebSocket send text methods
