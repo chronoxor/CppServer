@@ -72,15 +72,15 @@ void WSClient::onDisconnected()
 
 void WSClient::onReceived(const void* buffer, size_t size)
 {
-    // Perfrom the WebSocket handshake
-    if (!_ws_handshaked)
+    // Check for WebSocket handshaked status
+    if (_ws_handshaked)
     {
-        HTTPClient::onReceived(buffer, size);
+        // Prepare receive frame
+        PrepareReceiveFrame(buffer, size);
         return;
     }
 
-    // Prepare receive frame
-    PrepareReceiveFrame(buffer, size);
+    HTTPClient::onReceived(buffer, size);
 }
 
 void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
@@ -92,7 +92,7 @@ void WSClient::onReceivedResponseHeader(const HTTP::HTTPResponse& response)
     // Try to perform WebSocket upgrade
     if (!PerformClientUpgrade(response, id()))
     {
-        HTTPClient::DisconnectAsync();
+        HTTPClient::onReceivedResponseHeader(response);
         return;
     }
 }
@@ -105,7 +105,22 @@ void WSClient::onReceivedResponse(const HTTP::HTTPResponse& response)
         // Prepare receive frame from the remaining request body
         auto body = _request.body();
         PrepareReceiveFrame(body.data(), body.size());
+        return;
     }
+
+    HTTPClient::onReceivedResponse(response);
+}
+
+void WSClient::onReceivedResponseError(const HTTP::HTTPResponse& response, const std::string& error)
+{
+    // Check for WebSocket handshaked status
+    if (_ws_handshaked)
+    {
+        onError(asio::error::fault, "WebSocket error", error);
+        return;
+    }
+
+    HTTPClient::onReceivedResponseError(response, error);
 }
 
 std::string WSClient::ReceiveText()

@@ -15,7 +15,7 @@ bool WSServer::CloseAll(int status)
 {
     std::scoped_lock locker(_ws_send_lock);
 
-    PrepareSendFrame(WS_FIN | WS_CLOSE, nullptr, 0, status);
+    PrepareSendFrame(WS_FIN | WS_CLOSE, false, nullptr, 0, status);
     if (!HTTPServer::Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()))
         return false;
 

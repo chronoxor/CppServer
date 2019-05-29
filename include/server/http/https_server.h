@@ -45,9 +45,10 @@ public:
     //! Add static content cache
     /*!
         \param path - Static content path
+        \param prefix - Cache prefix (default is "/")
         \param timeout - Refresh cache timeout (default is 1 hour)
     */
-    void AddStaticContent(const CppCommon::Path& path, const CppCommon::Timespan& timeout = CppCommon::Timespan::hours(1));
+    void AddStaticContent(const CppCommon::Path& path, const std::string& prefix = "/", const CppCommon::Timespan& timeout = CppCommon::Timespan::hours(1));
     //! Remove static content cache
     /*!
         \param path - Static content path

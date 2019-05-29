@@ -44,44 +44,44 @@ public:
     virtual bool CloseAsync(int status) { SendCloseAsync(status, nullptr, 0); return HTTPClient::DisconnectAsync(); }
 
     // WebSocket send text methods
-    size_t SendText(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendText(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendText(const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    size_t SendText(std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    bool SendTextAsync(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, buffer, size); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    bool SendTextAsync(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, text.data(), text.size()); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendText(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, true, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendText(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, true, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendText(const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, true, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    size_t SendText(std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, true, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    bool SendTextAsync(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, true, buffer, size); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    bool SendTextAsync(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, true, text.data(), text.size()); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
 
     // WebSocket send binary methods
-    size_t SendBinary(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendBinary(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendBinary(const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    size_t SendBinary(std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    bool SendBinaryAsync(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, buffer, size); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    bool SendBinaryAsync(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, text.data(), text.size()); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendBinary(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, true, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendBinary(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, true, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendBinary(const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, true, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    size_t SendBinary(std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, true, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    bool SendBinaryAsync(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, true, buffer, size); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    bool SendBinaryAsync(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_BINARY, true, text.data(), text.size()); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
 
     // WebSocket close methods
-    size_t SendClose(int status, const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, buffer, size, status); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendClose(int status, std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, text.data(), text.size(), status); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendClose(int status, const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, buffer, size, status); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    size_t SendClose(int status, std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, text.data(), text.size(), status); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    bool SendCloseAsync(int status, const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, buffer, size, status); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    bool SendCloseAsync(int status, std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, text.data(), text.size(), status); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendClose(int status, const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, true, buffer, size, status); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendClose(int status, std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, true, text.data(), text.size(), status); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendClose(int status, const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, true, buffer, size, status); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    size_t SendClose(int status, std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, true, text.data(), text.size(), status); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    bool SendCloseAsync(int status, const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, true, buffer, size, status); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    bool SendCloseAsync(int status, std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_CLOSE, true, text.data(), text.size(), status); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
 
     // WebSocket ping methods
-    size_t SendPing(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendPing(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendPing(const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    size_t SendPing(std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    bool SendPingAsync(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, buffer, size); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    bool SendPingAsync(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, text.data(), text.size()); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendPing(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, true, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendPing(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, true, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendPing(const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, true, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    size_t SendPing(std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, true, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    bool SendPingAsync(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, true, buffer, size); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    bool SendPingAsync(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, true, text.data(), text.size()); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
 
     // WebSocket pong methods
-    size_t SendPong(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendPong(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t SendPong(const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    size_t SendPong(std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
-    bool SendPongAsync(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, buffer, size); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    bool SendPongAsync(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, text.data(), text.size()); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendPong(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, true, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendPong(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, true, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    size_t SendPong(const void* buffer, size_t size, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, true, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    size_t SendPong(std::string_view text, const CppCommon::Timespan& timeout) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, true, text.data(), text.size()); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size(), timeout); }
+    bool SendPongAsync(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, true, buffer, size); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
+    bool SendPongAsync(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, true, text.data(), text.size()); return HTTPClient::SendAsync(_ws_send_buffer.data(), _ws_send_buffer.size()); }
 
     // WebSocket receive methods
     std::string ReceiveText();
@@ -95,6 +95,7 @@ protected:
     void onReceived(const void* buffer, size_t size) override;
     void onReceivedResponseHeader(const HTTP::HTTPResponse& response) override;
     void onReceivedResponse(const HTTP::HTTPResponse& response) override;
+    void onReceivedResponseError(const HTTP::HTTPResponse& response, const std::string& error) override;
 
     //! Handle WebSocket close notification
     void onWSClose(const void* buffer, size_t size) override { HTTPClient::DisconnectAsync(); }

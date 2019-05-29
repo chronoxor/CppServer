@@ -41,7 +41,7 @@ public:
     //! Pong frame
     static const uint8_t WS_PONG = 0x0A;
 
-    WebSocket() = default;
+    WebSocket() { ClearWSBuffers(); }
     WebSocket(const WebSocket&) = delete;
     WebSocket(WebSocket&&) = delete;
     ~WebSocket() = default;
@@ -68,11 +68,12 @@ public:
     //! Prepare WebSocket send frame
     /*!
         \param opcode - WebSocket opcode
+        \param mask - WebSocket mask
         \param buffer - Buffer to send
         \param size - Buffer size
         \param status - WebSocket status (defualt is 0)
     */
-    void PrepareSendFrame(uint8_t opcode, const void* buffer, size_t size, int status = 0);
+    void PrepareSendFrame(uint8_t opcode, bool mask, const void* buffer, size_t size, int status = 0);
 
     //! Prepare WebSocket receive frame
     /*!

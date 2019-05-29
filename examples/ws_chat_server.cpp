@@ -80,8 +80,13 @@ int main(int argc, char** argv)
     int port = 8080;
     if (argc > 1)
         port = std::atoi(argv[1]);
+    // WebSocket server content path
+    std::string www = "../www/ws";
+    if (argc > 2)
+        www = argv[2];
 
     std::cout << "WebSocket server port: " << port << std::endl;
+    std::cout << "WebSocket server static content path: " << www << std::endl;
 
     std::cout << std::endl;
 
@@ -95,6 +100,7 @@ int main(int argc, char** argv)
 
     // Create a new WebSocket chat server
     auto server = std::make_shared<ChatServer>(service, port);
+    server->AddStaticContent(www, "/chat");
 
     // Start the server
     std::cout << "Server starting...";

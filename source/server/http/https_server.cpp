@@ -13,7 +13,7 @@
 namespace CppServer {
 namespace HTTP {
 
-void HTTPSServer::AddStaticContent(const CppCommon::Path& path, const CppCommon::Timespan& timeout)
+void HTTPSServer::AddStaticContent(const CppCommon::Path& path, const std::string& prefix, const CppCommon::Timespan& timeout)
 {
     auto hanlder = [](CppCommon::FileCache & cache, const std::string& key, const std::string& value, const CppCommon::Timespan& timespan)
     {
@@ -25,7 +25,7 @@ void HTTPSServer::AddStaticContent(const CppCommon::Path& path, const CppCommon:
         return cache.insert(key, header.cache(), timespan);
     };
 
-    cache().insert_path(path, "/", timeout, hanlder);
+    cache().insert_path(path, prefix, timeout, hanlder);
 }
 
 } // namespace HTTP
