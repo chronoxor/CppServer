@@ -19,7 +19,6 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
       _strand_required(_service->IsStrandRequired()),
       _address(address),
       _port(port),
-      _endpoint(asio::ip::tcp::endpoint(asio::ip::make_address(address), (unsigned short)port)),
       _socket(*_io_service),
       _resolving(false),
       _connecting(false),
@@ -127,6 +126,9 @@ bool TCPClient::Connect()
         return false;
 
     asio::error_code ec;
+
+    // Create the server endpoint
+    _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
 
     // Connect to the server
     _socket.connect(_endpoint, ec);

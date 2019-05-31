@@ -28,7 +28,6 @@ public:
           _address(address),
           _port(port),
           _context(context),
-          _endpoint(asio::ip::tcp::endpoint(asio::ip::make_address(address), (unsigned short)port)),
           _stream(*_io_service, *_context),
           _resolving(false),
           _connecting(false),
@@ -173,6 +172,9 @@ public:
             return false;
 
         asio::error_code ec;
+
+        // Create the server endpoint
+        _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
 
         // Connect to the server
         socket().connect(_endpoint, ec);

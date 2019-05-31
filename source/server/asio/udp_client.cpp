@@ -132,7 +132,7 @@ bool UDPClient::Connect()
     if (IsConnected())
         return false;
 
-    // Create a new server endpoint
+    // Create the server endpoint
     _endpoint = asio::ip::udp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
 
     // Open a client socket
