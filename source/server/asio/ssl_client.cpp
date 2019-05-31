@@ -460,6 +460,10 @@ public:
                     onDisconnected();
                 }
             });
+
+            // Create the server endpoint
+            _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
+
             if (_strand_required)
                 socket().async_connect(_endpoint, bind_executor(_strand, async_connect_handler));
             else
