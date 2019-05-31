@@ -45,11 +45,6 @@ protected:
             Close(1000);
     }
 
-    void onWSPing(const void* buffer, size_t size) override
-    {
-        SendPongAsync(buffer, size);
-    }
-
     void onError(int error, const std::string& category, const std::string& message) override
     {
         std::cout << "Chat WebSocket session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;

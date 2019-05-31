@@ -55,11 +55,6 @@ protected:
         std::cout << "Incoming: " << std::string((const char*)buffer, size) << std::endl;
     }
 
-    void onWSPing(const void* buffer, size_t size) override
-    {
-        SendPongAsync(buffer, size);
-    }
-
     void onDisconnected() override
     {
         WSSClient::onDisconnected();

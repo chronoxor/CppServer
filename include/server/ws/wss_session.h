@@ -92,6 +92,8 @@ protected:
 
     //! Handle WebSocket close notification
     void onWSClose(const void* buffer, size_t size) override { Close(1000); }
+    //! Handle WebSocket ping notification
+    void onWSPing(const void* buffer, size_t size) override { SendPongAsync(buffer, size); }
     //! Handle WebSocket error notification
     void onWSError(const std::string& message) override { onError(asio::error::fault, "WebSocket error", message); }
 

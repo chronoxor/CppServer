@@ -72,11 +72,6 @@ protected:
         total_bytes += size;
     }
 
-    void onWSPing(const void* buffer, size_t size) override
-    {
-        SendPongAsync(buffer, size);
-    }
-
     void onSent(size_t sent, size_t pending) override
     {
         _sent += sent;
