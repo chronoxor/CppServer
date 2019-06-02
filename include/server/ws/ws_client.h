@@ -40,8 +40,8 @@ public:
     bool Connect(std::shared_ptr<Asio::TCPResolver> resolver) override;
     bool ConnectAsync() override;
     bool ConnectAsync(std::shared_ptr<Asio::TCPResolver> resolver) override;
-    virtual bool Close(int status) { SendClose(status, nullptr, 0); return HTTPClient::Disconnect(); }
-    virtual bool CloseAsync(int status) { SendCloseAsync(status, nullptr, 0); return HTTPClient::DisconnectAsync(); }
+    virtual bool Close(int status) { SendClose(status, nullptr, 0); HTTPClient::Disconnect(); return true; }
+    virtual bool CloseAsync(int status) { SendCloseAsync(status, nullptr, 0); HTTPClient::DisconnectAsync(); return true; }
 
     // WebSocket send text methods
     size_t SendText(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, true, buffer, size); return HTTPClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
