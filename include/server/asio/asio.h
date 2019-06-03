@@ -19,6 +19,13 @@
 #pragma system_header
 #endif
 
+#if defined(__CYGWIN__)
+
+#include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
+
+#elif
+
 #define ASIO_STANDALONE
 #define ASIO_SEPARATE_COMPILATION
 #define ASIO_NO_WIN32_LEAN_AND_MEAN
@@ -33,6 +40,8 @@
 #undef min
 #undef max
 #undef uuid_t
+#endif
+
 #endif
 
 namespace CppServer {
