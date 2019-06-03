@@ -24,7 +24,7 @@
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 
-#elif
+#else
 
 #define ASIO_STANDALONE
 #define ASIO_SEPARATE_COMPILATION
