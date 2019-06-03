@@ -1,4 +1,4 @@
-if(NOT TARGET asio AND NOT CYGWIN)
+if(NOT TARGET asio)
 
   # Module library
   file(GLOB SOURCE_FILES "asio/asio/src/*.cpp")
