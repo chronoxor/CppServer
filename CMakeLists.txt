@@ -28,7 +28,12 @@ include(SystemInformation)
 
 # External packages
 set(OPENSSL_USE_STATIC_LIBS TRUE)
-if(MINGW)
+if(CYGWIN)
+  set(OPENSSL_ROOT_DIR "/usr/lib")
+  set(OPENSSL_INCLUDE_DIR "/usr/include")
+  set(OPENSSL_CRYPTO_LIBRARY "/usr/lib/libcrypto.dll.a")
+  set(OPENSSL_SSL_LIBRARY "/usr/lib/libssl.dll.a")
+elseif(MINGW)
   set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/OpenSSL/MinGW")
 elseif(MSVC)
   set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/OpenSSL/VS")
