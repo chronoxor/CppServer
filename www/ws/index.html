@@ -51,7 +51,6 @@
 
 	document.myform.connectButton.disabled = false
 	document.myform.disconnectButton.disabled = true
-
   }
 
   function doSend(message)
@@ -64,23 +63,24 @@
   {
     document.myform.outputtext.value += message
 	document.myform.outputtext.scrollTop = document.myform.outputtext.scrollHeight
-
   }
 
   window.addEventListener("load", init, false)
 
+  function sendText()
+  {
+    doSend(document.myform.inputtext.value)
+  }
 
-   function sendText() {
-		doSend(document.myform.inputtext.value)
-   }
+  function clearText()
+  {
+    document.myform.outputtext.value = ""
+  }
 
-  function clearText() {
-		document.myform.outputtext.value = ""
-   }
-
-   function doDisconnect() {
-		websocket.close()
-   }
+  function doDisconnect()
+  {
+    websocket.close()
+  }
 
   </script>
   <form name="myform">
