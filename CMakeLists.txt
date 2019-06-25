@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.6)
 # Global properties
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# CMake module path
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 # Project name
 project(cppserver)
 
@@ -16,9 +19,6 @@ if(DOXYGEN_FOUND)
     set_target_properties(${DOXYGEN} PROPERTIES FOLDER doxygen)
   endif()
 endif()
-
-# CMake module path
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Compiler features
 include(SetCompilerFeatures)
