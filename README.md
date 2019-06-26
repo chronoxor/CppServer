@@ -67,7 +67,7 @@ solution.
 * Supported [Swagger OpenAPI](https://swagger.io/specification/) iterative documentation
 
 # Requirements
-* Linux (binutils-dev uuid-dev openssl)
+* Linux (binutils-dev uuid-dev libssl-dev)
 * OSX (openssl)
 * Windows 10
 * [cmake](https://www.cmake.org)
