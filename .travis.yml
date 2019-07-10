@@ -1,10 +1,14 @@
 # Programming language definition
 language: cpp
 
+# OS environment
+dist: xenial
+
 # Build matrix (OS, compiler)
 matrix:
   include:
-    - os: linux
+    - name: "Linux (GCC compiler)"
+      os: linux
       compiler: gcc
       env: OS=linux COMPILER=gcc GCC_VERSION=9
       addons:
@@ -18,10 +22,13 @@ matrix:
             - doxygen
             - graphviz
             - binutils-dev
+            - python3
             - python3-pip
             - python3-setuptools
             - uuid-dev
-    - os: linux
+          update: true
+    - name: "Linux (Clang compiler)"
+      os: linux
       compiler: clang
       env: OS=linux COMPILER=clang CLANG_VERSION=8
       addons:
@@ -36,17 +43,16 @@ matrix:
             - doxygen
             - graphviz
             - binutils-dev
+            - python3
             - python3-pip
             - python3-setuptools
             - uuid-dev
-    - os: osx
+          update: true
+    - name: "MacOS"
+      os: osx
       compiler: clang
       env: OS=osx COMPILER=clang
-      osx_image: xcode10.2
-
-# OS environment
-sudo: required
-dist: xenial
+      osx_image: xcode11
 
 # Branches to build
 branches:
