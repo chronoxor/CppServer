@@ -514,9 +514,6 @@ bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
                         // Validate the cookie
                         if ((name_size > 0) && (cookie_size > 0))
                         {
-                            auto n = std::string_view(_cache.data() + name_index, name_size);
-                            auto v = std::string_view(_cache.data() + cookie_index, cookie_size);
-
                             // Add the cookie to the corresponding collection
                             _cookies.emplace_back(name_index, name_size, cookie_index, cookie_size);
                         }
