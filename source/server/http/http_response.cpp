@@ -326,16 +326,14 @@ HTTPResponse& HTTPResponse::SetCookie(std::string_view name, std::string_view va
     // Append the HTTP response header's value
     size_t value_index = index;
 
+    char buffer[32];
+
     // Append cookie
     _cache.append(name);
     _cache.append("=");
     _cache.append(value);
-    if (expires != CppCommon::Time::epoch())
-    {
-        char buffer[32];
-        _cache.append("; Max-Age=");
-        _cache.append(FastConvert(max_age, buffer, CppCommon::countof(buffer)));
-    }
+    _cache.append("; Max-Age=");
+    _cache.append(FastConvert(max_age, buffer, CppCommon::countof(buffer)));
     if (!domain.empty())
     {
         _cache.append("; Domain=");
