@@ -311,7 +311,7 @@ HTTPResponse& HTTPResponse::SetHeader(std::string_view key, std::string_view val
     return *this;
 }
 
-HTTPResponse& HTTPResponse::SetCookie(std::string_view name, std::string_view value, const CppCommon::UtcTime& expires, std::string_view domain, std::string_view path, bool secure)
+HTTPResponse& HTTPResponse::SetCookie(std::string_view name, std::string_view value, const CppCommon::UtcTime& expires, std::string_view path, std::string_view domain, bool secure)
 {
     size_t index = _cache.size();
 
