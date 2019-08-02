@@ -127,7 +127,6 @@ HTTPRequest& HTTPRequest::SetCookie(std::string_view name, std::string_view valu
     index = _cache.size();
 
     // Append the HTTP request header's value
-    _cache.append(value);
     size_t value_index = index;
 
     // Append Cookie
