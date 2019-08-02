@@ -408,6 +408,102 @@ bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
                         _body_length_provided = true;
                     }
                 }
+
+                // Try to find Cookies
+                if (std::string_view(_cache.data() + header_name_index, header_name_size) == "Cookie")
+                {
+                    bool name = true;
+                    bool token = false;
+                    size_t index = header_value_index;
+                    size_t name_index = index;
+                    size_t name_size = 0;
+                    size_t cookie_index = index;
+                    size_t cookie_size = 0;
+                    for (size_t j = header_value_index; j < (header_value_index + header_value_size); ++j)
+                    {
+                        if (_cache[j] == ' ')
+                        {
+                            if (token)
+                            {
+                                if (name)
+                                {
+                                    name_index = index;
+                                    name_size = j - index;
+                                }
+                                else
+                                {
+                                    cookie_index = index;
+                                    cookie_size = j - index;
+                                }
+                            }
+                            token = false;
+                            continue;
+                        }
+                        if (_cache[j] == '=')
+                        {
+                            if (token)
+                            {
+                                if (name)
+                                {
+                                    name_index = index;
+                                    name_size = j - index;
+                                }
+                                else
+                                {
+                                    cookie_index = index;
+                                    cookie_size = j - index;
+                                }
+                            }
+                            token = false;
+                            name = false;
+                            continue;
+                        }
+                        if (_cache[j] == ';')
+                        {
+                            if (token)
+                            {
+                                if (name)
+                                {
+                                    name_index = index;
+                                    name_size = j - index;
+                                }
+                                else
+                                {
+                                    cookie_index = index;
+                                    cookie_size = j - index;
+                                }
+
+                                // Validate the cookie
+                                if ((name_size > 0) && (cookie_size > 0))
+                                {
+                                    // Add the cookie to the corresponding collection
+                                    _cookies.emplace_back(name_index, name_size, cookie_index, cookie_size);
+
+                                    // Resset the current cookie values
+                                    name_index = j;
+                                    name_size = 0;
+                                    cookie_index = j;
+                                    cookie_size = 0;
+                                }
+                            }
+                            token = false;
+                            name = true;
+                            continue;
+                        }
+                        if (!token)
+                        {
+                            index = j;
+                            token = true;
+                        }
+                    }
+
+                    // Validate the last cookie
+                    if ((name_size > 0) && (cookie_size > 0))
+                    {
+                        // Add the cookie to the corresponding collection
+                        _cookies.emplace_back(name_index, name_size, cookie_index, cookie_size);
+                    }
+                }
             }
 
             // Reset the error flag
