@@ -64,6 +64,10 @@ public:
     size_t headers() const noexcept { return _headers.size(); }
     //! Get the HTTP request header by index
     std::tuple<std::string_view, std::string_view> header(size_t i) const noexcept;
+    //! Get the HTTP request cookies count
+    size_t cookies() const noexcept { return _cookies.size(); }
+    //! Get the HTTP request cookie by index
+    std::tuple<std::string_view, std::string_view> cookie(size_t i) const noexcept;
     //! Get the HTTP request body
     std::string_view body() const noexcept { return std::string_view(_cache.data() + _body_index, _body_size); }
     //! Get the HTTP request body length
@@ -91,6 +95,18 @@ public:
         \param value - Header value
     */
     HTTPRequest& SetHeader(std::string_view key, std::string_view value);
+    //! Set the HTTP request cookie
+    /*!
+        \param name - Cookie name
+        \param value - Cookie value
+    */
+    HTTPRequest& SetCookie(std::string_view name, std::string_view value);
+    //! Add the HTTP request cookie
+    /*!
+        \param name - Cookie name
+        \param value - Cookie value
+    */
+    HTTPRequest& AddCookie(std::string_view name, std::string_view value);
     //! Set the HTTP request body
     /*!
         \param body - Body content (default is "")
@@ -168,6 +184,8 @@ private:
     size_t _protocol_size;
     // HTTP request headers
     std::vector<std::tuple<size_t, size_t, size_t, size_t>> _headers;
+    // HTTP request cookies
+    std::vector<std::tuple<size_t, size_t, size_t, size_t>> _cookies;
     // HTTP request body
     size_t _body_index;
     size_t _body_size;

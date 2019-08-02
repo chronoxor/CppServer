@@ -7,6 +7,9 @@
 */
 
 #include "server/http/http_response.h"
+
+#include "errors/exceptions.h"
+#include "string/format.h"
 #include "utility/countof.h"
 
 #include <cassert>
@@ -300,6 +303,109 @@ HTTPResponse& HTTPResponse::SetHeader(std::string_view key, std::string_view val
     _cache.append(value);
     size_t value_index = index;
     size_t value_size = value.size();
+
+    _cache.append("\r\n");
+
+    // Add the header to the corresponding collection
+    _headers.emplace_back(key_index, key_size, value_index, value_size);
+    return *this;
+}
+
+HTTPResponse& HTTPResponse::SetCookie(std::string_view name, std::string_view value, const CppCommon::UtcTime& expires, std::string_view domain, std::string_view path, bool secure)
+{
+    size_t index = _cache.size();
+
+    // Append the HTTP response header's key
+    _cache.append("Set-Cookie");
+    size_t key_index = index;
+    size_t key_size = 10;
+
+    _cache.append(": ");
+    index = _cache.size();
+
+    // Append the HTTP response header's value
+    _cache.append(value);
+    size_t value_index = index;
+
+    // Append cookie
+    _cache.append(name);
+    _cache.append("=");
+    _cache.append(value);
+    if (expires != CppCommon::Time::epoch())
+    {
+        _cache.append("; Expires=");
+
+        char buffer[32];
+        struct tm result;
+        CppCommon::Timestamp timestamp = expires.utcstamp();
+        time_t seconds = timestamp.seconds();
+#if defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)
+        if (gmtime_r(&seconds, &result) != &result)
+            throwex CppCommon::SystemException("Cannot convert the given timestamp ({}) to date & time structure!"_format(timestamp.total()));
+#elif defined(_WIN32) || defined(_WIN64)
+        if (gmtime_s(&result, &seconds))
+            throwex CppCommon::SystemException("Cannot convert the given timestamp ({}) to date & time structure!"_format(timestamp.total()));
+#endif
+        switch (result.tm_wday % 7)
+        {
+            case 0: _cache.append("Sun"); break;
+            case 1: _cache.append("Mon"); break;
+            case 2: _cache.append("Tue"); break;
+            case 3: _cache.append("Wed"); break;
+            case 4: _cache.append("Thu"); break;
+            case 5: _cache.append("Fri"); break;
+            case 6: _cache.append("Sat"); break;
+        }
+        _cache.append(", ");
+        if (result.tm_mday < 10)
+            _cache.append("0");
+        _cache.append(FastConvert(result.tm_mday, buffer, CppCommon::countof(buffer)));
+        _cache.append(" ");
+        switch (result.tm_mon)
+        {
+            case  0: _cache.append("Jan"); break;
+            case  1: _cache.append("Feb"); break;
+            case  2: _cache.append("Mar"); break;
+            case  3: _cache.append("Apr"); break;
+            case  4: _cache.append("May"); break;
+            case  5: _cache.append("Jun"); break;
+            case  6: _cache.append("Jul"); break;
+            case  7: _cache.append("Aug"); break;
+            case  8: _cache.append("Sep"); break;
+            case  9: _cache.append("Oct"); break;
+            case 10: _cache.append("Nov"); break;
+            case 11: _cache.append("Dec"); break;
+        }
+        _cache.append(" ");
+        _cache.append(FastConvert(result.tm_year + 1900, buffer, CppCommon::countof(buffer)));
+        _cache.append(" ");
+        if (result.tm_hour < 10)
+            _cache.append("0");
+        _cache.append(FastConvert(result.tm_hour, buffer, CppCommon::countof(buffer)));
+        _cache.append(":");
+        if (result.tm_min < 10)
+            _cache.append("0");
+        _cache.append(FastConvert(result.tm_min, buffer, CppCommon::countof(buffer)));
+        _cache.append(":");
+        if (result.tm_sec < 10)
+            _cache.append("0");
+        _cache.append(FastConvert(result.tm_sec, buffer, CppCommon::countof(buffer)));
+        _cache.append(" GMT");
+    }
+    if (!domain.empty())
+    {
+        _cache.append("; Domain=");
+        _cache.append(domain);
+    }
+    if (!path.empty())
+    {
+        _cache.append("; Path=");
+        _cache.append(path);
+    }
+    if (secure)
+        _cache.append("; Secure");
+
+    size_t value_size = _cache.size() - value_index;
 
     _cache.append("\r\n");
 

@@ -11,6 +11,8 @@
 
 #include "http.h"
 
+#include "time/time.h"
+
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -108,6 +110,16 @@ public:
         \param value - Header value
     */
     HTTPResponse& SetHeader(std::string_view key, std::string_view value);
+    //! Set the HTTP response cookie
+    /*!
+        \param name - Cookie name
+        \param value - Cookie value
+        \param expires - Cookie expires time (default is CppCommon::Time::epoch())
+        \param domain - Cookie domain (default is "")
+        \param path - Cookie path (default is "")
+        \param secure - Cookie secure flag (default is true)
+    */
+    HTTPResponse& SetCookie(std::string_view name, std::string_view value, const CppCommon::UtcTime& expires = CppCommon::Time::epoch(), std::string_view domain = "", std::string_view path = "", bool secure = true);
     //! Set the HTTP response body
     /*!
         \param body - Body content (default is "")

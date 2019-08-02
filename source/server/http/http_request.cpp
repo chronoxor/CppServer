@@ -7,6 +7,7 @@
 */
 
 #include "server/http/http_request.h"
+
 #include "utility/countof.h"
 
 #include <cassert>
@@ -25,6 +26,17 @@ std::tuple<std::string_view, std::string_view> HTTPRequest::header(size_t i) con
     return std::make_tuple(std::string_view(_cache.data() + std::get<0>(item), std::get<1>(item)), std::string_view(_cache.data() + std::get<2>(item), std::get<3>(item)));
 }
 
+std::tuple<std::string_view, std::string_view> HTTPRequest::cookie(size_t i) const noexcept
+{
+    assert((i < _cookies.size()) && "Index out of bounds!");
+    if (i >= _cookies.size())
+        return std::make_tuple(std::string_view(), std::string_view());
+
+    auto item = _cookies[i];
+
+    return std::make_tuple(std::string_view(_cache.data() + std::get<0>(item), std::get<1>(item)), std::string_view(_cache.data() + std::get<2>(item), std::get<3>(item)));
+}
+
 HTTPRequest& HTTPRequest::Clear()
 {
     _error = false;
@@ -35,6 +47,7 @@ HTTPRequest& HTTPRequest::Clear()
     _protocol_index = 0;
     _protocol_size = 0;
     _headers.clear();
+    _cookies.clear();
     _body_index = 0;
     _body_size = 0;
     _body_length = 0;
@@ -98,6 +111,63 @@ HTTPRequest& HTTPRequest::SetHeader(std::string_view key, std::string_view value
 
     // Add the header to the corresponding collection
     _headers.emplace_back(key_index, key_size, value_index, value_size);
+    return *this;
+}
+
+HTTPRequest& HTTPRequest::SetCookie(std::string_view name, std::string_view value)
+{
+    size_t index = _cache.size();
+
+    // Append the HTTP request header's key
+    _cache.append("Cookie");
+    size_t key_index = index;
+    size_t key_size = 6;
+
+    _cache.append(": ");
+    index = _cache.size();
+
+    // Append the HTTP request header's value
+    _cache.append(value);
+    size_t value_index = index;
+
+    // Append Cookie
+    index = _cache.size();
+    _cache.append(name);
+    size_t name_index = index;
+    size_t name_size = name.size();
+    _cache.append("=");
+    index = _cache.size();
+    _cache.append(value);
+    size_t cookie_index = index;
+    size_t cookie_size = value.size();
+
+    size_t value_size = _cache.size() - value_index;
+
+    _cache.append("\r\n");
+
+    // Add the header to the corresponding collection
+    _headers.emplace_back(key_index, key_size, value_index, value_size);
+    // Add the cookie to the corresponding collection
+    _cookies.emplace_back(name_index, name_size, cookie_index, cookie_size);
+    return *this;
+}
+
+HTTPRequest& HTTPRequest::AddCookie(std::string_view name, std::string_view value)
+{
+    // Append Cookie
+    _cache.append("; ");
+    size_t index = _cache.size();
+    _cache.append(name);
+    size_t name_index = index;
+    size_t name_size = name.size();
+    _cache.append("=");
+    index = _cache.size();
+    _cache.append(value);
+    size_t cookie_index = index;
+    size_t cookie_size = value.size();
+
+    // Add the cookie to the corresponding collection
+    _cookies.emplace_back(name_index, name_size, cookie_index, cookie_size);
     return *this;
 }
 
@@ -429,6 +499,7 @@ void HTTPRequest::swap(HTTPRequest& request) noexcept
     swap(_protocol_index, request._protocol_index);
     swap(_protocol_size, request._protocol_size);
     swap(_headers, request._headers);
+    swap(_cookies, request._cookies);
     swap(_body_index, request._body_index);
     swap(_body_size, request._body_size);
     swap(_body_length, request._body_length);
