@@ -12,7 +12,7 @@ namespace CppServer {
 namespace Asio {
 
 TCPServer::TCPServer(std::shared_ptr<Service> service, int port, InternetProtocol protocol)
-    : _id(CppCommon::UUID::Random()),
+    : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -45,7 +45,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, int port, InternetProtoco
 }
 
 TCPServer::TCPServer(std::shared_ptr<Service> service, const std::string& address, int port)
-    : _id(CppCommon::UUID::Random()),
+    : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
@@ -71,7 +71,7 @@ TCPServer::TCPServer(std::shared_ptr<Service> service, const std::string& addres
 }
 
 TCPServer::TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
-    : _id(CppCommon::UUID::Random()),
+    : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),
