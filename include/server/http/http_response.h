@@ -114,12 +114,13 @@ public:
     /*!
         \param name - Cookie name
         \param value - Cookie value
-        \param expires - Cookie expires time (default is CppCommon::Time::epoch())
+        \param max_age - Cookie age in seconds until it expires (default is 86400)
         \param path - Cookie path (default is "")
         \param domain - Cookie domain (default is "")
         \param secure - Cookie secure flag (default is true)
+        \param http_only - Cookie HTTP-only flag (default is false)
     */
-    HTTPResponse& SetCookie(std::string_view name, std::string_view value, const CppCommon::UtcTime& expires = CppCommon::Time::epoch(), std::string_view path = "", std::string_view domain = "", bool secure = true);
+    HTTPResponse& SetCookie(std::string_view name, std::string_view value, size_t max_age = 86400, std::string_view path = "", std::string_view domain = "", bool secure = true, bool http_only = false);
     //! Set the HTTP response body
     /*!
         \param body - Body content (default is "")
