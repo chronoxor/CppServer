@@ -414,7 +414,7 @@ bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
                 {
                     bool name = true;
                     bool token = false;
-                    size_t index = header_value_index;
+                    size_t current = header_value_index;
                     size_t name_index = index;
                     size_t name_size = 0;
                     size_t cookie_index = index;
@@ -427,13 +427,13 @@ bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
                             {
                                 if (name)
                                 {
-                                    name_index = index;
-                                    name_size = j - index;
+                                    name_index = current;
+                                    name_size = j - current;
                                 }
                                 else
                                 {
-                                    cookie_index = index;
-                                    cookie_size = j - index;
+                                    cookie_index = current;
+                                    cookie_size = j - current;
                                 }
                             }
                             token = false;
@@ -445,13 +445,13 @@ bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
                             {
                                 if (name)
                                 {
-                                    name_index = index;
-                                    name_size = j - index;
+                                    name_index = current;
+                                    name_size = j - current;
                                 }
                                 else
                                 {
-                                    cookie_index = index;
-                                    cookie_size = j - index;
+                                    cookie_index = current;
+                                    cookie_size = j - current;
                                 }
                             }
                             token = false;
@@ -464,13 +464,13 @@ bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
                             {
                                 if (name)
                                 {
-                                    name_index = index;
-                                    name_size = j - index;
+                                    name_index = current;
+                                    name_size = j - current;
                                 }
                                 else
                                 {
-                                    cookie_index = index;
-                                    cookie_size = j - index;
+                                    cookie_index = current;
+                                    cookie_size = j - current;
                                 }
 
                                 // Validate the cookie
@@ -492,16 +492,34 @@ bool HTTPRequest::ReceiveHeader(const void* buffer, size_t size)
                         }
                         if (!token)
                         {
-                            index = j;
+                            current = j;
                             token = true;
                         }
                     }
 
-                    // Validate the last cookie
-                    if ((name_size > 0) && (cookie_size > 0))
+                    // Process the last cookie
+                    if (token)
                     {
-                        // Add the cookie to the corresponding collection
-                        _cookies.emplace_back(name_index, name_size, cookie_index, cookie_size);
+                        if (name)
+                        {
+                            name_index = current;
+                            name_size = header_value_index + header_value_size - current;
+                        }
+                        else
+                        {
+                            cookie_index = current;
+                            cookie_size = header_value_index + header_value_size - current;
+                        }
+
+                        // Validate the cookie
+                        if ((name_size > 0) && (cookie_size > 0))
+                        {
+                            auto n = std::string_view(_cache.data() + name_index, name_size);
+                            auto v = std::string_view(_cache.data() + cookie_index, cookie_size);
+
+                            // Add the cookie to the corresponding collection
+                            _cookies.emplace_back(name_index, name_size, cookie_index, cookie_size);
+                        }
                     }
                 }
             }
