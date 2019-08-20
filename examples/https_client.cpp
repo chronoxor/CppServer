@@ -62,7 +62,7 @@ int main(int argc, char** argv)
             if (line == "!")
             {
                 std::cout << "Client reconnecting...";
-                client->ReconnectAsync();
+                client->IsConnected() ? client->ReconnectAsync() : client->ConnectAsync();
                 std::cout << "Done!" << std::endl;
                 continue;
             }
