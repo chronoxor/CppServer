@@ -2,7 +2,7 @@
 language: cpp
 
 # OS environment
-dist: xenial
+dist: bionic
 
 # Build matrix (OS, compiler)
 matrix:
@@ -14,7 +14,7 @@ matrix:
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
             - gcc-9
             - g++-9
@@ -34,8 +34,7 @@ matrix:
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-xenial-8
+            - llvm-toolchain-bionic-8
           packages:
             - clang-8
             - libstdc++-8-dev
