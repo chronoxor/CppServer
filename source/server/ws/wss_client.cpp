@@ -17,7 +17,7 @@ bool WSSClient::Connect()
     return HTTPSClient::Connect();
 }
 
-bool WSSClient::Connect(std::shared_ptr<Asio::TCPResolver> resolver)
+bool WSSClient::Connect(const std::shared_ptr<Asio::TCPResolver>& resolver)
 {
     _sync_connect = true;
     return HTTPSClient::Connect(resolver);
@@ -29,7 +29,7 @@ bool WSSClient::ConnectAsync()
     return HTTPSClient::ConnectAsync();
 }
 
-bool WSSClient::ConnectAsync(std::shared_ptr<Asio::TCPResolver> resolver)
+bool WSSClient::ConnectAsync(const std::shared_ptr<Asio::TCPResolver>& resolver)
 {
     _sync_connect = false;
     return HTTPSClient::ConnectAsync(resolver);

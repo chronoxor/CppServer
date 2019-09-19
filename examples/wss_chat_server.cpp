@@ -57,7 +57,7 @@ public:
     using CppServer::WS::WSSServer::WSSServer;
 
 protected:
-    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(std::shared_ptr<CppServer::Asio::SSLServer> server) override
+    std::shared_ptr<CppServer::Asio::SSLSession> CreateSession(const std::shared_ptr<CppServer::Asio::SSLServer>& server) override
     {
         return std::make_shared<ChatSession>(std::dynamic_pointer_cast<CppServer::WS::WSSServer>(server));
     }

@@ -27,7 +27,7 @@ public:
     /*!
         \param service - Asio service
     */
-    UDPResolver(std::shared_ptr<Service> service);
+    UDPResolver(const std::shared_ptr<Service>& service);
     UDPResolver(const UDPResolver&) = delete;
     UDPResolver(UDPResolver&&) = delete;
     virtual ~UDPResolver() { Cancel(); }

@@ -12,7 +12,7 @@
 namespace CppServer {
 namespace Asio {
 
-SSLSession::SSLSession(std::shared_ptr<SSLServer> server)
+SSLSession::SSLSession(const std::shared_ptr<SSLServer>& server)
     : _id(CppCommon::UUID::Sequential()),
       _server(server),
       _io_service(server->service()->GetAsioService()),

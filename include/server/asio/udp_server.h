@@ -31,20 +31,20 @@ public:
         \param port - Port number
         \param protocol - Internet protocol type (default is IPv4)
     */
-    UDPServer(std::shared_ptr<Service> service, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    UDPServer(const std::shared_ptr<Service>& service, int port, InternetProtocol protocol = InternetProtocol::IPv4);
     //! Initialize UDP server with a given Asio service, server address and port number
     /*!
         \param service - Asio service
         \param address - Server address
         \param port - Port number
     */
-    UDPServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    UDPServer(const std::shared_ptr<Service>& service, const std::string& address, int port);
     //! Initialize UDP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server UDP endpoint
     */
-    UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint);
+    UDPServer(const std::shared_ptr<Service>& service, const asio::ip::udp::endpoint& endpoint);
     UDPServer(const UDPServer&) = delete;
     UDPServer(UDPServer&&) = delete;
     virtual ~UDPServer() = default;

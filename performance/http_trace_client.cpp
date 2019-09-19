@@ -30,7 +30,7 @@ std::atomic<uint64_t> total_messages(0);
 class HTTPTraceClient : public HTTPClient
 {
 public:
-    HTTPTraceClient(std::shared_ptr<Service> service, const std::string& address, int port, int messages)
+    HTTPTraceClient(const std::shared_ptr<Service>& service, const std::string& address, int port, int messages)
         : HTTPClient(service, address, port),
           _messages(messages)
     {

@@ -57,7 +57,7 @@ public:
     size_t MulticastPong(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, false, text.data(), text.size()); return HTTPServer::Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()); }
 
 protected:
-    std::shared_ptr<Asio::TCPSession> CreateSession(std::shared_ptr<Asio::TCPServer> server) override { return std::make_shared<WSSession>(std::dynamic_pointer_cast<WSServer>(server)); }
+    std::shared_ptr<Asio::TCPSession> CreateSession(const std::shared_ptr<Asio::TCPServer>& server) override { return std::make_shared<WSSession>(std::dynamic_pointer_cast<WSServer>(server)); }
 };
 
 /*! \example ws_chat_server.cpp WebSocket chat server example */

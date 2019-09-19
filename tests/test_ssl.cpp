@@ -102,7 +102,7 @@ public:
     }
 
 protected:
-    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override { return std::make_shared<EchoSSLSession>(server); }
+    std::shared_ptr<SSLSession> CreateSession(const std::shared_ptr<SSLServer>& server) override { return std::make_shared<EchoSSLSession>(server); }
 
 protected:
     void onStarted() override { started = true; }

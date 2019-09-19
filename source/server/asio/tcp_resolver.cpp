@@ -11,7 +11,7 @@
 namespace CppServer {
 namespace Asio {
 
-TCPResolver::TCPResolver(std::shared_ptr<Service> service)
+TCPResolver::TCPResolver(const std::shared_ptr<Service>& service)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),

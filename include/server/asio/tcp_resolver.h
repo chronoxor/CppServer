@@ -27,7 +27,7 @@ public:
     /*!
         \param service - Asio service
     */
-    TCPResolver(std::shared_ptr<Service> service);
+    TCPResolver(const std::shared_ptr<Service>& service);
     TCPResolver(const TCPResolver&) = delete;
     TCPResolver(TCPResolver&&) = delete;
     virtual ~TCPResolver() { Cancel(); }

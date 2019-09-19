@@ -33,7 +33,7 @@ public:
     /*!
         \param server - Connected server
     */
-    explicit SSLSession(std::shared_ptr<SSLServer> server);
+    explicit SSLSession(const std::shared_ptr<SSLServer>& server);
     SSLSession(const SSLSession&) = delete;
     SSLSession(SSLSession&&) = delete;
     virtual ~SSLSession() = default;

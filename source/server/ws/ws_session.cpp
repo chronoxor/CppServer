@@ -12,7 +12,7 @@
 namespace CppServer {
 namespace WS {
 
-WSSession::WSSession(std::shared_ptr<WSServer> server)
+WSSession::WSSession(const std::shared_ptr<WSServer>& server)
     : HTTP::HTTPSession(server)
 {
 }

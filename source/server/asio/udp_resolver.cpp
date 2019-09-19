@@ -11,7 +11,7 @@
 namespace CppServer {
 namespace Asio {
 
-UDPResolver::UDPResolver(std::shared_ptr<Service> service)
+UDPResolver::UDPResolver(const std::shared_ptr<Service>& service)
     : _service(service),
       _io_service(_service->GetAsioService()),
       _strand(*_io_service),

@@ -29,7 +29,7 @@ std::atomic<uint64_t> total_messages(0);
 class MulticastClient : public UDPClient
 {
 public:
-    MulticastClient(std::shared_ptr<Service> service, const std::string& address, const std::string& multicast, int port)
+    MulticastClient(const std::shared_ptr<Service>& service, const std::string& address, const std::string& multicast, int port)
         : UDPClient(service, address, port),
           _multicast(multicast)
     {

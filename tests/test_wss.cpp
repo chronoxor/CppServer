@@ -112,7 +112,7 @@ public:
     }
 
 protected:
-    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override { return std::make_shared<EchoWSSSession>(std::dynamic_pointer_cast<WSSServer>(server)); }
+    std::shared_ptr<SSLSession> CreateSession(const std::shared_ptr<SSLServer>& server) override { return std::make_shared<EchoWSSSession>(std::dynamic_pointer_cast<WSSServer>(server)); }
 
 protected:
     void onStarted() override { started = true; }

@@ -29,7 +29,7 @@ class HTTPServer;
 class HTTPSession : public Asio::TCPSession
 {
 public:
-    explicit HTTPSession(std::shared_ptr<HTTPServer> server);
+    explicit HTTPSession(const std::shared_ptr<HTTPServer>& server);
     HTTPSession(const HTTPSession&) = delete;
     HTTPSession(HTTPSession&&) = delete;
     virtual ~HTTPSession() = default;

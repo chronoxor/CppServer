@@ -37,7 +37,7 @@ public:
     using WSSServer::WSSServer;
 
 protected:
-    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override
+    std::shared_ptr<SSLSession> CreateSession(const std::shared_ptr<SSLServer>& server) override
     {
         return std::make_shared<MulticastSession>(std::dynamic_pointer_cast<WSSServer>(server));
     }

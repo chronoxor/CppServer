@@ -11,7 +11,7 @@
 namespace CppServer {
 namespace Asio {
 
-UDPServer::UDPServer(std::shared_ptr<Service> service, int port, InternetProtocol protocol)
+UDPServer::UDPServer(const std::shared_ptr<Service>& service, int port, InternetProtocol protocol)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
@@ -46,7 +46,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, int port, InternetProtoco
     }
 }
 
-UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& address, int port)
+UDPServer::UDPServer(const std::shared_ptr<Service>& service, const std::string& address, int port)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
@@ -74,7 +74,7 @@ UDPServer::UDPServer(std::shared_ptr<Service> service, const std::string& addres
     _endpoint = asio::ip::udp::endpoint(asio::ip::make_address(address), (unsigned short)port);
 }
 
-UDPServer::UDPServer(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
+UDPServer::UDPServer(const std::shared_ptr<Service>& service, const asio::ip::udp::endpoint& endpoint)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),

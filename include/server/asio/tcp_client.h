@@ -35,20 +35,20 @@ public:
         \param address - Server address
         \param port - Server port number
     */
-    TCPClient(std::shared_ptr<Service> service, const std::string& address, int port);
+    TCPClient(const std::shared_ptr<Service>& service, const std::string& address, int port);
     //! Initialize TCP client with a given Asio service, server address and scheme name
     /*!
         \param service - Asio service
         \param address - Server address
         \param scheme - Scheme name
     */
-    TCPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& scheme);
+    TCPClient(const std::shared_ptr<Service>& service, const std::string& address, const std::string& scheme);
     //! Initialize TCP client with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server TCP endpoint
     */
-    TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
+    TCPClient(const std::shared_ptr<Service>& service, const asio::ip::tcp::endpoint& endpoint);
     TCPClient(const TCPClient&) = delete;
     TCPClient(TCPClient&&) = delete;
     virtual ~TCPClient() = default;
@@ -106,7 +106,7 @@ public:
         \param resolver - DNS resolver
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
-    virtual bool Connect(std::shared_ptr<TCPResolver> resolver);
+    virtual bool Connect(const std::shared_ptr<TCPResolver>& resolver);
     //! Disconnect the client (synchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
@@ -128,7 +128,7 @@ public:
         \param resolver - DNS resolver
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
-    virtual bool ConnectAsync(std::shared_ptr<TCPResolver> resolver);
+    virtual bool ConnectAsync(const std::shared_ptr<TCPResolver>& resolver);
     //! Disconnect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected

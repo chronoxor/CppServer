@@ -12,7 +12,7 @@
 namespace CppServer {
 namespace HTTP {
 
-HTTPSSession::HTTPSSession(std::shared_ptr<HTTPSServer> server)
+HTTPSSession::HTTPSSession(const std::shared_ptr<HTTPSServer>& server)
     : Asio::SSLSession(server),
       _cache(server->cache())
 {

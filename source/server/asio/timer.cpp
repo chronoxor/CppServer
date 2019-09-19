@@ -11,7 +11,7 @@
 namespace CppServer {
 namespace Asio {
 
-Timer::Timer(std::shared_ptr<Service> service)
+Timer::Timer(const std::shared_ptr<Service>& service)
     : _service(service),
     _io_service(_service->GetAsioService()),
     _strand(*_io_service),
@@ -23,7 +23,7 @@ Timer::Timer(std::shared_ptr<Service> service)
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-Timer::Timer(std::shared_ptr<Service> service, const CppCommon::UtcTime& time)
+Timer::Timer(const std::shared_ptr<Service>& service, const CppCommon::UtcTime& time)
     : _service(service),
     _io_service(_service->GetAsioService()),
     _strand(*_io_service),
@@ -35,7 +35,7 @@ Timer::Timer(std::shared_ptr<Service> service, const CppCommon::UtcTime& time)
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-Timer::Timer(std::shared_ptr<Service> service, const CppCommon::Timespan& timespan)
+Timer::Timer(const std::shared_ptr<Service>& service, const CppCommon::Timespan& timespan)
     : _service(service),
     _io_service(_service->GetAsioService()),
     _strand(*_io_service),
@@ -47,7 +47,7 @@ Timer::Timer(std::shared_ptr<Service> service, const CppCommon::Timespan& timesp
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action)
+Timer::Timer(const std::shared_ptr<Service>& service, const std::function<void(bool)>& action)
     : _service(service),
     _io_service(_service->GetAsioService()),
     _strand(*_io_service),
@@ -63,7 +63,7 @@ Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& 
         throw CppCommon::ArgumentException("Action function is invalid!");
 }
 
-Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action, const CppCommon::UtcTime& time)
+Timer::Timer(const std::shared_ptr<Service>& service, const std::function<void(bool)>& action, const CppCommon::UtcTime& time)
     : _service(service),
     _io_service(_service->GetAsioService()),
     _strand(*_io_service),
@@ -79,7 +79,7 @@ Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& 
         throw CppCommon::ArgumentException("Action function is invalid!");
 }
 
-Timer::Timer(std::shared_ptr<Service> service, const std::function<void(bool)>& action, const CppCommon::Timespan& timespan)
+Timer::Timer(const std::shared_ptr<Service>& service, const std::function<void(bool)>& action, const CppCommon::Timespan& timespan)
     : _service(service),
     _io_service(_service->GetAsioService()),
     _strand(*_io_service),

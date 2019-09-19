@@ -129,7 +129,7 @@ public:
     using HTTPServer::HTTPServer;
 
 protected:
-    std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) override
+    std::shared_ptr<TCPSession> CreateSession(const std::shared_ptr<TCPServer>& server) override
     {
         return std::make_shared<HTTPCacheSession>(std::dynamic_pointer_cast<HTTPServer>(server));
     }

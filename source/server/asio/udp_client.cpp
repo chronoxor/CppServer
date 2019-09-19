@@ -11,7 +11,7 @@
 namespace CppServer {
 namespace Asio {
 
-UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, int port)
+UDPClient::UDPClient(const std::shared_ptr<Service>& service, const std::string& address, int port)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
@@ -38,7 +38,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& scheme)
+UDPClient::UDPClient(const std::shared_ptr<Service>& service, const std::string& address, const std::string& scheme)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
@@ -66,7 +66,7 @@ UDPClient::UDPClient(std::shared_ptr<Service> service, const std::string& addres
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-UDPClient::UDPClient(std::shared_ptr<Service> service, const asio::ip::udp::endpoint& endpoint)
+UDPClient::UDPClient(const std::shared_ptr<Service>& service, const asio::ip::udp::endpoint& endpoint)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
@@ -170,7 +170,7 @@ bool UDPClient::Connect()
     return true;
 }
 
-bool UDPClient::Connect(std::shared_ptr<UDPResolver> resolver)
+bool UDPClient::Connect(const std::shared_ptr<UDPResolver>& resolver)
 {
     assert((resolver != nullptr) && "UDP resolver is invalid!");
     if (resolver == nullptr)
@@ -287,7 +287,7 @@ bool UDPClient::ConnectAsync()
     return true;
 }
 
-bool UDPClient::ConnectAsync(std::shared_ptr<UDPResolver> resolver)
+bool UDPClient::ConnectAsync(const std::shared_ptr<UDPResolver>& resolver)
 {
     assert((resolver != nullptr) && "UDP resolver is invalid!");
     if (resolver == nullptr)

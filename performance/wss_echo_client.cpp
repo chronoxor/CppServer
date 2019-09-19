@@ -32,7 +32,7 @@ std::atomic<uint64_t> total_messages(0);
 class EchoClient : public WSSClient
 {
 public:
-    EchoClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port, int messages)
+    EchoClient(const std::shared_ptr<Service>& service, std::shared_ptr<SSLContext> context, const std::string& address, int port, int messages)
         : WSSClient(service, context, address, port),
           _messages(messages)
     {

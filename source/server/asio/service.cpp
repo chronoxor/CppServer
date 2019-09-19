@@ -46,7 +46,7 @@ Service::Service(int threads, bool pool)
     }
 }
 
-Service::Service(std::shared_ptr<asio::io_service> service, bool strands)
+Service::Service(const std::shared_ptr<asio::io_service>& service, bool strands)
     : _strand_required(strands),
       _polling(false),
       _started(false),
@@ -152,7 +152,7 @@ bool Service::Restart()
     return Start(polling);
 }
 
-void Service::ServiceThread(std::shared_ptr<Service> service, std::shared_ptr<asio::io_service> io_service)
+void Service::ServiceThread(const std::shared_ptr<Service>& service, const std::shared_ptr<asio::io_service>& io_service)
 {
     bool polling = service->IsPolling();
 

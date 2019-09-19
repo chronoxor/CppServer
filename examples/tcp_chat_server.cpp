@@ -57,7 +57,7 @@ public:
     using CppServer::Asio::TCPServer::TCPServer;
 
 protected:
-    std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(std::shared_ptr<CppServer::Asio::TCPServer> server) override
+    std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(const std::shared_ptr<CppServer::Asio::TCPServer>& server) override
     {
         return std::make_shared<ChatSession>(server);
     }

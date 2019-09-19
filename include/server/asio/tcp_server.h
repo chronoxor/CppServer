@@ -38,20 +38,20 @@ public:
         \param port - Port number
         \param protocol - Internet protocol type (default is IPv4)
     */
-    TCPServer(std::shared_ptr<Service> service, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    TCPServer(const std::shared_ptr<Service>& service, int port, InternetProtocol protocol = InternetProtocol::IPv4);
     //! Initialize TCP server with a given Asio service, server address and port number
     /*!
         \param service - Asio service
         \param address - Server address
         \param port - Port number
     */
-    TCPServer(std::shared_ptr<Service> service, const std::string& address, int port);
+    TCPServer(const std::shared_ptr<Service>& service, const std::string& address, int port);
     //! Initialize TCP server with a given Asio service and endpoint
     /*!
         \param service - Asio service
         \param endpoint - Server TCP endpoint
     */
-    TCPServer(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint);
+    TCPServer(const std::shared_ptr<Service>& service, const asio::ip::tcp::endpoint& endpoint);
     TCPServer(const TCPServer&) = delete;
     TCPServer(TCPServer&&) = delete;
     virtual ~TCPServer() = default;
@@ -179,7 +179,7 @@ protected:
         \param server - TCP server
         \return TCP session
     */
-    virtual std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) { return std::make_shared<TCPSession>(server); }
+    virtual std::shared_ptr<TCPSession> CreateSession(const std::shared_ptr<TCPServer>& server) { return std::make_shared<TCPSession>(server); }
 
 protected:
     //! Handle server started notification

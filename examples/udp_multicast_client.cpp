@@ -17,7 +17,7 @@
 class MulticastClient : public CppServer::Asio::UDPClient
 {
 public:
-    MulticastClient(std::shared_ptr<CppServer::Asio::Service> service, const std::string& address, const std::string& multicast, int port)
+    MulticastClient(const std::shared_ptr<CppServer::Asio::Service>& service, const std::string& address, const std::string& multicast, int port)
         : CppServer::Asio::UDPClient(service, address, port),
           _multicast(multicast)
     {

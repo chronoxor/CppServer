@@ -92,7 +92,7 @@ public:
     using WSServer::WSServer;
 
 protected:
-    std::shared_ptr<TCPSession> CreateSession(std::shared_ptr<TCPServer> server) override { return std::make_shared<EchoWSSession>(std::dynamic_pointer_cast<WSServer>(server)); }
+    std::shared_ptr<TCPSession> CreateSession(const std::shared_ptr<TCPServer>& server) override { return std::make_shared<EchoWSSession>(std::dynamic_pointer_cast<WSServer>(server)); }
 
 protected:
     void onStarted() override { started = true; }

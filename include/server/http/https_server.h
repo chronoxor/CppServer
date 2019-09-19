@@ -61,7 +61,7 @@ public:
     void Watchdog(const CppCommon::UtcTimestamp& utc = CppCommon::UtcTimestamp()) { _cache.watchdog(utc); }
 
 protected:
-    std::shared_ptr<Asio::SSLSession> CreateSession(std::shared_ptr<Asio::SSLServer> server) override { return std::make_shared<HTTPSSession>(std::dynamic_pointer_cast<HTTPSServer>(server)); }
+    std::shared_ptr<Asio::SSLSession> CreateSession(const std::shared_ptr<Asio::SSLServer>& server) override { return std::make_shared<HTTPSSession>(std::dynamic_pointer_cast<HTTPSServer>(server)); }
 
 private:
     // Static content cache

@@ -33,7 +33,7 @@ public:
     /*!
         \param server - Connected server
     */
-    explicit TCPSession(std::shared_ptr<TCPServer> server);
+    explicit TCPSession(const std::shared_ptr<TCPServer>& server);
     TCPSession(const TCPSession&) = delete;
     TCPSession(TCPSession&&) = delete;
     virtual ~TCPSession() = default;

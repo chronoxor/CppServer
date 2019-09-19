@@ -11,7 +11,7 @@
 namespace CppServer {
 namespace Asio {
 
-TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, int port)
+TCPClient::TCPClient(const std::shared_ptr<Service>& service, const std::string& address, int port)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
@@ -38,7 +38,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& address, const std::string& scheme)
+TCPClient::TCPClient(const std::shared_ptr<Service>& service, const std::string& address, const std::string& scheme)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
@@ -66,7 +66,7 @@ TCPClient::TCPClient(std::shared_ptr<Service> service, const std::string& addres
         throw CppCommon::ArgumentException("Asio service is invalid!");
 }
 
-TCPClient::TCPClient(std::shared_ptr<Service> service, const asio::ip::tcp::endpoint& endpoint)
+TCPClient::TCPClient(const std::shared_ptr<Service>& service, const asio::ip::tcp::endpoint& endpoint)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
       _io_service(_service->GetAsioService()),
@@ -174,7 +174,7 @@ bool TCPClient::Connect()
     return true;
 }
 
-bool TCPClient::Connect(std::shared_ptr<TCPResolver> resolver)
+bool TCPClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
 {
     if (IsConnected())
         return false;
@@ -352,7 +352,7 @@ bool TCPClient::ConnectAsync()
     return true;
 }
 
-bool TCPClient::ConnectAsync(std::shared_ptr<TCPResolver> resolver)
+bool TCPClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
 {
     if (IsConnected() || _resolving || _connecting)
         return false;

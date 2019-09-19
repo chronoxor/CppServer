@@ -139,7 +139,7 @@ public:
     }
 
 protected:
-    std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) override
+    std::shared_ptr<SSLSession> CreateSession(const std::shared_ptr<SSLServer>& server) override
     {
         return std::make_shared<HTTPSCacheSession>(std::dynamic_pointer_cast<HTTPSServer>(server));
     }

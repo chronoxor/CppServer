@@ -64,7 +64,7 @@ public:
         \param service - Asio IO service
         \param strands - Asio IO service strands required flag (default is false)
     */
-    explicit Service(std::shared_ptr<asio::io_service> service, bool strands = false);
+    explicit Service(const std::shared_ptr<asio::io_service>& service, bool strands = false);
     Service(const Service&) = delete;
     Service(Service&&) = delete;
     virtual ~Service() = default;
@@ -175,7 +175,7 @@ private:
     std::atomic<size_t> _round_robin_index;
 
     //! Service thread
-    static void ServiceThread(std::shared_ptr<Service> service, std::shared_ptr<asio::io_service> io_service);
+    static void ServiceThread(const std::shared_ptr<Service>& service, const std::shared_ptr<asio::io_service>& io_service);
 
     //! Send error notification
     void SendError(std::error_code ec);

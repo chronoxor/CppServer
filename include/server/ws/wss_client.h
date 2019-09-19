@@ -37,9 +37,9 @@ public:
 
     // WebSocket connection methods
     bool Connect() override;
-    bool Connect(std::shared_ptr<Asio::TCPResolver> resolver) override;
+    bool Connect(const std::shared_ptr<Asio::TCPResolver>& resolver) override;
     bool ConnectAsync() override;
-    bool ConnectAsync(std::shared_ptr<Asio::TCPResolver> resolver) override;
+    bool ConnectAsync(const std::shared_ptr<Asio::TCPResolver>& resolver) override;
     virtual bool Close(int status) { SendClose(status, nullptr, 0); HTTPSClient::Disconnect(); return true; }
     virtual bool CloseAsync(int status) { SendCloseAsync(status, nullptr, 0); HTTPSClient::DisconnectAsync(); return true; }
 

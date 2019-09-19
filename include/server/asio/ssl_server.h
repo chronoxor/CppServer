@@ -40,7 +40,7 @@ public:
         \param port - Port number
         \param protocol - Internet protocol type (default is IPv4)
     */
-    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, int port, InternetProtocol protocol = InternetProtocol::IPv4);
+    SSLServer(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, int port, InternetProtocol protocol = InternetProtocol::IPv4);
     //! Initialize SSL server with a given Asio service, SSL context, server address and port number
     /*!
         \param service - Asio service
@@ -48,14 +48,14 @@ public:
         \param address - Server address
         \param port - Port number
     */
-    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port);
+    SSLServer(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, int port);
     //! Initialize SSL server with a given a given Asio service, SSL context and endpoint
     /*!
         \param service - Asio service
         \param context - SSL context
         \param endpoint - Server SSL endpoint
     */
-    SSLServer(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const asio::ip::tcp::endpoint& endpoint);
+    SSLServer(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const asio::ip::tcp::endpoint& endpoint);
     SSLServer(const SSLServer&) = delete;
     SSLServer(SSLServer&&) = delete;
     virtual ~SSLServer() = default;
@@ -185,7 +185,7 @@ protected:
         \param server - SSL server
         \return SSL session
     */
-    virtual std::shared_ptr<SSLSession> CreateSession(std::shared_ptr<SSLServer> server) { return std::make_shared<SSLSession>(server); }
+    virtual std::shared_ptr<SSLSession> CreateSession(const std::shared_ptr<SSLServer>& server) { return std::make_shared<SSLSession>(server); }
 
 protected:
     //! Handle server started notification

@@ -19,7 +19,7 @@ namespace Asio {
 class SSLClient::Impl : public std::enable_shared_from_this<SSLClient::Impl>
 {
 public:
-    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port)
+    Impl(const CppCommon::UUID& id, const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, int port)
         : _id(id),
           _service(service),
           _io_service(_service->GetAsioService()),
@@ -53,7 +53,7 @@ public:
             throw CppCommon::ArgumentException("SSL context is invalid!");
     }
 
-    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, const std::string& scheme)
+    Impl(const CppCommon::UUID& id, const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, const std::string& scheme)
         : _id(id),
           _service(service),
           _io_service(_service->GetAsioService()),
@@ -88,7 +88,7 @@ public:
             throw CppCommon::ArgumentException("SSL context is invalid!");
     }
 
-    Impl(const CppCommon::UUID& id, std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const asio::ip::tcp::endpoint& endpoint)
+    Impl(const CppCommon::UUID& id, const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const asio::ip::tcp::endpoint& endpoint)
         : _id(id),
           _service(service),
           _io_service(_service->GetAsioService()),
@@ -163,7 +163,7 @@ public:
     bool IsConnected() const noexcept { return _connected; }
     bool IsHandshaked() const noexcept { return _handshaked; }
 
-    bool Connect(std::shared_ptr<SSLClient> client)
+    bool Connect(const std::shared_ptr<SSLClient>& client)
     {
         // Link the client
         _client = client;
@@ -238,7 +238,7 @@ public:
         return true;
     }
 
-    bool Connect(std::shared_ptr<SSLClient> client, std::shared_ptr<TCPResolver> resolver)
+    bool Connect(const std::shared_ptr<SSLClient>& client, const std::shared_ptr<TCPResolver>& resolver)
     {
         // Link the client
         _client = client;
@@ -366,7 +366,7 @@ public:
         return true;
     }
 
-    bool ConnectAsync(std::shared_ptr<SSLClient> client)
+    bool ConnectAsync(const std::shared_ptr<SSLClient>& client)
     {
         // Link the client
         _client = client;
@@ -477,7 +477,7 @@ public:
         return true;
     }
 
-    bool ConnectAsync(std::shared_ptr<SSLClient> client, std::shared_ptr<TCPResolver> resolver)
+    bool ConnectAsync(const std::shared_ptr<SSLClient>& client, const std::shared_ptr<TCPResolver>& resolver)
     {
         // Link the client
         _client = client;
@@ -1143,17 +1143,17 @@ private:
 
 //! @endcond
 
-SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, int port)
+SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, int port)
     : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Sequential(), service, context, address, port))
 {
 }
 
-SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const std::string& address, const std::string& scheme)
+SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, const std::string& scheme)
     : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Sequential(), service, context, address, scheme))
 {
 }
 
-SSLClient::SSLClient(std::shared_ptr<Service> service, std::shared_ptr<SSLContext> context, const asio::ip::tcp::endpoint& endpoint)
+SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const asio::ip::tcp::endpoint& endpoint)
     : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Sequential(), service, context, endpoint))
 {
 }
@@ -1268,7 +1268,7 @@ bool SSLClient::Connect()
     return _pimpl->Connect(self);
 }
 
-bool SSLClient::Connect(std::shared_ptr<TCPResolver> resolver)
+bool SSLClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
 {
     auto self(this->shared_from_this());
     return _pimpl->Connect(self, resolver);
@@ -1293,7 +1293,7 @@ bool SSLClient::ConnectAsync()
     return _pimpl->ConnectAsync(self);
 }
 
-bool SSLClient::ConnectAsync(std::shared_ptr<TCPResolver> resolver)
+bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
 {
     auto self(this->shared_from_this());
     return _pimpl->ConnectAsync(self, resolver);
