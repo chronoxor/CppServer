@@ -116,10 +116,10 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
 
         if (key == "Connection")
         {
-            if (value != "Upgrade")
+            if ((value != "Upgrade") && (value != "keep-alive, Upgrade"))
             {
                 error = true;
-                response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Connection' header value must be 'Upgrade'", 400);
+                response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Connection' header value must be 'Upgrade' or 'keep-alive, Upgrade'", 400);
                 break;
             }
 
