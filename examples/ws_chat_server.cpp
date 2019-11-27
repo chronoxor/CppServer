@@ -82,6 +82,7 @@ int main(int argc, char** argv)
 
     std::cout << "WebSocket server port: " << port << std::endl;
     std::cout << "WebSocket server static content path: " << www << std::endl;
+    std::cout << "WebSocket server website: " << "http://localhost:" << port << "/chat/index.html" << std::endl;
 
     std::cout << std::endl;
 

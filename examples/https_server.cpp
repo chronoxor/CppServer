@@ -155,6 +155,7 @@ int main(int argc, char** argv)
 
     std::cout << "HTTPS server port: " << port << std::endl;
     std::cout << "HTTPS server static content path: " << www << std::endl;
+    std::cout << "HTTPS server website: " << "https://localhost:" << port << "/api/index.html" << std::endl;
 
     std::cout << std::endl;
 
