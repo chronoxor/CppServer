@@ -30,14 +30,15 @@ matrix:
     - name: "Linux (Clang compiler)"
       os: linux
       compiler: clang
-      env: OS=linux COMPILER=clang CLANG_VERSION=8
+      env: OS=linux COMPILER=clang CLANG_VERSION=10
       addons:
         apt:
           sources:
-            - llvm-toolchain-bionic-8
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
-            - clang-8
-            - libstdc++-8-dev
+            - clang-10
             - cmake
             - doxygen
             - graphviz
@@ -51,7 +52,7 @@ matrix:
       os: osx
       compiler: clang
       env: OS=osx COMPILER=clang
-      osx_image: xcode11
+      osx_image: xcode11.2
 
 # Branches to build
 branches:
@@ -70,7 +71,7 @@ before_install:
   - if [ "$OS" == "osx" ]; then brew install graphviz; fi
   - if [ "$OS" == "osx" ]; then brew install openssl; fi
   # openssl
-  - if [ "$OS" == "osx" ]; then export OPENSSL_ROOT_DIR=/usr/local/opt/openssl; fi
+  - if [ "$OS" == "osx" ]; then export OPENSSL_ROOT_DIR=$(brew --prefix openssl); fi
   # cmake
   - cmake --version
   # doxygen support
