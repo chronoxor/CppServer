@@ -20,7 +20,7 @@ void HTTPServer::AddStaticContent(const CppCommon::Path& path, const std::string
         auto header = HTTPResponse();
         header.SetBegin(200);
         header.SetContentType(CppCommon::Path(key).extension().string());
-        header.SetHeader("cache-control", "max-age={}"_format(timespan.seconds()));
+        header.SetHeader("Cache-Control", "max-age={}"_format(timespan.seconds()));
         header.SetBody(value);
         return cache.insert(key, header.cache(), timespan);
     };
