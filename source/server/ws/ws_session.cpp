@@ -104,6 +104,7 @@ std::string WSSession::ReceiveText()
         size_t received = HTTPSession::Receive(cache.data(), required);
         if (received != required)
             return result;
+        PrepareReceiveFrame(cache.data(), received);
     }
 
     // Copy WebSocket frame data
