@@ -40,9 +40,9 @@ public:
     //! Initialize a new HTTP response with a given status and protocol
     /*!
         \param status - HTTP status
-        \param protocol - Protocol version (default is "HTTP/2")
+        \param protocol - Protocol version (default is "HTTP/2.0")
     */
-    HTTPResponse(int status, std::string_view protocol = "HTTP/2") { SetBegin(status, protocol); }
+    HTTPResponse(int status, std::string_view protocol = "HTTP/2.0") { SetBegin(status, protocol); }
     //! Initialize a new HTTP response with a given status, status phrase and protocol
     /*!
         \param status - HTTP status
@@ -89,9 +89,9 @@ public:
     //! Set the HTTP response begin with a given status and protocol
     /*!
         \param status - HTTP status
-        \param protocol - Protocol version (default is "HTTP/2")
+        \param protocol - Protocol version (default is "HTTP/2.0")
     */
-    HTTPResponse& SetBegin(int status, std::string_view protocol = "HTTP/2");
+    HTTPResponse& SetBegin(int status, std::string_view protocol = "HTTP/2.0");
     //! Set the HTTP response begin with a given status, status phrase and protocol
     /*!
         \param status - HTTP status
