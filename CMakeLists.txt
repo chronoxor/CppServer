@@ -57,6 +57,9 @@ if(WIN32)
 endif()
 list(APPEND LINKLIBS cppcommon)
 
+# OpenSSL libraries
+message(STATUS "OpenSSL version: ${OPENSSL_VERSION} ${OPENSSL_INCLUDE_DIR} ${OPENSSL_LIBRARIES}")
+
 # System directories
 include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/modules")
 
