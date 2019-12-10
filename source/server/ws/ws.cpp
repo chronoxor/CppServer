@@ -182,7 +182,7 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
 
     // Prepare WebSocket upgrade success response
     response.Clear();
-    response.SetBegin(101);
+    response.SetBegin(101, "HTTP/1.1");
     response.SetHeader("Connection", "Upgrade");
     response.SetHeader("Upgrade", "websocket");
     response.SetHeader("Sec-WebSocket-Accept", accept);
