@@ -78,7 +78,7 @@ bool WebSocket::PerformClientUpgrade(const HTTP::HTTPResponse& response, const C
         }
     }
 
-    // Failed to perfrom WebSocket handshake
+    // Failed to perform WebSocket handshake
     if (!accept || !connection || !upgrade)
     {
         if (!error)
@@ -171,7 +171,7 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
     if (!connection && !upgrade && !ws_key && !ws_version)
         return false;
 
-    // Failed to perfrom WebSocket handshake
+    // Failed to perform WebSocket handshake
     if (!connection || !upgrade || !ws_key || !ws_version)
     {
         if (!error)
