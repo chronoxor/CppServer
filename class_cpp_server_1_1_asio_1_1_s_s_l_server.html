@@ -67,6 +67,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="class_cpp_server_1_1_asio_1_1_s_s_l_server-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -221,6 +222,13 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:aafde0b3a3a6d3414e6e0f63c6088780a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#aafde0b3a3a6d3414e6e0f63c6088780a">onError</a> (int error, const std::string &amp;category, const std::string &amp;message)</td></tr>
 <tr class="memdesc:aafde0b3a3a6d3414e6e0f63c6088780a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle error notification.  <a href="#aafde0b3a3a6d3414e6e0f63c6088780a">More...</a><br /></td></tr>
 <tr class="separator:aafde0b3a3a6d3414e6e0f63c6088780a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a1036f7ad7aa3850a2212b6174c2733bc"><td class="memItemLeft" align="right" valign="top">std::shared_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a1036f7ad7aa3850a2212b6174c2733bc">_sessions_lock</a></td></tr>
+<tr class="separator:a1036f7ad7aa3850a2212b6174c2733bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aa477dbd629586977307497b70424c1"><td class="memItemLeft" align="right" valign="top">std::map&lt; CppCommon::UUID, std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">SSLSession</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_server.html#a4aa477dbd629586977307497b70424c1">_sessions</a></td></tr>
+<tr class="separator:a4aa477dbd629586977307497b70424c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -924,6 +932,8 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the data was successfully multicast, 'false' if the server is not started </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_server.html#a81f8e8f610d1337a6599554dbe47170f">CppServer::WS::WSSServer</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="ssl__server_8cpp_source.html#l00253">253</a> of file <a class="el" href="ssl__server_8cpp_source.html">ssl_server.cpp</a>.</p>
 
@@ -1702,6 +1712,55 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00033">33</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4aa477dbd629586977307497b70424c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4aa477dbd629586977307497b70424c1">&#9670;&nbsp;</a></span>_sessions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;CppCommon::UUID, std::shared_ptr&lt;<a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html">SSLSession</a>&gt; &gt; CppServer::Asio::SSLServer::_sessions</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00223">223</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
+
+</div>
+</div>
+<a id="a1036f7ad7aa3850a2212b6174c2733bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1036f7ad7aa3850a2212b6174c2733bc">&#9670;&nbsp;</a></span>_sessions_lock</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_mutex CppServer::Asio::SSLServer::_sessions_lock</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ssl__server_8h_source.html#l00222">222</a> of file <a class="el" href="ssl__server_8h_source.html">ssl_server.h</a>.</p>
 
 </div>
 </div>
