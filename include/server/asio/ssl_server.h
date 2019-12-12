@@ -217,6 +217,11 @@ protected:
     */
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
+protected:
+    // Server sessions
+    std::shared_mutex _sessions_lock;
+    std::map<CppCommon::UUID, std::shared_ptr<SSLSession>> _sessions;
+
 private:
     // Server Id
     CppCommon::UUID _id;
@@ -241,9 +246,6 @@ private:
     uint64_t _bytes_pending;
     uint64_t _bytes_sent;
     uint64_t _bytes_received;
-    // Server sessions
-    std::shared_mutex _sessions_lock;
-    std::map<CppCommon::UUID, std::shared_ptr<SSLSession>> _sessions;
     // Options
     bool _option_keep_alive;
     bool _option_no_delay;

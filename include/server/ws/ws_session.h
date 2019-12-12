@@ -25,6 +25,8 @@ class WSServer;
 */
 class WSSession : public HTTP::HTTPSession, protected WebSocket
 {
+    friend class WSServer;
+
 public:
     explicit WSSession(const std::shared_ptr<WSServer>& server);
     WSSession(const WSSession&) = delete;
