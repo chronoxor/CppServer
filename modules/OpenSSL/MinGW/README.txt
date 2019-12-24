@@ -1,7 +1,7 @@
 
- OpenSSL 1.1.1b 26 Feb 2019
+ OpenSSL 1.1.1d 10 Sep 2019
 
- Copyright (c) 1998-2018 The OpenSSL Project
+ Copyright (c) 1998-2019 The OpenSSL Project
  Copyright (c) 1995-1998 Eric A. Young, Tim J. Hudson
  All rights reserved.
 
