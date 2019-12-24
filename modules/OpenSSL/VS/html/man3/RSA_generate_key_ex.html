@@ -37,7 +37,7 @@
 <p>Deprecated:</p>
 
 <pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x00908000L</span>
- <span class="variable">RSA</span> <span class="variable">*RSA_generate_key</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">e</span><span class="operator">,</span>
+ <span class="variable">RSA</span> <span class="variable">*RSA_generate_key</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">e</span><span class="operator">,</span>
                        <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
  <span class="comment">#endif</span>
 </code></pre>
@@ -46,7 +46,7 @@
 
 <p>RSA_generate_key_ex() generates a 2-prime RSA key pair and stores it in the <b>RSA</b> structure provided in <b>rsa</b>. The pseudo-random number generator must be seeded prior to calling RSA_generate_key_ex().</p>
 
-<p>RSA_generate_multi_prime_key() generates a multi-prime RSA key pair and stores it in the <b>RSA</b> structure provided in <b>rsa</b>. The number of primes is given by the <b>primes</b> parameter. The pseudo-random number generator must be seeded prior to calling RSA_generate_multi_prime_key().</p>
+<p>RSA_generate_multi_prime_key() generates a multi-prime RSA key pair and stores it in the <b>RSA</b> structure provided in <b>rsa</b>. The number of primes is given by the <b>primes</b> parameter. The random number generator must be seeded when calling RSA_generate_multi_prime_key(). If the automatic seeding or reseeding of the OpenSSL CSPRNG fails due to external circumstances (see <a href="../man7/RAND.html">RAND(7)</a>), the operation will fail.</p>
 
 <p>The modulus size will be of length <b>bits</b>, the number of primes to form the modulus will be <b>primes</b>, and the public exponent will be <b>e</b>. Key sizes with <b>num</b> &lt; 1024 should be considered insecure. The exponent is an odd number, typically 3, 17 or 65537.</p>
 
@@ -58,7 +58,7 @@
 
 <p>A callback function may be used to provide feedback about the progress of the key generation. If <b>cb</b> is not <b>NULL</b>, it will be called as follows using the BN_GENCB_call() function described on the <a href="../man3/BN_generate_prime.html">BN_generate_prime(3)</a> page.</p>
 
-<p>RSA_generate_prime() is similar to RSA_generate_prime_ex() but expects an old-style callback function; see <a href="../man3/BN_generate_prime.html">BN_generate_prime(3)</a> for information on the old-style callback.</p>
+<p>RSA_generate_key() is similar to RSA_generate_key_ex() but expects an old-style callback function; see <a href="../man3/BN_generate_prime.html">BN_generate_prime(3)</a> for information on the old-style callback.</p>
 
 <ul>
 
@@ -87,7 +87,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/BN_generate_prime.html">BN_generate_prime(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/BN_generate_prime.html">BN_generate_prime(3)</a>, <a href="../man7/RAND.html">RAND(7)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
@@ -95,7 +95,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

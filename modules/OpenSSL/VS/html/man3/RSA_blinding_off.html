@@ -36,7 +36,7 @@
 
 <p>RSA is vulnerable to timing attacks. In a setup where attackers can measure the time of RSA decryption or signature operations, blinding must be used to protect the RSA operation from that attack.</p>
 
-<p>RSA_blinding_on() turns blinding on for key <b>rsa</b> and generates a random blinding factor. <b>ctx</b> is <b>NULL</b> or a pre-allocated and initialized <b>BN_CTX</b>. The random number generator must be seeded prior to calling RSA_blinding_on().</p>
+<p>RSA_blinding_on() turns blinding on for key <b>rsa</b> and generates a random blinding factor. <b>ctx</b> is <b>NULL</b> or a pre-allocated and initialized <b>BN_CTX</b>.</p>
 
 <p>RSA_blinding_off() turns blinding off and frees the memory used for the blinding factor.</p>
 
@@ -48,7 +48,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

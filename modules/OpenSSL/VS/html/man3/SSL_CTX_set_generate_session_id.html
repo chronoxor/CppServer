@@ -30,7 +30,7 @@
 
 <pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
  
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*GEN_SESSION_CB</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*id</span><span class="operator">,</span>
+ <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*GEN_SESSION_CB</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*id</span><span class="operator">,</span>
                                <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*id_len</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">SSL_CTX_set_generate_session_id</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">GEN_SESSION_CB</span> <span class="variable">cb</span><span class="operator">);</span>
@@ -76,7 +76,7 @@
 <pre><code> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">session_id_prefix</span> <span class="operator">=</span> <span class="string">"www-18"</span><span class="operator">;</span>
  
  <span class="comment">#define MAX_SESSION_ID_ATTEMPTS 10</span>
- <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">generate_session_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*id</span><span class="operator">,</span>
+ <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">generate_session_id</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*id</span><span class="operator">,</span>
                                 <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*id_len</span><span class="operator">)</span>
  <span class="operator">{</span>
      <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>

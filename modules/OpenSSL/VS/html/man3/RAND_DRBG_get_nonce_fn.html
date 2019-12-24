@@ -96,7 +96,7 @@
 
 <p>A request for prediction resistance can only be satisfied by pulling fresh entropy from one of the approved entropy sources listed in section 5.5.2 of [NIST SP 800-90C]. Since the default implementation of the get_entropy callback does not have access to such an approved entropy source, a request for prediction resistance will always fail. In other words, prediction resistance is currently not supported yet by the DRBG.</p>
 
-<p>The derivation function is disabled during initialization by calling the RAND_DRBG_set() function with the RAND_DRBG_FLAG_CTR_NO_DF flag. For more information on the derivation function and when it can be omitted, see [NIST SP 800-90A Rev. 1]. Roughly speeking it can be omitted if the random source has &quot;full entropy&quot;, i.e., contains 8 bits of entropy per byte.</p>
+<p>The derivation function is disabled during initialization by calling the RAND_DRBG_set() function with the RAND_DRBG_FLAG_CTR_NO_DF flag. For more information on the derivation function and when it can be omitted, see [NIST SP 800-90A Rev. 1]. Roughly speaking it can be omitted if the random source has &quot;full entropy&quot;, i.e., contains 8 bits of entropy per byte.</p>
 
 <p>Even if a nonce is required, the <b>get_nonce</b>() and <b>cleanup_nonce</b>() callbacks can be omitted by setting them to NULL. In this case the DRBG will automatically request an extra amount of entropy (using the <b>get_entropy</b>() and <b>cleanup_entropy</b>() callbacks) which it will utilize for the nonce, following the recommendations of [NIST SP 800-90A Rev. 1], section 8.6.7.</p>
 

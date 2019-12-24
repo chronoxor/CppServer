@@ -24,7 +24,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>X509_get0_subject_key_id, X509_get0_authority_key_id, X509_get_pathlen, X509_get_extension_flags, X509_get_key_usage, X509_get_extended_key_usage, X509_set_proxy_flag, X509_set_proxy_pathlen, X509_get_proxy_pathlen - retrieve certificate extension data</p>
+<p>X509_get0_subject_key_id, X509_get0_authority_key_id, X509_get0_authority_issuer, X509_get0_authority_serial, X509_get_pathlen, X509_get_extension_flags, X509_get_key_usage, X509_get_extended_key_usage, X509_set_proxy_flag, X509_set_proxy_pathlen, X509_get_proxy_pathlen - retrieve certificate extension data</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -36,6 +36,8 @@
  <span class="variable">uint32_t</span> <span class="variable">X509_get_extended_key_usage</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*X509_get0_subject_key_id</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*X509_get0_authority_key_id</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">GENERAL_NAMES</span> <span class="variable">*X509_get0_authority_issuer</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*X509_get0_authority_serial</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">X509_set_proxy_flag</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">X509_set_proxy_pathlen</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">l</span><span class="operator">);</span>
  <span class="variable">long</span> <span class="variable">X509_get_proxy_pathlen</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
@@ -127,6 +129,10 @@
 
 <p>X509_get0_authority_key_id() returns an internal pointer to the authority key identifier of <b>x</b> as an <b>ASN1_OCTET_STRING</b> or <b>NULL</b> if the extension is not present or cannot be parsed.</p>
 
+<p>X509_get0_authority_issuer() returns an internal pointer to the authority certificate issuer of <b>x</b> as a stack of <b>GENERAL_NAME</b> structures or <b>NULL</b> if the extension is not present or cannot be parsed.</p>
+
+<p>X509_get0_authority_serial() returns an internal pointer to the authority certificate serial number of <b>x</b> as an <b>ASN1_INTEGER</b> or <b>NULL</b> if the extension is not present or cannot be parsed.</p>
+
 <p>X509_set_proxy_flag() marks the certificate with the <b>EXFLAG_PROXY</b> flag. This is for the users who need to mark non-RFC3820 proxy certificates as such, as OpenSSL only detects RFC3820 compliant ones.</p>
 
 <p>X509_set_proxy_pathlen() sets the proxy certificate path length for the given certificate <b>x</b>. This is for the users who need to mark non-RFC3820 proxy certificates as such, as OpenSSL only detects RFC3820 compliant ones.</p>
@@ -161,7 +167,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

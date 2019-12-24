@@ -24,7 +24,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>ECDSA_SIG_get0, ECDSA_SIG_get0_r, ECDSA_SIG_get0_s, ECDSA_SIG_set0, ECDSA_SIG_new, ECDSA_SIG_free, i2d_ECDSA_SIG, d2i_ECDSA_SIG, ECDSA_size, ECDSA_sign, ECDSA_do_sign, ECDSA_verify, ECDSA_do_verify, ECDSA_sign_setup, ECDSA_sign_ex, ECDSA_do_sign_ex - low level elliptic curve digital signature algorithm (ECDSA) functions</p>
+<p>ECDSA_SIG_get0, ECDSA_SIG_get0_r, ECDSA_SIG_get0_s, ECDSA_SIG_set0, ECDSA_SIG_new, ECDSA_SIG_free, ECDSA_size, ECDSA_sign, ECDSA_do_sign, ECDSA_verify, ECDSA_do_verify, ECDSA_sign_setup, ECDSA_sign_ex, ECDSA_do_sign_ex - low level elliptic curve digital signature algorithm (ECDSA) functions</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -36,8 +36,6 @@
  <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*ECDSA_SIG_get0_r</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*ECDSA_SIG_get0_s</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">ECDSA_SIG_set0</span><span class="operator">(</span><span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_ECDSA_SIG</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ECDSA_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
- <span class="variable">ECDSA_SIG</span> <span class="variable">*d2i_ECDSA_SIG</span><span class="operator">(</span><span class="variable">ECDSA_SIG</span> <span class="operator">**</span><span class="variable">sig</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">ECDSA_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">ECDSA_sign</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*dgst</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">dgstlen</span><span class="operator">,</span>
@@ -75,9 +73,7 @@
 
 <p>The <b>r</b> and <b>s</b> values can be set by calling ECDSA_SIG_set0() and passing the new values for <b>r</b> and <b>s</b> as parameters to the function. Calling this function transfers the memory management of the values to the ECDSA_SIG object, and therefore the values that have been passed in should not be freed directly after this function has been called.</p>
 
-<p>i2d_ECDSA_SIG() creates the DER encoding of the ECDSA signature <b>sig</b> and writes the encoded signature to <b>*pp</b> (note: if <b>pp</b> is NULL i2d_ECDSA_SIG() returns the expected length in bytes of the DER encoded signature). i2d_ECDSA_SIG() returns the length of the DER encoded signature (or 0 on error).</p>
-
-<p>d2i_ECDSA_SIG() decodes a DER encoded ECDSA signature and returns the decoded signature in a newly allocated <b>ECDSA_SIG</b> structure. <b>*sig</b> points to the buffer containing the DER encoded signature of size <b>len</b>.</p>
+<p>See <a href="../man3/i2d_ECDSA_SIG.html">i2d_ECDSA_SIG(3)</a> and <a href="../man3/d2i_ECDSA_SIG.html">d2i_ECDSA_SIG(3)</a> for information about encoding and decoding ECDSA signatures to/from DER.</p>
 
 <p>ECDSA_size() returns the maximum length of a DER encoded ECDSA signature created with the private EC key <b>eckey</b>.</p>
 
@@ -174,7 +170,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/EC_KEY_new.html">EC_KEY_new(3)</a>, <a href="../man3/EVP_DigestSignInit.html">EVP_DigestSignInit(3)</a>, <a href="../man3/EVP_DigestVerifyInit.html">EVP_DigestVerifyInit(3)</a></p>
+<p><a href="../man3/EC_KEY_new.html">EC_KEY_new(3)</a>, <a href="../man3/EVP_DigestSignInit.html">EVP_DigestSignInit(3)</a>, <a href="../man3/EVP_DigestVerifyInit.html">EVP_DigestVerifyInit(3)</a>, <a href="../man3/i2d_ECDSA_SIG.html">i2d_ECDSA_SIG(3)</a>, <a href="../man3/d2i_ECDSA_SIG.html">d2i_ECDSA_SIG(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

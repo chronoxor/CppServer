@@ -16,7 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
-  <li><a href="#EXAMPLE">EXAMPLE</a></li>
+  <li><a href="#EXAMPLES">EXAMPLES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -56,7 +56,7 @@
 
 <p>SSL_get0_peername() returns NULL if peername verification is not applicable (as with RFC7671 DANE-EE(3)), or no trusted peername was matched. Otherwise, it returns the matched peername. To determine whether verification succeeded call <a href="../man3/SSL_get_verify_result.html">SSL_get_verify_result(3)</a>.</p>
 
-<h1 id="EXAMPLE">EXAMPLE</h1>
+<h1 id="EXAMPLES">EXAMPLES</h1>
 
 <p>Suppose &quot;smtp.example.com&quot; is the MX host of the domain &quot;example.com&quot;. The calls below will arrange to match either the MX hostname or the destination domain name in the SMTP server certificate. Wildcards are supported, but must match the entire label. The actual name matched in the certificate (which might be a wildcard) is retrieved, and must be copied by the application if it is to be retained beyond the lifetime of the SSL connection.</p>
 
@@ -86,7 +86,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

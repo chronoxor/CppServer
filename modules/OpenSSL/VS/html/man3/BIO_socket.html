@@ -42,7 +42,7 @@
 
 <p>BIO_socket() creates a socket in the domain <b>domain</b>, of type <b>socktype</b> and <b>protocol</b>. Socket <b>options</b> are currently unused, but is present for future use.</p>
 
-<p>BIO_bind() binds the source address and service to a socket and may be useful before calling BIO_connect(). The options may include <b>BIO_SOCK_REUSADDR</b>, which is described in <a href="#FLAGS">&quot;FLAGS&quot;</a> below.</p>
+<p>BIO_bind() binds the source address and service to a socket and may be useful before calling BIO_connect(). The options may include <b>BIO_SOCK_REUSEADDR</b>, which is described in <a href="#FLAGS">&quot;FLAGS&quot;</a> below.</p>
 
 <p>BIO_connect() connects <b>sock</b> to the address and service given by <b>addr</b>. Connection <b>options</b> may be zero or any combination of <b>BIO_SOCK_KEEPALIVE</b>, <b>BIO_SOCK_NONBLOCK</b> and <b>BIO_SOCK_NODELAY</b>. The flags are described in <a href="#FLAGS">&quot;FLAGS&quot;</a> below.</p>
 

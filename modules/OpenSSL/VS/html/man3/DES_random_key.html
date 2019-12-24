@@ -114,7 +114,7 @@
 
 <p>There are two phases to the use of DES encryption. The first is the generation of a <i>DES_key_schedule</i> from a key, the second is the actual encryption. A DES key is of type <i>DES_cblock</i>. This type consists of 8 bytes with odd parity. The least significant bit in each byte is the parity bit. The key schedule is an expanded form of the key; it is used to speed the encryption process.</p>
 
-<p>DES_random_key() generates a random key. The PRNG must be seeded prior to using this function (see <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>). If the PRNG could not generate a secure key, 0 is returned.</p>
+<p>DES_random_key() generates a random key. The random generator must be seeded when calling this function. If the automatic seeding or reseeding of the OpenSSL CSPRNG fails due to external circumstances (see <a href="../man7/RAND.html">RAND(7)</a>), the operation will fail. If the function fails, 0 is returned.</p>
 
 <p>Before a DES key can be used, it must be converted into the architecture dependent <i>DES_key_schedule</i> via the DES_set_key_checked() or DES_set_key_unchecked() function.</p>
 

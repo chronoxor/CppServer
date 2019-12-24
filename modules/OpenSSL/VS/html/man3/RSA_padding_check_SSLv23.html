@@ -16,7 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
-  <li><a href="#WARNING">WARNING</a></li>
+  <li><a href="#WARNINGS">WARNINGS</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -116,7 +116,7 @@
 </dd>
 </dl>
 
-<p>The random number generator must be seeded prior to calling RSA_padding_add_xxx().</p>
+<p>The random number generator must be seeded prior to calling RSA_padding_add_xxx(). If the automatic seeding or reseeding of the OpenSSL CSPRNG fails due to external circumstances (see <a href="../man7/RAND.html">RAND(7)</a>), the operation will fail.</p>
 
 <p>RSA_padding_check_xxx() verifies that the <b>fl</b> bytes at <b>f</b> contain a valid encoding for a <b>rsa_len</b> byte RSA key in the respective encoding method and stores the recovered data of at most <b>tlen</b> bytes (for <b>RSA_NO_PADDING</b>: of size <b>tlen</b>) at <b>to</b>.</p>
 
@@ -128,13 +128,13 @@
 
 <p>The RSA_padding_add_xxx() functions return 1 on success, 0 on error. The RSA_padding_check_xxx() functions return the length of the recovered data, -1 on error. Error codes can be obtained by calling <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
-<h1 id="WARNING">WARNING</h1>
+<h1 id="WARNINGS">WARNINGS</h1>
 
 <p>The result of RSA_padding_check_PKCS1_type_2() is a very sensitive information which can potentially be used to mount a Bleichenbacher padding oracle attack. This is an inherent weakness in the PKCS #1 v1.5 padding design. Prefer PKCS1_OAEP padding. If that is not possible, the result of RSA_padding_check_PKCS1_type_2() should be checked in constant time if it matches the expected length of the plaintext and additionally some application specific consistency checks on the plaintext need to be performed in constant time. If the plaintext is rejected it must be kept secret which of the checks caused the application to reject the message. Do not remove the zero-padding from the decrypted raw RSA data which was computed by RSA_private_decrypt() with <b>RSA_NO_PADDING</b>, as this would create a small timing side channel which could be used to mount a Bleichenbacher attack against any padding mode including PKCS1_OAEP.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/RSA_public_encrypt.html">RSA_public_encrypt(3)</a>, <a href="../man3/RSA_private_decrypt.html">RSA_private_decrypt(3)</a>, <a href="../man3/RSA_sign.html">RSA_sign(3)</a>, <a href="../man3/RSA_verify.html">RSA_verify(3)</a></p>
+<p><a href="../man3/RSA_public_encrypt.html">RSA_public_encrypt(3)</a>, <a href="../man3/RSA_private_decrypt.html">RSA_private_decrypt(3)</a>, <a href="../man3/RSA_sign.html">RSA_sign(3)</a>, <a href="../man3/RSA_verify.html">RSA_verify(3)</a>, <a href="../man7/RAND.html">RAND(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

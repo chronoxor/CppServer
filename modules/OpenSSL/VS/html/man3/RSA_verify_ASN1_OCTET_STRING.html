@@ -44,7 +44,7 @@
 
 <p><b>dummy</b> is ignored.</p>
 
-<p>The random number generator must be seeded prior to calling RSA_sign_ASN1_OCTET_STRING().</p>
+<p>The random number generator must be seeded when calling RSA_sign_ASN1_OCTET_STRING(). If the automatic seeding or reseeding of the OpenSSL CSPRNG fails due to external circumstances (see <a href="../man7/RAND.html">RAND(7)</a>), the operation will fail.</p>
 
 <p>RSA_verify_ASN1_OCTET_STRING() verifies that the signature <b>sigbuf</b> of size <b>siglen</b> is the DER representation of a given octet string <b>m</b> of size <b>m_len</b>. <b>dummy</b> is ignored. <b>rsa</b> is the signer&#39;s public key.</p>
 
@@ -60,11 +60,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/RSA_sign.html">RSA_sign(3)</a>, <a href="../man3/RSA_verify.html">RSA_verify(3)</a></p>
+<p><a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/RSA_sign.html">RSA_sign(3)</a>, <a href="../man3/RSA_verify.html">RSA_verify(3)</a>, <a href="../man7/RAND.html">RAND(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

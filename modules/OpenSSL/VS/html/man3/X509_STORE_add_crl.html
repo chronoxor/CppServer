@@ -48,7 +48,7 @@
 
 <p>Once the <b>X509_STORE</b> is suitably configured, X509_STORE_CTX_new() is used to instantiate a single-use <b>X509_STORE_CTX</b> for each chain-building and verification operation. That process includes providing the end-entity certificate to be verified and an additional set of untrusted certificates that may be used in chain-building. As such, it is expected that the certificates included in the <b>X509_STORE</b> are certificates that represent trusted entities such as root certificate authorities (CAs). OpenSSL represents these trusted certificates internally as <b>X509</b> objects with an associated <b>X509_CERT_AUX</b>, as are produced by PEM_read_bio_X509_AUX() and similar routines that refer to X509_AUX. The public interfaces that operate on such trusted certificates still operate on pointers to <b>X509</b> objects, though.</p>
 
-<p>X509_STORE_add_cert() and X509_STORE_add_crl() add the respective object to the <b>X509_STORE</b>&#39;s local storage. Untrusted objects should not be added in this way.</p>
+<p>X509_STORE_add_cert() and X509_STORE_add_crl() add the respective object to the <b>X509_STORE</b>&#39;s local storage. Untrusted objects should not be added in this way. The added object&#39;s reference count is incremented by one, hence the caller retains ownership of the object and needs to free it when it is no longer needed.</p>
 
 <p>X509_STORE_set_depth(), X509_STORE_set_flags(), X509_STORE_set_purpose(), X509_STORE_set_trust(), and X509_STORE_set1_param() set the default values for the corresponding values used in certificate chain validation. Their behavior is documented in the corresponding <b>X509_VERIFY_PARAM</b> manual pages, e.g., <a href="../man3/X509_VERIFY_PARAM_set_depth.html">X509_VERIFY_PARAM_set_depth(3)</a>.</p>
 
@@ -66,7 +66,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2017-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2017-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

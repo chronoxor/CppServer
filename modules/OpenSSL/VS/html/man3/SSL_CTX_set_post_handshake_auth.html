@@ -87,7 +87,7 @@
 
 <p><b>Server mode:</b> if the client did not return a certificate, the TLS/SSL handshake is immediately terminated with a &quot;handshake failure&quot; alert. This flag must be used together with SSL_VERIFY_PEER.</p>
 
-<p><b>Client mode:</b> ignored</p>
+<p><b>Client mode:</b> ignored (see BUGS)</p>
 
 </dd>
 <dt id="SSL_VERIFY_CLIENT_ONCE">SSL_VERIFY_CLIENT_ONCE</dt>
@@ -95,7 +95,7 @@
 
 <p><b>Server mode:</b> only request a client certificate once during the connection. Do not ask for a client certificate again during renegotiation or post-authentication if a certificate was requested during the initial handshake. This flag must be used together with SSL_VERIFY_PEER.</p>
 
-<p><b>Client mode:</b> ignored</p>
+<p><b>Client mode:</b> ignored (see BUGS)</p>
 
 </dd>
 <dt id="SSL_VERIFY_POST_HANDSHAKE">SSL_VERIFY_POST_HANDSHAKE</dt>
@@ -103,7 +103,7 @@
 
 <p><b>Server mode:</b> the server will not send a client certificate request during the initial handshake, but will send the request via SSL_verify_client_post_handshake(). This allows the SSL_CTX or SSL to be configured for post-handshake peer verification before the handshake occurs. This flag must be used together with SSL_VERIFY_PEER. TLSv1.3 only; no effect on pre-TLSv1.3 connections.</p>
 
-<p><b>Client mode:</b> ignored</p>
+<p><b>Client mode:</b> ignored (see BUGS)</p>
 
 </dd>
 </dl>
@@ -130,7 +130,7 @@
 
 <h1 id="BUGS">BUGS</h1>
 
-<p>In client mode, it is not checked whether the SSL_VERIFY_PEER flag is set, but whether any flags are set. This can lead to unexpected behaviour if SSL_VERIFY_PEER and other flags are not used as required.</p>
+<p>In client mode, it is not checked whether the SSL_VERIFY_PEER flag is set, but whether any flags other than SSL_VERIFY_NONE are set. This can lead to unexpected behaviour if SSL_VERIFY_PEER and other flags are not used as required.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -254,7 +254,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -48,7 +48,7 @@
 
 <p>The <b>type</b> parameter is ignored.</p>
 
-<p>The PRNG must be seeded before DSA_sign() (or DSA_sign_setup()) is called.</p>
+<p>The random generator must be seeded when DSA_sign() (or DSA_sign_setup()) is called. If the automatic seeding or reseeding of the OpenSSL CSPRNG fails due to external circumstances (see <a href="../man7/RAND.html">RAND(7)</a>), the operation will fail.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -60,11 +60,11 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/DSA_new.html">DSA_new(3)</a>, <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/DSA_do_sign.html">DSA_do_sign(3)</a></p>
+<p><a href="../man3/DSA_new.html">DSA_new(3)</a>, <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man3/DSA_do_sign.html">DSA_do_sign(3)</a>, <a href="../man7/RAND.html">RAND(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

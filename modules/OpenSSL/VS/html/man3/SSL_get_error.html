@@ -34,7 +34,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>SSL_get_error() returns a result code (suitable for the C &quot;switch&quot; statement) for a preceding call to SSL_connect(), SSL_accept(), SSL_do_handshake(), SSL_read_ex(), SSL_read(), SSL_peek_ex(), SSL_peek(), SSL_write_ex() or SSL_write() on <b>ssl</b>. The value returned by that TLS/SSL I/O function must be passed to SSL_get_error() in parameter <b>ret</b>.</p>
+<p>SSL_get_error() returns a result code (suitable for the C &quot;switch&quot; statement) for a preceding call to SSL_connect(), SSL_accept(), SSL_do_handshake(), SSL_read_ex(), SSL_read(), SSL_peek_ex(), SSL_peek(), SSL_shutdown(), SSL_write_ex() or SSL_write() on <b>ssl</b>. The value returned by that TLS/SSL I/O function must be passed to SSL_get_error() in parameter <b>ret</b>.</p>
 
 <p>In addition to <b>ssl</b> and <b>ret</b>, SSL_get_error() inspects the current thread&#39;s OpenSSL error queue. Thus, SSL_get_error() must be used in the same thread that performed the TLS/SSL I/O operation, and no other OpenSSL function calls should appear in between. The current thread&#39;s error queue must be empty before the TLS/SSL I/O operation is attempted, or SSL_get_error() will not work reliably.</p>
 

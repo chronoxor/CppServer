@@ -38,9 +38,9 @@
 
 <p>OpenSSL has state that should be reset when a process forks. For example, the entropy pool used to generate random numbers (and therefore encryption keys) should not be shared across multiple programs. The OPENSSL_fork_prepare(), OPENSSL_fork_parent(), and OPENSSL_fork_child() functions are used to reset this internal state.</p>
 
-<p>Platforms without fork(2) will probably not need to use these functions. Platforms with fork(2) but without pthreads_atfork(3) will probably need to call them manually, as described in the following paragraph. Platforms such as Linux that have both functions will normally not need to call these functions as the OpenSSL library will do so automatically.</p>
+<p>Platforms without fork(2) will probably not need to use these functions. Platforms with fork(2) but without pthread_atfork(3) will probably need to call them manually, as described in the following paragraph. Platforms such as Linux that have both functions will normally not need to call these functions as the OpenSSL library will do so automatically.</p>
 
-<p><a href="../man3/OPENSSL_init_crypto.html">OPENSSL_init_crypto(3)</a> will register these functions with the appropriate handler, when the <b>OPENSSL_INIT_ATFORK</b> flag is used. For other applications, these functions can be called directly. They should be used according to the calling sequence described by the pthreads_atfork(3) documentation, which is summarized here. OPENSSL_fork_prepare() should be called before a fork() is done. After the fork() returns, the parent process should call OPENSSL_fork_parent() and the child process should call OPENSSL_fork_child().</p>
+<p><a href="../man3/OPENSSL_init_crypto.html">OPENSSL_init_crypto(3)</a> will register these functions with the appropriate handler, when the <b>OPENSSL_INIT_ATFORK</b> flag is used. For other applications, these functions can be called directly. They should be used according to the calling sequence described by the pthread_atfork(3) documentation, which is summarized here. OPENSSL_fork_prepare() should be called before a fork() is done. After the fork() returns, the parent process should call OPENSSL_fork_parent() and the child process should call OPENSSL_fork_child().</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -56,7 +56,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2017-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2017-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -17,8 +17,8 @@
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#NOTES">NOTES</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
-  <li><a href="#EXAMPLE">EXAMPLE</a></li>
-  <li><a href="#WARNING">WARNING</a></li>
+  <li><a href="#EXAMPLES">EXAMPLES</a></li>
+  <li><a href="#WARNINGS">WARNINGS</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -101,7 +101,7 @@
 
 <p>[XXXXX: More return values need to be added here]</p>
 
-<h1 id="EXAMPLE">EXAMPLE</h1>
+<h1 id="EXAMPLES">EXAMPLES</h1>
 
 <p>The BIO pair can be used to have full control over the network access of an application. The application can call select() on the socket as required without having to go through the SSL-interface.</p>
 
@@ -137,7 +137,7 @@
 
 <p>Use the BIO_ctrl_pending(), to find out whether data is buffered in the BIO and must be transferred to the network. Use BIO_ctrl_get_read_request() to find out, how many bytes must be written into the buffer before the SSL_operation() can successfully be continued.</p>
 
-<h1 id="WARNING">WARNING</h1>
+<h1 id="WARNINGS">WARNINGS</h1>
 
 <p>As the data is buffered, SSL_operation() may return with an ERROR_SSL_WANT_READ condition, but there is still data in the write buffer. An application must not rely on the error value of SSL_operation() but must assure that the write buffer is always flushed first. Otherwise a deadlock may occur as the peer might be waiting for the data before being able to continue.</p>
 
@@ -147,7 +147,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

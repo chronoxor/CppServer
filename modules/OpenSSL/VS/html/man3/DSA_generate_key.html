@@ -35,7 +35,7 @@
 
 <p>DSA_generate_key() expects <b>a</b> to contain DSA parameters. It generates a new key pair and stores it in <b>a-&gt;pub_key</b> and <b>a-&gt;priv_key</b>.</p>
 
-<p>The PRNG must be seeded prior to calling DSA_generate_key().</p>
+<p>The random generator must be seeded prior to calling DSA_generate_key(). If the automatic seeding or reseeding of the OpenSSL CSPRNG fails due to external circumstances (see <a href="../man7/RAND.html">RAND(7)</a>), the operation will fail.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -47,7 +47,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

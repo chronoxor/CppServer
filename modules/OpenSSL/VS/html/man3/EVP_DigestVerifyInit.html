@@ -45,7 +45,7 @@
 
 <p>EVP_DigestVerifyInit() sets up verification context <b>ctx</b> to use digest <b>type</b> from ENGINE <b>e</b> and public key <b>pkey</b>. <b>ctx</b> must be created with EVP_MD_CTX_new() before calling this function. If <b>pctx</b> is not NULL, the EVP_PKEY_CTX of the verification operation will be written to <b>*pctx</b>: this can be used to set alternative verification options. Note that any existing value in <b>*pctx</b> is overwritten. The EVP_PKEY_CTX value returned must not be freed directly by the application if <b>ctx</b> is not assigned an EVP_PKEY_CTX value before being passed to EVP_DigestVerifyInit() (which means the EVP_PKEY_CTX is created inside EVP_DigestVerifyInit() and it will be freed automatically when the EVP_MD_CTX is freed).</p>
 
-<p>No <b>EVP_PKEY_CTX</b> will be created by EVP_DigsetSignInit() if the passed <b>ctx</b> has already been assigned one via <a href="../man3/EVP_MD_CTX_set_ctx.html">EVP_MD_CTX_set_ctx(3)</a>. See also <a href="../man7/SM2.html">SM2(7)</a>.</p>
+<p>No <b>EVP_PKEY_CTX</b> will be created by EVP_DigestSignInit() if the passed <b>ctx</b> has already been assigned one via <a href="../man3/EVP_MD_CTX_set_ctx.html">EVP_MD_CTX_set_ctx(3)</a>. See also <a href="../man7/SM2.html">SM2(7)</a>.</p>
 
 <p>EVP_DigestVerifyUpdate() hashes <b>cnt</b> bytes of data at <b>d</b> into the verification context <b>ctx</b>. This function can be called several times on the same <b>ctx</b> to include additional data. This function is currently implemented using a macro.</p>
 
@@ -69,7 +69,7 @@
 
 <p>In previous versions of OpenSSL there was a link between message digest types and public key algorithms. This meant that &quot;clone&quot; digests such as EVP_dss1() needed to be used to sign using SHA1 and DSA. This is no longer necessary and the use of clone digest is now discouraged.</p>
 
-<p>For some key types and parameters the random number generator must be seeded or the operation will fail.</p>
+<p>For some key types and parameters the random number generator must be seeded. If the automatic seeding or reseeding of the OpenSSL CSPRNG fails due to external circumstances (see <a href="../man7/RAND.html">RAND(7)</a>), the operation will fail.</p>
 
 <p>The call to EVP_DigestVerifyFinal() internally finalizes a copy of the digest context. This means that EVP_VerifyUpdate() and EVP_VerifyFinal() can be called later to digest and verify additional data.</p>
 
@@ -77,7 +77,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/EVP_DigestSignInit.html">EVP_DigestSignInit(3)</a>, <a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a>, <a href="../man7/evp.html">evp(7)</a>, <a href="../man3/HMAC.html">HMAC(3)</a>, <a href="../man3/MD2.html">MD2(3)</a>, <a href="../man3/MD5.html">MD5(3)</a>, <a href="../man3/MDC2.html">MDC2(3)</a>, <a href="../man3/RIPEMD160.html">RIPEMD160(3)</a>, <a href="../man3/SHA1.html">SHA1(3)</a>, <a href="../man1/dgst.html">dgst(1)</a></p>
+<p><a href="../man3/EVP_DigestSignInit.html">EVP_DigestSignInit(3)</a>, <a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a>, <a href="../man7/evp.html">evp(7)</a>, <a href="../man3/HMAC.html">HMAC(3)</a>, <a href="../man3/MD2.html">MD2(3)</a>, <a href="../man3/MD5.html">MD5(3)</a>, <a href="../man3/MDC2.html">MDC2(3)</a>, <a href="../man3/RIPEMD160.html">RIPEMD160(3)</a>, <a href="../man3/SHA1.html">SHA1(3)</a>, <a href="../man1/dgst.html">dgst(1)</a>, <a href="../man7/RAND.html">RAND(7)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

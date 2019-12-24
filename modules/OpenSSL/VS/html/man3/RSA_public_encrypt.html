@@ -16,7 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
-  <li><a href="#WARNING">WARNING</a></li>
+  <li><a href="#WARNINGS">WARNINGS</a></li>
   <li><a href="#CONFORMING-TO">CONFORMING TO</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
@@ -81,7 +81,7 @@
 
 <p>On error, -1 is returned; the error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
-<h1 id="WARNING">WARNING</h1>
+<h1 id="WARNINGS">WARNINGS</h1>
 
 <p>Decryption failures in the RSA_PKCS1_PADDING mode leak information which can potentially be used to mount a Bleichenbacher padding oracle attack. This is an inherent weakness in the PKCS #1 v1.5 padding design. Prefer RSA_PKCS1_OAEP_PADDING.</p>
 
