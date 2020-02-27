@@ -98,11 +98,17 @@ public:
 
     //! Connect the client (synchronous)
     /*!
+        Please note that synchronous connect will not receive data automatically!
+        You should use Receive() or ReceiveAsync() method manually after successful connection.
+
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
     virtual bool Connect();
     //! Connect the client using the given DNS resolver (synchronous)
     /*!
+        Please note that synchronous connect will not receive data automatically!
+        You should use Receive() or ReceiveAsync() method manually after successful connection.
+
         \param resolver - DNS resolver
         \return 'true' if the client was successfully connected, 'false' if the client failed to connect
     */
