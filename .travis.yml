@@ -10,14 +10,14 @@ matrix:
     - name: "Linux (GCC compiler)"
       os: linux
       compiler: gcc
-      env: OS=linux COMPILER=gcc GCC_VERSION=9
+      env: OS=linux COMPILER=gcc GCC_VERSION=10
       addons:
         apt:
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
-            - gcc-9
-            - g++-9
+            - gcc-10
+            - g++-10
             - cmake
             - doxygen
             - graphviz
@@ -52,7 +52,7 @@ matrix:
       os: osx
       compiler: clang
       env: OS=osx COMPILER=clang
-      osx_image: xcode11.3
+      osx_image: xcode11.4
 
 # Branches to build
 branches:
