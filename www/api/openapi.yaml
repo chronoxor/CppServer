@@ -41,6 +41,9 @@ paths:
             text/plain:
               schema:
                 type: string
+        404:
+          description: Cache key not found
+          content: {}
         500:
           description: Internal server error
           content: {}
@@ -122,6 +125,9 @@ paths:
             text/plain:
               schema:
                 type: string
+        404:
+          description: Cache key not found
+          content: {}
         500:
           description: Internal server error
           content: {}
