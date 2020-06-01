@@ -24,6 +24,13 @@ paths:
       - Cache
       summary: Get the cache value
       operationId: GetCacheValue
+      parameters:
+      - name: key
+        in: query
+        description: Cache key (optional)
+        required: false
+        schema:
+          type: string
       responses:
         200:
           description: Success
@@ -39,6 +46,13 @@ paths:
       - Cache
       summary: Create the cache value
       operationId: CreateCacheValue
+      parameters:
+      - name: key
+        in: query
+        description: Cache key
+        required: true
+        schema:
+          type: string
       requestBody:
         description: Cache value to create
         content:
@@ -58,6 +72,13 @@ paths:
       - Cache
       summary: Modify the cache value
       operationId: ModifyCacheValue
+      parameters:
+      - name: key
+        in: query
+        description: Cache key
+        required: true
+        schema:
+          type: string
       requestBody:
         description: Cache value to modify
         content:
@@ -77,6 +98,13 @@ paths:
       - Cache
       summary: Delete the cache value
       operationId: DeleteCacheValue
+      parameters:
+      - name: key
+        in: query
+        description: Cache key
+        required: true
+        schema:
+          type: string
       requestBody:
         description: Cache value to delete
         content:
