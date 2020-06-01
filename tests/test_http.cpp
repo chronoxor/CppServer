@@ -210,7 +210,7 @@ TEST_CASE("HTTP server & client test", "[CppServer][HTTP]")
 
     // Test CRUD operations
     auto response = client->SendGetRequest("/test").get();
-    REQUIRE(response.status() == 500);
+    REQUIRE(response.status() == 404);
     response = client->SendPostRequest("/test", "old_value").get();
     REQUIRE(response.status() == 200);
     response = client->SendGetRequest("/test").get();
@@ -225,7 +225,7 @@ TEST_CASE("HTTP server & client test", "[CppServer][HTTP]")
     REQUIRE(response.status() == 200);
     REQUIRE(response.body() == "new_value");
     response = client->SendGetRequest("/test").get();
-    REQUIRE(response.status() == 500);
+    REQUIRE(response.status() == 404);
 
     // Stop the HTTP server
     REQUIRE(server->Stop());
