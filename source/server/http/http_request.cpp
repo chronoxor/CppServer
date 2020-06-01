@@ -223,18 +223,22 @@ HTTPRequest& HTTPRequest::MakeGetRequest(std::string_view url)
     return *this;
 }
 
-HTTPRequest& HTTPRequest::MakePostRequest(std::string_view url, std::string_view content)
+HTTPRequest& HTTPRequest::MakePostRequest(std::string_view url, std::string_view content, std::string_view content_type)
 {
     Clear();
     SetBegin("POST", url);
+    if (!content_type.empty())
+        SetHeader("Content-Type", content_type);
     SetBody(content);
     return *this;
 }
 
-HTTPRequest& HTTPRequest::MakePutRequest(std::string_view url, std::string_view content)
+HTTPRequest& HTTPRequest::MakePutRequest(std::string_view url, std::string_view content, std::string_view content_type)
 {
     Clear();
     SetBegin("PUT", url);
+    if (!content_type.empty())
+        SetHeader("Content-Type", content_type);
     SetBody(content);
     return *this;
 }

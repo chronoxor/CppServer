@@ -134,16 +134,18 @@ public:
     /*!
         \param url - URL to request
         \param content - Content
+        \param content_type - Content type (default is "text/plain; charset=UTF-8")
         \return HTTP request
     */
-    HTTPRequest& MakePostRequest(std::string_view url, std::string_view content);
+    HTTPRequest& MakePostRequest(std::string_view url, std::string_view content, std::string_view content_type = "text/plain; charset=UTF-8");
     //! Make PUT request
     /*!
         \param url - URL to request
         \param content - Content
+        \param content_type - Content type (default is "text/plain; charset=UTF-8")
         \return HTTP request
     */
-    HTTPRequest& MakePutRequest(std::string_view url, std::string_view content);
+    HTTPRequest& MakePutRequest(std::string_view url, std::string_view content, std::string_view content_type = "text/plain; charset=UTF-8");
     //! Make DELETE request
     /*!
         \param url - URL to request

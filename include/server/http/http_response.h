@@ -152,10 +152,11 @@ public:
     HTTPResponse& MakeHeadResponse();
     //! Make GET response
     /*!
-        \param body - Body content (default is "")
+        \param content - Content (default is "")
+        \param content_type - Content type (default is "text/plain; charset=UTF-8")
         \return HTTP response
     */
-    HTTPResponse& MakeGetResponse(std::string_view body = "");
+    HTTPResponse& MakeGetResponse(std::string_view content = "", std::string_view content_type = "text/plain; charset=UTF-8");
     //! Make OPTIONS response
     /*!
         \param allow - Allow methods (default is "HEAD,GET,POST,PUT,DELETE,OPTIONS,TRACE")

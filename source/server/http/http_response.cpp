@@ -399,7 +399,6 @@ HTTPResponse& HTTPResponse::MakeOKResponse(int status)
 {
     Clear();
     SetBegin(status);
-    SetHeader("Content-Type", "text/html; charset=UTF-8");
     SetBody();
     return *this;
 }
@@ -408,7 +407,6 @@ HTTPResponse& HTTPResponse::MakeErrorResponse(std::string_view error, int status
 {
     Clear();
     SetBegin(status);
-    SetHeader("Content-Type", "text/html; charset=UTF-8");
     SetBody(error);
     return *this;
 }
@@ -417,17 +415,17 @@ HTTPResponse& HTTPResponse::MakeHeadResponse()
 {
     Clear();
     SetBegin(200);
-    SetHeader("Content-Type", "text/html; charset=UTF-8");
     SetBody();
     return *this;
 }
 
-HTTPResponse& HTTPResponse::MakeGetResponse(std::string_view body)
+HTTPResponse& HTTPResponse::MakeGetResponse(std::string_view content, std::string_view content_type)
 {
     Clear();
     SetBegin(200);
-    SetHeader("Content-Type", "text/html; charset=UTF-8");
-    SetBody(body);
+    if (!content_type.empty())
+        SetHeader("Content-Type", content_type);
+    SetBody(content);
     return *this;
 }
 

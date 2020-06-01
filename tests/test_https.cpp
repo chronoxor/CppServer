@@ -6,6 +6,7 @@
 
 #include "server/http/https_client.h"
 #include "server/http/https_server.h"
+#include "string/string_utils.h"
 #include "threads/thread.h"
 
 #include <map>
@@ -15,12 +16,28 @@ using namespace CppCommon;
 using namespace CppServer::Asio;
 using namespace CppServer::HTTP;
 
-class Cache : public Singleton<Cache>
+class Cache : public CppCommon::Singleton<Cache>
 {
-   friend Singleton<Cache>;
+   friend CppCommon::Singleton<Cache>;
 
 public:
-    bool GetCache(std::string_view key, std::string& value)
+    std::string GetAllCache()
+    {
+        std::scoped_lock locker(_cache_lock);
+        std::string result;
+        result += "[\n";
+        for (const auto& item : _cache)
+        {
+            result += "  {\n";
+            result += "    \"key\": \"" + item.first + "\",\n";
+            result += "    \"value\": \"" + item.second + "\",\n";
+            result += "  },\n";
+        }
+        result += "]\n";
+        return result;
+    }
+
+    bool GetCacheValue(std::string_view key, std::string& value)
     {
         std::scoped_lock locker(_cache_lock);
         auto it = _cache.find(key);
@@ -33,7 +50,7 @@ public:
             return false;
     }
 
-    void SetCache(std::string_view key, std::string_view value)
+    void PutCacheValue(std::string_view key, std::string_view value)
     {
         std::scoped_lock locker(_cache_lock);
         auto it = _cache.emplace(key, value);
@@ -41,7 +58,7 @@ public:
             it.first->second = value;
     }
 
-    bool DeleteCache(std::string_view key, std::string& value)
+    bool DeleteCacheValue(std::string_view key, std::string& value)
     {
         std::scoped_lock locker(_cache_lock);
         auto it = _cache.find(key);
@@ -73,34 +90,62 @@ protected:
             SendResponseAsync(response().MakeHeadResponse());
         else if (request.method() == "GET")
         {
-            // Get the cache value
-            std::string cache;
-            if (Cache::GetInstance().GetCache(request.url(), cache))
+            std::string key(request.url());
+            std::string value;
+
+            // Decode the key value
+            key = CppCommon::Encoding::URLDecode(key);
+            CppCommon::StringUtils::ReplaceFirst(key, "/api/cache", "");
+            CppCommon::StringUtils::ReplaceFirst(key, "?key=", "");
+
+            if (key.empty())
+            {
+                // Response with all cache values
+                SendResponseAsync(response().MakeGetResponse(Cache::GetInstance().GetAllCache(), "application/json; charset=UTF-8"));
+            }
+            // Get the cache value by the given key
+            if (Cache::GetInstance().GetCacheValue(key, value))
             {
                 // Response with the cache value
-                SendResponseAsync(response().MakeGetResponse(cache));
+                SendResponseAsync(response().MakeGetResponse(value));
             }
             else
-                SendResponseAsync(response().MakeErrorResponse("Required cache value was not found for the key: " + std::string(request.url())));
+                SendResponseAsync(response().MakeErrorResponse("Required cache value was not found for the key: " + key));
         }
         else if ((request.method() == "POST") || (request.method() == "PUT"))
         {
-            // Set the cache value
-            Cache::GetInstance().SetCache(request.url(), request.body());
+            std::string key(request.url());
+            std::string value(request.body());
+
+            // Decode the key value
+            key = CppCommon::Encoding::URLDecode(key);
+            CppCommon::StringUtils::ReplaceFirst(key, "/api/cache", "");
+            CppCommon::StringUtils::ReplaceFirst(key, "?key=", "");
+
+            // Put the cache value
+            Cache::GetInstance().PutCacheValue(key, value);
+
             // Response with the cache value
             SendResponseAsync(response().MakeOKResponse());
         }
         else if (request.method() == "DELETE")
         {
+            std::string key(request.url());
+            std::string value;
+
+            // Decode the key value
+            key = CppCommon::Encoding::URLDecode(key);
+            CppCommon::StringUtils::ReplaceFirst(key, "/api/cache", "");
+            CppCommon::StringUtils::ReplaceFirst(key, "?key=", "");
+
             // Delete the cache value
-            std::string cache;
-            if (Cache::GetInstance().DeleteCache(request.url(), cache))
+            if (Cache::GetInstance().DeleteCacheValue(key, value))
             {
                 // Response with the cache value
-                SendResponseAsync(response().MakeGetResponse(cache));
+                SendResponseAsync(response().MakeGetResponse(value));
             }
             else
-                SendResponseAsync(response().MakeErrorResponse("Deleted cache value was not found for the key: " + std::string(request.url())));
+                SendResponseAsync(response().MakeErrorResponse("Deleted cache value was not found for the key: " + key));
         }
         else if (request.method() == "OPTIONS")
             SendResponseAsync(response().MakeOptionsResponse());

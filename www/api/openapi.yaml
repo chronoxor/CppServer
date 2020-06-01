@@ -35,6 +35,9 @@ paths:
         200:
           description: Success
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheItems'
             text/plain:
               schema:
                 type: string
@@ -146,3 +149,17 @@ paths:
         500:
           description: Internal server error
           content: {}
+
+components:
+  schemas:
+    CacheItem:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    CacheItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/CacheItem'

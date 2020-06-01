@@ -104,7 +104,7 @@ protected:
             if (key.empty())
             {
                 // Response with all cache values
-                SendResponseAsync(response().MakeGetResponse(Cache::GetInstance().GetAllCache()));
+                SendResponseAsync(response().MakeGetResponse(Cache::GetInstance().GetAllCache(), "application/json; charset=UTF-8"));
             }
             // Get the cache value by the given key
             if (Cache::GetInstance().GetCacheValue(key, value))
