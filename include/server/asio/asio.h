@@ -30,8 +30,17 @@
 #define ASIO_SEPARATE_COMPILATION
 #define ASIO_NO_WIN32_LEAN_AND_MEAN
 
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable: 4459) // C4459: declaration of 'identifier' hides global declaration
+#endif
+
 #include <asio.hpp>
 #include <asio/ssl.hpp>
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 
 #if defined(_WIN32) || defined(_WIN64)
 #undef DELETE
