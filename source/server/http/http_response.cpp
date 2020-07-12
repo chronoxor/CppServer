@@ -580,8 +580,8 @@ bool HTTPResponse::ReceiveHeader(const void* buffer, size_t size)
                 if (index >= _cache.size())
                     return false;
 
-                // Validate header name and value
-                if ((header_name_size == 0) || (header_value_size == 0))
+                // Validate header name and value (sometimes value can be empty)
+                if (header_name_size == 0)
                     return false;
 
                 // Add a new header
