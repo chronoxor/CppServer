@@ -96,44 +96,53 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="asio_8h.html#a5b90f4adb6bc09ca319c35c3448ee67a">   30</a></span>&#160;<span class="preprocessor">#define ASIO_SEPARATE_COMPILATION</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="asio_8h.html#a61c9282eacc368b1f6adb1746d7d00b6">   31</a></span>&#160;<span class="preprocessor">#define ASIO_NO_WIN32_LEAN_AND_MEAN</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="asio_8h.html#ae32db4b16fbfb0629f334aa9b10e624a">   32</a></span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;asio.hpp&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;asio/ssl.hpp&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#if defined(_WIN32) || defined(_WIN64)</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#undef DELETE</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#undef ERROR</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#undef Yield</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#undef min</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#undef max</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#undef uuid_t</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#if defined(_MSC_VER)</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#pragma warning(push)</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#pragma warning(disable: 4459) // C4459: declaration of &#39;identifier&#39; hides global declaration</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;asio.hpp&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;asio/ssl.hpp&gt;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#if defined(_MSC_VER)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#pragma warning(pop)</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="namespace_cpp_server.html">   47</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_cpp_server.html">CppServer</a> {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">namespace </span>Asio {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">   56</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">InternetProtocol</a></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626">IPv4</a>,               </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4afdb7cb8f657426e7c409bfd6d1a36ce4">IPv6</a>                </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#if defined(_WIN32) || defined(_WIN64)</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#undef DELETE</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#undef ERROR</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#undef Yield</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#undef min</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#undef max</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#undef uuid_t</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="namespace_cpp_server.html">   56</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_cpp_server.html">CppServer</a> {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">namespace </span>Asio {</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> TOutputStream&gt;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;TOutputStream&amp; <a class="code" href="namespace_cpp_server_1_1_asio.html#a7658672726bf78970595b36230b05267">operator&lt;&lt;</a>(TOutputStream&amp; stream, <a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">InternetProtocol</a> protocol);</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">   65</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">InternetProtocol</a></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;{</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626">IPv4</a>,               </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4afdb7cb8f657426e7c409bfd6d1a36ce4">IPv6</a>                </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;} <span class="comment">// namespace Asio</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace CppServer</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="asio_8inl.html">asio.inl</a>&quot;</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif // CPPSERVER_ASIO_H</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> TOutputStream&gt;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;TOutputStream&amp; <a class="code" href="namespace_cpp_server_1_1_asio.html#a7658672726bf78970595b36230b05267">operator&lt;&lt;</a>(TOutputStream&amp; stream, <a class="code" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">InternetProtocol</a> protocol);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;} <span class="comment">// namespace Asio</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;} <span class="comment">// namespace CppServer</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="asio_8inl.html">asio.inl</a>&quot;</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif // CPPSERVER_ASIO_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespace_cpp_server_1_1_asio_html_aac39dbbace10e6ff08eb6d2febbf1ff4"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">CppServer::Asio::InternetProtocol</a></div><div class="ttdeci">InternetProtocol</div><div class="ttdoc">Internet protocol.</div><div class="ttdef"><b>Definition:</b> <a href="asio_8h_source.html#l00056">asio.h:57</a></div></div>
+<div class="ttc" id="anamespace_cpp_server_1_1_asio_html_aac39dbbace10e6ff08eb6d2febbf1ff4"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">CppServer::Asio::InternetProtocol</a></div><div class="ttdeci">InternetProtocol</div><div class="ttdoc">Internet protocol.</div><div class="ttdef"><b>Definition:</b> <a href="asio_8h_source.html#l00065">asio.h:66</a></div></div>
 <div class="ttc" id="anamespace_cpp_server_1_1_asio_html_a7658672726bf78970595b36230b05267"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#a7658672726bf78970595b36230b05267">CppServer::Asio::operator&lt;&lt;</a></div><div class="ttdeci">TOutputStream &amp; operator&lt;&lt;(TOutputStream &amp;stream, InternetProtocol protocol)</div><div class="ttdoc">Stream output: Internet protocol.</div><div class="ttdef"><b>Definition:</b> <a href="asio_8inl_source.html#l00013">asio.inl:13</a></div></div>
-<div class="ttc" id="anamespace_cpp_server_html"><div class="ttname"><a href="namespace_cpp_server.html">CppServer</a></div><div class="ttdoc">C++ Server project definitions.</div><div class="ttdef"><b>Definition:</b> <a href="asio_8h_source.html#l00047">asio.h:47</a></div></div>
+<div class="ttc" id="anamespace_cpp_server_html"><div class="ttname"><a href="namespace_cpp_server.html">CppServer</a></div><div class="ttdoc">C++ Server project definitions.</div><div class="ttdef"><b>Definition:</b> <a href="asio_8h_source.html#l00056">asio.h:56</a></div></div>
 <div class="ttc" id="aasio_8inl_html"><div class="ttname"><a href="asio_8inl.html">asio.inl</a></div><div class="ttdoc">Asio C++ Library inline implementation.</div></div>
 <div class="ttc" id="anamespace_cpp_server_1_1_asio_html_aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4a42a9137a05a60eb752dcdf982e717626">CppServer::Asio::InternetProtocol::IPv4</a></div><div class="ttdeci">@ IPv4</div><div class="ttdoc">Internet Protocol version 4.</div></div>
 <div class="ttc" id="anamespace_cpp_server_1_1_asio_html_aac39dbbace10e6ff08eb6d2febbf1ff4afdb7cb8f657426e7c409bfd6d1a36ce4"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4afdb7cb8f657426e7c409bfd6d1a36ce4">CppServer::Asio::InternetProtocol::IPv6</a></div><div class="ttdeci">@ IPv6</div><div class="ttdoc">Internet Protocol version 6.</div></div>
