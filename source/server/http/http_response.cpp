@@ -10,6 +10,7 @@
 
 #include "errors/exceptions.h"
 #include "string/format.h"
+#include "string/string_utils.h"
 #include "utility/countof.h"
 
 #include <cassert>
@@ -588,7 +589,7 @@ bool HTTPResponse::ReceiveHeader(const void* buffer, size_t size)
                 _headers.emplace_back(header_name_index, header_name_size, header_value_index, header_value_size);
 
                 // Try to find the body content length
-                if (std::string_view(_cache.data() + header_name_index, header_name_size) == "Content-Length")
+                if (CppCommon::StringUtils::CompareNoCase(std::string_view(_cache.data() + header_name_index, header_name_size), "Content-Length"))
                 {
                     _body_length = 0;
                     for (size_t j = header_value_index; j < (header_value_index + header_value_size); ++j)

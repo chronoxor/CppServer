@@ -10,6 +10,7 @@
 
 #include "string/encoding.h"
 #include "string/format.h"
+#include "string/string_utils.h"
 
 #include <algorithm>
 #include <openssl/sha.h>
@@ -34,9 +35,9 @@ bool WebSocket::PerformClientUpgrade(const HTTP::HTTPResponse& response, const C
         auto key = std::get<0>(header);
         auto value = std::get<1>(header);
 
-        if (key == "Connection")
+        if (CppCommon::StringUtils::CompareNoCase(key, "Connection"))
         {
-            if (value != "Upgrade")
+            if (!CppCommon::StringUtils::CompareNoCase(value, "Upgrade"))
             {
                 error = true;
                 onWSError("Invalid WebSocket handshaked response: 'Connection' header value must be 'Upgrade'");
@@ -45,9 +46,9 @@ bool WebSocket::PerformClientUpgrade(const HTTP::HTTPResponse& response, const C
 
             connection = true;
         }
-        else if (key == "Upgrade")
+        else if (CppCommon::StringUtils::CompareNoCase(key, "Upgrade"))
         {
-            if (value != "websocket")
+            if (!CppCommon::StringUtils::CompareNoCase(value, "websocket"))
             {
                 error = true;
                 onWSError("Invalid WebSocket handshaked response: 'Upgrade' header value must be 'websocket'");
@@ -56,7 +57,7 @@ bool WebSocket::PerformClientUpgrade(const HTTP::HTTPResponse& response, const C
 
             upgrade = true;
         }
-        else if (key == "Sec-WebSocket-Accept")
+        else if (CppCommon::StringUtils::CompareNoCase(key, "Sec-WebSocket-Accept"))
         {
             // Calculate the original WebSocket hash
             std::string wskey = CppCommon::Encoding::Base64Encode(id.string()) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
@@ -114,9 +115,9 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
         auto key = std::get<0>(header);
         auto value = std::get<1>(header);
 
-        if (key == "Connection")
+        if (CppCommon::StringUtils::CompareNoCase(key, "Connection"))
         {
-            if ((value != "Upgrade") && (value != "keep-alive, Upgrade"))
+            if (!CppCommon::StringUtils::CompareNoCase(value, "Upgrade") && !CppCommon::StringUtils::CompareNoCase(value, "keep-alive, Upgrade"))
             {
                 error = true;
                 response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Connection' header value must be 'Upgrade' or 'keep-alive, Upgrade'", 400);
@@ -125,9 +126,9 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
 
             connection = true;
         }
-        else if (key == "Upgrade")
+        else if (CppCommon::StringUtils::CompareNoCase(key, "Upgrade"))
         {
-            if (value != "websocket")
+            if (!CppCommon::StringUtils::CompareNoCase(value, "websocket"))
             {
                 error = true;
                 response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Upgrade' header value must be 'websocket'", 400);
@@ -136,7 +137,7 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
 
             upgrade = true;
         }
-        else if (key == "Sec-WebSocket-Key")
+        else if (CppCommon::StringUtils::CompareNoCase(key, "Sec-WebSocket-Key"))
         {
             if (value.empty())
             {
@@ -154,9 +155,9 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
 
             ws_key = true;
         }
-        else if (key == "Sec-WebSocket-Version")
+        else if (CppCommon::StringUtils::CompareNoCase(key, "Sec-WebSocket-Version"))
         {
-            if (value != "13")
+            if (!CppCommon::StringUtils::CompareNoCase(value, "13"))
             {
                 error = true;
                 response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Sec-WebSocket-Version' header value must be '13'", 400);
