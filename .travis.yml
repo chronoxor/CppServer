@@ -59,16 +59,15 @@ branches:
 
 # Scripts that run before install
 before_install:
-  # gcc
+  # gcc, clang
   - if [ "$OS" != "osx" ] && [ "$COMPILER" = "gcc" ]; then export CC="gcc-${GCC_VERSION}" CXX="g++-${GCC_VERSION}"; fi
-  # clang, libc++, libc++abi
   - if [ "$OS" != "osx" ] && [ "$COMPILER" = "clang" ]; then export CC="clang-${CLANG_VERSION}" CXX="clang++-${CLANG_VERSION}"; fi
   # brew, doxygen, graphviz
   - if [ "$OS" == "osx" ]; then brew update; fi
   - if [ "$OS" == "osx" ]; then brew install doxygen; fi
   - if [ "$OS" == "osx" ]; then brew install graphviz; fi
-  - if [ "$OS" == "osx" ]; then brew install openssl; fi
   # openssl
+  - if [ "$OS" == "osx" ]; then brew install openssl; fi
   - if [ "$OS" == "osx" ]; then export OPENSSL_ROOT_DIR=$(brew --prefix openssl); fi
   # cmake
   - cmake --version
