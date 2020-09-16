@@ -22,11 +22,13 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>X509_STORE_add_cert, X509_STORE_add_crl, X509_STORE_set_depth, X509_STORE_set_flags, X509_STORE_set_purpose, X509_STORE_set_trust, X509_STORE_load_locations, X509_STORE_set_default_paths - X509_STORE manipulation</p>
+<p>X509_STORE, X509_STORE_add_cert, X509_STORE_add_crl, X509_STORE_set_depth, X509_STORE_set_flags, X509_STORE_set_purpose, X509_STORE_set_trust, X509_STORE_add_lookup, X509_STORE_load_locations, X509_STORE_set_default_paths - X509_STORE manipulation</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/x509_vfy.h&gt;</span>
+ 
+ <span class="variable">typedef</span> <span class="variable">x509_store_st</span> <span class="variable">X509_STORE</span><span class="operator">;</span>
  
  <span class="keyword">int</span> <span class="variable">X509_STORE_add_cert</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">X509_STORE_add_crl</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">);</span>
@@ -34,6 +36,9 @@
  <span class="keyword">int</span> <span class="variable">X509_STORE_set_flags</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">X509_STORE_set_purpose</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">purpose</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">X509_STORE_set_trust</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">trust</span><span class="operator">);</span>
+ 
+ <span class="variable">X509_LOOKUP</span> <span class="variable">*X509_STORE_add_lookup</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*store</span><span class="operator">,</span>
+                                    <span class="variable">X509_LOOKUP_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
  
  <span class="keyword">int</span> <span class="variable">X509_STORE_load_locations</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
                                <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*dir</span><span class="operator">);</span>
@@ -52,6 +57,8 @@
 
 <p>X509_STORE_set_depth(), X509_STORE_set_flags(), X509_STORE_set_purpose(), X509_STORE_set_trust(), and X509_STORE_set1_param() set the default values for the corresponding values used in certificate chain validation. Their behavior is documented in the corresponding <b>X509_VERIFY_PARAM</b> manual pages, e.g., <a href="../man3/X509_VERIFY_PARAM_set_depth.html">X509_VERIFY_PARAM_set_depth(3)</a>.</p>
 
+<p>X509_STORE_add_lookup() finds or creates a <a href="../man3/X509_LOOKUP.html">X509_LOOKUP(3)</a> with the <a href="../man3/X509_LOOKUP_METHOD.html">X509_LOOKUP_METHOD(3)</a> <i>meth</i> and adds it to the <b>X509_STORE</b> <i>store</i>. This also associates the <b>X509_STORE</b> with the lookup, so <b>X509_LOOKUP</b> functions can look up objects in that store.</p>
+
 <p>X509_STORE_load_locations() loads trusted certificate(s) into an <b>X509_STORE</b> from a given file and/or directory path. It is permitted to specify just a file, just a directory, or both paths. The certificates in the directory must be in hashed form, as documented in <a href="../man3/X509_LOOKUP_hash_dir.html">X509_LOOKUP_hash_dir(3)</a>.</p>
 
 <p>X509_STORE_set_default_paths() is somewhat misnamed, in that it does not set what default paths should be used for loading certificates. Instead, it loads certificates into the <b>X509_STORE</b> from the hardcoded default paths.</p>
@@ -60,13 +67,15 @@
 
 <p>X509_STORE_add_cert(), X509_STORE_add_crl(), X509_STORE_set_depth(), X509_STORE_set_flags(), X509_STORE_set_purpose(), X509_STORE_set_trust(), X509_STORE_load_locations(), and X509_STORE_set_default_paths() return 1 on success or 0 on failure.</p>
 
+<p>X509_STORE_add_lookup() returns the found or created <a href="../man3/X509_LOOKUP.html">X509_LOOKUP(3)</a>, or NULL on error.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
 <p><a href="../man3/X509_LOOKUP_hash_dir.html">X509_LOOKUP_hash_dir(3)</a>. <a href="../man3/X509_VERIFY_PARAM_set_depth.html">X509_VERIFY_PARAM_set_depth(3)</a>. <a href="../man3/X509_STORE_new.html">X509_STORE_new(3)</a>, <a href="../man3/X509_STORE_get0_param.html">X509_STORE_get0_param(3)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2017-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2017-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

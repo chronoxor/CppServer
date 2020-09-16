@@ -64,7 +64,7 @@
 
 <p>It should be noted that this approach isn&#39;t entirely fault free.</p>
 
-<p>A pass phrase encoded in ISO-8859-2 could very well have a sequence such as 0xC3 0xAF (which is the two characters &quot;LATIN CAPITAL LETTER A WITH BREVE&quot; and &quot;LATIN CAPITAL LETTER Z WITH DOT ABOVE&quot; in ISO-8859-2 encoding), but would be misinterpreted as the perfectly valid UTF-8 encoded code point U+00EF (LATIN SMALL LETTER I WITH DIARESIS) <i>if the pass phrase doesn&#39;t contain anything that would be invalid UTF-8</i>. A pass phrase that contains this kind of byte sequence will give a different outcome in OpenSSL 1.1.0 and newer than in OpenSSL older than 1.1.0.</p>
+<p>A pass phrase encoded in ISO-8859-2 could very well have a sequence such as 0xC3 0xAF (which is the two characters &quot;LATIN CAPITAL LETTER A WITH BREVE&quot; and &quot;LATIN CAPITAL LETTER Z WITH DOT ABOVE&quot; in ISO-8859-2 encoding), but would be misinterpreted as the perfectly valid UTF-8 encoded code point U+00EF (LATIN SMALL LETTER I WITH DIAERESIS) <i>if the pass phrase doesn&#39;t contain anything that would be invalid UTF-8</i>. A pass phrase that contains this kind of byte sequence will give a different outcome in OpenSSL 1.1.0 and newer than in OpenSSL older than 1.1.0.</p>
 
 <pre><code> 0x00 0xC3 0x00 0xAF                    # OpenSSL older than 1.1.0
  0x00 0xEF                              # OpenSSL 1.1.0 and newer</code></pre>
@@ -112,7 +112,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2018-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

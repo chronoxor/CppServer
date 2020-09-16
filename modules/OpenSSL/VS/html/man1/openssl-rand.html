@@ -16,6 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#OPTIONS">OPTIONS</a></li>
+  <li><a href="#NOTES">NOTES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -30,7 +31,9 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The <b>rand</b> command outputs <i>num</i> pseudo-random bytes after seeding the random number generator once. As in other <b>openssl</b> command line tools, PRNG seeding uses the file <i>$HOME/</i><b>.rnd</b> or <b>.rnd</b> in addition to the files given in the <b>-rand</b> option. A new <i>$HOME</i>/<b>.rnd</b> or <b>.rnd</b> file will be written back if enough seeding was obtained from these sources.</p>
+<p>This command generates <i>num</i> random bytes using a cryptographically secure pseudo random number generator (CSPRNG).</p>
+
+<p>The random bytes are generated using the <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a> function, which provides a security level of 256 bits, provided it managed to seed itself successfully from a trusted operating system entropy source. Otherwise, the command will fail with a nonzero error code. For more details, see <a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man7/RAND.html">RAND(7)</a>, and <a href="../man7/RAND_DRBG.html">RAND_DRBG(7)</a>.</p>
 
 <h1 id="OPTIONS">OPTIONS</h1>
 
@@ -51,7 +54,7 @@
 <dt id="rand-file"><b>-rand file...</b></dt>
 <dd>
 
-<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others.</p>
+<p>A file or files containing random data used to seed the random number generator. Multiple files can be specified separated by an OS-dependent character. The separator is <b>;</b> for MS-Windows, <b>,</b> for OpenVMS, and <b>:</b> for all others. Explicitly specifying a seed file is in general not necessary, see the <a href="#NOTES">&quot;NOTES&quot;</a> section for more information.</p>
 
 </dd>
 <dt id="writerand-file">[<b>-writerand file</b>]</dt>
@@ -74,13 +77,19 @@
 </dd>
 </dl>
 
+<h1 id="NOTES">NOTES</h1>
+
+<p>Prior to OpenSSL 1.1.1, it was common for applications to store information about the state of the random-number generator in a file that was loaded at startup and rewritten upon exit. On modern operating systems, this is generally no longer necessary as OpenSSL will seed itself from a trusted entropy source provided by the operating system. The <b>-rand</b> and <b>-writerand</b> flags are still supported for special platforms or circumstances that might require them.</p>
+
+<p>It is generally an error to use the same seed file more than once and every use of <b>-rand</b> should be paired with <b>-writerand</b>.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/RAND_bytes.html">RAND_bytes(3)</a></p>
+<p><a href="../man3/RAND_bytes.html">RAND_bytes(3)</a>, <a href="../man7/RAND.html">RAND(7)</a>, <a href="../man7/RAND_DRBG.html">RAND_DRBG(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

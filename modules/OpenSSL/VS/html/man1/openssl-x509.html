@@ -40,7 +40,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>x509</b> [<b>-help</b>] [<b>-inform DER|PEM</b>] [<b>-outform DER|PEM</b>] [<b>-keyform DER|PEM</b>] [<b>-CAform DER|PEM</b>] [<b>-CAkeyform DER|PEM</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-serial</b>] [<b>-hash</b>] [<b>-subject_hash</b>] [<b>-issuer_hash</b>] [<b>-ocspid</b>] [<b>-subject</b>] [<b>-issuer</b>] [<b>-nameopt option</b>] [<b>-email</b>] [<b>-ocsp_uri</b>] [<b>-startdate</b>] [<b>-enddate</b>] [<b>-purpose</b>] [<b>-dates</b>] [<b>-checkend num</b>] [<b>-modulus</b>] [<b>-pubkey</b>] [<b>-fingerprint</b>] [<b>-alias</b>] [<b>-noout</b>] [<b>-trustout</b>] [<b>-clrtrust</b>] [<b>-clrreject</b>] [<b>-addtrust arg</b>] [<b>-addreject arg</b>] [<b>-setalias arg</b>] [<b>-days arg</b>] [<b>-set_serial n</b>] [<b>-signkey filename</b>] [<b>-passin arg</b>] [<b>-x509toreq</b>] [<b>-req</b>] [<b>-CA filename</b>] [<b>-CAkey filename</b>] [<b>-CAcreateserial</b>] [<b>-CAserial filename</b>] [<b>-force_pubkey key</b>] [<b>-text</b>] [<b>-ext extensions</b>] [<b>-certopt option</b>] [<b>-C</b>] [<b>-<i>digest</i></b>] [<b>-clrext</b>] [<b>-extfile filename</b>] [<b>-extensions section</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-engine id</b>] [<b>-preserve_dates</b>]</p>
+<p><b>openssl</b> <b>x509</b> [<b>-help</b>] [<b>-inform DER|PEM</b>] [<b>-outform DER|PEM</b>] [<b>-keyform DER|PEM|ENGINE</b>] [<b>-CAform DER|PEM</b>] [<b>-CAkeyform DER|PEM</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-serial</b>] [<b>-hash</b>] [<b>-subject_hash</b>] [<b>-issuer_hash</b>] [<b>-ocspid</b>] [<b>-subject</b>] [<b>-issuer</b>] [<b>-nameopt option</b>] [<b>-email</b>] [<b>-ocsp_uri</b>] [<b>-startdate</b>] [<b>-enddate</b>] [<b>-purpose</b>] [<b>-dates</b>] [<b>-checkend num</b>] [<b>-modulus</b>] [<b>-pubkey</b>] [<b>-fingerprint</b>] [<b>-alias</b>] [<b>-noout</b>] [<b>-trustout</b>] [<b>-clrtrust</b>] [<b>-clrreject</b>] [<b>-addtrust arg</b>] [<b>-addreject arg</b>] [<b>-setalias arg</b>] [<b>-days arg</b>] [<b>-set_serial n</b>] [<b>-signkey arg</b>] [<b>-passin arg</b>] [<b>-x509toreq</b>] [<b>-req</b>] [<b>-CA filename</b>] [<b>-CAkey filename</b>] [<b>-CAcreateserial</b>] [<b>-CAserial filename</b>] [<b>-force_pubkey key</b>] [<b>-text</b>] [<b>-ext extensions</b>] [<b>-certopt option</b>] [<b>-C</b>] [<b>-<i>digest</i></b>] [<b>-clrext</b>] [<b>-extfile filename</b>] [<b>-extensions section</b>] [<b>-sigopt nm:v</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-engine id</b>] [<b>-preserve_dates</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -338,14 +338,20 @@
 
 <dl>
 
-<dt id="signkey-filename"><b>-signkey filename</b></dt>
+<dt id="signkey-arg"><b>-signkey arg</b></dt>
 <dd>
 
-<p>This option causes the input file to be self signed using the supplied private key.</p>
+<p>This option causes the input file to be self signed using the supplied private key or engine. The private key&#39;s format is specified with the <b>-keyform</b> option.</p>
 
 <p>If the input file is a certificate it sets the issuer name to the subject name (i.e. makes it self signed) changes the public key to the supplied value and changes the start and end dates. The start date is set to the current time and the end date is set to a value determined by the <b>-days</b> option. Any certificate extensions are retained unless the <b>-clrext</b> option is supplied; this includes, for example, any existing key identifier extensions.</p>
 
 <p>If the input is a certificate request then a self signed certificate is created using the supplied private key using the subject name in the request.</p>
+
+</dd>
+<dt id="sigopt-nm:v"><b>-sigopt nm:v</b></dt>
+<dd>
+
+<p>Pass options to the signature algorithm during sign or verify operations. Names and values of these options are algorithm-specific.</p>
 
 </dd>
 <dt id="passin-arg"><b>-passin arg</b></dt>
@@ -360,7 +366,7 @@
 <p>Delete any extensions from a certificate. This option is used when a certificate is being created from another certificate (for example with the <b>-signkey</b> or the <b>-CA</b> options). Normally all extensions are retained.</p>
 
 </dd>
-<dt id="keyform-PEM-DER"><b>-keyform PEM|DER</b></dt>
+<dt id="keyform-PEM-DER-ENGINE"><b>-keyform PEM|DER|ENGINE</b></dt>
 <dd>
 
 <p>Specifies the format (DER or PEM) of the private key file used in the <b>-signkey</b> option.</p>
@@ -874,7 +880,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

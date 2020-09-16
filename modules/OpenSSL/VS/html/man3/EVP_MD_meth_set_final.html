@@ -89,7 +89,13 @@
 <dt id="EVP_MD_FLAG_ONESHOT">EVP_MD_FLAG_ONESHOT</dt>
 <dd>
 
-<p>This digest method can only handles one block of input.</p>
+<p>This digest method can only handle one block of input.</p>
+
+</dd>
+<dt id="EVP_MD_FLAG_XOF">EVP_MD_FLAG_XOF</dt>
+<dd>
+
+<p>This digest method is an extensible-output function (XOF) and supports the <b>EVP_MD_CTRL_XOF_LEN</b> control.</p>
 
 </dd>
 <dt id="EVP_MD_FLAG_DIGALGID_NULL">EVP_MD_FLAG_DIGALGID_NULL</dt>
@@ -110,19 +116,25 @@
 <p>Custom DigestAlgorithmIdentifier handling via ctrl, with <b>EVP_MD_FLAG_DIGALGID_ABSENT</b> as default. <i>Note: if combined with EVP_MD_FLAG_DIGALGID_NULL, the latter will be overridden.</i> Currently unused.</p>
 
 </dd>
+<dt id="EVP_MD_FLAG_FIPS">EVP_MD_FLAG_FIPS</dt>
+<dd>
+
+<p>This digest method is suitable for use in FIPS mode. Currently unused.</p>
+
+</dd>
 </dl>
 
-<p>EVP_MD_meth_set_init() sets the digest init function for <b>md</b>. The digest init function is called by EVP_DigestInit(), EVP_DigestInit_ex(), EVP_SignInit, EVP_SignInit_ex(), EVP_VerifyInit() and EVP_VerifyInit_ex().</p>
+<p>EVP_MD_meth_set_init() sets the digest init function for <b>md</b>. The digest init function is called by EVP_Digest(), EVP_DigestInit(), EVP_DigestInit_ex(), EVP_SignInit, EVP_SignInit_ex(), EVP_VerifyInit() and EVP_VerifyInit_ex().</p>
 
-<p>EVP_MD_meth_set_update() sets the digest update function for <b>md</b>. The digest update function is called by EVP_DigestUpdate(), EVP_SignUpdate().</p>
+<p>EVP_MD_meth_set_update() sets the digest update function for <b>md</b>. The digest update function is called by EVP_Digest(), EVP_DigestUpdate() and EVP_SignUpdate().</p>
 
-<p>EVP_MD_meth_set_final() sets the digest final function for <b>md</b>. The digest final function is called by EVP_DigestFinal(), EVP_DigestFinal_ex(), EVP_SignFinal() and EVP_VerifyFinal().</p>
+<p>EVP_MD_meth_set_final() sets the digest final function for <b>md</b>. The digest final function is called by EVP_Digest(), EVP_DigestFinal(), EVP_DigestFinal_ex(), EVP_SignFinal() and EVP_VerifyFinal().</p>
 
 <p>EVP_MD_meth_set_copy() sets the function for <b>md</b> to do extra computations after the method&#39;s private data structure has been copied from one <b>EVP_MD_CTX</b> to another. If all that&#39;s needed is to copy the data, there is no need for this copy function. Note that the copy function is passed two <b>EVP_MD_CTX *</b>, the private data structure is then available with EVP_MD_CTX_md_data(). This copy function is called by EVP_MD_CTX_copy() and EVP_MD_CTX_copy_ex().</p>
 
 <p>EVP_MD_meth_set_cleanup() sets the function for <b>md</b> to do extra cleanup before the method&#39;s private data structure is cleaned out and freed. Note that the cleanup function is passed a <b>EVP_MD_CTX *</b>, the private data structure is then available with EVP_MD_CTX_md_data(). This cleanup function is called by EVP_MD_CTX_reset() and EVP_MD_CTX_free().</p>
 
-<p>EVP_MD_meth_set_ctrl() sets the control function for <b>md</b>.</p>
+<p>EVP_MD_meth_set_ctrl() sets the control function for <b>md</b>. See <a href="../man3/EVP_MD_CTX_ctrl.html">EVP_MD_CTX_ctrl(3)</a> for the available controls.</p>
 
 <p>EVP_MD_meth_get_input_blocksize(), EVP_MD_meth_get_result_size(), EVP_MD_meth_get_app_datasize(), EVP_MD_meth_get_flags(), EVP_MD_meth_get_init(), EVP_MD_meth_get_update(), EVP_MD_meth_get_final(), EVP_MD_meth_get_copy(), EVP_MD_meth_get_cleanup() and EVP_MD_meth_get_ctrl() are all used to retrieve the method data given with the EVP_MD_meth_set_*() functions above.</p>
 
@@ -140,7 +152,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

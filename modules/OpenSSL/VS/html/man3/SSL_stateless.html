@@ -50,7 +50,7 @@
 
 <p>When a ClientHello is received that contains a cookie that has been verified, then these functions will return with the <b>ssl</b> parameter updated into a state where the handshake can be continued by a call to (for example) SSL_accept(). Additionally, for DTLSv1_listen(), the <b>BIO_ADDR</b> pointed to by <b>peer</b> will be filled in with details of the peer that sent the ClientHello. If the underlying BIO is unable to obtain the <b>BIO_ADDR</b> of the peer (for example because the BIO does not support this), then <b>*peer</b> will be cleared and the family set to AF_UNSPEC. Typically user code is expected to &quot;connect&quot; the underlying socket to the peer and continue the handshake in a connected state.</p>
 
-<p>Prior to calling DTLSv1_listen() user code must ensure that cookie generation and verification callbacks have been set up using SSL_CTX_set_cookie_generate_cb() and SSL_CTX_set_cookie_verify_cb() respectively. For SSL_stateless(), SSL_CTX_set_stateless_cookie_generate_cb() and SSL_CTX_set_stateless_cookie_verify_cb() must be used instead.</p>
+<p>Prior to calling DTLSv1_listen() user code must ensure that cookie generation and verification callbacks have been set up using <a href="../man3/SSL_CTX_set_cookie_generate_cb.html">SSL_CTX_set_cookie_generate_cb(3)</a> and <a href="../man3/SSL_CTX_set_cookie_verify_cb.html">SSL_CTX_set_cookie_verify_cb(3)</a> respectively. For SSL_stateless(), <a href="../man3/SSL_CTX_set_stateless_cookie_generate_cb.html">SSL_CTX_set_stateless_cookie_generate_cb(3)</a> and <a href="../man3/SSL_CTX_set_stateless_cookie_verify_cb.html">SSL_CTX_set_stateless_cookie_verify_cb(3)</a> must be used instead.</p>
 
 <p>Since DTLSv1_listen() operates entirely statelessly whilst processing incoming ClientHellos it is unable to process fragmented messages (since this would require the allocation of state). An implication of this is that DTLSv1_listen() <b>only</b> supports ClientHellos that fit inside a single datagram.</p>
 
@@ -74,7 +74,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/SSL_get_error.html">SSL_get_error(3)</a>, <a href="../man3/SSL_accept.html">SSL_accept(3)</a>, <a href="../man7/ssl.html">ssl(7)</a>, <a href="../man7/bio.html">bio(7)</a></p>
+<p><a href="../man3/SSL_CTX_set_cookie_generate_cb.html">SSL_CTX_set_cookie_generate_cb(3)</a>, <a href="../man3/SSL_CTX_set_cookie_verify_cb.html">SSL_CTX_set_cookie_verify_cb(3)</a>, <a href="../man3/SSL_CTX_set_stateless_cookie_generate_cb.html">SSL_CTX_set_stateless_cookie_generate_cb(3)</a>, <a href="../man3/SSL_CTX_set_stateless_cookie_verify_cb.html">SSL_CTX_set_stateless_cookie_verify_cb(3)</a>, <a href="../man3/SSL_get_error.html">SSL_get_error(3)</a>, <a href="../man3/SSL_accept.html">SSL_accept(3)</a>, <a href="../man7/ssl.html">ssl(7)</a>, <a href="../man7/bio.html">bio(7)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

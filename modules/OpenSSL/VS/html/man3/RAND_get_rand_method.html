@@ -51,10 +51,10 @@
 <h1 id="THE-RAND_METHOD-STRUCTURE">THE RAND_METHOD STRUCTURE</h1>
 
 <pre><code> <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">rand_meth_st</span> <span class="operator">{</span>
-     <span class="variable">void</span> <span class="operator">(</span><span class="variable">*seed</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
+     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*seed</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
      <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*bytes</span><span class="operator">)(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
      <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cleanup</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">);</span>
-     <span class="variable">void</span> <span class="operator">(</span><span class="variable">*add</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">randomness</span><span class="operator">);</span>
+     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*add</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">double</span> <span class="variable">entropy</span><span class="operator">);</span>
      <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pseudorand</span><span class="operator">)(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
      <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*status</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">);</span>
  <span class="operator">}</span> <span class="variable">RAND_METHOD</span><span class="operator">;</span>
@@ -64,7 +64,7 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>RAND_set_rand_method() returns 1 on success and 0 on failue. RAND_get_rand_method() and RAND_OpenSSL() return pointers to the respective methods.</p>
+<p>RAND_set_rand_method() returns 1 on success and 0 on failure. RAND_get_rand_method() and RAND_OpenSSL() return pointers to the respective methods.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
@@ -72,7 +72,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

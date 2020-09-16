@@ -40,7 +40,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>PEM_bytes_read_bio() reads PEM-formatted (RFC 1421) data from the BIO <i>bp</i> for the data type given in <i>name</i> (RSA PRIVATE KEY, CERTIFICATE, etc.). If multiple PEM-encoded data structures are present in the same stream, PEM_bytes_read_bio() will skip non-matching data types and continue reading. Non-PEM data present in the stream may cause an error.</p>
+<p>PEM_bytes_read_bio() reads PEM-formatted (IETF RFC 1421 and IETF RFC 7468) data from the BIO <i>bp</i> for the data type given in <i>name</i> (RSA PRIVATE KEY, CERTIFICATE, etc.). If multiple PEM-encoded data structures are present in the same stream, PEM_bytes_read_bio() will skip non-matching data types and continue reading. Non-PEM data present in the stream may cause an error.</p>
 
 <p>The PEM header may indicate that the following data is encrypted; if so, the data will be decrypted, waiting on user input to supply a passphrase if needed. The password callback <i>cb</i> and rock <i>u</i> are used to obtain the decryption passphrase, if applicable.</p>
 
@@ -62,7 +62,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man3/PEM.html">PEM(3)</a>, <a href="../man3/PEM_read_bio_ex.html">PEM_read_bio_ex(3)</a>, <a href="../man7/passphrase-encoding.html">passphrase-encoding(7)</a></p>
+<p><a href="../man3/PEM_read_bio_ex.html">PEM_read_bio_ex(3)</a>, <a href="../man7/passphrase-encoding.html">passphrase-encoding(7)</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

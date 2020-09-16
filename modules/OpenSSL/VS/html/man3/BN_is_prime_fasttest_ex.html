@@ -71,7 +71,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>BN_generate_prime_ex() generates a pseudo-random prime number of at least bit length <b>bits</b>. The returned number is probably prime with a negligible error.</p>
+<p>BN_generate_prime_ex() generates a pseudo-random prime number of at least bit length <b>bits</b>. The returned number is probably prime with a negligible error. If <b>add</b> is <b>NULL</b> the returned prime number will have exact bit length <b>bits</b> with the top most two bits set.</p>
 
 <p>If <b>ret</b> is not <b>NULL</b>, it will be used to store the number.</p>
 
@@ -97,7 +97,7 @@
 
 <p>If <b>add</b> is not <b>NULL</b>, the prime will fulfill the condition p % <b>add</b> == <b>rem</b> (p % <b>add</b> == 1 if <b>rem</b> == <b>NULL</b>) in order to suit a given generator.</p>
 
-<p>If <b>safe</b> is true, it will be a safe prime (i.e. a prime p so that (p-1)/2 is also prime).</p>
+<p>If <b>safe</b> is true, it will be a safe prime (i.e. a prime p so that (p-1)/2 is also prime). If <b>safe</b> is true, and <b>rem</b> == <b>NULL</b> the condition will be p % <b>add</b> == 3. It is recommended that <b>add</b> is a multiple of 4.</p>
 
 <p>The random generator must be seeded prior to calling BN_generate_prime_ex(). If the automatic seeding or reseeding of the OpenSSL CSPRNG fails due to external circumstances (see <a href="../man7/RAND.html">RAND(7)</a>), the operation will fail.</p>
 
@@ -166,7 +166,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

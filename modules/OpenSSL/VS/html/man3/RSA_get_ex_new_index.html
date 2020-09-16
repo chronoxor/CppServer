@@ -44,7 +44,7 @@
 
 <p>These functions handle application-specific data for OpenSSL data structures.</p>
 
-<p>TYPE_get_new_ex_index() is a macro that calls CRYPTO_get_ex_new_index() with the correct <b>index</b> value.</p>
+<p>TYPE_get_ex_new_index() is a macro that calls CRYPTO_get_ex_new_index() with the correct <b>index</b> value.</p>
 
 <p>TYPE_set_ex_data() is a function that calls CRYPTO_set_ex_data() with an offset into the opaque exdata part of the TYPE object.</p>
 
@@ -52,7 +52,7 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>TYPE_get_new_ex_index() returns a new index on success or -1 on error.</p>
+<p>TYPE_get_ex_new_index() returns a new index on success or -1 on error.</p>
 
 <p>TYPE_set_ex_data() returns 1 on success or 0 on error.</p>
 
@@ -64,7 +64,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

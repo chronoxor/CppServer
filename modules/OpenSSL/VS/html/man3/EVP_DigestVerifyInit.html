@@ -45,7 +45,7 @@
 
 <p>EVP_DigestVerifyInit() sets up verification context <b>ctx</b> to use digest <b>type</b> from ENGINE <b>e</b> and public key <b>pkey</b>. <b>ctx</b> must be created with EVP_MD_CTX_new() before calling this function. If <b>pctx</b> is not NULL, the EVP_PKEY_CTX of the verification operation will be written to <b>*pctx</b>: this can be used to set alternative verification options. Note that any existing value in <b>*pctx</b> is overwritten. The EVP_PKEY_CTX value returned must not be freed directly by the application if <b>ctx</b> is not assigned an EVP_PKEY_CTX value before being passed to EVP_DigestVerifyInit() (which means the EVP_PKEY_CTX is created inside EVP_DigestVerifyInit() and it will be freed automatically when the EVP_MD_CTX is freed).</p>
 
-<p>No <b>EVP_PKEY_CTX</b> will be created by EVP_DigestSignInit() if the passed <b>ctx</b> has already been assigned one via <a href="../man3/EVP_MD_CTX_set_ctx.html">EVP_MD_CTX_set_ctx(3)</a>. See also <a href="../man7/SM2.html">SM2(7)</a>.</p>
+<p>No <b>EVP_PKEY_CTX</b> will be created by EVP_DigestSignInit() if the passed <b>ctx</b> has already been assigned one via <a href="../man3/EVP_MD_CTX_set_pkey_ctx.html">EVP_MD_CTX_set_pkey_ctx(3)</a>. See also <a href="../man7/SM2.html">SM2(7)</a>.</p>
 
 <p>EVP_DigestVerifyUpdate() hashes <b>cnt</b> bytes of data at <b>d</b> into the verification context <b>ctx</b>. This function can be called several times on the same <b>ctx</b> to include additional data. This function is currently implemented using a macro.</p>
 

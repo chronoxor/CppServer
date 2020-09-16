@@ -36,7 +36,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>ca</b> [<b>-help</b>] [<b>-verbose</b>] [<b>-config filename</b>] [<b>-name section</b>] [<b>-gencrl</b>] [<b>-revoke file</b>] [<b>-valid file</b>] [<b>-status serial</b>] [<b>-updatedb</b>] [<b>-crl_reason reason</b>] [<b>-crl_hold instruction</b>] [<b>-crl_compromise time</b>] [<b>-crl_CA_compromise time</b>] [<b>-crldays days</b>] [<b>-crlhours hours</b>] [<b>-crlexts section</b>] [<b>-startdate date</b>] [<b>-enddate date</b>] [<b>-days arg</b>] [<b>-md arg</b>] [<b>-policy arg</b>] [<b>-keyfile arg</b>] [<b>-keyform PEM|DER</b>] [<b>-key arg</b>] [<b>-passin arg</b>] [<b>-cert file</b>] [<b>-selfsign</b>] [<b>-in file</b>] [<b>-out file</b>] [<b>-notext</b>] [<b>-outdir dir</b>] [<b>-infiles</b>] [<b>-spkac file</b>] [<b>-ss_cert file</b>] [<b>-preserveDN</b>] [<b>-noemailDN</b>] [<b>-batch</b>] [<b>-msie_hack</b>] [<b>-extensions section</b>] [<b>-extfile section</b>] [<b>-engine id</b>] [<b>-subj arg</b>] [<b>-utf8</b>] [<b>-create_serial</b>] [<b>-rand_serial</b>] [<b>-multivalue-rdn</b>] [<b>-rand file...</b>] [<b>-writerand file</b>]</p>
+<p><b>openssl</b> <b>ca</b> [<b>-help</b>] [<b>-verbose</b>] [<b>-config filename</b>] [<b>-name section</b>] [<b>-gencrl</b>] [<b>-revoke file</b>] [<b>-valid file</b>] [<b>-status serial</b>] [<b>-updatedb</b>] [<b>-crl_reason reason</b>] [<b>-crl_hold instruction</b>] [<b>-crl_compromise time</b>] [<b>-crl_CA_compromise time</b>] [<b>-crldays days</b>] [<b>-crlhours hours</b>] [<b>-crlexts section</b>] [<b>-startdate date</b>] [<b>-enddate date</b>] [<b>-days arg</b>] [<b>-md arg</b>] [<b>-policy arg</b>] [<b>-keyfile arg</b>] [<b>-keyform PEM|DER</b>] [<b>-key arg</b>] [<b>-passin arg</b>] [<b>-cert file</b>] [<b>-selfsign</b>] [<b>-in file</b>] [<b>-out file</b>] [<b>-notext</b>] [<b>-outdir dir</b>] [<b>-infiles</b>] [<b>-spkac file</b>] [<b>-ss_cert file</b>] [<b>-preserveDN</b>] [<b>-noemailDN</b>] [<b>-batch</b>] [<b>-msie_hack</b>] [<b>-extensions section</b>] [<b>-extfile section</b>] [<b>-engine id</b>] [<b>-subj arg</b>] [<b>-utf8</b>] [<b>-sigopt nm:v</b>] [<b>-create_serial</b>] [<b>-rand_serial</b>] [<b>-multivalue-rdn</b>] [<b>-rand file...</b>] [<b>-writerand file</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -124,6 +124,12 @@
 <dd>
 
 <p>The format of the data in the private key file. The default is PEM.</p>
+
+</dd>
+<dt id="sigopt-nm:v"><b>-sigopt nm:v</b></dt>
+<dd>
+
+<p>Pass options to the signature algorithm during sign or verify operations. Names and values of these options are algorithm-specific.</p>
 
 </dd>
 <dt id="key-password"><b>-key password</b></dt>

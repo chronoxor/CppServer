@@ -15,6 +15,7 @@
   <li><a href="#NAME">NAME</a></li>
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#CONTROLS">CONTROLS</a></li>
   <li><a href="#FLAGS">FLAGS</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
   <li><a href="#NOTES">NOTES</a></li>
@@ -26,7 +27,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>EVP_MD_CTX_new, EVP_MD_CTX_reset, EVP_MD_CTX_free, EVP_MD_CTX_copy_ex, EVP_MD_CTX_ctrl, EVP_MD_CTX_set_flags, EVP_MD_CTX_clear_flags, EVP_MD_CTX_test_flags, EVP_DigestInit_ex, EVP_DigestInit, EVP_DigestUpdate, EVP_DigestFinal_ex, EVP_DigestFinalXOF, EVP_DigestFinal, EVP_MD_CTX_copy, EVP_MD_type, EVP_MD_pkey_type, EVP_MD_size, EVP_MD_block_size, EVP_MD_CTX_md, EVP_MD_CTX_size, EVP_MD_CTX_block_size, EVP_MD_CTX_type, EVP_MD_CTX_md_data, EVP_md_null, EVP_get_digestbyname, EVP_get_digestbynid, EVP_get_digestbyobj, EVP_MD_CTX_set_pkey_ctx - EVP digest routines</p>
+<p>EVP_MD_CTX_new, EVP_MD_CTX_reset, EVP_MD_CTX_free, EVP_MD_CTX_copy, EVP_MD_CTX_copy_ex, EVP_MD_CTX_ctrl, EVP_MD_CTX_set_flags, EVP_MD_CTX_clear_flags, EVP_MD_CTX_test_flags, EVP_Digest, EVP_DigestInit_ex, EVP_DigestInit, EVP_DigestUpdate, EVP_DigestFinal_ex, EVP_DigestFinalXOF, EVP_DigestFinal, EVP_MD_type, EVP_MD_pkey_type, EVP_MD_size, EVP_MD_block_size, EVP_MD_flags, EVP_MD_CTX_md, EVP_MD_CTX_type, EVP_MD_CTX_size, EVP_MD_CTX_block_size, EVP_MD_CTX_md_data, EVP_MD_CTX_update_fn, EVP_MD_CTX_set_update_fn, EVP_md_null, EVP_get_digestbyname, EVP_get_digestbynid, EVP_get_digestbyobj, EVP_MD_CTX_pkey_ctx, EVP_MD_CTX_set_pkey_ctx - EVP digest routines</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -40,6 +41,8 @@
  <span class="variable">void</span> <span class="variable">EVP_MD_CTX_clear_flags</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_MD_CTX_test_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
  
+ <span class="keyword">int</span> <span class="variable">EVP_Digest</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">count</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span>
+                <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*size</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*type</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_DigestInit_ex</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*type</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_DigestUpdate</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">cnt</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_DigestFinal_ex</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*s</span><span class="operator">);</span>
@@ -56,12 +59,18 @@
  <span class="keyword">int</span> <span class="variable">EVP_MD_pkey_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_MD_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EVP_MD_block_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
+ <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">EVP_MD_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
  
  <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*EVP_MD_CTX_md</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_MD_CTX_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_MD_CTX_block_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_MD_CTX_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*ctx</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EVP_MD_CTX_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EVP_MD_CTX_block_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EVP_MD_CTX_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">*EVP_MD_CTX_md_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*EVP_MD_CTX_update_fn</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">))(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                                              <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">count</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">EVP_MD_CTX_set_update_fn</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                               <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*update</span><span class="operator">)(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
+                                             <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">count</span><span class="operator">));</span>
  
  <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*EVP_md_null</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
  
@@ -69,6 +78,7 @@
  <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*EVP_get_digestbynid</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*EVP_get_digestbyobj</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*o</span><span class="operator">);</span>
  
+ <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*EVP_MD_CTX_pkey_ctx</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">EVP_MD_CTX_set_pkey_ctx</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">);</span>
 </code></pre>
 
@@ -99,13 +109,19 @@
 <dt id="EVP_MD_CTX_ctrl">EVP_MD_CTX_ctrl()</dt>
 <dd>
 
-<p>Performs digest-specific control actions on context <b>ctx</b>.</p>
+<p>Performs digest-specific control actions on context <b>ctx</b>. The control command is indicated in <b>cmd</b> and any additional arguments in <b>p1</b> and <b>p2</b>. EVP_MD_CTX_ctrl() must be called after EVP_DigestInit_ex(). Other restrictions may apply depending on the control type and digest implementation. See <a href="#CONTROLS">&quot;CONTROLS&quot;</a> below for more information.</p>
 
 </dd>
 <dt id="EVP_MD_CTX_set_flags-EVP_MD_CTX_clear_flags-EVP_MD_CTX_test_flags">EVP_MD_CTX_set_flags(), EVP_MD_CTX_clear_flags(), EVP_MD_CTX_test_flags()</dt>
 <dd>
 
 <p>Sets, clears and tests <b>ctx</b> flags. See <a href="#FLAGS">&quot;FLAGS&quot;</a> below for more information.</p>
+
+</dd>
+<dt id="EVP_Digest">EVP_Digest()</dt>
+<dd>
+
+<p>A wrapper around the Digest Init_ex, Update and Final_ex functions. Hashes <b>count</b> bytes of data at <b>data</b> using a digest <b>type</b> from ENGINE <b>impl</b>. The digest value is placed in <b>md</b> and its length is written at <b>size</b> if the pointer is not NULL. At most <b>EVP_MAX_MD_SIZE</b> bytes will be written. If <b>impl</b> is NULL the default implementation of digest <b>type</b> is used.</p>
 
 </dd>
 <dt id="EVP_DigestInit_ex">EVP_DigestInit_ex()</dt>
@@ -141,7 +157,7 @@
 <dt id="EVP_DigestInit">EVP_DigestInit()</dt>
 <dd>
 
-<p>Behaves in the same way as EVP_DigestInit_ex() except it always uses the default digest implementation.</p>
+<p>Behaves in the same way as EVP_DigestInit_ex() except it always uses the default digest implementation and calls EVP_MD_CTX_reset().</p>
 
 </dd>
 <dt id="EVP_DigestFinal">EVP_DigestFinal()</dt>
@@ -186,6 +202,24 @@
 <p>Returns the <b>EVP_MD</b> structure corresponding to the passed <b>EVP_MD_CTX</b>.</p>
 
 </dd>
+<dt id="EVP_MD_CTX_set_update_fn">EVP_MD_CTX_set_update_fn()</dt>
+<dd>
+
+<p>Sets the update function for <b>ctx</b> to <b>update</b>. This is the function that is called by EVP_DigestUpdate. If not set, the update function from the <b>EVP_MD</b> type specified at initialization is used.</p>
+
+</dd>
+<dt id="EVP_MD_CTX_update_fn">EVP_MD_CTX_update_fn()</dt>
+<dd>
+
+<p>Returns the update function for <b>ctx</b>.</p>
+
+</dd>
+<dt id="EVP_MD_flags">EVP_MD_flags()</dt>
+<dd>
+
+<p>Returns the <b>md</b> flags. Note that these are different from the <b>EVP_MD_CTX</b> ones. See <a href="../man3/EVP_MD_meth_set_flags.html">EVP_MD_meth_set_flags(3)</a> for more information.</p>
+
+</dd>
 <dt id="EVP_MD_pkey_type">EVP_MD_pkey_type()</dt>
 <dd>
 
@@ -204,10 +238,36 @@
 <p>Returns an <b>EVP_MD</b> structure when passed a digest name, a digest <b>NID</b> or an <b>ASN1_OBJECT</b> structure respectively.</p>
 
 </dd>
+<dt id="EVP_MD_CTX_pkey_ctx">EVP_MD_CTX_pkey_ctx()</dt>
+<dd>
+
+<p>Returns the <b>EVP_PKEY_CTX</b> assigned to <b>ctx</b>. The returned pointer should not be freed by the caller.</p>
+
+</dd>
 <dt id="EVP_MD_CTX_set_pkey_ctx">EVP_MD_CTX_set_pkey_ctx()</dt>
 <dd>
 
-<p>Assigns an <b>EVP_PKEY_CTX</b> to <b>EVP_MD_CTX</b>. This is usually used to provide a customzied <b>EVP_PKEY_CTX</b> to <a href="../man3/EVP_DigestSignInit.html">EVP_DigestSignInit(3)</a> or <a href="../man3/EVP_DigestVerifyInit.html">EVP_DigestVerifyInit(3)</a>. The <b>pctx</b> passed to this function should be freed by the caller. A NULL <b>pctx</b> pointer is also allowed to clear the <b>EVP_PKEY_CTX</b> assigned to <b>ctx</b>. In such case, freeing the cleared <b>EVP_PKEY_CTX</b> or not depends on how the <b>EVP_PKEY_CTX</b> is created.</p>
+<p>Assigns an <b>EVP_PKEY_CTX</b> to <b>EVP_MD_CTX</b>. This is usually used to provide a customized <b>EVP_PKEY_CTX</b> to <a href="../man3/EVP_DigestSignInit.html">EVP_DigestSignInit(3)</a> or <a href="../man3/EVP_DigestVerifyInit.html">EVP_DigestVerifyInit(3)</a>. The <b>pctx</b> passed to this function should be freed by the caller. A NULL <b>pctx</b> pointer is also allowed to clear the <b>EVP_PKEY_CTX</b> assigned to <b>ctx</b>. In such case, freeing the cleared <b>EVP_PKEY_CTX</b> or not depends on how the <b>EVP_PKEY_CTX</b> is created.</p>
+
+</dd>
+</dl>
+
+<h1 id="CONTROLS">CONTROLS</h1>
+
+<p>EVP_MD_CTX_ctrl() can be used to send the following standard controls:</p>
+
+<dl>
+
+<dt id="EVP_MD_CTRL_MICALG">EVP_MD_CTRL_MICALG</dt>
+<dd>
+
+<p>Gets the digest Message Integrity Check algorithm string. This is used when creating S/MIME multipart/signed messages, as specified in RFC 3851. The string value is written to <b>p2</b>.</p>
+
+</dd>
+<dt id="EVP_MD_CTRL_XOF_LEN">EVP_MD_CTRL_XOF_LEN</dt>
+<dd>
+
+<p>This control sets the digest length for extendable output functions to <b>p1</b>. Sending this control directly should not be necessary, the use of <code>EVP_DigestFinalXOF()</code> is preferred. Currently used by SHAKE.</p>
 
 </dd>
 </dl>
@@ -260,7 +320,7 @@
 <p>Returns 1 if successful or 0 for failure.</p>
 
 </dd>
-<dt id="EVP_MD_type-EVP_MD_pkey_type-EVP_MD_type">EVP_MD_type(), EVP_MD_pkey_type(), EVP_MD_type()</dt>
+<dt id="EVP_MD_type-EVP_MD_pkey_type">EVP_MD_type(), EVP_MD_pkey_type()</dt>
 <dd>
 
 <p>Returns the NID of the corresponding OBJECT IDENTIFIER or NID_undef if none exists.</p>
@@ -354,7 +414,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="../man1/dgst.html">dgst(1)</a>, <a href="../man7/evp.html">evp(7)</a></p>
+<p><a href="../man3/EVP_MD_meth_new.html">EVP_MD_meth_new(3)</a>, <a href="../man1/dgst.html">dgst(1)</a>, <a href="../man7/evp.html">evp(7)</a></p>
 
 <p>The full list of digest algorithms are provided below.</p>
 

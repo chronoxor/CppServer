@@ -23,11 +23,13 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>X509_LOOKUP_meth_new, X509_LOOKUP_meth_free, X509_LOOKUP_meth_set_new_item, X509_LOOKUP_meth_get_new_item, X509_LOOKUP_meth_set_free, X509_LOOKUP_meth_get_free, X509_LOOKUP_meth_set_init, X509_LOOKUP_meth_get_init, X509_LOOKUP_meth_set_shutdown, X509_LOOKUP_meth_get_shutdown, X509_LOOKUP_ctrl_fn, X509_LOOKUP_meth_set_ctrl, X509_LOOKUP_meth_get_ctrl, X509_LOOKUP_get_by_subject_fn, X509_LOOKUP_meth_set_get_by_subject, X509_LOOKUP_meth_get_get_by_subject, X509_LOOKUP_get_by_issuer_serial_fn, X509_LOOKUP_meth_set_get_by_issuer_serial, X509_LOOKUP_meth_get_get_by_issuer_serial, X509_LOOKUP_get_by_fingerprint_fn, X509_LOOKUP_meth_set_get_by_fingerprint, X509_LOOKUP_meth_get_get_by_fingerprint, X509_LOOKUP_get_by_alias_fn, X509_LOOKUP_meth_set_get_by_alias, X509_LOOKUP_meth_get_get_by_alias, X509_LOOKUP_set_method_data, X509_LOOKUP_get_method_data, X509_LOOKUP_get_store, X509_OBJECT_set1_X509, X509_OBJECT_set1_X509_CRL - Routines to build up X509_LOOKUP methods</p>
+<p>X509_LOOKUP_METHOD, X509_LOOKUP_meth_new, X509_LOOKUP_meth_free, X509_LOOKUP_meth_set_new_item, X509_LOOKUP_meth_get_new_item, X509_LOOKUP_meth_set_free, X509_LOOKUP_meth_get_free, X509_LOOKUP_meth_set_init, X509_LOOKUP_meth_get_init, X509_LOOKUP_meth_set_shutdown, X509_LOOKUP_meth_get_shutdown, X509_LOOKUP_ctrl_fn, X509_LOOKUP_meth_set_ctrl, X509_LOOKUP_meth_get_ctrl, X509_LOOKUP_get_by_subject_fn, X509_LOOKUP_meth_set_get_by_subject, X509_LOOKUP_meth_get_get_by_subject, X509_LOOKUP_get_by_issuer_serial_fn, X509_LOOKUP_meth_set_get_by_issuer_serial, X509_LOOKUP_meth_get_get_by_issuer_serial, X509_LOOKUP_get_by_fingerprint_fn, X509_LOOKUP_meth_set_get_by_fingerprint, X509_LOOKUP_meth_get_get_by_fingerprint, X509_LOOKUP_get_by_alias_fn, X509_LOOKUP_meth_set_get_by_alias, X509_LOOKUP_meth_get_get_by_alias, X509_OBJECT_set1_X509, X509_OBJECT_set1_X509_CRL - Routines to build up X509_LOOKUP methods</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/x509_vfy.h&gt;</span>
+ 
+ <span class="variable">typedef</span> <span class="variable">x509_lookup_method_st</span> <span class="variable">X509_LOOKUP_METHOD</span><span class="operator">;</span>
  
  <span class="variable">X509_LOOKUP_METHOD</span> <span class="variable">*X509_LOOKUP_meth_new</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">X509_LOOKUP_meth_free</span><span class="operator">(</span><span class="variable">X509_LOOKUP_METHOD</span> <span class="variable">*method</span><span class="operator">);</span>
@@ -97,11 +99,6 @@
  <span class="variable">X509_LOOKUP_get_by_alias_fn</span> <span class="variable">X509_LOOKUP_meth_get_get_by_alias</span><span class="operator">(</span>
      <span class="variable">const</span> <span class="variable">X509_LOOKUP_METHOD</span> <span class="variable">*method</span><span class="operator">);</span>
  
- <span class="keyword">int</span> <span class="variable">X509_LOOKUP_set_method_data</span><span class="operator">(</span><span class="variable">X509_LOOKUP</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">*X509_LOOKUP_get_method_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_LOOKUP</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">X509_STORE</span> <span class="variable">*X509_LOOKUP_get_store</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_LOOKUP</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
  <span class="keyword">int</span> <span class="variable">X509_OBJECT_set1_X509</span><span class="operator">(</span><span class="variable">X509_OBJECT</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*obj</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">X509_OBJECT_set1_X509_CRL</span><span class="operator">(</span><span class="variable">X509_OBJECT</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">X509_CRL</span> <span class="variable">*obj</span><span class="operator">);</span>
 </code></pre>
@@ -114,11 +111,11 @@
 
 <p>X509_LOOKUP_meth_free() destroys a <b>X509_LOOKUP_METHOD</b> structure.</p>
 
-<p>X509_LOOKUP_get_new_item() and X509_LOOKUP_set_new_item() get and set the function that is called when an <b>X509_LOOKUP</b> object is created with X509_LOOKUP_new(). If an X509_LOOKUP_METHOD requires any per-X509_LOOKUP specific data, the supplied new_item function should allocate this data and invoke X509_LOOKUP_set_method_data().</p>
+<p>X509_LOOKUP_get_new_item() and X509_LOOKUP_set_new_item() get and set the function that is called when an <b>X509_LOOKUP</b> object is created with X509_LOOKUP_new(). If an X509_LOOKUP_METHOD requires any per-X509_LOOKUP specific data, the supplied new_item function should allocate this data and invoke <a href="../man3/X509_LOOKUP_set_method_data.html">X509_LOOKUP_set_method_data(3)</a>.</p>
 
 <p>X509_LOOKUP_get_free() and X509_LOOKUP_set_free() get and set the function that is used to free any method data that was allocated and set from within new_item function.</p>
 
-<p>X509_LOOKUP_meth_get_init() and X509_LOOKUP_meth_set_init() get and set the function that is used to initialize the method data that was set with X509_LOOKUP_set_method_data() as part of the new_item routine.</p>
+<p>X509_LOOKUP_meth_get_init() and X509_LOOKUP_meth_set_init() get and set the function that is used to initialize the method data that was set with <a href="../man3/X509_LOOKUP_set_method_data.html">X509_LOOKUP_set_method_data(3)</a> as part of the new_item routine.</p>
 
 <p>X509_LOOKUP_meth_get_shutdown() and X509_LOOKUP_meth_set_shutdown() get and set the function that is used to shut down the method data whose state was previously initialized in the init function.</p>
 
@@ -130,7 +127,7 @@
 
 <p>Implementations should also use either X509_OBJECT_set1_X509() or X509_OBJECT_set1_X509_CRL() to set the result. Note that this also increments the result&#39;s reference count.</p>
 
-<p>Any method data that was created as a result of the new_item function set by X509_LOOKUP_meth_set_new_item() can be accessed with X509_LOOKUP_get_method_data(). The <b>X509_STORE</b> object that owns the X509_LOOKUP may be accessed with X509_LOOKUP_get_store(). Successful lookups should return 1, and unsuccessful lookups should return 0.</p>
+<p>Any method data that was created as a result of the new_item function set by X509_LOOKUP_meth_set_new_item() can be accessed with <a href="../man3/X509_LOOKUP_get_method_data.html">X509_LOOKUP_get_method_data(3)</a>. The <b>X509_STORE</b> object that owns the X509_LOOKUP may be accessed with <a href="../man3/X509_LOOKUP_get_store.html">X509_LOOKUP_get_store(3)</a>. Successful lookups should return 1, and unsuccessful lookups should return 0.</p>
 
 <p>X509_LOOKUP_get_get_by_subject(), X509_LOOKUP_get_get_by_issuer_serial(), X509_LOOKUP_get_get_by_fingerprint(), X509_LOOKUP_get_get_by_alias() retrieve the function set by the corresponding setter.</p>
 
@@ -150,7 +147,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2018-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2018-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

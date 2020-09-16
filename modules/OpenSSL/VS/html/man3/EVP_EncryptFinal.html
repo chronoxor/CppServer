@@ -325,6 +325,8 @@
 
 <p>The functions EVP_EncryptInit(), EVP_EncryptFinal(), EVP_DecryptInit(), EVP_CipherInit() and EVP_CipherFinal() are obsolete but are retained for compatibility with existing code. New code should use EVP_EncryptInit_ex(), EVP_EncryptFinal_ex(), EVP_DecryptInit_ex(), EVP_DecryptFinal_ex(), EVP_CipherInit_ex() and EVP_CipherFinal_ex() because they can reuse an existing context without allocating and freeing it up on each call.</p>
 
+<p>There are some differences between functions EVP_CipherInit() and EVP_CipherInit_ex(), significant in some circumstances. EVP_CipherInit() fills the passed context object with zeros. As a consequence, EVP_CipherInit() does not allow step-by-step initialization of the ctx when the <i>key</i> and <i>iv</i> are passed in separate calls. It also means that the flags set for the CTX are removed, and it is especially important for the <b>EVP_CIPHER_CTX_FLAG_WRAP_ALLOW</b> flag treated specially in EVP_CipherInit_ex().</p>
+
 <p>EVP_get_cipherbynid(), and EVP_get_cipherbyobj() are implemented as macros.</p>
 
 <h1 id="BUGS">BUGS</h1>

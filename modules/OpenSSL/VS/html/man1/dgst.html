@@ -28,7 +28,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl dgst</b> [<b>-<i>digest</i></b>] [<b>-help</b>] [<b>-c</b>] [<b>-d</b>] [<b>-hex</b>] [<b>-binary</b>] [<b>-r</b>] [<b>-out filename</b>] [<b>-sign filename</b>] [<b>-keyform arg</b>] [<b>-passin arg</b>] [<b>-verify filename</b>] [<b>-prverify filename</b>] [<b>-signature filename</b>] [<b>-hmac key</b>] [<b>-fips-fingerprint</b>] [<b>-rand file...</b>] [<b>-engine id</b>] [<b>-engine_impl</b>] [<b>file...</b>]</p>
+<p><b>openssl dgst</b> [<b>-<i>digest</i></b>] [<b>-help</b>] [<b>-c</b>] [<b>-d</b>] [<b>-list</b>] [<b>-hex</b>] [<b>-binary</b>] [<b>-r</b>] [<b>-out filename</b>] [<b>-sign filename</b>] [<b>-keyform arg</b>] [<b>-passin arg</b>] [<b>-verify filename</b>] [<b>-prverify filename</b>] [<b>-signature filename</b>] [<b>-sigopt nm:v</b>] [<b>-hmac key</b>] [<b>-fips-fingerprint</b>] [<b>-rand file...</b>] [<b>-engine id</b>] [<b>-engine_impl</b>] [<b>file...</b>]</p>
 
 <p><b>openssl</b> <i>digest</i> [<b>...</b>]</p>
 
@@ -66,6 +66,12 @@
 <p>Print out BIO debugging information.</p>
 
 </dd>
+<dt id="list"><b>-list</b></dt>
+<dd>
+
+<p>Prints out a list of supported message digests.</p>
+
+</dd>
 <dt id="hex"><b>-hex</b></dt>
 <dd>
 
@@ -81,7 +87,7 @@
 <dt id="r"><b>-r</b></dt>
 <dd>
 
-<p>Output the digest in the &quot;coreutils&quot; format used by programs like <b>sha1sum</b>.</p>
+<p>Output the digest in the &quot;coreutils&quot; format, including newlines. Used by programs like <b>sha1sum</b>.</p>
 
 </dd>
 <dt id="out-filename"><b>-out filename</b></dt>

@@ -73,11 +73,11 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The <b>BIO_METHOD</b> type is a structure used for the implementation of new BIO types. It provides a set of functions used by OpenSSL for the implementation of the various BIO capabilities. See the <a href="/man7/bio.html">bio</a> page for more information.</p>
+<p>The <b>BIO_METHOD</b> type is a structure used for the implementation of new BIO types. It provides a set of functions used by OpenSSL for the implementation of the various BIO capabilities. See the <a href="/../man7/bio.html">bio</a> page for more information.</p>
 
 <p>BIO_meth_new() creates a new <b>BIO_METHOD</b> structure. It should be given a unique integer <b>type</b> and a string that represents its <b>name</b>. Use BIO_get_new_index() to get the value for <b>type</b>.</p>
 
-<p>The set of standard OpenSSL provided BIO types is provided in <b>bio.h</b>. Some examples include <b>BIO_TYPE_BUFFER</b> and <b>BIO_TYPE_CIPHER</b>. Filter BIOs should have a type which have the &quot;filter&quot; bit set (<b>BIO_TYPE_FILTER</b>). Source/sink BIOs should have the &quot;source/sink&quot; bit set (<b>BIO_TYPE_SOURCE_SINK</b>). File descriptor based BIOs (e.g. socket, fd, connect, accept etc) should additionally have the &quot;descriptor&quot; bit set (<b>BIO_TYPE_DESCRIPTOR</b>). See the <a href="/man3/BIO_find_type.html">BIO_find_type</a> page for more information.</p>
+<p>The set of standard OpenSSL provided BIO types is provided in <b>bio.h</b>. Some examples include <b>BIO_TYPE_BUFFER</b> and <b>BIO_TYPE_CIPHER</b>. Filter BIOs should have a type which have the &quot;filter&quot; bit set (<b>BIO_TYPE_FILTER</b>). Source/sink BIOs should have the &quot;source/sink&quot; bit set (<b>BIO_TYPE_SOURCE_SINK</b>). File descriptor based BIOs (e.g. socket, fd, connect, accept etc) should additionally have the &quot;descriptor&quot; bit set (<b>BIO_TYPE_DESCRIPTOR</b>). See the <a href="/../man3/BIO_find_type.html">BIO_find_type</a> page for more information.</p>
 
 <p>BIO_meth_free() destroys a <b>BIO_METHOD</b> structure and frees up any memory associated with it.</p>
 
@@ -89,7 +89,7 @@
 
 <p>BIO_meth_get_gets() and BIO_meth_set_gets() get and set the function typically used for reading a line of data from the BIO respectively (see the <a href="../man3/BIO_gets.html">BIO_gets(3)</a> page for more information). This function will be called in response to the application calling BIO_gets(). The parameters for the function have the same meaning as for BIO_gets().</p>
 
-<p>BIO_meth_get_ctrl() and BIO_meth_set_ctrl() get and set the function used for processing ctrl messages in the BIO respectively. See the <a href="/man3/BIO_ctrl.html">BIO_ctrl</a> page for more information. This function will be called in response to the application calling BIO_ctrl(). The parameters for the function have the same meaning as for BIO_ctrl().</p>
+<p>BIO_meth_get_ctrl() and BIO_meth_set_ctrl() get and set the function used for processing ctrl messages in the BIO respectively. See the <a href="/../man3/BIO_ctrl.html">BIO_ctrl</a> page for more information. This function will be called in response to the application calling BIO_ctrl(). The parameters for the function have the same meaning as for BIO_ctrl().</p>
 
 <p>BIO_meth_get_create() and BIO_meth_set_create() get and set the function used for creating a new instance of the BIO respectively. This function will be called in response to the application calling BIO_new() and passing in a pointer to the current BIO_METHOD. The BIO_new() function will allocate the memory for the new BIO, and a pointer to this newly allocated structure will be passed as a parameter to the function.</p>
 
@@ -109,7 +109,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="/man7/bio.html">bio</a>, <a href="/man3/BIO_find_type.html">BIO_find_type</a>, <a href="/man3/BIO_ctrl.html">BIO_ctrl</a>, <a>BIO_read_ex</a>, <a href="/man3/BIO_new.html">BIO_new</a></p>
+<p><a href="/../man7/bio.html">bio</a>, <a href="/../man3/BIO_find_type.html">BIO_find_type</a>, <a href="/../man3/BIO_ctrl.html">BIO_ctrl</a>, <a>BIO_read_ex</a>, <a href="/../man3/BIO_new.html">BIO_new</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

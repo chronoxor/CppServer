@@ -32,7 +32,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl</b> <b>req</b> [<b>-help</b>] [<b>-inform PEM|DER</b>] [<b>-outform PEM|DER</b>] [<b>-in filename</b>] [<b>-passin arg</b>] [<b>-out filename</b>] [<b>-passout arg</b>] [<b>-text</b>] [<b>-pubkey</b>] [<b>-noout</b>] [<b>-verify</b>] [<b>-modulus</b>] [<b>-new</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-newkey rsa:bits</b>] [<b>-newkey alg:file</b>] [<b>-nodes</b>] [<b>-key filename</b>] [<b>-keyform PEM|DER</b>] [<b>-keyout filename</b>] [<b>-keygen_engine id</b>] [<b>-<i>digest</i></b>] [<b>-config filename</b>] [<b>-multivalue-rdn</b>] [<b>-x509</b>] [<b>-days n</b>] [<b>-set_serial n</b>] [<b>-newhdr</b>] [<b>-addext ext</b>] [<b>-extensions section</b>] [<b>-reqexts section</b>] [<b>-precert</b>] [<b>-utf8</b>] [<b>-nameopt</b>] [<b>-reqopt</b>] [<b>-subject</b>] [<b>-subj arg</b>] [<b>-batch</b>] [<b>-verbose</b>] [<b>-engine id</b>]</p>
+<p><b>openssl</b> <b>req</b> [<b>-help</b>] [<b>-inform PEM|DER</b>] [<b>-outform PEM|DER</b>] [<b>-in filename</b>] [<b>-passin arg</b>] [<b>-out filename</b>] [<b>-passout arg</b>] [<b>-text</b>] [<b>-pubkey</b>] [<b>-noout</b>] [<b>-verify</b>] [<b>-modulus</b>] [<b>-new</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-newkey rsa:bits</b>] [<b>-newkey alg:file</b>] [<b>-nodes</b>] [<b>-key filename</b>] [<b>-keyform PEM|DER</b>] [<b>-keyout filename</b>] [<b>-keygen_engine id</b>] [<b>-<i>digest</i></b>] [<b>-config filename</b>] [<b>-multivalue-rdn</b>] [<b>-x509</b>] [<b>-days n</b>] [<b>-set_serial n</b>] [<b>-newhdr</b>] [<b>-addext ext</b>] [<b>-extensions section</b>] [<b>-reqexts section</b>] [<b>-precert</b>] [<b>-utf8</b>] [<b>-nameopt</b>] [<b>-reqopt</b>] [<b>-subject</b>] [<b>-subj arg</b>] [<b>-sigopt nm:v</b>] [<b>-batch</b>] [<b>-verbose</b>] [<b>-engine id</b>]</p>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -64,6 +64,12 @@
 <dd>
 
 <p>This specifies the input filename to read a request from or standard input if this option is not specified. A request is only read if the creation options (<b>-new</b> and <b>-newkey</b>) are not specified.</p>
+
+</dd>
+<dt id="sigopt-nm:v"><b>-sigopt nm:v</b></dt>
+<dd>
+
+<p>Pass options to the signature algorithm during sign or verify operations. Names and values of these options are algorithm-specific.</p>
 
 </dd>
 <dt id="passin-arg"><b>-passin arg</b></dt>
@@ -595,7 +601,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

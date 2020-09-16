@@ -104,7 +104,13 @@
 <dt id="EXFLAG_INVALID"><b>EXFLAG_INVALID</b></dt>
 <dd>
 
-<p>Some certificate extension values are invalid or inconsistent. The certificate should be rejected.</p>
+<p>Some certificate extension values are invalid or inconsistent. The certificate should be rejected. This bit may also be raised after an out-of-memory error while processing the X509 object, so it may not be related to the processed ASN1 object itself.</p>
+
+</dd>
+<dt id="EXFLAG_INVALID_POLICY"><b>EXFLAG_INVALID_POLICY</b></dt>
+<dd>
+
+<p>The NID_certificate_policies certificate extension is invalid or inconsistent. The certificate should be rejected. This bit may also be raised after an out-of-memory error while processing the X509 object, so it may not be related to the processed ASN1 object itself.</p>
 
 </dd>
 <dt id="EXFLAG_KUSAGE"><b>EXFLAG_KUSAGE</b></dt>
@@ -167,7 +173,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -55,7 +55,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>A client application wishing to use TLSv1.3 PSKs should set a callback using either SSL_CTX_set_psk_use_session_callback() or SSL_set_psk_use_session_callback() as appropriate.</p>
+<p>A server application wishing to use TLSv1.3 PSKs should set a callback using either SSL_CTX_set_psk_find_session_callback() or SSL_set_psk_find_session_callback() as appropriate.</p>
 
 <p>The callback function is given a pointer to the SSL connection in <b>ssl</b> and an identity in <b>identity</b> of length <b>identity_len</b>. The callback function should identify an SSL_SESSION object that provides the PSK details and store it in <b>*sess</b>. The SSL_SESSION object should, as a minimum, set the master key, the ciphersuite and the protocol version. See <a href="../man3/SSL_CTX_set_psk_use_session_callback.html">SSL_CTX_set_psk_use_session_callback(3)</a> for details.</p>
 

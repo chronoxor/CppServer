@@ -64,7 +64,7 @@
 
 <p>OCSP_RESPID_match() tests whether the OCSP_RESPID given in <b>respid</b> matches with the X509 certificate <b>cert</b>.</p>
 
-<p>OCSP_basic_sign() signs OCSP response <b>brsp</b> using certificate <b>signer</b>, private key <b>key</b>, digest <b>dgst</b> and additional certificates <b>certs</b>. If the <b>flags</b> option <b>OCSP_NOCERTS</b> is set then no certificates will be included in the request. If the <b>flags</b> option <b>OCSP_RESPID_KEY</b> is set then the responder is identified by key ID rather than by name. OCSP_basic_sign_ctx() also signs OCSP response <b>brsp</b> but uses the parameters contained in digest context <b>ctx</b>.</p>
+<p>OCSP_basic_sign() signs OCSP response <b>brsp</b> using certificate <b>signer</b>, private key <b>key</b>, digest <b>dgst</b> and additional certificates <b>certs</b>. If the <b>flags</b> option <b>OCSP_NOCERTS</b> is set then no certificates will be included in the response. If the <b>flags</b> option <b>OCSP_RESPID_KEY</b> is set then the responder is identified by key ID rather than by name. OCSP_basic_sign_ctx() also signs OCSP response <b>brsp</b> but uses the parameters contained in digest context <b>ctx</b>.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -96,7 +96,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

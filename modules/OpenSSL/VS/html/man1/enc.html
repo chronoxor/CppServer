@@ -30,7 +30,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<p><b>openssl enc -<i>cipher</i></b> [<b>-help</b>] [<b>-ciphers</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-pass arg</b>] [<b>-e</b>] [<b>-d</b>] [<b>-a</b>] [<b>-base64</b>] [<b>-A</b>] [<b>-k password</b>] [<b>-kfile filename</b>] [<b>-K key</b>] [<b>-iv IV</b>] [<b>-S salt</b>] [<b>-salt</b>] [<b>-nosalt</b>] [<b>-z</b>] [<b>-md digest</b>] [<b>-iter count</b>] [<b>-pbkdf2</b>] [<b>-p</b>] [<b>-P</b>] [<b>-bufsize number</b>] [<b>-nopad</b>] [<b>-debug</b>] [<b>-none</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-engine id</b>]</p>
+<p><b>openssl enc -<i>cipher</i></b> [<b>-help</b>] [<b>-list</b>] [<b>-ciphers</b>] [<b>-in filename</b>] [<b>-out filename</b>] [<b>-pass arg</b>] [<b>-e</b>] [<b>-d</b>] [<b>-a</b>] [<b>-base64</b>] [<b>-A</b>] [<b>-k password</b>] [<b>-kfile filename</b>] [<b>-K key</b>] [<b>-iv IV</b>] [<b>-S salt</b>] [<b>-salt</b>] [<b>-nosalt</b>] [<b>-z</b>] [<b>-md digest</b>] [<b>-iter count</b>] [<b>-pbkdf2</b>] [<b>-p</b>] [<b>-P</b>] [<b>-bufsize number</b>] [<b>-nopad</b>] [<b>-debug</b>] [<b>-none</b>] [<b>-rand file...</b>] [<b>-writerand file</b>] [<b>-engine id</b>]</p>
 
 <p><b>openssl</b> <i>[cipher]</i> [<b>...</b>]</p>
 
@@ -48,10 +48,16 @@
 <p>Print out a usage message.</p>
 
 </dd>
-<dt id="ciphers"><b>-ciphers</b></dt>
+<dt id="list"><b>-list</b></dt>
 <dd>
 
 <p>List all supported ciphers.</p>
+
+</dd>
+<dt id="ciphers"><b>-ciphers</b></dt>
+<dd>
+
+<p>Alias of -list to display all supported ciphers.</p>
 
 </dd>
 <dt id="in-filename"><b>-in filename</b></dt>
@@ -389,6 +395,8 @@
 <h1 id="HISTORY">HISTORY</h1>
 
 <p>The default digest was changed from MD5 to SHA256 in OpenSSL 1.1.0.</p>
+
+<p>The <b>-list</b> option was added in OpenSSL 1.1.1e.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

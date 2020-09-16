@@ -48,7 +48,7 @@
 
 <p>The digest <b>type</b> may be NULL if the signing algorithm supports it.</p>
 
-<p>No <b>EVP_PKEY_CTX</b> will be created by EVP_DigestSignInit() if the passed <b>ctx</b> has already been assigned one via <a href="../man3/EVP_MD_CTX_set_ctx.html">EVP_MD_CTX_set_ctx(3)</a>. See also <a href="../man7/SM2.html">SM2(7)</a>.</p>
+<p>No <b>EVP_PKEY_CTX</b> will be created by EVP_DigestSignInit() if the passed <b>ctx</b> has already been assigned one via <a href="../man3/EVP_MD_CTX_set_pkey_ctx.html">EVP_MD_CTX_set_pkey_ctx(3)</a>. See also <a href="../man7/SM2.html">SM2(7)</a>.</p>
 
 <p>Only EVP_PKEY types that support signing can be used with these functions. This includes MAC algorithms where the MAC generation is considered as a form of &quot;signing&quot;. Built-in EVP_PKEY types supported by these functions are CMAC, Poly1305, DSA, ECDSA, HMAC, RSA, SipHash, Ed25519 and Ed448.</p>
 
@@ -116,7 +116,7 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>EVP_DigestSignInit(), EVP_DigestSignUpdate(), EVP_DigestSignaFinal() and EVP_DigestSign() return 1 for success and 0 or a negative value for failure. In particular, a return value of -2 indicates the operation is not supported by the public key algorithm.</p>
+<p>EVP_DigestSignInit(), EVP_DigestSignUpdate(), EVP_DigestSignFinal() and EVP_DigestSign() return 1 for success and 0 for failure.</p>
 
 <p>The error codes can be obtained from <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
@@ -146,7 +146,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2006-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2006-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 
