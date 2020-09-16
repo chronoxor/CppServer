@@ -129,7 +129,7 @@ int main(int argc, char** argv)
             // Sleep for remaining time or yield
             auto milliseconds = (end - start).milliseconds();
             if (milliseconds < 1000)
-                Thread::Sleep(milliseconds);
+                Thread::Sleep(1000 - milliseconds);
             else
                 Thread::Yield();
         }
