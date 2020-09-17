@@ -434,15 +434,13 @@ size_t UDPServer::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_
 
     // Receive datagram from the client
     size_t received = _socket.receive_from(asio::buffer(buffer, size), endpoint, 0, ec);
-    if (received > 0)
-    {
-        // Update statistic
-        ++_datagrams_received;
-        _bytes_received += received;
 
-        // Call the datagram received handler
-        onReceived(endpoint, buffer, received);
-    }
+    // Update statistic
+    ++_datagrams_received;
+    _bytes_received += received;
+
+    // Call the datagram received handler
+    onReceived(endpoint, buffer, received);
 
     // Check for error
     if (ec)
@@ -503,16 +501,12 @@ size_t UDPServer::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_
     std::unique_lock<std::mutex> lck(mtx);
     cv.wait(lck, [&]() { return done == 2; });
 
-    // Received datagram from the client
-    if (received > 0)
-    {
-        // Update statistic
-        ++_datagrams_received;
-        _bytes_received += received;
+    // Update statistic
+    ++_datagrams_received;
+    _bytes_received += received;
 
-        // Call the datagram received handler
-        onReceived(endpoint, buffer, received);
-    }
+    // Call the datagram received handler
+    onReceived(endpoint, buffer, received);
 
     // Check for error
     if (error && (error != asio::error::timed_out))
@@ -565,20 +559,16 @@ void UDPServer::TryReceive()
             return;
         }
 
-        // Received some data from the client
-        if (size > 0)
-        {
-            // Update statistic
-            ++_datagrams_received;
-            _bytes_received += size;
+        // Update statistic
+        ++_datagrams_received;
+        _bytes_received += size;
 
-            // Call the datagram received handler
-            onReceived(_receive_endpoint, _receive_buffer.data(), size);
+        // Call the datagram received handler
+        onReceived(_receive_endpoint, _receive_buffer.data(), size);
 
-            // If the receive buffer is full increase its size
-            if (_receive_buffer.size() == size)
-                _receive_buffer.resize(2 * size);
-        }
+        // If the receive buffer is full increase its size
+        if (_receive_buffer.size() == size)
+            _receive_buffer.resize(2 * size);
     });
     if (_strand_required)
         _socket.async_receive_from(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), _receive_endpoint, bind_executor(_strand, async_receive_handler));
