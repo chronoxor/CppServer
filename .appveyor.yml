@@ -16,15 +16,12 @@ only_commits:
 # Build matrix
 environment:
   matrix:
-    - type: MSYS2
-      build: C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER/build; exec 0</dev/null; ./unix.sh"
-      command: C:\msys64\usr\bin\bash -lc
-#    - type: MinGW
-#      build: call mingw.bat
-#      command: cmd /C
-#    - type: VisualStudio
-#      build: call vs.bat
-#      command: cmd /C
+    - type: MinGW
+      build: call mingw.bat
+      command: cmd /C
+    - type: VisualStudio
+      build: call vs.bat
+      command: cmd /C
 
 # Allow to fail on first error in matrix
 matrix:
@@ -34,11 +31,6 @@ matrix:
 install:
   # Chocolatey
   - choco upgrade chocolatey
-  # MSYS2
-  - if "%type%"=="MSYS2" C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"
-  - if "%type%"=="MSYS2" C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"
-  - if "%type%"=="MSYS2" set CHERE_INVOKING='yes'
-  - if "%type%"=="MSYS2" set MSYSTEM='MINGW64'
   # MinGW
   - if "%type%"=="MinGW" if not exist "C:\mingw.7z" appveyor-retry appveyor DownloadFile "http://downloads.sourceforge.net/mingw-w64/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z" -FileName "C:\mingw.7z"
   - if "%type%"=="MinGW" 7z x -y -oC:\ "C:\mingw.7z" > nul
