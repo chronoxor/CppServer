@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['difference_5ftype_743',['difference_type',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#aaf9a544c42d9226deb9278a38ef131a3',1,'CppServer::Asio::HandlerAllocator']]]
+  ['pointer_744',['pointer',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#afc0fc605d880945d55991cd4f1838746',1,'CppServer::Asio::HandlerAllocator']]]
 ];
