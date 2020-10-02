@@ -311,8 +311,12 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    friend class Impl;
     class Impl;
+    friend class Impl;
+
+    std::shared_ptr<Impl>& pimpl() noexcept { return _pimpl; }
+    const std::shared_ptr<Impl>& pimpl() const noexcept { return _pimpl; }
+
     std::shared_ptr<Impl> _pimpl;
 
     //! Disconnect the client (asynchronous)

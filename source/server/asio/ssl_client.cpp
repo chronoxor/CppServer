@@ -1144,123 +1144,49 @@ private:
 //! @endcond
 
 SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, int port)
-    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Sequential(), service, context, address, port))
 {
+    _pimpl = std::make_shared<Impl>(CppCommon::UUID::Sequential(), service, context, address, port);
 }
 
 SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, const std::string& scheme)
-    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Sequential(), service, context, address, scheme))
 {
+    _pimpl = std::make_shared<Impl>(CppCommon::UUID::Sequential(), service, context, address, scheme);
 }
 
 SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const asio::ip::tcp::endpoint& endpoint)
-    : _pimpl(std::make_shared<Impl>(CppCommon::UUID::Sequential(), service, context, endpoint))
 {
+    _pimpl = std::make_shared<Impl>(CppCommon::UUID::Sequential(), service, context, endpoint);
 }
 
 SSLClient::~SSLClient()
 {
 }
 
-const CppCommon::UUID& SSLClient::id() const noexcept
-{
-    return _pimpl->id();
-}
+const CppCommon::UUID& SSLClient::id() const noexcept { return pimpl()->id(); }
 
-std::shared_ptr<Service>& SSLClient::service() noexcept
-{
-    return _pimpl->service();
-}
+std::shared_ptr<Service>& SSLClient::service() noexcept { return pimpl()->service(); }
+std::shared_ptr<asio::io_service>& SSLClient::io_service() noexcept { return pimpl()->io_service(); }
+asio::io_service::strand& SSLClient::strand() noexcept { return pimpl()->strand(); }
+std::shared_ptr<SSLContext>& SSLClient::context() noexcept { return pimpl()->context(); }
+asio::ip::tcp::endpoint& SSLClient::endpoint() noexcept { return pimpl()->endpoint(); }
+asio::ssl::stream<asio::ip::tcp::socket>& SSLClient::stream() noexcept { return pimpl()->stream(); }
+asio::ssl::stream<asio::ip::tcp::socket>::next_layer_type& SSLClient::socket() noexcept { return pimpl()->socket(); }
 
-std::shared_ptr<asio::io_service>& SSLClient::io_service() noexcept
-{
-    return _pimpl->io_service();
-}
+const std::string& SSLClient::address() const noexcept { return pimpl()->address(); }
+const std::string& SSLClient::scheme() const noexcept { return pimpl()->scheme(); }
+int SSLClient::port() const noexcept { return pimpl()->port(); }
 
-asio::io_service::strand& SSLClient::strand() noexcept
-{
-    return _pimpl->strand();
-}
+uint64_t SSLClient::bytes_pending() const noexcept { return pimpl()->bytes_pending(); }
+uint64_t SSLClient::bytes_sent() const noexcept { return pimpl()->bytes_sent(); }
+uint64_t SSLClient::bytes_received() const noexcept { return pimpl()->bytes_received(); }
 
-std::shared_ptr<SSLContext>& SSLClient::context() noexcept
-{
-    return _pimpl->context();
-}
+bool SSLClient::option_keep_alive() const noexcept { return pimpl()->option_keep_alive(); }
+bool SSLClient::option_no_delay() const noexcept { return pimpl()->option_no_delay(); }
+size_t SSLClient::option_receive_buffer_size() const { return pimpl()->option_receive_buffer_size(); }
+size_t SSLClient::option_send_buffer_size() const { return pimpl()->option_send_buffer_size(); }
 
-asio::ip::tcp::endpoint& SSLClient::endpoint() noexcept
-{
-    return _pimpl->endpoint();
-}
-
-asio::ssl::stream<asio::ip::tcp::socket>& SSLClient::stream() noexcept
-{
-    return _pimpl->stream();
-}
-
-asio::ssl::stream<asio::ip::tcp::socket>::next_layer_type& SSLClient::socket() noexcept
-{
-    return _pimpl->socket();
-}
-
-const std::string& SSLClient::address() const noexcept
-{
-    return _pimpl->address();
-}
-
-const std::string& SSLClient::scheme() const noexcept
-{
-    return _pimpl->scheme();
-}
-
-int SSLClient::port() const noexcept
-{
-    return _pimpl->port();
-}
-
-uint64_t SSLClient::bytes_pending() const noexcept
-{
-    return _pimpl->bytes_pending();
-}
-
-uint64_t SSLClient::bytes_sent() const noexcept
-{
-    return _pimpl->bytes_sent();
-}
-
-uint64_t SSLClient::bytes_received() const noexcept
-{
-    return _pimpl->bytes_received();
-}
-
-bool SSLClient::option_keep_alive() const noexcept
-{
-    return _pimpl->option_keep_alive();
-}
-
-bool SSLClient::option_no_delay() const noexcept
-{
-    return _pimpl->option_no_delay();
-}
-
-size_t SSLClient::option_receive_buffer_size() const
-{
-    return _pimpl->option_receive_buffer_size();
-}
-
-size_t SSLClient::option_send_buffer_size() const
-{
-    return _pimpl->option_send_buffer_size();
-}
-
-bool SSLClient::IsConnected() const noexcept
-{
-    return _pimpl->IsConnected();
-}
-
-bool SSLClient::IsHandshaked() const noexcept
-{
-    return _pimpl->IsHandshaked();
-}
+bool SSLClient::IsConnected() const noexcept { return pimpl()->IsConnected(); }
+bool SSLClient::IsHandshaked() const noexcept { return pimpl()->IsHandshaked(); }
 
 bool SSLClient::Connect()
 {
@@ -1315,65 +1241,19 @@ bool SSLClient::ReconnectAsync()
     return ConnectAsync();
 }
 
-size_t SSLClient::Send(const void* buffer, size_t size)
-{
-    return _pimpl->Send(buffer, size);
-}
+size_t SSLClient::Send(const void* buffer, size_t size) { return pimpl()->Send(buffer, size); }
+size_t SSLClient::Send(const void* buffer, size_t size, const CppCommon::Timespan& timeout) { return pimpl()->Send(buffer, size, timeout); }
+bool SSLClient::SendAsync(const void* buffer, size_t size) { return pimpl()->SendAsync(buffer, size); }
+size_t SSLClient::Receive(void* buffer, size_t size) { return pimpl()->Receive(buffer, size); }
+std::string SSLClient::Receive(size_t size) { return pimpl()->Receive(size); }
+size_t SSLClient::Receive(void* buffer, size_t size, const CppCommon::Timespan& timeout) { return pimpl()->Receive(buffer, size, timeout); }
+std::string SSLClient::Receive(size_t size, const CppCommon::Timespan& timeout) { return pimpl()->Receive(size, timeout); }
+void SSLClient::ReceiveAsync() { return pimpl()->ReceiveAsync(); }
 
-size_t SSLClient::Send(const void* buffer, size_t size, const CppCommon::Timespan& timeout)
-{
-    return _pimpl->Send(buffer, size, timeout);
-}
-
-bool SSLClient::SendAsync(const void* buffer, size_t size)
-{
-    return _pimpl->SendAsync(buffer, size);
-}
-
-size_t SSLClient::Receive(void* buffer, size_t size)
-{
-    return _pimpl->Receive(buffer, size);
-}
-
-std::string SSLClient::Receive(size_t size)
-{
-    return _pimpl->Receive(size);
-}
-
-size_t SSLClient::Receive(void* buffer, size_t size, const CppCommon::Timespan& timeout)
-{
-    return _pimpl->Receive(buffer, size, timeout);
-}
-
-std::string SSLClient::Receive(size_t size, const CppCommon::Timespan& timeout)
-{
-    return _pimpl->Receive(size, timeout);
-}
-
-void SSLClient::ReceiveAsync()
-{
-    return _pimpl->ReceiveAsync();
-}
-
-void SSLClient::SetupKeepAlive(bool enable) noexcept
-{
-    return _pimpl->SetupKeepAlive(enable);
-}
-
-void SSLClient::SetupNoDelay(bool enable) noexcept
-{
-    return _pimpl->SetupNoDelay(enable);
-}
-
-void SSLClient::SetupReceiveBufferSize(size_t size)
-{
-    return _pimpl->SetupReceiveBufferSize(size);
-}
-
-void SSLClient::SetupSendBufferSize(size_t size)
-{
-    return _pimpl->SetupSendBufferSize(size);
-}
+void SSLClient::SetupKeepAlive(bool enable) noexcept { return pimpl()->SetupKeepAlive(enable); }
+void SSLClient::SetupNoDelay(bool enable) noexcept { return pimpl()->SetupNoDelay(enable); }
+void SSLClient::SetupReceiveBufferSize(size_t size) { return pimpl()->SetupReceiveBufferSize(size); }
+void SSLClient::SetupSendBufferSize(size_t size) { return pimpl()->SetupSendBufferSize(size); }
 
 void SSLClient::onReset()
 {
