@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['difference_5ftype_743',['difference_type',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#aaf9a544c42d9226deb9278a38ef131a3',1,'CppServer::Asio::HandlerAllocator']]]
+  ['const_5fpointer_741',['const_pointer',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#ac04d8224e056a83b7026d56f5e835430',1,'CppServer::Asio::HandlerAllocator']]],
+  ['const_5freference_742',['const_reference',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#ae6b4afe7cca3768bd9bde5feab171207',1,'CppServer::Asio::HandlerAllocator']]]
 ];
