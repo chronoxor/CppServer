@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['version_732',['version',['../namespace_cpp_server.html#a972082695170ea74467c904dfb4e5038',1,'CppServer']]]
+  ['const_5fpointer_732',['const_pointer',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#ad8a207bd0cdd36a1a8dbd7ab63c85d41',1,'CppServer::Asio::HandlerAllocator']]],
+  ['const_5freference_733',['const_reference',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#acd14def79e9746a46936cbd759436b6f',1,'CppServer::Asio::HandlerAllocator']]]
 ];
