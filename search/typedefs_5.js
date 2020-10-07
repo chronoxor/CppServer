@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['value_5ftype_748',['value_type',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#af7b965f160f5e5a2c7b4f7a65b638fc5',1,'CppServer::Asio::HandlerAllocator']]]
+  ['size_5ftype_747',['size_type',['../class_cpp_server_1_1_asio_1_1_handler_allocator.html#a298b79ee9899074907e835c8b5cf5439',1,'CppServer::Asio::HandlerAllocator']]]
 ];
