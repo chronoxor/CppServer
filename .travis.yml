@@ -80,13 +80,11 @@ before_install:
   # gil
   - pip3 install gil
   - gil update
-  # travis-pls
-  - pip3 install travispls
 
 # Build scripts
 script: 
   - cd build
-  - travis-pls ./unix.sh
+  - ./unix.sh
 
 # Don't send notifications on success
 notifications:
