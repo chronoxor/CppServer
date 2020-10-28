@@ -50,7 +50,7 @@ matrix:
       os: osx
       compiler: clang
       env: OS=osx COMPILER=clang
-      osx_image: xcode12u
+      osx_image: xcode12.2
 
 # Branches to build
 branches:
