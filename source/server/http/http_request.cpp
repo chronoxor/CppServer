@@ -560,7 +560,7 @@ bool HTTPRequest::ReceiveBody(const void* buffer, size_t size)
     // Check if the body length was provided
     if (_body_length_provided)
     {
-        // Was the body fully parsed?
+        // Was the body fully received?
         if (_body_size >= _body_length)
         {
             _body_size = _body_length;
