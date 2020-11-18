@@ -557,21 +557,28 @@ bool HTTPRequest::ReceiveBody(const void* buffer, size_t size)
     // Update body size
     _body_size += size;
 
-    // HEAD/GET/DELETE/OPTIONS/TRACE request might have no body
-    if ((method() == "HEAD") || (method() == "GET") || ((method() == "DELETE") && !_body_length_provided) || (method() == "OPTIONS") || (method() == "TRACE"))
+    // Check if the body length was provided
+    if (_body_length_provided)
     {
-        _body_length = 0;
-        _body_size = 0;
-        return true;
+        // Was the body fully parsed?
+        if (_body_size >= _body_length)
+        {
+            _body_size = _body_length;
+            return true;
+        }
+    }
+    else
+    {
+        // HEAD/GET/DELETE/OPTIONS/TRACE request might have no body
+        if ((method() == "HEAD") || (method() == "GET") || (method() == "DELETE") || (method() == "OPTIONS") || (method() == "TRACE"))
+        {
+            _body_length = 0;
+            _body_size = 0;
+            return true;
+        }
     }
 
-    // Check if the body was fully parsed
-    if (_body_length_provided && (_body_size >= _body_length))
-    {
-        _body_size = _body_length;
-        return true;
-    }
-
+    // Body was received partially...
     return false;
 }
 
