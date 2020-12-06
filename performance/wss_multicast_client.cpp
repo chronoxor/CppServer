@@ -40,7 +40,7 @@ protected:
         request.SetHeader("Origin", "https://localhost");
         request.SetHeader("Upgrade", "websocket");
         request.SetHeader("Connection", "Upgrade");
-        request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(id().string()));
+        request.SetHeader("Sec-WebSocket-Key", CppCommon::Encoding::Base64Encode(nonce()));
         request.SetHeader("Sec-WebSocket-Protocol", "chat, superchat");
         request.SetHeader("Sec-WebSocket-Version", "13");
     }
