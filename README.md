@@ -1,9 +1,9 @@
 # CppServer
 
-[![Linux build status](https://img.shields.io/travis/chronoxor/CppServer/master.svg?label=Linux)](https://travis-ci.com/chronoxor/CppServer)
-[![OSX build status](https://img.shields.io/travis/chronoxor/CppServer/master.svg?label=OSX)](https://travis-ci.com/chronoxor/CppServer)
-[![MinGW build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=MinGW)](https://ci.appveyor.com/project/chronoxor/CppServer)
-[![Windows build status](https://img.shields.io/appveyor/ci/chronoxor/CppServer/master.svg?label=Windows)](https://ci.appveyor.com/project/chronoxor/CppServer)
+[![Linux build status](https://img.shields.io/travis/com/chronoxor/CppServer/master?label=Linux)](https://travis-ci.com/chronoxor/CppServer)
+[![OSX build status](https://img.shields.io/travis/com/chronoxor/CppServer/master?label=OSX)](https://travis-ci.com/chronoxor/CppServer)
+[![MinGW build status](https://img.shields.io/appveyor/build/chronoxor/CppServer/master?label=MinGW)](https://ci.appveyor.com/project/chronoxor/CppServer)
+[![Windows build status](https://img.shields.io/appveyor/build/chronoxor/CppServer/master?label=Windows)](https://ci.appveyor.com/project/chronoxor/CppServer)
 
 Ultra fast and low latency asynchronous socket server & client C++ library with
 support TCP, SSL, UDP, HTTP, HTTPS, WebSocket protocols and [10K connections problem](https://en.wikipedia.org/wiki/C10k_problem)
