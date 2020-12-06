@@ -70,7 +70,7 @@ void WSSClient::onDisconnected()
     ClearWSBuffers();
 
     // Initialize new WebSocket random nonce
-    InitNonce();
+    InitWSNonce();
 }
 
 void WSSClient::onReceived(const void* buffer, size_t size)

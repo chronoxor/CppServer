@@ -34,7 +34,7 @@ void WSSSession::onDisconnected()
     ClearWSBuffers();
 
     // Initialize new WebSocket random nonce
-    InitNonce();
+    InitWSNonce();
 }
 
 void WSSSession::onReceived(const void* buffer, size_t size)

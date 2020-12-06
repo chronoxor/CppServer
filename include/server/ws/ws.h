@@ -42,7 +42,7 @@ public:
     //! Pong frame
     static const uint8_t WS_PONG = 0x0A;
 
-    WebSocket() { ClearWSBuffers(); InitNonce(); }
+    WebSocket() { ClearWSBuffers(); InitWSNonce(); }
     WebSocket(const WebSocket&) = delete;
     WebSocket(WebSocket&&) = delete;
     ~WebSocket() = default;
@@ -51,7 +51,7 @@ public:
     WebSocket& operator=(WebSocket&&) = delete;
 
     //! Get the WebSocket random nonce
-    std::string_view nonce() const noexcept { return std::string_view((char*)_ws_nonce.data(), _ws_nonce.size()); }
+    std::string_view ws_nonce() const noexcept { return std::string_view((char*)_ws_nonce.data(), _ws_nonce.size()); }
 
     //! Perform WebSocket client upgrade
     /*!
@@ -91,6 +91,9 @@ public:
 
     //! Clear WebSocket send/receive buffers
     void ClearWSBuffers();
+
+    //! Initialize WebSocket random nonce
+    void InitWSNonce();
 
 protected:
     //! Handle WebSocket client connecting notification
@@ -184,9 +187,6 @@ protected:
 
     //! WebSocket random nonce of 16 bytes
     std::array<uint8_t, 16> _ws_nonce;
-
-    //! Initialize WebSocket random nonce
-    void InitNonce();
 
     //! Send WebSocket server upgrade response
     /*!

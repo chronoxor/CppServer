@@ -18,7 +18,7 @@
 namespace CppServer {
 namespace WS {
 
-void WebSocket::InitNonce()
+void WebSocket::InitWSNonce()
 {
     std::generate(_ws_nonce.begin(), _ws_nonce.end(), []() { return (uint8_t)std::rand(); });
 }
@@ -65,7 +65,7 @@ bool WebSocket::PerformClientUpgrade(const HTTP::HTTPResponse& response, const C
         else if (CppCommon::StringUtils::CompareNoCase(key, "Sec-WebSocket-Accept"))
         {
             // Calculate the original WebSocket hash
-            std::string wskey = CppCommon::Encoding::Base64Encode(nonce()) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+            std::string wskey = CppCommon::Encoding::Base64Encode(ws_nonce()) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
             char wshash[SHA_DIGEST_LENGTH];
             SHA1((const unsigned char*)wskey.data(), wskey.size(), (unsigned char*)wshash);
 
