@@ -42,7 +42,7 @@ public:
     //! Pong frame
     static const uint8_t WS_PONG = 0x0A;
 
-    WebSocket() { InitNonce(); ClearWSBuffers(); }
+    WebSocket() { ClearWSBuffers(); InitNonce(); }
     WebSocket(const WebSocket&) = delete;
     WebSocket(WebSocket&&) = delete;
     ~WebSocket() = default;
