@@ -14,6 +14,7 @@
 
 #include "system/uuid.h"
 
+#include <array>
 #include <mutex>
 
 namespace CppServer {
@@ -41,13 +42,16 @@ public:
     //! Pong frame
     static const uint8_t WS_PONG = 0x0A;
 
-    WebSocket() { ClearWSBuffers(); }
+    WebSocket() { InitNonce(); ClearWSBuffers(); }
     WebSocket(const WebSocket&) = delete;
     WebSocket(WebSocket&&) = delete;
     ~WebSocket() = default;
 
     WebSocket& operator=(const WebSocket&) = delete;
     WebSocket& operator=(WebSocket&&) = delete;
+
+    //! Get the WebSocket random nonce
+    std::string_view nonce() const noexcept { return std::string_view((char*)_ws_nonce.data(), _ws_nonce.size()); }
 
     //! Perform WebSocket client upgrade
     /*!
@@ -177,6 +181,12 @@ protected:
     std::vector<uint8_t> _ws_send_buffer;
     //! Send mask
     uint8_t _ws_send_mask[4];
+
+    //! WebSocket random nonce of 16 bytes
+    std::array<uint8_t, 16> _ws_nonce;
+
+    //! Initialize WebSocket random nonce
+    void InitNonce();
 
     //! Send WebSocket server upgrade response
     /*!
