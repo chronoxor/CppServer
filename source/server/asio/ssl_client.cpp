@@ -427,6 +427,9 @@ public:
 
                         if (!ec2)
                         {
+                            // Try to receive something from the server
+                            TryReceive();
+
                             // Update the handshaked flag
                             _handshaked = true;
 
@@ -436,9 +439,6 @@ public:
                             // Call the empty send buffer handler
                             if (_send_buffer_main.empty())
                                 onEmpty();
-
-                            // Try to receive something from the server
-                            TryReceive();
                         }
                         else
                         {
@@ -552,6 +552,9 @@ public:
 
                                 if (!ec3)
                                 {
+                                    // Try to receive something from the server
+                                    TryReceive();
+
                                     // Update the handshaked flag
                                     _handshaked = true;
 
@@ -561,9 +564,6 @@ public:
                                     // Call the empty send buffer handler
                                     if (_send_buffer_main.empty())
                                         onEmpty();
-
-                                    // Try to receive something from the server
-                                    TryReceive();
                                 }
                                 else
                                 {

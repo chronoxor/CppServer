@@ -76,6 +76,9 @@ void TCPSession::Connect()
     _bytes_sent = 0;
     _bytes_received = 0;
 
+    // Try to receive something from the client
+    TryReceive();
+
     // Update the connected flag
     _connected = true;
 
@@ -89,9 +92,6 @@ void TCPSession::Connect()
     // Call the empty send buffer handler
     if (_send_buffer_main.empty())
         onEmpty();
-
-    // Try to receive something from the client
-    TryReceive();
 }
 
 bool TCPSession::Disconnect(bool dispatch)

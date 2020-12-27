@@ -96,6 +96,9 @@ void SSLSession::Connect()
 
         if (!ec)
         {
+            // Try to receive something from the client
+            TryReceive();
+
             // Update the handshaked flag
             _handshaked = true;
 
@@ -109,9 +112,6 @@ void SSLSession::Connect()
             // Call the empty send buffer handler
             if (_send_buffer_main.empty())
                 onEmpty();
-
-            // Try to receive something from the client
-            TryReceive();
         }
         else
         {

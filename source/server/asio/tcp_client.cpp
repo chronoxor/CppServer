@@ -314,6 +314,9 @@ bool TCPClient::ConnectAsync()
                 _bytes_sent = 0;
                 _bytes_received = 0;
 
+                // Try to receive something from the server
+                TryReceive();
+
                 // Update the connected flag
                 _connected = true;
 
@@ -323,9 +326,6 @@ bool TCPClient::ConnectAsync()
                 // Call the empty send buffer handler
                 if (_send_buffer_main.empty())
                     onEmpty();
-
-                // Try to receive something from the server
-                TryReceive();
             }
             else
             {
@@ -407,6 +407,9 @@ bool TCPClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
                         _bytes_sent = 0;
                         _bytes_received = 0;
 
+                        // Try to receive something from the server
+                        TryReceive();
+
                         // Update the connected flag
                         _connected = true;
 
@@ -416,9 +419,6 @@ bool TCPClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
                         // Call the empty send buffer handler
                         if (_send_buffer_main.empty())
                             onEmpty();
-
-                        // Try to receive something from the server
-                        TryReceive();
                     }
                     else
                     {
