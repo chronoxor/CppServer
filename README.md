@@ -1,5 +1,6 @@
 # CppServer
 
+[![Awesome C++](https://awesome.re/badge.svg)](https://github.com/fffaraz/awesome-cpp)
 [![Linux build status](https://img.shields.io/travis/com/chronoxor/CppServer/master?label=Linux)](https://travis-ci.com/chronoxor/CppServer)
 [![OSX build status](https://img.shields.io/travis/com/chronoxor/CppServer/master?label=OSX)](https://travis-ci.com/chronoxor/CppServer)
 [![MinGW build status](https://img.shields.io/appveyor/build/chronoxor/CppServer/master?label=MinGW)](https://ci.appveyor.com/project/chronoxor/CppServer)
