@@ -427,11 +427,11 @@ public:
 
                         if (!ec2)
                         {
-                            // Try to receive something from the server
-                            TryReceive();
-
                             // Update the handshaked flag
                             _handshaked = true;
+
+                            // Try to receive something from the server
+                            TryReceive();
 
                             // Call the client handshaked handler
                             onHandshaked();
@@ -552,11 +552,11 @@ public:
 
                                 if (!ec3)
                                 {
-                                    // Try to receive something from the server
-                                    TryReceive();
-
                                     // Update the handshaked flag
                                     _handshaked = true;
+
+                                    // Try to receive something from the server
+                                    TryReceive();
 
                                     // Call the client handshaked handler
                                     onHandshaked();

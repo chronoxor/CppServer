@@ -76,11 +76,11 @@ void TCPSession::Connect()
     _bytes_sent = 0;
     _bytes_received = 0;
 
-    // Try to receive something from the client
-    TryReceive();
-
     // Update the connected flag
     _connected = true;
+
+    // Try to receive something from the client
+    TryReceive();
 
     // Call the session connected handler
     onConnected();

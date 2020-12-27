@@ -96,11 +96,11 @@ void SSLSession::Connect()
 
         if (!ec)
         {
-            // Try to receive something from the client
-            TryReceive();
-
             // Update the handshaked flag
             _handshaked = true;
+
+            // Try to receive something from the client
+            TryReceive();
 
             // Call the session handshaked handler
             onHandshaked();
