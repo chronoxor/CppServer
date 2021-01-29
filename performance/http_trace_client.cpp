@@ -65,16 +65,13 @@ protected:
             ++total_messages;
         else
             ++total_errors;
-
         SendMessage();
     }
 
     void onReceivedResponseError(const HTTPResponse& response, const std::string& error) override
     {
         std::cout << "Response error: " << error << std::endl;
-
         ++total_errors;
-
         SendMessage();
     }
 
