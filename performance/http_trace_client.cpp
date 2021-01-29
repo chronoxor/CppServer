@@ -61,13 +61,18 @@ protected:
 
     void onReceivedResponse(const HTTPResponse& response) override
     {
-        ++total_messages;
+        if (response.status() == 200)
+            ++total_messages;
+        else
+            ++total_errors;
+
         SendMessage();
     }
 
     void onReceivedResponseError(const HTTPResponse& response, const std::string& error) override
     {
         std::cout << "Response error: " << error << std::endl;
+
         ++total_errors;
 
         SendMessage();
