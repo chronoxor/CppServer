@@ -65,9 +65,9 @@ std::future<HTTPResponse> HTTPClientEx::SendRequest(const HTTPRequest& request, 
     // Create TCP resolver if the current one is empty
     if (!_resolver)
         _resolver = std::make_shared<Asio::TCPResolver>(service());
-    // Create timer if the current one is empty
-    if (!_timer)
-        _timer = std::make_shared<Asio::Timer>(service());
+    // Create timeout check timer if the current one is empty
+    if (!_timeout)
+        _timeout = std::make_shared<Asio::Timer>(service());
 
     _promise = std::promise<HTTPResponse>();
     _request = request;
@@ -110,7 +110,7 @@ std::future<HTTPResponse> HTTPClientEx::SendRequest(const HTTPRequest& request, 
         _response.Clear();
         DisconnectAsync();
     };
-    if (!_timer->Setup(timeout_handler, timeout) || !_timer->WaitAsync())
+    if (!_timeout->Setup(timeout_handler, timeout) || !_timeout->WaitAsync())
     {
         SetPromiseError("Failed to setup timeout timer!");
         return _promise.get_future();
@@ -130,7 +130,8 @@ void HTTPClientEx::onConnected()
 void HTTPClientEx::onDisconnected()
 {
     // Cancel timeout check timer
-    _timer->Cancel();
+    if (_timeout)
+        _timeout->Cancel();
 
     HTTPClient::onDisconnected();
 }
@@ -138,7 +139,8 @@ void HTTPClientEx::onDisconnected()
 void HTTPClientEx::onReceivedResponse(const HTTPResponse& response)
 {
     // Cancel timeout check timer
-    _timer->Cancel();
+    if (_timeout)
+        _timeout->Cancel();
 
     SetPromiseValue(response);
 }
@@ -146,7 +148,8 @@ void HTTPClientEx::onReceivedResponse(const HTTPResponse& response)
 void HTTPClientEx::onReceivedResponseError(const HTTPResponse& response, const std::string& error)
 {
     // Cancel timeout check timer
-    _timer->Cancel();
+    if (_timeout)
+        _timeout->Cancel();
 
     SetPromiseError(error);
 }

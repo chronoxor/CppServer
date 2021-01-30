@@ -180,6 +180,9 @@ public:
     //! Get the TCP resolver
     std::shared_ptr<Asio::TCPResolver>& resolver() noexcept { return _resolver; }
     const std::shared_ptr<Asio::TCPResolver>& resolver() const noexcept { return _resolver; }
+    //! Get the timeout check timer
+    std::shared_ptr<Asio::Timer>& timeout() noexcept { return _timeout; }
+    const std::shared_ptr<Asio::Timer>& timeout() const noexcept { return _timeout; }
 
     //! Send HTTP request
     /*!
@@ -262,7 +265,7 @@ protected:
 
 private:
     std::shared_ptr<Asio::TCPResolver> _resolver;
-    std::shared_ptr<Asio::Timer> _timer;
+    std::shared_ptr<Asio::Timer> _timeout;
     std::promise<HTTPResponse> _promise;
 
     void SetPromiseValue(const HTTPResponse& response);
