@@ -577,7 +577,7 @@ bool HTTPRequest::ReceiveBody(const void* buffer, size_t size)
             return true;
         }
 
-        // Check if the body content
+        // Check the body content to find the request body end
         if (_body_size >= 4)
         {
             size_t index = _body_index + _body_size - 4;

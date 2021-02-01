@@ -644,16 +644,19 @@ bool HTTPResponse::ReceiveBody(const void* buffer, size_t size)
             return true;
         }
     }
-    // Check if the body content
-    else if (_body_size >= 4)
+    else
     {
-        size_t index = _body_index + _body_size - 4;
-
-        // Was the body fully received?
-        if ((_cache[index + 0] == '\r') && (_cache[index + 1] == '\n') && (_cache[index + 2] == '\r') && (_cache[index + 3] == '\n'))
+        // Check the body content to find the response body end
+        if (_body_size >= 4)
         {
-            _body_length = _body_size;
-            return true;
+            size_t index = _body_index + _body_size - 4;
+
+            // Was the body fully received?
+            if ((_cache[index + 0] == '\r') && (_cache[index + 1] == '\n') && (_cache[index + 2] == '\r') && (_cache[index + 3] == '\n'))
+            {
+                _body_length = _body_size;
+                return true;
+            }
         }
     }
 
