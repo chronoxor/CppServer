@@ -95,6 +95,10 @@ bool Service::Start(bool polling)
     for (size_t thread = 0; thread < _threads.size(); ++thread)
         _threads[thread] = CppCommon::Thread::Start([this, self, thread]() { ServiceThread(self, _services[thread % _services.size()]); });
 
+    // Wait for service is started
+    while (!IsStarted())
+        CppCommon::Thread::Yield();
+
     return true;
 }
 
@@ -132,6 +136,10 @@ bool Service::Stop()
 
     // Update polling loop mode flag
     _polling = false;
+
+    // Wait for service is stopped
+    while (IsStarted())
+        CppCommon::Thread::Yield();
 
     return true;
 }
