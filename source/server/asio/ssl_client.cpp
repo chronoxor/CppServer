@@ -186,6 +186,7 @@ public:
 
             // Call the client disconnected handler
             onDisconnected();
+
             return false;
         }
 
@@ -259,6 +260,7 @@ public:
 
             // Call the client disconnected handler
             onDisconnected();
+
             return false;
         }
 
@@ -272,6 +274,7 @@ public:
 
             // Call the client disconnected handler
             onDisconnected();
+
             return false;
         }
 

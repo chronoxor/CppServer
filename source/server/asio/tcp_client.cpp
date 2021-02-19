@@ -140,6 +140,7 @@ bool TCPClient::Connect()
 
         // Call the client disconnected handler
         onDisconnected();
+
         return false;
     }
 
@@ -192,6 +193,7 @@ bool TCPClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
 
         // Call the client disconnected handler
         onDisconnected();
+
         return false;
     }
 
@@ -205,6 +207,7 @@ bool TCPClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
 
         // Call the client disconnected handler
         onDisconnected();
+
         return false;
     }
 

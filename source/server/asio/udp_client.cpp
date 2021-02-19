@@ -198,6 +198,7 @@ bool UDPClient::Connect(const std::shared_ptr<UDPResolver>& resolver)
 
         // Call the client disconnected handler
         onDisconnected();
+
         return false;
     }
 
