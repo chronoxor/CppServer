@@ -110,7 +110,7 @@ protected:
                 SendResponseAsync(response().MakeGetResponse(value));
             }
             else
-                SendResponseAsync(response().MakeErrorResponse("Required cache value was not found for the key: " + key, 404));
+                SendResponseAsync(response().MakeErrorResponse(404, "Required cache value was not found for the key: " + key));
         }
         else if ((request.method() == "POST") || (request.method() == "PUT"))
         {
@@ -145,7 +145,7 @@ protected:
                 SendResponseAsync(response().MakeGetResponse(value));
             }
             else
-                SendResponseAsync(response().MakeErrorResponse("Deleted cache value was not found for the key: " + key, 404));
+                SendResponseAsync(response().MakeErrorResponse(404, "Deleted cache value was not found for the key: " + key));
         }
         else if (request.method() == "OPTIONS")
             SendResponseAsync(response().MakeOptionsResponse());

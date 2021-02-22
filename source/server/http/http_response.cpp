@@ -404,11 +404,13 @@ HTTPResponse& HTTPResponse::MakeOKResponse(int status)
     return *this;
 }
 
-HTTPResponse& HTTPResponse::MakeErrorResponse(std::string_view error, int status)
+HTTPResponse& HTTPResponse::MakeErrorResponse(int status, std::string_view content, std::string_view content_type)
 {
     Clear();
     SetBegin(status);
-    SetBody(error);
+    if (!content_type.empty())
+        SetHeader("Content-Type", content_type);
+    SetBody(content);
     return *this;
 }
 

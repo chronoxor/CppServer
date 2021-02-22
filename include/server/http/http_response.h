@@ -140,11 +140,19 @@ public:
     HTTPResponse& MakeOKResponse(int status = 200);
     //! Make ERROR response
     /*!
-        \param error - Error content (default is "")
-        \param status - Error status (default is 500 (Internal Server Error))
+        \param content - Error content (default is "")
+        \param content_type - Error content type (default is "text/plain; charset=UTF-8")
         \return HTTP response
     */
-    HTTPResponse& MakeErrorResponse(std::string_view error = "", int status = 500);
+    HTTPResponse& MakeErrorResponse(std::string_view content = "", std::string_view content_type = "text/plain; charset=UTF-8") { return MakeErrorResponse(500, content, content_type); }
+    //! Make ERROR response
+    /*!
+        \param status - Error status
+        \param content - Error content (default is "")
+        \param content_type - Error content type (default is "text/plain; charset=UTF-8")
+        \return HTTP response
+    */
+    HTTPResponse& MakeErrorResponse(int status, std::string_view content = "", std::string_view content_type = "text/plain; charset=UTF-8");
     //! Make HEAD response
     /*!
         \return HTTP response

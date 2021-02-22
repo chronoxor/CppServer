@@ -125,7 +125,7 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
             if (!CppCommon::StringUtils::CompareNoCase(value, "Upgrade") && !CppCommon::StringUtils::CompareNoCase(value, "keep-alive, Upgrade"))
             {
                 error = true;
-                response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Connection' header value must be 'Upgrade' or 'keep-alive, Upgrade'", 400);
+                response.MakeErrorResponse(400, "Invalid WebSocket handshaked request: 'Connection' header value must be 'Upgrade' or 'keep-alive, Upgrade'");
                 break;
             }
 
@@ -136,7 +136,7 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
             if (!CppCommon::StringUtils::CompareNoCase(value, "websocket"))
             {
                 error = true;
-                response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Upgrade' header value must be 'websocket'", 400);
+                response.MakeErrorResponse(400, "Invalid WebSocket handshaked request: 'Upgrade' header value must be 'websocket'");
                 break;
             }
 
@@ -147,7 +147,7 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
             if (value.empty())
             {
                 error = true;
-                response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Sec-WebSocket-Key' header value must be non empty", 400);
+                response.MakeErrorResponse(400, "Invalid WebSocket handshaked request: 'Sec-WebSocket-Key' header value must be non empty");
                 break;
             }
 
@@ -165,7 +165,7 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
             if (!CppCommon::StringUtils::CompareNoCase(value, "13"))
             {
                 error = true;
-                response.MakeErrorResponse("Invalid WebSocket handshaked request: 'Sec-WebSocket-Version' header value must be '13'", 400);
+                response.MakeErrorResponse(400, "Invalid WebSocket handshaked request: 'Sec-WebSocket-Version' header value must be '13'");
                 break;
             }
 
@@ -181,7 +181,7 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
     if (!connection || !upgrade || !ws_key || !ws_version)
     {
         if (!error)
-            response.MakeErrorResponse("Invalid WebSocket response", 400);
+            response.MakeErrorResponse(400, "Invalid WebSocket response");
         SendResponse(response);
         return false;
     }
