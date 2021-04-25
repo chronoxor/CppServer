@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.6)
 
+
 # Global properties
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+add_compile_definitions("PACKAGE=cppserver")
+add_compile_definitions("PACKAGE_VERSION=1")
 
 # Project name
 project(cppserver)
