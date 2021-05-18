@@ -115,7 +115,7 @@ public:
 TEST_CASE("WebSocket server test", "[CppServer][WebSocket]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 8081;
+    const int port = 8090;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoWSService>();
@@ -185,7 +185,7 @@ TEST_CASE("WebSocket server test", "[CppServer][WebSocket]")
 TEST_CASE("WebSocket server multicast test", "[CppServer][WebSocket]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 8082;
+    const int port = 8091;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoWSService>();
@@ -309,7 +309,7 @@ TEST_CASE("WebSocket server multicast test", "[CppServer][WebSocket]")
 TEST_CASE("WebSocket server random test", "[CppServer][WebSocket]")
 {
     const std::string address = "127.0.0.1";
-    const int port = 8083;
+    const int port = 8092;
 
     // Create and start Asio service
     auto service = std::make_shared<EchoWSService>();
