@@ -105,8 +105,8 @@ void WSSClient::onReceivedResponse(const HTTP::HTTPResponse& response)
     // Check for WebSocket handshaked status
     if (_ws_handshaked)
     {
-        // Prepare receive frame from the remaining request body
-        auto body = _request.body();
+        // Prepare receive frame from the remaining response body
+        auto body = response.body();
         PrepareReceiveFrame(body.data(), body.size());
         return;
     }
