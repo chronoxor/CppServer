@@ -167,14 +167,20 @@ protected:
     //! Handshaked flag
     bool _ws_handshaked{false};
 
+    //! Received frame opcode
+    uint8_t _ws_opcode;
     //! Received frame flag
-    bool _ws_received{false};
+    bool _ws_frame_received{false};
+    //! Received final flag
+    bool _ws_final_received{false};
     //! Received frame header size
     size_t _ws_header_size{0};
     //! Received frame payload size
     size_t _ws_payload_size{0};
-    //! Receive buffer
-    std::vector<uint8_t> _ws_receive_buffer;
+    //! Receive frame buffer
+    std::vector<uint8_t> _ws_receive_frame_buffer;
+    //! Receive final buffer
+    std::vector<uint8_t> _ws_receive_final_buffer;
     //! Receive mask
     uint8_t _ws_receive_mask[4];
 

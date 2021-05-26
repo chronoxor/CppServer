@@ -136,18 +136,23 @@ std::string WSClient::ReceiveText()
     std::vector<uint8_t> cache;
 
     // Receive WebSocket frame data
-    while (!_ws_received)
+    while (!_ws_final_received)
     {
-        size_t required = RequiredReceiveFrameSize();
-        cache.resize(required);
-        size_t received = HTTPClient::Receive(cache.data(), required);
-        if (received != required)
-            return result;
-        PrepareReceiveFrame(cache.data(), received);
+        while (!_ws_frame_received)
+        {
+            size_t required = RequiredReceiveFrameSize();
+            cache.resize(required);
+            size_t received = HTTPClient::Receive(cache.data(), required);
+            if (received != required)
+                return result;
+            PrepareReceiveFrame(cache.data(), received);
+        }
+        if (!_ws_final_received)
+            PrepareReceiveFrame(nullptr, 0);
     }
 
     // Copy WebSocket frame data
-    result.insert(result.end(), _ws_receive_buffer.data() + _ws_header_size, _ws_receive_buffer.data() + _ws_header_size + _ws_payload_size);
+    result.insert(result.end(), _ws_receive_final_buffer.data() + _ws_header_size, _ws_receive_final_buffer.data() + _ws_header_size + _ws_payload_size);
     PrepareReceiveFrame(nullptr, 0);
     return result;
 }
@@ -162,18 +167,23 @@ std::string WSClient::ReceiveText(const CppCommon::Timespan& timeout)
     std::vector<uint8_t> cache;
 
     // Receive WebSocket frame data
-    while (!_ws_received)
+    while (!_ws_final_received)
     {
-        size_t required = RequiredReceiveFrameSize();
-        cache.resize(required);
-        size_t received = HTTPClient::Receive(cache.data(), required, timeout);
-        if (received != required)
-            return result;
-        PrepareReceiveFrame(cache.data(), received);
+        while (!_ws_frame_received)
+        {
+            size_t required = RequiredReceiveFrameSize();
+            cache.resize(required);
+            size_t received = HTTPClient::Receive(cache.data(), required, timeout);
+            if (received != required)
+                return result;
+            PrepareReceiveFrame(cache.data(), received);
+        }
+        if (!_ws_final_received)
+            PrepareReceiveFrame(nullptr, 0);
     }
 
     // Copy WebSocket frame data
-    result.insert(result.end(), _ws_receive_buffer.data() + _ws_header_size, _ws_receive_buffer.data() + _ws_header_size + _ws_payload_size);
+    result.insert(result.end(), _ws_receive_final_buffer.data() + _ws_header_size, _ws_receive_final_buffer.data() + _ws_header_size + _ws_payload_size);
     PrepareReceiveFrame(nullptr, 0);
     return result;
 }
@@ -188,18 +198,23 @@ std::vector<uint8_t> WSClient::ReceiveBinary()
     std::vector<uint8_t> cache;
 
     // Receive WebSocket frame data
-    while (!_ws_received)
+    while (!_ws_final_received)
     {
-        size_t required = RequiredReceiveFrameSize();
-        cache.resize(required);
-        size_t received = HTTPClient::Receive(cache.data(), required);
-        if (received != required)
-            return result;
-        PrepareReceiveFrame(cache.data(), received);
+        while (!_ws_frame_received)
+        {
+            size_t required = RequiredReceiveFrameSize();
+            cache.resize(required);
+            size_t received = HTTPClient::Receive(cache.data(), required);
+            if (received != required)
+                return result;
+            PrepareReceiveFrame(cache.data(), received);
+        }
+        if (!_ws_final_received)
+            PrepareReceiveFrame(nullptr, 0);
     }
 
     // Copy WebSocket frame data
-    result.insert(result.end(), _ws_receive_buffer.data() + _ws_header_size, _ws_receive_buffer.data() + _ws_header_size + _ws_payload_size);
+    result.insert(result.end(), _ws_receive_final_buffer.data() + _ws_header_size, _ws_receive_final_buffer.data() + _ws_header_size + _ws_payload_size);
     PrepareReceiveFrame(nullptr, 0);
     return result;
 }
@@ -214,18 +229,23 @@ std::vector<uint8_t> WSClient::ReceiveBinary(const CppCommon::Timespan& timeout)
     std::vector<uint8_t> cache;
 
     // Receive WebSocket frame data
-    while (!_ws_received)
+    while (!_ws_final_received)
     {
-        size_t required = RequiredReceiveFrameSize();
-        cache.resize(required);
-        size_t received = HTTPClient::Receive(cache.data(), required, timeout);
-        if (received != required)
-            return result;
-        PrepareReceiveFrame(cache.data(), received);
+        while (!_ws_frame_received)
+        {
+            size_t required = RequiredReceiveFrameSize();
+            cache.resize(required);
+            size_t received = HTTPClient::Receive(cache.data(), required, timeout);
+            if (received != required)
+                return result;
+            PrepareReceiveFrame(cache.data(), received);
+        }
+        if (!_ws_final_received)
+            PrepareReceiveFrame(nullptr, 0);
     }
 
     // Copy WebSocket frame data
-    result.insert(result.end(), _ws_receive_buffer.data() + _ws_header_size, _ws_receive_buffer.data() + _ws_header_size + _ws_payload_size);
+    result.insert(result.end(), _ws_receive_final_buffer.data() + _ws_header_size, _ws_receive_final_buffer.data() + _ws_header_size + _ws_payload_size);
     PrepareReceiveFrame(nullptr, 0);
     return result;
 }

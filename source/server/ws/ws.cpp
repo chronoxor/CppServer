@@ -257,139 +257,171 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
     const uint8_t* data = (const uint8_t*)buffer;
 
     // Clear received data after WebSocket frame was processed
-    if (_ws_received)
+    if (_ws_frame_received)
     {
-        _ws_received = false;
+        _ws_frame_received = false;
         _ws_header_size = 0;
         _ws_payload_size = 0;
-        _ws_receive_buffer.clear();
+        _ws_receive_frame_buffer.clear();
         *((uint32_t*)_ws_receive_mask) = 0;
+    }
+    if (_ws_final_received)
+    {
+        _ws_final_received = false;
+        _ws_receive_final_buffer.clear();
     }
 
     while (size > 0)
     {
         // Clear received data after WebSocket frame was processed
-        if (_ws_received)
+        if (_ws_frame_received)
         {
-            _ws_received = false;
+            _ws_frame_received = false;
             _ws_header_size = 0;
             _ws_payload_size = 0;
-            _ws_receive_buffer.clear();
+            _ws_receive_frame_buffer.clear();
             *((uint32_t*)_ws_receive_mask) = 0;
+        }
+        if (_ws_final_received)
+        {
+            _ws_final_received = false;
+            _ws_receive_final_buffer.clear();
         }
 
         // Prepare WebSocket frame opcode and mask flag
-        if (_ws_receive_buffer.size() < 2)
+        if (_ws_receive_frame_buffer.size() < 2)
         {
             for (size_t i = 0; i < 2; ++i, ++data, --size)
             {
                 if (size == 0)
                     return;
-                _ws_receive_buffer.push_back(*data);
+                _ws_receive_frame_buffer.push_back(*data);
             }
         }
 
-        uint8_t opcode = _ws_receive_buffer[0] & 0x0F;
-        [[maybe_unused]] bool fin = ((_ws_receive_buffer[0] >> 7) & 0x01) != 0;
-        bool mask = ((_ws_receive_buffer[1] >> 7) & 0x01) != 0;
-        size_t payload = _ws_receive_buffer[1] & (~0x80);
+        uint8_t opcode = _ws_receive_frame_buffer[0] & 0x0F;
+        [[maybe_unused]] bool fin = ((_ws_receive_frame_buffer[0] >> 7) & 0x01) != 0;
+        bool mask = ((_ws_receive_frame_buffer[1] >> 7) & 0x01) != 0;
+        size_t payload = _ws_receive_frame_buffer[1] & (~0x80);
+
+        // Prepare WebSocket opcode
+        _ws_opcode = (opcode != 0) ? opcode : _ws_opcode;
 
         // Prepare WebSocket frame size
         if (payload <= 125)
         {
             _ws_header_size = 2 + (mask ? 4 : 0);
             _ws_payload_size = payload;
-            _ws_receive_buffer.reserve(_ws_header_size + _ws_payload_size);
+            _ws_receive_frame_buffer.reserve(_ws_header_size + _ws_payload_size);
+            _ws_receive_final_buffer.reserve(_ws_header_size + _ws_payload_size);
         }
         else if (payload == 126)
         {
-            if (_ws_receive_buffer.size() < 4)
+            if (_ws_receive_frame_buffer.size() < 4)
             {
                 for (size_t i = 0; i < 2; ++i, ++data, --size)
                 {
                     if (size == 0)
                         return;
-                    _ws_receive_buffer.push_back(*data);
+                    _ws_receive_frame_buffer.push_back(*data);
                 }
             }
 
-            payload = (((size_t)_ws_receive_buffer[2] << 8) | ((size_t)_ws_receive_buffer[3] << 0));
+            payload = (((size_t)_ws_receive_frame_buffer[2] << 8) | ((size_t)_ws_receive_frame_buffer[3] << 0));
             _ws_header_size = 4 + (mask ? 4 : 0);
             _ws_payload_size = payload;
-            _ws_receive_buffer.reserve(_ws_header_size + _ws_payload_size);
+            _ws_receive_frame_buffer.reserve(_ws_header_size + _ws_payload_size);
+            _ws_receive_final_buffer.reserve(_ws_header_size + _ws_payload_size);
         }
         else if (payload == 127)
         {
-            if (_ws_receive_buffer.size() < 10)
+            if (_ws_receive_frame_buffer.size() < 10)
             {
                 for (size_t i = 0; i < 8; ++i, ++data, --size)
                 {
                     if (size == 0)
                         return;
-                    _ws_receive_buffer.push_back(*data);
+                    _ws_receive_frame_buffer.push_back(*data);
                 }
             }
 
-            payload = (((size_t)_ws_receive_buffer[2] << 56) | ((size_t)_ws_receive_buffer[3] << 48) | ((size_t)_ws_receive_buffer[4] << 40) | ((size_t)_ws_receive_buffer[5] << 32) | ((size_t)_ws_receive_buffer[6] << 24) | ((size_t)_ws_receive_buffer[7] << 16) | ((size_t)_ws_receive_buffer[8] << 8) | ((size_t)_ws_receive_buffer[9] << 0));
+            payload = (((size_t)_ws_receive_frame_buffer[2] << 56) | ((size_t)_ws_receive_frame_buffer[3] << 48) | ((size_t)_ws_receive_frame_buffer[4] << 40) | ((size_t)_ws_receive_frame_buffer[5] << 32) | ((size_t)_ws_receive_frame_buffer[6] << 24) | ((size_t)_ws_receive_frame_buffer[7] << 16) | ((size_t)_ws_receive_frame_buffer[8] << 8) | ((size_t)_ws_receive_frame_buffer[9] << 0));
             _ws_header_size = 10 + (mask ? 4 : 0);
             _ws_payload_size = payload;
-            _ws_receive_buffer.reserve(_ws_header_size + _ws_payload_size);
+            _ws_receive_frame_buffer.reserve(_ws_header_size + _ws_payload_size);
+            _ws_receive_final_buffer.reserve(_ws_header_size + _ws_payload_size);
         }
 
         // Prepare WebSocket frame mask
         if (mask)
         {
-            if (_ws_receive_buffer.size() < _ws_header_size)
+            if (_ws_receive_frame_buffer.size() < _ws_header_size)
             {
                 for (size_t i = 0; i < 4; ++i, ++data, --size)
                 {
                     if (size == 0)
                         return;
-                    _ws_receive_buffer.push_back(*data);
+                    _ws_receive_frame_buffer.push_back(*data);
                     _ws_receive_mask[i] = *data;
                 }
             }
         }
 
         size_t total = _ws_header_size + _ws_payload_size;
-        size_t length = std::min(total - _ws_receive_buffer.size(), size);
+        size_t length = std::min(total - _ws_receive_frame_buffer.size(), size);
 
         // Prepare WebSocket frame payload
-        _ws_receive_buffer.insert(_ws_receive_buffer.end(), data, data + length);
+        _ws_receive_frame_buffer.insert(_ws_receive_frame_buffer.end(), data, data + length);
         data += length;
         size -= length;
 
         // Process WebSocket frame
-        if (_ws_receive_buffer.size() == total)
+        if (_ws_receive_frame_buffer.size() == total)
         {
-            size_t offset = _ws_header_size;
-
             // Unmask WebSocket frame content
             if (mask)
+            {
                 for (size_t i = 0; i < _ws_payload_size; ++i)
-                    _ws_receive_buffer[offset + i] ^= _ws_receive_mask[i % 4];
+                    _ws_receive_final_buffer.push_back(_ws_receive_frame_buffer[_ws_header_size + i] ^ _ws_receive_mask[i % 4]);
+            }
+            else
+                _ws_receive_final_buffer.insert(_ws_receive_final_buffer.end(), _ws_receive_frame_buffer.begin() + _ws_header_size, _ws_receive_frame_buffer.end());
 
-            _ws_received = true;
+            _ws_frame_received = true;
 
-            if ((opcode & WS_PING) == WS_PING)
+            // Finalize WebSocket frame
+            if (fin)
             {
-                // Call the WebSocket ping handler
-                onWSPing(_ws_receive_buffer.data() + offset, _ws_payload_size);
-            }
-            else if ((opcode & WS_PONG) == WS_PONG)
-            {
-                // Call the WebSocket pong handler
-                onWSPong(_ws_receive_buffer.data() + offset, _ws_payload_size);
-            }
-            else if ((opcode & WS_CLOSE) == WS_CLOSE)
-            {
-                // Call the WebSocket close handler
-                onWSClose(_ws_receive_buffer.data() + offset, _ws_payload_size);
-            }
-            else if (((opcode & WS_TEXT) == WS_TEXT) || ((opcode & WS_BINARY) == WS_BINARY))
-            {
-                // Call the WebSocket received handler
-                onWSReceived(_ws_receive_buffer.data() + offset, _ws_payload_size);
+                _ws_final_received = true;
+
+                switch (_ws_opcode)
+                {
+                    case WS_PING:
+                    {
+                        // Call the WebSocket ping handler
+                        onWSPing(_ws_receive_final_buffer.data(), _ws_receive_final_buffer.size());
+                        break;
+                    }
+                    case WS_PONG:
+                    {
+                        // Call the WebSocket pong handler
+                        onWSPong(_ws_receive_final_buffer.data(), _ws_receive_final_buffer.size());
+                        break;
+                    }
+                    case WS_CLOSE:
+                    {
+                        // Call the WebSocket close handler
+                        onWSClose(_ws_receive_final_buffer.data(), _ws_receive_final_buffer.size());
+                        break;
+                    }
+                    case WS_BINARY:
+                    case WS_TEXT:
+                    {
+                        // Call the WebSocket received handler
+                        onWSReceived(_ws_receive_final_buffer.data(), _ws_receive_final_buffer.size());
+                        break;
+                    }
+                }
             }
         }
     }
@@ -397,36 +429,38 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
 
 size_t WebSocket::RequiredReceiveFrameSize()
 {
-    if (_ws_received)
+    if (_ws_frame_received)
         return 0;
 
     // Required WebSocket frame opcode and mask flag
-    if (_ws_receive_buffer.size() < 2)
-        return 2 - _ws_receive_buffer.size();
+    if (_ws_receive_frame_buffer.size() < 2)
+        return 2 - _ws_receive_frame_buffer.size();
 
-    bool mask = ((_ws_receive_buffer[1] >> 7) & 0x01) != 0;
-    size_t payload = _ws_receive_buffer[1] & (~0x80);
+    bool mask = ((_ws_receive_frame_buffer[1] >> 7) & 0x01) != 0;
+    size_t payload = _ws_receive_frame_buffer[1] & (~0x80);
 
     // Required WebSocket frame size
-    if ((payload == 126) && (_ws_receive_buffer.size() < 4))
-        return 4 - _ws_receive_buffer.size();
-    if ((payload == 127) && (_ws_receive_buffer.size() < 10))
-        return 10 - _ws_receive_buffer.size();
+    if ((payload == 126) && (_ws_receive_frame_buffer.size() < 4))
+        return 4 - _ws_receive_frame_buffer.size();
+    if ((payload == 127) && (_ws_receive_frame_buffer.size() < 10))
+        return 10 - _ws_receive_frame_buffer.size();
 
     // Required WebSocket frame mask
-    if ((mask) && (_ws_receive_buffer.size() < _ws_header_size))
-        return _ws_header_size - _ws_receive_buffer.size();
+    if ((mask) && (_ws_receive_frame_buffer.size() < _ws_header_size))
+        return _ws_header_size - _ws_receive_frame_buffer.size();
 
     // Required WebSocket frame payload
-    return _ws_header_size + _ws_payload_size - _ws_receive_buffer.size();
+    return _ws_header_size + _ws_payload_size - _ws_receive_frame_buffer.size();
 }
 
 void WebSocket::ClearWSBuffers()
 {
-    _ws_received = false;
+    _ws_frame_received = false;
+    _ws_final_received = false;
     _ws_header_size = 0;
     _ws_payload_size = 0;
-    _ws_receive_buffer.clear();
+    _ws_receive_frame_buffer.clear();
+    _ws_receive_final_buffer.clear();
     *((uint32_t*)_ws_receive_mask) = 0;
 
     std::scoped_lock locker(_ws_send_lock);
