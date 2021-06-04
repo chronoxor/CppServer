@@ -617,7 +617,6 @@ bool TCPClient::SendAsync(const void* buffer, size_t size)
         if (((_send_buffer_main.size() + size) > _send_buffer_limit) && (_send_buffer_limit > 0))
         {
             SendError(asio::error::no_buffer_space);
-            Disconnect();
             return false;
         }
 

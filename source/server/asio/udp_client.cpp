@@ -604,7 +604,6 @@ bool UDPClient::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
     if ((size > _send_buffer_limit) && (_send_buffer_limit > 0))
     {
         SendError(asio::error::no_buffer_space);
-        DisconnectAsync(true);
         return false;
     }
 
