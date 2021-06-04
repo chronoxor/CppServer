@@ -95,8 +95,12 @@ public:
     bool option_keep_alive() const noexcept;
     //! Get the option: no delay
     bool option_no_delay() const noexcept;
+    //! Get the option: receive buffer limit
+    size_t option_receive_buffer_limit() const;
     //! Get the option: receive buffer size
     size_t option_receive_buffer_size() const;
+    //! Get the option: send buffer limit
+    size_t option_send_buffer_limit() const;
     //! Get the option: send buffer size
     size_t option_send_buffer_size() const;
 
@@ -248,6 +252,14 @@ public:
         \param enable - Enable/disable option
     */
     void SetupNoDelay(bool enable) noexcept;
+    //! Setup option: receive buffer limit
+    /*!
+        The client will be disconnected if the receive buffer limit is met.
+        Default is unlimited.
+
+        \param limit - Receive buffer limit
+    */
+    void SetupReceiveBufferLimit(size_t limit);
     //! Setup option: receive buffer size
     /*!
         This option will setup SO_RCVBUF if the OS support this feature.
@@ -255,6 +267,14 @@ public:
         \param size - Receive buffer size
     */
     void SetupReceiveBufferSize(size_t size);
+    //! Setup option: send buffer limit
+    /*!
+        The client will be disconnected if the send buffer limit is met.
+        Default is unlimited.
+
+        \param limit - Send buffer limit
+    */
+    void SetupSendBufferLimit(size_t limit);
     //! Setup option: send buffer size
     /*!
         This option will setup SO_SNDBUF if the OS support this feature.

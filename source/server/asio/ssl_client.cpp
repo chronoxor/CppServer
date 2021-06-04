@@ -146,6 +146,7 @@ public:
     bool option_keep_alive() const noexcept { return _option_keep_alive; }
     bool option_no_delay() const noexcept { return _option_no_delay; }
 
+    size_t option_receive_buffer_limit() const noexcept { return _receive_buffer_limit; }
     size_t option_receive_buffer_size() const
     {
         asio::socket_base::receive_buffer_size option;
@@ -153,6 +154,7 @@ public:
         return option.value();
     }
 
+    size_t option_send_buffer_limit() const noexcept { return _send_buffer_limit; }
     size_t option_send_buffer_size() const
     {
         asio::socket_base::send_buffer_size option;
@@ -763,6 +765,14 @@ public:
             // Detect multiple send handlers
             bool send_required = _send_buffer_main.empty() || _send_buffer_flush.empty();
 
+            // Check the send buffer limit
+            if (((_send_buffer_main.size() + size) > _send_buffer_limit) && (_send_buffer_limit > 0))
+            {
+                SendError(asio::error::no_buffer_space);
+                Disconnect();
+                return false;
+            }
+
             // Fill the main send buffer
             const uint8_t* bytes = (const uint8_t*)buffer;
             _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);
@@ -911,12 +921,14 @@ public:
     void SetupKeepAlive(bool enable) noexcept { _option_keep_alive = enable; }
     void SetupNoDelay(bool enable) noexcept { _option_no_delay = enable; }
 
+    void SetupReceiveBufferLimit(size_t limit) noexcept { _receive_buffer_limit = limit; }
     void SetupReceiveBufferSize(size_t size)
     {
         asio::socket_base::receive_buffer_size option((int)size);
         _stream.next_layer().set_option(option);
     }
 
+    void SetupSendBufferLimit(size_t limit) noexcept { _send_buffer_limit = limit; }
     void SetupSendBufferSize(size_t size)
     {
         asio::socket_base::send_buffer_size option((int)size);
@@ -966,11 +978,13 @@ private:
     uint64_t _bytes_received;
     // Receive buffer
     bool _receiving;
+    size_t _receive_buffer_limit{0};
     std::vector<uint8_t> _receive_buffer;
     HandlerStorage _receive_storage;
     // Send buffer
     bool _sending;
     std::mutex _send_lock;
+    size_t _send_buffer_limit{0};
     std::vector<uint8_t> _send_buffer_main;
     std::vector<uint8_t> _send_buffer_flush;
     size_t _send_buffer_flush_offset;
@@ -1008,7 +1022,17 @@ private:
 
                 // If the receive buffer is full increase its size
                 if (_receive_buffer.size() == size)
+                {
+                    // Check the receive buffer limit
+                    if (((2 * size) > _receive_buffer_limit) && (_receive_buffer_limit > 0))
+                    {
+                        SendError(asio::error::no_buffer_space);
+                        DisconnectAsync(true);
+                        return;
+                    }
+
                     _receive_buffer.resize(2 * size);
+                }
             }
 
             // Try to receive again if the session is valid
@@ -1185,7 +1209,9 @@ uint64_t SSLClient::bytes_received() const noexcept { return pimpl()->bytes_rece
 
 bool SSLClient::option_keep_alive() const noexcept { return pimpl()->option_keep_alive(); }
 bool SSLClient::option_no_delay() const noexcept { return pimpl()->option_no_delay(); }
+size_t SSLClient::option_receive_buffer_limit() const { return pimpl()->option_receive_buffer_limit(); }
 size_t SSLClient::option_receive_buffer_size() const { return pimpl()->option_receive_buffer_size(); }
+size_t SSLClient::option_send_buffer_limit() const { return pimpl()->option_send_buffer_limit(); }
 size_t SSLClient::option_send_buffer_size() const { return pimpl()->option_send_buffer_size(); }
 
 bool SSLClient::IsConnected() const noexcept { return pimpl()->IsConnected(); }
@@ -1255,7 +1281,9 @@ void SSLClient::ReceiveAsync() { return pimpl()->ReceiveAsync(); }
 
 void SSLClient::SetupKeepAlive(bool enable) noexcept { return pimpl()->SetupKeepAlive(enable); }
 void SSLClient::SetupNoDelay(bool enable) noexcept { return pimpl()->SetupNoDelay(enable); }
+void SSLClient::SetupReceiveBufferLimit(size_t limit) { return pimpl()->SetupReceiveBufferLimit(limit); }
 void SSLClient::SetupReceiveBufferSize(size_t size) { return pimpl()->SetupReceiveBufferSize(size); }
+void SSLClient::SetupSendBufferLimit(size_t limit) { return pimpl()->SetupSendBufferLimit(limit); }
 void SSLClient::SetupSendBufferSize(size_t size) { return pimpl()->SetupSendBufferSize(size); }
 
 void SSLClient::onReset()

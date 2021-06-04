@@ -88,8 +88,12 @@ public:
     bool option_keep_alive() const noexcept { return _option_keep_alive; }
     //! Get the option: no delay
     bool option_no_delay() const noexcept { return _option_no_delay; }
+    //! Get the option: receive buffer limit
+    size_t option_receive_buffer_limit() const noexcept { return _receive_buffer_limit; }
     //! Get the option: receive buffer size
     size_t option_receive_buffer_size() const;
+    //! Get the option: send buffer limit
+    size_t option_send_buffer_limit() const noexcept { return _send_buffer_limit; }
     //! Get the option: send buffer size
     size_t option_send_buffer_size() const;
 
@@ -239,6 +243,14 @@ public:
         \param enable - Enable/disable option
     */
     void SetupNoDelay(bool enable) noexcept { _option_no_delay = enable; }
+    //! Setup option: receive buffer limit
+    /*!
+        The client will be disconnected if the receive buffer limit is met.
+        Default is unlimited.
+
+        \param limit - Receive buffer limit
+    */
+    void SetupReceiveBufferLimit(size_t limit) noexcept { _receive_buffer_limit = limit; }
     //! Setup option: receive buffer size
     /*!
         This option will setup SO_RCVBUF if the OS support this feature.
@@ -246,6 +258,14 @@ public:
         \param size - Receive buffer size
     */
     void SetupReceiveBufferSize(size_t size);
+    //! Setup option: send buffer limit
+    /*!
+        The client will be disconnected if the send buffer limit is met.
+        Default is unlimited.
+
+        \param limit - Send buffer limit
+    */
+    void SetupSendBufferLimit(size_t limit) noexcept { _send_buffer_limit = limit; }
     //! Setup option: send buffer size
     /*!
         This option will setup SO_SNDBUF if the OS support this feature.
@@ -326,11 +346,13 @@ private:
     uint64_t _bytes_received;
     // Receive buffer
     bool _receiving;
+    size_t _receive_buffer_limit{0};
     std::vector<uint8_t> _receive_buffer;
     HandlerStorage _receive_storage;
     // Send buffer
     bool _sending;
     std::mutex _send_lock;
+    size_t _send_buffer_limit{0};
     std::vector<uint8_t> _send_buffer_main;
     std::vector<uint8_t> _send_buffer_flush;
     size_t _send_buffer_flush_offset;

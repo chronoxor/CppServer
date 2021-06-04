@@ -330,6 +330,14 @@ bool SSLSession::SendAsync(const void* buffer, size_t size)
         // Detect multiple send handlers
         bool send_required = _send_buffer_main.empty() || _send_buffer_flush.empty();
 
+        // Check the send buffer limit
+        if (((_send_buffer_main.size() + size) > _send_buffer_limit) && (_send_buffer_limit > 0))
+        {
+            SendError(asio::error::no_buffer_space);
+            Disconnect();
+            return false;
+        }
+
         // Fill the main send buffer
         const uint8_t* bytes = (const uint8_t*)buffer;
         _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);
@@ -507,7 +515,17 @@ void SSLSession::TryReceive()
 
             // If the receive buffer is full increase its size
             if (_receive_buffer.size() == size)
+            {
+                // Check the receive buffer limit
+                if (((2 * size) > _receive_buffer_limit) && (_receive_buffer_limit > 0))
+                {
+                    SendError(asio::error::no_buffer_space);
+                    Disconnect(asio::error::no_buffer_space);
+                    return;
+                }
+
                 _receive_buffer.resize(2 * size);
+            }
         }
 
         // Try to receive again if the session is valid

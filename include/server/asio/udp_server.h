@@ -86,8 +86,12 @@ public:
     bool option_reuse_address() const noexcept { return _option_reuse_address; }
     //! Get the option: reuse port
     bool option_reuse_port() const noexcept { return _option_reuse_port; }
+    //! Get the option: receive buffer limit
+    size_t option_receive_buffer_limit() const noexcept { return _receive_buffer_limit; }
     //! Get the option: receive buffer size
     size_t option_receive_buffer_size() const;
+    //! Get the option: send buffer limit
+    size_t option_send_buffer_limit() const noexcept { return _send_buffer_limit; }
     //! Get the option: send buffer size
     size_t option_send_buffer_size() const;
 
@@ -270,6 +274,14 @@ public:
         \param enable - Enable/disable option
     */
     void SetupReusePort(bool enable) noexcept { _option_reuse_port = enable; }
+    //! Setup option: receive buffer limit
+    /*!
+        The receive operation will fail if the receive buffer limit is met.
+        Default is unlimited.
+
+        \param limit - Receive buffer limit
+    */
+    void SetupReceiveBufferLimit(size_t limit) noexcept { _receive_buffer_limit = limit; }
     //! Setup option: receive buffer size
     /*!
         This option will setup SO_RCVBUF if the OS support this feature.
@@ -277,6 +289,14 @@ public:
         \param size - Receive buffer size
     */
     void SetupReceiveBufferSize(size_t size);
+    //! Setup option: send buffer limit
+    /*!
+        The send operation will fail if the send buffer limit is met.
+        Default is unlimited.
+
+        \param limit - Send buffer limit
+    */
+    void SetupSendBufferLimit(size_t limit) noexcept { _send_buffer_limit = limit; }
     //! Setup option: send buffer size
     /*!
         This option will setup SO_SNDBUF if the OS support this feature.
@@ -350,10 +370,12 @@ private:
     asio::ip::udp::endpoint _send_endpoint;
     // Receive buffer
     bool _receiving;
+    size_t _receive_buffer_limit{0};
     std::vector<uint8_t> _receive_buffer;
     HandlerStorage _receive_storage;
     // Send buffer
     bool _sending;
+    size_t _send_buffer_limit{0};
     std::vector<uint8_t> _send_buffer;
     HandlerStorage _send_storage;
     // Options

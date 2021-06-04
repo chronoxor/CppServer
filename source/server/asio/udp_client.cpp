@@ -600,6 +600,14 @@ bool UDPClient::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
     if (buffer == nullptr)
         return false;
 
+    // Check the send buffer limit
+    if ((size > _send_buffer_limit) && (_send_buffer_limit > 0))
+    {
+        SendError(asio::error::no_buffer_space);
+        DisconnectAsync(true);
+        return false;
+    }
+
     // Fill the main send buffer
     const uint8_t* bytes = (const uint8_t*)buffer;
     _send_buffer.assign(bytes, bytes + size);
@@ -799,7 +807,17 @@ void UDPClient::TryReceive()
 
         // If the receive buffer is full increase its size
         if (_receive_buffer.size() == size)
+        {
+            // Check the receive buffer limit
+            if (((2 * size) > _receive_buffer_limit) && (_receive_buffer_limit > 0))
+            {
+                SendError(asio::error::no_buffer_space);
+                DisconnectAsync(true);
+                return;
+            }
+
             _receive_buffer.resize(2 * size);
+        }
     });
     if (_strand_required)
         _socket.async_receive_from(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), _receive_endpoint, bind_executor(_strand, async_receive_handler));
