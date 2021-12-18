@@ -60,7 +60,7 @@ solution.
     * [Diffie-Hellman key exchange](#diffie-hellman-key-exchange)
 
 # Features
-* Cross platform (Linux, OSX, Windows)
+* Cross platform (Linux, MacOS, Windows)
 * [Asynchronous communication](https://think-async.com)
 * Supported CPU scalability designs: IO service per thread, thread pool
 * Supported transport protocols: [TCP](#example-tcp-chat-server), [SSL](#example-ssl-chat-server),
@@ -71,7 +71,7 @@ solution.
 
 # Requirements
 * Linux (binutils-dev uuid-dev libssl-dev)
-* OSX (openssl)
+* MacOS (openssl)
 * Windows 10
 * [cmake](https://www.cmake.org)
 * [gcc](https://gcc.gnu.org)
@@ -105,7 +105,7 @@ cd build
 ./unix.sh
 ```
 
-### OSX
+### MacOS
 ```shell
 cd build
 ./unix.sh
