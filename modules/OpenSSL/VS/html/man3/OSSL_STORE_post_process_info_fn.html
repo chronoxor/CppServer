@@ -64,9 +64,9 @@
 
 <h2 id="Functions">Functions</h2>
 
-<p>OSSL_STORE_open() takes a uri or path <b>uri</b>, password UI method <b>ui_method</b> with associated data <b>ui_data</b>, and post processing callback <b>post_process</b> with associated data <b>post_process_data</b>, opens a channel to the data located at that URI and returns a <b>OSSL_STORE_CTX</b> with all necessary internal information. The given <b>ui_method</b> and <b>ui_data_data</b> will be reused by all functions that use <b>OSSL_STORE_CTX</b> when interaction is needed. The given <b>post_process</b> and <b>post_process_data</b> will be reused by OSSL_STORE_load() to manipulate or drop the value to be returned. The <b>post_process</b> function drops values by returning <b>NULL</b>, which will cause OSSL_STORE_load() to start its process over with loading the next object, until <b>post_process</b> returns something other than <b>NULL</b>, or the end of data is reached as indicated by OSSL_STORE_eof().</p>
+<p>OSSL_STORE_open() takes a uri or path <i>uri</i>, password UI method <i>ui_method</i> with associated data <i>ui_data</i>, and post processing callback <i>post_process</i> with associated data <i>post_process_data</i>, opens a channel to the data located at that URI and returns a <b>OSSL_STORE_CTX</b> with all necessary internal information. The given <i>ui_method</i> and <i>ui_data</i> will be reused by all functions that use <b>OSSL_STORE_CTX</b> when interaction is needed, for instance to provide a password. The given <i>post_process</i> and <i>post_process_data</i> will be reused by OSSL_STORE_load() to manipulate or drop the value to be returned. The <i>post_process</i> function drops values by returning NULL, which will cause OSSL_STORE_load() to start its process over with loading the next object, until <i>post_process</i> returns something other than NULL, or the end of data is reached as indicated by OSSL_STORE_eof().</p>
 
-<p>OSSL_STORE_ctrl() takes a <b>OSSL_STORE_CTX</b>, and command number <b>cmd</b> and more arguments not specified here. The available loader specific command numbers and arguments they each take depends on the loader that&#39;s used and is documented together with that loader.</p>
+<p>OSSL_STORE_ctrl() takes a <b>OSSL_STORE_CTX</b>, and command number <i>cmd</i> and more arguments not specified here. The available loader specific command numbers and arguments they each take depends on the loader that&#39;s used and is documented together with that loader.</p>
 
 <p>There are also global controls available:</p>
 
@@ -86,7 +86,7 @@
 
 <p>OSSL_STORE_error() takes a <b>OSSL_STORE_CTX</b> and checks if an error occurred in the last OSSL_STORE_load() call. Note that it may still be meaningful to try and load more objects, unless OSSL_STORE_eof() shows that the end of data has been reached.</p>
 
-<p>OSSL_STORE_close() takes a <b>OSSL_STORE_CTX</b>, closes the channel that was opened by OSSL_STORE_open() and frees all other information that was stored in the <b>OSSL_STORE_CTX</b>, as well as the <b>OSSL_STORE_CTX</b> itself.</p>
+<p>OSSL_STORE_close() takes a <b>OSSL_STORE_CTX</b>, closes the channel that was opened by OSSL_STORE_open() and frees all other information that was stored in the <b>OSSL_STORE_CTX</b>, as well as the <b>OSSL_STORE_CTX</b> itself. If <i>ctx</i> is NULL it does nothing.</p>
 
 <h1 id="SUPPORTED-SCHEMES">SUPPORTED SCHEMES</h1>
 
@@ -102,9 +102,9 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>OSSL_STORE_open() returns a pointer to a <b>OSSL_STORE_CTX</b> on success, or <b>NULL</b> on failure.</p>
+<p>OSSL_STORE_open() returns a pointer to a <b>OSSL_STORE_CTX</b> on success, or NULL on failure.</p>
 
-<p>OSSL_STORE_load() returns a pointer to a <b>OSSL_STORE_INFO</b> on success, or <b>NULL</b> on error or when end of data is reached. Use OSSL_STORE_error() and OSSL_STORE_eof() to determine the meaning of a returned <b>NULL</b>.</p>
+<p>OSSL_STORE_load() returns a pointer to a <b>OSSL_STORE_INFO</b> on success, or NULL on error or when end of data is reached. Use OSSL_STORE_error() and OSSL_STORE_eof() to determine the meaning of a returned NULL.</p>
 
 <p>OSSL_STORE_eof() returns 1 if the end of data has been reached, otherwise 0.</p>
 
@@ -120,9 +120,11 @@
 
 <p>OSSL_STORE_CTX(), OSSL_STORE_post_process_info_fn(), OSSL_STORE_open(), OSSL_STORE_ctrl(), OSSL_STORE_load(), OSSL_STORE_eof() and OSSL_STORE_close() were added in OpenSSL 1.1.1.</p>
 
+<p>Handling of NULL <i>ctx</i> argument for OSSL_STORE_close() was introduced in OpenSSL 1.1.1h.</p>
+
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

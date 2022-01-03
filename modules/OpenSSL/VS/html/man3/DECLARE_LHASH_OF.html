@@ -56,7 +56,7 @@
 
 <p>This library implements type-checked dynamic hash tables. The hash table entries can be arbitrary structures. Usually they consist of key and value fields. In the description here, <i>TYPE</i> is used a placeholder for any of the OpenSSL datatypes, such as <i>SSL_SESSION</i>.</p>
 
-<p>lh_TYPE_new() creates a new <b>LHASH_OF(TYPE)</b> structure to store arbitrary data entries, and specifies the &#39;hash&#39; and &#39;compare&#39; callbacks to be used in organising the table&#39;s entries. The <b>hash</b> callback takes a pointer to a table entry as its argument and returns an unsigned long hash value for its key field. The hash value is normally truncated to a power of 2, so make sure that your hash function returns well mixed low order bits. The <b>compare</b> callback takes two arguments (pointers to two hash table entries), and returns 0 if their keys are equal, non-zero otherwise.</p>
+<p>lh_TYPE_new() creates a new <b>LHASH_OF(TYPE)</b> structure to store arbitrary data entries, and specifies the &#39;hash&#39; and &#39;compare&#39; callbacks to be used in organising the table&#39;s entries. The <b>hash</b> callback takes a pointer to a table entry as its argument and returns an unsigned long hash value for its key field. The hash value is normally truncated to a power of 2, so make sure that your hash function returns well mixed low order bits. The <b>compare</b> callback takes two arguments (pointers to two hash table entries), and returns 0 if their keys are equal, nonzero otherwise.</p>
 
 <p>If your hash table will contain items of some particular type and the <b>hash</b> and <b>compare</b> callbacks hash/compare these types, then the <b>IMPLEMENT_LHASH_HASH_FN</b> and <b>IMPLEMENT_LHASH_COMP_FN</b> macros can be used to create callback wrappers of the prototypes required by lh_TYPE_new() as shown in this example:</p>
 
@@ -151,7 +151,7 @@
 
 <p>The LHASH code regards table entries as constant data. As such, it internally represents lh_insert()&#39;d items with a &quot;const void *&quot; pointer type. This is why callbacks such as those used by lh_doall() and lh_doall_arg() declare their prototypes with &quot;const&quot;, even for the parameters that pass back the table items&#39; data pointers - for consistency, user-provided data is &quot;const&quot; at all times as far as the LHASH code is concerned. However, as callers are themselves providing these pointers, they can choose whether they too should be treating all such parameters as constant.</p>
 
-<p>As an example, a hash table may be maintained by code that, for reasons of encapsulation, has only &quot;const&quot; access to the data being indexed in the hash table (ie. it is returned as &quot;const&quot; from elsewhere in their code) - in this case the LHASH prototypes are appropriate as-is. Conversely, if the caller is responsible for the life-time of the data in question, then they may well wish to make modifications to table item passed back in the lh_doall() or lh_doall_arg() callbacks (see the &quot;TYPE_cleanup&quot; example above). If so, the caller can either cast the &quot;const&quot; away (if they&#39;re providing the raw callbacks themselves) or use the macros to declare/implement the wrapper functions without &quot;const&quot; types.</p>
+<p>As an example, a hash table may be maintained by code that, for reasons of encapsulation, has only &quot;const&quot; access to the data being indexed in the hash table (i.e. it is returned as &quot;const&quot; from elsewhere in their code) - in this case the LHASH prototypes are appropriate as-is. Conversely, if the caller is responsible for the life-time of the data in question, then they may well wish to make modifications to table item passed back in the lh_doall() or lh_doall_arg() callbacks (see the &quot;TYPE_cleanup&quot; example above). If so, the caller can either cast the &quot;const&quot; away (if they&#39;re providing the raw callbacks themselves) or use the macros to declare/implement the wrapper functions without &quot;const&quot; types.</p>
 
 <p>Callers that only have &quot;const&quot; access to data they&#39;re indexing in a table, yet declare callbacks without constant types (or cast the &quot;const&quot; away themselves), are therefore creating their own risks/bugs without being encouraged to do so by the API. On a related note, those auditing code should pay special attention to any instances of DECLARE/IMPLEMENT_LHASH_DOALL_[ARG_]_FN macros that provide types without any &quot;const&quot; qualifiers.</p>
 
@@ -169,7 +169,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

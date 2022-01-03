@@ -46,7 +46,7 @@
 <pre><code> <span class="variable">EVP_PKEY_CTX_set1_id</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">,</span> <span class="variable">id</span><span class="operator">,</span> <span class="variable">id_len</span><span class="operator">);</span>
 </code></pre>
 
-<p>When calling the EVP_DigestSignInit() or EVP_DigestVerifyInit() functions, a pre-allocated <b>EVP_PKEY_CTX</b> should be assigned to the <b>EVP_MD_CTX</b>. This is done by calling:</p>
+<p>When calling the EVP_DigestSignInit() or EVP_DigestVerifyInit() functions, a preallocated <b>EVP_PKEY_CTX</b> should be assigned to the <b>EVP_MD_CTX</b>. This is done by calling:</p>
 
 <pre><code> <span class="variable">EVP_MD_CTX_set_pkey_ctx</span><span class="operator">(</span><span class="variable">mctx</span><span class="operator">,</span> <span class="variable">pctx</span><span class="operator">);</span>
 </code></pre>
@@ -76,7 +76,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2018-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2018-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

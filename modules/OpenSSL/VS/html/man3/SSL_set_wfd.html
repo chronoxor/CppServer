@@ -37,7 +37,7 @@
 
 <p>SSL_set_fd() sets the file descriptor <b>fd</b> as the input/output facility for the TLS/SSL (encrypted) side of <b>ssl</b>. <b>fd</b> will typically be the socket file descriptor of a network connection.</p>
 
-<p>When performing the operation, a <b>socket BIO</b> is automatically created to interface between the <b>ssl</b> and <b>fd</b>. The BIO and hence the SSL engine inherit the behaviour of <b>fd</b>. If <b>fd</b> is non-blocking, the <b>ssl</b> will also have non-blocking behaviour.</p>
+<p>When performing the operation, a <b>socket BIO</b> is automatically created to interface between the <b>ssl</b> and <b>fd</b>. The BIO and hence the SSL engine inherit the behaviour of <b>fd</b>. If <b>fd</b> is nonblocking, the <b>ssl</b> will also have nonblocking behaviour.</p>
 
 <p>If there was already a BIO connected to <b>ssl</b>, BIO_free() will be called (for both the reading and writing side, if different).</p>
 
@@ -69,7 +69,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

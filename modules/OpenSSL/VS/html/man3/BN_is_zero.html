@@ -16,43 +16,47 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
 <h1 id="NAME">NAME</h1>
 
-<p>BN_cmp, BN_ucmp, BN_is_zero, BN_is_one, BN_is_word, BN_is_odd - BIGNUM comparison and test functions</p>
+<p>BN_cmp, BN_ucmp, BN_is_zero, BN_is_one, BN_is_word, BN_abs_is_word, BN_is_odd - BIGNUM comparison and test functions</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
 <pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
  
- <span class="keyword">int</span> <span class="variable">BN_cmp</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_ucmp</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">BN_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">BN_ucmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">);</span>
  
- <span class="keyword">int</span> <span class="variable">BN_is_zero</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_is_one</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_is_word</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BN_ULONG</span> <span class="variable">w</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_is_odd</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">BN_is_zero</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">BN_is_one</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">BN_is_word</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BN_ULONG</span> <span class="variable">w</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">BN_abs_is_word</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BN_ULONG</span> <span class="variable">w</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">BN_is_odd</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>BN_cmp() compares the numbers <b>a</b> and <b>b</b>. BN_ucmp() compares their absolute values.</p>
+<p>BN_cmp() compares the numbers <i>a</i> and <i>b</i>. BN_ucmp() compares their absolute values.</p>
 
-<p>BN_is_zero(), BN_is_one() and BN_is_word() test if <b>a</b> equals 0, 1, or <b>w</b> respectively. BN_is_odd() tests if a is odd.</p>
-
-<p>BN_is_zero(), BN_is_one(), BN_is_word() and BN_is_odd() are macros.</p>
+<p>BN_is_zero(), BN_is_one(), BN_is_word() and BN_abs_is_word() test if <i>a</i> equals 0, 1, <i>w</i>, or |<i>w</i>| respectively. BN_is_odd() tests if <i>a</i> is odd.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>BN_cmp() returns -1 if <b>a</b> &lt; <b>b</b>, 0 if <b>a</b> == <b>b</b> and 1 if <b>a</b> &gt; <b>b</b>. BN_ucmp() is the same using the absolute values of <b>a</b> and <b>b</b>.</p>
+<p>BN_cmp() returns -1 if <i>a</i> &lt; <i>b</i>, 0 if <i>a</i> == <i>b</i> and 1 if <i>a</i> &gt; <i>b</i>. BN_ucmp() is the same using the absolute values of <i>a</i> and <i>b</i>.</p>
 
-<p>BN_is_zero(), BN_is_one() BN_is_word() and BN_is_odd() return 1 if the condition is true, 0 otherwise.</p>
+<p>BN_is_zero(), BN_is_one() BN_is_word(), BN_abs_is_word() and BN_is_odd() return 1 if the condition is true, 0 otherwise.</p>
+
+<h1 id="HISTORY">HISTORY</h1>
+
+<p>Prior to OpenSSL 1.1.0, BN_is_zero(), BN_is_one(), BN_is_word(), BN_abs_is_word() and BN_is_odd() were macros.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

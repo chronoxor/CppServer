@@ -54,7 +54,7 @@
 
 <p>See <a href="../man3/ERR_GET_LIB.html">ERR_GET_LIB(3)</a> for obtaining information about location and reason of the error, and <a href="../man3/ERR_error_string.html">ERR_error_string(3)</a> for human-readable error messages.</p>
 
-<p>ERR_get_error_line(), ERR_peek_error_line() and ERR_peek_last_error_line() are the same as the above, but they additionally store the file name and line number where the error occurred in *<b>file</b> and *<b>line</b>, unless these are <b>NULL</b>.</p>
+<p>ERR_get_error_line(), ERR_peek_error_line() and ERR_peek_last_error_line() are the same as the above, but they additionally store the filename and line number where the error occurred in *<b>file</b> and *<b>line</b>, unless these are <b>NULL</b>.</p>
 
 <p>ERR_get_error_line_data(), ERR_peek_error_line_data() and ERR_peek_last_error_line_data() store additional data and flags associated with the error code in *<b>data</b> and *<b>flags</b>, unless these are <b>NULL</b>. *<b>data</b> contains a string if *<b>flags</b>&amp;<b>ERR_TXT_STRING</b> is true.</p>
 
@@ -70,7 +70,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

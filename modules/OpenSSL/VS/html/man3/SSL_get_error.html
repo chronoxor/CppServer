@@ -62,15 +62,15 @@
 
 <p>The operation did not complete and can be retried later.</p>
 
-<p><b>SSL_ERROR_WANT_READ</b> is returned when the last operation was a read operation from a non-blocking <b>BIO</b>. It means that not enough data was available at this time to complete the operation. If at a later time the underlying <b>BIO</b> has data available for reading the same function can be called again.</p>
+<p><b>SSL_ERROR_WANT_READ</b> is returned when the last operation was a read operation from a nonblocking <b>BIO</b>. It means that not enough data was available at this time to complete the operation. If at a later time the underlying <b>BIO</b> has data available for reading the same function can be called again.</p>
 
 <p>SSL_read() and SSL_read_ex() can also set <b>SSL_ERROR_WANT_READ</b> when there is still unprocessed data available at either the <b>SSL</b> or the <b>BIO</b> layer, even for a blocking <b>BIO</b>. See <a href="../man3/SSL_read.html">SSL_read(3)</a> for more information.</p>
 
-<p><b>SSL_ERROR_WANT_WRITE</b> is returned when the last operation was a write to a non-blocking <b>BIO</b> and it was unable to sent all data to the <b>BIO</b>. When the <b>BIO</b> is writeable again, the same function can be called again.</p>
+<p><b>SSL_ERROR_WANT_WRITE</b> is returned when the last operation was a write to a nonblocking <b>BIO</b> and it was unable to sent all data to the <b>BIO</b>. When the <b>BIO</b> is writable again, the same function can be called again.</p>
 
 <p>Note that the retry may again lead to an <b>SSL_ERROR_WANT_READ</b> or <b>SSL_ERROR_WANT_WRITE</b> condition. There is no fixed upper limit for the number of iterations that may be necessary until progress becomes visible at application protocol level.</p>
 
-<p>It is safe to call SSL_read() or SSL_read_ex() when more data is available even when the call that set this error was an SSL_write() or SSL_write_ex(). However if the call was an SSL_write() or SSL_write_ex(), it should be called again to continue sending the application data.</p>
+<p>It is safe to call SSL_read() or SSL_read_ex() when more data is available even when the call that set this error was an SSL_write() or SSL_write_ex(). However, if the call was an SSL_write() or SSL_write_ex(), it should be called again to continue sending the application data.</p>
 
 <p>For socket <b>BIO</b>s (e.g. when SSL_set_fd() was used), select() or poll() on the underlying socket can be used to find out when the TLS/SSL I/O function should be retried.</p>
 

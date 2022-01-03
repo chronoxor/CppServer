@@ -43,7 +43,7 @@
 
 <p><b>flags</b> is an optional set of flags, which can be used to modify the verify operation.</p>
 
-<p>CMS_get0_signers() retrieves the signing certificate(s) from <b>cms</b>, it must be called after a successful CMS_verify() operation.</p>
+<p>CMS_get0_signers() retrieves the signing certificate(s) from <b>cms</b>, it may only be called after a successful CMS_verify() operation.</p>
 
 <h1 id="VERIFY-PROCESS">VERIFY PROCESS</h1>
 
@@ -81,7 +81,7 @@
 
 <p>Care should be taken when modifying the default verify behaviour, for example setting <b>CMS_NO_CONTENT_VERIFY</b> will totally disable all content verification and any modified content will be considered valid. This combination is however useful if one merely wishes to write the content to <b>out</b> and its validity is not considered important.</p>
 
-<p>Chain verification should arguably be performed using the signing time rather than the current time. However since the signing time is supplied by the signer it cannot be trusted without additional evidence (such as a trusted timestamp).</p>
+<p>Chain verification should arguably be performed using the signing time rather than the current time. However, since the signing time is supplied by the signer it cannot be trusted without additional evidence (such as a trusted timestamp).</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -103,7 +103,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2008-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2008-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

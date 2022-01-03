@@ -198,12 +198,11 @@
 <pre><code> ssl_conf = ssl_sect
 
  [ssl_sect]
-
  system_default = system_default_sect
 
  [system_default_sect]
-
- MinProtocol = TLSv1.2</code></pre>
+ MinProtocol = TLSv1.2
+ MinProtocol = DTLSv1.2</code></pre>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -271,7 +270,7 @@
 
 <p>Note: in the above example you will get an error in non FIPS capable versions of OpenSSL.</p>
 
-<p>Simple OpenSSL library configuration to make TLS 1.3 the system-default minimum TLS version:</p>
+<p>Simple OpenSSL library configuration to make TLS 1.2 and DTLS 1.2 the system-default minimum TLS and DTLS versions, respectively:</p>
 
 <pre><code> # Toplevel section for openssl (including libssl)
  openssl_conf = default_conf_section
@@ -284,7 +283,10 @@
  system_default = system_default_section
 
  [system_default_section]
- MinProtocol = TLSv1.3</code></pre>
+ MinProtocol = TLSv1.2
+ MinProtocol = DTLSv1.2</code></pre>
+
+<p>The minimum TLS protocol is applied to <b>SSL_CTX</b> objects that are TLS-based, and the minimum DTLS protocol to those are DTLS-based. The same applies also to maximum versions set with <b>MaxProtocol</b>.</p>
 
 <p>More complex OpenSSL library configuration. Add OID and don&#39;t enter FIPS mode:</p>
 
@@ -344,7 +346,7 @@
 
 <p>The escaping isn&#39;t quite right: if you want to use sequences like <b>\n</b> you can&#39;t use any quote escaping on the same line.</p>
 
-<p>Files are loaded in a single pass. This means that an variable expansion will only work if the variables referenced are defined earlier in the file.</p>
+<p>Files are loaded in a single pass. This means that a variable expansion will only work if the variables referenced are defined earlier in the file.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

@@ -100,7 +100,7 @@
 
 <p>The callback is set using functions SSL_CTX_set_psk_client_callback() or SSL_set_psk_client_callback(). The callback function is given the connection in parameter <b>ssl</b>, a <b>NULL</b>-terminated PSK identity hint sent by the server in parameter <b>hint</b>, a buffer <b>identity</b> of length <b>max_identity_len</b> bytes where the resulting <b>NUL</b>-terminated identity is to be stored, and a buffer <b>psk</b> of length <b>max_psk_len</b> bytes where the resulting pre-shared key is to be stored.</p>
 
-<p>The callback for use in TLSv1.2 will also work in TLSv1.3 although it is recommended to use SSL_CTX_set_psk_use_session_callback() or SSL_set_psk_use_session_callback() for this purpose instead. If TLSv1.3 has been negotiated then OpenSSL will first check to see if a callback has been set via SSL_CTX_set_psk_use_session_callback() or SSL_set_psk_use_session_callback() and it will use that in preference. If no such callback is present then it will check to see if a callback has been set via SSL_CTX_set_psk_client_callback() or SSL_set_psk_client_callback() and use that. In this case the <b>hint</b> value will always be NULL and the handshake digest will default to SHA-256 for any returned PSK.</p>
+<p>The callback for use in TLSv1.2 will also work in TLSv1.3 although it is recommended to use SSL_CTX_set_psk_use_session_callback() or SSL_set_psk_use_session_callback() for this purpose instead. If TLSv1.3 has been negotiated then OpenSSL will first check to see if a callback has been set via SSL_CTX_set_psk_use_session_callback() or SSL_set_psk_use_session_callback() and it will use that in preference. If no such callback is present then it will check to see if a callback has been set via SSL_CTX_set_psk_client_callback() or SSL_set_psk_client_callback() and use that. In this case the <b>hint</b> value will always be NULL and the handshake digest will default to SHA-256 for any returned PSK. TLSv1.3 early data exchanges are possible in PSK connections only with the <b>SSL_psk_use_session_cb_func</b> callback, and are not possible with the <b>SSL_psk_client_cb_func</b> callback.</p>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -108,7 +108,7 @@
 
 <p>A connection established via a TLSv1.3 PSK will appear as if session resumption has occurred so that <a href="../man3/SSL_session_reused.html">SSL_session_reused(3)</a> will return true.</p>
 
-<p>There are no known security issues with sharing the same PSK between TLSv1.2 (or below) and TLSv1.3. However the RFC has this note of caution:</p>
+<p>There are no known security issues with sharing the same PSK between TLSv1.2 (or below) and TLSv1.3. However, the RFC has this note of caution:</p>
 
 <p>&quot;While there is no known way in which the same PSK might produce related output in both versions, only limited analysis has been done. Implementations can ensure safety from cross-protocol related output by not reusing PSKs between TLS 1.3 and TLS 1.2.&quot;</p>
 
@@ -132,7 +132,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2006-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2006-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

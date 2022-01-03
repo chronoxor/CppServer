@@ -115,6 +115,8 @@
                                      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">,</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
                                      <span class="variable">HMAC_CTX</span> <span class="variable">*hctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">)</span>
  <span class="operator">{</span>
+     <span class="variable">your_type_t</span> <span class="variable">*key</span><span class="operator">;</span> <span class="regex">/* something that you need to implement */</span>
+ 
      <span class="keyword">if</span> <span class="operator">(</span><span class="variable">enc</span><span class="operator">)</span> <span class="operator">{</span> <span class="regex">/* create new session */</span>
          <span class="keyword">if</span> <span class="operator">(</span><span class="variable">RAND_bytes</span><span class="operator">(</span><span class="variable">iv</span><span class="operator">,</span> <span class="variable">EVP_MAX_IV_LENGTH</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
              <span class="keyword">return</span> <span class="operator">-</span><span class="number">1</span><span class="operator">;</span> <span class="regex">/* insufficient random */</span>
@@ -133,30 +135,32 @@
          <span class="operator">}</span>
          <span class="variable">memcpy</span><span class="operator">(</span><span class="variable">key_name</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">,</span> <span class="number">16</span><span class="operator">);</span>
  
-         <span class="variable">EVP_EncryptInit_ex</span><span class="operator">(&amp;</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_aes_128_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">aes_key</span><span class="operator">,</span> <span class="variable">iv</span><span class="operator">);</span>
-         <span class="variable">HMAC_Init_ex</span><span class="operator">(&amp;</span><span class="variable">hctx</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">hmac_key</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">);</span>
+         <span class="variable">EVP_EncryptInit_ex</span><span class="operator">(&amp;</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_aes_256_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">aes_key</span><span class="operator">,</span> <span class="variable">iv</span><span class="operator">);</span>
+         <span class="variable">HMAC_Init_ex</span><span class="operator">(&amp;</span><span class="variable">hctx</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">hmac_key</span><span class="operator">,</span> <span class="number">32</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">);</span>
  
          <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
  
      <span class="operator">}</span> <span class="keyword">else</span> <span class="operator">{</span> <span class="regex">/* retrieve session */</span>
-         <span class="variable">key</span> <span class="operator">=</span> <span class="variable">findkey</span><span class="operator">(</span><span class="variable">name</span><span class="operator">);</span>
+         <span class="variable">time_t</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">time</span><span class="operator">(</span><span class="variable">NULL</span><span class="operator">);</span>
+         <span class="variable">key</span> <span class="operator">=</span> <span class="variable">findkey</span><span class="operator">(</span><span class="variable">key_name</span><span class="operator">);</span> <span class="regex">/* something that you need to implement */</span>
  
-         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span> <span class="operator">==</span> <span class="variable">NULL</span> <span class="operator">||</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">expire</span> <span class="operator">&lt;</span> <span class="variable">now</span><span class="operator">())</span>
+         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span> <span class="operator">==</span> <span class="variable">NULL</span> <span class="operator">||</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">expire</span> <span class="operator">&lt;</span> <span class="variable">t</span><span class="operator">)</span>
              <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
  
-         <span class="variable">HMAC_Init_ex</span><span class="operator">(&amp;</span><span class="variable">hctx</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">hmac_key</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">);</span>
-         <span class="variable">EVP_DecryptInit_ex</span><span class="operator">(&amp;</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_aes_128_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">aes_key</span><span class="operator">,</span> <span class="variable">iv</span><span class="operator">);</span>
+         <span class="variable">HMAC_Init_ex</span><span class="operator">(&amp;</span><span class="variable">hctx</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">hmac_key</span><span class="operator">,</span> <span class="number">32</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">);</span>
+         <span class="variable">EVP_DecryptInit_ex</span><span class="operator">(&amp;</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_aes_256_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">aes_key</span><span class="operator">,</span> <span class="variable">iv</span><span class="operator">);</span>
  
-         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">expire</span> <span class="operator">&lt;</span> <span class="variable">now</span><span class="operator">()</span> <span class="operator">-</span> <span class="variable">RENEW_TIME</span><span class="operator">)</span> <span class="operator">{</span>
-             <span class="regex">/*
-              * return 2 - This session will get a new ticket even though the
-              * current one is still valid.
-              */</span>
-             <span class="keyword">return</span> <span class="number">2</span><span class="operator">;</span>
-         <span class="operator">}</span>
-         <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
-     <span class="operator">}</span>
- <span class="operator">}</span>
+         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">expire</span> <span class="operator">&lt;</span> <span class="variable">t</span> <span class="operator">-</span> <span class="variable">RENEW_TIME</span><span class="operator">)</span> <span class="operator">{</span> <span class="regex">/* RENEW_TIME: implement */</span>
+             <span class="operator">/*</span>
+              <span class="operator">*</span> <span class="keyword">return</span> <span class="number">2</span> <span class="operator">-</span> <span class="variable">This</span> <span class="variable">session</span> <span class="variable">will</span> <span class="variable">get</span> <span class="variable">a</span> <span class="variable">new</span> <span class="variable">ticket</span> <span class="variable">even</span> <span class="variable">though</span> <span class="variable">the</span>
+              <span class="operator">*</span> <span class="variable">current</span> <span class="variable">one</span> <span class="variable">is</span> <span class="variable">still</span> <span class="variable">valid</span><span class="operator">.</span>
+              <span class="operator">*</span><span class="regex">/
+             return 2;
+         }
+         return 1;
+     }
+ }
+ </span>
 </code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
@@ -165,7 +169,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2014-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2014-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

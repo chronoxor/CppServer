@@ -51,13 +51,13 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>SSL_CTX_set_options() adds the options set via bitmask in <b>options</b> to <b>ctx</b>. Options already set before are not cleared!</p>
+<p>SSL_CTX_set_options() adds the options set via bit mask in <b>options</b> to <b>ctx</b>. Options already set before are not cleared!</p>
 
-<p>SSL_set_options() adds the options set via bitmask in <b>options</b> to <b>ssl</b>. Options already set before are not cleared!</p>
+<p>SSL_set_options() adds the options set via bit mask in <b>options</b> to <b>ssl</b>. Options already set before are not cleared!</p>
 
-<p>SSL_CTX_clear_options() clears the options set via bitmask in <b>options</b> to <b>ctx</b>.</p>
+<p>SSL_CTX_clear_options() clears the options set via bit mask in <b>options</b> to <b>ctx</b>.</p>
 
-<p>SSL_clear_options() clears the options set via bitmask in <b>options</b> to <b>ssl</b>.</p>
+<p>SSL_clear_options() clears the options set via bit mask in <b>options</b> to <b>ssl</b>.</p>
 
 <p>SSL_CTX_get_options() returns the options set for <b>ctx</b>.</p>
 
@@ -67,7 +67,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>The behaviour of the SSL library can be changed by setting several options. The options are coded as bitmasks and can be combined by a bitwise <b>or</b> operation (|).</p>
+<p>The behaviour of the SSL library can be changed by setting several options. The options are coded as bit masks and can be combined by a bitwise <b>or</b> operation (|).</p>
 
 <p>SSL_CTX_set_options() and SSL_set_options() affect the (external) protocol behaviour of the SSL library. The (internal) behaviour of the API can be changed by using the similar <a href="../man3/SSL_CTX_set_mode.html">SSL_CTX_set_mode(3)</a> and SSL_set_mode() functions.</p>
 
@@ -162,7 +162,7 @@
 
 <p>When using stateless session tickets the server uses a session ticket encryption key to encrypt the session information. This encrypted data is sent to the client as a &quot;ticket&quot;. When the client wishes to resume it sends the encrypted data back to the server. The server uses its key to decrypt the data and resume the session. In this way the server can operate statelessly - no session information needs to be cached locally.</p>
 
-<p>The TLSv1.3 protocol only supports tickets and does not directly support session ids. However OpenSSL allows two modes of ticket operation in TLSv1.3: stateful and stateless. Stateless tickets work the same way as in TLSv1.2 and below. Stateful tickets mimic the session id behaviour available in TLSv1.2 and below. The session information is cached on the server and the session id is wrapped up in a ticket and sent back to the client. When the client wishes to resume, it presents a ticket in the same way as for stateless tickets. The server can then extract the session id from the ticket and retrieve the session information from its cache.</p>
+<p>The TLSv1.3 protocol only supports tickets and does not directly support session ids. However, OpenSSL allows two modes of ticket operation in TLSv1.3: stateful and stateless. Stateless tickets work the same way as in TLSv1.2 and below. Stateful tickets mimic the session id behaviour available in TLSv1.2 and below. The session information is cached on the server and the session id is wrapped up in a ticket and sent back to the client. When the client wishes to resume, it presents a ticket in the same way as for stateless tickets. The server can then extract the session id from the ticket and retrieve the session information from its cache.</p>
 
 <p>By default OpenSSL will use stateless tickets. The SSL_OP_NO_TICKET option will cause stateless tickets to not be issued. In TLSv1.2 and below this means no ticket gets sent to the client at all. In TLSv1.3 a stateful ticket will be sent. This is a server-side option only.</p>
 
@@ -319,11 +319,11 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>SSL_CTX_set_options() and SSL_set_options() return the new options bitmask after adding <b>options</b>.</p>
+<p>SSL_CTX_set_options() and SSL_set_options() return the new options bit mask after adding <b>options</b>.</p>
 
-<p>SSL_CTX_clear_options() and SSL_clear_options() return the new options bitmask after clearing <b>options</b>.</p>
+<p>SSL_CTX_clear_options() and SSL_clear_options() return the new options bit mask after clearing <b>options</b>.</p>
 
-<p>SSL_CTX_get_options() and SSL_get_options() return the current bitmask.</p>
+<p>SSL_CTX_get_options() and SSL_get_options() return the current bit mask.</p>
 
 <p>SSL_get_secure_renegotiation_support() returns 1 is the peer supports secure renegotiation and 0 if it does not.</p>
 
@@ -339,7 +339,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2001-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2001-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

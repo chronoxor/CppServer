@@ -147,11 +147,6 @@
      <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
      <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
  <span class="operator">}</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">BIO_do_handshake</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error establishing SSL connection\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
  
  <span class="regex">/* XXX Could examine ssl here to get connection info */</span>
  
@@ -254,7 +249,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

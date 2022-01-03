@@ -27,7 +27,9 @@ include(SetPlatformFeatures)
 include(SystemInformation)
 
 # External packages
-if(CYGWIN)
+if(APPLE)
+  set(OPENSSL_ROOT_DIR "/usr/local/opt/openssl@1.1")
+elseif(CYGWIN)
   set(OPENSSL_ROOT_DIR "/usr/lib")
   set(OPENSSL_INCLUDE_DIR "/usr/include")
   set(OPENSSL_CRYPTO_LIBRARY "/usr/lib/libcrypto.dll.a")

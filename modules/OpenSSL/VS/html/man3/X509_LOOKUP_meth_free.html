@@ -123,7 +123,7 @@
 
 <p>X509_LOOKUP_set_get_by_subject(), X509_LOOKUP_set_get_by_issuer_serial(), X509_LOOKUP_set_get_by_fingerprint(), X509_LOOKUP_set_get_by_alias() set the functions used to retrieve an X509 or X509_CRL object by the object&#39;s subject, issuer, fingerprint, and alias respectively. These functions are given the X509_LOOKUP context, the type of the X509_OBJECT being requested, parameters related to the lookup, and an X509_OBJECT that will receive the requested object.</p>
 
-<p>Implementations must add objects they find to the <b>X509_STORE</b> object using X509_STORE_add_cert() or X509_STORE_add_crl(). This increments its reference count. However, the X509_STORE_CTX_get_by_subject() function also increases the reference count which leads to one too many references being held. Therefore applications should additionally call X509_free() or X509_CRL_free() to decrement the reference count again.</p>
+<p>Implementations must add objects they find to the <b>X509_STORE</b> object using X509_STORE_add_cert() or X509_STORE_add_crl(). This increments its reference count. However, the X509_STORE_CTX_get_by_subject() function also increases the reference count which leads to one too many references being held. Therefore, applications should additionally call X509_free() or X509_CRL_free() to decrement the reference count again.</p>
 
 <p>Implementations should also use either X509_OBJECT_set1_X509() or X509_OBJECT_set1_X509_CRL() to set the result. Note that this also increments the result&#39;s reference count.</p>
 

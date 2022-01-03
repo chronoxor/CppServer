@@ -29,7 +29,7 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="variable">TYPE</span> <span class="variable">*d2i_TYPE</span><span class="operator">(</span><span class="variable">TYPE</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">ppin</span><span class="operator">,</span> <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
+<pre><code> <span class="variable">TYPE</span> <span class="variable">*d2i_TYPE</span><span class="operator">(</span><span class="variable">TYPE</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">ppin</span><span class="operator">,</span> <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
  <span class="variable">TYPE</span> <span class="variable">*d2i_TYPE_bio</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">);</span>
  <span class="variable">TYPE</span> <span class="variable">*d2i_TYPE_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">);</span>
  
@@ -70,7 +70,7 @@
 
 <p>The actual TYPE structure passed to i2d_TYPE() must be a valid populated <b>TYPE</b> structure -- it <b>cannot</b> simply be fed with an empty structure such as that returned by TYPE_new().</p>
 
-<p>The encoded data is in binary form and may contain embedded zeroes. Therefore any FILE pointers or BIOs should be opened in binary mode. Functions such as strlen() will <b>not</b> return the correct length of the encoded structure.</p>
+<p>The encoded data is in binary form and may contain embedded zeros. Therefore, any FILE pointers or BIOs should be opened in binary mode. Functions such as strlen() will <b>not</b> return the correct length of the encoded structure.</p>
 
 <p>The ways that <b>*ppin</b> and <b>*ppout</b> are incremented after the operation can trap the unwary. See the <b>WARNINGS</b> section for some common errors. The reason for this-auto increment behaviour is to reflect a typical usage of ASN1 functions: after one structure is encoded or decoded another will be processed after it.</p>
 
@@ -170,7 +170,8 @@
 <p>Attempt to decode a buffer:</p>
 
 <pre><code> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">;</span>
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">*p</span><span class="operator">;</span>
+ <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">;</span>
+ <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">;</span>
  <span class="keyword">int</span> <span class="variable">len</span><span class="operator">;</span>
  
  <span class="regex">/* Set up buf and len to point to the input buffer. */</span>
@@ -183,7 +184,8 @@
 <p>Alternative technique:</p>
 
 <pre><code> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">;</span>
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">*p</span><span class="operator">;</span>
+ <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">;</span>
+ <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">;</span>
  <span class="keyword">int</span> <span class="variable">len</span><span class="operator">;</span>
  
  <span class="regex">/* Set up buf and len to point to the input buffer. */</span>

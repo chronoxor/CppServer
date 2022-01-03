@@ -82,7 +82,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>The BIO_lookup_ex() implementation uses the platform provided getaddrinfo() function. On Linux it is known that specifying 0 for the protocol will not return any SCTP based addresses when calling getaddrinfo(). Therefore if an SCTP address is required then the <b>protocol</b> parameter to BIO_lookup_ex() should be explicitly set to IPPROTO_SCTP. The same may be true on other platforms.</p>
+<p>The BIO_lookup_ex() implementation uses the platform provided getaddrinfo() function. On Linux it is known that specifying 0 for the protocol will not return any SCTP based addresses when calling getaddrinfo(). Therefore, if an SCTP address is required then the <b>protocol</b> parameter to BIO_lookup_ex() should be explicitly set to IPPROTO_SCTP. The same may be true on other platforms.</p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
@@ -90,7 +90,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

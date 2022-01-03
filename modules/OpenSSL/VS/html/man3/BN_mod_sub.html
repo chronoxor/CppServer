@@ -76,13 +76,13 @@
 
 <p>BN_mod() corresponds to BN_div() with <i>dv</i> set to <b>NULL</b>.</p>
 
-<p>BN_nnmod() reduces <i>a</i> modulo <i>m</i> and places the non-negative remainder in <i>r</i>.</p>
+<p>BN_nnmod() reduces <i>a</i> modulo <i>m</i> and places the nonnegative remainder in <i>r</i>.</p>
 
-<p>BN_mod_add() adds <i>a</i> to <i>b</i> modulo <i>m</i> and places the non-negative result in <i>r</i>.</p>
+<p>BN_mod_add() adds <i>a</i> to <i>b</i> modulo <i>m</i> and places the nonnegative result in <i>r</i>.</p>
 
-<p>BN_mod_sub() subtracts <i>b</i> from <i>a</i> modulo <i>m</i> and places the non-negative result in <i>r</i>.</p>
+<p>BN_mod_sub() subtracts <i>b</i> from <i>a</i> modulo <i>m</i> and places the nonnegative result in <i>r</i>.</p>
 
-<p>BN_mod_mul() multiplies <i>a</i> by <i>b</i> and finds the non-negative remainder respective to modulus <i>m</i> (<code>r=(a*b) mod m</code>). <i>r</i> may be the same <b>BIGNUM</b> as <i>a</i> or <i>b</i>. For more efficient algorithms for repeated computations using the same modulus, see <a href="../man3/BN_mod_mul_montgomery.html">BN_mod_mul_montgomery(3)</a> and <a href="../man3/BN_mod_mul_reciprocal.html">BN_mod_mul_reciprocal(3)</a>.</p>
+<p>BN_mod_mul() multiplies <i>a</i> by <i>b</i> and finds the nonnegative remainder respective to modulus <i>m</i> (<code>r=(a*b) mod m</code>). <i>r</i> may be the same <b>BIGNUM</b> as <i>a</i> or <i>b</i>. For more efficient algorithms for repeated computations using the same modulus, see <a href="../man3/BN_mod_mul_montgomery.html">BN_mod_mul_montgomery(3)</a> and <a href="../man3/BN_mod_mul_reciprocal.html">BN_mod_mul_reciprocal(3)</a>.</p>
 
 <p>BN_mod_sqr() takes the square of <i>a</i> modulo <b>m</b> and places the result in <i>r</i>.</p>
 
@@ -107,7 +107,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

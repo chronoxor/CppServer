@@ -1,10 +1,15 @@
 # CppServer
 
 [![Awesome C++](https://awesome.re/badge.svg)](https://github.com/fffaraz/awesome-cpp)
-[![Linux build status](https://img.shields.io/travis/com/chronoxor/CppServer/master?label=Linux)](https://travis-ci.com/chronoxor/CppServer)
-[![OSX build status](https://img.shields.io/travis/com/chronoxor/CppServer/master?label=OSX)](https://travis-ci.com/chronoxor/CppServer)
-[![MinGW build status](https://img.shields.io/appveyor/build/chronoxor/CppServer/master?label=MinGW)](https://ci.appveyor.com/project/chronoxor/CppServer)
-[![Windows build status](https://img.shields.io/appveyor/build/chronoxor/CppServer/master?label=Windows)](https://ci.appveyor.com/project/chronoxor/CppServer)
+![Linux (clang)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-clang.yml/badge.svg)
+![Linux (gcc)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-gcc.yml/badge.svg)
+<br/>
+![MacOS](https://github.com/chronoxor/CppServer/actions/workflows/build-macos.yml/badge.svg)
+<br/>
+![Windows (Cygwin)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-cygwin.yml/badge.svg)
+![Windows (MinGW)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-mingw.yml/badge.svg)
+![Windows (MSYS2)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msys2.yml/badge.svg)
+![Windows (Visual Studio)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msvc.yml/badge.svg)
 
 Ultra fast and low latency asynchronous socket server & client C++ library with
 support TCP, SSL, UDP, HTTP, HTTPS, WebSocket protocols and [10K connections problem](https://en.wikipedia.org/wiki/C10k_problem)

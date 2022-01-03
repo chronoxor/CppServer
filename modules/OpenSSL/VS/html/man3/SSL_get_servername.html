@@ -65,7 +65,7 @@
 <dt id="SSL_TLSEXT_ERR_ALERT_WARNING">SSL_TLSEXT_ERR_ALERT_WARNING</dt>
 <dd>
 
-<p>If this value is returned then the servername is not accepted by the server. However the handshake will continue and send a warning alert instead. The value of the alert should be stored in the location pointed to by the <b>al</b> parameter as for SSL_TLSEXT_ERR_ALERT_FATAL above. Note that TLSv1.3 does not support warning alerts, so if TLSv1.3 has been negotiated then this return value is treated the same way as SSL_TLSEXT_ERR_NOACK.</p>
+<p>If this value is returned then the servername is not accepted by the server. However, the handshake will continue and send a warning alert instead. The value of the alert should be stored in the location pointed to by the <b>al</b> parameter as for SSL_TLSEXT_ERR_ALERT_FATAL above. Note that TLSv1.3 does not support warning alerts, so if TLSv1.3 has been negotiated then this return value is treated the same way as SSL_TLSEXT_ERR_NOACK.</p>
 
 </dd>
 <dt id="SSL_TLSEXT_ERR_NOACK">SSL_TLSEXT_ERR_NOACK</dt>
@@ -95,7 +95,7 @@
 <dt id="On-the-client-during-or-after-the-handshake-and-a-TLSv1.2-or-below-resumption-occurred">On the client, during or after the handshake and a TLSv1.2 (or below) resumption occurred</dt>
 <dd>
 
-<p>If the session from the orignal handshake had a servername accepted by the server then it will return that servername.</p>
+<p>If the session from the original handshake had a servername accepted by the server then it will return that servername.</p>
 
 <p>Otherwise it returns the servername set via SSL_set_tlsext_host_name() or NULL if it was not called.</p>
 
@@ -150,9 +150,9 @@
 
 <p>SSL_get_servername() historically provided some unexpected results in certain corner cases. This has been fixed from OpenSSL 1.1.1e.</p>
 
-<p>Prior to 1.1.1e, when the client requested a servername in an initial TLSv1.2 handshake, the server accepted it, and then the client successfully resumed but set a different explict servername in the second handshake then when called by the client it returned the servername from the second handshake. This has now been changed to return the servername requested in the original handshake.</p>
+<p>Prior to 1.1.1e, when the client requested a servername in an initial TLSv1.2 handshake, the server accepted it, and then the client successfully resumed but set a different explicit servername in the second handshake then when called by the client it returned the servername from the second handshake. This has now been changed to return the servername requested in the original handshake.</p>
 
-<p>Also prior to 1.1.1e, if the client sent a servername in the first handshake but the server did not accept it, and then a second handshake occured where TLSv1.2 resumption was successful then when called by the server it returned the servername requested in the original handshake. This has now been changed to NULL.</p>
+<p>Also prior to 1.1.1e, if the client sent a servername in the first handshake but the server did not accept it, and then a second handshake occurred where TLSv1.2 resumption was successful then when called by the server it returned the servername requested in the original handshake. This has now been changed to NULL.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

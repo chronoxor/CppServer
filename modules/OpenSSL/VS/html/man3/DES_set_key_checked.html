@@ -120,7 +120,7 @@
 
 <p>DES_set_key_checked() will check that the key passed is of odd parity and is not a weak or semi-weak key. If the parity is wrong, then -1 is returned. If the key is a weak key, then -2 is returned. If an error is returned, the key schedule is not generated.</p>
 
-<p>DES_set_key() works like DES_set_key_checked() if the <i>DES_check_key</i> flag is non-zero, otherwise like DES_set_key_unchecked(). These functions are available for compatibility; it is recommended to use a function that does not depend on a global variable.</p>
+<p>DES_set_key() works like DES_set_key_checked() if the <i>DES_check_key</i> flag is nonzero, otherwise like DES_set_key_unchecked(). These functions are available for compatibility; it is recommended to use a function that does not depend on a global variable.</p>
 
 <p>DES_set_odd_parity() sets the parity of the passed <i>key</i> to odd.</p>
 
@@ -128,13 +128,13 @@
 
 <p>The following routines mostly operate on an input and output stream of <i>DES_cblock</i>s.</p>
 
-<p>DES_ecb_encrypt() is the basic DES encryption routine that encrypts or decrypts a single 8-byte <i>DES_cblock</i> in <i>electronic code book</i> (ECB) mode. It always transforms the input data, pointed to by <i>input</i>, into the output data, pointed to by the <i>output</i> argument. If the <i>encrypt</i> argument is non-zero (DES_ENCRYPT), the <i>input</i> (cleartext) is encrypted in to the <i>output</i> (ciphertext) using the key_schedule specified by the <i>schedule</i> argument, previously set via <i>DES_set_key</i>. If <i>encrypt</i> is zero (DES_DECRYPT), the <i>input</i> (now ciphertext) is decrypted into the <i>output</i> (now cleartext). Input and output may overlap. DES_ecb_encrypt() does not return a value.</p>
+<p>DES_ecb_encrypt() is the basic DES encryption routine that encrypts or decrypts a single 8-byte <i>DES_cblock</i> in <i>electronic code book</i> (ECB) mode. It always transforms the input data, pointed to by <i>input</i>, into the output data, pointed to by the <i>output</i> argument. If the <i>encrypt</i> argument is nonzero (DES_ENCRYPT), the <i>input</i> (cleartext) is encrypted in to the <i>output</i> (ciphertext) using the key_schedule specified by the <i>schedule</i> argument, previously set via <i>DES_set_key</i>. If <i>encrypt</i> is zero (DES_DECRYPT), the <i>input</i> (now ciphertext) is decrypted into the <i>output</i> (now cleartext). Input and output may overlap. DES_ecb_encrypt() does not return a value.</p>
 
 <p>DES_ecb3_encrypt() encrypts/decrypts the <i>input</i> block by using three-key Triple-DES encryption in ECB mode. This involves encrypting the input with <i>ks1</i>, decrypting with the key schedule <i>ks2</i>, and then encrypting with <i>ks3</i>. This routine greatly reduces the chances of brute force breaking of DES and has the advantage of if <i>ks1</i>, <i>ks2</i> and <i>ks3</i> are the same, it is equivalent to just encryption using ECB mode and <i>ks1</i> as the key.</p>
 
 <p>The macro DES_ecb2_encrypt() is provided to perform two-key Triple-DES encryption by using <i>ks1</i> for the final encryption.</p>
 
-<p>DES_ncbc_encrypt() encrypts/decrypts using the <i>cipher-block-chaining</i> (CBC) mode of DES. If the <i>encrypt</i> argument is non-zero, the routine cipher-block-chain encrypts the cleartext data pointed to by the <i>input</i> argument into the ciphertext pointed to by the <i>output</i> argument, using the key schedule provided by the <i>schedule</i> argument, and initialization vector provided by the <i>ivec</i> argument. If the <i>length</i> argument is not an integral multiple of eight bytes, the last block is copied to a temporary area and zero filled. The output is always an integral multiple of eight bytes.</p>
+<p>DES_ncbc_encrypt() encrypts/decrypts using the <i>cipher-block-chaining</i> (CBC) mode of DES. If the <i>encrypt</i> argument is nonzero, the routine cipher-block-chain encrypts the cleartext data pointed to by the <i>input</i> argument into the ciphertext pointed to by the <i>output</i> argument, using the key schedule provided by the <i>schedule</i> argument, and initialization vector provided by the <i>ivec</i> argument. If the <i>length</i> argument is not an integral multiple of eight bytes, the last block is copied to a temporary area and zero filled. The output is always an integral multiple of eight bytes.</p>
 
 <p>DES_xcbc_encrypt() is RSA&#39;s DESX mode of DES. It uses <i>inw</i> and <i>outw</i> to &#39;whiten&#39; the encryption. <i>inw</i> and <i>outw</i> are secret (unlike the iv) and are as such, part of the key. So the key is sort of 24 bytes. This is much better than CBC DES.</p>
 
@@ -206,7 +206,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

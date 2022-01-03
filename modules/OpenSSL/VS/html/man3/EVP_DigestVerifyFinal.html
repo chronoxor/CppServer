@@ -41,7 +41,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The EVP signature routines are a high level interface to digital signatures.</p>
+<p>The EVP signature routines are a high-level interface to digital signatures.</p>
 
 <p>EVP_DigestVerifyInit() sets up verification context <b>ctx</b> to use digest <b>type</b> from ENGINE <b>e</b> and public key <b>pkey</b>. <b>ctx</b> must be created with EVP_MD_CTX_new() before calling this function. If <b>pctx</b> is not NULL, the EVP_PKEY_CTX of the verification operation will be written to <b>*pctx</b>: this can be used to set alternative verification options. Note that any existing value in <b>*pctx</b> is overwritten. The EVP_PKEY_CTX value returned must not be freed directly by the application if <b>ctx</b> is not assigned an EVP_PKEY_CTX value before being passed to EVP_DigestVerifyInit() (which means the EVP_PKEY_CTX is created inside EVP_DigestVerifyInit() and it will be freed automatically when the EVP_MD_CTX is freed).</p>
 
@@ -63,7 +63,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>The <b>EVP</b> interface to digital signatures should almost always be used in preference to the low level interfaces. This is because the code then becomes transparent to the algorithm used and much more flexible.</p>
+<p>The <b>EVP</b> interface to digital signatures should almost always be used in preference to the low-level interfaces. This is because the code then becomes transparent to the algorithm used and much more flexible.</p>
 
 <p>EVP_DigestVerify() is a one shot operation which verifies a single block of data in one function. For algorithms that support streaming it is equivalent to calling EVP_DigestVerifyUpdate() and EVP_DigestVerifyFinal(). For algorithms which do not support streaming (e.g. PureEdDSA) it is the only way to verify data.</p>
 
@@ -85,7 +85,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2006-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2006-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -42,7 +42,7 @@
 
 <p>If the underlying BIO is <b>blocking</b>, SSL_connect() will only return once the handshake has been finished or an error occurred.</p>
 
-<p>If the underlying BIO is <b>non-blocking</b>, SSL_connect() will also return when the underlying BIO could not satisfy the needs of SSL_connect() to continue the handshake, indicating the problem by the return value -1. In this case a call to SSL_get_error() with the return value of SSL_connect() will yield <b>SSL_ERROR_WANT_READ</b> or <b>SSL_ERROR_WANT_WRITE</b>. The calling process then must repeat the call after taking appropriate action to satisfy the needs of SSL_connect(). The action depends on the underlying BIO. When using a non-blocking socket, nothing is to be done, but select() can be used to check for the required condition. When using a buffering BIO, like a BIO pair, data must be written into or retrieved out of the BIO before being able to continue.</p>
+<p>If the underlying BIO is <b>nonblocking</b>, SSL_connect() will also return when the underlying BIO could not satisfy the needs of SSL_connect() to continue the handshake, indicating the problem by the return value -1. In this case a call to SSL_get_error() with the return value of SSL_connect() will yield <b>SSL_ERROR_WANT_READ</b> or <b>SSL_ERROR_WANT_WRITE</b>. The calling process then must repeat the call after taking appropriate action to satisfy the needs of SSL_connect(). The action depends on the underlying BIO. When using a nonblocking socket, nothing is to be done, but select() can be used to check for the required condition. When using a buffering BIO, like a BIO pair, data must be written into or retrieved out of the BIO before being able to continue.</p>
 
 <p>Many systems implement Nagle&#39;s algorithm by default which means that it will buffer outgoing TCP data if a TCP packet has already been sent for which no corresponding ACK has been received yet from the peer. This can have performance impacts after a successful TLSv1.3 handshake or a successful TLSv1.2 (or below) resumption handshake, because the last peer to communicate in the handshake is the client. If the client is also the first to send application data (as is typical for many protocols) then this data could be buffered until an ACK has been received for the final handshake message.</p>
 
@@ -69,7 +69,7 @@
 <dt id="pod01">&lt;0</dt>
 <dd>
 
-<p>The TLS/SSL handshake was not successful, because a fatal error occurred either at the protocol level or a connection failure occurred. The shutdown was not clean. It can also occur if action is needed to continue the operation for non-blocking BIOs. Call SSL_get_error() with the return value <b>ret</b> to find out the reason.</p>
+<p>The TLS/SSL handshake was not successful, because a fatal error occurred either at the protocol level or a connection failure occurred. The shutdown was not clean. It can also occur if action is needed to continue the operation for nonblocking BIOs. Call SSL_get_error() with the return value <b>ret</b> to find out the reason.</p>
 
 </dd>
 </dl>

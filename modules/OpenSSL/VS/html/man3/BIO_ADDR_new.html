@@ -55,7 +55,7 @@
 
 <p>BIO_ADDR_clear() clears any data held within the provided <b>BIO_ADDR</b> and sets it back to an uninitialised state.</p>
 
-<p>BIO_ADDR_rawmake() takes a protocol <b>family</b>, an byte array of size <b>wherelen</b> with an address in network byte order pointed at by <b>where</b> and a port number in network byte order in <b>port</b> (except for the <b>AF_UNIX</b> protocol family, where <b>port</b> is meaningless and therefore ignored) and populates the given <b>BIO_ADDR</b> with them. In case this creates a <b>AF_UNIX</b> <b>BIO_ADDR</b>, <b>wherelen</b> is expected to be the length of the path string (not including the terminating NUL, such as the result of a call to strlen()). <i>Read on about the addresses in <a href="#RAW-ADDRESSES">&quot;RAW ADDRESSES&quot;</a> below</i>.</p>
+<p>BIO_ADDR_rawmake() takes a protocol <b>family</b>, a byte array of size <b>wherelen</b> with an address in network byte order pointed at by <b>where</b> and a port number in network byte order in <b>port</b> (except for the <b>AF_UNIX</b> protocol family, where <b>port</b> is meaningless and therefore ignored) and populates the given <b>BIO_ADDR</b> with them. In case this creates a <b>AF_UNIX</b> <b>BIO_ADDR</b>, <b>wherelen</b> is expected to be the length of the path string (not including the terminating NUL, such as the result of a call to strlen()). <i>Read on about the addresses in <a href="#RAW-ADDRESSES">&quot;RAW ADDRESSES&quot;</a> below</i>.</p>
 
 <p>BIO_ADDR_family() returns the protocol family of the given <b>BIO_ADDR</b>. The possible non-error results are one of the constants AF_INET, AF_INET6 and AF_UNIX. It will also return AF_UNSPEC if the BIO_ADDR has not been initialised.</p>
 
@@ -85,7 +85,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

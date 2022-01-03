@@ -85,7 +85,7 @@
 <dt id="check_ss_sig"><b>-check_ss_sig</b></dt>
 <dd>
 
-<p>Verify the signature on the self-signed root CA. This is disabled by default because it doesn&#39;t add any security.</p>
+<p>Verify the signature of the last certificate in a chain if the certificate is supposedly self-signed. This is prohibited and will result in an error if it is a non-conforming CA certificate with key usage restrictions not including the keyCertSign bit. This verification is disabled by default because it doesn&#39;t add any security.</p>
 
 </dd>
 <dt id="CRLfile-file"><b>-CRLfile file</b></dt>
@@ -296,7 +296,7 @@
 
 <h1 id="VERIFY-OPERATION">VERIFY OPERATION</h1>
 
-<p>The <b>verify</b> program uses the same functions as the internal SSL and S/MIME verification, therefore this description applies to these verify operations too.</p>
+<p>The <b>verify</b> program uses the same functions as the internal SSL and S/MIME verification, therefore, this description applies to these verify operations too.</p>
 
 <p>There is one crucial difference between the verify operations performed by the <b>verify</b> program: wherever possible an attempt is made to continue after an error whereas normally the verify operation would halt on the first error. This allows all the problems with a certificate chain to be determined.</p>
 
@@ -312,7 +312,7 @@
 
 <p>The third operation is to check the trust settings on the root CA. The root CA should be trusted for the supplied purpose. For compatibility with previous versions of OpenSSL, a certificate with no trust settings is considered to be valid for all purposes.</p>
 
-<p>The final operation is to check the validity of the certificate chain. The validity period is checked against the current system time and the notBefore and notAfter dates in the certificate. The certificate signatures are also checked at this point.</p>
+<p>The final operation is to check the validity of the certificate chain. For each element in the chain, including the root CA certificate, the validity period as specified by the <code>notBefore</code> and <code>notAfter</code> fields is checked against the current system time. The <b>-attime</b> flag may be used to use a reference time other than &quot;now.&quot; The certificate signature is checked as well (except for the signature of the typically self-signed root CA certificate, which is verified only if the <b>-check_ss_sig</b> option is given).</p>
 
 <p>If all operations complete successfully then certificate is considered valid. If any operation fails then the certificate is not valid.</p>
 
@@ -813,7 +813,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -89,7 +89,7 @@
 
 <p>ASN1_TIME_to_tm() converts the time <b>s</b> to the standard <b>tm</b> structure. If <b>s</b> is NULL, then the current time is converted. The output time is GMT. The <b>tm_sec</b>, <b>tm_min</b>, <b>tm_hour</b>, <b>tm_mday</b>, <b>tm_wday</b>, <b>tm_yday</b>, <b>tm_mon</b> and <b>tm_year</b> fields of <b>tm</b> structure are set to proper values, whereas all other fields are set to 0. If <b>tm</b> is NULL this function performs a format check on <b>s</b> only. If <b>s</b> is in Generalized format with fractional seconds, e.g. YYYYMMDDHHMMSS.SSSZ, the fractional seconds will be lost while converting <b>s</b> to <b>tm</b> structure.</p>
 
-<p>ASN1_TIME_diff() sets <b>*pday</b> and <b>*psec</b> to the time difference between <b>from</b> and <b>to</b>. If <b>to</b> represents a time later than <b>from</b> then one or both (depending on the time difference) of <b>*pday</b> and <b>*psec</b> will be positive. If <b>to</b> represents a time earlier than <b>from</b> then one or both of <b>*pday</b> and <b>*psec</b> will be negative. If <b>to</b> and <b>from</b> represent the same time then <b>*pday</b> and <b>*psec</b> will both be zero. If both <b>*pday</b> and <b>*psec</b> are non-zero they will always have the same sign. The value of <b>*psec</b> will always be less than the number of seconds in a day. If <b>from</b> or <b>to</b> is NULL the current time is used.</p>
+<p>ASN1_TIME_diff() sets <b>*pday</b> and <b>*psec</b> to the time difference between <b>from</b> and <b>to</b>. If <b>to</b> represents a time later than <b>from</b> then one or both (depending on the time difference) of <b>*pday</b> and <b>*psec</b> will be positive. If <b>to</b> represents a time earlier than <b>from</b> then one or both of <b>*pday</b> and <b>*psec</b> will be negative. If <b>to</b> and <b>from</b> represent the same time then <b>*pday</b> and <b>*psec</b> will both be zero. If both <b>*pday</b> and <b>*psec</b> are nonzero they will always have the same sign. The value of <b>*psec</b> will always be less than the number of seconds in a day. If <b>from</b> or <b>to</b> is NULL the current time is used.</p>
 
 <p>The ASN1_TIME_cmp_time_t() and ASN1_UTCTIME_cmp_time_t() functions compare the two times represented by the time structure <b>s</b> and the time_t <b>t</b>.</p>
 
@@ -115,7 +115,7 @@
 
 <h1 id="BUGS">BUGS</h1>
 
-<p>ASN1_TIME_print(), ASN1_UTCTIME_print() and ASN1_GENERALIZEDTIME_print() do not print out the time zone: it either prints out &quot;GMT&quot; or nothing. But all certificates complying with RFC5280 et al use GMT anyway.</p>
+<p>ASN1_TIME_print(), ASN1_UTCTIME_print() and ASN1_GENERALIZEDTIME_print() do not print out the timezone: it either prints out &quot;GMT&quot; or nothing. But all certificates complying with RFC5280 et al use GMT anyway.</p>
 
 <p>Use the ASN1_TIME_normalize() function to normalize the time value before printing to get GMT results.</p>
 
@@ -181,7 +181,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

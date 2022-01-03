@@ -49,7 +49,7 @@
 
 <p>DH_get_default_method() returns a pointer to the current default DH_METHOD. However, the meaningfulness of this result is dependent on whether the ENGINE API is being used, so this function is no longer recommended.</p>
 
-<p>DH_set_method() selects <b>meth</b> to perform all operations using the key <b>dh</b>. This will replace the DH_METHOD used by the DH key and if the previous method was supplied by an ENGINE, the handle to that ENGINE will be released during the change. It is possible to have DH keys that only work with certain DH_METHOD implementations (eg. from an ENGINE module that supports embedded hardware-protected keys), and in such cases attempting to change the DH_METHOD for the key can have unexpected results.</p>
+<p>DH_set_method() selects <b>meth</b> to perform all operations using the key <b>dh</b>. This will replace the DH_METHOD used by the DH key and if the previous method was supplied by an ENGINE, the handle to that ENGINE will be released during the change. It is possible to have DH keys that only work with certain DH_METHOD implementations (e.g. from an ENGINE module that supports embedded hardware-protected keys), and in such cases attempting to change the DH_METHOD for the key can have unexpected results.</p>
 
 <p>DH_new_method() allocates and initializes a DH structure so that <b>engine</b> will be used for the DH operations. If <b>engine</b> is NULL, the default ENGINE for DH operations is used, and if no default ENGINE is set, the DH_METHOD controlled by DH_set_default_method() is used.</p>
 
@@ -61,7 +61,7 @@
 
 <p>DH_set_default_method() returns no value.</p>
 
-<p>DH_set_method() returns non-zero if the provided <b>meth</b> was successfully set as the method for <b>dh</b> (including unloading the ENGINE handle if the previous method was supplied by an ENGINE).</p>
+<p>DH_set_method() returns nonzero if the provided <b>meth</b> was successfully set as the method for <b>dh</b> (including unloading the ENGINE handle if the previous method was supplied by an ENGINE).</p>
 
 <p>DH_new_method() returns NULL and sets an error code that can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a> if the allocation fails. Otherwise it returns a pointer to the newly allocated structure.</p>
 
@@ -71,7 +71,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

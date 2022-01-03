@@ -80,7 +80,7 @@
 
 <p>If <b>prediction_resistance</b> was requested and the random source of the DRBG does not satisfy the conditions requested by [NIST SP 800-90C], then it must also indicate an error by returning a buffer length of 0. See NOTES section for more details.</p>
 
-<p>The <b>cleanup_entropy</b>() callback is called from the <b>drbg</b> to to clear and free the buffer allocated previously by get_entropy(). The values <b>out</b> and <b>outlen</b> are the random buffer&#39;s address and length, as returned by the get_entropy() callback.</p>
+<p>The <b>cleanup_entropy</b>() callback is called from the <b>drbg</b> to clear and free the buffer allocated previously by get_entropy(). The values <b>out</b> and <b>outlen</b> are the random buffer&#39;s address and length, as returned by the get_entropy() callback.</p>
 
 <p>The <b>get_nonce</b>() and <b>cleanup_nonce</b>() callbacks are used to obtain a nonce and free it again. A nonce is only required for instantiation (not for reseeding) and only in the case where the DRBG uses a derivation function. The callbacks are analogous to get_entropy() and cleanup_entropy(), except for the missing prediction_resistance flag.</p>
 
@@ -110,7 +110,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2017-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2017-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -44,7 +44,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>Sessions are generated within a certain context. When exporting/importing sessions with <b>i2d_SSL_SESSION</b>/<b>d2i_SSL_SESSION</b> it would be possible, to re-import a session generated from another context (e.g. another application), which might lead to malfunctions. Therefore each application must set its own session id context <b>sid_ctx</b> which is used to distinguish the contexts and is stored in exported sessions. The <b>sid_ctx</b> can be any kind of binary data with a given length, it is therefore possible to use e.g. the name of the application and/or the hostname and/or service name ...</p>
+<p>Sessions are generated within a certain context. When exporting/importing sessions with <b>i2d_SSL_SESSION</b>/<b>d2i_SSL_SESSION</b> it would be possible, to re-import a session generated from another context (e.g. another application), which might lead to malfunctions. Therefore, each application must set its own session id context <b>sid_ctx</b> which is used to distinguish the contexts and is stored in exported sessions. The <b>sid_ctx</b> can be any kind of binary data with a given length, it is therefore possible to use e.g. the name of the application and/or the hostname and/or service name ...</p>
 
 <p>The session id context becomes part of the session. The session id context is set by the SSL/TLS server. The SSL_CTX_set_session_id_context() and SSL_set_session_id_context() functions are therefore only useful on the server side.</p>
 
@@ -84,7 +84,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2001-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2001-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

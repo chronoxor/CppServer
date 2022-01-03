@@ -39,7 +39,7 @@
 
 <p>SSL_pending() returns the number of bytes which have been processed, buffered and are available inside <b>ssl</b> for immediate read.</p>
 
-<p>If the <b>SSL</b> object&#39;s <i>read_ahead</i> flag is set (see <a href="../man3/SSL_CTX_set_read_ahead.html">SSL_CTX_set_read_ahead(3)</a>), additional protocol bytes (beyond the current record) may have been read containing more TLS/SSL records. This also applies to DTLS and pipelining (see <a href="../man3/SSL_CTX_set_split_send_fragment.html">SSL_CTX_set_split_send_fragment(3)</a>). These additional bytes will be buffered by OpenSSL but will remain unprocessed until they are needed. As these bytes are still in an unprocessed state SSL_pending() will ignore them. Therefore it is possible for no more bytes to be readable from the underlying BIO (because OpenSSL has already read them) and for SSL_pending() to return 0, even though readable application data bytes are available (because the data is in unprocessed buffered records).</p>
+<p>If the <b>SSL</b> object&#39;s <i>read_ahead</i> flag is set (see <a href="../man3/SSL_CTX_set_read_ahead.html">SSL_CTX_set_read_ahead(3)</a>), additional protocol bytes (beyond the current record) may have been read containing more TLS/SSL records. This also applies to DTLS and pipelining (see <a href="../man3/SSL_CTX_set_split_send_fragment.html">SSL_CTX_set_split_send_fragment(3)</a>). These additional bytes will be buffered by OpenSSL but will remain unprocessed until they are needed. As these bytes are still in an unprocessed state SSL_pending() will ignore them. Therefore, it is possible for no more bytes to be readable from the underlying BIO (because OpenSSL has already read them) and for SSL_pending() to return 0, even though readable application data bytes are available (because the data is in unprocessed buffered records).</p>
 
 <p>SSL_has_pending() returns 1 if <b>s</b> has buffered data (whether processed or unprocessed) and 0 otherwise. Note that it is possible for SSL_has_pending() to return 1, and then a subsequent call to SSL_read_ex() or SSL_read() to return no data because the unprocessed buffered data when processed yielded no application data (for example this can happen during renegotiation). It is also possible in this scenario for SSL_has_pending() to continue to return 1 even after an SSL_read_ex() or SSL_read() call because the buffered and unprocessed data is not yet processable (e.g. because OpenSSL has only received a partial record so far).</p>
 
@@ -57,7 +57,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

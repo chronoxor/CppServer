@@ -1,0 +1,41 @@
+name: Windows (MSYS2)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Setup MSYS2"
+        uses: msys2/setup-msys2@v2
+        with:
+          release: false
+          install: >-
+            git
+            python3-pip
+            msys2-w32api-runtime
+            msys2-w32api-runtime
+
+      - name: "Setup cmake"
+        run: cmake --version
+
+      - name: "Setup gil"
+        run: |
+          pip3 install gil
+          gil update
+
+      - name: "Build"
+        env:
+          INCLUDE: C:\msys64\usr\include\w32api
+          LIB: C:\msys64\usr\lib\w32api
+        run: |
+          cd build
+          ./unix.sh

@@ -75,7 +75,7 @@
 
 <p>This sets the supported groups. For clients, the groups are sent using the supported groups extension. For servers, it is used to determine which group to use. This setting affects groups used for signatures (in TLSv1.2 and earlier) and key exchange. The first group listed will also be used for the <b>key_share</b> sent by a client in a TLSv1.3 <b>ClientHello</b>.</p>
 
-<p>The <b>value</b> argument is a colon separated list of groups. The group can be either the <b>NIST</b> name (e.g. <b>P-256</b>), some other commonly used name where applicable (e.g. <b>X25519</b>) or an OpenSSL OID name (e.g <b>prime256v1</b>). Group names are case sensitive. The list should be in order of preference with the most preferred group first.</p>
+<p>The <b>value</b> argument is a colon separated list of groups. The group can be either the <b>NIST</b> name (e.g. <b>P-256</b>), some other commonly used name where applicable (e.g. <b>X25519</b>) or an OpenSSL OID name (e.g. <b>prime256v1</b>). Group names are case sensitive. The list should be in order of preference with the most preferred group first.</p>
 
 </dd>
 <dt id="curves"><b>-curves</b></dt>
@@ -89,7 +89,7 @@
 
 <p>This sets the temporary curve used for ephemeral ECDH modes. Only used by servers</p>
 
-<p>The <b>value</b> argument is a curve name or the special value <b>auto</b> which picks an appropriate curve based on client and server preferences. The curve can be either the <b>NIST</b> name (e.g. <b>P-256</b>) or an OpenSSL OID name (e.g <b>prime256v1</b>). Curve names are case sensitive.</p>
+<p>The <b>value</b> argument is a curve name or the special value <b>auto</b> which picks an appropriate curve based on client and server preferences. The curve can be either the <b>NIST</b> name (e.g. <b>P-256</b>) or an OpenSSL OID name (e.g. <b>prime256v1</b>). Curve names are case sensitive.</p>
 
 </dd>
 <dt id="cipher"><b>-cipher</b></dt>
@@ -137,7 +137,7 @@
 <dt id="min_protocol--max_protocol"><b>-min_protocol</b>, <b>-max_protocol</b></dt>
 <dd>
 
-<p>Sets the minimum and maximum supported protocol. Currently supported protocol values are <b>SSLv3</b>, <b>TLSv1</b>, <b>TLSv1.1</b>, <b>TLSv1.2</b>, <b>TLSv1.3</b> for TLS and <b>DTLSv1</b>, <b>DTLSv1.2</b> for DTLS, and <b>None</b> for no limit. If either bound is not specified then only the other bound applies, if specified. To restrict the supported protocol versions use these commands rather than the deprecated alternative commands below.</p>
+<p>Sets the minimum and maximum supported protocol. Currently supported protocol values are <b>SSLv3</b>, <b>TLSv1</b>, <b>TLSv1.1</b>, <b>TLSv1.2</b>, <b>TLSv1.3</b> for TLS; <b>DTLSv1</b>, <b>DTLSv1.2</b> for DTLS, and <b>None</b> for no limit. If either the lower or upper bound is not specified then only the other bound applies, if specified. If your application supports both TLS and DTLS you can specify any of these options twice, once with a bound for TLS and again with an appropriate bound for DTLS. To restrict the supported protocol versions use these commands rather than the deprecated alternative commands below.</p>
 
 </dd>
 <dt id="no_ssl3--no_tls1--no_tls1_1--no_tls1_2--no_tls1_3"><b>-no_ssl3</b>, <b>-no_tls1</b>, <b>-no_tls1_1</b>, <b>-no_tls1_2</b>, <b>-no_tls1_3</b></dt>
@@ -307,7 +307,7 @@
 
 <p>This sets the supported groups. For clients, the groups are sent using the supported groups extension. For servers, it is used to determine which group to use. This setting affects groups used for signatures (in TLSv1.2 and earlier) and key exchange. The first group listed will also be used for the <b>key_share</b> sent by a client in a TLSv1.3 <b>ClientHello</b>.</p>
 
-<p>The <b>value</b> argument is a colon separated list of groups. The group can be either the <b>NIST</b> name (e.g. <b>P-256</b>), some other commonly used name where applicable (e.g. <b>X25519</b>) or an OpenSSL OID name (e.g <b>prime256v1</b>). Group names are case sensitive. The list should be in order of preference with the most preferred group first.</p>
+<p>The <b>value</b> argument is a colon separated list of groups. The group can be either the <b>NIST</b> name (e.g. <b>P-256</b>), some other commonly used name where applicable (e.g. <b>X25519</b>) or an OpenSSL OID name (e.g. <b>prime256v1</b>). Group names are case sensitive. The list should be in order of preference with the most preferred group first.</p>
 
 </dd>
 <dt id="Curves"><b>Curves</b></dt>
@@ -321,7 +321,7 @@
 
 <p>This sets the minimum supported SSL, TLS or DTLS version.</p>
 
-<p>Currently supported protocol values are <b>SSLv3</b>, <b>TLSv1</b>, <b>TLSv1.1</b>, <b>TLSv1.2</b>, <b>TLSv1.3</b>, <b>DTLSv1</b> and <b>DTLSv1.2</b>. The value <b>None</b> will disable the limit.</p>
+<p>Currently supported protocol values are <b>SSLv3</b>, <b>TLSv1</b>, <b>TLSv1.1</b>, <b>TLSv1.2</b>, <b>TLSv1.3</b>, <b>DTLSv1</b> and <b>DTLSv1.2</b>. The SSL and TLS bounds apply only to TLS-based contexts, while the DTLS bounds apply only to DTLS-based contexts. The command can be repeated with one instance setting a TLS bound, and the other setting a DTLS bound. The value <b>None</b> applies to both types of contexts and disables the limits.</p>
 
 </dd>
 <dt id="MaxProtocol"><b>MaxProtocol</b></dt>
@@ -329,7 +329,7 @@
 
 <p>This sets the maximum supported SSL, TLS or DTLS version.</p>
 
-<p>Currently supported protocol values are <b>SSLv3</b>, <b>TLSv1</b>, <b>TLSv1.1</b>, <b>TLSv1.2</b>, <b>TLSv1.3</b>, <b>DTLSv1</b> and <b>DTLSv1.2</b>. The value <b>None</b> will disable the limit.</p>
+<p>Currently supported protocol values are <b>SSLv3</b>, <b>TLSv1</b>, <b>TLSv1.1</b>, <b>TLSv1.2</b>, <b>TLSv1.3</b>, <b>DTLSv1</b> and <b>DTLSv1.2</b>. The SSL and TLS bounds apply only to TLS-based contexts, while the DTLS bounds apply only to DTLS-based contexts. The command can be repeated with one instance setting a TLS bound, and the other setting a DTLS bound. The value <b>None</b> applies to both types of contexts and disables the limits.</p>
 
 </dd>
 <dt id="Protocol"><b>Protocol</b></dt>
@@ -435,7 +435,7 @@
 <dt id="SSL_CONF_TYPE_FILE"><b>SSL_CONF_TYPE_FILE</b></dt>
 <dd>
 
-<p>The value is a file name.</p>
+<p>The value is a filename.</p>
 
 </dd>
 <dt id="SSL_CONF_TYPE_DIR"><b>SSL_CONF_TYPE_DIR</b></dt>
@@ -556,7 +556,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2012-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2012-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -1,0 +1,40 @@
+name: Doxygen
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Setup git"
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - uses: actions/checkout@v2
+
+      - name: "Setup cmake"
+        run: cmake --version
+
+      - name: "Setup doxygen"
+        run: |
+          sudo apt-get -y install doxygen graphviz binutils-dev
+          doxygen --version
+          dot -V
+
+      - name: "Setup gil"
+        run: |
+          pip3 install gil
+          gil update
+
+      - name: "Doxygen"
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd build/Unix
+          ./01-generate.sh
+          ./05-doxygen.sh

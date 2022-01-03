@@ -91,7 +91,7 @@
 
 <p>If blocking I/O is set then a non positive return value from any I/O call is caused by an error condition, although a zero return will normally mean that the connection was closed.</p>
 
-<p>If the port name is supplied as part of the host name then this will override any value set with BIO_set_conn_port(). This may be undesirable if the application does not wish to allow connection to arbitrary ports. This can be avoided by checking for the presence of the &#39;:&#39; character in the passed hostname and either indicating an error or truncating the string at that point.</p>
+<p>If the port name is supplied as part of the hostname then this will override any value set with BIO_set_conn_port(). This may be undesirable if the application does not wish to allow connection to arbitrary ports. This can be avoided by checking for the presence of the &#39;:&#39; character in the passed hostname and either indicating an error or truncating the string at that point.</p>
 
 <p>The values returned by BIO_get_conn_hostname(), BIO_get_conn_address(), and BIO_get_conn_port() are updated when a connection attempt is made. Before any connection attempt the values returned are those set by the application itself.</p>
 
@@ -161,7 +161,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

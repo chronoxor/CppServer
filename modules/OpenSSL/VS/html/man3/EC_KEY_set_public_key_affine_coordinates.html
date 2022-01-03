@@ -22,7 +22,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>EC_KEY_get_method, EC_KEY_set_method, EC_KEY_new, EC_KEY_get_flags, EC_KEY_set_flags, EC_KEY_clear_flags, EC_KEY_new_by_curve_name, EC_KEY_free, EC_KEY_copy, EC_KEY_dup, EC_KEY_up_ref, EC_KEY_get0_engine, EC_KEY_get0_group, EC_KEY_set_group, EC_KEY_get0_private_key, EC_KEY_set_private_key, EC_KEY_get0_public_key, EC_KEY_set_public_key, EC_KEY_get_conv_form, EC_KEY_set_conv_form, EC_KEY_set_asn1_flag, EC_KEY_precompute_mult, EC_KEY_generate_key, EC_KEY_check_key, EC_KEY_set_public_key_affine_coordinates, EC_KEY_oct2key, EC_KEY_key2buf, EC_KEY_oct2priv, EC_KEY_priv2oct, EC_KEY_priv2buf - Functions for creating, destroying and manipulating EC_KEY objects</p>
+<p>EC_KEY_get_method, EC_KEY_set_method, EC_KEY_new, EC_KEY_get_flags, EC_KEY_set_flags, EC_KEY_clear_flags, EC_KEY_new_by_curve_name, EC_KEY_free, EC_KEY_copy, EC_KEY_dup, EC_KEY_up_ref, EC_KEY_get0_engine, EC_KEY_get0_group, EC_KEY_set_group, EC_KEY_get0_private_key, EC_KEY_set_private_key, EC_KEY_get0_public_key, EC_KEY_set_public_key, EC_KEY_get_conv_form, EC_KEY_set_conv_form, EC_KEY_set_asn1_flag, EC_KEY_decoded_from_explicit_params, EC_KEY_precompute_mult, EC_KEY_generate_key, EC_KEY_check_key, EC_KEY_set_public_key_affine_coordinates, EC_KEY_oct2key, EC_KEY_key2buf, EC_KEY_oct2priv, EC_KEY_priv2oct, EC_KEY_priv2buf - Functions for creating, destroying and manipulating EC_KEY objects</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -47,6 +47,7 @@
  <span class="variable">point_conversion_form_t</span> <span class="variable">EC_KEY_get_conv_form</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">EC_KEY_set_conv_form</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="variable">point_conversion_form_t</span> <span class="variable">cform</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">EC_KEY_set_asn1_flag</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">asn1_flag</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">EC_KEY_decoded_from_explicit_params</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EC_KEY_precompute_mult</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EC_KEY_generate_key</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">EC_KEY_check_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
@@ -94,9 +95,11 @@
 
 <p>EC_KEY_set_asn1_flag() sets the asn1_flag on the underlying EC_GROUP object (if set). Refer to <a href="../man3/EC_GROUP_copy.html">EC_GROUP_copy(3)</a> for further information on the asn1_flag.</p>
 
+<p>EC_KEY_decoded_from_explicit_params() returns 1 if the group of the <i>key</i> was decoded from data with explicitly encoded group parameters, -1 if the <i>key</i> is NULL or the group parameters are missing, and 0 otherwise.</p>
+
 <p>EC_KEY_precompute_mult() stores multiples of the underlying EC_GROUP generator for faster point multiplication. See also <a href="../man3/EC_POINT_add.html">EC_POINT_add(3)</a>.</p>
 
-<p>EC_KEY_oct2key() and EC_KEY_key2buf() are identical to the functions EC_POINT_oct2point() and EC_KEY_point2buf() except they use the public key EC_POINT in <b>eckey</b>.</p>
+<p>EC_KEY_oct2key() and EC_KEY_key2buf() are identical to the functions EC_POINT_oct2point() and EC_POINT_point2buf() except they use the public key EC_POINT in <b>eckey</b>.</p>
 
 <p>EC_KEY_oct2priv() and EC_KEY_priv2oct() convert between the private key component of <b>eckey</b> and octet form. The octet form consists of the content octets of the <b>privateKey</b> OCTET STRING in an <b>ECPrivateKey</b> ASN.1 structure.</p>
 
@@ -132,7 +135,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2013-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2013-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

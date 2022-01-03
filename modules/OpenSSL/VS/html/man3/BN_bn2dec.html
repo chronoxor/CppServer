@@ -51,7 +51,7 @@
 
 <p>BN_bn2bin() converts the absolute value of <b>a</b> into big-endian form and stores it at <b>to</b>. <b>to</b> must point to BN_num_bytes(<b>a</b>) bytes of memory.</p>
 
-<p>BN_bn2binpad() also converts the absolute value of <b>a</b> into big-endian form and stores it at <b>to</b>. <b>tolen</b> indicates the length of the output buffer <b>to</b>. The result is padded with zeroes if necessary. If <b>tolen</b> is less than BN_num_bytes(<b>a</b>) an error is returned.</p>
+<p>BN_bn2binpad() also converts the absolute value of <b>a</b> into big-endian form and stores it at <b>to</b>. <b>tolen</b> indicates the length of the output buffer <b>to</b>. The result is padded with zeros if necessary. If <b>tolen</b> is less than BN_num_bytes(<b>a</b>) an error is returned.</p>
 
 <p>BN_bin2bn() converts the positive integer in big-endian form of length <b>len</b> at <b>s</b> into a <b>BIGNUM</b> and places it in <b>ret</b>. If <b>ret</b> is NULL, a new <b>BIGNUM</b> is created.</p>
 
@@ -89,7 +89,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

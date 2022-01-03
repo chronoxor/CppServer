@@ -109,7 +109,7 @@
 
 <p>When the source of the prime is not random or not trusted, the number of checks needs to be much higher to reach the same level of assurance: It should equal half of the targeted security level in bits (rounded up to the next integer if necessary). For instance, to reach the 128 bit security level, <b>nchecks</b> should be set to 64.</p>
 
-<p>If <b>cb</b> is not <b>NULL</b>, <b>BN_GENCB_call(cb, 1, j)</b> is called after the j-th iteration (j = 0, 1, ...). <b>ctx</b> is a pre-allocated <b>BN_CTX</b> (to save the overhead of allocating and freeing the structure in a loop), or <b>NULL</b>.</p>
+<p>If <b>cb</b> is not <b>NULL</b>, <b>BN_GENCB_call(cb, 1, j)</b> is called after the j-th iteration (j = 0, 1, ...). <b>ctx</b> is a preallocated <b>BN_CTX</b> (to save the overhead of allocating and freeing the structure in a loop), or <b>NULL</b>.</p>
 
 <p>BN_GENCB_call() calls the callback function held in the <b>BN_GENCB</b> structure and passes the ints <b>a</b> and <b>b</b> as arguments. There are two types of <b>BN_GENCB</b> structure that are supported: &quot;new&quot; style and &quot;old&quot; style. New programs should prefer the &quot;new&quot; style, whilst the &quot;old&quot; style is provided for backwards compatibility purposes.</p>
 

@@ -36,9 +36,9 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>SSL_set0_rbio() connects the BIO <b>rbio</b> for the read operations of the <b>ssl</b> object. The SSL engine inherits the behaviour of <b>rbio</b>. If the BIO is non-blocking then the <b>ssl</b> object will also have non-blocking behaviour. This function transfers ownership of <b>rbio</b> to <b>ssl</b>. It will be automatically freed using <a href="../man3/BIO_free_all.html">BIO_free_all(3)</a> when the <b>ssl</b> is freed. On calling this function, any existing <b>rbio</b> that was previously set will also be freed via a call to <a href="../man3/BIO_free_all.html">BIO_free_all(3)</a> (this includes the case where the <b>rbio</b> is set to the same value as previously).</p>
+<p>SSL_set0_rbio() connects the BIO <b>rbio</b> for the read operations of the <b>ssl</b> object. The SSL engine inherits the behaviour of <b>rbio</b>. If the BIO is nonblocking then the <b>ssl</b> object will also have nonblocking behaviour. This function transfers ownership of <b>rbio</b> to <b>ssl</b>. It will be automatically freed using <a href="../man3/BIO_free_all.html">BIO_free_all(3)</a> when the <b>ssl</b> is freed. On calling this function, any existing <b>rbio</b> that was previously set will also be freed via a call to <a href="../man3/BIO_free_all.html">BIO_free_all(3)</a> (this includes the case where the <b>rbio</b> is set to the same value as previously).</p>
 
-<p>SSL_set0_wbio() works in the same as SSL_set0_rbio() except that it connects the BIO <b>wbio</b> for the write operations of the <b>ssl</b> object. Note that if the rbio and wbio are the same then SSL_set0_rbio() and SSL_set0_wbio() each take ownership of one reference. Therefore it may be necessary to increment the number of references available using <a href="../man3/BIO_up_ref.html">BIO_up_ref(3)</a> before calling the set0 functions.</p>
+<p>SSL_set0_wbio() works in the same as SSL_set0_rbio() except that it connects the BIO <b>wbio</b> for the write operations of the <b>ssl</b> object. Note that if the rbio and wbio are the same then SSL_set0_rbio() and SSL_set0_wbio() each take ownership of one reference. Therefore, it may be necessary to increment the number of references available using <a href="../man3/BIO_up_ref.html">BIO_up_ref(3)</a> before calling the set0 functions.</p>
 
 <p>SSL_set_bio() is similar to SSL_set0_rbio() and SSL_set0_wbio() except that it connects both the <b>rbio</b> and the <b>wbio</b> at the same time, and transfers the ownership of <b>rbio</b> and <b>wbio</b> to <b>ssl</b> according to the following set of rules:</p>
 
@@ -83,7 +83,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

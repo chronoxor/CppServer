@@ -53,9 +53,9 @@
 <pre><code> <span class="variable">SSLerr</span><span class="operator">(</span><span class="variable">SSL_F_SSL3_READ_BYTES</span><span class="operator">,</span> <span class="variable">SSL_R_SSL_HANDSHAKE_FAILURE</span><span class="operator">);</span>
 </code></pre>
 
-<p>Function and reason codes should consist of upper case characters, numbers and underscores only. The error file generation script translates function codes into function names by looking in the header files for an appropriate function name, if none is found it just uses the capitalized form such as &quot;SSL3_READ_BYTES&quot; in the above example.</p>
+<p>Function and reason codes should consist of uppercase characters, numbers and underscores only. The error file generation script translates function codes into function names by looking in the header files for an appropriate function name, if none is found it just uses the capitalized form such as &quot;SSL3_READ_BYTES&quot; in the above example.</p>
 
-<p>The trailing section of a reason code (after the &quot;_R_&quot;) is translated into lower case and underscores changed to spaces.</p>
+<p>The trailing section of a reason code (after the &quot;_R_&quot;) is translated into lowercase and underscores changed to spaces.</p>
 
 <p>Although a library will normally report errors using its own specific XXXerr macro, another library&#39;s macro can be used. This is normally only done when a library wants to include ASN1 code which must use the ASN1err() macro.</p>
 
@@ -69,7 +69,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

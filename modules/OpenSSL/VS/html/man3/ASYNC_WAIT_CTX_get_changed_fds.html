@@ -53,7 +53,7 @@
 
 <p>Application code must create an ASYNC_WAIT_CTX using the ASYNC_WAIT_CTX_new() function prior to calling ASYNC_start_job() (see <a href="../man3/ASYNC_start_job.html">ASYNC_start_job(3)</a>). When the job is started it is associated with the ASYNC_WAIT_CTX for the duration of that job. An ASYNC_WAIT_CTX should only be used for one ASYNC_JOB at any one time, but can be reused after an ASYNC_JOB has finished for a subsequent ASYNC_JOB. When the session is complete (e.g. the SSL connection is closed), application code cleans up with ASYNC_WAIT_CTX_free().</p>
 
-<p>ASYNC_WAIT_CTXs can have &quot;wait&quot; file descriptors associated with them. Calling ASYNC_WAIT_CTX_get_all_fds() and passing in a pointer to an ASYNC_WAIT_CTX in the <b>ctx</b> parameter will return the wait file descriptors associated with that job in <b>*fd</b>. The number of file descriptors returned will be stored in <b>*numfds</b>. It is the caller&#39;s responsibility to ensure that sufficient memory has been allocated in <b>*fd</b> to receive all the file descriptors. Calling ASYNC_WAIT_CTX_get_all_fds() with a NULL <b>fd</b> value will return no file descriptors but will still populate <b>*numfds</b>. Therefore application code is typically expected to call this function twice: once to get the number of fds, and then again when sufficient memory has been allocated. If only one asynchronous engine is being used then normally this call will only ever return one fd. If multiple asynchronous engines are being used then more could be returned.</p>
+<p>ASYNC_WAIT_CTXs can have &quot;wait&quot; file descriptors associated with them. Calling ASYNC_WAIT_CTX_get_all_fds() and passing in a pointer to an ASYNC_WAIT_CTX in the <b>ctx</b> parameter will return the wait file descriptors associated with that job in <b>*fd</b>. The number of file descriptors returned will be stored in <b>*numfds</b>. It is the caller&#39;s responsibility to ensure that sufficient memory has been allocated in <b>*fd</b> to receive all the file descriptors. Calling ASYNC_WAIT_CTX_get_all_fds() with a NULL <b>fd</b> value will return no file descriptors but will still populate <b>*numfds</b>. Therefore, application code is typically expected to call this function twice: once to get the number of fds, and then again when sufficient memory has been allocated. If only one asynchronous engine is being used then normally this call will only ever return one fd. If multiple asynchronous engines are being used then more could be returned.</p>
 
 <p>The function ASYNC_WAIT_CTX_get_changed_fds() can be used to detect if any fds have changed since the last call time ASYNC_start_job() returned an ASYNC_PAUSE result (or since the ASYNC_WAIT_CTX was created if no ASYNC_PAUSE result has been received). The <b>numaddfds</b> and <b>numdelfds</b> parameters will be populated with the number of fds added or deleted respectively. <b>*addfd</b> and <b>*delfd</b> will be populated with the list of added and deleted fds respectively. Similarly to ASYNC_WAIT_CTX_get_all_fds() either of these can be NULL, but if they are not NULL then the caller is responsible for ensuring sufficient memory is allocated.</p>
 
@@ -73,7 +73,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>On Windows platforms the openssl/async.h header is dependent on some of the types customarily made available by including windows.h. The application developer is likely to require control over when the latter is included, commonly as one of the first included headers. Therefore it is defined as an application developer&#39;s responsibility to include windows.h prior to async.h.</p>
+<p>On Windows platforms the openssl/async.h header is dependent on some of the types customarily made available by including windows.h. The application developer is likely to require control over when the latter is included, commonly as one of the first included headers. Therefore, it is defined as an application developer&#39;s responsibility to include windows.h prior to async.h.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
@@ -85,7 +85,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

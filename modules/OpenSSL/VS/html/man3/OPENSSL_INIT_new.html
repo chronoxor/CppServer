@@ -51,9 +51,9 @@
 
 <p>As of version 1.1.0 OpenSSL will automatically allocate all resources that it needs so no explicit initialisation is required. Similarly it will also automatically deinitialise as required.</p>
 
-<p>However, there may be situations when explicit initialisation is desirable or needed, for example when some non-default initialisation is required. The function OPENSSL_init_crypto() can be used for this purpose for libcrypto (see also <a href="../man3/OPENSSL_init_ssl.html">OPENSSL_init_ssl(3)</a> for the libssl equivalent).</p>
+<p>However, there may be situations when explicit initialisation is desirable or needed, for example when some nondefault initialisation is required. The function OPENSSL_init_crypto() can be used for this purpose for libcrypto (see also <a href="../man3/OPENSSL_init_ssl.html">OPENSSL_init_ssl(3)</a> for the libssl equivalent).</p>
 
-<p>Numerous internal OpenSSL functions call OPENSSL_init_crypto(). Therefore, in order to perform non-default initialisation, OPENSSL_init_crypto() MUST be called by application code prior to any other OpenSSL function calls.</p>
+<p>Numerous internal OpenSSL functions call OPENSSL_init_crypto(). Therefore, in order to perform nondefault initialisation, OPENSSL_init_crypto() MUST be called by application code prior to any other OpenSSL function calls.</p>
 
 <p>The <b>opts</b> parameter specifies which aspects of libcrypto should be initialised. Valid options are:</p>
 
@@ -189,7 +189,7 @@
 
 <p>The OPENSSL_thread_stop() function deallocates resources associated with the current thread. Typically this function will be called automatically by the library when the thread exits. This should only be called directly if resources should be freed at an earlier time, or under the circumstances described in the NOTES section below.</p>
 
-<p>The <b>OPENSSL_INIT_LOAD_CONFIG</b> flag will load a configuration file, as with <a href="../man3/CONF_modules_load_file.html">CONF_modules_load_file(3)</a> with NULL filename and application name and the <b>CONF_MFLAGS_IGNORE_MISSING_FILE</b>, <b>CONF_MFLAGS_IGNORE_RETURN_CODES</b> and <b>CONF_MFLAGS_DEFAULT_SECTION</b> flags. The filename, application name, and flags can be customized by providing a non-null <b>OPENSSL_INIT_SETTINGS</b> object. The object can be allocated via <b>OPENSSL_init_new()</b>. The <b>OPENSSL_INIT_set_config_filename()</b> function can be used to specify a non-default filename, which is copied and need not refer to persistent storage. Similarly, OPENSSL_INIT_set_config_appname() can be used to specify a non-default application name. Finally, OPENSSL_INIT_set_file_flags can be used to specify non-default flags. If the <b>CONF_MFLAGS_IGNORE_RETURN_CODES</b> flag is not included, any errors in the configuration file will cause an error return from <b>OPENSSL_init_crypto</b> or indirectly <a href="../man3/OPENSSL_init_ssl.html">OPENSSL_init_ssl(3)</a>. The object can be released with OPENSSL_INIT_free() when done.</p>
+<p>The <b>OPENSSL_INIT_LOAD_CONFIG</b> flag will load a configuration file, as with <a href="../man3/CONF_modules_load_file.html">CONF_modules_load_file(3)</a> with NULL filename and application name and the <b>CONF_MFLAGS_IGNORE_MISSING_FILE</b>, <b>CONF_MFLAGS_IGNORE_RETURN_CODES</b> and <b>CONF_MFLAGS_DEFAULT_SECTION</b> flags. The filename, application name, and flags can be customized by providing a non-null <b>OPENSSL_INIT_SETTINGS</b> object. The object can be allocated via <b>OPENSSL_init_new()</b>. The <b>OPENSSL_INIT_set_config_filename()</b> function can be used to specify a nondefault filename, which is copied and need not refer to persistent storage. Similarly, OPENSSL_INIT_set_config_appname() can be used to specify a nondefault application name. Finally, OPENSSL_INIT_set_file_flags can be used to specify nondefault flags. If the <b>CONF_MFLAGS_IGNORE_RETURN_CODES</b> flag is not included, any errors in the configuration file will cause an error return from <b>OPENSSL_init_crypto</b> or indirectly <a href="../man3/OPENSSL_init_ssl.html">OPENSSL_init_ssl(3)</a>. The object can be released with OPENSSL_INIT_free() when done.</p>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -211,7 +211,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

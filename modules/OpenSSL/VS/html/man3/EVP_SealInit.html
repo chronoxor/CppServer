@@ -39,7 +39,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The EVP envelope routines are a high level interface to envelope encryption. They generate a random key and IV (if required) then &quot;envelope&quot; it by using public key encryption. Data can then be encrypted using this key.</p>
+<p>The EVP envelope routines are a high-level interface to envelope encryption. They generate a random key and IV (if required) then &quot;envelope&quot; it by using public key encryption. Data can then be encrypted using this key.</p>
 
 <p>EVP_SealInit() initializes a cipher context <b>ctx</b> for encryption with cipher <b>type</b> using a random secret key and IV. <b>type</b> is normally supplied by a function such as EVP_aes_256_cbc(). The secret key is encrypted using one or more public keys, this allows the same encrypted data to be decrypted using any of the corresponding private keys. <b>ek</b> is an array of buffers where the public key encrypted secret key will be written, each buffer must contain enough room for the corresponding encrypted key: that is <b>ek[i]</b> must have room for <b>EVP_PKEY_size(pubk[i])</b> bytes. The actual size of each encrypted secret key is written to the array <b>ekl</b>. <b>pubk</b> is an array of <b>npubk</b> public keys.</p>
 
@@ -71,7 +71,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

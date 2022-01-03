@@ -1,0 +1,39 @@
+name: Windows (Cygwin)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: C:\tools\cygwin\bin\bash.exe --login -o igncr {0}
+    steps:
+      - name: "Setup git"
+        shell: cmd
+        run: git config --global core.autocrlf input
+
+      - uses: actions/checkout@v2
+
+      - name: "Setup Cygwin"
+        uses: egor-tensin/setup-cygwin@v3
+        with:
+          platform: x64
+          packages: automake make cmake gcc-g++ libssl-devel libuuid-devel
+
+      - name: "Setup cmake"
+        run: cmake --version
+
+      - name: "Setup gil"
+        shell: cmd
+        run: |
+          pip3 install gil
+          gil update
+
+      - name: "Build"
+        run: |
+          cd $GITHUB_WORKSPACE/build
+          ./unix.sh

@@ -157,7 +157,7 @@
 <dt id="pass-arg"><b>-pass arg</b></dt>
 <dd>
 
-<p>the private key password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
+<p>the private key password source. For more information about the format of <b>arg</b> see <a href="../man1/openssl.html">&quot;Pass Phrase Options&quot; in openssl(1)</a>.</p>
 
 </dd>
 <dt id="verify-depth"><b>-verify depth</b></dt>
@@ -310,13 +310,13 @@
 <dt id="nbio_test"><b>-nbio_test</b></dt>
 <dd>
 
-<p>Tests non-blocking I/O</p>
+<p>Tests nonblocking I/O</p>
 
 </dd>
 <dt id="nbio"><b>-nbio</b></dt>
 <dd>
 
-<p>Turns on non-blocking I/O</p>
+<p>Turns on nonblocking I/O</p>
 
 </dd>
 <dt id="crlf"><b>-crlf</b></dt>
@@ -643,13 +643,13 @@
 
 <p>If the handshake fails then there are several possible causes, if it is nothing obvious like no client certificate then the <b>-bugs</b>, <b>-ssl3</b>, <b>-tls1</b>, <b>-no_ssl3</b>, <b>-no_tls1</b> options can be tried in case it is a buggy server. In particular you should play with these options <b>before</b> submitting a bug report to an OpenSSL mailing list.</p>
 
-<p>A frequent problem when attempting to get client certificates working is that a web client complains it has no certificates or gives an empty list to choose from. This is normally because the server is not sending the clients certificate authority in its &quot;acceptable CA list&quot; when it requests a certificate. By using <b>s_client</b> the CA list can be viewed and checked. However some servers only request client authentication after a specific URL is requested. To obtain the list in this case it is necessary to use the <b>-prexit</b> option and send an HTTP request for an appropriate page.</p>
+<p>A frequent problem when attempting to get client certificates working is that a web client complains it has no certificates or gives an empty list to choose from. This is normally because the server is not sending the clients certificate authority in its &quot;acceptable CA list&quot; when it requests a certificate. By using <b>s_client</b> the CA list can be viewed and checked. However, some servers only request client authentication after a specific URL is requested. To obtain the list in this case it is necessary to use the <b>-prexit</b> option and send an HTTP request for an appropriate page.</p>
 
-<p>If a certificate is specified on the command line using the <b>-cert</b> option it will not be used unless the server specifically requests a client certificate. Therefor merely including a client certificate on the command line is no guarantee that the certificate works.</p>
+<p>If a certificate is specified on the command line using the <b>-cert</b> option it will not be used unless the server specifically requests a client certificate. Therefore, merely including a client certificate on the command line is no guarantee that the certificate works.</p>
 
 <p>If there are problems verifying a server certificate then the <b>-showcerts</b> option can be used to show all the certificates sent by the server.</p>
 
-<p>The <b>s_client</b> utility is a test tool and is designed to continue the handshake after any certificate verification errors. As a result it will accept any certificate chain (trusted or not) sent by the peer. None test applications should <b>not</b> do this as it makes them vulnerable to a MITM attack. This behaviour can be changed by with the <b>-verify_return_error</b> option: any verify errors are then returned aborting the handshake.</p>
+<p>The <b>s_client</b> utility is a test tool and is designed to continue the handshake after any certificate verification errors. As a result it will accept any certificate chain (trusted or not) sent by the peer. Non-test applications should <b>not</b> do this as it makes them vulnerable to a MITM attack. This behaviour can be changed by with the <b>-verify_return_error</b> option: any verify errors are then returned aborting the handshake.</p>
 
 <p>The <b>-bind</b> option may be useful if the server or a firewall requires connections to come from some particular address and or port.</p>
 
@@ -669,7 +669,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

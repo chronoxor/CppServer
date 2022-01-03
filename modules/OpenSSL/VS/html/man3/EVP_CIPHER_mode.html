@@ -107,7 +107,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The EVP cipher routines are a high level interface to certain symmetric ciphers.</p>
+<p>The EVP cipher routines are a high-level interface to certain symmetric ciphers.</p>
 
 <p>EVP_CIPHER_CTX_new() creates a cipher context.</p>
 
@@ -115,7 +115,7 @@
 
 <p>EVP_EncryptInit_ex() sets up cipher context <b>ctx</b> for encryption with cipher <b>type</b> from ENGINE <b>impl</b>. <b>ctx</b> must be created before calling this function. <b>type</b> is normally supplied by a function such as EVP_aes_256_cbc(). If <b>impl</b> is NULL then the default implementation is used. <b>key</b> is the symmetric key to use and <b>iv</b> is the IV to use (if necessary), the actual number of bytes used for the key and IV depends on the cipher. It is possible to set all parameters to NULL except <b>type</b> in an initial call and supply the remaining parameters in subsequent calls, all of which have <b>type</b> set to NULL. This is done when the default cipher parameters are not appropriate.</p>
 
-<p>EVP_EncryptUpdate() encrypts <b>inl</b> bytes from the buffer <b>in</b> and writes the encrypted version to <b>out</b>. This function can be called multiple times to encrypt successive blocks of data. The amount of data written depends on the block alignment of the encrypted data: as a result the amount of data written may be anything from zero bytes to (inl + cipher_block_size - 1) so <b>out</b> should contain sufficient room. The actual number of bytes written is placed in <b>outl</b>. It also checks if <b>in</b> and <b>out</b> are partially overlapping, and if they are 0 is returned to indicate failure.</p>
+<p>EVP_EncryptUpdate() encrypts <b>inl</b> bytes from the buffer <b>in</b> and writes the encrypted version to <b>out</b>. This function can be called multiple times to encrypt successive blocks of data. The amount of data written depends on the block alignment of the encrypted data. For most ciphers and modes, the amount of data written can be anything from zero bytes to (inl + cipher_block_size - 1) bytes. For wrap cipher modes, the amount of data written can be anything from zero bytes to (inl + cipher_block_size) bytes. For stream ciphers, the amount of data written can be anything from zero bytes to inl bytes. Thus, <b>out</b> should contain sufficient room for the operation being performed. The actual number of bytes written is placed in <b>outl</b>. It also checks if <b>in</b> and <b>out</b> are partially overlapping, and if they are 0 is returned to indicate failure.</p>
 
 <p>If padding is enabled (the default) then EVP_EncryptFinal_ex() encrypts the &quot;final&quot; data, that is any data that remains in a partial block. It uses standard block padding (aka PKCS padding) as described in the NOTES section, below. The encrypted final data is written to <b>out</b> which should have sufficient space for one cipher block. The number of bytes written is placed in <b>outl</b>. After this function is called the encryption operation is finished and no further calls to EVP_EncryptUpdate() should be made.</p>
 
@@ -278,7 +278,7 @@
 <dt id="EVP_CIPHER_CTX_ctrl-ctx-EVP_CTRL_AEAD_SET_IVLEN-ivlen-NULL1">EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_AEAD_SET_IVLEN, ivlen, NULL)</dt>
 <dd>
 
-<p>Sets the CCM nonce (IV) length. This call can only be made before specifying an nonce value. The nonce length is given by <b>15 - L</b> so it is 7 by default for AES.</p>
+<p>Sets the CCM nonce (IV) length. This call can only be made before specifying a nonce value. The nonce length is given by <b>15 - L</b> so it is 7 by default for AES.</p>
 
 </dd>
 </dl>
@@ -313,7 +313,7 @@
 
 <h1 id="NOTES">NOTES</h1>
 
-<p>Where possible the <b>EVP</b> interface to symmetric ciphers should be used in preference to the low level interfaces. This is because the code then becomes transparent to the cipher used and much more flexible. Additionally, the <b>EVP</b> interface will ensure the use of platform specific cryptographic acceleration such as AES-NI (the low level interfaces do not provide the guarantee).</p>
+<p>Where possible the <b>EVP</b> interface to symmetric ciphers should be used in preference to the low-level interfaces. This is because the code then becomes transparent to the cipher used and much more flexible. Additionally, the <b>EVP</b> interface will ensure the use of platform specific cryptographic acceleration such as AES-NI (the low-level interfaces do not provide the guarantee).</p>
 
 <p>PKCS padding works by adding <b>n</b> padding bytes of value <b>n</b> to make the total length of the encrypted data a multiple of the block size. Padding is always added so if the data is already a multiple of the block size <b>n</b> will equal the block size. For example if the block size is 8 and 11 bytes are to be encrypted then 5 padding bytes of value 5 will be added.</p>
 
@@ -411,7 +411,7 @@
  
      <span class="regex">/* Don't set key or IV right away; we want to check lengths */</span>
      <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">EVP_CIPHER_CTX_new</span><span class="operator">();</span>
-     <span class="variable">EVP_CipherInit_ex</span><span class="operator">(&amp;</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_aes_128_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span>
+     <span class="variable">EVP_CipherInit_ex</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_aes_128_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span>
                        <span class="variable">do_encrypt</span><span class="operator">);</span>
      <span class="variable">OPENSSL_assert</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX_key_length</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">16</span><span class="operator">);</span>
      <span class="variable">OPENSSL_assert</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX_iv_length</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">16</span><span class="operator">);</span>
@@ -458,7 +458,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

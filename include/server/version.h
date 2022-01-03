@@ -28,7 +28,7 @@ GitHub: https://github.com/chronoxor/CppServer
 namespace CppServer {
 
 //! Project version
-const char version[] = "1.0.1.0";
+const char version[] = "1.0.2.0";
 
 } // namespace CppServer
 

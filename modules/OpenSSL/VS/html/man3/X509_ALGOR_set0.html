@@ -16,12 +16,13 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#HISTORY">HISTORY</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
 <h1 id="NAME">NAME</h1>
 
-<p>X509_ALGOR_dup, X509_ALGOR_set0, X509_ALGOR_get0, X509_ALGOR_set_md, X509_ALGOR_cmp - AlgorithmIdentifier functions</p>
+<p>X509_ALGOR_dup, X509_ALGOR_set0, X509_ALGOR_get0, X509_ALGOR_set_md, X509_ALGOR_cmp, X509_ALGOR_copy - AlgorithmIdentifier functions</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -33,6 +34,7 @@
                       <span class="variable">const</span> <span class="variable">void</span> <span class="operator">**</span><span class="variable">ppval</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*alg</span><span class="operator">);</span>
  <span class="variable">void</span> <span class="variable">X509_ALGOR_set_md</span><span class="operator">(</span><span class="variable">X509_ALGOR</span> <span class="variable">*alg</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">X509_ALGOR_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*b</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">X509_ALGOR_copy</span><span class="operator">(</span><span class="variable">X509_ALGOR</span> <span class="variable">*dest</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*src</span><span class="operator">);</span>
 </code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
@@ -45,21 +47,27 @@
 
 <p>X509_ALGOR_set_md() sets the <b>AlgorithmIdentifier</b> <b>alg</b> to appropriate values for the message digest <b>md</b>.</p>
 
-<p>X509_ALGOR_cmp() compares <b>a</b> and <b>b</b> and returns 0 if they have identical encodings and non-zero otherwise.</p>
+<p>X509_ALGOR_cmp() compares <b>a</b> and <b>b</b> and returns 0 if they have identical encodings and nonzero otherwise.</p>
+
+<p>X509_ALGOR_copy() copies the source values into the dest structs; making a duplicate of each (and free any thing pointed to from within *dest).</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
 <p>X509_ALGOR_dup() returns a valid <b>X509_ALGOR</b> structure or NULL if an error occurred.</p>
 
-<p>X509_ALGOR_set0() returns 1 on success or 0 on error.</p>
+<p>X509_ALGOR_set0() and X509_ALGOR_copy() return 1 on success or 0 on error.</p>
 
 <p>X509_ALGOR_get0() and X509_ALGOR_set_md() return no values.</p>
 
-<p>X509_ALGOR_cmp() returns 0 if the two parameters have identical encodings and non-zero otherwise.</p>
+<p>X509_ALGOR_cmp() returns 0 if the two parameters have identical encodings and nonzero otherwise.</p>
+
+<h1 id="HISTORY">HISTORY</h1>
+
+<p>The X509_ALGOR_copy() was added in 1.1.1e.</p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2002-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2002-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

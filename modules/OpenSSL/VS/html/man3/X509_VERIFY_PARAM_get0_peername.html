@@ -103,7 +103,7 @@
 
 <p>X509_VERIFY_PARAM_set_auth_level() sets the authentication security level to <b>auth_level</b>. The authentication security level determines the acceptable signature and public key strength when verifying certificate chains. For a certificate chain to validate, the public keys of all the certificates must meet the specified security level. The signature algorithm security level is not enforced for the chain&#39;s <i>trust anchor</i> certificate, which is either directly trusted or validated by means other than its signature. See <a href="../man3/SSL_CTX_set_security_level.html">SSL_CTX_set_security_level(3)</a> for the definitions of the available levels. The default security level is -1, or &quot;not set&quot;. At security level 0 or lower all algorithms are acceptable. Security level 1 requires at least 80-bit-equivalent security and is broadly interoperable, though it will, for example, reject MD5 signatures or RSA keys shorter than 1024 bits.</p>
 
-<p>X509_VERIFY_PARAM_set1_host() sets the expected DNS hostname to <b>name</b> clearing any previously specified host name or names. If <b>name</b> is NULL, or empty the list of hostnames is cleared, and name checks are not performed on the peer certificate. If <b>name</b> is NUL-terminated, <b>namelen</b> may be zero, otherwise <b>namelen</b> must be set to the length of <b>name</b>.</p>
+<p>X509_VERIFY_PARAM_set1_host() sets the expected DNS hostname to <b>name</b> clearing any previously specified hostname or names. If <b>name</b> is NULL, or empty the list of hostnames is cleared, and name checks are not performed on the peer certificate. If <b>name</b> is NUL-terminated, <b>namelen</b> may be zero, otherwise <b>namelen</b> must be set to the length of <b>name</b>.</p>
 
 <p>When a hostname is specified, certificate verification automatically invokes <a href="../man3/X509_check_host.html">X509_check_host(3)</a> with flags equal to the <b>flags</b> argument given to X509_VERIFY_PARAM_set_hostflags() (default zero). Applications are strongly advised to use this interface in preference to explicitly calling <a href="../man3/X509_check_host.html">X509_check_host(3)</a>, hostname checks may be out of scope with the DANE-EE(3) certificate usage, and the internal check will be suppressed as appropriate when DANE verification is enabled.</p>
 
@@ -163,7 +163,7 @@
 
 <p>If <b>X509_V_FLAG_USE_DELTAS</b> is set delta CRLs (if present) are used to determine certificate status. If not set deltas are ignored.</p>
 
-<p><b>X509_V_FLAG_CHECK_SS_SIGNATURE</b> enables checking of the root CA self signed certificate signature. By default this check is disabled because it doesn&#39;t add any additional security but in some cases applications might want to check the signature anyway. A side effect of not checking the root CA signature is that disabled or unsupported message digests on the root CA are not treated as fatal errors.</p>
+<p><b>X509_V_FLAG_CHECK_SS_SIGNATURE</b> requests checking the signature of the last certificate in a chain if the certificate is supposedly self-signed. This is prohibited and will result in an error if it is a non-conforming CA certificate with key usage restrictions not including the keyCertSign bit. By default this check is disabled because it doesn&#39;t add any additional security but in some cases applications might want to check the signature anyway. A side effect of not checking the self-signature of such a certificate is that disabled or unsupported message digests used for the signature are not treated as fatal errors.</p>
 
 <p>When <b>X509_V_FLAG_TRUSTED_FIRST</b> is set, construction of the certificate chain in <a href="../man3/X509_verify_cert.html">X509_verify_cert(3)</a> will search the trust store for issuer certificates before searching the provided untrusted certificates. Local issuer certificates are often more likely to satisfy local security requirements and lead to a locally trusted root. This is especially important when some certificates in the trust store have explicit trust settings (see &quot;TRUST SETTINGS&quot; in <a href="../man1/x509.html">x509(1)</a>). As of OpenSSL 1.1.0 this option is on by default.</p>
 
@@ -221,7 +221,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2009-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2009-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

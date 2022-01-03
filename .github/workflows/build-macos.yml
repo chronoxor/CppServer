@@ -1,0 +1,25 @@
+name: MacOS
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Setup cmake"
+        run: cmake --version
+
+      - name: "Setup gil"
+        run: |
+          pip3 install gil
+          gil update
+
+      - name: "Build"
+        run: |
+          cd build
+          ./unix.sh

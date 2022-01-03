@@ -24,7 +24,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>X509_get0_signature, X509_get_signature_nid, X509_get0_tbs_sigalg, X509_REQ_get0_signature, X509_REQ_get_signature_nid, X509_CRL_get0_signature, X509_CRL_get_signature_nid, X509_get_signature_info, X509_SIG_INFO_get, X509_SIG_INFO_set - signature information</p>
+<p>X509_get0_signature, X509_REQ_set0_signature, X509_REQ_set1_signature_algo, X509_get_signature_nid, X509_get0_tbs_sigalg, X509_REQ_get0_signature, X509_REQ_get_signature_nid, X509_CRL_get0_signature, X509_CRL_get_signature_nid, X509_get_signature_info, X509_SIG_INFO_get, X509_SIG_INFO_set - signature information</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -33,6 +33,8 @@
  <span class="variable">void</span> <span class="variable">X509_get0_signature</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_BIT_STRING</span> <span class="operator">**</span><span class="variable">psig</span><span class="operator">,</span>
                           <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="operator">**</span><span class="variable">palg</span><span class="operator">,</span>
                           <span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
+ <span class="variable">void</span> <span class="variable">X509_REQ_set0_signature</span><span class="operator">(</span><span class="variable">X509_REQ</span> <span class="variable">*req</span><span class="operator">,</span> <span class="variable">ASN1_BIT_STRING</span> <span class="variable">*psig</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">X509_REQ_set1_signature_algo</span><span class="operator">(</span><span class="variable">X509_REQ</span> <span class="variable">*req</span><span class="operator">,</span> <span class="variable">X509_ALGOR</span> <span class="variable">*palg</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">X509_get_signature_nid</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
  <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*X509_get0_tbs_sigalg</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
  
@@ -59,6 +61,8 @@
 
 <p>X509_get0_signature() sets <b>*psig</b> to the signature of <b>x</b> and <b>*palg</b> to the signature algorithm of <b>x</b>. The values returned are internal pointers which <b>MUST NOT</b> be freed up after the call.</p>
 
+<p>X509_set0_signature() and X509_REQ_set1_signature_algo() are the equivalent setters for the two values of X509_get0_signature().</p>
+
 <p>X509_get0_tbs_sigalg() returns the signature algorithm in the signed portion of <b>x</b>.</p>
 
 <p>X509_get_signature_nid() returns the NID corresponding to the signature algorithm of <b>x</b>.</p>
@@ -83,6 +87,8 @@
 
 <p>X509_get_signature_info() returns 1 if the signature information returned is valid or 0 if the information is not available (e.g. unknown algorithms or malformed parameters).</p>
 
+<p>X509_REQ_set1_signature_algo() returns 0 on success; or 1 on an error (e.g. null ALGO pointer). X509_REQ_set0_signature does not return an error value.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
 <p><a href="../man3/d2i_X509.html">d2i_X509(3)</a>, <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>, <a href="../man3/X509_CRL_get0_by_serial.html">X509_CRL_get0_by_serial(3)</a>, <a href="../man3/X509_get_ext_d2i.html">X509_get_ext_d2i(3)</a>, <a href="../man3/X509_get_extension_flags.html">X509_get_extension_flags(3)</a>, <a href="../man3/X509_get_pubkey.html">X509_get_pubkey(3)</a>, <a href="../man3/X509_get_subject_name.html">X509_get_subject_name(3)</a>, <a href="../man3/X509_get_version.html">X509_get_version(3)</a>, <a href="../man3/X509_NAME_add_entry_by_txt.html">X509_NAME_add_entry_by_txt(3)</a>, <a href="../man3/X509_NAME_ENTRY_get_object.html">X509_NAME_ENTRY_get_object(3)</a>, <a href="../man3/X509_NAME_get_index_by_NID.html">X509_NAME_get_index_by_NID(3)</a>, <a href="../man3/X509_NAME_print_ex.html">X509_NAME_print_ex(3)</a>, <a href="../man3/X509_new.html">X509_new(3)</a>, <a href="../man3/X509_sign.html">X509_sign(3)</a>, <a href="../man3/X509V3_get_d2i.html">X509V3_get_d2i(3)</a>, <a href="../man3/X509_verify_cert.html">X509_verify_cert(3)</a></p>
@@ -93,9 +99,11 @@
 
 <p>The X509_REQ_get0_signature(), X509_REQ_get_signature_nid(), X509_CRL_get0_signature() and X509_CRL_get_signature_nid() were added in OpenSSL 1.1.0.</p>
 
+<p>The X509_REQ_set0_signature() and X509_REQ_set1_signature_algo() were added in OpenSSL 1.1.1e.</p>
+
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

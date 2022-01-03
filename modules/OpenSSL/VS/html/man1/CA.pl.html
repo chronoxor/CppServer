@@ -92,7 +92,7 @@
 <dt id="signCA"><b>-signCA</b></dt>
 <dd>
 
-<p>This option is the same as the <b>-signreq</b> option except it uses the configuration file section <b>v3_ca</b> and so makes the signed request a valid CA certificate. This is useful when creating intermediate CA from a root CA. Extra params are passed on to <b>openssl ca</b> command.</p>
+<p>This option is the same as the <b>-sign</b> option except it uses the configuration file section <b>v3_ca</b> and so makes the signed request a valid CA certificate. This is useful when creating intermediate CA from a root CA. Extra params are passed on to <b>openssl ca</b> command.</p>
 
 </dd>
 <dt id="signcert"><b>-signcert</b></dt>
@@ -137,7 +137,7 @@
 
 <pre><code> CA.pl -newca
  CA.pl -newreq
- CA.pl -signreq
+ CA.pl -sign
  CA.pl -pkcs12 &quot;My Test Certificate&quot;</code></pre>
 
 <h1 id="DSA-CERTIFICATES">DSA CERTIFICATES</h1>
@@ -156,7 +156,7 @@
 
 <pre><code> CA.pl -newca</code></pre>
 
-<p>enter cacert.pem when prompted for the CA file name.</p>
+<p>enter cacert.pem when prompted for the CA filename.</p>
 
 <p>Create a DSA certificate request and private key (a different set of parameters can optionally be created first):</p>
 
@@ -164,7 +164,7 @@
 
 <p>Sign the request:</p>
 
-<pre><code> CA.pl -signreq</code></pre>
+<pre><code> CA.pl -sign</code></pre>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -186,7 +186,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

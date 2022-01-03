@@ -22,7 +22,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>X509_check_issued - checks if certificate is issued by another certificate</p>
+<p>X509_check_issued - checks if certificate is apparently issued by another certificate</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -33,7 +33,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>This function checks if certificate <i>subject</i> was issued using CA certificate <i>issuer</i>. This function takes into account not only matching of issuer field of <i>subject</i> with subject field of <i>issuer</i>, but also compares <b>authorityKeyIdentifier</b> extension of <i>subject</i> with <b>subjectKeyIdentifier</b> of <i>issuer</i> if <b>authorityKeyIdentifier</b> present in the <i>subject</i> certificate and checks <b>keyUsage</b> field of <i>issuer</i>.</p>
+<p>X509_check_issued() checks if certificate <i>subject</i> was apparently issued using (CA) certificate <i>issuer</i>. This function takes into account not only matching of the issuer field of <i>subject</i> with the subject field of <i>issuer</i>, but also compares all sub-fields of the <b>authorityKeyIdentifier</b> extension of <i>subject</i>, as far as present, with the respective <b>subjectKeyIdentifier</b>, serial number, and issuer fields of <i>issuer</i>, as far as present. It also checks if the <b>keyUsage</b> field (if present) of <i>issuer</i> allows certificate signing. It does not check the certificate signature.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -45,7 +45,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

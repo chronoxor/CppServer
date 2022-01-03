@@ -75,7 +75,7 @@
 <dt id="pass-arg"><b>-pass arg</b></dt>
 <dd>
 
-<p>The password source. For more information about the format of <b>arg</b> see the <b>PASS PHRASE ARGUMENTS</b> section in <a href="../man1/openssl.html">openssl(1)</a>.</p>
+<p>The password source. For more information about the format of <b>arg</b> see <a href="../man1/openssl.html">&quot;Pass Phrase Options&quot; in openssl(1)</a>.</p>
 
 </dd>
 <dt id="e"><b>-e</b></dt>
@@ -201,7 +201,7 @@
 <dt id="z"><b>-z</b></dt>
 <dd>
 
-<p>Compress or decompress clear text using zlib before encryption or after decryption. This option exists only if OpenSSL with compiled with zlib or zlib-dynamic option.</p>
+<p>Compress or decompress encrypted data using zlib after encryption or before decryption. This option exists only if OpenSSL was compiled with the zlib or zlib-dynamic option.</p>
 
 </dd>
 <dt id="none"><b>-none</b></dt>
@@ -240,7 +240,7 @@
 
 <p>Some of the ciphers do not have large keys and others have security implications if not used correctly. A beginner is advised to just use a strong block cipher, such as AES, in CBC mode.</p>
 
-<p>All the block ciphers normally use PKCS#5 padding, also known as standard block padding. This allows a rudimentary integrity or password check to be performed. However since the chance of random data passing the test is better than 1 in 256 it isn&#39;t a very good test.</p>
+<p>All the block ciphers normally use PKCS#5 padding, also known as standard block padding. This allows a rudimentary integrity or password check to be performed. However, since the chance of random data passing the test is better than 1 in 256 it isn&#39;t a very good test.</p>
 
 <p>If padding is disabled then the input data must be a multiple of the cipher block length.</p>
 
@@ -400,7 +400,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

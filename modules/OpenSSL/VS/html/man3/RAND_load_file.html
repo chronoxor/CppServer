@@ -37,13 +37,13 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>RAND_load_file() reads a number of bytes from file <b>filename</b> and adds them to the PRNG. If <b>max_bytes</b> is non-negative, up to <b>max_bytes</b> are read; if <b>max_bytes</b> is -1, the complete file is read. Do not load the same file multiple times unless its contents have been updated by RAND_write_file() between reads. Also, note that <b>filename</b> should be adequately protected so that an attacker cannot replace or examine the contents. If <b>filename</b> is not a regular file, then user is considered to be responsible for any side effects, e.g. non-anticipated blocking or capture of controlling terminal.</p>
+<p>RAND_load_file() reads a number of bytes from file <b>filename</b> and adds them to the PRNG. If <b>max_bytes</b> is nonnegative, up to <b>max_bytes</b> are read; if <b>max_bytes</b> is -1, the complete file is read. Do not load the same file multiple times unless its contents have been updated by RAND_write_file() between reads. Also, note that <b>filename</b> should be adequately protected so that an attacker cannot replace or examine the contents. If <b>filename</b> is not a regular file, then user is considered to be responsible for any side effects, e.g. non-anticipated blocking or capture of controlling terminal.</p>
 
 <p>RAND_write_file() writes a number of random bytes (currently 128) to file <b>filename</b> which can be used to initialize the PRNG by calling RAND_load_file() in a later session.</p>
 
 <p>RAND_file_name() generates a default path for the random seed file. <b>buf</b> points to a buffer of size <b>num</b> in which to store the filename.</p>
 
-<p>On all systems, if the environment variable <b>RANDFILE</b> is set, its value will be used as the seed file name. Otherwise, the file is called <code>.rnd</code>, found in platform dependent locations:</p>
+<p>On all systems, if the environment variable <b>RANDFILE</b> is set, its value will be used as the seed filename. Otherwise, the file is called <code>.rnd</code>, found in platform dependent locations:</p>
 
 <dl>
 
@@ -67,7 +67,7 @@
 </dd>
 </dl>
 
-<p>If <code>$HOME</code> (on non-Windows and non-VMS system) is not set either, or <b>num</b> is too small for the path name, an error occurs.</p>
+<p>If <code>$HOME</code> (on non-Windows and non-VMS system) is not set either, or <b>num</b> is too small for the pathname, an error occurs.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -83,7 +83,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

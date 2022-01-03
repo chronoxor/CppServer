@@ -73,7 +73,7 @@
 
 <p>the new chain is <b>md1-md2-b64-f</b>. Data written to <b>md1</b> will be digested by <b>md1</b> and <b>md2</b>, <b>base64</b> encoded and written to <b>f</b>.</p>
 
-<p>It should be noted that reading causes data to pass in the reverse direction, that is data is read from <b>f</b>, base64 <b>decoded</b> and digested by <b>md1</b> and <b>md2</b>. If the call:</p>
+<p>It should be noted that reading causes data to pass in the reverse direction, that is data is read from <b>f</b>, <b>base64</b> decoded and digested by <b>md2</b> and <b>md1</b>. If the call:</p>
 
 <pre><code> <span class="variable">BIO_pop</span><span class="operator">(</span><span class="variable">md2</span><span class="operator">);</span>
 </code></pre>
@@ -82,7 +82,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="/../man7/bio.html">bio</a></p>
+<p><a href="/man7/bio.html">bio</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 
@@ -90,7 +90,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

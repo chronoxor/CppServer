@@ -73,7 +73,7 @@
 
 <p>A new curve can be constructed by calling EC_GROUP_new(), using the implementation provided by <b>meth</b> (see <a href="../man3/EC_GFp_simple_method.html">EC_GFp_simple_method(3)</a>). It is then necessary to call EC_GROUP_set_curve() to set the curve parameters. EC_GROUP_new_from_ecparameters() will create a group from the specified <b>params</b> and EC_GROUP_new_from_ecpkparameters() will create a group from the specific PK <b>params</b>.</p>
 
-<p>EC_GROUP_set_curve() sets the curve parameters <b>p</b>, <b>a</b> and <b>b</b>. For a curve over Fp <b>p</b> is the prime for the field. For a curve over F2^m <b>p</b> represents the irreducible polynomial - each bit represents a term in the polynomial. Therefore there will either be three or five bits set dependent on whether the polynomial is a trinomial or a pentanomial. In either case, <b>a</b> and <b>b</b> represents the coefficients a and b from the relevant equation introduced above.</p>
+<p>EC_GROUP_set_curve() sets the curve parameters <b>p</b>, <b>a</b> and <b>b</b>. For a curve over Fp <b>p</b> is the prime for the field. For a curve over F2^m <b>p</b> represents the irreducible polynomial - each bit represents a term in the polynomial. Therefore, there will either be three or five bits set dependent on whether the polynomial is a trinomial or a pentanomial. In either case, <b>a</b> and <b>b</b> represents the coefficients a and b from the relevant equation introduced above.</p>
 
 <p>EC_group_get_curve() obtains the previously set curve parameters.</p>
 
@@ -113,7 +113,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2013-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2013-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

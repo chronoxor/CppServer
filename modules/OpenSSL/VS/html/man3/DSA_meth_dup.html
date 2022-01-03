@@ -100,7 +100,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The <b>DSA_METHOD</b> type is a structure used for the provision of custom DSA implementations. It provides a set of functions used by OpenSSL for the implementation of the various DSA capabilities. See the <a href="/../man1/dsa.html">dsa</a> page for more information.</p>
+<p>The <b>DSA_METHOD</b> type is a structure used for the provision of custom DSA implementations. It provides a set of functions used by OpenSSL for the implementation of the various DSA capabilities. See the <a href="/man1/dsa.html">dsa</a> page for more information.</p>
 
 <p>DSA_meth_new() creates a new <b>DSA_METHOD</b> structure. It should be given a unique <b>name</b> and a set of <b>flags</b>. The <b>name</b> should be a NULL terminated string, which will be duplicated and stored in the <b>DSA_METHOD</b> object. It is the callers responsibility to free the original string. The flags will be used during the construction of a new <b>DSA</b> object based on this <b>DSA_METHOD</b>. Any new <b>DSA</b> object will have those flags set by default.</p>
 

@@ -50,11 +50,11 @@
 
 <p>BN_is_bit_set() tests if bit <b>n</b> in <b>a</b> is set.</p>
 
-<p>BN_mask_bits() truncates <b>a</b> to an <b>n</b> bit number (<code>a&amp;=~((~0)&gt;&gt;n)</code>). An error occurs if <b>a</b> already is shorter than <b>n</b> bits.</p>
+<p>BN_mask_bits() truncates <b>a</b> to an <b>n</b> bit number (<code>a&amp;=~((~0)&lt;&lt;n)</code>). An error occurs if <b>a</b> already is shorter than <b>n</b> bits.</p>
 
-<p>BN_lshift() shifts <b>a</b> left by <b>n</b> bits and places the result in <b>r</b> (<code>r=a*2^n</code>). Note that <b>n</b> must be non-negative. BN_lshift1() shifts <b>a</b> left by one and places the result in <b>r</b> (<code>r=2*a</code>).</p>
+<p>BN_lshift() shifts <b>a</b> left by <b>n</b> bits and places the result in <b>r</b> (<code>r=a*2^n</code>). Note that <b>n</b> must be nonnegative. BN_lshift1() shifts <b>a</b> left by one and places the result in <b>r</b> (<code>r=2*a</code>).</p>
 
-<p>BN_rshift() shifts <b>a</b> right by <b>n</b> bits and places the result in <b>r</b> (<code>r=a/2^n</code>). Note that <b>n</b> must be non-negative. BN_rshift1() shifts <b>a</b> right by one and places the result in <b>r</b> (<code>r=a/2</code>).</p>
+<p>BN_rshift() shifts <b>a</b> right by <b>n</b> bits and places the result in <b>r</b> (<code>r=a/2^n</code>). Note that <b>n</b> must be nonnegative. BN_rshift1() shifts <b>a</b> right by one and places the result in <b>r</b> (<code>r=a/2</code>).</p>
 
 <p>For the shift functions, <b>r</b> and <b>a</b> may be the same variable.</p>
 
@@ -70,7 +70,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

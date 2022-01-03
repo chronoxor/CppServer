@@ -1,11 +1,11 @@
-prefix=C:/Windows/System32/OpenSSL
+prefix=/mingw64
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
 
 Name: OpenSSL-libssl
 Description: Secure Sockets Layer and cryptography libraries
-Version: 1.1.1g
+Version: 1.1.1l
 Requires.private: libcrypto
 Libs: -L${libdir} -lssl
 Cflags: -I${includedir}

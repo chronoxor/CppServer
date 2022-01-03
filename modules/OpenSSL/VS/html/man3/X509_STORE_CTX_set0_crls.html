@@ -64,7 +64,7 @@
 
 <p>X509_STORE_CTX_new() returns a newly initialised <b>X509_STORE_CTX</b> structure.</p>
 
-<p>X509_STORE_CTX_cleanup() internally cleans up an <b>X509_STORE_CTX</b> structure. The context can then be reused with an new call to X509_STORE_CTX_init().</p>
+<p>X509_STORE_CTX_cleanup() internally cleans up an <b>X509_STORE_CTX</b> structure. The context can then be reused with a new call to X509_STORE_CTX_init().</p>
 
 <p>X509_STORE_CTX_free() completely frees up <b>ctx</b>. After this call <b>ctx</b> is no longer valid. If <b>ctx</b> is NULL nothing is done.</p>
 
@@ -74,7 +74,7 @@
 
 <p>X509_STORE_CTX_set_cert() sets the certificate to be verified in <b>ctx</b> to <b>x</b>.</p>
 
-<p>X509_STORE_CTX_set0_verified_chain() sets the validated chain used by <b>ctx</b> to be <b>chain</b>. Ownership of the chain is transferred to <b>ctx</b> and should not be free&#39;d by the caller. X509_STORE_CTX_get0_chain() returns a the internal pointer used by the <b>ctx</b> that contains the validated chain.</p>
+<p>X509_STORE_CTX_set0_verified_chain() sets the validated chain used by <b>ctx</b> to be <b>chain</b>. Ownership of the chain is transferred to <b>ctx</b> and should not be free&#39;d by the caller. X509_STORE_CTX_get0_chain() returns the internal pointer used by the <b>ctx</b> that contains the validated chain.</p>
 
 <p>X509_STORE_CTX_set0_crls() sets a set of CRLs to use to aid certificate verification to <b>sk</b>. These CRLs will only be used if CRL verification is enabled in the associated <b>X509_VERIFY_PARAM</b> structure. This might be used where additional &quot;useful&quot; CRLs are supplied as part of a protocol, for example in a PKCS#7 structure.</p>
 
@@ -109,7 +109,7 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>X509_STORE_CTX_new() returns an newly allocates context or <b>NULL</b> is an error occurred.</p>
+<p>X509_STORE_CTX_new() returns a newly allocated context or <b>NULL</b> if an error occurred.</p>
 
 <p>X509_STORE_CTX_init() returns 1 for success or 0 if an error occurred.</p>
 
@@ -131,7 +131,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2009-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2009-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

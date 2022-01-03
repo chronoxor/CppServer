@@ -39,7 +39,107 @@
 
 <p>SSL_up_ref() increments the reference count for an existing <b>SSL</b> structure.</p>
 
-<p>SSL_dup() duplicates an existing <b>SSL</b> structure into a new allocated one. All settings are inherited from the original <b>SSL</b> structure. Dynamic data (i.e. existing connection details) are not copied, the new <b>SSL</b> is set into an initial accept (server) or connect (client) state.</p>
+<p>The function SSL_dup() creates and returns a new <b>SSL</b> structure from the same <b>SSL_CTX</b> that was used to create <i>s</i>. It additionally duplicates a subset of the settings in <i>s</i> into the new <b>SSL</b> object.</p>
+
+<p>For SSL_dup() to work, the connection MUST be in its initial state and MUST NOT have yet started the SSL handshake. For connections that are not in their initial state SSL_dup() just increments an internal reference count and returns the <i>same</i> handle. It may be possible to use <a href="../man3/SSL_clear.html">SSL_clear(3)</a> to recycle an SSL handle that is not in its initial state for re-use, but this is best avoided. Instead, save and restore the session, if desired, and construct a fresh handle for each connection.</p>
+
+<p>The subset of settings in <i>s</i> that are duplicated are:</p>
+
+<dl>
+
+<dt id="any-session-data-if-configured-including-the-session_id_context">any session data if configured (including the session_id_context)</dt>
+<dd>
+
+</dd>
+<dt id="any-tmp_dh-settings-set-via-SSL_set_tmp_dh-3-SSL_set_tmp_dh_callback-3-or-SSL_set_dh_auto-3">any tmp_dh settings set via <a href="../man3/SSL_set_tmp_dh.html">SSL_set_tmp_dh(3)</a>, <a href="../man3/SSL_set_tmp_dh_callback.html">SSL_set_tmp_dh_callback(3)</a>, or <a href="../man3/SSL_set_dh_auto.html">SSL_set_dh_auto(3)</a></dt>
+<dd>
+
+</dd>
+<dt id="any-configured-certificates-private-keys-or-certificate-chains">any configured certificates, private keys or certificate chains</dt>
+<dd>
+
+</dd>
+<dt id="any-configured-signature-algorithms-or-client-signature-algorithms">any configured signature algorithms, or client signature algorithms</dt>
+<dd>
+
+</dd>
+<dt id="any-DANE-settings">any DANE settings</dt>
+<dd>
+
+</dd>
+<dt id="any-Options-set-via-SSL_set_options-3">any Options set via <a href="../man3/SSL_set_options.html">SSL_set_options(3)</a></dt>
+<dd>
+
+</dd>
+<dt id="any-Mode-set-via-SSL_set_mode-3">any Mode set via <a href="../man3/SSL_set_mode.html">SSL_set_mode(3)</a></dt>
+<dd>
+
+</dd>
+<dt id="any-minimum-or-maximum-protocol-settings-set-via-SSL_set_min_proto_version-3-or-SSL_set_max_proto_version-3-Note:-Only-from-OpenSSL-1.1.1h-and-above">any minimum or maximum protocol settings set via <a href="../man3/SSL_set_min_proto_version.html">SSL_set_min_proto_version(3)</a> or <a href="../man3/SSL_set_max_proto_version.html">SSL_set_max_proto_version(3)</a> (Note: Only from OpenSSL 1.1.1h and above)</dt>
+<dd>
+
+</dd>
+<dt id="any-Verify-mode-callback-or-depth-set-via-SSL_set_verify-3-or-SSL_set_verify_depth-3-or-any-configured-X509-verification-parameters">any Verify mode, callback or depth set via <a href="../man3/SSL_set_verify.html">SSL_set_verify(3)</a> or <a href="../man3/SSL_set_verify_depth.html">SSL_set_verify_depth(3)</a> or any configured X509 verification parameters</dt>
+<dd>
+
+</dd>
+<dt id="any-msg-callback-or-info-callback-set-via-SSL_set_msg_callback-3-or-SSL_set_info_callback-3">any msg callback or info callback set via <a href="../man3/SSL_set_msg_callback.html">SSL_set_msg_callback(3)</a> or <a href="../man3/SSL_set_info_callback.html">SSL_set_info_callback(3)</a></dt>
+<dd>
+
+</dd>
+<dt id="any-default-password-callback-set-via-SSL_set_default_passwd_cb-3">any default password callback set via <a href="../man3/SSL_set_default_passwd_cb.html">SSL_set_default_passwd_cb(3)</a></dt>
+<dd>
+
+</dd>
+<dt id="any-session-id-generation-callback-set-via-SSL_set_generate_session_id-3">any session id generation callback set via <a href="../man3/SSL_set_generate_session_id.html">SSL_set_generate_session_id(3)</a></dt>
+<dd>
+
+</dd>
+<dt id="any-configured-Cipher-List">any configured Cipher List</dt>
+<dd>
+
+</dd>
+<dt id="initial-accept-server-or-connect-client-state">initial accept (server) or connect (client) state</dt>
+<dd>
+
+</dd>
+<dt id="the-max-cert-list-value-set-via-SSL_set_max_cert_list-3">the max cert list value set via <a href="../man3/SSL_set_max_cert_list.html">SSL_set_max_cert_list(3)</a></dt>
+<dd>
+
+</dd>
+<dt id="the-read_ahead-value-set-via-SSL_set_read_ahead-3">the read_ahead value set via <a href="../man3/SSL_set_read_ahead.html">SSL_set_read_ahead(3)</a></dt>
+<dd>
+
+</dd>
+<dt id="application-specific-data-set-via-SSL_set_ex_data-3">application specific data set via <a href="../man3/SSL_set_ex_data.html">SSL_set_ex_data(3)</a></dt>
+<dd>
+
+</dd>
+<dt id="any-CA-list-or-client-CA-list-set-via-SSL_set0_CA_list-3-SSL_set0_client_CA_list-or-similar-functions">any CA list or client CA list set via <a href="../man3/SSL_set0_CA_list.html">SSL_set0_CA_list(3)</a>, SSL_set0_client_CA_list() or similar functions</dt>
+<dd>
+
+</dd>
+<dt id="any-security-level-settings-or-callbacks">any security level settings or callbacks</dt>
+<dd>
+
+</dd>
+<dt id="any-configured-serverinfo-data">any configured serverinfo data</dt>
+<dd>
+
+</dd>
+<dt id="any-configured-PSK-identity-hint">any configured PSK identity hint</dt>
+<dd>
+
+</dd>
+<dt id="any-configured-custom-extensions">any configured custom extensions</dt>
+<dd>
+
+</dd>
+<dt id="any-client-certificate-types-configured-via-SSL_set1_client_certificate_types">any client certificate types configured via SSL_set1_client_certificate_types</dt>
+<dd>
+
+</dd>
+</dl>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
@@ -69,7 +169,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

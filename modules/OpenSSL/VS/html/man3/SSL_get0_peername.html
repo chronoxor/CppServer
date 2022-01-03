@@ -40,7 +40,7 @@
 
 <p>These functions configure server hostname checks in the SSL client.</p>
 
-<p>SSL_set1_host() sets the expected DNS hostname to <b>name</b> clearing any previously specified host name or names. If <b>name</b> is NULL, or the empty string the list of hostnames is cleared, and name checks are not performed on the peer certificate. When a non-empty <b>name</b> is specified, certificate verification automatically checks the peer hostname via <a href="../man3/X509_check_host.html">X509_check_host(3)</a> with <b>flags</b> as specified via SSL_set_hostflags(). Clients that enable DANE TLSA authentication via <a href="../man3/SSL_dane_enable.html">SSL_dane_enable(3)</a> should leave it to that function to set the primary reference identifier of the peer, and should not call SSL_set1_host().</p>
+<p>SSL_set1_host() sets the expected DNS hostname to <b>name</b> clearing any previously specified hostname or names. If <b>name</b> is NULL, or the empty string the list of hostnames is cleared, and name checks are not performed on the peer certificate. When a nonempty <b>name</b> is specified, certificate verification automatically checks the peer hostname via <a href="../man3/X509_check_host.html">X509_check_host(3)</a> with <b>flags</b> as specified via SSL_set_hostflags(). Clients that enable DANE TLSA authentication via <a href="../man3/SSL_dane_enable.html">SSL_dane_enable(3)</a> should leave it to that function to set the primary reference identifier of the peer, and should not call SSL_set1_host().</p>
 
 <p>SSL_add1_host() adds <b>name</b> as an additional reference identifier that can match the peer&#39;s certificate. Any previous names set via SSL_set1_host() or SSL_add1_host() are retained, no change is made if <b>name</b> is NULL or empty. When multiple names are configured, the peer is considered verified when any name matches. This function is required for DANE TLSA in the presence of service name indirection via CNAME, MX or SRV records as specified in RFC7671, RFC7672 or RFC7673.</p>
 
@@ -86,7 +86,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

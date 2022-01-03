@@ -71,7 +71,7 @@
 
 <p><b>X509_LOOKUP_hash_dir</b> is a more advanced method, which loads certificates and CRLs on demand, and caches them in memory once they are loaded. As of OpenSSL 1.0.0, it also checks for newer CRLs upon each lookup, so that newer CRLs are as soon as they appear in the directory.</p>
 
-<p>The directory should contain one certificate or CRL per file in PEM format, with a file name of the form <i>hash</i>.<i>N</i> for a certificate, or <i>hash</i>.<b>r</b><i>N</i> for a CRL. The <i>hash</i> is the value returned by the <a href="../man3/X509_NAME_hash.html">X509_NAME_hash(3)</a> function applied to the subject name for certificates or issuer name for CRLs. The hash can also be obtained via the <b>-hash</b> option of the <a href="../man1/x509.html">x509(1)</a> or <a href="../man1/crl.html">crl(1)</a> commands.</p>
+<p>The directory should contain one certificate or CRL per file in PEM format, with a filename of the form <i>hash</i>.<i>N</i> for a certificate, or <i>hash</i>.<b>r</b><i>N</i> for a CRL. The <i>hash</i> is the value returned by the <a href="../man3/X509_NAME_hash.html">X509_NAME_hash(3)</a> function applied to the subject name for certificates or issuer name for CRLs. The hash can also be obtained via the <b>-hash</b> option of the <a href="../man1/x509.html">x509(1)</a> or <a href="../man1/crl.html">crl(1)</a> commands.</p>
 
 <p>The .<i>N</i> or .<b>r</b><i>N</i> suffix is a sequence number that starts at zero, and is incremented consecutively for each certificate or CRL with the same <i>hash</i> value. Gaps in the sequence numbers are not supported, it is assumed that there are no more objects with the same hash beyond the first missing number in the sequence.</p>
 
@@ -95,7 +95,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

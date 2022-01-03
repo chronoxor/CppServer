@@ -31,7 +31,7 @@
 <pre><code> <span class="comment">#include &lt;openssl/hmac.h&gt;</span>
  
  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*HMAC</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*evp_md</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*key</span><span class="operator">,</span>
-                     <span class="keyword">int</span> <span class="variable">key_len</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">,</span>
+                     <span class="keyword">int</span> <span class="variable">key_len</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">n</span><span class="operator">,</span>
                      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*md_len</span><span class="operator">);</span>
  
  <span class="variable">HMAC_CTX</span> <span class="variable">*HMAC_CTX_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
@@ -39,7 +39,7 @@
  
  <span class="keyword">int</span> <span class="variable">HMAC_Init_ex</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*key</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">key_len</span><span class="operator">,</span>
                   <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">HMAC_Update</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
+ <span class="keyword">int</span> <span class="variable">HMAC_Update</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
  <span class="keyword">int</span> <span class="variable">HMAC_Final</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*len</span><span class="operator">);</span>
  
  <span class="variable">void</span> <span class="variable">HMAC_CTX_free</span><span class="operator">(</span><span class="variable">HMAC_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
@@ -71,7 +71,7 @@
 
 <p>HMAC_CTX_new() creates a new HMAC_CTX in heap memory.</p>
 
-<p>HMAC_CTX_reset() zeroes an existing <b>HMAC_CTX</b> and associated resources, making it suitable for new computations as if it was newly created with HMAC_CTX_new().</p>
+<p>HMAC_CTX_reset() zeros an existing <b>HMAC_CTX</b> and associated resources, making it suitable for new computations as if it was newly created with HMAC_CTX_new().</p>
 
 <p>HMAC_CTX_free() erases the key and other data from the <b>HMAC_CTX</b>, releases any associated resources and finally frees the <b>HMAC_CTX</b> itself.</p>
 
@@ -127,7 +127,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -1,0 +1,31 @@
+name: Linux (gcc)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup binutils-dev
+        run: sudo apt-get install -y binutils-dev
+
+      - name: "Setup gcc"
+        uses: egor-tensin/setup-gcc@v1
+
+      - name: "Setup cmake"
+        run: cmake --version
+
+      - name: "Setup gil"
+        run: |
+          pip3 install gil
+          gil update
+
+      - name: "Build"
+        run: |
+          cd build
+          ./unix.sh

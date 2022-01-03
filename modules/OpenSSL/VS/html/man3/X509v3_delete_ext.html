@@ -76,7 +76,7 @@
 
 <p>X509v3_get_ext_by_NID() and X509v3_get_ext_by_OBJ() look for an extension with <b>nid</b> or <b>obj</b> from extension stack <b>x</b>. The search starts from the extension after <b>lastpos</b> or from the beginning if &lt;lastpos&gt; is <b>-1</b>. If the extension is found its index is returned otherwise <b>-1</b> is returned.</p>
 
-<p>X509v3_get_ext_by_critical() is similar to X509v3_get_ext_by_NID() except it looks for an extension of criticality <b>crit</b>. A zero value for <b>crit</b> looks for a non-critical extension a non-zero value looks for a critical extension.</p>
+<p>X509v3_get_ext_by_critical() is similar to X509v3_get_ext_by_NID() except it looks for an extension of criticality <b>crit</b>. A zero value for <b>crit</b> looks for a non-critical extension a nonzero value looks for a critical extension.</p>
 
 <p>X509v3_delete_ext() deletes the extension with index <b>loc</b> from <b>x</b>. The deleted extension is returned and must be freed by the caller. If <b>loc</b> is in invalid index value <b>NULL</b> is returned.</p>
 
@@ -112,7 +112,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 
