@@ -48,13 +48,13 @@ size_t SSLSession::option_send_buffer_size() const
 void SSLSession::SetupReceiveBufferSize(size_t size)
 {
     asio::socket_base::receive_buffer_size option((int)size);
-    _stream.next_layer().set_option(option);
+    socket().set_option(option);
 }
 
 void SSLSession::SetupSendBufferSize(size_t size)
 {
     asio::socket_base::send_buffer_size option((int)size);
-    _stream.next_layer().set_option(option);
+    socket().set_option(option);
 }
 
 void SSLSession::Connect()
@@ -178,15 +178,6 @@ bool SSLSession::DisconnectAsync(bool dispatch)
         if (!IsConnected())
             return;
 
-        // Cancel the session socket
-        std::error_code error;
-        socket().cancel(error);
-        if (error)
-        {
-            Disconnect(error);
-            return;
-        }
-
         // Async SSL shutdown with the shutdown handler
         auto async_shutdown_handler = [this, self](std::error_code ec) { Disconnect(ec); };
         if (_strand_required)
@@ -273,7 +264,7 @@ size_t SSLSession::Send(const void* buffer, size_t size, const CppCommon::Timesp
         if (done++ == 0)
         {
             error = ec;
-            _stream.next_layer().cancel();
+            socket().cancel();
             timer.cancel();
         }
         cv.notify_one();
@@ -432,7 +423,7 @@ size_t SSLSession::Receive(void* buffer, size_t size, const CppCommon::Timespan&
         if (done++ == 0)
         {
             error = ec;
-            _stream.next_layer().cancel();
+            socket().cancel();
             timer.cancel();
         }
         cv.notify_one();

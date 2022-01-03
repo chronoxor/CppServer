@@ -15,7 +15,8 @@
 #include "system/uuid.h"
 #include "time/timespan.h"
 
-#include <memory>
+#include <mutex>
+#include <vector>
 
 namespace CppServer {
 namespace Asio {
@@ -60,54 +61,54 @@ public:
     SSLClient& operator=(SSLClient&& client) = delete;
 
     //! Get the client Id
-    const CppCommon::UUID& id() const noexcept;
+    const CppCommon::UUID& id() const noexcept { return _id; }
 
     //! Get the Asio service
-    std::shared_ptr<Service>& service() noexcept;
+    std::shared_ptr<Service>& service() noexcept { return _service; }
     //! Get the Asio IO service
-    std::shared_ptr<asio::io_service>& io_service() noexcept;
+    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
     //! Get the Asio service strand for serialized handler execution
-    asio::io_service::strand& strand() noexcept;
+    asio::io_service::strand& strand() noexcept { return _strand; }
     //! Get the client SSL context
-    std::shared_ptr<SSLContext>& context() noexcept;
+    std::shared_ptr<SSLContext>& context() noexcept { return _context; }
     //! Get the client endpoint
-    asio::ip::tcp::endpoint& endpoint() noexcept;
+    asio::ip::tcp::endpoint& endpoint() noexcept { return _endpoint; }
     //! Get the client SSL stream
-    asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept;
+    asio::ssl::stream<asio::ip::tcp::socket>& stream() noexcept { return _stream; }
     //! Get the client socket
-    asio::ssl::stream<asio::ip::tcp::socket>::next_layer_type& socket() noexcept;
+    asio::ssl::stream<asio::ip::tcp::socket>::next_layer_type& socket() noexcept { return _stream.next_layer(); }
 
     //! Get the server address
-    const std::string& address() const noexcept;
+    const std::string& address() const noexcept { return _address; }
     //! Get the scheme name
-    const std::string& scheme() const noexcept;
+    const std::string& scheme() const noexcept { return _scheme; }
     //! Get the server port number
-    int port() const noexcept;
+    int port() const noexcept { return _port; }
 
     //! Get the number of bytes pending sent by the client
-    uint64_t bytes_pending() const noexcept;
+    uint64_t bytes_pending() const noexcept { return _bytes_pending + _bytes_sending; }
     //! Get the number of bytes sent by the client
-    uint64_t bytes_sent() const noexcept;
+    uint64_t bytes_sent() const noexcept { return _bytes_sent; }
     //! Get the number of bytes received by the client
-    uint64_t bytes_received() const noexcept;
+    uint64_t bytes_received() const noexcept { return _bytes_received; }
 
     //! Get the option: keep alive
-    bool option_keep_alive() const noexcept;
+    bool option_keep_alive() const noexcept { return _option_keep_alive; }
     //! Get the option: no delay
-    bool option_no_delay() const noexcept;
+    bool option_no_delay() const noexcept { return _option_no_delay; }
     //! Get the option: receive buffer limit
-    size_t option_receive_buffer_limit() const;
+    size_t option_receive_buffer_limit() const { return _receive_buffer_limit; }
     //! Get the option: receive buffer size
     size_t option_receive_buffer_size() const;
     //! Get the option: send buffer limit
-    size_t option_send_buffer_limit() const;
+    size_t option_send_buffer_limit() const { return _send_buffer_limit; }
     //! Get the option: send buffer size
     size_t option_send_buffer_size() const;
 
     //! Is the client connected?
-    bool IsConnected() const noexcept;
+    bool IsConnected() const noexcept { return _connected; }
     //! Is the session handshaked?
-    bool IsHandshaked() const noexcept;
+    bool IsHandshaked() const noexcept { return _handshaked; }
 
     //! Connect the client (synchronous)
     /*!
@@ -242,7 +243,7 @@ public:
 
         \param enable - Enable/disable option
     */
-    void SetupKeepAlive(bool enable) noexcept;
+    void SetupKeepAlive(bool enable) noexcept { _option_keep_alive = enable; }
     //! Setup option: no delay
     /*!
         This option will enable/disable Nagle's algorithm for TCP protocol.
@@ -251,7 +252,7 @@ public:
 
         \param enable - Enable/disable option
     */
-    void SetupNoDelay(bool enable) noexcept;
+    void SetupNoDelay(bool enable) noexcept { _option_no_delay = enable; }
     //! Setup option: receive buffer limit
     /*!
         The client will be disconnected if the receive buffer limit is met.
@@ -259,7 +260,7 @@ public:
 
         \param limit - Receive buffer limit
     */
-    void SetupReceiveBufferLimit(size_t limit);
+    void SetupReceiveBufferLimit(size_t limit) { _receive_buffer_limit = limit; }
     //! Setup option: receive buffer size
     /*!
         This option will setup SO_RCVBUF if the OS support this feature.
@@ -274,7 +275,7 @@ public:
 
         \param limit - Send buffer limit
     */
-    void SetupSendBufferLimit(size_t limit);
+    void SetupSendBufferLimit(size_t limit) { _send_buffer_limit = limit; }
     //! Setup option: send buffer size
     /*!
         This option will setup SO_SNDBUF if the OS support this feature.
@@ -331,13 +332,50 @@ protected:
     virtual void onError(int error, const std::string& category, const std::string& message) {}
 
 private:
-    class Impl;
-    friend class Impl;
-
-    std::shared_ptr<Impl>& pimpl() noexcept { return _pimpl; }
-    const std::shared_ptr<Impl>& pimpl() const noexcept { return _pimpl; }
-
-    std::shared_ptr<Impl> _pimpl;
+    // Client Id
+    CppCommon::UUID _id;
+    // Asio service
+    std::shared_ptr<Service> _service;
+    // Asio IO service
+    std::shared_ptr<asio::io_service> _io_service;
+    // Asio service strand for serialised handler execution
+    asio::io_service::strand _strand;
+    bool _strand_required;
+    // Server address, scheme & port
+    std::string _address;
+    std::string _scheme;
+    int _port;
+    // Server SSL context, endpoint & client stream
+    std::shared_ptr<SSLContext> _context;
+    asio::ip::tcp::endpoint _endpoint;
+    asio::ssl::stream<asio::ip::tcp::socket> _stream;
+    std::atomic<bool> _resolving;
+    std::atomic<bool> _connecting;
+    std::atomic<bool> _connected;
+    std::atomic<bool> _handshaking;
+    std::atomic<bool> _handshaked;
+    HandlerStorage _connect_storage;
+    // Client statistic
+    uint64_t _bytes_pending;
+    uint64_t _bytes_sending;
+    uint64_t _bytes_sent;
+    uint64_t _bytes_received;
+    // Receive buffer
+    bool _receiving;
+    size_t _receive_buffer_limit{0};
+    std::vector<uint8_t> _receive_buffer;
+    HandlerStorage _receive_storage;
+    // Send buffer
+    bool _sending;
+    std::mutex _send_lock;
+    size_t _send_buffer_limit{0};
+    std::vector<uint8_t> _send_buffer_main;
+    std::vector<uint8_t> _send_buffer_flush;
+    size_t _send_buffer_flush_offset;
+    HandlerStorage _send_storage;
+    // Options
+    bool _option_keep_alive;
+    bool _option_no_delay;
 
     //! Disconnect the client (asynchronous)
     /*!
@@ -346,8 +384,16 @@ private:
     */
     bool DisconnectAsync(bool dispatch);
 
-    //! Handle client reset notification
-    void onReset();
+    //! Try to receive new data
+    void TryReceive();
+    //! Try to send pending data
+    void TrySend();
+
+    //! Clear send/receive buffers
+    void ClearBuffers();
+
+    //! Send error notification
+    void SendError(std::error_code ec);
 };
 
 /*! \example ssl_chat_client.cpp SSL chat client example */
