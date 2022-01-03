@@ -45,6 +45,7 @@ endif()
 find_package(OpenSSL REQUIRED)
 if(WIN32)
   find_package(Crypt)
+  find_package(BCrypt)
   find_package(WinSock)
 endif()
 
