@@ -611,6 +611,9 @@ bool SSLClient::DisconnectAsync(bool dispatch)
         if (!IsConnected() || _resolving || _connecting || _handshaking)
             return;
 
+        // Cancel the client socket
+        socket().cancel();
+
         // Async SSL shutdown with the shutdown handler
         auto async_shutdown_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec) { Disconnect(); });
         if (_strand_required)

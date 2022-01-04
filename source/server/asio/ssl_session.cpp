@@ -178,6 +178,9 @@ bool SSLSession::DisconnectAsync(bool dispatch)
         if (!IsConnected())
             return;
 
+        // Cancel the session socket
+        socket().cancel();
+
         // Async SSL shutdown with the shutdown handler
         auto async_shutdown_handler = [this, self](std::error_code ec) { Disconnect(ec); };
         if (_strand_required)

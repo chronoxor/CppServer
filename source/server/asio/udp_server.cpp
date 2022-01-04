@@ -280,9 +280,7 @@ size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buff
 
     // Check for error
     if (ec)
-    {
         SendError(ec);
-    }
 
     return sent;
 }
@@ -343,9 +341,7 @@ size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buff
 
     // Check for error
     if (error && (error != asio::error::timed_out))
-    {
         SendError(error);
-    }
 
     return sent;
 }
@@ -455,9 +451,7 @@ size_t UDPServer::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_
 
     // Check for error
     if (ec)
-    {
         SendError(ec);
-    }
 
     return received;
 }
@@ -521,9 +515,7 @@ size_t UDPServer::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_
 
     // Check for error
     if (error && (error != asio::error::timed_out))
-    {
         SendError(error);
-    }
 
     return received;
 }

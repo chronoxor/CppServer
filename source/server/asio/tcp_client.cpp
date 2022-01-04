@@ -465,6 +465,9 @@ bool TCPClient::DisconnectAsync(bool dispatch)
     if (!IsConnected() || _resolving || _connecting)
         return false;
 
+    // Cancel the client socket
+    _socket.cancel();
+
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
     auto disconnect_handler = [this, self]() { Disconnect(); };

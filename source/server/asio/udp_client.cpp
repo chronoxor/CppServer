@@ -379,6 +379,9 @@ bool UDPClient::DisconnectAsync(bool dispatch)
     if (!IsConnected())
         return false;
 
+    // Cancel the client socket
+    _socket.cancel();
+
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
     auto disconnect_handler = [this, self]() { Disconnect(); };
