@@ -9,7 +9,7 @@
 ![Windows (Cygwin)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-cygwin.yml/badge.svg)
 ![Windows (MinGW)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-mingw.yml/badge.svg)
 ![Windows (MSYS2)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msys2.yml/badge.svg)
-![Windows (Visual Studio)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msvc.yml/badge.svg)
+![Windows (Visual Studio)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-vs.yml/badge.svg)
 
 Ultra fast and low latency asynchronous socket server & client C++ library with
 support TCP, SSL, UDP, HTTP, HTTPS, WebSocket protocols and [10K connections problem](https://en.wikipedia.org/wiki/C10k_problem)
