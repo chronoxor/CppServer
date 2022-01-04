@@ -677,493 +677,496 @@ $(function() {
 <div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a590ca8e4fe2425f62b9a6d644cb59503">IsConnected</a>() || _resolving || _connecting || _handshaking)</div>
 <div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;            <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160; </div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;        <span class="comment">// Async SSL shutdown with the shutdown handler</span></div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;        <span class="keyword">auto</span> async_shutdown_handler = <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_connect_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec) { <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>(); });</div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;        <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;            _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));</div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;            _stream.async_shutdown(async_shutdown_handler);</div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;    });</div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;    {</div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;        <span class="keywordflow">if</span> (dispatch)</div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;            _strand.dispatch(disconnect_handler);</div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;            _strand.post(disconnect_handler);</div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;    }</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;    {</div>
-<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;        <span class="keywordflow">if</span> (dispatch)</div>
-<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;            _io_service-&gt;dispatch(disconnect_handler);</div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;            _io_service-&gt;post(disconnect_handler);</div>
-<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;    }</div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160; </div>
-<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;}</div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;        <span class="comment">// Cancel the client socket</span></div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#aed857a55f3fd50fb9963358f3bc4c71e">socket</a>().cancel();</div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160; </div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;        <span class="comment">// Async SSL shutdown with the shutdown handler</span></div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;        <span class="keyword">auto</span> async_shutdown_handler = <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_connect_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec) { <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>(); });</div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;        <span class="keywordflow">if</span> (_strand_required)</div>
+<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;            _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));</div>
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;            _stream.async_shutdown(async_shutdown_handler);</div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;    });</div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;    {</div>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;        <span class="keywordflow">if</span> (dispatch)</div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;            _strand.dispatch(disconnect_handler);</div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;            _strand.post(disconnect_handler);</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;    }</div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;    {</div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;        <span class="keywordflow">if</span> (dispatch)</div>
+<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;            _io_service-&gt;dispatch(disconnect_handler);</div>
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;            _io_service-&gt;post(disconnect_handler);</div>
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;    }</div>
 <div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160; </div>
-<div class="line"><a name="l00639"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a8c8e5ef4b1b79534d93630b0ac6be94b">  639</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a8c8e5ef4b1b79534d93630b0ac6be94b">SSLClient::ReconnectAsync</a>()</div>
-<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;{</div>
-<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7a74047c7e4ee403681b2e1651ebfb3a">DisconnectAsync</a>())</div>
-<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160; </div>
-<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;    <span class="keywordflow">while</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a590ca8e4fe2425f62b9a6d644cb59503">IsConnected</a>())</div>
-<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;        CppCommon::Thread::Yield();</div>
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;}</div>
+<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160; </div>
+<div class="line"><a name="l00642"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a8c8e5ef4b1b79534d93630b0ac6be94b">  642</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a8c8e5ef4b1b79534d93630b0ac6be94b">SSLClient::ReconnectAsync</a>()</div>
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;{</div>
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7a74047c7e4ee403681b2e1651ebfb3a">DisconnectAsync</a>())</div>
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160; </div>
-<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6f0734a301ce3f96a6d049cdbfd51b51">ConnectAsync</a>();</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;}</div>
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;    <span class="keywordflow">while</span> (<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a590ca8e4fe2425f62b9a6d644cb59503">IsConnected</a>())</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;        CppCommon::Thread::Yield();</div>
 <div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160; </div>
-<div class="line"><a name="l00650"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1371b72ea996537400515a70537da45a">  650</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1371b72ea996537400515a70537da45a">SSLClient::Send</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size)</div>
-<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;{</div>
-<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
-<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160; </div>
-<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6f0734a301ce3f96a6d049cdbfd51b51">ConnectAsync</a>();</div>
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;}</div>
+<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160; </div>
+<div class="line"><a name="l00653"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1371b72ea996537400515a70537da45a">  653</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1371b72ea996537400515a70537da45a">SSLClient::Send</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size)</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;{</div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
 <div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160; </div>
-<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
-<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160; </div>
-<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;    asio::error_code ec;</div>
-<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160; </div>
-<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;    <span class="comment">// Send data to the server</span></div>
-<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;    <span class="keywordtype">size_t</span> sent = asio::write(_stream, asio::buffer(buffer, size), ec);</div>
-<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;    <span class="keywordflow">if</span> (sent &gt; 0)</div>
-<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;    {</div>
-<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;        <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;        _bytes_sent += sent;</div>
-<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160; </div>
-<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;        <span class="comment">// Call the buffer sent handler</span></div>
-<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a2a695319cd3181f1c68ae485c6e83994">onSent</a>(sent, <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af22c49fcddbe91de2d2e597c069ce6b4">bytes_pending</a>());</div>
-<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;    }</div>
-<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160; </div>
-<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;    <span class="comment">// Disconnect on error</span></div>
-<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;    <span class="keywordflow">if</span> (ec)</div>
-<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;    {</div>
-<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;        SendError(ec);</div>
-<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>();</div>
-<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;    }</div>
-<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160; </div>
-<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;    <span class="keywordflow">return</span> sent;</div>
-<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;}</div>
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160; </div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160; </div>
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;    asio::error_code ec;</div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160; </div>
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;    <span class="comment">// Send data to the server</span></div>
+<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;    <span class="keywordtype">size_t</span> sent = asio::write(_stream, asio::buffer(buffer, size), ec);</div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;    <span class="keywordflow">if</span> (sent &gt; 0)</div>
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;    {</div>
+<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;        <span class="comment">// Update statistic</span></div>
+<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;        _bytes_sent += sent;</div>
+<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160; </div>
+<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;        <span class="comment">// Call the buffer sent handler</span></div>
+<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a2a695319cd3181f1c68ae485c6e83994">onSent</a>(sent, <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af22c49fcddbe91de2d2e597c069ce6b4">bytes_pending</a>());</div>
+<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;    }</div>
+<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160; </div>
+<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;    <span class="comment">// Disconnect on error</span></div>
+<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;    <span class="keywordflow">if</span> (ec)</div>
+<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;    {</div>
+<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;        SendError(ec);</div>
+<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>();</div>
+<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;    }</div>
 <div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160; </div>
-<div class="line"><a name="l00685"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a72acb8739d119f6c7b71241a3578292b">  685</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1371b72ea996537400515a70537da45a">SSLClient::Send</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> CppCommon::Timespan&amp; timeout)</div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;{</div>
-<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
-<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160; </div>
-<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
+<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;    <span class="keywordflow">return</span> sent;</div>
+<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;}</div>
+<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160; </div>
+<div class="line"><a name="l00688"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a72acb8739d119f6c7b71241a3578292b">  688</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1371b72ea996537400515a70537da45a">SSLClient::Send</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> CppCommon::Timespan&amp; timeout)</div>
+<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;{</div>
+<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
 <div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160; </div>
-<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
-<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160; </div>
-<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;    <span class="keywordtype">int</span> done = 0;</div>
-<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;    std::mutex mtx;</div>
-<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;    std::condition_variable cv;</div>
-<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;    asio::error_code error;</div>
-<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;    asio::system_timer timer(_stream.get_executor());</div>
-<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160; </div>
-<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;    <span class="comment">// Prepare done handler</span></div>
-<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;    <span class="keyword">auto</span> async_done_handler = [&amp;](asio::error_code ec)</div>
-<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;    {</div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;        std::unique_lock&lt;std::mutex&gt; lck(mtx);</div>
-<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;        <span class="keywordflow">if</span> (done++ == 0)</div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;        {</div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;            error = ec;</div>
-<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#aed857a55f3fd50fb9963358f3bc4c71e">socket</a>().cancel();</div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;            timer.cancel();</div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;        }</div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;        cv.notify_one();</div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;    };</div>
-<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160; </div>
-<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;    <span class="comment">// Async wait for timeout</span></div>
-<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;    timer.expires_from_now(timeout.chrono());</div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;    timer.async_wait([&amp;](<span class="keyword">const</span> asio::error_code&amp; ec) { async_done_handler(ec ? ec : asio::error::timed_out); });</div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160; </div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;    <span class="comment">// Async write some data to the server</span></div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;    <span class="keywordtype">size_t</span> sent = 0;</div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;    _stream.async_write_some(asio::buffer(buffer, size), [&amp;](std::error_code ec, <span class="keywordtype">size_t</span> write) { async_done_handler(ec); sent = write; });</div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160; </div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;    <span class="comment">// Wait for complete or timeout</span></div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;    std::unique_lock&lt;std::mutex&gt; lck(mtx);</div>
-<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;    cv.wait(lck, [&amp;]() { <span class="keywordflow">return</span> done == 2; });</div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160; </div>
-<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;    <span class="comment">// Send data to the server</span></div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;    <span class="keywordflow">if</span> (sent &gt; 0)</div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;    {</div>
-<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;        <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;        _bytes_sent += sent;</div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160; </div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;        <span class="comment">// Call the buffer sent handler</span></div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a2a695319cd3181f1c68ae485c6e83994">onSent</a>(sent, <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af22c49fcddbe91de2d2e597c069ce6b4">bytes_pending</a>());</div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;    }</div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160; </div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;    <span class="comment">// Disconnect on error</span></div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;    <span class="keywordflow">if</span> (error &amp;&amp; (error != asio::error::timed_out))</div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;    {</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;        SendError(error);</div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>();</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;    }</div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160; </div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;    <span class="keywordflow">return</span> sent;</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;}</div>
+<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
+<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160; </div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160; </div>
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;    <span class="keywordtype">int</span> done = 0;</div>
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;    std::mutex mtx;</div>
+<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;    std::condition_variable cv;</div>
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;    asio::error_code error;</div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;    asio::system_timer timer(_stream.get_executor());</div>
+<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160; </div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;    <span class="comment">// Prepare done handler</span></div>
+<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;    <span class="keyword">auto</span> async_done_handler = [&amp;](asio::error_code ec)</div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;    {</div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;        std::unique_lock&lt;std::mutex&gt; lck(mtx);</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;        <span class="keywordflow">if</span> (done++ == 0)</div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;        {</div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;            error = ec;</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#aed857a55f3fd50fb9963358f3bc4c71e">socket</a>().cancel();</div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;            timer.cancel();</div>
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;        }</div>
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;        cv.notify_one();</div>
+<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;    };</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160; </div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;    <span class="comment">// Async wait for timeout</span></div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;    timer.expires_from_now(timeout.chrono());</div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;    timer.async_wait([&amp;](<span class="keyword">const</span> asio::error_code&amp; ec) { async_done_handler(ec ? ec : asio::error::timed_out); });</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160; </div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;    <span class="comment">// Async write some data to the server</span></div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;    <span class="keywordtype">size_t</span> sent = 0;</div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;    _stream.async_write_some(asio::buffer(buffer, size), [&amp;](std::error_code ec, <span class="keywordtype">size_t</span> write) { async_done_handler(ec); sent = write; });</div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160; </div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;    <span class="comment">// Wait for complete or timeout</span></div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;    std::unique_lock&lt;std::mutex&gt; lck(mtx);</div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;    cv.wait(lck, [&amp;]() { <span class="keywordflow">return</span> done == 2; });</div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160; </div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;    <span class="comment">// Send data to the server</span></div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;    <span class="keywordflow">if</span> (sent &gt; 0)</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;    {</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;        <span class="comment">// Update statistic</span></div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;        _bytes_sent += sent;</div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160; </div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;        <span class="comment">// Call the buffer sent handler</span></div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a2a695319cd3181f1c68ae485c6e83994">onSent</a>(sent, <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af22c49fcddbe91de2d2e597c069ce6b4">bytes_pending</a>());</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;    }</div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160; </div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;    <span class="comment">// Disconnect on error</span></div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;    <span class="keywordflow">if</span> (error &amp;&amp; (error != asio::error::timed_out))</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;    {</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;        SendError(error);</div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>();</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;    }</div>
 <div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160; </div>
-<div class="line"><a name="l00748"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6ce4129ad02281a46cae2cb57f9f743c">  748</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6ce4129ad02281a46cae2cb57f9f743c">SSLClient::SendAsync</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size)</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;{</div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160; </div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;    <span class="keywordflow">return</span> sent;</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;}</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160; </div>
+<div class="line"><a name="l00751"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6ce4129ad02281a46cae2cb57f9f743c">  751</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6ce4129ad02281a46cae2cb57f9f743c">SSLClient::SendAsync</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size)</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;{</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160; </div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160; </div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;    {</div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;        std::scoped_lock locker(_send_lock);</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160; </div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160; </div>
-<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;        <span class="comment">// Detect multiple send handlers</span></div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;        <span class="keywordtype">bool</span> send_required = _send_buffer_main.empty() || _send_buffer_flush.empty();</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;    {</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;        std::scoped_lock locker(_send_lock);</div>
 <div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160; </div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;        <span class="comment">// Check the send buffer limit</span></div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;        <span class="keywordflow">if</span> (((_send_buffer_main.size() + size) &gt; _send_buffer_limit) &amp;&amp; (_send_buffer_limit &gt; 0))</div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;        {</div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;            SendError(asio::error::no_buffer_space);</div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;        }</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160; </div>
-<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;        <span class="comment">// Fill the main send buffer</span></div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;        <span class="keyword">const</span> uint8_t* bytes = (<span class="keyword">const</span> uint8_t*)buffer;</div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;        _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);</div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160; </div>
-<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;        <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;        _bytes_pending = _send_buffer_main.size();</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;        <span class="comment">// Detect multiple send handlers</span></div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;        <span class="keywordtype">bool</span> send_required = _send_buffer_main.empty() || _send_buffer_flush.empty();</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160; </div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;        <span class="comment">// Check the send buffer limit</span></div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;        <span class="keywordflow">if</span> (((_send_buffer_main.size() + size) &gt; _send_buffer_limit) &amp;&amp; (_send_buffer_limit &gt; 0))</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;        {</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;            SendError(asio::error::no_buffer_space);</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;        }</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160; </div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;        <span class="comment">// Fill the main send buffer</span></div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;        <span class="keyword">const</span> uint8_t* bytes = (<span class="keyword">const</span> uint8_t*)buffer;</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;        _send_buffer_main.insert(_send_buffer_main.end(), bytes, bytes + size);</div>
 <div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160; </div>
-<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;        <span class="comment">// Avoid multiple send handlers</span></div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;        <span class="keywordflow">if</span> (!send_required)</div>
-<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;    }</div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160; </div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;    <span class="comment">// Dispatch the send handler</span></div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;    <span class="keyword">auto</span> send_handler = [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
-<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;    {</div>
-<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;        <span class="comment">// Try to send the main buffer</span></div>
-<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;        TrySend();</div>
-<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;    };</div>
-<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;        _strand.dispatch(send_handler);</div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;        _io_service-&gt;dispatch(send_handler);</div>
-<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160; </div>
-<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;}</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;        <span class="comment">// Update statistic</span></div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;        _bytes_pending = _send_buffer_main.size();</div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160; </div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;        <span class="comment">// Avoid multiple send handlers</span></div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;        <span class="keywordflow">if</span> (!send_required)</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;    }</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160; </div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;    <span class="comment">// Dispatch the send handler</span></div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;    <span class="keyword">auto</span> send_handler = [<span class="keyword">this</span>, <span class="keyword">self</span>]()</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;    {</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;        <span class="comment">// Try to send the main buffer</span></div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;        TrySend();</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;    };</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;        _strand.dispatch(send_handler);</div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;        _io_service-&gt;dispatch(send_handler);</div>
 <div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160; </div>
-<div class="line"><a name="l00800"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">  800</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">SSLClient::Receive</a>(<span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size)</div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;{</div>
-<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
-<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160; </div>
-<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;}</div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160; </div>
+<div class="line"><a name="l00803"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">  803</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">SSLClient::Receive</a>(<span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size)</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;{</div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
 <div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160; </div>
-<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160; </div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;    asio::error_code ec;</div>
-<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160; </div>
-<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;    <span class="comment">// Receive data from the server</span></div>
-<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;    <span class="keywordtype">size_t</span> received = _stream.read_some(asio::buffer(buffer, size), ec);</div>
-<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;    <span class="keywordflow">if</span> (received &gt; 0)</div>
-<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;    {</div>
-<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;        <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;        _bytes_received += received;</div>
-<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160; </div>
-<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;        <span class="comment">// Call the buffer received handler</span></div>
-<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abb3e22bd3d13a65f18eaa8bfc5f62b66">onReceived</a>(buffer, received);</div>
-<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;    }</div>
-<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160; </div>
-<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;    <span class="comment">// Disconnect on error</span></div>
-<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;    <span class="keywordflow">if</span> (ec)</div>
-<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;    {</div>
-<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;        SendError(ec);</div>
-<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>();</div>
-<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;    }</div>
-<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160; </div>
-<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;    <span class="keywordflow">return</span> received;</div>
-<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;}</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160; </div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160; </div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;    asio::error_code ec;</div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160; </div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;    <span class="comment">// Receive data from the server</span></div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;    <span class="keywordtype">size_t</span> received = _stream.read_some(asio::buffer(buffer, size), ec);</div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;    <span class="keywordflow">if</span> (received &gt; 0)</div>
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;    {</div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;        <span class="comment">// Update statistic</span></div>
+<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;        _bytes_received += received;</div>
+<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160; </div>
+<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;        <span class="comment">// Call the buffer received handler</span></div>
+<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abb3e22bd3d13a65f18eaa8bfc5f62b66">onReceived</a>(buffer, received);</div>
+<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;    }</div>
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160; </div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;    <span class="comment">// Disconnect on error</span></div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;    <span class="keywordflow">if</span> (ec)</div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;    {</div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;        SendError(ec);</div>
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>();</div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;    }</div>
 <div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160; </div>
-<div class="line"><a name="l00835"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a54a2ff710eb3918fe35cd532a52d35db">  835</a></span>&#160;std::string <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">SSLClient::Receive</a>(<span class="keywordtype">size_t</span> size)</div>
-<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;{</div>
-<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;    std::string text(size, 0);</div>
-<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;    text.resize(<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">Receive</a>(text.data(), text.size()));</div>
-<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;    <span class="keywordflow">return</span> text;</div>
-<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;}</div>
-<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160; </div>
-<div class="line"><a name="l00842"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#afd9873c7ee9e24f4b535b821dac7b4ef">  842</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">SSLClient::Receive</a>(<span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> CppCommon::Timespan&amp; timeout)</div>
-<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;{</div>
-<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
-<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160; </div>
-<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;    <span class="keywordflow">return</span> received;</div>
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;}</div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160; </div>
+<div class="line"><a name="l00838"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a54a2ff710eb3918fe35cd532a52d35db">  838</a></span>&#160;std::string <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">SSLClient::Receive</a>(<span class="keywordtype">size_t</span> size)</div>
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;{</div>
+<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;    std::string text(size, 0);</div>
+<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;    text.resize(<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">Receive</a>(text.data(), text.size()));</div>
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;    <span class="keywordflow">return</span> text;</div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;}</div>
+<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160; </div>
+<div class="line"><a name="l00845"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#afd9873c7ee9e24f4b535b821dac7b4ef">  845</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">SSLClient::Receive</a>(<span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> CppCommon::Timespan&amp; timeout)</div>
+<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;{</div>
+<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
 <div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160; </div>
-<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
-<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160; </div>
-<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;    <span class="keywordtype">int</span> done = 0;</div>
-<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;    std::mutex mtx;</div>
-<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;    std::condition_variable cv;</div>
-<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;    asio::error_code error;</div>
-<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;    asio::system_timer timer(_stream.get_executor());</div>
-<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160; </div>
-<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;    <span class="comment">// Prepare done handler</span></div>
-<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;    <span class="keyword">auto</span> async_done_handler = [&amp;](asio::error_code ec)</div>
-<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;    {</div>
-<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;        std::unique_lock&lt;std::mutex&gt; lck(mtx);</div>
-<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;        <span class="keywordflow">if</span> (done++ == 0)</div>
-<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;        {</div>
-<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;            error = ec;</div>
-<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#aed857a55f3fd50fb9963358f3bc4c71e">socket</a>().cancel();</div>
-<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;            timer.cancel();</div>
-<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;        }</div>
-<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;        cv.notify_one();</div>
-<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;    };</div>
-<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160; </div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;    <span class="comment">// Async wait for timeout</span></div>
-<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;    timer.expires_from_now(timeout.chrono());</div>
-<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;    timer.async_wait([&amp;](<span class="keyword">const</span> asio::error_code&amp; ec) { async_done_handler(ec ? ec : asio::error::timed_out); });</div>
-<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160; </div>
-<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;    <span class="comment">// Async read some data from the server</span></div>
-<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;    <span class="keywordtype">size_t</span> received = 0;</div>
-<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;    _stream.async_read_some(asio::buffer(buffer, size), [&amp;](std::error_code ec, <span class="keywordtype">size_t</span> read) { async_done_handler(ec); received = read; });</div>
-<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160; </div>
-<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;    <span class="comment">// Wait for complete or timeout</span></div>
-<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;    std::unique_lock&lt;std::mutex&gt; lck(mtx);</div>
-<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;    cv.wait(lck, [&amp;]() { <span class="keywordflow">return</span> done == 2; });</div>
-<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160; </div>
-<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;    <span class="comment">// Received some data from the server</span></div>
-<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;    <span class="keywordflow">if</span> (received &gt; 0)</div>
-<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;    {</div>
-<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;        <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;        _bytes_received += received;</div>
-<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160; </div>
-<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;        <span class="comment">// Call the buffer received handler</span></div>
-<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abb3e22bd3d13a65f18eaa8bfc5f62b66">onReceived</a>(buffer, received);</div>
-<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;    }</div>
-<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160; </div>
-<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;    <span class="comment">// Disconnect on error</span></div>
-<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;    <span class="keywordflow">if</span> (error &amp;&amp; (error != asio::error::timed_out))</div>
-<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;    {</div>
-<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;        SendError(error);</div>
-<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>();</div>
-<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;    }</div>
-<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160; </div>
-<div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;    <span class="keywordflow">return</span> received;</div>
-<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;}</div>
+<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;    <span class="keywordflow">if</span> (size == 0)</div>
+<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160; </div>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;    assert((buffer != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Pointer to the buffer should not be null!&quot;</span>);</div>
+<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;    <span class="keywordflow">if</span> (buffer == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160; </div>
+<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;    <span class="keywordtype">int</span> done = 0;</div>
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;    std::mutex mtx;</div>
+<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;    std::condition_variable cv;</div>
+<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;    asio::error_code error;</div>
+<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;    asio::system_timer timer(_stream.get_executor());</div>
+<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160; </div>
+<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;    <span class="comment">// Prepare done handler</span></div>
+<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;    <span class="keyword">auto</span> async_done_handler = [&amp;](asio::error_code ec)</div>
+<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;    {</div>
+<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;        std::unique_lock&lt;std::mutex&gt; lck(mtx);</div>
+<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;        <span class="keywordflow">if</span> (done++ == 0)</div>
+<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;        {</div>
+<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;            error = ec;</div>
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#aed857a55f3fd50fb9963358f3bc4c71e">socket</a>().cancel();</div>
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;            timer.cancel();</div>
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;        }</div>
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;        cv.notify_one();</div>
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;    };</div>
+<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160; </div>
+<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;    <span class="comment">// Async wait for timeout</span></div>
+<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;    timer.expires_from_now(timeout.chrono());</div>
+<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;    timer.async_wait([&amp;](<span class="keyword">const</span> asio::error_code&amp; ec) { async_done_handler(ec ? ec : asio::error::timed_out); });</div>
+<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160; </div>
+<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;    <span class="comment">// Async read some data from the server</span></div>
+<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;    <span class="keywordtype">size_t</span> received = 0;</div>
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;    _stream.async_read_some(asio::buffer(buffer, size), [&amp;](std::error_code ec, <span class="keywordtype">size_t</span> read) { async_done_handler(ec); received = read; });</div>
+<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160; </div>
+<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;    <span class="comment">// Wait for complete or timeout</span></div>
+<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;    std::unique_lock&lt;std::mutex&gt; lck(mtx);</div>
+<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;    cv.wait(lck, [&amp;]() { <span class="keywordflow">return</span> done == 2; });</div>
+<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160; </div>
+<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;    <span class="comment">// Received some data from the server</span></div>
+<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;    <span class="keywordflow">if</span> (received &gt; 0)</div>
+<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;    {</div>
+<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;        <span class="comment">// Update statistic</span></div>
+<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;        _bytes_received += received;</div>
+<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160; </div>
+<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;        <span class="comment">// Call the buffer received handler</span></div>
+<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abb3e22bd3d13a65f18eaa8bfc5f62b66">onReceived</a>(buffer, received);</div>
+<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;    }</div>
+<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160; </div>
+<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;    <span class="comment">// Disconnect on error</span></div>
+<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;    <span class="keywordflow">if</span> (error &amp;&amp; (error != asio::error::timed_out))</div>
+<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;    {</div>
+<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;        SendError(error);</div>
+<div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af816e70fc9396c126f379954cd6dcf36">Disconnect</a>();</div>
+<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;    }</div>
 <div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160; </div>
-<div class="line"><a name="l00905"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a30dde7fd3ea207dd6103ab6e1c8bd699">  905</a></span>&#160;std::string <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">SSLClient::Receive</a>(<span class="keywordtype">size_t</span> size, <span class="keyword">const</span> CppCommon::Timespan&amp; timeout)</div>
-<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;{</div>
-<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;    std::string text(size, 0);</div>
-<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;    text.resize(<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">Receive</a>(text.data(), text.size(), timeout));</div>
-<div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160;    <span class="keywordflow">return</span> text;</div>
-<div class="line"><a name="l00910"></a><span class="lineno">  910</span>&#160;}</div>
-<div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160; </div>
-<div class="line"><a name="l00912"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3b5ae989d73e65c7a6cb43b151e9bb9d">  912</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3b5ae989d73e65c7a6cb43b151e9bb9d">SSLClient::ReceiveAsync</a>()</div>
-<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;{</div>
-<div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160;    <span class="comment">// Try to receive data from the server</span></div>
-<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;    TryReceive();</div>
-<div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;}</div>
-<div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160; </div>
-<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;<span class="keywordtype">void</span> SSLClient::TryReceive()</div>
-<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;{</div>
-<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;    <span class="keywordflow">if</span> (_receiving)</div>
-<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160; </div>
-<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
+<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;    <span class="keywordflow">return</span> received;</div>
+<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;}</div>
+<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160; </div>
+<div class="line"><a name="l00908"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a30dde7fd3ea207dd6103ab6e1c8bd699">  908</a></span>&#160;std::string <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">SSLClient::Receive</a>(<span class="keywordtype">size_t</span> size, <span class="keyword">const</span> CppCommon::Timespan&amp; timeout)</div>
+<div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160;{</div>
+<div class="line"><a name="l00910"></a><span class="lineno">  910</span>&#160;    std::string text(size, 0);</div>
+<div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160;    text.resize(<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">Receive</a>(text.data(), text.size(), timeout));</div>
+<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;    <span class="keywordflow">return</span> text;</div>
+<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;}</div>
+<div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160; </div>
+<div class="line"><a name="l00915"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3b5ae989d73e65c7a6cb43b151e9bb9d">  915</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3b5ae989d73e65c7a6cb43b151e9bb9d">SSLClient::ReceiveAsync</a>()</div>
+<div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;{</div>
+<div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160;    <span class="comment">// Try to receive data from the server</span></div>
+<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;    TryReceive();</div>
+<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;}</div>
+<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160; </div>
+<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;<span class="keywordtype">void</span> SSLClient::TryReceive()</div>
+<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;{</div>
+<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;    <span class="keywordflow">if</span> (_receiving)</div>
 <div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;        <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160; </div>
-<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;    <span class="comment">// Async receive with the receive handler</span></div>
-<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;    _receiving = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;    <span class="keyword">auto</span> async_receive_handler = <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_receive_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec, <span class="keywordtype">size_t</span> size)</div>
-<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;    {</div>
-<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;        _receiving = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160; </div>
-<div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
-<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
+<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160; </div>
+<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;    <span class="comment">// Async receive with the receive handler</span></div>
+<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;    _receiving = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
+<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;    <span class="keyword">auto</span> async_receive_handler = <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_receive_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec, <span class="keywordtype">size_t</span> size)</div>
+<div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160;    {</div>
+<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;        _receiving = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00935"></a><span class="lineno">  935</span>&#160; </div>
-<div class="line"><a name="l00936"></a><span class="lineno">  936</span>&#160;        <span class="comment">// Received some data from the server</span></div>
-<div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;        <span class="keywordflow">if</span> (size &gt; 0)</div>
-<div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160;        {</div>
-<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;            <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;            _bytes_received += size;</div>
-<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160; </div>
-<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;            <span class="comment">// Call the buffer received handler</span></div>
-<div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abb3e22bd3d13a65f18eaa8bfc5f62b66">onReceived</a>(_receive_buffer.data(), size);</div>
+<div class="line"><a name="l00936"></a><span class="lineno">  936</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
+<div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160; </div>
+<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;        <span class="comment">// Received some data from the server</span></div>
+<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;        <span class="keywordflow">if</span> (size &gt; 0)</div>
+<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160;        {</div>
+<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;            <span class="comment">// Update statistic</span></div>
+<div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160;            _bytes_received += size;</div>
 <div class="line"><a name="l00944"></a><span class="lineno">  944</span>&#160; </div>
-<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;            <span class="comment">// If the receive buffer is full increase its size</span></div>
-<div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;            <span class="keywordflow">if</span> (_receive_buffer.size() == size)</div>
-<div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160;            {</div>
-<div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;                <span class="comment">// Check the receive buffer limit</span></div>
-<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;                <span class="keywordflow">if</span> (((2 * size) &gt; _receive_buffer_limit) &amp;&amp; (_receive_buffer_limit &gt; 0))</div>
-<div class="line"><a name="l00950"></a><span class="lineno">  950</span>&#160;                {</div>
-<div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;                    SendError(asio::error::no_buffer_space);</div>
-<div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;                    <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7a74047c7e4ee403681b2e1651ebfb3a">DisconnectAsync</a>(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;                }</div>
-<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160; </div>
-<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;                _receive_buffer.resize(2 * size);</div>
-<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;            }</div>
-<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;        }</div>
-<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160; </div>
-<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;        <span class="comment">// Try to receive again if the session is valid</span></div>
-<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;        <span class="keywordflow">if</span> (!ec)</div>
-<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;            TryReceive();</div>
-<div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;        {</div>
-<div class="line"><a name="l00965"></a><span class="lineno">  965</span>&#160;            SendError(ec);</div>
-<div class="line"><a name="l00966"></a><span class="lineno">  966</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7a74047c7e4ee403681b2e1651ebfb3a">DisconnectAsync</a>(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160;        }</div>
-<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;    });</div>
-<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;        _stream.async_read_some(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), bind_executor(_strand, async_receive_handler));</div>
-<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;        _stream.async_read_some(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), async_receive_handler);</div>
-<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;}</div>
-<div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160; </div>
-<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;<span class="keywordtype">void</span> SSLClient::TrySend()</div>
-<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;{</div>
-<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;    <span class="keywordflow">if</span> (_sending)</div>
-<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160; </div>
-<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
+<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;            <span class="comment">// Call the buffer received handler</span></div>
+<div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abb3e22bd3d13a65f18eaa8bfc5f62b66">onReceived</a>(_receive_buffer.data(), size);</div>
+<div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160; </div>
+<div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;            <span class="comment">// If the receive buffer is full increase its size</span></div>
+<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;            <span class="keywordflow">if</span> (_receive_buffer.size() == size)</div>
+<div class="line"><a name="l00950"></a><span class="lineno">  950</span>&#160;            {</div>
+<div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;                <span class="comment">// Check the receive buffer limit</span></div>
+<div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;                <span class="keywordflow">if</span> (((2 * size) &gt; _receive_buffer_limit) &amp;&amp; (_receive_buffer_limit &gt; 0))</div>
+<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;                {</div>
+<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;                    SendError(asio::error::no_buffer_space);</div>
+<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;                    <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7a74047c7e4ee403681b2e1651ebfb3a">DisconnectAsync</a>(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;                }</div>
+<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160; </div>
+<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;                _receive_buffer.resize(2 * size);</div>
+<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;            }</div>
+<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;        }</div>
+<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160; </div>
+<div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;        <span class="comment">// Try to receive again if the session is valid</span></div>
+<div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;        <span class="keywordflow">if</span> (!ec)</div>
+<div class="line"><a name="l00965"></a><span class="lineno">  965</span>&#160;            TryReceive();</div>
+<div class="line"><a name="l00966"></a><span class="lineno">  966</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160;        {</div>
+<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;            SendError(ec);</div>
+<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7a74047c7e4ee403681b2e1651ebfb3a">DisconnectAsync</a>(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;        }</div>
+<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;    });</div>
+<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
+<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;        _stream.async_read_some(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), bind_executor(_strand, async_receive_handler));</div>
+<div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;        _stream.async_read_some(asio::buffer(_receive_buffer.data(), _receive_buffer.size()), async_receive_handler);</div>
+<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;}</div>
+<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160; </div>
+<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;<span class="keywordtype">void</span> SSLClient::TrySend()</div>
+<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;{</div>
+<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;    <span class="keywordflow">if</span> (_sending)</div>
 <div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;        <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160; </div>
-<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;    <span class="comment">// Swap send buffers</span></div>
-<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;    <span class="keywordflow">if</span> (_send_buffer_flush.empty())</div>
-<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;    {</div>
-<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;        std::scoped_lock locker(_send_lock);</div>
-<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160; </div>
-<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;        <span class="comment">// Swap flush and main buffers</span></div>
-<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;        _send_buffer_flush.swap(_send_buffer_main);</div>
-<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;        _send_buffer_flush_offset = 0;</div>
-<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160; </div>
-<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;        <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;        _bytes_pending = 0;</div>
-<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;        _bytes_sending += _send_buffer_flush.size();</div>
-<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;    }</div>
-<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160; </div>
-<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;    <span class="comment">// Check if the flush buffer is empty</span></div>
-<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;    <span class="keywordflow">if</span> (_send_buffer_flush.empty())</div>
-<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;    {</div>
-<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;        <span class="comment">// Call the empty send buffer handler</span></div>
-<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a5eca3fdb2dc89f5da009c2f9cba595c3">onEmpty</a>();</div>
-<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;    }</div>
-<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160; </div>
-<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;    <span class="comment">// Async write with the write handler</span></div>
-<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;    _sending = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;    <span class="keyword">auto</span> async_write_handler = <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_send_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec, <span class="keywordtype">size_t</span> size)</div>
-<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;    {</div>
-<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;        _sending = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160; </div>
-<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
-<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
+<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160; </div>
+<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;    <span class="comment">// Swap send buffers</span></div>
+<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;    <span class="keywordflow">if</span> (_send_buffer_flush.empty())</div>
+<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;    {</div>
+<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;        std::scoped_lock locker(_send_lock);</div>
+<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160; </div>
+<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;        <span class="comment">// Swap flush and main buffers</span></div>
+<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;        _send_buffer_flush.swap(_send_buffer_main);</div>
+<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;        _send_buffer_flush_offset = 0;</div>
+<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160; </div>
+<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;        <span class="comment">// Update statistic</span></div>
+<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;        _bytes_pending = 0;</div>
+<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;        _bytes_sending += _send_buffer_flush.size();</div>
+<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;    }</div>
+<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160; </div>
+<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;    <span class="comment">// Check if the flush buffer is empty</span></div>
+<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;    <span class="keywordflow">if</span> (_send_buffer_flush.empty())</div>
+<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;    {</div>
+<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;        <span class="comment">// Call the empty send buffer handler</span></div>
+<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a5eca3fdb2dc89f5da009c2f9cba595c3">onEmpty</a>();</div>
+<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;    }</div>
+<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160; </div>
+<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;    <span class="comment">// Async write with the write handler</span></div>
+<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;    _sending = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
+<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;    <span class="keyword">auto</span> async_write_handler = <a class="code" href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">make_alloc_handler</a>(_send_storage, [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec, <span class="keywordtype">size_t</span> size)</div>
+<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;    {</div>
+<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;        _sending = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160; </div>
-<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;        <span class="comment">// Send some data to the server</span></div>
-<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;        <span class="keywordflow">if</span> (size &gt; 0)</div>
-<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;        {</div>
-<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;            <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;            _bytes_sending -= size;</div>
-<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;            _bytes_sent += size;</div>
-<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160; </div>
-<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;            <span class="comment">// Increase the flush buffer offset</span></div>
-<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;            _send_buffer_flush_offset += size;</div>
+<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">IsHandshaked</a>())</div>
+<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160; </div>
+<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;        <span class="comment">// Send some data to the server</span></div>
+<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;        <span class="keywordflow">if</span> (size &gt; 0)</div>
+<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;        {</div>
+<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;            <span class="comment">// Update statistic</span></div>
+<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;            _bytes_sending -= size;</div>
+<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;            _bytes_sent += size;</div>
 <div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160; </div>
-<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;            <span class="comment">// Successfully send the whole flush buffer</span></div>
-<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;            <span class="keywordflow">if</span> (_send_buffer_flush_offset == _send_buffer_flush.size())</div>
-<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;            {</div>
-<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;                <span class="comment">// Clear the flush buffer</span></div>
-<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;                _send_buffer_flush.clear();</div>
-<div class="line"><a name="l01030"></a><span class="lineno"> 1030</span>&#160;                _send_buffer_flush_offset = 0;</div>
-<div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;            }</div>
-<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160; </div>
-<div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;            <span class="comment">// Call the buffer sent handler</span></div>
-<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a2a695319cd3181f1c68ae485c6e83994">onSent</a>(size, <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af22c49fcddbe91de2d2e597c069ce6b4">bytes_pending</a>());</div>
-<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;        }</div>
-<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160; </div>
-<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;        <span class="comment">// Try to send again if the session is valid</span></div>
-<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;        <span class="keywordflow">if</span> (!ec)</div>
-<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;            TrySend();</div>
-<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;        {</div>
-<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;            SendError(ec);</div>
-<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7a74047c7e4ee403681b2e1651ebfb3a">DisconnectAsync</a>(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;        }</div>
-<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;    });</div>
-<div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a name="l01047"></a><span class="lineno"> 1047</span>&#160;        _stream.async_write_some(asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));</div>
-<div class="line"><a name="l01048"></a><span class="lineno"> 1048</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;        _stream.async_write_some(asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);</div>
-<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;}</div>
-<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160; </div>
-<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;<span class="keywordtype">void</span> SSLClient::ClearBuffers()</div>
-<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;{</div>
-<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;    {</div>
-<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;        std::scoped_lock locker(_send_lock);</div>
-<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160; </div>
-<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;        <span class="comment">// Clear send buffers</span></div>
-<div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;        _send_buffer_main.clear();</div>
-<div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;        _send_buffer_flush.clear();</div>
-<div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;        _send_buffer_flush_offset = 0;</div>
-<div class="line"><a name="l01061"></a><span class="lineno"> 1061</span>&#160; </div>
-<div class="line"><a name="l01062"></a><span class="lineno"> 1062</span>&#160;        <span class="comment">// Update statistic</span></div>
-<div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;        _bytes_pending = 0;</div>
-<div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160;        _bytes_sending = 0;</div>
-<div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;    }</div>
-<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;}</div>
-<div class="line"><a name="l01067"></a><span class="lineno"> 1067</span>&#160; </div>
-<div class="line"><a name="l01068"></a><span class="lineno"> 1068</span>&#160;<span class="keywordtype">void</span> SSLClient::SendError(std::error_code ec)</div>
-<div class="line"><a name="l01069"></a><span class="lineno"> 1069</span>&#160;{</div>
-<div class="line"><a name="l01070"></a><span class="lineno"> 1070</span>&#160;    <span class="comment">// Skip Asio disconnect errors</span></div>
-<div class="line"><a name="l01071"></a><span class="lineno"> 1071</span>&#160;    <span class="keywordflow">if</span> ((ec == asio::error::connection_aborted) ||</div>
-<div class="line"><a name="l01072"></a><span class="lineno"> 1072</span>&#160;        (ec == asio::error::connection_refused) ||</div>
-<div class="line"><a name="l01073"></a><span class="lineno"> 1073</span>&#160;        (ec == asio::error::connection_reset) ||</div>
-<div class="line"><a name="l01074"></a><span class="lineno"> 1074</span>&#160;        (ec == asio::error::eof) ||</div>
-<div class="line"><a name="l01075"></a><span class="lineno"> 1075</span>&#160;        (ec == asio::error::operation_aborted))</div>
-<div class="line"><a name="l01076"></a><span class="lineno"> 1076</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l01077"></a><span class="lineno"> 1077</span>&#160; </div>
-<div class="line"><a name="l01078"></a><span class="lineno"> 1078</span>&#160;    <span class="comment">// Skip OpenSSL annoying errors</span></div>
-<div class="line"><a name="l01079"></a><span class="lineno"> 1079</span>&#160;    <span class="keywordflow">if</span> (ec == asio::ssl::error::stream_truncated)</div>
-<div class="line"><a name="l01080"></a><span class="lineno"> 1080</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l01081"></a><span class="lineno"> 1081</span>&#160;    <span class="keywordflow">if</span> (ec.category() == asio::error::get_ssl_category())</div>
-<div class="line"><a name="l01082"></a><span class="lineno"> 1082</span>&#160;    {</div>
-<div class="line"><a name="l01083"></a><span class="lineno"> 1083</span>&#160;        <span class="keywordflow">if</span> ((ERR_GET_REASON(ec.value()) == SSL_R_DECRYPTION_FAILED_OR_BAD_RECORD_MAC) ||</div>
-<div class="line"><a name="l01084"></a><span class="lineno"> 1084</span>&#160;            (ERR_GET_REASON(ec.value()) == SSL_R_PROTOCOL_IS_SHUTDOWN) ||</div>
-<div class="line"><a name="l01085"></a><span class="lineno"> 1085</span>&#160;            (ERR_GET_REASON(ec.value()) == SSL_R_WRONG_VERSION_NUMBER))</div>
-<div class="line"><a name="l01086"></a><span class="lineno"> 1086</span>&#160;            <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160;    }</div>
-<div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160; </div>
-<div class="line"><a name="l01089"></a><span class="lineno"> 1089</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a28520de29d102fdfdf3eb083f41129a8">onError</a>(ec.value(), ec.category().name(), ec.message());</div>
-<div class="line"><a name="l01090"></a><span class="lineno"> 1090</span>&#160;}</div>
+<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;            <span class="comment">// Increase the flush buffer offset</span></div>
+<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;            _send_buffer_flush_offset += size;</div>
+<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160; </div>
+<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;            <span class="comment">// Successfully send the whole flush buffer</span></div>
+<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;            <span class="keywordflow">if</span> (_send_buffer_flush_offset == _send_buffer_flush.size())</div>
+<div class="line"><a name="l01030"></a><span class="lineno"> 1030</span>&#160;            {</div>
+<div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;                <span class="comment">// Clear the flush buffer</span></div>
+<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;                _send_buffer_flush.clear();</div>
+<div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;                _send_buffer_flush_offset = 0;</div>
+<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;            }</div>
+<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160; </div>
+<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;            <span class="comment">// Call the buffer sent handler</span></div>
+<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a2a695319cd3181f1c68ae485c6e83994">onSent</a>(size, <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#af22c49fcddbe91de2d2e597c069ce6b4">bytes_pending</a>());</div>
+<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;        }</div>
+<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160; </div>
+<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;        <span class="comment">// Try to send again if the session is valid</span></div>
+<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;        <span class="keywordflow">if</span> (!ec)</div>
+<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;            TrySend();</div>
+<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;        {</div>
+<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;            SendError(ec);</div>
+<div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7a74047c7e4ee403681b2e1651ebfb3a">DisconnectAsync</a>(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l01047"></a><span class="lineno"> 1047</span>&#160;        }</div>
+<div class="line"><a name="l01048"></a><span class="lineno"> 1048</span>&#160;    });</div>
+<div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
+<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;        _stream.async_write_some(asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), bind_executor(_strand, async_write_handler));</div>
+<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;        _stream.async_write_some(asio::buffer(_send_buffer_flush.data() + _send_buffer_flush_offset, _send_buffer_flush.size() - _send_buffer_flush_offset), async_write_handler);</div>
+<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;}</div>
+<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160; </div>
+<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;<span class="keywordtype">void</span> SSLClient::ClearBuffers()</div>
+<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;{</div>
+<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;    {</div>
+<div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;        std::scoped_lock locker(_send_lock);</div>
+<div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160; </div>
+<div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;        <span class="comment">// Clear send buffers</span></div>
+<div class="line"><a name="l01061"></a><span class="lineno"> 1061</span>&#160;        _send_buffer_main.clear();</div>
+<div class="line"><a name="l01062"></a><span class="lineno"> 1062</span>&#160;        _send_buffer_flush.clear();</div>
+<div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;        _send_buffer_flush_offset = 0;</div>
+<div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160; </div>
+<div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;        <span class="comment">// Update statistic</span></div>
+<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;        _bytes_pending = 0;</div>
+<div class="line"><a name="l01067"></a><span class="lineno"> 1067</span>&#160;        _bytes_sending = 0;</div>
+<div class="line"><a name="l01068"></a><span class="lineno"> 1068</span>&#160;    }</div>
+<div class="line"><a name="l01069"></a><span class="lineno"> 1069</span>&#160;}</div>
+<div class="line"><a name="l01070"></a><span class="lineno"> 1070</span>&#160; </div>
+<div class="line"><a name="l01071"></a><span class="lineno"> 1071</span>&#160;<span class="keywordtype">void</span> SSLClient::SendError(std::error_code ec)</div>
+<div class="line"><a name="l01072"></a><span class="lineno"> 1072</span>&#160;{</div>
+<div class="line"><a name="l01073"></a><span class="lineno"> 1073</span>&#160;    <span class="comment">// Skip Asio disconnect errors</span></div>
+<div class="line"><a name="l01074"></a><span class="lineno"> 1074</span>&#160;    <span class="keywordflow">if</span> ((ec == asio::error::connection_aborted) ||</div>
+<div class="line"><a name="l01075"></a><span class="lineno"> 1075</span>&#160;        (ec == asio::error::connection_refused) ||</div>
+<div class="line"><a name="l01076"></a><span class="lineno"> 1076</span>&#160;        (ec == asio::error::connection_reset) ||</div>
+<div class="line"><a name="l01077"></a><span class="lineno"> 1077</span>&#160;        (ec == asio::error::eof) ||</div>
+<div class="line"><a name="l01078"></a><span class="lineno"> 1078</span>&#160;        (ec == asio::error::operation_aborted))</div>
+<div class="line"><a name="l01079"></a><span class="lineno"> 1079</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l01080"></a><span class="lineno"> 1080</span>&#160; </div>
+<div class="line"><a name="l01081"></a><span class="lineno"> 1081</span>&#160;    <span class="comment">// Skip OpenSSL annoying errors</span></div>
+<div class="line"><a name="l01082"></a><span class="lineno"> 1082</span>&#160;    <span class="keywordflow">if</span> (ec == asio::ssl::error::stream_truncated)</div>
+<div class="line"><a name="l01083"></a><span class="lineno"> 1083</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l01084"></a><span class="lineno"> 1084</span>&#160;    <span class="keywordflow">if</span> (ec.category() == asio::error::get_ssl_category())</div>
+<div class="line"><a name="l01085"></a><span class="lineno"> 1085</span>&#160;    {</div>
+<div class="line"><a name="l01086"></a><span class="lineno"> 1086</span>&#160;        <span class="keywordflow">if</span> ((ERR_GET_REASON(ec.value()) == SSL_R_DECRYPTION_FAILED_OR_BAD_RECORD_MAC) ||</div>
+<div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160;            (ERR_GET_REASON(ec.value()) == SSL_R_PROTOCOL_IS_SHUTDOWN) ||</div>
+<div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160;            (ERR_GET_REASON(ec.value()) == SSL_R_WRONG_VERSION_NUMBER))</div>
+<div class="line"><a name="l01089"></a><span class="lineno"> 1089</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l01090"></a><span class="lineno"> 1090</span>&#160;    }</div>
 <div class="line"><a name="l01091"></a><span class="lineno"> 1091</span>&#160; </div>
-<div class="line"><a name="l01092"></a><span class="lineno"> 1092</span>&#160;} <span class="comment">// namespace Asio</span></div>
-<div class="line"><a name="l01093"></a><span class="lineno"> 1093</span>&#160;} <span class="comment">// namespace CppServer</span></div>
+<div class="line"><a name="l01092"></a><span class="lineno"> 1092</span>&#160;    <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a28520de29d102fdfdf3eb083f41129a8">onError</a>(ec.value(), ec.category().name(), ec.message());</div>
+<div class="line"><a name="l01093"></a><span class="lineno"> 1093</span>&#160;}</div>
+<div class="line"><a name="l01094"></a><span class="lineno"> 1094</span>&#160; </div>
+<div class="line"><a name="l01095"></a><span class="lineno"> 1095</span>&#160;} <span class="comment">// namespace Asio</span></div>
+<div class="line"><a name="l01096"></a><span class="lineno"> 1096</span>&#160;} <span class="comment">// namespace CppServer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a54a833672aea5ddeb79c19297a19e70a"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a54a833672aea5ddeb79c19297a19e70a">CppServer::Asio::SSLClient::context</a></div><div class="ttdeci">std::shared_ptr&lt; SSLContext &gt; &amp; context() noexcept</div><div class="ttdoc">Get the client SSL context.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00073">ssl_client.h:73</a></div></div>
-<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a6ce4129ad02281a46cae2cb57f9f743c"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6ce4129ad02281a46cae2cb57f9f743c">CppServer::Asio::SSLClient::SendAsync</a></div><div class="ttdeci">virtual bool SendAsync(const void *buffer, size_t size)</div><div class="ttdoc">Send data to the server (asynchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00748">ssl_client.cpp:748</a></div></div>
+<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a6ce4129ad02281a46cae2cb57f9f743c"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6ce4129ad02281a46cae2cb57f9f743c">CppServer::Asio::SSLClient::SendAsync</a></div><div class="ttdeci">virtual bool SendAsync(const void *buffer, size_t size)</div><div class="ttdoc">Send data to the server (asynchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00751">ssl_client.cpp:751</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a5eca3fdb2dc89f5da009c2f9cba595c3"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a5eca3fdb2dc89f5da009c2f9cba595c3">CppServer::Asio::SSLClient::onEmpty</a></div><div class="ttdeci">virtual void onEmpty()</div><div class="ttdoc">Handle empty send buffer notification.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00324">ssl_client.h:324</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a3d783b117cc369e930b28bd55b09275d"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3d783b117cc369e930b28bd55b09275d">CppServer::Asio::SSLClient::IsHandshaked</a></div><div class="ttdeci">bool IsHandshaked() const noexcept</div><div class="ttdoc">Is the session handshaked?</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00111">ssl_client.h:111</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a11c53718012896e0a74bb8d1301c732a"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a11c53718012896e0a74bb8d1301c732a">CppServer::Asio::SSLClient::option_keep_alive</a></div><div class="ttdeci">bool option_keep_alive() const noexcept</div><div class="ttdoc">Get the option: keep alive.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00096">ssl_client.h:96</a></div></div>
-<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a7d596c2714c49690f04082f370bdebfd"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">CppServer::Asio::SSLClient::Receive</a></div><div class="ttdeci">virtual size_t Receive(void *buffer, size_t size)</div><div class="ttdoc">Receive data from the server (synchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00800">ssl_client.cpp:800</a></div></div>
+<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a7d596c2714c49690f04082f370bdebfd"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7d596c2714c49690f04082f370bdebfd">CppServer::Asio::SSLClient::Receive</a></div><div class="ttdeci">virtual size_t Receive(void *buffer, size_t size)</div><div class="ttdoc">Receive data from the server (synchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00803">ssl_client.cpp:803</a></div></div>
 <div class="ttc" id="anamespace_cpp_server_1_1_asio_html_a5a9899def2e680af872640662636c133"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">CppServer::Asio::make_alloc_handler</a></div><div class="ttdeci">AllocateHandler&lt; THandler &gt; make_alloc_handler(HandlerStorage &amp;storage, THandler handler)</div><div class="ttdoc">Helper function to wrap a handler object to add custom allocation.</div><div class="ttdef"><b>Definition:</b> <a href="memory_8inl_source.html#l00039">memory.inl:39</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a3eed61d6ad42bc5b7a325284267fe062"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3eed61d6ad42bc5b7a325284267fe062">CppServer::Asio::SSLClient::onHandshaked</a></div><div class="ttdeci">virtual void onHandshaked()</div><div class="ttdoc">Handle session handshaked notification.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00291">ssl_client.h:291</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a98870cb4ec6d28f1c9b97ae9d1893e7b"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a98870cb4ec6d28f1c9b97ae9d1893e7b">CppServer::Asio::SSLClient::option_no_delay</a></div><div class="ttdeci">bool option_no_delay() const noexcept</div><div class="ttdoc">Get the option: no delay.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00098">ssl_client.h:98</a></div></div>
@@ -1181,7 +1184,7 @@ $(function() {
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_ab8acc4bdfb6ad7cd0074d45f307d646a"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#ab8acc4bdfb6ad7cd0074d45f307d646a">CppServer::Asio::SSLClient::Reconnect</a></div><div class="ttdeci">virtual bool Reconnect()</div><div class="ttdoc">Reconnect the client (synchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00344">ssl_client.cpp:344</a></div></div>
 <div class="ttc" id="assl__client_8h_html"><div class="ttname"><a href="ssl__client_8h.html">ssl_client.h</a></div><div class="ttdoc">SSL client definition.</div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_abc4be2b049e49f4f2bde777d5bd4c36d"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abc4be2b049e49f4f2bde777d5bd4c36d">CppServer::Asio::SSLClient::option_receive_buffer_size</a></div><div class="ttdeci">size_t option_receive_buffer_size() const</div><div class="ttdoc">Get the option: receive buffer size.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00122">ssl_client.cpp:122</a></div></div>
-<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a8c8e5ef4b1b79534d93630b0ac6be94b"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a8c8e5ef4b1b79534d93630b0ac6be94b">CppServer::Asio::SSLClient::ReconnectAsync</a></div><div class="ttdeci">virtual bool ReconnectAsync()</div><div class="ttdoc">Reconnect the client (asynchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00639">ssl_client.cpp:639</a></div></div>
+<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a8c8e5ef4b1b79534d93630b0ac6be94b"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a8c8e5ef4b1b79534d93630b0ac6be94b">CppServer::Asio::SSLClient::ReconnectAsync</a></div><div class="ttdeci">virtual bool ReconnectAsync()</div><div class="ttdoc">Reconnect the client (asynchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00642">ssl_client.cpp:642</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a590ca8e4fe2425f62b9a6d644cb59503"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a590ca8e4fe2425f62b9a6d644cb59503">CppServer::Asio::SSLClient::IsConnected</a></div><div class="ttdeci">bool IsConnected() const noexcept</div><div class="ttdoc">Is the client connected?</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00109">ssl_client.h:109</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a2a695319cd3181f1c68ae485c6e83994"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a2a695319cd3181f1c68ae485c6e83994">CppServer::Asio::SSLClient::onSent</a></div><div class="ttdeci">virtual void onSent(size_t sent, size_t pending)</div><div class="ttdoc">Handle buffer sent notification.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00315">ssl_client.h:315</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_abb3e22bd3d13a65f18eaa8bfc5f62b66"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abb3e22bd3d13a65f18eaa8bfc5f62b66">CppServer::Asio::SSLClient::onReceived</a></div><div class="ttdeci">virtual void onReceived(const void *buffer, size_t size)</div><div class="ttdoc">Handle buffer received notification.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00303">ssl_client.h:303</a></div></div>
@@ -1189,8 +1192,8 @@ $(function() {
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a6adbad7b64e0425f622ab61587c71209"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a6adbad7b64e0425f622ab61587c71209">CppServer::Asio::SSLClient::service</a></div><div class="ttdeci">std::shared_ptr&lt; Service &gt; &amp; service() noexcept</div><div class="ttdoc">Get the Asio service.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00067">ssl_client.h:67</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_ab0de14034b301503f29033adda080566"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#ab0de14034b301503f29033adda080566">CppServer::Asio::SSLClient::endpoint</a></div><div class="ttdeci">asio::ip::tcp::endpoint &amp; endpoint() noexcept</div><div class="ttdoc">Get the client endpoint.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00075">ssl_client.h:75</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_ac26b3261387e473b5caae5d7643ddafa"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#ac26b3261387e473b5caae5d7643ddafa">CppServer::Asio::SSLClient::onConnected</a></div><div class="ttdeci">virtual void onConnected()</div><div class="ttdoc">Handle client connected notification.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00289">ssl_client.h:289</a></div></div>
-<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a3b5ae989d73e65c7a6cb43b151e9bb9d"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3b5ae989d73e65c7a6cb43b151e9bb9d">CppServer::Asio::SSLClient::ReceiveAsync</a></div><div class="ttdeci">virtual void ReceiveAsync()</div><div class="ttdoc">Receive data from the server (asynchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00912">ssl_client.cpp:912</a></div></div>
-<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a1371b72ea996537400515a70537da45a"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1371b72ea996537400515a70537da45a">CppServer::Asio::SSLClient::Send</a></div><div class="ttdeci">virtual size_t Send(const void *buffer, size_t size)</div><div class="ttdoc">Send data to the server (synchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00650">ssl_client.cpp:650</a></div></div>
+<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a3b5ae989d73e65c7a6cb43b151e9bb9d"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a3b5ae989d73e65c7a6cb43b151e9bb9d">CppServer::Asio::SSLClient::ReceiveAsync</a></div><div class="ttdeci">virtual void ReceiveAsync()</div><div class="ttdoc">Receive data from the server (asynchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00915">ssl_client.cpp:915</a></div></div>
+<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a1371b72ea996537400515a70537da45a"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a1371b72ea996537400515a70537da45a">CppServer::Asio::SSLClient::Send</a></div><div class="ttdeci">virtual size_t Send(const void *buffer, size_t size)</div><div class="ttdoc">Send data to the server (synchronous)</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00653">ssl_client.cpp:653</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_aed857a55f3fd50fb9963358f3bc4c71e"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#aed857a55f3fd50fb9963358f3bc4c71e">CppServer::Asio::SSLClient::socket</a></div><div class="ttdeci">asio::ssl::stream&lt; asio::ip::tcp::socket &gt;::next_layer_type &amp; socket() noexcept</div><div class="ttdoc">Get the client socket.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8h_source.html#l00079">ssl_client.h:79</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_s_s_l_client_html_a29b4a29b5f9aa11ee77efe7366ce23a2"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a29b4a29b5f9aa11ee77efe7366ce23a2">CppServer::Asio::SSLClient::SSLClient</a></div><div class="ttdeci">SSLClient(const std::shared_ptr&lt; Service &gt; &amp;service, const std::shared_ptr&lt; SSLContext &gt; &amp;context, const std::string &amp;address, int port)</div><div class="ttdoc">Initialize SSL client with a given Asio service, SSL context, server address and port number.</div><div class="ttdef"><b>Definition:</b> <a href="ssl__client_8cpp_source.html#l00014">ssl_client.cpp:14</a></div></div>
 <!-- start footer part -->
