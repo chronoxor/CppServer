@@ -31,6 +31,9 @@ solution.
     * [Example: UDP echo client](#example-udp-echo-client)
     * [Example: UDP multicast server](#example-udp-multicast-server)
     * [Example: UDP multicast client](#example-udp-multicast-client)
+    * [Example: Simple protocol](#example-simple-protocol)
+    * [Example: Simple protocol server](#example-simple-protocol-server)
+    * [Example: Simple protocol client](#example-simple-protocol-client)
     * [Example: HTTP server](#example-http-server)
     * [Example: HTTP client](#example-http-client)
     * [Example: HTTPS server](#example-https-server)
@@ -1307,6 +1310,372 @@ int main(int argc, char** argv)
             std::cout << "Done!" << std::endl;
             continue;
         }
+    }
+
+    // Disconnect the client
+    std::cout << "Client disconnecting...";
+    client->DisconnectAndStop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: Simple protocol
+Simple protocol is defined in [simple.fbe](https://github.com/chronoxor/CppServer/blob/master/proto/simple.fbe) file:
+
+```proto
+/*
+   Simple Fast Binary Encoding protocol for CppServer
+   https://github.com/chronoxor/FastBinaryEncoding
+
+   Generate protocol command: fbec --cpp --proto --input=simple.fbe --output=.
+*/
+
+// Domain declaration
+domain com.chronoxor
+
+// Package declaration
+package simple
+
+// Protocol version
+version 1.0
+
+// Simple request message
+[request]
+[response(SimpleResponse)]
+[reject(SimpleReject)]
+message SimpleRequest
+{
+    // Request Id
+    uuid [id] = uuid1;
+    // Request message
+    string Message;
+}
+
+// Simple response
+message SimpleResponse
+{
+    // Response Id
+    uuid [id] = uuid1;
+    // Calculated message hash
+    uint32 Hash;
+}
+
+// Simple reject
+message SimpleReject
+{
+    // Reject Id
+    uuid [id] = uuid1;
+    // Error message
+    string Error;
+}
+
+// Simple notification
+message SimpleNotify
+{
+    // Server notification
+    string Notification;
+}
+
+// Disconnect request message
+[request]
+message DisconnectRequest
+{
+    // Request Id
+    uuid [id] = uuid1;
+}
+```
+
+## Example: Simple protocol server
+Here comes the example of  the  simple  protocol  server.  It  process  client
+requests, answer with corresponding responses and  send  server  notifications
+back to clients.
+
+```c++
+#include "asio_service.h"
+
+#include "server/asio/tcp_server.h"
+
+#include "../proto/simple_protocol.h"
+
+#include <iostream>
+
+class SimpleProtoSession : public CppServer::Asio::TCPSession, public FBE::simple::Sender, public FBE::simple::Receiver
+{
+public:
+    using CppServer::Asio::TCPSession::TCPSession;
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Simple protocol session with Id " << id() << " connected!" << std::endl;
+
+        // Send invite notification
+        simple::SimpleNotify notify;
+        notify.Notification = "Hello from Simple protocol server! Please send a message or '!' to disconnect the client!";
+        send(notify);
+    }
+
+    void onDisconnected() override
+    {
+        std::cout << "Simple protocol session with Id " << id() << " disconnected!" << std::endl;
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Simple protocol session caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+
+    // Protocol handlers
+    void onReceive(const ::simple::DisconnectRequest& request) override { Disconnect(); }
+    void onReceive(const ::simple::SimpleRequest& request) override
+    {
+        std::cout << "Received: " << request << std::endl;
+
+        // Validate request
+        if (request.Message.empty())
+        {
+            // Send reject
+            simple::SimpleReject reject;
+            reject.id = request.id;
+            reject.Error = "Request message is empty!";
+            send(reject);
+            return;
+        }
+
+        static std::hash<std::string> hasher;
+
+        // Send response
+        simple::SimpleResponse response;
+        response.id = request.id;
+        response.Hash = (uint32_t)hasher(request.Message);
+        send(response);
+    }
+
+    // Protocol implementation
+    void onReceived(const void* buffer, size_t size) override { receive(buffer, size); }
+    size_t onSend(const void* data, size_t size) override { return SendAsync(data, size) ? size : 0; }
+};
+
+class SimpleProtoServer : public CppServer::Asio::TCPServer, public FBE::simple::Sender
+{
+public:
+    using CppServer::Asio::TCPServer::TCPServer;
+
+protected:
+    std::shared_ptr<CppServer::Asio::TCPSession> CreateSession(const std::shared_ptr<CppServer::Asio::TCPServer>& server) override
+    {
+        return std::make_shared<SimpleProtoSession>(server);
+    }
+
+protected:
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Simple protocol server caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+
+    // Protocol implementation
+    size_t onSend(const void* data, size_t size) override { Multicast(data, size); return size; }
+};
+
+int main(int argc, char** argv)
+{
+    // Simple protocol server port
+    int port = 4444;
+    if (argc > 1)
+        port = std::atoi(argv[1]);
+
+    std::cout << "Simple protocol server port: " << port << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<AsioService>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new simple protocol server
+    auto server = std::make_shared<SimpleProtoServer>(service, port);
+
+    // Start the server
+    std::cout << "Server starting...";
+    server->Start();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the server or '!' to restart the server..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Restart the server
+        if (line == "!")
+        {
+            std::cout << "Server restarting...";
+            server->Restart();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Multicast admin notification to all sessions
+        simple::SimpleNotify notify;
+        notify.Notification = "(admin) " + line;
+        server->send(notify);
+    }
+
+    // Stop the server
+    std::cout << "Server stopping...";
+    server->Stop();
+    std::cout << "Done!" << std::endl;
+
+    // Stop the Asio service
+    std::cout << "Asio service stopping...";
+    service->Stop();
+    std::cout << "Done!" << std::endl;
+
+    return 0;
+}
+```
+
+## Example: Simple protocol client
+Here comes the example of the simple  protocol  client.  It  connects  to  the
+simple protocol  server  and  allows  to  send  requests  to  it  and  receive
+corresponding responses.
+
+```c++
+#include "asio_service.h"
+
+#include "server/asio/tcp_client.h"
+#include "threads/thread.h"
+
+#include "../proto/simple_protocol.h"
+
+#include <atomic>
+#include <iostream>
+
+class SimpleProtoClient : public CppServer::Asio::TCPClient, public FBE::simple::Client
+{
+public:
+    using CppServer::Asio::TCPClient::TCPClient;
+
+    void DisconnectAndStop()
+    {
+        _stop = true;
+        DisconnectAsync();
+        while (IsConnected())
+            CppCommon::Thread::Yield();
+    }
+
+protected:
+    void onConnected() override
+    {
+        std::cout << "Simple protocol client connected a new session with Id " << id() << std::endl;
+
+        // Reset FBE protocol buffers
+        reset();
+    }
+
+    void onDisconnected() override
+    {
+        std::cout << "Simple protocol client disconnected a session with Id " << id() << std::endl;
+
+        // Wait for a while...
+        CppCommon::Thread::Sleep(1000);
+
+        // Try to connect again
+        if (!_stop)
+            ConnectAsync();
+    }
+
+    void onError(int error, const std::string& category, const std::string& message) override
+    {
+        std::cout << "Simple protocol client caught an error with code " << error << " and category '" << category << "': " << message << std::endl;
+    }
+
+    // Protocol handlers
+    void onReceive(const ::simple::DisconnectRequest& request) override { Client::onReceive(request); std::cout << "Received: " << request << std::endl; DisconnectAsync(); }
+    void onReceive(const ::simple::SimpleResponse& response) override { Client::onReceive(response); std::cout << "Received: " << response << std::endl; }
+    void onReceive(const ::simple::SimpleReject& reject) override { Client::onReceive(reject); std::cout << "Received: " << reject << std::endl; }
+    void onReceive(const ::simple::SimpleNotify& notify) override { Client::onReceive(notify); std::cout << "Received: " << notify << std::endl; }
+
+    // Protocol implementation
+    void onReceived(const void* buffer, size_t size) override { receive(buffer, size); }
+    size_t onSend(const void* data, size_t size) override { return SendAsync(data, size) ? size : 0; }
+
+private:
+    std::atomic<bool> _stop{false};
+};
+
+int main(int argc, char** argv)
+{
+    // TCP server address
+    std::string address = "127.0.0.1";
+    if (argc > 1)
+        address = argv[1];
+
+    // Simple protocol server port
+    int port = 4444;
+    if (argc > 2)
+        port = std::atoi(argv[2]);
+
+    std::cout << "Simple protocol server address: " << address << std::endl;
+    std::cout << "Simple protocol server port: " << port << std::endl;
+
+    std::cout << std::endl;
+
+    // Create a new Asio service
+    auto service = std::make_shared<AsioService>();
+
+    // Start the Asio service
+    std::cout << "Asio service starting...";
+    service->Start();
+    std::cout << "Done!" << std::endl;
+
+    // Create a new simple protocol client
+    auto client = std::make_shared<SimpleProtoClient>(service, address, port);
+
+    // Connect the client
+    std::cout << "Client connecting...";
+    client->ConnectAsync();
+    std::cout << "Done!" << std::endl;
+
+    std::cout << "Press Enter to stop the client or '!' to reconnect the client..." << std::endl;
+
+    // Perform text input
+    std::string line;
+    while (getline(std::cin, line))
+    {
+        if (line.empty())
+            break;
+
+        // Reconnect the client
+        if (line == "!")
+        {
+            std::cout << "Client reconnecting...";
+            client->IsConnected() ? client->ReconnectAsync() : client->ConnectAsync();
+            std::cout << "Done!" << std::endl;
+            continue;
+        }
+
+        // Send request to the simple protocol server
+        simple::SimpleRequest request;
+        request.Message = line;
+        auto response = client->request(request).get();
+
+        // Show string hash calculation result
+        std::cout << "Hash of '" << line << "' = " << std::format("0x{:8X}", response.Hash) << std::endl;
     }
 
     // Disconnect the client

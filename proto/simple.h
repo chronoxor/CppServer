@@ -85,12 +85,12 @@ namespace simple {
 struct SimpleResponse
 {
     FBE::uuid_t id;
-    uint32_t Lenght;
+    uint32_t Hash;
 
     size_t fbe_type() const noexcept { return 2; }
 
     SimpleResponse();
-    SimpleResponse(const FBE::uuid_t& arg_id, uint32_t arg_Lenght);
+    SimpleResponse(const FBE::uuid_t& arg_id, uint32_t arg_Hash);
     SimpleResponse(const SimpleResponse& other) = default;
     SimpleResponse(SimpleResponse&& other) = default;
     ~SimpleResponse() = default;
@@ -231,6 +231,58 @@ struct hash<simple::SimpleNotify>
     result_type operator() (const argument_type& value) const
     {
         result_type result = 17;
+        return result;
+    }
+};
+
+} // namespace std
+
+namespace simple {
+
+struct DisconnectRequest
+{
+    FBE::uuid_t id;
+
+    size_t fbe_type() const noexcept { return 5; }
+
+    DisconnectRequest();
+    explicit DisconnectRequest(const FBE::uuid_t& arg_id);
+    DisconnectRequest(const DisconnectRequest& other) = default;
+    DisconnectRequest(DisconnectRequest&& other) = default;
+    ~DisconnectRequest() = default;
+
+    DisconnectRequest& operator=(const DisconnectRequest& other) = default;
+    DisconnectRequest& operator=(DisconnectRequest&& other) = default;
+
+    bool operator==(const DisconnectRequest& other) const noexcept;
+    bool operator!=(const DisconnectRequest& other) const noexcept { return !operator==(other); }
+    bool operator<(const DisconnectRequest& other) const noexcept;
+    bool operator<=(const DisconnectRequest& other) const noexcept { return operator<(other) || operator==(other); }
+    bool operator>(const DisconnectRequest& other) const noexcept { return !operator<=(other); }
+    bool operator>=(const DisconnectRequest& other) const noexcept { return !operator<(other); }
+
+    std::string string() const { std::stringstream ss; ss << *this; return ss.str(); }
+
+    friend std::ostream& operator<<(std::ostream& stream, const DisconnectRequest& value);
+
+    void swap(DisconnectRequest& other) noexcept;
+    friend void swap(DisconnectRequest& value1, DisconnectRequest& value2) noexcept { value1.swap(value2); }
+};
+
+} // namespace simple
+
+namespace std {
+
+template<>
+struct hash<simple::DisconnectRequest>
+{
+    typedef simple::DisconnectRequest argument_type;
+    typedef size_t result_type;
+
+    result_type operator() (const argument_type& value) const
+    {
+        result_type result = 17;
+        result = result * 31 + std::hash<decltype(value.id)>()(value.id);
         return result;
     }
 };

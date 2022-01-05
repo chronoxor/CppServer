@@ -39,6 +39,7 @@ public:
         , SimpleResponseModel(this->_buffer)
         , SimpleRejectModel(this->_buffer)
         , SimpleNotifyModel(this->_buffer)
+        , DisconnectRequestModel(this->_buffer)
     {}
     Sender(const Sender&) = delete;
     Sender(Sender&&) noexcept = delete;
@@ -51,6 +52,7 @@ public:
     size_t send(const ::simple::SimpleResponse& value);
     size_t send(const ::simple::SimpleReject& value);
     size_t send(const ::simple::SimpleNotify& value);
+    size_t send(const ::simple::DisconnectRequest& value);
 
 public:
     // Sender models accessors
@@ -58,6 +60,7 @@ public:
     FBE::simple::SimpleResponseModel SimpleResponseModel;
     FBE::simple::SimpleRejectModel SimpleRejectModel;
     FBE::simple::SimpleNotifyModel SimpleNotifyModel;
+    FBE::simple::DisconnectRequestModel DisconnectRequestModel;
 };
 
 // Fast Binary Encoding simple receiver
@@ -78,6 +81,7 @@ protected:
     virtual void onReceive(const ::simple::SimpleResponse& value) {}
     virtual void onReceive(const ::simple::SimpleReject& value) {}
     virtual void onReceive(const ::simple::SimpleNotify& value) {}
+    virtual void onReceive(const ::simple::DisconnectRequest& value) {}
 
     // Receive message handler
     bool onReceive(size_t type, const void* data, size_t size) override;
@@ -88,12 +92,14 @@ private:
     ::simple::SimpleResponse SimpleResponseValue;
     ::simple::SimpleReject SimpleRejectValue;
     ::simple::SimpleNotify SimpleNotifyValue;
+    ::simple::DisconnectRequest DisconnectRequestValue;
 
     // Receiver models accessors
     FBE::simple::SimpleRequestModel SimpleRequestModel;
     FBE::simple::SimpleResponseModel SimpleResponseModel;
     FBE::simple::SimpleRejectModel SimpleRejectModel;
     FBE::simple::SimpleNotifyModel SimpleNotifyModel;
+    FBE::simple::DisconnectRequestModel DisconnectRequestModel;
 };
 
 // Fast Binary Encoding simple proxy
@@ -114,6 +120,7 @@ protected:
     virtual void onProxy(FBE::simple::SimpleResponseModel& model, size_t type, const void* data, size_t size) {}
     virtual void onProxy(FBE::simple::SimpleRejectModel& model, size_t type, const void* data, size_t size) {}
     virtual void onProxy(FBE::simple::SimpleNotifyModel& model, size_t type, const void* data, size_t size) {}
+    virtual void onProxy(FBE::simple::DisconnectRequestModel& model, size_t type, const void* data, size_t size) {}
 
     // Receive message handler
     bool onReceive(size_t type, const void* data, size_t size) override;
@@ -124,6 +131,7 @@ private:
     FBE::simple::SimpleResponseModel SimpleResponseModel;
     FBE::simple::SimpleRejectModel SimpleRejectModel;
     FBE::simple::SimpleNotifyModel SimpleNotifyModel;
+    FBE::simple::DisconnectRequestModel DisconnectRequestModel;
 };
 
 // Fast Binary Encoding simple client
@@ -145,6 +153,7 @@ public:
     void watchdog(uint64_t utc) { std::scoped_lock locker(this->_lock); watchdog_requests(utc); }
 
     std::future<::simple::SimpleResponse> request(const ::simple::SimpleRequest& value, size_t timeout = 0);
+    std::future<void> request(const ::simple::DisconnectRequest& value, size_t timeout = 0);
 
 protected:
     std::mutex _lock;
@@ -155,22 +164,26 @@ protected:
     virtual bool onReceiveResponse(const ::simple::SimpleRequest& response) { return false; }
     virtual bool onReceiveResponse(const ::simple::SimpleReject& response) { return false; }
     virtual bool onReceiveResponse(const ::simple::SimpleNotify& response) { return false; }
+    virtual bool onReceiveResponse(const ::simple::DisconnectRequest& response) { return false; }
 
     virtual bool onReceiveReject(const ::simple::SimpleReject& reject);
 
     virtual bool onReceiveReject(const ::simple::SimpleRequest& reject) { return false; }
     virtual bool onReceiveReject(const ::simple::SimpleResponse& reject) { return false; }
     virtual bool onReceiveReject(const ::simple::SimpleNotify& reject) { return false; }
+    virtual bool onReceiveReject(const ::simple::DisconnectRequest& reject) { return false; }
 
     virtual void onReceiveNotify(const ::simple::SimpleRequest& notify) {}
     virtual void onReceiveNotify(const ::simple::SimpleResponse& notify) {}
     virtual void onReceiveNotify(const ::simple::SimpleReject& notify) {}
     virtual void onReceiveNotify(const ::simple::SimpleNotify& notify) {}
+    virtual void onReceiveNotify(const ::simple::DisconnectRequest& notify) {}
 
     virtual void onReceive(const ::simple::SimpleRequest& value) override { if (!onReceiveResponse(value) && !onReceiveReject(value)) onReceiveNotify(value); }
     virtual void onReceive(const ::simple::SimpleResponse& value) override { if (!onReceiveResponse(value) && !onReceiveReject(value)) onReceiveNotify(value); }
     virtual void onReceive(const ::simple::SimpleReject& value) override { if (!onReceiveResponse(value) && !onReceiveReject(value)) onReceiveNotify(value); }
     virtual void onReceive(const ::simple::SimpleNotify& value) override { if (!onReceiveResponse(value) && !onReceiveReject(value)) onReceiveNotify(value); }
+    virtual void onReceive(const ::simple::DisconnectRequest& value) override { if (!onReceiveResponse(value) && !onReceiveReject(value)) onReceiveNotify(value); }
 
     // Reset client requests
     virtual void reset_requests();

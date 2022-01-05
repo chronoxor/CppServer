@@ -51,12 +51,12 @@ std::ostream& operator<<(std::ostream& stream, const SimpleRequest& value)
 
 SimpleResponse::SimpleResponse()
     : id(FBE::uuid_t::sequential())
-    , Lenght((uint32_t)0ull)
+    , Hash((uint32_t)0ull)
 {}
 
-SimpleResponse::SimpleResponse(const FBE::uuid_t& arg_id, uint32_t arg_Lenght)
+SimpleResponse::SimpleResponse(const FBE::uuid_t& arg_id, uint32_t arg_Hash)
     : id(arg_id)
-    , Lenght(arg_Lenght)
+    , Hash(arg_Hash)
 {}
 
 bool SimpleResponse::operator==(const SimpleResponse& other) const noexcept
@@ -79,14 +79,14 @@ void SimpleResponse::swap(SimpleResponse& other) noexcept
 {
     using std::swap;
     swap(id, other.id);
-    swap(Lenght, other.Lenght);
+    swap(Hash, other.Hash);
 }
 
 std::ostream& operator<<(std::ostream& stream, const SimpleResponse& value)
 {
     stream << "SimpleResponse(";
     stream << "id="; stream << "\"" << value.id << "\"";
-    stream << ",Lenght="; stream << value.Lenght;
+    stream << ",Hash="; stream << value.Hash;
     stream << ")";
     return stream;
 }
@@ -163,6 +163,44 @@ std::ostream& operator<<(std::ostream& stream, const SimpleNotify& value)
 {
     stream << "SimpleNotify(";
     stream << "Notification="; stream << "\"" << value.Notification << "\"";
+    stream << ")";
+    return stream;
+}
+
+DisconnectRequest::DisconnectRequest()
+    : id(FBE::uuid_t::sequential())
+{}
+
+DisconnectRequest::DisconnectRequest(const FBE::uuid_t& arg_id)
+    : id(arg_id)
+{}
+
+bool DisconnectRequest::operator==(const DisconnectRequest& other) const noexcept
+{
+    return (
+        (id == other.id)
+        );
+}
+
+bool DisconnectRequest::operator<(const DisconnectRequest& other) const noexcept
+{
+    if (id < other.id)
+        return true;
+    if (other.id < id)
+        return false;
+    return false;
+}
+
+void DisconnectRequest::swap(DisconnectRequest& other) noexcept
+{
+    using std::swap;
+    swap(id, other.id);
+}
+
+std::ostream& operator<<(std::ostream& stream, const DisconnectRequest& value)
+{
+    stream << "DisconnectRequest(";
+    stream << "id="; stream << "\"" << value.id << "\"";
     stream << ")";
     return stream;
 }

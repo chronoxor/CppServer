@@ -31,8 +31,8 @@ message SimpleResponse
 {
     // Response Id
     uuid [id] = uuid1;
-    // Calculated message length
-    uint32 Lenght;
+    // Calculated message hash
+    uint32 Hash;
 }
 
 // Simple reject
@@ -49,4 +49,12 @@ message SimpleNotify
 {
     // Server notification
     string Notification;
+}
+
+// Disconnect request message
+[request]
+message DisconnectRequest
+{
+    // Request Id
+    uuid [id] = uuid1;
 }

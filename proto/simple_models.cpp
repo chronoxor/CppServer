@@ -231,14 +231,14 @@ size_t SimpleRequestModel::deserialize(::simple::SimpleRequest& value) const noe
 
 FieldModel<::simple::SimpleResponse>::FieldModel(FBEBuffer& buffer, size_t offset) noexcept : _buffer(buffer), _offset(offset)
     , id(buffer, 4 + 4)
-    , Lenght(buffer, id.fbe_offset() + id.fbe_size())
+    , Hash(buffer, id.fbe_offset() + id.fbe_size())
 {}
 
 size_t FieldModel<::simple::SimpleResponse>::fbe_body() const noexcept
 {
     size_t fbe_result = 4 + 4
         + id.fbe_size()
-        + Lenght.fbe_size()
+        + Hash.fbe_size()
         ;
     return fbe_result;
 }
@@ -256,7 +256,7 @@ size_t FieldModel<::simple::SimpleResponse>::fbe_extra() const noexcept
 
     size_t fbe_result = fbe_body()
         + id.fbe_extra()
-        + Lenght.fbe_extra()
+        + Hash.fbe_extra()
         ;
 
     _buffer.unshift(fbe_struct_offset);
@@ -297,11 +297,11 @@ bool FieldModel<::simple::SimpleResponse>::verify_fields(size_t fbe_struct_size)
         return false;
     fbe_current_size += id.fbe_size();
 
-    if ((fbe_current_size + Lenght.fbe_size()) > fbe_struct_size)
+    if ((fbe_current_size + Hash.fbe_size()) > fbe_struct_size)
         return true;
-    if (!Lenght.verify())
+    if (!Hash.verify())
         return false;
-    fbe_current_size += Lenght.fbe_size();
+    fbe_current_size += Hash.fbe_size();
 
     return true;
 }
@@ -351,11 +351,11 @@ void FieldModel<::simple::SimpleResponse>::get_fields(::simple::SimpleResponse& 
         fbe_value.id = FBE::uuid_t::sequential();
     fbe_current_size += id.fbe_size();
 
-    if ((fbe_current_size + Lenght.fbe_size()) <= fbe_struct_size)
-        Lenght.get(fbe_value.Lenght);
+    if ((fbe_current_size + Hash.fbe_size()) <= fbe_struct_size)
+        Hash.get(fbe_value.Hash);
     else
-        fbe_value.Lenght = (uint32_t)0ull;
-    fbe_current_size += Lenght.fbe_size();
+        fbe_value.Hash = (uint32_t)0ull;
+    fbe_current_size += Hash.fbe_size();
 }
 
 size_t FieldModel<::simple::SimpleResponse>::set_begin()
@@ -396,7 +396,7 @@ void FieldModel<::simple::SimpleResponse>::set(const ::simple::SimpleResponse& f
 void FieldModel<::simple::SimpleResponse>::set_fields(const ::simple::SimpleResponse& fbe_value) noexcept
 {
     id.set(fbe_value.id);
-    Lenght.set(fbe_value.Lenght);
+    Hash.set(fbe_value.Hash);
 }
 
 namespace simple {
@@ -864,6 +864,212 @@ size_t SimpleNotifyModel::serialize(const ::simple::SimpleNotify& value)
 }
 
 size_t SimpleNotifyModel::deserialize(::simple::SimpleNotify& value) const noexcept
+{
+    if ((this->buffer().offset() + model.fbe_offset() - 4) > this->buffer().size())
+        return 0;
+
+    uint32_t fbe_full_size = *((const uint32_t*)(this->buffer().data() + this->buffer().offset() + model.fbe_offset() - 4));
+    assert((fbe_full_size >= model.fbe_size()) && "Model is broken!");
+    if (fbe_full_size < model.fbe_size())
+        return 0;
+
+    model.get(value);
+    return fbe_full_size;
+}
+
+} // namespace simple
+
+FieldModel<::simple::DisconnectRequest>::FieldModel(FBEBuffer& buffer, size_t offset) noexcept : _buffer(buffer), _offset(offset)
+    , id(buffer, 4 + 4)
+{}
+
+size_t FieldModel<::simple::DisconnectRequest>::fbe_body() const noexcept
+{
+    size_t fbe_result = 4 + 4
+        + id.fbe_size()
+        ;
+    return fbe_result;
+}
+
+size_t FieldModel<::simple::DisconnectRequest>::fbe_extra() const noexcept
+{
+    if ((_buffer.offset() + fbe_offset() + fbe_size()) > _buffer.size())
+        return 0;
+
+    uint32_t fbe_struct_offset = *((const uint32_t*)(_buffer.data() + _buffer.offset() + fbe_offset()));
+    if ((fbe_struct_offset == 0) || ((_buffer.offset() + fbe_struct_offset + 4) > _buffer.size()))
+        return 0;
+
+    _buffer.shift(fbe_struct_offset);
+
+    size_t fbe_result = fbe_body()
+        + id.fbe_extra()
+        ;
+
+    _buffer.unshift(fbe_struct_offset);
+
+    return fbe_result;
+}
+
+bool FieldModel<::simple::DisconnectRequest>::verify(bool fbe_verify_type) const noexcept
+{
+    if ((_buffer.offset() + fbe_offset() + fbe_size()) > _buffer.size())
+        return true;
+
+    uint32_t fbe_struct_offset = *((const uint32_t*)(_buffer.data() + _buffer.offset() + fbe_offset()));
+    if ((fbe_struct_offset == 0) || ((_buffer.offset() + fbe_struct_offset + 4 + 4) > _buffer.size()))
+        return false;
+
+    uint32_t fbe_struct_size = *((const uint32_t*)(_buffer.data() + _buffer.offset() + fbe_struct_offset));
+    if (fbe_struct_size < (4 + 4))
+        return false;
+
+    uint32_t fbe_struct_type = *((const uint32_t*)(_buffer.data() + _buffer.offset() + fbe_struct_offset + 4));
+    if (fbe_verify_type && (fbe_struct_type != fbe_type()))
+        return false;
+
+    _buffer.shift(fbe_struct_offset);
+    bool fbe_result = verify_fields(fbe_struct_size);
+    _buffer.unshift(fbe_struct_offset);
+    return fbe_result;
+}
+
+bool FieldModel<::simple::DisconnectRequest>::verify_fields(size_t fbe_struct_size) const noexcept
+{
+    size_t fbe_current_size = 4 + 4;
+
+    if ((fbe_current_size + id.fbe_size()) > fbe_struct_size)
+        return true;
+    if (!id.verify())
+        return false;
+    fbe_current_size += id.fbe_size();
+
+    return true;
+}
+
+size_t FieldModel<::simple::DisconnectRequest>::get_begin() const noexcept
+{
+    if ((_buffer.offset() + fbe_offset() + fbe_size()) > _buffer.size())
+        return 0;
+
+    uint32_t fbe_struct_offset = *((const uint32_t*)(_buffer.data() + _buffer.offset() + fbe_offset()));
+    assert(((fbe_struct_offset > 0) && ((_buffer.offset() + fbe_struct_offset + 4 + 4) <= _buffer.size())) && "Model is broken!");
+    if ((fbe_struct_offset == 0) || ((_buffer.offset() + fbe_struct_offset + 4 + 4) > _buffer.size()))
+        return 0;
+
+    uint32_t fbe_struct_size = *((const uint32_t*)(_buffer.data() + _buffer.offset() + fbe_struct_offset));
+    assert((fbe_struct_size >= (4 + 4)) && "Model is broken!");
+    if (fbe_struct_size < (4 + 4))
+        return 0;
+
+    _buffer.shift(fbe_struct_offset);
+    return fbe_struct_offset;
+}
+
+void FieldModel<::simple::DisconnectRequest>::get_end(size_t fbe_begin) const noexcept
+{
+    _buffer.unshift(fbe_begin);
+}
+
+void FieldModel<::simple::DisconnectRequest>::get(::simple::DisconnectRequest& fbe_value) const noexcept
+{
+    size_t fbe_begin = get_begin();
+    if (fbe_begin == 0)
+        return;
+
+    uint32_t fbe_struct_size = *((const uint32_t*)(_buffer.data() + _buffer.offset()));
+    get_fields(fbe_value, fbe_struct_size);
+    get_end(fbe_begin);
+}
+
+void FieldModel<::simple::DisconnectRequest>::get_fields(::simple::DisconnectRequest& fbe_value, size_t fbe_struct_size) const noexcept
+{
+    size_t fbe_current_size = 4 + 4;
+
+    if ((fbe_current_size + id.fbe_size()) <= fbe_struct_size)
+        id.get(fbe_value.id, FBE::uuid_t::sequential());
+    else
+        fbe_value.id = FBE::uuid_t::sequential();
+    fbe_current_size += id.fbe_size();
+}
+
+size_t FieldModel<::simple::DisconnectRequest>::set_begin()
+{
+    assert(((_buffer.offset() + fbe_offset() + fbe_size()) <= _buffer.size()) && "Model is broken!");
+    if ((_buffer.offset() + fbe_offset() + fbe_size()) > _buffer.size())
+        return 0;
+
+    uint32_t fbe_struct_size = (uint32_t)fbe_body();
+    uint32_t fbe_struct_offset = (uint32_t)(_buffer.allocate(fbe_struct_size) - _buffer.offset());
+    assert(((fbe_struct_offset > 0) && ((_buffer.offset() + fbe_struct_offset + fbe_struct_size) <= _buffer.size())) && "Model is broken!");
+    if ((fbe_struct_offset == 0) || ((_buffer.offset() + fbe_struct_offset + fbe_struct_size) > _buffer.size()))
+        return 0;
+
+    *((uint32_t*)(_buffer.data() + _buffer.offset() + fbe_offset())) = fbe_struct_offset;
+    *((uint32_t*)(_buffer.data() + _buffer.offset() + fbe_struct_offset)) = fbe_struct_size;
+    *((uint32_t*)(_buffer.data() + _buffer.offset() + fbe_struct_offset + 4)) = (uint32_t)fbe_type();
+
+    _buffer.shift(fbe_struct_offset);
+    return fbe_struct_offset;
+}
+
+void FieldModel<::simple::DisconnectRequest>::set_end(size_t fbe_begin)
+{
+    _buffer.unshift(fbe_begin);
+}
+
+void FieldModel<::simple::DisconnectRequest>::set(const ::simple::DisconnectRequest& fbe_value) noexcept
+{
+    size_t fbe_begin = set_begin();
+    if (fbe_begin == 0)
+        return;
+
+    set_fields(fbe_value);
+    set_end(fbe_begin);
+}
+
+void FieldModel<::simple::DisconnectRequest>::set_fields(const ::simple::DisconnectRequest& fbe_value) noexcept
+{
+    id.set(fbe_value.id);
+}
+
+namespace simple {
+
+bool DisconnectRequestModel::verify()
+{
+    if ((this->buffer().offset() + model.fbe_offset() - 4) > this->buffer().size())
+        return false;
+
+    uint32_t fbe_full_size = *((const uint32_t*)(this->buffer().data() + this->buffer().offset() + model.fbe_offset() - 4));
+    if (fbe_full_size < model.fbe_size())
+        return false;
+
+    return model.verify();
+}
+
+size_t DisconnectRequestModel::create_begin()
+{
+    size_t fbe_begin = this->buffer().allocate(4 + model.fbe_size());
+    return fbe_begin;
+}
+
+size_t DisconnectRequestModel::create_end(size_t fbe_begin)
+{
+    size_t fbe_end = this->buffer().size();
+    uint32_t fbe_full_size = (uint32_t)(fbe_end - fbe_begin);
+    *((uint32_t*)(this->buffer().data() + this->buffer().offset() + model.fbe_offset() - 4)) = fbe_full_size;
+    return fbe_full_size;
+}
+
+size_t DisconnectRequestModel::serialize(const ::simple::DisconnectRequest& value)
+{
+    size_t fbe_begin = create_begin();
+    model.set(value);
+    size_t fbe_full_size = create_end(fbe_begin);
+    return fbe_full_size;
+}
+
+size_t DisconnectRequestModel::deserialize(::simple::DisconnectRequest& value) const noexcept
 {
     if ((this->buffer().offset() + model.fbe_offset() - 4) > this->buffer().size())
         return 0;

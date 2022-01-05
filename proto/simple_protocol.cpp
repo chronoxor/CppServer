@@ -86,6 +86,24 @@ size_t Sender::send(const ::simple::SimpleNotify& value)
     return this->send_serialized(serialized);
 }
 
+size_t Sender::send(const ::simple::DisconnectRequest& value)
+{
+    // Serialize the value into the FBE stream
+    size_t serialized = DisconnectRequestModel.serialize(value);
+    assert((serialized > 0) && "simple::DisconnectRequest serialization failed!");
+    assert(DisconnectRequestModel.verify() && "simple::DisconnectRequest validation failed!");
+
+    // Log the value
+    if (this->_logging)
+    {
+        std::string message = value.string();
+        this->onSendLog(message);
+    }
+
+    // Send the serialized value
+    return this->send_serialized(serialized);
+}
+
 bool Receiver::onReceive(size_t type, const void* data, size_t size)
 {
     switch (type)
@@ -166,6 +184,25 @@ bool Receiver::onReceive(size_t type, const void* data, size_t size)
             onReceive(SimpleNotifyValue);
             return true;
         }
+        case FBE::simple::DisconnectRequestModel::fbe_type():
+        {
+            // Deserialize the value from the FBE stream
+            DisconnectRequestModel.attach(data, size);
+            assert(DisconnectRequestModel.verify() && "simple::DisconnectRequest validation failed!");
+            [[maybe_unused]] size_t deserialized = DisconnectRequestModel.deserialize(DisconnectRequestValue);
+            assert((deserialized > 0) && "simple::DisconnectRequest deserialization failed!");
+
+            // Log the value
+            if (this->_logging)
+            {
+                std::string message = DisconnectRequestValue.string();
+                this->onReceiveLog(message);
+            }
+
+            // Call receive handler with deserialized value
+            onReceive(DisconnectRequestValue);
+            return true;
+        }
         default: break;
     }
 
@@ -232,6 +269,20 @@ bool Proxy::onReceive(size_t type, const void* data, size_t size)
             SimpleNotifyModel.model.get_end(fbe_begin);
             return true;
         }
+        case FBE::simple::DisconnectRequestModel::fbe_type():
+        {
+            // Attach the FBE stream to the proxy model
+            DisconnectRequestModel.attach(data, size);
+            assert(DisconnectRequestModel.verify() && "simple::DisconnectRequest validation failed!");
+
+            size_t fbe_begin = DisconnectRequestModel.model.get_begin();
+            if (fbe_begin == 0)
+                return false;
+            // Call proxy handler
+            onProxy(DisconnectRequestModel, type, data, size);
+            DisconnectRequestModel.model.get_end(fbe_begin);
+            return true;
+        }
         default: break;
     }
 
@@ -259,6 +310,21 @@ std::future<::simple::SimpleResponse> Client::request(const ::simple::SimpleRequ
         if (timeout > 0)
             _requests_by_timestamp_SimpleResponse.insert(std::make_pair(this->_timestamp, value.id));
     }
+    else
+        promise.set_exception(std::make_exception_ptr(std::runtime_error("Send request failed!")));
+
+    return future;
+}
+
+std::future<void> Client::request(const ::simple::DisconnectRequest& value, size_t timeout)
+{
+    std::promise<void> promise;
+    std::future<void> future = promise.get_future();
+
+    // Send the request message
+    size_t serialized = Sender::send(value);
+    if (serialized > 0)
+        promise.set_value();
     else
         promise.set_exception(std::make_exception_ptr(std::runtime_error("Send request failed!")));
 
