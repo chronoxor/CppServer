@@ -148,6 +148,19 @@ protected:
         \param request - HTTP request
     */
     virtual void onReceivedRequest(const HTTPRequest& request) {}
+    //! Handle HTTP cached request received notification
+    /*!
+        Notification is called when HTTP request was received
+        from the client and the corresponding cached content
+        was found.
+
+        Default behavior is just send cached response content
+        to the client.
+
+        \param request - HTTP request
+        \param content - Cached response content
+    */
+    virtual void onReceivedCachedRequest(const HTTPRequest& request, std::string_view content) { SendAsync(content); }
 
     //! Handle HTTP request error notification
     /*!

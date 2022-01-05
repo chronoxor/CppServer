@@ -79,6 +79,17 @@ list(APPEND LINKLIBS cppserver)
 # Additional module components: benchmarks, examples, plugins, tests, tools and install
 if(NOT CPPSERVER_MODULE)
 
+  # Proto library
+  file(GLOB_RECURSE PROTO_HEADER_FILES "proto/*.h")
+  file(GLOB_RECURSE PROTO_INLINE_FILES "proto/*.inl")
+  file(GLOB_RECURSE PROTO_SOURCE_FILES "proto/*.cpp")
+  add_library(proto ${PROTO_HEADER_FILES} ${PROTO_INLINE_FILES} ${PROTO_SOURCE_FILES})
+  set_target_properties(proto PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}" FOLDER "proto")
+  target_include_directories(proto PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/proto")
+  target_link_libraries(proto ${LINKLIBS})
+  list(APPEND INSTALL_TARGETS proto)
+  list(APPEND LINKLIBS proto)
+
   # Examples
   file(GLOB EXAMPLE_HEADER_FILES "examples/*.h")
   file(GLOB EXAMPLE_INLINE_FILES "examples/*.inl")

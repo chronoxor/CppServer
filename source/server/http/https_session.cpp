@@ -75,7 +75,8 @@ void HTTPSSession::onReceivedRequestInternal(const HTTPRequest& request)
         auto response = cache().find(std::string(request.url()));
         if (response.first)
         {
-            SendAsync(response.second);
+            // Process the request with the cached response
+            onReceivedCachedRequest(request, response.second);
             return;
         }
     }
