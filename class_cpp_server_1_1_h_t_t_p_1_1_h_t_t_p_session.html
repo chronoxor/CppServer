@@ -268,6 +268,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ad60d64578f47fe837c453a6be9110f54"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#ad60d64578f47fe837c453a6be9110f54">onReceivedRequest</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;request)</td></tr>
 <tr class="memdesc:ad60d64578f47fe837c453a6be9110f54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request received notification.  <a href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#ad60d64578f47fe837c453a6be9110f54">More...</a><br /></td></tr>
 <tr class="separator:ad60d64578f47fe837c453a6be9110f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a367ee99b57f575b2860f541595065653"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a367ee99b57f575b2860f541595065653">onReceivedCachedRequest</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;request, std::string_view content)</td></tr>
+<tr class="memdesc:a367ee99b57f575b2860f541595065653"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> cached request received notification.  <a href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a367ee99b57f575b2860f541595065653">More...</a><br /></td></tr>
+<tr class="separator:a367ee99b57f575b2860f541595065653"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a974e403b3b4e20257e96d048a3c3a6b9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a974e403b3b4e20257e96d048a3c3a6b9">onReceivedRequestError</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;request, const std::string &amp;error)</td></tr>
 <tr class="memdesc:a974e403b3b4e20257e96d048a3c3a6b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request error notification.  <a href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a974e403b3b4e20257e96d048a3c3a6b9">More...</a><br /></td></tr>
 <tr class="separator:a974e403b3b4e20257e96d048a3c3a6b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -552,6 +555,55 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a367ee99b57f575b2860f541595065653"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a367ee99b57f575b2860f541595065653">&#9670;&nbsp;</a></span>onReceivedCachedRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::HTTP::HTTPSession::onReceivedCachedRequest </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;&#160;</td>
+          <td class="paramname"><em>request</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>content</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> cached request received notification. </p>
+<p>Notification is called when <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request was received from the client and the corresponding cached content was found.</p>
+<p>Default behavior is just send cached response content to the client.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">request</td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request </td></tr>
+    <tr><td class="paramname">content</td><td>- Cached response content </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="http__session_8h_source.html#l00163">163</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+
+</div>
+</div>
 <a id="ad60d64578f47fe837c453a6be9110f54"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad60d64578f47fe837c453a6be9110f54">&#9670;&nbsp;</a></span>onReceivedRequest()</h2>
 
@@ -641,7 +693,7 @@ Protected Attributes</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="http_server_8cpp-example.html#a6">http_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="http__session_8h_source.html#l00160">160</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__session_8h_source.html#l00173">173</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
 </div>
 </div>
@@ -1311,7 +1363,7 @@ Protected Attributes</h2></td></tr>
 
 <p><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request. </p>
 
-<p class="definition">Definition at line <a class="el" href="http__session_8h_source.html#l00164">164</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__session_8h_source.html#l00177">177</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
 </div>
 </div>
@@ -1337,7 +1389,7 @@ Protected Attributes</h2></td></tr>
 
 <p><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> response. </p>
 
-<p class="definition">Definition at line <a class="el" href="http__session_8h_source.html#l00166">166</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__session_8h_source.html#l00179">179</a> of file <a class="el" href="http__session_8h_source.html">http_session.h</a>.</p>
 
 </div>
 </div>
