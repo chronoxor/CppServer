@@ -379,8 +379,10 @@ bool UDPClient::DisconnectAsync(bool dispatch)
     if (!IsConnected())
         return false;
 
+    asio::error_code ec;
+
     // Cancel the client socket
-    _socket.cancel();
+    _socket.cancel(ec);
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
