@@ -250,7 +250,7 @@ $(function() {
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a950ead692a60722ed681377feb1bf4c9">socket</a>().cancel(ec);</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="comment">// Async SSL shutdown with the shutdown handler</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keyword">auto</span> async_shutdown_handler = [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec) { <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a655fa70fe145b674ec0b2dca7d930877">Disconnect</a>(ec); };</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keyword">auto</span> async_shutdown_handler = [<span class="keyword">this</span>, <span class="keyword">self</span>](std::error_code ec2) { <a class="code" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a655fa70fe145b674ec0b2dca7d930877">Disconnect</a>(ec2); };</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordflow">if</span> (_strand_required)</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="keywordflow">else</span></div>
