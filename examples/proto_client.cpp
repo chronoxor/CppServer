@@ -9,6 +9,7 @@
 #include "asio_service.h"
 
 #include "server/asio/tcp_client.h"
+#include "string/format.h"
 #include "threads/thread.h"
 
 #include "../proto/simple_protocol.h"
@@ -126,7 +127,7 @@ int main(int argc, char** argv)
         auto response = client->request(request).get();
 
         // Show string hash calculation result
-        std::cout << "Hash of '" << line << "' = " << std::format("0x{:8X}", response.Hash) << std::endl;
+        std::cout << "Hash of '" << line << "' = " << CppCommon::format("0x{:8X}", response.Hash) << std::endl;
     }
 
     // Disconnect the client
