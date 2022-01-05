@@ -617,7 +617,7 @@ bool SSLClient::DisconnectAsync(bool dispatch)
         socket().cancel(ec);
 
         // Async SSL shutdown with the shutdown handler
-        auto async_shutdown_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec) { Disconnect(); });
+        auto async_shutdown_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2) { Disconnect(); });
         if (_strand_required)
             _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));
         else
