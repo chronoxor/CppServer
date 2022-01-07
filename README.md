@@ -49,6 +49,7 @@ Has integration with message protocol based on [Fast Binary Encoding](https://gi
       * [TCP echo server](#tcp-echo-server)
       * [SSL echo server](#ssl-echo-server)
       * [UDP echo server](#udp-echo-server)
+      * [Simple protocol server](#simple-protocol-server)
       * [WebSocket echo server](#websocket-echo-server)
       * [WebSocket secure echo server](#websocket-secure-echo-server)
     * [Benchmark: Multicast](#benchmark-multicast)
@@ -3110,7 +3111,7 @@ of errors.
 ### TCP echo server
 
 * [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
-* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 1 -t 1
+* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3132,7 +3133,7 @@ Message throughput: 5625528 msg/s
 ```
 
 * [cppserver-performance-tcp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_server.cpp)
-* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) -c 100 -t 4
+* [cppserver-performance-tcp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_echo_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3156,7 +3157,7 @@ Message throughput: 3847402 msg/s
 ### SSL echo server
 
 * [cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
-* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 1 -t 1
+* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3178,7 +3179,7 @@ Message throughput: 969878 msg/s
 ```
 
 * [cppserver-performance-ssl_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_server.cpp)
-* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) -c 100 -t 4
+* [cppserver-performance-ssl_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_echo_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3202,7 +3203,7 @@ Message throughput: 1237782 msg/s
 ### UDP echo server
 
 * [cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
-* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 1 -t 1
+* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3224,7 +3225,7 @@ Message throughput: 150801 msg/s
 ```
 
 * [cppserver-performance-udp_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_server.cpp)
-* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) -c 100 -t 4
+* [cppserver-performance-udp_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_echo_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3245,10 +3246,56 @@ Message latency: 9.627 mcs
 Message throughput: 103867 msg/s
 ```
 
+### Simple protocol server
+
+* [cppserver-performance-proto_server](https://github.com/chronoxor/CppServer/blob/master/performance/proto_server.cpp)
+* [cppserver-performance-proto_client](https://github.com/chronoxor/CppServer/blob/master/performance/proto_client.cpp) --clients 1 --threads 1
+
+```
+Server address: 127.0.0.1
+Server port: 4444
+Working threads: 1
+Working clients: 1
+Working messages: 1000
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 10.002 s
+Total data: 497.096 MiB
+Total messages: 16288783
+Data throughput: 49.715 MiB/s
+Message latency: 614 ns
+Message throughput: 1628542 msg/s
+```
+
+* [cppserver-performance-proto_server](https://github.com/chronoxor/CppServer/blob/master/performance/proto_server.cpp)
+* [cppserver-performance-proto_client](https://github.com/chronoxor/CppServer/blob/master/performance/proto_client.cpp) --clients 100 --threads 4
+
+```
+Server address: 127.0.0.1
+Server port: 4444
+Working threads: 4
+Working clients: 100
+Working messages: 1000
+Message size: 32
+Seconds to benchmarking: 10
+
+Errors: 0
+
+Total time: 10.066 s
+Total data: 997.384 MiB
+Total messages: 32681995
+Data throughput: 99.078 MiB/s
+Message latency: 308 ns
+Message throughput: 3246558 msg/s
+```
+
 ### WebSocket echo server
 
 * [cppserver-performance-ws_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_server.cpp)
-* [cppserver-performance-ws_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_client.cpp) -c 1 -t 1
+* [cppserver-performance-ws_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3270,7 +3317,7 @@ Message throughput: 160448 msg/s
 ```
 
 * [cppserver-performance-ws_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_server.cpp)
-* [cppserver-performance-ws_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_client.cpp) -c 100 -t 4
+* [cppserver-performance-ws_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_echo_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3294,7 +3341,7 @@ Message throughput: 594328 msg/s
 ### WebSocket secure echo server
 
 * [cppserver-performance-wss_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_server.cpp)
-* [cppserver-performance-wss_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_client.cpp) -c 1 -t 1
+* [cppserver-performance-wss_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3316,7 +3363,7 @@ Message throughput: 203343 msg/s
 ```
 
 * [cppserver-performance-wss_echo_server](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_server.cpp)
-* [cppserver-performance-wss_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_client.cpp) -c 100 -t 4
+* [cppserver-performance-wss_echo_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_echo_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3349,7 +3396,7 @@ of errors.
 ### TCP multicast server
 
 * [cppserver-performance-tcp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_server.cpp)
-* [cppserver-performance-tcp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_client.cpp) -c 1 -t 1
+* [cppserver-performance-tcp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3370,7 +3417,7 @@ Message throughput: 6327549 msg/s
 ```
 
 * [cppserver-performance-tcp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_server.cpp)
-* [cppserver-performance-tcp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_client.cpp) -c 100 -t 4
+* [cppserver-performance-tcp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/tcp_multicast_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3393,7 +3440,7 @@ Message throughput: 6648899 msg/s
 ### SSL multicast server
 
 * [cppserver-performance-ssl_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_server.cpp)
-* [cppserver-performance-ssl_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_client.cpp) -c 1 -t 1
+* [cppserver-performance-ssl_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3414,7 +3461,7 @@ Message throughput: 5102683 msg/s
 ```
 
 * [cppserver-performance-ssl_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_server.cpp)
-* [cppserver-performance-ssl_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_client.cpp) -c 100 -t 4
+* [cppserver-performance-ssl_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ssl_multicast_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3437,7 +3484,7 @@ Message throughput: 5830473 msg/s
 ### UDP multicast server
 
 * [cppserver-performance-udp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_server.cpp)
-* [cppserver-performance-udp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_client.cpp) -c 1 -t 1
+* [cppserver-performance-udp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 239.255.0.1
@@ -3458,7 +3505,7 @@ Message throughput: 77833 msg/s
 ```
 
 * [cppserver-performance-udp_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_server.cpp)
-* [cppserver-performance-udp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_client.cpp) -c 100 -t 4
+* [cppserver-performance-udp_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/udp_multicast_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 239.255.0.1
@@ -3481,7 +3528,7 @@ Message throughput: 171784 msg/s
 ### WebSocket multicast server
 
 * [cppserver-performance-ws_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_server.cpp)
-* [cppserver-performance-ws_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_client.cpp) -c 1 -t 1
+* [cppserver-performance-ws_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3502,7 +3549,7 @@ Message throughput: 3148135 msg/s
 ```
 
 * [cppserver-performance-ws_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_server.cpp)
-* [cppserver-performance-ws_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_client.cpp) -c 100 -t 4
+* [cppserver-performance-ws_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/ws_multicast_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3525,7 +3572,7 @@ Message throughput: 3225965 msg/s
 ### WebSocket secure multicast server
 
 * [cppserver-performance-wss_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_server.cpp)
-* [cppserver-performance-wss_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_client.cpp) -c 1 -t 1
+* [cppserver-performance-wss_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3546,7 +3593,7 @@ Message throughput: 3489578 msg/s
 ```
 
 * [cppserver-performance-wss_multicast_server](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_server.cpp)
-* [cppserver-performance-wss_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_client.cpp) -c 100 -t 4
+* [cppserver-performance-wss_multicast_client](https://github.com/chronoxor/CppServer/blob/master/performance/wss_multicast_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3571,7 +3618,7 @@ Message throughput: 5215639 msg/s
 ### HTTP Trace server
 
 * [cppserver-performance-http_trace_server](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_server.cpp)
-* [cppserver-performance-http_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_client.cpp) -c 1 -t 1
+* [cppserver-performance-http_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3592,7 +3639,7 @@ Message throughput: 57825 msg/s
 ```
 
 * [cppserver-performance-http_trace_server](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_server.cpp)
-* [cppserver-performance-http_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_client.cpp) -c 100 -t 4
+* [cppserver-performance-http_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/http_trace_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1
@@ -3615,7 +3662,7 @@ Message throughput: 307154 msg/s
 ### HTTPS Trace server
 
 * [cppserver-performance-https_trace_server](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_server.cpp)
-* [cppserver-performance-https_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_client.cpp) -c 1 -t 1
+* [cppserver-performance-https_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_client.cpp) --clients 1 --threads 1
 
 ```
 Server address: 127.0.0.1
@@ -3636,7 +3683,7 @@ Message throughput: 37047 msg/s
 ```
 
 * [cppserver-performance-https_trace_server](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_server.cpp)
-* [cppserver-performance-https_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_client.cpp) -c 100 -t 4
+* [cppserver-performance-https_trace_client](https://github.com/chronoxor/CppServer/blob/master/performance/https_trace_client.cpp) --clients 100 --threads 4
 
 ```
 Server address: 127.0.0.1

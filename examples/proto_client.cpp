@@ -127,7 +127,7 @@ int main(int argc, char** argv)
         auto response = client->request(request).get();
 
         // Show string hash calculation result
-        std::cout << "Hash of '" << line << "' = " << CppCommon::format("0x{:8X}", response.Hash) << std::endl;
+        std::cout << "Hash of '" << line << "' = " << CppCommon::format("0x{:08X}", response.Hash) << std::endl;
     }
 
     // Disconnect the client
