@@ -63,6 +63,7 @@ protected:
         simple::SimpleResponse response;
         response.id = request.id;
         response.Hash = (uint32_t)hasher(request.Message);
+        response.Length = (uint32_t)request.Message.size();
         send(response);
     }
 

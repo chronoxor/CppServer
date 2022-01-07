@@ -51,11 +51,13 @@ std::ostream& operator<<(std::ostream& stream, const SimpleRequest& value)
 
 SimpleResponse::SimpleResponse()
     : id(FBE::uuid_t::sequential())
+    , Length((uint32_t)0ull)
     , Hash((uint32_t)0ull)
 {}
 
-SimpleResponse::SimpleResponse(const FBE::uuid_t& arg_id, uint32_t arg_Hash)
+SimpleResponse::SimpleResponse(const FBE::uuid_t& arg_id, uint32_t arg_Length, uint32_t arg_Hash)
     : id(arg_id)
+    , Length(arg_Length)
     , Hash(arg_Hash)
 {}
 
@@ -79,6 +81,7 @@ void SimpleResponse::swap(SimpleResponse& other) noexcept
 {
     using std::swap;
     swap(id, other.id);
+    swap(Length, other.Length);
     swap(Hash, other.Hash);
 }
 
@@ -86,6 +89,7 @@ std::ostream& operator<<(std::ostream& stream, const SimpleResponse& value)
 {
     stream << "SimpleResponse(";
     stream << "id="; stream << "\"" << value.id << "\"";
+    stream << ",Length="; stream << value.Length;
     stream << ",Hash="; stream << value.Hash;
     stream << ")";
     return stream;

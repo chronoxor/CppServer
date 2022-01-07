@@ -166,6 +166,7 @@ private:
 
 public:
     FieldModel<FBE::uuid_t> id;
+    FieldModel<uint32_t> Length;
     FieldModel<uint32_t> Hash;
 };
 

@@ -31,6 +31,8 @@ message SimpleResponse
 {
     // Response Id
     uuid [id] = uuid1;
+    // Calculated message length
+    uint32 Length;
     // Calculated message hash
     uint32 Hash;
 }

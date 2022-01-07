@@ -231,13 +231,15 @@ size_t SimpleRequestModel::deserialize(::simple::SimpleRequest& value) const noe
 
 FieldModel<::simple::SimpleResponse>::FieldModel(FBEBuffer& buffer, size_t offset) noexcept : _buffer(buffer), _offset(offset)
     , id(buffer, 4 + 4)
-    , Hash(buffer, id.fbe_offset() + id.fbe_size())
+    , Length(buffer, id.fbe_offset() + id.fbe_size())
+    , Hash(buffer, Length.fbe_offset() + Length.fbe_size())
 {}
 
 size_t FieldModel<::simple::SimpleResponse>::fbe_body() const noexcept
 {
     size_t fbe_result = 4 + 4
         + id.fbe_size()
+        + Length.fbe_size()
         + Hash.fbe_size()
         ;
     return fbe_result;
@@ -256,6 +258,7 @@ size_t FieldModel<::simple::SimpleResponse>::fbe_extra() const noexcept
 
     size_t fbe_result = fbe_body()
         + id.fbe_extra()
+        + Length.fbe_extra()
         + Hash.fbe_extra()
         ;
 
@@ -296,6 +299,12 @@ bool FieldModel<::simple::SimpleResponse>::verify_fields(size_t fbe_struct_size)
     if (!id.verify())
         return false;
     fbe_current_size += id.fbe_size();
+
+    if ((fbe_current_size + Length.fbe_size()) > fbe_struct_size)
+        return true;
+    if (!Length.verify())
+        return false;
+    fbe_current_size += Length.fbe_size();
 
     if ((fbe_current_size + Hash.fbe_size()) > fbe_struct_size)
         return true;
@@ -351,6 +360,12 @@ void FieldModel<::simple::SimpleResponse>::get_fields(::simple::SimpleResponse& 
         fbe_value.id = FBE::uuid_t::sequential();
     fbe_current_size += id.fbe_size();
 
+    if ((fbe_current_size + Length.fbe_size()) <= fbe_struct_size)
+        Length.get(fbe_value.Length);
+    else
+        fbe_value.Length = (uint32_t)0ull;
+    fbe_current_size += Length.fbe_size();
+
     if ((fbe_current_size + Hash.fbe_size()) <= fbe_struct_size)
         Hash.get(fbe_value.Hash);
     else
@@ -396,6 +411,7 @@ void FieldModel<::simple::SimpleResponse>::set(const ::simple::SimpleResponse& f
 void FieldModel<::simple::SimpleResponse>::set_fields(const ::simple::SimpleResponse& fbe_value) noexcept
 {
     id.set(fbe_value.id);
+    Length.set(fbe_value.Length);
     Hash.set(fbe_value.Hash);
 }
 

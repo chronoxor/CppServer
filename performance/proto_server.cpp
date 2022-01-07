@@ -33,7 +33,8 @@ protected:
         // Send response
         simple::SimpleResponse response;
         response.id = request.id;
-        response.Hash = (uint32_t)request.Message.size();
+        response.Hash = 0;
+        response.Length = (uint32_t)request.Message.size();
         send(response);
     }
 

@@ -85,12 +85,13 @@ namespace simple {
 struct SimpleResponse
 {
     FBE::uuid_t id;
+    uint32_t Length;
     uint32_t Hash;
 
     size_t fbe_type() const noexcept { return 2; }
 
     SimpleResponse();
-    SimpleResponse(const FBE::uuid_t& arg_id, uint32_t arg_Hash);
+    SimpleResponse(const FBE::uuid_t& arg_id, uint32_t arg_Length, uint32_t arg_Hash);
     SimpleResponse(const SimpleResponse& other) = default;
     SimpleResponse(SimpleResponse&& other) = default;
     ~SimpleResponse() = default;
