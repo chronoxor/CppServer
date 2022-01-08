@@ -1,0 +1,170 @@
+openapi: 3.0.0
+
+info:
+  version: "1.0"
+  title: HTTP Cache Server API
+  description: HTTP Cache Server API
+  contact:
+    name: chronoxor
+    url: https://github.com/chronoxor/CppServer
+    email: chronoxor@gmail.com
+
+servers:
+- url: /api
+  description: Cache API
+
+tags:
+- name: Cache
+  description: Cache methods
+
+paths:
+  /cache:
+    get:
+      tags:
+      - Cache
+      summary: Get the cache value
+      operationId: GetCacheValue
+      parameters:
+      - name: key
+        in: query
+        description: Cache key (optional)
+        required: false
+        schema:
+          type: string
+          example: 'test'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheItems'
+            text/plain:
+              schema:
+                type: string
+        404:
+          description: Cache key not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+    post:
+      tags:
+      - Cache
+      summary: Create the cache value
+      operationId: CreateCacheValue
+      parameters:
+      - name: key
+        in: query
+        description: Cache key
+        required: true
+        schema:
+          type: string
+          example: 'test'
+      requestBody:
+        description: Cache value to create
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: 'value'
+      responses:
+        200:
+          description: Success
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+    put:
+      tags:
+      - Cache
+      summary: Modify the cache value
+      operationId: ModifyCacheValue
+      parameters:
+      - name: key
+        in: query
+        description: Cache key
+        required: true
+        schema:
+          type: string
+          example: 'test'
+      requestBody:
+        description: Cache value to modify
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: 'modified'
+      responses:
+        200:
+          description: Success
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+    delete:
+      tags:
+      - Cache
+      summary: Delete the cache value
+      operationId: DeleteCacheValue
+      parameters:
+      - name: key
+        in: query
+        description: Cache key
+        required: true
+        schema:
+          type: string
+          example: 'test'
+      responses:
+        200:
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: string
+        404:
+          description: Cache key not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+    head:
+      tags:
+      - Cache
+      summary: Get the cache headers
+      operationId: GetCacheHeaders
+      responses:
+        200:
+          description: Success
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+    options:
+      tags:
+      - Cache
+      summary: Get the cache options
+      operationId: GetCacheOptions
+      responses:
+        200:
+          description: Success
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+
+components:
+  schemas:
+    CacheItem:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    CacheItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/CacheItem'

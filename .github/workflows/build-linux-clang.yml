@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup binutils-dev
+      - name: "Setup binutils-dev"
         run: sudo apt-get install -y binutils-dev
 
       - name: "Setup clang"
