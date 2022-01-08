@@ -72,7 +72,9 @@ void HTTPSSession::onReceivedRequestInternal(const HTTPRequest& request)
     // Try to get the cached response
     if (request.method() == "GET")
     {
-        auto response = cache().find(std::string(request.url()));
+        std::string_view url = request.url();
+        size_t index = url.find('?');
+        auto response = cache().find(std::string((index == std::string_view::npos) ? url : url.substr(0, index)));
         if (response.first)
         {
             // Process the request with the cached response
