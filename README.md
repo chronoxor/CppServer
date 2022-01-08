@@ -1,6 +1,7 @@
 # CppServer
 
 [![Awesome C++](https://awesome.re/badge.svg)](https://github.com/fffaraz/awesome-cpp)
+<br/>
 ![Linux (clang)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-clang.yml/badge.svg)
 ![Linux (gcc)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-gcc.yml/badge.svg)
 <br/>
