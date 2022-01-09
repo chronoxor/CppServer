@@ -2,14 +2,14 @@
 
 [![Awesome C++](https://awesome.re/badge.svg)](https://github.com/fffaraz/awesome-cpp)
 <br/>
-![Linux (clang)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-clang.yml/badge.svg)
-![Linux (gcc)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-gcc.yml/badge.svg)
+[![Linux (clang)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-clang.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-clang.yml)
+[![Linux (gcc)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-gcc.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-gcc.yml)
 <br/>
-![MacOS](https://github.com/chronoxor/CppServer/actions/workflows/build-macos.yml/badge.svg)
+[![MacOS](https://github.com/chronoxor/CppServer/actions/workflows/build-macos.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-macos.yml)
 <br/>
-![Windows (MinGW)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-mingw.yml/badge.svg)
-![Windows (MSYS2)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msys2.yml/badge.svg)
-![Windows (Visual Studio)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-vs.yml/badge.svg)
+[![Windows (MinGW)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-mingw.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-mingw.yml)
+[![Windows (MSYS2)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msys2.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msys2.yml)
+[![Windows (Visual Studio)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-vs.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-vs.yml)
 
 Ultra fast and low latency asynchronous socket server & client C++ library with
 support TCP, SSL, UDP, HTTP, HTTPS, WebSocket protocols and [10K connections problem](https://en.wikipedia.org/wiki/C10k_problem)
