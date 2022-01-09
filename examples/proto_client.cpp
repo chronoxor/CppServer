@@ -72,7 +72,7 @@ private:
 
 int main(int argc, char** argv)
 {
-    // TCP server address
+    // Simple protocol server address
     std::string address = "127.0.0.1";
     if (argc > 1)
         address = argv[1];
