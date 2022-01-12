@@ -168,7 +168,9 @@ HTTPResponse& HTTPResponse::SetBegin(int status, std::string_view status_phrase,
 HTTPResponse& HTTPResponse::SetContentType(std::string_view extension)
 {
     // Base content types
-    if ((extension == ".html") || (extension == ".vue"))
+    if (extension == ".html")
+        return SetHeader("Content-Type", "text/html");
+    else if (extension == ".vue")
         return SetHeader("Content-Type", "text/html");
     else if (extension == ".css")
         return SetHeader("Content-Type", "text/css");
@@ -177,8 +179,12 @@ HTTPResponse& HTTPResponse::SetContentType(std::string_view extension)
     else if (extension == ".xml")
         return SetHeader("Content-Type", "text/xml");
 
-    // Common content types
-    if (extension == ".gzip")
+    // Application content types
+    if (extension == ".atom")
+        return SetHeader("Content-Type", "application/atom+xml");
+    else if (extension == ".fastsoap")
+        return SetHeader("Content-Type", "application/fastsoap");
+    else if (extension == ".gzip")
         return SetHeader("Content-Type", "application/gzip");
     else if (extension == ".json")
         return SetHeader("Content-Type", "application/json");
@@ -186,26 +192,6 @@ HTTPResponse& HTTPResponse::SetContentType(std::string_view extension)
         return SetHeader("Content-Type", "application/json");
     else if (extension == ".pdf")
         return SetHeader("Content-Type", "application/pdf");
-    else if (extension == ".zip")
-        return SetHeader("Content-Type", "application/zip");
-    else if (extension == ".mp3")
-        return SetHeader("Content-Type", "audio/mpeg");
-    else if (extension == ".jpg")
-        return SetHeader("Content-Type", "image/jpeg");
-    else if (extension == ".gif")
-        return SetHeader("Content-Type", "image/gif");
-    else if (extension == ".png")
-        return SetHeader("Content-Type", "image/png");
-    else if (extension == ".svg")
-        return SetHeader("Content-Type", "image/svg+xml");
-    else if (extension == ".mp4")
-        return SetHeader("Content-Type", "video/mp4");
-
-    // Application content types
-    if (extension == ".atom")
-        return SetHeader("Content-Type", "application/atom+xml");
-    else if (extension == ".fastsoap")
-        return SetHeader("Content-Type", "application/fastsoap");
     else if (extension == ".ps")
         return SetHeader("Content-Type", "application/postscript");
     else if (extension == ".soap")
@@ -214,6 +200,8 @@ HTTPResponse& HTTPResponse::SetContentType(std::string_view extension)
         return SetHeader("Content-Type", "application/sql");
     else if (extension == ".xslt")
         return SetHeader("Content-Type", "application/xslt+xml");
+    else if (extension == ".zip")
+        return SetHeader("Content-Type", "application/zip");
     else if (extension == ".zlib")
         return SetHeader("Content-Type", "application/zlib");
 
@@ -222,6 +210,8 @@ HTTPResponse& HTTPResponse::SetContentType(std::string_view extension)
         return SetHeader("Content-Type", "audio/aac");
     else if (extension == ".ac3")
         return SetHeader("Content-Type", "audio/ac3");
+    else if (extension == ".mp3")
+        return SetHeader("Content-Type", "audio/mpeg");
     else if (extension == ".ogg")
         return SetHeader("Content-Type", "audio/ogg");
 
@@ -232,16 +222,24 @@ HTTPResponse& HTTPResponse::SetContentType(std::string_view extension)
     // Image content types
     if (extension == ".bmp")
         return SetHeader("Content-Type", "image/bmp");
+    else if (extension == ".emf")
+        return SetHeader("Content-Type", "image/emf");
+    else if (extension == ".gif")
+        return SetHeader("Content-Type", "image/gif");
+    else if (extension == ".jpg")
+        return SetHeader("Content-Type", "image/jpeg");
     else if (extension == ".jpm")
         return SetHeader("Content-Type", "image/jpm");
     else if (extension == ".jpx")
         return SetHeader("Content-Type", "image/jpx");
     else if (extension == ".jrx")
         return SetHeader("Content-Type", "image/jrx");
+    else if (extension == ".png")
+        return SetHeader("Content-Type", "image/png");
+    else if (extension == ".svg")
+        return SetHeader("Content-Type", "image/svg+xml");
     else if (extension == ".tiff")
         return SetHeader("Content-Type", "image/tiff");
-    else if (extension == ".emf")
-        return SetHeader("Content-Type", "image/emf");
     else if (extension == ".wmf")
         return SetHeader("Content-Type", "image/wmf");
 
@@ -280,6 +278,8 @@ HTTPResponse& HTTPResponse::SetContentType(std::string_view extension)
         return SetHeader("Content-Type", "video/H264");
     else if (extension == ".H265")
         return SetHeader("Content-Type", "video/H265");
+    else if (extension == ".mp4")
+        return SetHeader("Content-Type", "video/mp4");
     else if (extension == ".mpeg")
         return SetHeader("Content-Type", "video/mpeg");
     else if (extension == ".raw")
