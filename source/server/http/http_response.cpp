@@ -168,7 +168,7 @@ HTTPResponse& HTTPResponse::SetBegin(int status, std::string_view status_phrase,
 HTTPResponse& HTTPResponse::SetContentType(std::string_view extension)
 {
     // Base content types
-    if (extension == ".html")
+    if ((extension == ".html") || (extension == ".vue"))
         return SetHeader("Content-Type", "text/html");
     else if (extension == ".css")
         return SetHeader("Content-Type", "text/css");
