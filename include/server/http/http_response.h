@@ -17,6 +17,7 @@
 #include <string>
 #include <string_view>
 #include <tuple>
+#include <unordered_map>
 #include <vector>
 
 namespace CppServer {
@@ -207,6 +208,9 @@ private:
     // HTTP response cache
     std::string _cache;
     size_t _cache_size;
+
+    // HTTP response mime table
+    static const std::unordered_map<std::string, std::string> _mime_table;
 
     // Is pending parts of HTTP response
     bool IsPendingHeader() const;
