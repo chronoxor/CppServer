@@ -15,7 +15,7 @@ Ultra fast and low latency asynchronous socket server & client C++ library with
 support TCP, SSL, UDP, HTTP, HTTPS, WebSocket protocols and [10K connections problem](https://en.wikipedia.org/wiki/C10k_problem)
 solution.
 
-Has integration with message protocol based on [Fast Binary Encoding](https://github.com/chronoxor/FastBinaryEncoding)
+Has integration with high-level message protocol based on [Fast Binary Encoding](https://github.com/chronoxor/FastBinaryEncoding)
 
 [CppServer API reference](https://chronoxor.github.io/CppServer/index.html)
 
