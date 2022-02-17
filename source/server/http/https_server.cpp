@@ -17,12 +17,12 @@ void HTTPSServer::AddStaticContent(const CppCommon::Path& path, const std::strin
 {
     auto hanlder = [](CppCommon::FileCache & cache, const std::string& key, const std::string& value, const CppCommon::Timespan& timespan)
     {
-        auto header = HTTPResponse();
-        header.SetBegin(200);
-        header.SetContentType(CppCommon::Path(key).extension().string());
-        header.SetHeader("Cache-Control", CppCommon::format("max-age={}", timespan.seconds()));
-        header.SetBody(value);
-        return cache.insert(key, header.cache(), timespan);
+        auto response = HTTPResponse();
+        response.SetBegin(200);
+        response.SetContentType(CppCommon::Path(key).extension().string());
+        response.SetHeader("Cache-Control", CppCommon::format("max-age={}", timespan.seconds()));
+        response.SetBody(value);
+        return cache.insert(key, response.cache(), timespan);
     };
 
     cache().insert_path(path, prefix, timeout, hanlder);
