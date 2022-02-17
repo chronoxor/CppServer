@@ -83,12 +83,12 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">auto</span> hanlder = [](CppCommon::FileCache &amp; <a class="code" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#af94b225d2cbfc3ef7e19025c49695ac0">cache</a>, <span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> std::string&amp; value, <span class="keyword">const</span> CppCommon::Timespan&amp; timespan)</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">auto</span> header = <a class="code" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a>();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        header.SetBegin(200);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        header.SetContentType(CppCommon::Path(key).extension().<span class="keywordtype">string</span>());</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        header.SetHeader(<span class="stringliteral">&quot;Cache-Control&quot;</span>, CppCommon::format(<span class="stringliteral">&quot;max-age={}&quot;</span>, timespan.seconds()));</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        header.SetBody(value);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#af94b225d2cbfc3ef7e19025c49695ac0">cache</a>.insert(key, header.cache(), timespan);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">auto</span> response = <a class="code" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a>();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        response.SetBegin(200);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        response.SetContentType(CppCommon::Path(key).extension().<span class="keywordtype">string</span>());</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        response.SetHeader(<span class="stringliteral">&quot;Cache-Control&quot;</span>, CppCommon::format(<span class="stringliteral">&quot;max-age={}&quot;</span>, timespan.seconds()));</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        response.SetBody(value);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#af94b225d2cbfc3ef7e19025c49695ac0">cache</a>.insert(key, response.cache(), timespan);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    };</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_server.html#af94b225d2cbfc3ef7e19025c49695ac0">cache</a>().insert_path(path, prefix, timeout, hanlder);</div>
