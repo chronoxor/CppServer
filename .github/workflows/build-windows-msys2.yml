@@ -20,8 +20,10 @@ jobs:
           release: false
           install: >-
             git
+            make
             python3-pip
-            msys2-w32api-runtime
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-gcc
             msys2-w32api-runtime
 
       - name: "Setup cmake"
