@@ -136,7 +136,7 @@ TEST_CASE("Protocol server test", "[CppServer][Proto]")
     // Create and connect protocol client
     auto client = std::make_shared<ProtoClient>(service, address, port);
     REQUIRE(client->ConnectAsync());
-    while (!client->IsConnected() || (server->clients != 1))
+    while (!client->IsConnected() || !client->connected || (server->clients != 1))
         Thread::Yield();
 
     // Send a request to the protocol server
@@ -396,7 +396,7 @@ TEST_CASE("Protocol server random test", "[CppServer][Proto]")
             {
                 size_t index = rand() % clients.size();
                 auto client = clients.at(index);
-                if (client->IsConnected())
+                if (client->IsConnected() && client->connected)
                 {
                     simple::SimpleRequest request;
                     request.Message = "test";
