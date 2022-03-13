@@ -94,6 +94,7 @@ Has integration with high-level message protocol based on [Fast Binary Encoding]
 Optional:
 * [clang](https://clang.llvm.org)
 * [CLion](https://www.jetbrains.com/clion)
+* [MSYS2](https://www.msys2.org)
 * [MinGW](https://mingw-w64.org/doku.php)
 * [Visual Studio](https://www.visualstudio.com)
 
