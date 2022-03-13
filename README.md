@@ -82,9 +82,9 @@ Has integration with high-level message protocol based on [Fast Binary Encoding]
 * Supported message protocol based on [Fast Binary Encoding](https://github.com/chronoxor/FastBinaryEncoding)
 
 # Requirements
-* Linux (binutils-dev uuid-dev libssl-dev)
-* MacOS (openssl)
-* Windows 10
+* Linux
+* MacOS
+* Windows
 * [cmake](https://www.cmake.org)
 * [gcc](https://gcc.gnu.org)
 * [git](https://git-scm.com)
@@ -99,6 +99,11 @@ Optional:
 * [Visual Studio](https://www.visualstudio.com)
 
 # How to build?
+
+### Linux: install required packages
+```shell
+sudo apt-get install -y binutils-dev uuid-dev libssl-dev
+```
 
 ### Install [gil (git links) tool](https://github.com/chronoxor/gil)
 ```shell

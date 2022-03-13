@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: "Setup binutils-dev"
-        run: sudo apt-get install -y binutils-dev
+      - name: "Setup required packages"
+        run: sudo apt-get install -y binutils-dev uuid-dev libssl-dev
 
       - name: "Setup clang"
         uses: egor-tensin/setup-clang@v1
