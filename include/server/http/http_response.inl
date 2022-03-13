@@ -7,13 +7,7 @@
 */
 
 #if defined(FMT_VERSION)
-
-namespace fmt {
-
-template <> struct formatter<CppServer::HTTP::HTTPResponse> : ostream_formatter {};
-
-} // namespace fmt
-
+namespace fmt { template <> struct formatter<CppServer::HTTP::HTTPResponse> : ostream_formatter {}; }
 #endif
 
 namespace std {
