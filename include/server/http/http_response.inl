@@ -6,6 +6,16 @@
     \copyright MIT License
 */
 
+#if defined(FMT_VERSION)
+
+namespace fmt {
+
+template <> struct formatter<CppServer::HTTP::HTTPResponse> : ostream_formatter {};
+
+} // namespace fmt
+
+#endif
+
 namespace std {
 
 template <>
