@@ -7,13 +7,11 @@
 */
 
 #if defined(FMT_VERSION)
-namespace fmt { template <> struct formatter<CppServer::HTTP::HTTPResponse> : ostream_formatter {}; }
+template <> struct fmt::formatter<CppServer::HTTP::HTTPResponse> : ostream_formatter {};
 #endif
 
-namespace std {
-
 template <>
-struct hash<CppServer::HTTP::HTTPResponse>
+struct std::hash<CppServer::HTTP::HTTPResponse>
 {
     typedef CppServer::HTTP::HTTPResponse argument_type;
     typedef size_t result_type;
@@ -25,5 +23,3 @@ struct hash<CppServer::HTTP::HTTPResponse>
         return result;
     }
 };
-
-} // namespace std
