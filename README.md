@@ -7,8 +7,8 @@
 <br/>
 [![MacOS](https://github.com/chronoxor/CppServer/actions/workflows/build-macos.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-macos.yml)
 <br/>
-[![Windows (MinGW)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-mingw.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-mingw.yml)
 [![Windows (MSYS2)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msys2.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msys2.yml)
+[![Windows (MinGW)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-mingw.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-mingw.yml)
 [![Windows (Visual Studio)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-vs.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-vs.yml)
 
 Ultra fast and low latency asynchronous socket server & client C++ library with
@@ -127,6 +127,12 @@ cd build
 ```shell
 cd build
 ./unix.sh
+```
+
+### Windows (MSYS2)
+```shell
+cd build
+unix.bat
 ```
 
 ### Windows (MinGW)
