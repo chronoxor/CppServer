@@ -321,10 +321,20 @@ private:
 
 } // namespace FBE
 
-namespace std {
+#if defined(FMT_VERSION)
+template <>
+struct fmt::formatter<FBE::decimal_t> : formatter<std::string_view>
+{
+    template <typename FormatContext>
+    auto format(const FBE::decimal_t& value, FormatContext& ctx) const
+    {
+        return formatter<string_view>::format((double)value, ctx);
+    }
+};
+#endif
 
 template <>
-struct hash<FBE::decimal_t>
+struct std::hash<FBE::decimal_t>
 {
     typedef FBE::decimal_t argument_type;
     typedef size_t result_type;
@@ -336,8 +346,6 @@ struct hash<FBE::decimal_t>
         return result;
     }
 };
-
-} // namespace std
 
 namespace FBE {
 
@@ -530,10 +538,20 @@ private:
 
 } // namespace FBE
 
-namespace std {
+#if defined(FMT_VERSION)
+template <>
+struct fmt::formatter<FBE::uuid_t> : formatter<std::string_view>
+{
+    template <typename FormatContext>
+    auto format(const FBE::uuid_t& value, FormatContext& ctx) const
+    {
+        return formatter<string_view>::format(value.string(), ctx);
+    }
+};
+#endif
 
 template <>
-struct hash<FBE::uuid_t>
+struct std::hash<FBE::uuid_t>
 {
     typedef FBE::uuid_t argument_type;
     typedef size_t result_type;
@@ -547,8 +565,6 @@ struct hash<FBE::uuid_t>
         return result;
     }
 };
-
-} // namespace std
 
 namespace FBE {
 

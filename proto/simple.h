@@ -62,10 +62,12 @@ struct SimpleRequest
 
 } // namespace simple
 
-namespace std {
+#if defined(FMT_VERSION)
+template <> struct fmt::formatter<simple::SimpleRequest> : ostream_formatter {};
+#endif
 
 template<>
-struct hash<simple::SimpleRequest>
+struct std::hash<simple::SimpleRequest>
 {
     typedef simple::SimpleRequest argument_type;
     typedef size_t result_type;
@@ -77,8 +79,6 @@ struct hash<simple::SimpleRequest>
         return result;
     }
 };
-
-} // namespace std
 
 namespace simple {
 
@@ -116,10 +116,12 @@ struct SimpleResponse
 
 } // namespace simple
 
-namespace std {
+#if defined(FMT_VERSION)
+template <> struct fmt::formatter<simple::SimpleResponse> : ostream_formatter {};
+#endif
 
 template<>
-struct hash<simple::SimpleResponse>
+struct std::hash<simple::SimpleResponse>
 {
     typedef simple::SimpleResponse argument_type;
     typedef size_t result_type;
@@ -131,8 +133,6 @@ struct hash<simple::SimpleResponse>
         return result;
     }
 };
-
-} // namespace std
 
 namespace simple {
 
@@ -169,10 +169,12 @@ struct SimpleReject
 
 } // namespace simple
 
-namespace std {
+#if defined(FMT_VERSION)
+template <> struct fmt::formatter<simple::SimpleReject> : ostream_formatter {};
+#endif
 
 template<>
-struct hash<simple::SimpleReject>
+struct std::hash<simple::SimpleReject>
 {
     typedef simple::SimpleReject argument_type;
     typedef size_t result_type;
@@ -184,8 +186,6 @@ struct hash<simple::SimpleReject>
         return result;
     }
 };
-
-} // namespace std
 
 namespace simple {
 
@@ -221,10 +221,12 @@ struct SimpleNotify
 
 } // namespace simple
 
-namespace std {
+#if defined(FMT_VERSION)
+template <> struct fmt::formatter<simple::SimpleNotify> : ostream_formatter {};
+#endif
 
 template<>
-struct hash<simple::SimpleNotify>
+struct std::hash<simple::SimpleNotify>
 {
     typedef simple::SimpleNotify argument_type;
     typedef size_t result_type;
@@ -235,8 +237,6 @@ struct hash<simple::SimpleNotify>
         return result;
     }
 };
-
-} // namespace std
 
 namespace simple {
 
@@ -272,10 +272,12 @@ struct DisconnectRequest
 
 } // namespace simple
 
-namespace std {
+#if defined(FMT_VERSION)
+template <> struct fmt::formatter<simple::DisconnectRequest> : ostream_formatter {};
+#endif
 
 template<>
-struct hash<simple::DisconnectRequest>
+struct std::hash<simple::DisconnectRequest>
 {
     typedef simple::DisconnectRequest argument_type;
     typedef size_t result_type;
@@ -287,8 +289,6 @@ struct hash<simple::DisconnectRequest>
         return result;
     }
 };
-
-} // namespace std
 
 namespace simple {
 
