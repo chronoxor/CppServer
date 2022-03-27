@@ -219,40 +219,38 @@
 
 <p>Here is a sample configuration file using some of the features mentioned above.</p>
 
-<pre><code> <span class="comment"># This is the default section.</span>
- 
- <span class="variable">HOME</span><span class="operator">=</span><span class="regex">/temp
- RANDFILE= ${ENV::HOME}/</span><span class="operator">.</span><span class="variable">rnd</span>
- <span class="variable">configdir</span><span class="operator">=</span><span class="variable">$ENV::HOME</span><span class="operator">/</span><span class="variable">config</span>
- 
- <span class="operator">[</span> <span class="variable">section_one</span> <span class="operator">]</span>
- 
- <span class="comment"># We are now in section one.</span>
- 
- <span class="comment"># Quotes permit leading and trailing whitespace</span>
- <span class="variable">any</span> <span class="operator">=</span> <span class="string">" any variable name "</span>
- 
- <span class="variable">other</span> <span class="operator">=</span> <span class="variable">A</span> <span class="variable">string</span> <span class="variable">that</span> <span class="variable">can</span> <span class="operator">\</span>
- <span class="variable">cover</span> <span class="variable">several</span> <span class="variable">lines</span> <span class="operator">\</span>
- <span class="variable">by</span> <span class="variable">including</span> <span class="operator">\\</span> <span class="variable">characters</span>
- 
- <span class="variable">message</span> <span class="operator">=</span> <span class="variable">Hello</span> <span class="variable">World</span><span class="operator">\</span><span class="variable">n</span>
- 
- <span class="operator">[</span> <span class="variable">section_two</span> <span class="operator">]</span>
- 
- <span class="variable">greeting</span> <span class="operator">=</span> <span class="variable">$section_one::message</span>
-</code></pre>
+<pre><code> # This is the default section.
+
+ HOME=/temp
+ RANDFILE= ${ENV::HOME}/.rnd
+ configdir=$ENV::HOME/config
+
+ [ section_one ]
+
+ # We are now in section one.
+
+ # Quotes permit leading and trailing whitespace
+ any = &quot; any variable name &quot;
+
+ other = A string that can \
+ cover several lines \
+ by including \\ characters
+
+ message = Hello World\n
+
+ [ section_two ]
+
+ greeting = $section_one::message</code></pre>
 
 <p>This next example shows how to expand environment variables safely.</p>
 
 <p>Suppose you want a variable called <b>tmpfile</b> to refer to a temporary filename. The directory it is placed in can determined by the <b>TEMP</b> or <b>TMP</b> environment variables but they may not be set to any value at all. If you just include the environment variable names and the variable doesn&#39;t exist then this will cause an error when an attempt is made to load the configuration file. By making use of the default section both values can be looked up with <b>TEMP</b> taking priority and <b>/tmp</b> used if neither is defined:</p>
 
-<pre><code> <span class="variable">TMP</span><span class="operator">=</span><span class="regex">/tmp
- # The above value is used if TMP isn't in the environment
- TEMP=</span><span class="variable">$ENV</span><span class="regex">::TMP
- # The above value is used if TEMP isn't in the environment
- tmpfile=${ENV::TEMP}/tmp</span><span class="operator">.</span><span class="variable">filename</span>
-</code></pre>
+<pre><code> TMP=/tmp
+ # The above value is used if TMP isn&#39;t in the environment
+ TEMP=$ENV::TMP
+ # The above value is used if TEMP isn&#39;t in the environment
+ tmpfile=${ENV::TEMP}/tmp.filename</code></pre>
 
 <p>Simple OpenSSL library configuration example to enter FIPS mode:</p>
 

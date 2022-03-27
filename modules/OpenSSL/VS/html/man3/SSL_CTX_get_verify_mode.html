@@ -26,15 +26,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_get_verify_mode</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_verify_mode</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_get_verify_depth</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_verify_depth</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_CTX_get_verify_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">))(</span><span class="keyword">int</span><span class="operator">,</span> <span class="variable">X509_STORE_CTX</span> <span class="operator">*);</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_get_verify_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">))(</span><span class="keyword">int</span><span class="operator">,</span> <span class="variable">X509_STORE_CTX</span> <span class="operator">*);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_get_verify_mode(const SSL_CTX *ctx);
+ int SSL_get_verify_mode(const SSL *ssl);
+ int SSL_CTX_get_verify_depth(const SSL_CTX *ctx);
+ int SSL_get_verify_depth(const SSL *ssl);
+ int (*SSL_CTX_get_verify_callback(const SSL_CTX *ctx))(int, X509_STORE_CTX *);
+ int (*SSL_get_verify_callback(const SSL *ssl))(int, X509_STORE_CTX *);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

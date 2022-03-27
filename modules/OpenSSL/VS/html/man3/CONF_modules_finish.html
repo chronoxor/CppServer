@@ -27,11 +27,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/conf.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">CONF_modules_finish</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">CONF_modules_unload</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">all</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/conf.h&gt;
+
+ void CONF_modules_finish(void);
+ void CONF_modules_unload(int all);</code></pre>
 
 <p>Deprecated:</p>
 

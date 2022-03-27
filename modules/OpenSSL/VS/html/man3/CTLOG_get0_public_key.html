@@ -27,17 +27,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
- 
- <span class="variable">CTLOG</span> <span class="variable">*CTLOG_new</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*public_key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CTLOG_new_from_base64</span><span class="operator">(</span><span class="variable">CTLOG</span> <span class="operator">**</span> <span class="variable">ct_log</span><span class="operator">,</span>
-                           <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*pkey_base64</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">CTLOG_free</span><span class="operator">(</span><span class="variable">CTLOG</span> <span class="variable">*log</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*CTLOG_get0_name</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">CTLOG</span> <span class="variable">*log</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">CTLOG_get0_log_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">CTLOG</span> <span class="variable">*log</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">uint8_t</span> <span class="operator">**</span><span class="variable">log_id</span><span class="operator">,</span>
-                        <span class="variable">size_t</span> <span class="variable">*log_id_len</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*CTLOG_get0_public_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">CTLOG</span> <span class="variable">*log</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ct.h&gt;
+
+ CTLOG *CTLOG_new(EVP_PKEY *public_key, const char *name);
+ int CTLOG_new_from_base64(CTLOG ** ct_log,
+                           const char *pkey_base64, const char *name);
+ void CTLOG_free(CTLOG *log);
+ const char *CTLOG_get0_name(const CTLOG *log);
+ void CTLOG_get0_log_id(const CTLOG *log, const uint8_t **log_id,
+                        size_t *log_id_len);
+ EVP_PKEY *CTLOG_get0_public_key(const CTLOG *log);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -28,26 +28,25 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dh.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">DH_get0_pqg</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span>
-                  <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">p</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="string">q, const BIGNUM **g);
- int DH_set0_pqg(DH *dh,</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*q</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*g</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">DH_get0_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span>
-                  <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">pub_key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">priv_key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">DH_set0_key</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*pub_key</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*priv_key</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*DH_get0_p</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*DH_get0_q</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*DH_get0_g</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*DH_get0_priv_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*DH_get0_pub_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">DH_clear_flags</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">DH_test_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">DH_set_flags</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*DH_get0_engine</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*d</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">DH_get_length</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">DH_set_length</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dh.h&gt;
+
+ void DH_get0_pqg(const DH *dh,
+                  const BIGNUM **p, const BIGNUM **q, const BIGNUM **g);
+ int DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g);
+ void DH_get0_key(const DH *dh,
+                  const BIGNUM **pub_key, const BIGNUM **priv_key);
+ int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key);
+ const BIGNUM *DH_get0_p(const DH *dh);
+ const BIGNUM *DH_get0_q(const DH *dh);
+ const BIGNUM *DH_get0_g(const DH *dh);
+ const BIGNUM *DH_get0_priv_key(const DH *dh);
+ const BIGNUM *DH_get0_pub_key(const DH *dh);
+ void DH_clear_flags(DH *dh, int flags);
+ int DH_test_flags(const DH *dh, int flags);
+ void DH_set_flags(DH *dh, int flags);
+ ENGINE *DH_get0_engine(DH *d);
+ long DH_get_length(const DH *dh);
+ int DH_set_length(DH *dh, long length);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

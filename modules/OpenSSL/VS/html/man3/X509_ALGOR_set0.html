@@ -26,16 +26,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="variable">X509_ALGOR</span> <span class="variable">*X509_ALGOR_dup</span><span class="operator">(</span><span class="variable">X509_ALGOR</span> <span class="variable">*alg</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_ALGOR_set0</span><span class="operator">(</span><span class="variable">X509_ALGOR</span> <span class="variable">*alg</span><span class="operator">,</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*aobj</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">ptype</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*pval</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_ALGOR_get0</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="operator">**</span><span class="variable">paobj</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*pptype</span><span class="operator">,</span>
-                      <span class="variable">const</span> <span class="variable">void</span> <span class="operator">**</span><span class="variable">ppval</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*alg</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_ALGOR_set_md</span><span class="operator">(</span><span class="variable">X509_ALGOR</span> <span class="variable">*alg</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_ALGOR_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_ALGOR_copy</span><span class="operator">(</span><span class="variable">X509_ALGOR</span> <span class="variable">*dest</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*src</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ X509_ALGOR *X509_ALGOR_dup(X509_ALGOR *alg);
+ int X509_ALGOR_set0(X509_ALGOR *alg, ASN1_OBJECT *aobj, int ptype, void *pval);
+ void X509_ALGOR_get0(const ASN1_OBJECT **paobj, int *pptype,
+                      const void **ppval, const X509_ALGOR *alg);
+ void X509_ALGOR_set_md(X509_ALGOR *alg, const EVP_MD *md);
+ int X509_ALGOR_cmp(const X509_ALGOR *a, const X509_ALGOR *b);
+ int X509_ALGOR_copy(X509_ALGOR *dest, const X509_ALGOR *src);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

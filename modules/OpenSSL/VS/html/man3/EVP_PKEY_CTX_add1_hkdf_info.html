@@ -30,21 +30,20 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/kdf.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_hkdf_mode</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">mode</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set_hkdf_md</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set1_hkdf_salt</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*salt</span><span class="operator">,</span>
-                                 <span class="keyword">int</span> <span class="variable">saltlen</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set1_hkdf_key</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span>
-                                <span class="keyword">int</span> <span class="variable">keylen</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_add1_hkdf_info</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*info</span><span class="operator">,</span>
-                                 <span class="keyword">int</span> <span class="variable">infolen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/kdf.h&gt;
+
+ int EVP_PKEY_CTX_hkdf_mode(EVP_PKEY_CTX *pctx, int mode);
+
+ int EVP_PKEY_CTX_set_hkdf_md(EVP_PKEY_CTX *pctx, const EVP_MD *md);
+
+ int EVP_PKEY_CTX_set1_hkdf_salt(EVP_PKEY_CTX *pctx, unsigned char *salt,
+                                 int saltlen);
+
+ int EVP_PKEY_CTX_set1_hkdf_key(EVP_PKEY_CTX *pctx, unsigned char *key,
+                                int keylen);
+
+ int EVP_PKEY_CTX_add1_hkdf_info(EVP_PKEY_CTX *pctx, unsigned char *info,
+                                 int infolen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -98,8 +97,7 @@
 
 <p>A context for HKDF can be obtained by calling:</p>
 
-<pre><code> <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new_id</span><span class="operator">(</span><span class="variable">EVP_PKEY_HKDF</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-</code></pre>
+<pre><code> EVP_PKEY_CTX *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_HKDF, NULL);</code></pre>
 
 <p>The total length of the info buffer cannot exceed 1024 bytes in length: this should be more than enough for any normal use of HKDF.</p>
 
@@ -115,24 +113,23 @@
 
 <p>This example derives 10 bytes using SHA-256 with the secret key &quot;secret&quot;, salt value &quot;salt&quot; and info value &quot;label&quot;:</p>
 
-<pre><code> <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">;</span>
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">out</span><span class="operator">[</span><span class="number">10</span><span class="operator">]</span><span class="operator">;</span>
- <span class="variable">size_t</span> <span class="variable">outlen</span> <span class="operator">=</span> <span class="variable">sizeof</span><span class="operator">(</span><span class="variable">out</span><span class="operator">);</span>
- <span class="variable">pctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new_id</span><span class="operator">(</span><span class="variable">EVP_PKEY_HKDF</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
- 
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_derive_init</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_hkdf_md</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">())</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set1_hkdf_salt</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">,</span> <span class="string">"salt"</span><span class="operator">,</span> <span class="number">4</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set1_hkdf_key</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">,</span> <span class="string">"secret"</span><span class="operator">,</span> <span class="number">6</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_add1_hkdf_info</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">,</span> <span class="string">"label"</span><span class="operator">,</span> <span class="number">5</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_derive</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">,</span> <span class="variable">out</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">outlen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
-</code></pre>
+<pre><code> EVP_PKEY_CTX *pctx;
+ unsigned char out[10];
+ size_t outlen = sizeof(out);
+ pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_HKDF, NULL);
+
+ if (EVP_PKEY_derive_init(pctx) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_CTX_set_hkdf_md(pctx, EVP_sha256()) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_CTX_set1_hkdf_salt(pctx, &quot;salt&quot;, 4) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_CTX_set1_hkdf_key(pctx, &quot;secret&quot;, 6) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_CTX_add1_hkdf_info(pctx, &quot;label&quot;, 5) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_derive(pctx, out, &amp;outlen) &lt;= 0)
+     /* Error */</code></pre>
 
 <h1 id="CONFORMING-TO">CONFORMING TO</h1>
 

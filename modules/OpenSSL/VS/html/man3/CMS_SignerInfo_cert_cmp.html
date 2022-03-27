@@ -27,16 +27,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/cms.h&gt;</span>
- 
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span><span class="operator">)</span> <span class="variable">*CMS_get0_SignerInfos</span><span class="operator">(</span><span class="variable">CMS_ContentInfo</span> <span class="variable">*cms</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">CMS_SignerInfo_get0_signer_id</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">,</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">keyid</span><span class="operator">,</span>
-                                   <span class="variable">X509_NAME</span> <span class="operator">**</span><span class="variable">issuer</span><span class="operator">,</span> <span class="variable">ASN1_INTEGER</span> <span class="operator">**</span><span class="variable">sno</span><span class="operator">);</span>
- <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*CMS_SignerInfo_get0_signature</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CMS_SignerInfo_cert_cmp</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*cert</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">CMS_SignerInfo_set1_signer_cert</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*signer</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/cms.h&gt;
+
+ STACK_OF(CMS_SignerInfo) *CMS_get0_SignerInfos(CMS_ContentInfo *cms);
+
+ int CMS_SignerInfo_get0_signer_id(CMS_SignerInfo *si, ASN1_OCTET_STRING **keyid,
+                                   X509_NAME **issuer, ASN1_INTEGER **sno);
+ ASN1_OCTET_STRING *CMS_SignerInfo_get0_signature(CMS_SignerInfo *si);
+ int CMS_SignerInfo_cert_cmp(CMS_SignerInfo *si, X509 *cert);
+ void CMS_SignerInfo_set1_signer_cert(CMS_SignerInfo *si, X509 *signer);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

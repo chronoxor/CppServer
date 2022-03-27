@@ -29,17 +29,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_load_verify_locations</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*CAfile</span><span class="operator">,</span>
-                                   <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*CApath</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_default_verify_paths</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_default_verify_dir</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_default_verify_file</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_load_verify_locations(SSL_CTX *ctx, const char *CAfile,
+                                   const char *CApath);
+
+ int SSL_CTX_set_default_verify_paths(SSL_CTX *ctx);
+
+ int SSL_CTX_set_default_verify_dir(SSL_CTX *ctx);
+
+ int SSL_CTX_set_default_verify_file(SSL_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -103,12 +102,11 @@
 
 <p>Generate a CA certificate file with descriptive text from the CA certificates ca1.pem ca2.pem ca3.pem:</p>
 
-<pre><code> <span class="comment">#!/bin/sh</span>
- <span class="variable">rm</span> <span class="variable">CAfile</span><span class="operator">.</span><span class="variable">pem</span>
- <span class="keyword">for</span> <span class="variable">i</span> <span class="variable">in</span> <span class="variable">ca1</span><span class="operator">.</span><span class="variable">pem</span> <span class="variable">ca2</span><span class="operator">.</span><span class="variable">pem</span> <span class="variable">ca3</span><span class="operator">.</span><span class="variable">pem</span> <span class="operator">;</span> <span class="keyword">do</span>
-     <span class="variable">openssl</span> <span class="variable">x509</span> <span class="operator">-</span><span class="variable">in</span> <span class="variable">$i</span> <span class="operator">-</span><span class="variable">text</span> <span class="operator">&gt;&gt;</span> <span class="variable">CAfile</span><span class="operator">.</span><span class="variable">pem</span>
- <span class="variable">done</span>
-</code></pre>
+<pre><code> #!/bin/sh
+ rm CAfile.pem
+ for i in ca1.pem ca2.pem ca3.pem ; do
+     openssl x509 -in $i -text &gt;&gt; CAfile.pem
+ done</code></pre>
 
 <p>Prepare the directory /some/where/certs containing several CA certificates for use as <b>CApath</b>:</p>
 

@@ -29,28 +29,27 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/lhash.h&gt;</span>
- 
- <span class="variable">DECLARE_LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">);</span>
- 
- <span class="variable">LHASH</span> <span class="variable">*lh_TYPE_new</span><span class="operator">(</span><span class="variable">OPENSSL_LH_HASHFUNC</span> <span class="variable">hash</span><span class="operator">,</span> <span class="variable">OPENSSL_LH_COMPFUNC</span> <span class="variable">compare</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">lh_TYPE_free</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">);</span>
- 
- <span class="variable">TYPE</span> <span class="variable">*lh_TYPE_insert</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*data</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*lh_TYPE_delete</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*data</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*lh_retrieve</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*data</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">lh_TYPE_doall</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">OPENSSL_LH_DOALL_FUNC</span> <span class="variable">func</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">lh_TYPE_doall_arg</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">,</span> <span class="variable">OPENSSL_LH_DOALL_FUNCARG</span> <span class="variable">func</span><span class="operator">,</span>
-                        <span class="variable">TYPE</span> <span class="variable">*arg</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">lh_TYPE_error</span><span class="operator">(</span><span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*table</span><span class="operator">);</span>
- 
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*OPENSSL_LH_COMPFUNC</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="operator">*);</span>
- <span class="variable">typedef</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="operator">(</span><span class="variable">*OPENSSL_LH_HASHFUNC</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="operator">*);</span>
- <span class="variable">typedef</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*OPENSSL_LH_DOALL_FUNC</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="operator">*);</span>
- <span class="variable">typedef</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*LHASH_DOALL_ARG_FN_TYPE</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="operator">*);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/lhash.h&gt;
+
+ DECLARE_LHASH_OF(TYPE);
+
+ LHASH *lh_TYPE_new(OPENSSL_LH_HASHFUNC hash, OPENSSL_LH_COMPFUNC compare);
+ void lh_TYPE_free(LHASH_OF(TYPE) *table);
+
+ TYPE *lh_TYPE_insert(LHASH_OF(TYPE) *table, TYPE *data);
+ TYPE *lh_TYPE_delete(LHASH_OF(TYPE) *table, TYPE *data);
+ TYPE *lh_retrieve(LHASH_OF(TYPE) *table, TYPE *data);
+
+ void lh_TYPE_doall(LHASH_OF(TYPE) *table, OPENSSL_LH_DOALL_FUNC func);
+ void lh_TYPE_doall_arg(LHASH_OF(TYPE) *table, OPENSSL_LH_DOALL_FUNCARG func,
+                        TYPE *arg);
+
+ int lh_TYPE_error(LHASH_OF(TYPE) *table);
+
+ typedef int (*OPENSSL_LH_COMPFUNC)(const void *, const void *);
+ typedef unsigned long (*OPENSSL_LH_HASHFUNC)(const void *);
+ typedef void (*OPENSSL_LH_DOALL_FUNC)(const void *);
+ typedef void (*LHASH_DOALL_ARG_FN_TYPE)(const void *, const void *);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -60,24 +59,23 @@
 
 <p>If your hash table will contain items of some particular type and the <b>hash</b> and <b>compare</b> callbacks hash/compare these types, then the <b>IMPLEMENT_LHASH_HASH_FN</b> and <b>IMPLEMENT_LHASH_COMP_FN</b> macros can be used to create callback wrappers of the prototypes required by lh_TYPE_new() as shown in this example:</p>
 
-<pre><code> <span class="regex">/*
-  * Implement the hash and compare functions; "stuff" can be any word.
-  */</span>
- <span class="variable">static</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">stuff_hash</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="operator">...</span>
- <span class="operator">}</span>
- <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">stuff_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*b</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="operator">...</span>
- <span class="operator">}</span>
- 
- <span class="regex">/*
+<pre><code> /*
+  * Implement the hash and compare functions; &quot;stuff&quot; can be any word.
+  */
+ static unsigned long stuff_hash(const TYPE *a)
+ {
+     ...
+ }
+ static int stuff_cmp(const TYPE *a, const TYPE *b)
+ {
+     ...
+ }
+
+ /*
   * Implement the wrapper functions.
-  */</span>
- <span class="variable">static</span> <span class="variable">IMPLEMENT_LHASH_HASH_FN</span><span class="operator">(</span><span class="variable">stuff</span><span class="operator">,</span> <span class="variable">TYPE</span><span class="operator">)</span>
- <span class="variable">static</span> <span class="variable">IMPLEMENT_LHASH_COMP_FN</span><span class="operator">(</span><span class="variable">stuff</span><span class="operator">,</span> <span class="variable">TYPE</span><span class="operator">)</span>
-</code></pre>
+  */
+ static IMPLEMENT_LHASH_HASH_FN(stuff, TYPE)
+ static IMPLEMENT_LHASH_COMP_FN(stuff, TYPE)</code></pre>
 
 <p>If the type is going to be used in several places, the following macros can be used in a common header file to declare the function wrappers:</p>
 
@@ -86,10 +84,9 @@
 
 <p>Then a hash table of TYPE objects can be created using this:</p>
 
-<pre><code> <span class="variable">LHASH_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*htable</span><span class="operator">;</span>
- 
- <span class="variable">htable</span> <span class="operator">=</span> <span class="variable">lh_TYPE_new</span><span class="operator">(</span><span class="variable">LHASH_HASH_FN</span><span class="operator">(</span><span class="variable">stuff</span><span class="operator">),</span> <span class="variable">LHASH_COMP_FN</span><span class="operator">(</span><span class="variable">stuff</span><span class="operator">));</span>
-</code></pre>
+<pre><code> LHASH_OF(TYPE) *htable;
+
+ htable = lh_TYPE_new(LHASH_HASH_FN(stuff), LHASH_COMP_FN(stuff));</code></pre>
 
 <p>lh_TYPE_free() frees the <b>LHASH_OF(TYPE)</b> structure <b>table</b>. Allocated hash table entries will not be freed; consider using lh_TYPE_doall() to deallocate any remaining entries in the hash table (see below).</p>
 
@@ -101,33 +98,31 @@
 
 <p>lh_TYPE_doall() will, for every entry in the hash table, call <b>func</b> with the data item as its parameter. For example:</p>
 
-<pre><code> <span class="regex">/* Cleans up resources belonging to 'a' (this is implemented elsewhere) */</span>
- <span class="variable">void</span> <span class="variable">TYPE_cleanup_doall</span><span class="operator">(</span><span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="regex">/* Implement a prototype-compatible wrapper for "TYPE_cleanup" */</span>
- <span class="variable">IMPLEMENT_LHASH_DOALL_FN</span><span class="operator">(</span><span class="variable">TYPE_cleanup</span><span class="operator">,</span> <span class="variable">TYPE</span><span class="operator">)</span>
- 
- <span class="operator">/*</span> <span class="variable">Call</span> <span class="string">"TYPE_cleanup"</span> <span class="variable">against</span> <span class="variable">all</span> <span class="variable">items</span> <span class="variable">in</span> <span class="variable">a</span> <span class="variable">hash</span> <span class="variable">table</span><span class="operator">.</span> <span class="operator">*</span><span class="regex">/
+<pre><code> /* Cleans up resources belonging to &#39;a&#39; (this is implemented elsewhere) */
+ void TYPE_cleanup_doall(TYPE *a);
+
+ /* Implement a prototype-compatible wrapper for &quot;TYPE_cleanup&quot; */
+ IMPLEMENT_LHASH_DOALL_FN(TYPE_cleanup, TYPE)
+
+ /* Call &quot;TYPE_cleanup&quot; against all items in a hash table. */
  lh_TYPE_doall(hashtable, LHASH_DOALL_FN(TYPE_cleanup));
- 
- /</span><span class="operator">*</span> <span class="variable">Then</span> <span class="variable">the</span> <span class="variable">hash</span> <span class="variable">table</span> <span class="variable">itself</span> <span class="variable">can</span> <span class="variable">be</span> <span class="variable">deallocated</span> <span class="operator">*/</span>
- <span class="variable">lh_TYPE_free</span><span class="operator">(</span><span class="variable">hashtable</span><span class="operator">);</span>
-</code></pre>
+
+ /* Then the hash table itself can be deallocated */
+ lh_TYPE_free(hashtable);</code></pre>
 
 <p>When doing this, be careful if you delete entries from the hash table in your callbacks: the table may decrease in size, moving the item that you are currently on down lower in the hash table - this could cause some entries to be skipped during the iteration. The second best solution to this problem is to set hash-&gt;down_load=0 before you start (which will stop the hash table ever decreasing in size). The best solution is probably to avoid deleting items from the hash table inside a &quot;doall&quot; callback!</p>
 
 <p>lh_TYPE_doall_arg() is the same as lh_TYPE_doall() except that <b>func</b> will be called with <b>arg</b> as the second argument and <b>func</b> should be of type <b>LHASH_DOALL_ARG_FN_TYPE</b> (a callback prototype that is passed both the table entry and an extra argument). As with lh_doall(), you can instead choose to declare your callback with a prototype matching the types you are dealing with and use the declare/implement macros to create compatible wrappers that cast variables before calling your type-specific callbacks. An example of this is demonstrated here (printing all hash table entries to a BIO that is provided by the caller):</p>
 
-<pre><code> <span class="regex">/* Prints item 'a' to 'output_bio' (this is implemented elsewhere) */</span>
- <span class="variable">void</span> <span class="variable">TYPE_print_doall_arg</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIO</span> <span class="variable">*output_bio</span><span class="operator">);</span>
- 
- <span class="regex">/* Implement a prototype-compatible wrapper for "TYPE_print" */</span>
- <span class="variable">static</span> <span class="variable">IMPLEMENT_LHASH_DOALL_ARG_FN</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">TYPE</span><span class="operator">,</span> <span class="variable">BIO</span><span class="operator">)</span>
- 
- <span class="operator">/*</span> <span class="variable">Print</span> <span class="variable">out</span> <span class="variable">the</span> <span class="variable">entire</span> <span class="variable">hashtable</span> <span class="variable">to</span> <span class="variable">a</span> <span class="variable">particular</span> <span class="variable">BIO</span> <span class="operator">*/</span>
- <span class="variable">lh_TYPE_doall_arg</span><span class="operator">(</span><span class="variable">hashtable</span><span class="operator">,</span> <span class="variable">LHASH_DOALL_ARG_FN</span><span class="operator">(</span><span class="variable">TYPE_print</span><span class="operator">),</span> <span class="variable">BIO</span><span class="operator">,</span>
-                   <span class="variable">logging_bio</span><span class="operator">);</span>
-</code></pre>
+<pre><code> /* Prints item &#39;a&#39; to &#39;output_bio&#39; (this is implemented elsewhere) */
+ void TYPE_print_doall_arg(const TYPE *a, BIO *output_bio);
+
+ /* Implement a prototype-compatible wrapper for &quot;TYPE_print&quot; */
+ static IMPLEMENT_LHASH_DOALL_ARG_FN(TYPE, const TYPE, BIO)
+
+ /* Print out the entire hashtable to a particular BIO */
+ lh_TYPE_doall_arg(hashtable, LHASH_DOALL_ARG_FN(TYPE_print), BIO,
+                   logging_bio);</code></pre>
 
 <p>lh_TYPE_error() can be used to determine if an error occurred in the last operation.</p>
 

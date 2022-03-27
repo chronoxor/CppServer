@@ -28,21 +28,20 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">enum</span> <span class="operator">{</span>
-     <span class="variable">SCT_VALIDATION_STATUS_NOT_SET</span><span class="operator">,</span>
-     <span class="variable">SCT_VALIDATION_STATUS_UNKNOWN_LOG</span><span class="operator">,</span>
-     <span class="variable">SCT_VALIDATION_STATUS_VALID</span><span class="operator">,</span>
-     <span class="variable">SCT_VALIDATION_STATUS_INVALID</span><span class="operator">,</span>
-     <span class="variable">SCT_VALIDATION_STATUS_UNVERIFIED</span><span class="operator">,</span>
-     <span class="variable">SCT_VALIDATION_STATUS_UNKNOWN_VERSION</span>
- <span class="operator">}</span> <span class="variable">sct_validation_status_t</span><span class="operator">;</span>
- 
- <span class="keyword">int</span> <span class="variable">SCT_validate</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SCT_LIST_validate</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="variable">*scts</span><span class="operator">,</span> <span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">sct_validation_status_t</span> <span class="variable">SCT_get_validation_status</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ct.h&gt;
+
+ typedef enum {
+     SCT_VALIDATION_STATUS_NOT_SET,
+     SCT_VALIDATION_STATUS_UNKNOWN_LOG,
+     SCT_VALIDATION_STATUS_VALID,
+     SCT_VALIDATION_STATUS_INVALID,
+     SCT_VALIDATION_STATUS_UNVERIFIED,
+     SCT_VALIDATION_STATUS_UNKNOWN_VERSION
+ } sct_validation_status_t;
+
+ int SCT_validate(SCT *sct, const CT_POLICY_EVAL_CTX *ctx);
+ int SCT_LIST_validate(const STACK_OF(SCT) *scts, CT_POLICY_EVAL_CTX *ctx);
+ sct_validation_status_t SCT_get_validation_status(const SCT *sct);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

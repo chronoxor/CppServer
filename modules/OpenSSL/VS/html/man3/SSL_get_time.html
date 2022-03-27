@@ -27,18 +27,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_SESSION_get_time</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_SESSION_set_time</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">tm</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_SESSION_get_timeout</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_SESSION_set_timeout</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">tm</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_get_time</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set_time</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">tm</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_get_timeout</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set_timeout</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">tm</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_SESSION_get_time(const SSL_SESSION *s);
+ long SSL_SESSION_set_time(SSL_SESSION *s, long tm);
+ long SSL_SESSION_get_timeout(const SSL_SESSION *s);
+ long SSL_SESSION_set_timeout(SSL_SESSION *s, long tm);
+
+ long SSL_get_time(const SSL_SESSION *s);
+ long SSL_set_time(SSL_SESSION *s, long tm);
+ long SSL_get_timeout(const SSL_SESSION *s);
+ long SSL_set_timeout(SSL_SESSION *s, long tm);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

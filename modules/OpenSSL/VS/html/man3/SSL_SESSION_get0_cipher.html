@@ -27,11 +27,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">SSL_CIPHER</span> <span class="variable">*SSL_SESSION_get0_cipher</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_SESSION_set_cipher</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">SSL_CIPHER</span> <span class="variable">*cipher</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ const SSL_CIPHER *SSL_SESSION_get0_cipher(const SSL_SESSION *s);
+ int SSL_SESSION_set_cipher(SSL_SESSION *s, const SSL_CIPHER *cipher);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

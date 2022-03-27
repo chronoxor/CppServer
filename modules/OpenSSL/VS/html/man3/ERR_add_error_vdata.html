@@ -30,13 +30,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/err.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">ERR_put_error</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">lib</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">func</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">reason</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">line</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">ERR_add_error_data</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="operator">...);</span>
- <span class="variable">void</span> <span class="variable">ERR_add_error_vdata</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">va_list</span> <span class="variable">arg</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/err.h&gt;
+
+ void ERR_put_error(int lib, int func, int reason, const char *file, int line);
+
+ void ERR_add_error_data(int num, ...);
+ void ERR_add_error_vdata(int num, va_list arg);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -50,8 +49,7 @@
 
 <p>Each sub-library has a specific macro XXXerr() that is used to report errors. Its first argument is a function code <b>XXX_F_...</b>, the second argument is a reason code <b>XXX_R_...</b>. Function codes are derived from the function names; reason codes consist of textual error descriptions. For example, the function ssl3_read_bytes() reports a &quot;handshake failure&quot; as follows:</p>
 
-<pre><code> <span class="variable">SSLerr</span><span class="operator">(</span><span class="variable">SSL_F_SSL3_READ_BYTES</span><span class="operator">,</span> <span class="variable">SSL_R_SSL_HANDSHAKE_FAILURE</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSLerr(SSL_F_SSL3_READ_BYTES, SSL_R_SSL_HANDSHAKE_FAILURE);</code></pre>
 
 <p>Function and reason codes should consist of uppercase characters, numbers and underscores only. The error file generation script translates function codes into function names by looking in the header files for an appropriate function name, if none is found it just uses the capitalized form such as &quot;SSL3_READ_BYTES&quot; in the above example.</p>
 

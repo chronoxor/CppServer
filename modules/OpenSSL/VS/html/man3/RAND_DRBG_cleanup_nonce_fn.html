@@ -32,39 +32,37 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rand_drbg.h&gt;</span>
- 
- 
- <span class="keyword">int</span> <span class="variable">RAND_DRBG_set_callbacks</span><span class="operator">(</span><span class="variable">RAND_DRBG</span> <span class="variable">*drbg</span><span class="operator">,</span>
-                             <span class="variable">RAND_DRBG_get_entropy_fn</span> <span class="variable">get_entropy</span><span class="operator">,</span>
-                             <span class="variable">RAND_DRBG_cleanup_entropy_fn</span> <span class="variable">cleanup_entropy</span><span class="operator">,</span>
-                             <span class="variable">RAND_DRBG_get_nonce_fn</span> <span class="variable">get_nonce</span><span class="operator">,</span>
-                             <span class="variable">RAND_DRBG_cleanup_nonce_fn</span> <span class="variable">cleanup_nonce</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rand_drbg.h&gt;
+
+
+ int RAND_DRBG_set_callbacks(RAND_DRBG *drbg,
+                             RAND_DRBG_get_entropy_fn get_entropy,
+                             RAND_DRBG_cleanup_entropy_fn cleanup_entropy,
+                             RAND_DRBG_get_nonce_fn get_nonce,
+                             RAND_DRBG_cleanup_nonce_fn cleanup_nonce);</code></pre>
 
 <h2 id="Callback-Functions">Callback Functions</h2>
 
-<pre><code> <span class="variable">typedef</span> <span class="variable">size_t</span> <span class="operator">(</span><span class="variable">*RAND_DRBG_get_entropy_fn</span><span class="operator">)(</span>
-                       <span class="variable">RAND_DRBG</span> <span class="variable">*drbg</span><span class="operator">,</span>
-                       <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pout</span><span class="operator">,</span>
-                       <span class="keyword">int</span> <span class="variable">entropy</span><span class="operator">,</span>
-                       <span class="variable">size_t</span> <span class="variable">min_len</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">max_len</span><span class="operator">,</span>
-                       <span class="keyword">int</span> <span class="variable">prediction_resistance</span><span class="operator">);</span>
- 
- <span class="variable">typedef</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*RAND_DRBG_cleanup_entropy_fn</span><span class="operator">)(</span>
-                     <span class="variable">RAND_DRBG</span> <span class="variable">*drbg</span><span class="operator">,</span>
-                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">outlen</span><span class="operator">);</span>
- 
- <span class="variable">typedef</span> <span class="variable">size_t</span> <span class="operator">(</span><span class="variable">*RAND_DRBG_get_nonce_fn</span><span class="operator">)(</span>
-                       <span class="variable">RAND_DRBG</span> <span class="variable">*drbg</span><span class="operator">,</span>
-                       <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pout</span><span class="operator">,</span>
-                       <span class="keyword">int</span> <span class="variable">entropy</span><span class="operator">,</span>
-                       <span class="variable">size_t</span> <span class="variable">min_len</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">max_len</span><span class="operator">);</span>
- 
- <span class="variable">typedef</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*RAND_DRBG_cleanup_nonce_fn</span><span class="operator">)(</span>
-                     <span class="variable">RAND_DRBG</span> <span class="variable">*drbg</span><span class="operator">,</span>
-                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">outlen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> typedef size_t (*RAND_DRBG_get_entropy_fn)(
+                       RAND_DRBG *drbg,
+                       unsigned char **pout,
+                       int entropy,
+                       size_t min_len, size_t max_len,
+                       int prediction_resistance);
+
+ typedef void (*RAND_DRBG_cleanup_entropy_fn)(
+                     RAND_DRBG *drbg,
+                     unsigned char *out, size_t outlen);
+
+ typedef size_t (*RAND_DRBG_get_nonce_fn)(
+                       RAND_DRBG *drbg,
+                       unsigned char **pout,
+                       int entropy,
+                       size_t min_len, size_t max_len);
+
+ typedef void (*RAND_DRBG_cleanup_nonce_fn)(
+                     RAND_DRBG *drbg,
+                     unsigned char *out, size_t outlen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

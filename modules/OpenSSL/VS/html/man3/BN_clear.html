@@ -27,18 +27,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="variable">BIGNUM</span> <span class="variable">*BN_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">BIGNUM</span> <span class="variable">*BN_secure_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">BN_clear</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">BN_free</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">BN_clear_free</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ BIGNUM *BN_new(void);
+
+ BIGNUM *BN_secure_new(void);
+
+ void BN_clear(BIGNUM *a);
+
+ void BN_free(BIGNUM *a);
+
+ void BN_clear_free(BIGNUM *a);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

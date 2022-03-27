@@ -26,49 +26,48 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ec.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_GROUP_copy</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*dst</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*src</span><span class="operator">);</span>
- <span class="variable">EC_GROUP</span> <span class="variable">*EC_GROUP_dup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*src</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*EC_GROUP_method_of</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_GROUP_set_generator</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_POINT</span> <span class="variable">*generator</span><span class="operator">,</span>
-                            <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*order</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*cofactor</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EC_POINT</span> <span class="variable">*EC_GROUP_get0_generator</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_order</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*order</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*EC_GROUP_get0_order</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_order_bits</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_cofactor</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*cofactor</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*EC_GROUP_get0_cofactor</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">EC_GROUP_set_curve_name</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_curve_name</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">EC_GROUP_set_asn1_flag</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flag</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_asn1_flag</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">EC_GROUP_set_point_conversion_form</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">point_conversion_form_t</span> <span class="variable">form</span><span class="operator">);</span>
- <span class="variable">point_conversion_form_t</span> <span class="variable">EC_GROUP_get_point_conversion_form</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- 
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*EC_GROUP_get0_seed</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">EC_GROUP_get_seed_len</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="operator">*);</span>
- <span class="variable">size_t</span> <span class="variable">EC_GROUP_set_seed</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_degree</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_GROUP_check</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_GROUP_check_discriminant</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_GROUP_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_basis_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="operator">*);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_trinomial_basis</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="operator">*,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_pentanomial_basis</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="operator">*,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k1</span><span class="operator">,</span>
-                                    <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k2</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*k3</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ec.h&gt;
+
+ int EC_GROUP_copy(EC_GROUP *dst, const EC_GROUP *src);
+ EC_GROUP *EC_GROUP_dup(const EC_GROUP *src);
+
+ const EC_METHOD *EC_GROUP_method_of(const EC_GROUP *group);
+
+ int EC_GROUP_set_generator(EC_GROUP *group, const EC_POINT *generator,
+                            const BIGNUM *order, const BIGNUM *cofactor);
+ const EC_POINT *EC_GROUP_get0_generator(const EC_GROUP *group);
+
+ int EC_GROUP_get_order(const EC_GROUP *group, BIGNUM *order, BN_CTX *ctx);
+ const BIGNUM *EC_GROUP_get0_order(const EC_GROUP *group);
+ int EC_GROUP_order_bits(const EC_GROUP *group);
+ int EC_GROUP_get_cofactor(const EC_GROUP *group, BIGNUM *cofactor, BN_CTX *ctx);
+ const BIGNUM *EC_GROUP_get0_cofactor(const EC_GROUP *group);
+
+ void EC_GROUP_set_curve_name(EC_GROUP *group, int nid);
+ int EC_GROUP_get_curve_name(const EC_GROUP *group);
+
+ void EC_GROUP_set_asn1_flag(EC_GROUP *group, int flag);
+ int EC_GROUP_get_asn1_flag(const EC_GROUP *group);
+
+ void EC_GROUP_set_point_conversion_form(EC_GROUP *group, point_conversion_form_t form);
+ point_conversion_form_t EC_GROUP_get_point_conversion_form(const EC_GROUP *group);
+
+ unsigned char *EC_GROUP_get0_seed(const EC_GROUP *x);
+ size_t EC_GROUP_get_seed_len(const EC_GROUP *);
+ size_t EC_GROUP_set_seed(EC_GROUP *, const unsigned char *, size_t len);
+
+ int EC_GROUP_get_degree(const EC_GROUP *group);
+
+ int EC_GROUP_check(const EC_GROUP *group, BN_CTX *ctx);
+
+ int EC_GROUP_check_discriminant(const EC_GROUP *group, BN_CTX *ctx);
+
+ int EC_GROUP_cmp(const EC_GROUP *a, const EC_GROUP *b, BN_CTX *ctx);
+
+ int EC_GROUP_get_basis_type(const EC_GROUP *);
+ int EC_GROUP_get_trinomial_basis(const EC_GROUP *, unsigned int *k);
+ int EC_GROUP_get_pentanomial_basis(const EC_GROUP *, unsigned int *k1,
+                                    unsigned int *k2, unsigned int *k3);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -92,17 +91,16 @@
 
 <p>The point_conversion_form for a curve controls how EC_POINT data is encoded as ASN1 as defined in X9.62 (ECDSA). point_conversion_form_t is an enum defined as follows:</p>
 
-<pre><code> <span class="variable">typedef</span> <span class="variable">enum</span> <span class="operator">{</span>
-        <span class="regex">/** the point is encoded as z||x, where the octet z specifies
-         *   which solution of the quadratic equation y is  */</span>
-        <span class="variable">POINT_CONVERSION_COMPRESSED</span> <span class="operator">=</span> <span class="number">2</span><span class="operator">,</span>
-        <span class="regex">/** the point is encoded as z||x||y, where z is the octet 0x04  */</span>
-        <span class="variable">POINT_CONVERSION_UNCOMPRESSED</span> <span class="operator">=</span> <span class="number">4</span><span class="operator">,</span>
-        <span class="regex">/** the point is encoded as z||x||y, where the octet z specifies
-         *  which solution of the quadratic equation y is  */</span>
-        <span class="variable">POINT_CONVERSION_HYBRID</span> <span class="operator">=</span> <span class="number">6</span>
- <span class="operator">}</span> <span class="variable">point_conversion_form_t</span><span class="operator">;</span>
-</code></pre>
+<pre><code> typedef enum {
+        /** the point is encoded as z||x, where the octet z specifies
+         *   which solution of the quadratic equation y is  */
+        POINT_CONVERSION_COMPRESSED = 2,
+        /** the point is encoded as z||x||y, where z is the octet 0x04  */
+        POINT_CONVERSION_UNCOMPRESSED = 4,
+        /** the point is encoded as z||x||y, where the octet z specifies
+         *  which solution of the quadratic equation y is  */
+        POINT_CONVERSION_HYBRID = 6
+ } point_conversion_form_t;</code></pre>
 
 <p>For POINT_CONVERSION_UNCOMPRESSED the point is encoded as an octet signifying the UNCOMPRESSED form has been used followed by the octets for x, followed by the octets for y.</p>
 

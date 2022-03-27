@@ -28,11 +28,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="variable">*BIO_f_base64</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+ #include &lt;openssl/evp.h&gt;
+
+ const BIO_METHOD *BIO_f_base64(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -40,9 +39,15 @@
 
 <p>Base64 BIOs do not support BIO_gets() or BIO_puts().</p>
 
+<p>For writing, output is by default divided to lines of length 64 characters and there is always a newline at the end of output.</p>
+
+<p>For reading, first line should be at most 1024 characters long. If it is longer then it is ignored completely. Other input lines can be of any length. There must be a newline at the end of input.</p>
+
+<p>This behavior can be changed with BIO_FLAGS_BASE64_NO_NL flag.</p>
+
 <p>BIO_flush() on a base64 BIO that is being written through is used to signal that no more data is to be encoded: this is used to flush the final block through the BIO.</p>
 
-<p>The flag BIO_FLAGS_BASE64_NO_NL can be set with BIO_set_flags() to encode the data all on one line or expect the data to be all on one line.</p>
+<p>The flag BIO_FLAGS_BASE64_NO_NL can be set with BIO_set_flags(). For writing, it causes all data to be written on one line without newline at the end. For reading, it forces the decoder to process the data regardless of newlines. All newlines are ignored and the input does not need to contain any newline at all.</p>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -56,34 +61,32 @@
 
 <p>Base64 encode the string &quot;Hello World\n&quot; and write the result to standard output:</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*bio</span><span class="operator">,</span> <span class="variable">*b64</span><span class="operator">;</span>
- <span class="variable">char</span> <span class="variable">message</span><span class="operator">[]</span> <span class="operator">=</span> <span class="string">"Hello World \n"</span><span class="operator">;</span>
- 
- <span class="variable">b64</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_f_base64</span><span class="operator">());</span>
- <span class="variable">bio</span> <span class="operator">=</span> <span class="variable">BIO_new_fp</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">BIO_NOCLOSE</span><span class="operator">);</span>
- <span class="variable">BIO_push</span><span class="operator">(</span><span class="variable">b64</span><span class="operator">,</span> <span class="variable">bio</span><span class="operator">);</span>
- <span class="variable">BIO_write</span><span class="operator">(</span><span class="variable">b64</span><span class="operator">,</span> <span class="variable">message</span><span class="operator">,</span> <span class="variable">strlen</span><span class="operator">(</span><span class="variable">message</span><span class="operator">));</span>
- <span class="variable">BIO_flush</span><span class="operator">(</span><span class="variable">b64</span><span class="operator">);</span>
- 
- <span class="variable">BIO_free_all</span><span class="operator">(</span><span class="variable">b64</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *bio, *b64;
+ char message[] = &quot;Hello World \n&quot;;
+
+ b64 = BIO_new(BIO_f_base64());
+ bio = BIO_new_fp(stdout, BIO_NOCLOSE);
+ BIO_push(b64, bio);
+ BIO_write(b64, message, strlen(message));
+ BIO_flush(b64);
+
+ BIO_free_all(b64);</code></pre>
 
 <p>Read Base64 encoded data from standard input and write the decoded data to standard output:</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*bio</span><span class="operator">,</span> <span class="variable">*b64</span><span class="operator">,</span> <span class="variable">*bio_out</span><span class="operator">;</span>
- <span class="variable">char</span> <span class="variable">inbuf</span><span class="operator">[</span><span class="number">512</span><span class="operator">]</span><span class="operator">;</span>
- <span class="keyword">int</span> <span class="variable">inlen</span><span class="operator">;</span>
- 
- <span class="variable">b64</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_f_base64</span><span class="operator">());</span>
- <span class="variable">bio</span> <span class="operator">=</span> <span class="variable">BIO_new_fp</span><span class="operator">(</span><span class="variable">stdin</span><span class="operator">,</span> <span class="variable">BIO_NOCLOSE</span><span class="operator">);</span>
- <span class="variable">bio_out</span> <span class="operator">=</span> <span class="variable">BIO_new_fp</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">BIO_NOCLOSE</span><span class="operator">);</span>
- <span class="variable">BIO_push</span><span class="operator">(</span><span class="variable">b64</span><span class="operator">,</span> <span class="variable">bio</span><span class="operator">);</span>
- <span class="keyword">while</span> <span class="operator">((</span><span class="variable">inlen</span> <span class="operator">=</span> <span class="variable">BIO_read</span><span class="operator">(</span><span class="variable">b64</span><span class="operator">,</span> <span class="variable">inbuf</span><span class="operator">,</span> <span class="number">512</span><span class="operator">))</span> <span class="operator">&gt;</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="variable">BIO_write</span><span class="operator">(</span><span class="variable">bio_out</span><span class="operator">,</span> <span class="variable">inbuf</span><span class="operator">,</span> <span class="variable">inlen</span><span class="operator">);</span>
- 
- <span class="variable">BIO_flush</span><span class="operator">(</span><span class="variable">bio_out</span><span class="operator">);</span>
- <span class="variable">BIO_free_all</span><span class="operator">(</span><span class="variable">b64</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *bio, *b64, *bio_out;
+ char inbuf[512];
+ int inlen;
+
+ b64 = BIO_new(BIO_f_base64());
+ bio = BIO_new_fp(stdin, BIO_NOCLOSE);
+ bio_out = BIO_new_fp(stdout, BIO_NOCLOSE);
+ BIO_push(b64, bio);
+ while ((inlen = BIO_read(b64, inbuf, 512)) &gt; 0)
+     BIO_write(bio_out, inbuf, inlen);
+
+ BIO_flush(bio_out);
+ BIO_free_all(b64);</code></pre>
 
 <h1 id="BUGS">BUGS</h1>
 
@@ -93,7 +96,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2022 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

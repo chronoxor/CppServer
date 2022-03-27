@@ -28,12 +28,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_cert_store</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_STORE</span> <span class="variable">*store</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_set1_cert_store</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_STORE</span> <span class="variable">*store</span><span class="operator">);</span>
- <span class="variable">X509_STORE</span> <span class="variable">*SSL_CTX_get_cert_store</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_cert_store(SSL_CTX *ctx, X509_STORE *store);
+ void SSL_CTX_set1_cert_store(SSL_CTX *ctx, X509_STORE *store);
+ X509_STORE *SSL_CTX_get_cert_store(const SSL_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

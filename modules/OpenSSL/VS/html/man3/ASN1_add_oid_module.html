@@ -27,12 +27,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/conf.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">OPENSSL_load_builtin_modules</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ASN1_add_oid_module</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_add_conf_module</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/conf.h&gt;
+
+ void OPENSSL_load_builtin_modules(void);
+ void ASN1_add_oid_module(void);
+ void ENGINE_add_conf_module(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

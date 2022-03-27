@@ -28,18 +28,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set1_sigalgs</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="keyword">int</span> <span class="variable">*slist</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">slistlen</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set1_sigalgs</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="keyword">int</span> <span class="variable">*slist</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">slistlen</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_set1_sigalgs_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set1_sigalgs_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set1_client_sigalgs</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="keyword">int</span> <span class="variable">*slist</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">slistlen</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set1_client_sigalgs</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="keyword">int</span> <span class="variable">*slist</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">slistlen</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_set1_client_sigalgs_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set1_client_sigalgs_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_CTX_set1_sigalgs(SSL_CTX *ctx, const int *slist, long slistlen);
+ long SSL_set1_sigalgs(SSL *ssl, const int *slist, long slistlen);
+ long SSL_CTX_set1_sigalgs_list(SSL_CTX *ctx, const char *str);
+ long SSL_set1_sigalgs_list(SSL *ssl, const char *str);
+
+ long SSL_CTX_set1_client_sigalgs(SSL_CTX *ctx, const int *slist, long slistlen);
+ long SSL_set1_client_sigalgs(SSL *ssl, const int *slist, long slistlen);
+ long SSL_CTX_set1_client_sigalgs_list(SSL_CTX *ctx, const char *str);
+ long SSL_set1_client_sigalgs_list(SSL *ssl, const char *str);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -81,15 +80,13 @@
 
 <p>Set supported signature algorithms to SHA256 with ECDSA and SHA256 with RSA using an array:</p>
 
-<pre><code> <span class="variable">const</span> <span class="keyword">int</span> <span class="variable">slist</span><span class="operator">[]</span> <span class="operator">=</span> <span class="operator">{</span><span class="variable">NID_sha256</span><span class="operator">,</span> <span class="variable">EVP_PKEY_EC</span><span class="operator">,</span> <span class="variable">NID_sha256</span><span class="operator">,</span> <span class="variable">EVP_PKEY_RSA</span><span class="operator">}</span><span class="operator">;</span>
- 
- <span class="variable">SSL_CTX_set1_sigalgs</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">slist</span><span class="operator">,</span> <span class="number">4</span><span class="operator">);</span>
-</code></pre>
+<pre><code> const int slist[] = {NID_sha256, EVP_PKEY_EC, NID_sha256, EVP_PKEY_RSA};
+
+ SSL_CTX_set1_sigalgs(ctx, slist, 4);</code></pre>
 
 <p>Set supported signature algorithms to SHA256 with ECDSA and SHA256 with RSA using a string:</p>
 
-<pre><code> <span class="variable">SSL_CTX_set1_sigalgs_list</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"ECDSA+SHA256:RSA+SHA256"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CTX_set1_sigalgs_list(ctx, &quot;ECDSA+SHA256:RSA+SHA256&quot;);</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

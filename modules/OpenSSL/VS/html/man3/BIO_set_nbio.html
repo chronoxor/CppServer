@@ -29,25 +29,24 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="operator">*</span> <span class="variable">BIO_s_connect</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">BIO</span> <span class="variable">*BIO_new_connect</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">BIO_set_conn_hostname</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_conn_port</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*port</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_conn_address</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BIO_ADDR</span> <span class="variable">*addr</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_conn_ip_family</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">family</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*BIO_get_conn_hostname</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*BIO_get_conn_port</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*BIO_get_conn_address</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">long</span> <span class="variable">BIO_get_conn_ip_family</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">BIO_set_nbio</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BIO_do_connect</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+
+ const BIO_METHOD * BIO_s_connect(void);
+
+ BIO *BIO_new_connect(char *name);
+
+ long BIO_set_conn_hostname(BIO *b, char *name);
+ long BIO_set_conn_port(BIO *b, char *port);
+ long BIO_set_conn_address(BIO *b, BIO_ADDR *addr);
+ long BIO_set_conn_ip_family(BIO *b, long family);
+ const char *BIO_get_conn_hostname(BIO *b);
+ const char *BIO_get_conn_port(BIO *b);
+ const BIO_ADDR *BIO_get_conn_address(BIO *b);
+ const long BIO_get_conn_ip_family(BIO *b);
+
+ long BIO_set_nbio(BIO *b, long n);
+
+ int BIO_do_connect(BIO *b);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -129,27 +128,26 @@
 
 <p>This is example connects to a webserver on the local host and attempts to retrieve a page and copy the result to standard output.</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*cbio</span><span class="operator">,</span> <span class="variable">*out</span><span class="operator">;</span>
- <span class="keyword">int</span> <span class="variable">len</span><span class="operator">;</span>
- <span class="variable">char</span> <span class="variable">tmpbuf</span><span class="operator">[</span><span class="number">1024</span><span class="operator">]</span><span class="operator">;</span>
- 
- <span class="variable">cbio</span> <span class="operator">=</span> <span class="variable">BIO_new_connect</span><span class="operator">(</span><span class="string">"localhost:http"</span><span class="operator">);</span>
- <span class="variable">out</span> <span class="operator">=</span> <span class="variable">BIO_new_fp</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">BIO_NOCLOSE</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">BIO_do_connect</span><span class="operator">(</span><span class="variable">cbio</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error connecting to server\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">cbio</span><span class="operator">,</span> <span class="string">"GET / HTTP/1.0\n\n"</span><span class="operator">);</span>
- <span class="keyword">for</span> <span class="operator">(;;)</span> <span class="operator">{</span>
-     <span class="variable">len</span> <span class="operator">=</span> <span class="variable">BIO_read</span><span class="operator">(</span><span class="variable">cbio</span><span class="operator">,</span> <span class="variable">tmpbuf</span><span class="operator">,</span> <span class="number">1024</span><span class="operator">);</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">len</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-         <span class="keyword">break</span><span class="operator">;</span>
-     <span class="variable">BIO_write</span><span class="operator">(</span><span class="variable">out</span><span class="operator">,</span> <span class="variable">tmpbuf</span><span class="operator">,</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="operator">}</span>
- <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">cbio</span><span class="operator">);</span>
- <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">out</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *cbio, *out;
+ int len;
+ char tmpbuf[1024];
+
+ cbio = BIO_new_connect(&quot;localhost:http&quot;);
+ out = BIO_new_fp(stdout, BIO_NOCLOSE);
+ if (BIO_do_connect(cbio) &lt;= 0) {
+     fprintf(stderr, &quot;Error connecting to server\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+ BIO_puts(cbio, &quot;GET / HTTP/1.0\n\n&quot;);
+ for (;;) {
+     len = BIO_read(cbio, tmpbuf, 1024);
+     if (len &lt;= 0)
+         break;
+     BIO_write(out, tmpbuf, len);
+ }
+ BIO_free(cbio);
+ BIO_free(out);</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

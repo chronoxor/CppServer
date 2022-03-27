@@ -27,16 +27,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dsa.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">DSA_sign</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*dgst</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span>
-              <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*siglen</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">DSA_sign_setup</span><span class="operator">(</span><span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">kinvp</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">rp</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">DSA_verify</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*dgst</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span>
-                <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dsa.h&gt;
+
+ int DSA_sign(int type, const unsigned char *dgst, int len,
+              unsigned char *sigret, unsigned int *siglen, DSA *dsa);
+
+ int DSA_sign_setup(DSA *dsa, BN_CTX *ctx, BIGNUM **kinvp, BIGNUM **rp);
+
+ int DSA_verify(int type, const unsigned char *dgst, int len,
+                unsigned char *sigbuf, int siglen, DSA *dsa);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

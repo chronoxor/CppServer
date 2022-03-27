@@ -26,12 +26,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*DTLS_timer_cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">timer_us</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">DTLS_set_timer_cb</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">DTLS_timer_cb</span> <span class="variable">cb</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ typedef unsigned int (*DTLS_timer_cb)(SSL *s, unsigned int timer_us);
+
+ void DTLS_set_timer_cb(SSL *s, DTLS_timer_cb cb);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

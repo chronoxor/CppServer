@@ -26,11 +26,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/asn1.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">*ASN1_ITEM_lookup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">*ASN1_ITEM_get</span><span class="operator">(</span><span class="variable">size_t</span> <span class="variable">i</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/asn1.h&gt;
+
+ const ASN1_ITEM *ASN1_ITEM_lookup(const char *name);
+ const ASN1_ITEM *ASN1_ITEM_get(size_t i);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

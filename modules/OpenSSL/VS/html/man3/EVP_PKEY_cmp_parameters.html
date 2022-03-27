@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_missing_parameters</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_copy_parameters</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*from</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_cmp_parameters</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*b</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int EVP_PKEY_missing_parameters(const EVP_PKEY *pkey);
+ int EVP_PKEY_copy_parameters(EVP_PKEY *to, const EVP_PKEY *from);
+
+ int EVP_PKEY_cmp_parameters(const EVP_PKEY *a, const EVP_PKEY *b);
+ int EVP_PKEY_cmp(const EVP_PKEY *a, const EVP_PKEY *b);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

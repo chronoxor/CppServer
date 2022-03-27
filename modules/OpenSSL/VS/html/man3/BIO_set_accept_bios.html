@@ -27,31 +27,30 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="variable">*BIO_s_accept</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">BIO_set_accept_name</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*BIO_get_accept_name</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">BIO_set_accept_port</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*port</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*BIO_get_accept_port</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="variable">BIO</span> <span class="variable">*BIO_new_accept</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*host_port</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">BIO_set_nbio_accept</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_accept_bios</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*bio</span><span class="operator">);</span>
- 
- <span class="variable">char</span> <span class="variable">*BIO_get_peer_name</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*BIO_get_peer_port</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_get_accept_ip_family</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_accept_ip_family</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">family</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">BIO_set_bind_mode</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">mode</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_get_bind_mode</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BIO_do_accept</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+
+ const BIO_METHOD *BIO_s_accept(void);
+
+ long BIO_set_accept_name(BIO *b, char *name);
+ char *BIO_get_accept_name(BIO *b);
+
+ long BIO_set_accept_port(BIO *b, char *port);
+ char *BIO_get_accept_port(BIO *b);
+
+ BIO *BIO_new_accept(char *host_port);
+
+ long BIO_set_nbio_accept(BIO *b, int n);
+ long BIO_set_accept_bios(BIO *b, char *bio);
+
+ char *BIO_get_peer_name(BIO *b);
+ char *BIO_get_peer_port(BIO *b);
+ long BIO_get_accept_ip_family(BIO *b);
+ long BIO_set_accept_ip_family(BIO *b, long family);
+
+ long BIO_set_bind_mode(BIO *b, long mode);
+ long BIO_get_bind_mode(BIO *b);
+
+ int BIO_do_accept(BIO *b);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -93,8 +92,7 @@
 
 <p>If a server wishes to process multiple connections (as is normally the case) then the accept BIO must be made available for further incoming connections. This can be done by waiting for a connection and then calling:</p>
 
-<pre><code> <span class="variable">connection</span> <span class="operator">=</span> <span class="variable">BIO_pop</span><span class="operator">(</span><span class="keyword">accept</span><span class="operator">);</span>
-</code></pre>
+<pre><code> connection = BIO_pop(accept);</code></pre>
 
 <p>After this call <b>connection</b> will contain a BIO for the recently established connection and <b>accept</b> will now be a single BIO again which can be used to await further incoming connections. If no further connections will be accepted the <b>accept</b> can be freed using BIO_free().</p>
 
@@ -120,49 +118,48 @@
 
 <p>This example accepts two connections on port 4444, sends messages down each and finally closes both down.</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*abio</span><span class="operator">,</span> <span class="variable">*cbio</span><span class="operator">,</span> <span class="variable">*cbio2</span><span class="operator">;</span>
- 
- <span class="regex">/* First call to BIO_accept() sets up accept BIO */</span>
- <span class="variable">abio</span> <span class="operator">=</span> <span class="variable">BIO_new_accept</span><span class="operator">(</span><span class="string">"4444"</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">BIO_do_accept</span><span class="operator">(</span><span class="variable">abio</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error setting up accept\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="regex">/* Wait for incoming connection */</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">BIO_do_accept</span><span class="operator">(</span><span class="variable">abio</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error accepting connection\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Connection 1 established\n"</span><span class="operator">);</span>
- 
- <span class="regex">/* Retrieve BIO for connection */</span>
- <span class="variable">cbio</span> <span class="operator">=</span> <span class="variable">BIO_pop</span><span class="operator">(</span><span class="variable">abio</span><span class="operator">);</span>
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">cbio</span><span class="operator">,</span> <span class="string">"Connection 1: Sending out Data on initial connection\n"</span><span class="operator">);</span>
- <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Sent out data on connection 1\n"</span><span class="operator">);</span>
- 
- <span class="regex">/* Wait for another connection */</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">BIO_do_accept</span><span class="operator">(</span><span class="variable">abio</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error accepting connection\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Connection 2 established\n"</span><span class="operator">);</span>
- 
- <span class="regex">/* Close accept BIO to refuse further connections */</span>
- <span class="variable">cbio2</span> <span class="operator">=</span> <span class="variable">BIO_pop</span><span class="operator">(</span><span class="variable">abio</span><span class="operator">);</span>
- <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">abio</span><span class="operator">);</span>
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">cbio2</span><span class="operator">,</span> <span class="string">"Connection 2: Sending out Data on second\n"</span><span class="operator">);</span>
- <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Sent out data on connection 2\n"</span><span class="operator">);</span>
- 
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">cbio</span><span class="operator">,</span> <span class="string">"Connection 1: Second connection established\n"</span><span class="operator">);</span>
- 
- <span class="regex">/* Close the two established connections */</span>
- <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">cbio</span><span class="operator">);</span>
- <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">cbio2</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *abio, *cbio, *cbio2;
+
+ /* First call to BIO_accept() sets up accept BIO */
+ abio = BIO_new_accept(&quot;4444&quot;);
+ if (BIO_do_accept(abio) &lt;= 0) {
+     fprintf(stderr, &quot;Error setting up accept\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+
+ /* Wait for incoming connection */
+ if (BIO_do_accept(abio) &lt;= 0) {
+     fprintf(stderr, &quot;Error accepting connection\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+ fprintf(stderr, &quot;Connection 1 established\n&quot;);
+
+ /* Retrieve BIO for connection */
+ cbio = BIO_pop(abio);
+ BIO_puts(cbio, &quot;Connection 1: Sending out Data on initial connection\n&quot;);
+ fprintf(stderr, &quot;Sent out data on connection 1\n&quot;);
+
+ /* Wait for another connection */
+ if (BIO_do_accept(abio) &lt;= 0) {
+     fprintf(stderr, &quot;Error accepting connection\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+ fprintf(stderr, &quot;Connection 2 established\n&quot;);
+
+ /* Close accept BIO to refuse further connections */
+ cbio2 = BIO_pop(abio);
+ BIO_free(abio);
+ BIO_puts(cbio2, &quot;Connection 2: Sending out Data on second\n&quot;);
+ fprintf(stderr, &quot;Sent out data on connection 2\n&quot;);
+
+ BIO_puts(cbio, &quot;Connection 1: Second connection established\n&quot;);
+
+ /* Close the two established connections */
+ BIO_free(cbio);
+ BIO_free(cbio2);</code></pre>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 

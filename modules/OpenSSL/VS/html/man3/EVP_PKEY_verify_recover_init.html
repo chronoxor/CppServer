@@ -29,13 +29,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_verify_recover_init</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_verify_recover</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                             <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*rout</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*routlen</span><span class="operator">,</span>
-                             <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">siglen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int EVP_PKEY_verify_recover_init(EVP_PKEY_CTX *ctx);
+ int EVP_PKEY_verify_recover(EVP_PKEY_CTX *ctx,
+                             unsigned char *rout, size_t *routlen,
+                             const unsigned char *sig, size_t siglen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -61,42 +60,41 @@
 
 <p>Recover digest originally signed using PKCS#1 and SHA256 digest:</p>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*rout</span><span class="operator">,</span> <span class="variable">*sig</span><span class="operator">;</span>
- <span class="variable">size_t</span> <span class="variable">routlen</span><span class="operator">,</span> <span class="variable">siglen</span><span class="operator">;</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*verify_key</span><span class="operator">;</span>
- 
- <span class="regex">/*
+<pre><code> #include &lt;openssl/evp.h&gt;
+ #include &lt;openssl/rsa.h&gt;
+
+ EVP_PKEY_CTX *ctx;
+ unsigned char *rout, *sig;
+ size_t routlen, siglen;
+ EVP_PKEY *verify_key;
+
+ /*
   * NB: assumes verify_key, sig and siglen are already set up
   * and that verify_key is an RSA public key
-  */</span>
- <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new</span><span class="operator">(</span><span class="variable">verify_key</span><span class="operator">,</span> <span class="variable">NULL</span> <span class="operator">/*</span> <span class="keyword">no</span> <span class="variable">engine</span> <span class="operator">*/);</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ctx</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="variable">occurred</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_verify_recover_init</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_rsa_padding</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">RSA_PKCS1_PADDING</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_signature_md</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">())</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- 
- <span class="regex">/* Determine buffer length */</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_verify_recover</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">routlen</span><span class="operator">,</span> <span class="variable">sig</span><span class="operator">,</span> <span class="variable">siglen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- 
- <span class="variable">rout</span> <span class="operator">=</span> <span class="variable">OPENSSL_malloc</span><span class="operator">(</span><span class="variable">routlen</span><span class="operator">);</span>
- 
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">rout</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">malloc</span> <span class="variable">failure</span> <span class="operator">*/</span>
- 
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_verify_recover</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">rout</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">routlen</span><span class="operator">,</span> <span class="variable">sig</span><span class="operator">,</span> <span class="variable">siglen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- 
- <span class="regex">/* Recovered data is routlen bytes written to buffer rout */</span>
-</code></pre>
+  */
+ ctx = EVP_PKEY_CTX_new(verify_key, NULL /* no engine */);
+ if (!ctx)
+     /* Error occurred */
+ if (EVP_PKEY_verify_recover_init(ctx) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_CTX_set_signature_md(ctx, EVP_sha256()) &lt;= 0)
+     /* Error */
+
+ /* Determine buffer length */
+ if (EVP_PKEY_verify_recover(ctx, NULL, &amp;routlen, sig, siglen) &lt;= 0)
+     /* Error */
+
+ rout = OPENSSL_malloc(routlen);
+
+ if (!rout)
+     /* malloc failure */
+
+ if (EVP_PKEY_verify_recover(ctx, rout, &amp;routlen, sig, siglen) &lt;= 0)
+     /* Error */
+
+ /* Recovered data is routlen bytes written to buffer rout */</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

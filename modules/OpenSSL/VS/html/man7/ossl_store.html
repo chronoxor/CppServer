@@ -62,31 +62,30 @@
 
 <h2 id="A-generic-call">A generic call</h2>
 
-<pre><code> <span class="variable">OSSL_STORE_CTX</span> <span class="variable">*ctx</span> <span class="operator">=</span> <span class="variable">OSSL_STORE_open</span><span class="operator">(</span><span class="string">"file:/foo/bar/data.pem"</span><span class="operator">);</span>
- 
- <span class="regex">/*
+<pre><code> OSSL_STORE_CTX *ctx = OSSL_STORE_open(&quot;file:/foo/bar/data.pem&quot;);
+
+ /*
   * OSSL_STORE_eof() simulates file semantics for any repository to signal
   * that no more data can be expected
-  */</span>
- <span class="keyword">while</span> <span class="operator">(!</span><span class="variable">OSSL_STORE_eof</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">))</span> <span class="operator">{</span>
-     <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*info</span> <span class="operator">=</span> <span class="variable">OSSL_STORE_load</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
- 
-     <span class="regex">/*
+  */
+ while (!OSSL_STORE_eof(ctx)) {
+     OSSL_STORE_INFO *info = OSSL_STORE_load(ctx);
+
+     /*
       * Do whatever is necessary with the OSSL_STORE_INFO,
       * here just one example
-      */</span>
-     <span class="variable">switch</span> <span class="operator">(</span><span class="variable">OSSL_STORE_INFO_get_type</span><span class="operator">(</span><span class="variable">info</span><span class="operator">))</span> <span class="operator">{</span>
-     <span class="variable">case</span> <span class="variable">OSSL_STORE_INFO_X509</span><span class="operator">:</span>
-         <span class="regex">/* Print the X.509 certificate text */</span>
-         <span class="variable">X509_print_fp</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">OSSL_STORE_INFO_get0_CERT</span><span class="operator">(</span><span class="variable">info</span><span class="operator">));</span>
-         <span class="regex">/* Print the X.509 certificate PEM output */</span>
-         <span class="variable">PEM_write_X509</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">OSSL_STORE_INFO_get0_CERT</span><span class="operator">(</span><span class="variable">info</span><span class="operator">));</span>
-         <span class="keyword">break</span><span class="operator">;</span>
-     <span class="operator">}</span>
- <span class="operator">}</span>
- 
- <span class="variable">OSSL_STORE_close</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-</code></pre>
+      */
+     switch (OSSL_STORE_INFO_get_type(info)) {
+     case OSSL_STORE_INFO_CERT:
+         /* Print the X.509 certificate text */
+         X509_print_fp(stdout, OSSL_STORE_INFO_get0_CERT(info));
+         /* Print the X.509 certificate PEM output */
+         PEM_write_X509(stdout, OSSL_STORE_INFO_get0_CERT(info));
+         break;
+     }
+ }
+
+ OSSL_STORE_close(ctx);</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
@@ -94,7 +93,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

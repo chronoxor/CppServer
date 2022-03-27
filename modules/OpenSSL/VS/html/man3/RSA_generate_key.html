@@ -28,19 +28,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_generate_key_ex</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_generate_multi_prime_key</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">primes</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rsa.h&gt;
+
+ int RSA_generate_key_ex(RSA *rsa, int bits, BIGNUM *e, BN_GENCB *cb);
+ int RSA_generate_multi_prime_key(RSA *rsa, int bits, int primes, BIGNUM *e, BN_GENCB *cb);</code></pre>
 
 <p>Deprecated:</p>
 
-<pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x00908000L</span>
- <span class="variable">RSA</span> <span class="variable">*RSA_generate_key</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">e</span><span class="operator">,</span>
-                       <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
- <span class="comment">#endif</span>
-</code></pre>
+<pre><code> #if OPENSSL_API_COMPAT &lt; 0x00908000L
+ RSA *RSA_generate_key(int bits, unsigned long e,
+                       void (*callback)(int, int, void *), void *cb_arg);
+ #endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

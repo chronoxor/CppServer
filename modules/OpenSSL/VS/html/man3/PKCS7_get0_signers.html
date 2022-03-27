@@ -29,13 +29,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/pkcs7.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">PKCS7_verify</span><span class="operator">(</span><span class="variable">PKCS7</span> <span class="variable">*p7</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*certs</span><span class="operator">,</span> <span class="variable">X509_STORE</span> <span class="variable">*store</span><span class="operator">,</span>
-                  <span class="variable">BIO</span> <span class="variable">*indata</span><span class="operator">,</span> <span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*PKCS7_get0_signers</span><span class="operator">(</span><span class="variable">PKCS7</span> <span class="variable">*p7</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*certs</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/pkcs7.h&gt;
+
+ int PKCS7_verify(PKCS7 *p7, STACK_OF(X509) *certs, X509_STORE *store,
+                  BIO *indata, BIO *out, int flags);
+
+ STACK_OF(X509) *PKCS7_get0_signers(PKCS7 *p7, STACK_OF(X509) *certs, int flags);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -28,24 +28,23 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/async.h&gt;</span>
- 
- <span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ASYNC_WAIT_CTX_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ASYNC_WAIT_CTX_free</span><span class="operator">(</span><span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASYNC_WAIT_CTX_set_wait_fd</span><span class="operator">(</span><span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*key</span><span class="operator">,</span>
-                                <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">fd</span><span class="operator">,</span>
-                                <span class="variable">void</span> <span class="variable">*custom_data</span><span class="operator">,</span>
-                                <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cleanup</span><span class="operator">)(</span><span class="variable">ASYNC_WAIT_CTX</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="operator">*,</span>
-                                                <span class="variable">OSSL_ASYNC_FD</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*));</span>
- <span class="keyword">int</span> <span class="variable">ASYNC_WAIT_CTX_get_fd</span><span class="operator">(</span><span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*key</span><span class="operator">,</span>
-                           <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*fd</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">**</span><span class="variable">custom_data</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASYNC_WAIT_CTX_get_all_fds</span><span class="operator">(</span><span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*fd</span><span class="operator">,</span>
-                                <span class="variable">size_t</span> <span class="variable">*numfds</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASYNC_WAIT_CTX_get_changed_fds</span><span class="operator">(</span><span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*addfd</span><span class="operator">,</span>
-                                    <span class="variable">size_t</span> <span class="variable">*numaddfds</span><span class="operator">,</span> <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*delfd</span><span class="operator">,</span>
-                                    <span class="variable">size_t</span> <span class="variable">*numdelfds</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASYNC_WAIT_CTX_clear_fd</span><span class="operator">(</span><span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*key</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/async.h&gt;
+
+ ASYNC_WAIT_CTX *ASYNC_WAIT_CTX_new(void);
+ void ASYNC_WAIT_CTX_free(ASYNC_WAIT_CTX *ctx);
+ int ASYNC_WAIT_CTX_set_wait_fd(ASYNC_WAIT_CTX *ctx, const void *key,
+                                OSSL_ASYNC_FD fd,
+                                void *custom_data,
+                                void (*cleanup)(ASYNC_WAIT_CTX *, const void *,
+                                                OSSL_ASYNC_FD, void *));
+ int ASYNC_WAIT_CTX_get_fd(ASYNC_WAIT_CTX *ctx, const void *key,
+                           OSSL_ASYNC_FD *fd, void **custom_data);
+ int ASYNC_WAIT_CTX_get_all_fds(ASYNC_WAIT_CTX *ctx, OSSL_ASYNC_FD *fd,
+                                size_t *numfds);
+ int ASYNC_WAIT_CTX_get_changed_fds(ASYNC_WAIT_CTX *ctx, OSSL_ASYNC_FD *addfd,
+                                    size_t *numaddfds, OSSL_ASYNC_FD *delfd,
+                                    size_t *numdelfds);
+ int ASYNC_WAIT_CTX_clear_fd(ASYNC_WAIT_CTX *ctx, const void *key);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

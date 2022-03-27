@@ -38,72 +38,71 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*EVP_CIPHER_CTX_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_reset</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EVP_CIPHER_CTX_free</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_EncryptInit_ex</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*type</span><span class="operator">,</span>
-                        <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_EncryptUpdate</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-                       <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">inl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_EncryptFinal_ex</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_DecryptInit_ex</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*type</span><span class="operator">,</span>
-                        <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_DecryptUpdate</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-                       <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">inl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_DecryptFinal_ex</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*outm</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_CipherInit_ex</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*type</span><span class="operator">,</span>
-                       <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CipherUpdate</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-                      <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">inl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CipherFinal_ex</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*outm</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_EncryptInit</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*type</span><span class="operator">,</span>
-                     <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_EncryptFinal</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_DecryptInit</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*type</span><span class="operator">,</span>
-                     <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_DecryptFinal</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*outm</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_CipherInit</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*type</span><span class="operator">,</span>
-                    <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CipherFinal</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*outm</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_set_padding</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_set_key_length</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">keylen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_ctrl</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">arg</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_rand_key</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*EVP_get_cipherbyname</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*EVP_get_cipherbynid</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*EVP_get_cipherbyobj</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_nid</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_block_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_key_length</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_iv_length</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">EVP_CIPHER_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">EVP_CIPHER_mode</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*EVP_CIPHER_CTX_cipher</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_nid</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_block_size</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_key_length</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_iv_length</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">*EVP_CIPHER_CTX_get_app_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EVP_CIPHER_CTX_set_app_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_CTX_mode</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_param_to_asn1</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">ASN1_TYPE</span> <span class="variable">*type</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_CIPHER_asn1_to_param</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">ASN1_TYPE</span> <span class="variable">*type</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ EVP_CIPHER_CTX *EVP_CIPHER_CTX_new(void);
+ int EVP_CIPHER_CTX_reset(EVP_CIPHER_CTX *ctx);
+ void EVP_CIPHER_CTX_free(EVP_CIPHER_CTX *ctx);
+
+ int EVP_EncryptInit_ex(EVP_CIPHER_CTX *ctx, const EVP_CIPHER *type,
+                        ENGINE *impl, const unsigned char *key, const unsigned char *iv);
+ int EVP_EncryptUpdate(EVP_CIPHER_CTX *ctx, unsigned char *out,
+                       int *outl, const unsigned char *in, int inl);
+ int EVP_EncryptFinal_ex(EVP_CIPHER_CTX *ctx, unsigned char *out, int *outl);
+
+ int EVP_DecryptInit_ex(EVP_CIPHER_CTX *ctx, const EVP_CIPHER *type,
+                        ENGINE *impl, const unsigned char *key, const unsigned char *iv);
+ int EVP_DecryptUpdate(EVP_CIPHER_CTX *ctx, unsigned char *out,
+                       int *outl, const unsigned char *in, int inl);
+ int EVP_DecryptFinal_ex(EVP_CIPHER_CTX *ctx, unsigned char *outm, int *outl);
+
+ int EVP_CipherInit_ex(EVP_CIPHER_CTX *ctx, const EVP_CIPHER *type,
+                       ENGINE *impl, const unsigned char *key, const unsigned char *iv, int enc);
+ int EVP_CipherUpdate(EVP_CIPHER_CTX *ctx, unsigned char *out,
+                      int *outl, const unsigned char *in, int inl);
+ int EVP_CipherFinal_ex(EVP_CIPHER_CTX *ctx, unsigned char *outm, int *outl);
+
+ int EVP_EncryptInit(EVP_CIPHER_CTX *ctx, const EVP_CIPHER *type,
+                     const unsigned char *key, const unsigned char *iv);
+ int EVP_EncryptFinal(EVP_CIPHER_CTX *ctx, unsigned char *out, int *outl);
+
+ int EVP_DecryptInit(EVP_CIPHER_CTX *ctx, const EVP_CIPHER *type,
+                     const unsigned char *key, const unsigned char *iv);
+ int EVP_DecryptFinal(EVP_CIPHER_CTX *ctx, unsigned char *outm, int *outl);
+
+ int EVP_CipherInit(EVP_CIPHER_CTX *ctx, const EVP_CIPHER *type,
+                    const unsigned char *key, const unsigned char *iv, int enc);
+ int EVP_CipherFinal(EVP_CIPHER_CTX *ctx, unsigned char *outm, int *outl);
+
+ int EVP_CIPHER_CTX_set_padding(EVP_CIPHER_CTX *x, int padding);
+ int EVP_CIPHER_CTX_set_key_length(EVP_CIPHER_CTX *x, int keylen);
+ int EVP_CIPHER_CTX_ctrl(EVP_CIPHER_CTX *ctx, int type, int arg, void *ptr);
+ int EVP_CIPHER_CTX_rand_key(EVP_CIPHER_CTX *ctx, unsigned char *key);
+
+ const EVP_CIPHER *EVP_get_cipherbyname(const char *name);
+ const EVP_CIPHER *EVP_get_cipherbynid(int nid);
+ const EVP_CIPHER *EVP_get_cipherbyobj(const ASN1_OBJECT *a);
+
+ int EVP_CIPHER_nid(const EVP_CIPHER *e);
+ int EVP_CIPHER_block_size(const EVP_CIPHER *e);
+ int EVP_CIPHER_key_length(const EVP_CIPHER *e);
+ int EVP_CIPHER_iv_length(const EVP_CIPHER *e);
+ unsigned long EVP_CIPHER_flags(const EVP_CIPHER *e);
+ unsigned long EVP_CIPHER_mode(const EVP_CIPHER *e);
+ int EVP_CIPHER_type(const EVP_CIPHER *ctx);
+
+ const EVP_CIPHER *EVP_CIPHER_CTX_cipher(const EVP_CIPHER_CTX *ctx);
+ int EVP_CIPHER_CTX_nid(const EVP_CIPHER_CTX *ctx);
+ int EVP_CIPHER_CTX_block_size(const EVP_CIPHER_CTX *ctx);
+ int EVP_CIPHER_CTX_key_length(const EVP_CIPHER_CTX *ctx);
+ int EVP_CIPHER_CTX_iv_length(const EVP_CIPHER_CTX *ctx);
+ void *EVP_CIPHER_CTX_get_app_data(const EVP_CIPHER_CTX *ctx);
+ void EVP_CIPHER_CTX_set_app_data(const EVP_CIPHER_CTX *ctx, void *data);
+ int EVP_CIPHER_CTX_type(const EVP_CIPHER_CTX *ctx);
+ int EVP_CIPHER_CTX_mode(const EVP_CIPHER_CTX *ctx);
+
+ int EVP_CIPHER_param_to_asn1(EVP_CIPHER_CTX *c, ASN1_TYPE *type);
+ int EVP_CIPHER_asn1_to_param(EVP_CIPHER_CTX *c, ASN1_TYPE *type);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -240,13 +239,13 @@
 <dt id="EVP_CIPHER_CTX_ctrl-ctx-EVP_CTRL_AEAD_SET_TAG-taglen-tag">EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_AEAD_SET_TAG, taglen, tag)</dt>
 <dd>
 
-<p>Sets the expected tag to <code>taglen</code> bytes from <code>tag</code>. The tag length can only be set before specifying an IV. <code>taglen</code> must be between 1 and 16 inclusive.</p>
+<p>When decrypting, this call sets the expected tag to <code>taglen</code> bytes from <code>tag</code>. <code>taglen</code> must be between 1 and 16 inclusive. The tag must be set prior to any call to EVP_DecryptFinal() or EVP_DecryptFinal_ex().</p>
 
 <p>For GCM, this call is only valid when decrypting data.</p>
 
-<p>For OCB, this call is valid when decrypting data to set the expected tag, and before encryption to set the desired tag length.</p>
+<p>For OCB, this call is valid when decrypting data to set the expected tag, and when encrypting to set the desired tag length.</p>
 
-<p>In OCB mode, calling this before encryption with <code>tag</code> set to <code>NULL</code> sets the tag length. If this is not called prior to encryption, a default tag length is used.</p>
+<p>In OCB mode, calling this when encrypting with <code>tag</code> set to <code>NULL</code> sets the tag length. The tag length can only be set before specifying an IV. If this is not called prior to setting the IV during encryption, then a default tag length is used.</p>
 
 <p>For OCB AES, the default tag length is 16 (i.e. 128 bits). It is also the maximum tag length for OCB.</p>
 
@@ -339,55 +338,54 @@
 
 <p>Encrypt a string using IDEA:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">do_crypt</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*outfile</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">outbuf</span><span class="operator">[</span><span class="number">1024</span><span class="operator">]</span><span class="operator">;</span>
-     <span class="keyword">int</span> <span class="variable">outlen</span><span class="operator">,</span> <span class="variable">tmplen</span><span class="operator">;</span>
-     <span class="regex">/*
-      * Bogus key and IV: we'd normally set these from
+<pre><code> int do_crypt(char *outfile)
+ {
+     unsigned char outbuf[1024];
+     int outlen, tmplen;
+     /*
+      * Bogus key and IV: we&#39;d normally set these from
       * another source.
-      */</span>
-     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">key</span><span class="operator">[]</span> <span class="operator">=</span> <span class="operator">{</span><span class="number">0</span><span class="operator">,</span><span class="number">1</span><span class="operator">,</span><span class="number">2</span><span class="operator">,</span><span class="number">3</span><span class="operator">,</span><span class="number">4</span><span class="operator">,</span><span class="number">5</span><span class="operator">,</span><span class="number">6</span><span class="operator">,</span><span class="number">7</span><span class="operator">,</span><span class="number">8</span><span class="operator">,</span><span class="number">9</span><span class="operator">,</span><span class="number">10</span><span class="operator">,</span><span class="number">11</span><span class="operator">,</span><span class="number">12</span><span class="operator">,</span><span class="number">13</span><span class="operator">,</span><span class="number">14</span><span class="operator">,</span><span class="number">15</span><span class="operator">}</span><span class="operator">;</span>
-     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">iv</span><span class="operator">[]</span> <span class="operator">=</span> <span class="operator">{</span><span class="number">1</span><span class="operator">,</span><span class="number">2</span><span class="operator">,</span><span class="number">3</span><span class="operator">,</span><span class="number">4</span><span class="operator">,</span><span class="number">5</span><span class="operator">,</span><span class="number">6</span><span class="operator">,</span><span class="number">7</span><span class="operator">,</span><span class="number">8</span><span class="operator">}</span><span class="operator">;</span>
-     <span class="variable">char</span> <span class="variable">intext</span><span class="operator">[]</span> <span class="operator">=</span> <span class="string">"Some Crypto Text"</span><span class="operator">;</span>
-     <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
-     <span class="variable">FILE</span> <span class="variable">*out</span><span class="operator">;</span>
- 
-     <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">EVP_CIPHER_CTX_new</span><span class="operator">();</span>
-     <span class="variable">EVP_EncryptInit_ex</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_idea_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">,</span> <span class="variable">iv</span><span class="operator">);</span>
- 
-     <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">EVP_EncryptUpdate</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">outbuf</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">outlen</span><span class="operator">,</span> <span class="variable">intext</span><span class="operator">,</span> <span class="variable">strlen</span><span class="operator">(</span><span class="variable">intext</span><span class="operator">)))</span> <span class="operator">{</span>
-         <span class="regex">/* Error */</span>
-         <span class="variable">EVP_CIPHER_CTX_free</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="regex">/*
+      */
+     unsigned char key[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+     unsigned char iv[] = {1,2,3,4,5,6,7,8};
+     char intext[] = &quot;Some Crypto Text&quot;;
+     EVP_CIPHER_CTX *ctx;
+     FILE *out;
+
+     ctx = EVP_CIPHER_CTX_new();
+     EVP_EncryptInit_ex(ctx, EVP_idea_cbc(), NULL, key, iv);
+
+     if (!EVP_EncryptUpdate(ctx, outbuf, &amp;outlen, intext, strlen(intext))) {
+         /* Error */
+         EVP_CIPHER_CTX_free(ctx);
+         return 0;
+     }
+     /*
       * Buffer passed to EVP_EncryptFinal() must be after data just
       * encrypted to avoid overwriting it.
-      */</span>
-     <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">EVP_EncryptFinal_ex</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">outbuf</span> <span class="operator">+</span> <span class="variable">outlen</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">tmplen</span><span class="operator">))</span> <span class="operator">{</span>
-         <span class="regex">/* Error */</span>
-         <span class="variable">EVP_CIPHER_CTX_free</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="variable">outlen</span> <span class="operator">+=</span> <span class="variable">tmplen</span><span class="operator">;</span>
-     <span class="variable">EVP_CIPHER_CTX_free</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-     <span class="regex">/*
+      */
+     if (!EVP_EncryptFinal_ex(ctx, outbuf + outlen, &amp;tmplen)) {
+         /* Error */
+         EVP_CIPHER_CTX_free(ctx);
+         return 0;
+     }
+     outlen += tmplen;
+     EVP_CIPHER_CTX_free(ctx);
+     /*
       * Need binary mode for fopen because encrypted data is
       * binary data. Also cannot use strlen() on it because
-      * it won't be NUL terminated and may contain embedded
+      * it won&#39;t be NUL terminated and may contain embedded
       * NULs.
-      */</span>
-     <span class="variable">out</span> <span class="operator">=</span> <span class="variable">fopen</span><span class="operator">(</span><span class="variable">outfile</span><span class="operator">,</span> <span class="string">"wb"</span><span class="operator">);</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">out</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="regex">/* Error */</span>
-         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="variable">fwrite</span><span class="operator">(</span><span class="variable">outbuf</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="variable">outlen</span><span class="operator">,</span> <span class="variable">out</span><span class="operator">);</span>
-     <span class="variable">fclose</span><span class="operator">(</span><span class="variable">out</span><span class="operator">);</span>
-     <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
- <span class="operator">}</span>
-</code></pre>
+      */
+     out = fopen(outfile, &quot;wb&quot;);
+     if (out == NULL) {
+         /* Error */
+         return 0;
+     }
+     fwrite(outbuf, 1, outlen, out);
+     fclose(out);
+     return 1;
+ }</code></pre>
 
 <p>The ciphertext from the above example can be decrypted using the <b>openssl</b> utility with the command line (shown on two lines for clarity):</p>
 
@@ -396,51 +394,50 @@
 
 <p>General encryption and decryption function example using FILE I/O and AES128 with a 128-bit key:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">do_crypt</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">FILE</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">do_encrypt</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="regex">/* Allow enough space in output buffer for additional block */</span>
-     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">inbuf</span><span class="operator">[</span><span class="number">1024</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">outbuf</span><span class="operator">[</span><span class="number">1024</span> <span class="operator">+</span> <span class="variable">EVP_MAX_BLOCK_LENGTH</span><span class="operator">]</span><span class="operator">;</span>
-     <span class="keyword">int</span> <span class="variable">inlen</span><span class="operator">,</span> <span class="variable">outlen</span><span class="operator">;</span>
-     <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
-     <span class="regex">/*
-      * Bogus key and IV: we'd normally set these from
+<pre><code> int do_crypt(FILE *in, FILE *out, int do_encrypt)
+ {
+     /* Allow enough space in output buffer for additional block */
+     unsigned char inbuf[1024], outbuf[1024 + EVP_MAX_BLOCK_LENGTH];
+     int inlen, outlen;
+     EVP_CIPHER_CTX *ctx;
+     /*
+      * Bogus key and IV: we&#39;d normally set these from
       * another source.
-      */</span>
-     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">key</span><span class="operator">[]</span> <span class="operator">=</span> <span class="string">"0123456789abcdeF"</span><span class="operator">;</span>
-     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">iv</span><span class="operator">[]</span> <span class="operator">=</span> <span class="string">"1234567887654321"</span><span class="operator">;</span>
- 
-     <span class="regex">/* Don't set key or IV right away; we want to check lengths */</span>
-     <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">EVP_CIPHER_CTX_new</span><span class="operator">();</span>
-     <span class="variable">EVP_CipherInit_ex</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_aes_128_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span>
-                       <span class="variable">do_encrypt</span><span class="operator">);</span>
-     <span class="variable">OPENSSL_assert</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX_key_length</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">16</span><span class="operator">);</span>
-     <span class="variable">OPENSSL_assert</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX_iv_length</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">16</span><span class="operator">);</span>
- 
-     <span class="regex">/* Now we can set key and IV */</span>
-     <span class="variable">EVP_CipherInit_ex</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">,</span> <span class="variable">iv</span><span class="operator">,</span> <span class="variable">do_encrypt</span><span class="operator">);</span>
- 
-     <span class="keyword">for</span> <span class="operator">(;;)</span> <span class="operator">{</span>
-         <span class="variable">inlen</span> <span class="operator">=</span> <span class="variable">fread</span><span class="operator">(</span><span class="variable">inbuf</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1024</span><span class="operator">,</span> <span class="variable">in</span><span class="operator">);</span>
-         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">inlen</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-             <span class="keyword">break</span><span class="operator">;</span>
-         <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">EVP_CipherUpdate</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">outbuf</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">outlen</span><span class="operator">,</span> <span class="variable">inbuf</span><span class="operator">,</span> <span class="variable">inlen</span><span class="operator">))</span> <span class="operator">{</span>
-             <span class="regex">/* Error */</span>
-             <span class="variable">EVP_CIPHER_CTX_free</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-             <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-         <span class="operator">}</span>
-         <span class="variable">fwrite</span><span class="operator">(</span><span class="variable">outbuf</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="variable">outlen</span><span class="operator">,</span> <span class="variable">out</span><span class="operator">);</span>
-     <span class="operator">}</span>
-     <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">EVP_CipherFinal_ex</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">outbuf</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">outlen</span><span class="operator">))</span> <span class="operator">{</span>
-         <span class="regex">/* Error */</span>
-         <span class="variable">EVP_CIPHER_CTX_free</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="variable">fwrite</span><span class="operator">(</span><span class="variable">outbuf</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="variable">outlen</span><span class="operator">,</span> <span class="variable">out</span><span class="operator">);</span>
- 
-     <span class="variable">EVP_CIPHER_CTX_free</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-     <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
- <span class="operator">}</span>
-</code></pre>
+      */
+     unsigned char key[] = &quot;0123456789abcdeF&quot;;
+     unsigned char iv[] = &quot;1234567887654321&quot;;
+
+     /* Don&#39;t set key or IV right away; we want to check lengths */
+     ctx = EVP_CIPHER_CTX_new();
+     EVP_CipherInit_ex(ctx, EVP_aes_128_cbc(), NULL, NULL, NULL,
+                       do_encrypt);
+     OPENSSL_assert(EVP_CIPHER_CTX_key_length(ctx) == 16);
+     OPENSSL_assert(EVP_CIPHER_CTX_iv_length(ctx) == 16);
+
+     /* Now we can set key and IV */
+     EVP_CipherInit_ex(ctx, NULL, NULL, key, iv, do_encrypt);
+
+     for (;;) {
+         inlen = fread(inbuf, 1, 1024, in);
+         if (inlen &lt;= 0)
+             break;
+         if (!EVP_CipherUpdate(ctx, outbuf, &amp;outlen, inbuf, inlen)) {
+             /* Error */
+             EVP_CIPHER_CTX_free(ctx);
+             return 0;
+         }
+         fwrite(outbuf, 1, outlen, out);
+     }
+     if (!EVP_CipherFinal_ex(ctx, outbuf, &amp;outlen)) {
+         /* Error */
+         EVP_CIPHER_CTX_free(ctx);
+         return 0;
+     }
+     fwrite(outbuf, 1, outlen, out);
+
+     EVP_CIPHER_CTX_free(ctx);
+     return 1;
+ }</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
@@ -458,7 +455,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

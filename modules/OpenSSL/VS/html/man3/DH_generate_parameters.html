@@ -27,25 +27,23 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dh.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">DH_generate_parameters_ex</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">prime_len</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">generator</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">DH_check</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*codes</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">DH_check_params</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*codes</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">DH_check_ex</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">DH_check_params_ex</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">DH_check_pub_key_ex</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*pub_key</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dh.h&gt;
+
+ int DH_generate_parameters_ex(DH *dh, int prime_len, int generator, BN_GENCB *cb);
+
+ int DH_check(DH *dh, int *codes);
+ int DH_check_params(DH *dh, int *codes);
+
+ int DH_check_ex(const DH *dh);
+ int DH_check_params_ex(const DH *dh);
+ int DH_check_pub_key_ex(const DH *dh, const BIGNUM *pub_key);</code></pre>
 
 <p>Deprecated:</p>
 
-<pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x00908000L</span>
- <span class="variable">DH</span> <span class="variable">*DH_generate_parameters</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">prime_len</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">generator</span><span class="operator">,</span>
-                            <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
- <span class="comment">#endif</span>
-</code></pre>
+<pre><code> #if OPENSSL_API_COMPAT &lt; 0x00908000L
+ DH *DH_generate_parameters(int prime_len, int generator,
+                            void (*callback)(int, int, void *), void *cb_arg);
+ #endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

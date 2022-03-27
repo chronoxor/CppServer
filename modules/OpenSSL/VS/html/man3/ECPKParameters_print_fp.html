@@ -26,11 +26,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ec.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">ECPKParameters_print</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">off</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ECPKParameters_print_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">off</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ec.h&gt;
+
+ int ECPKParameters_print(BIO *bp, const EC_GROUP *x, int off);
+ int ECPKParameters_print_fp(FILE *fp, const EC_GROUP *x, int off);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

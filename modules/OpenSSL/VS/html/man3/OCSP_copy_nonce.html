@@ -27,13 +27,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ocsp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_request_add1_nonce</span><span class="operator">(</span><span class="variable">OCSP_REQUEST</span> <span class="variable">*req</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*val</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OCSP_basic_add1_nonce</span><span class="operator">(</span><span class="variable">OCSP_BASICRESP</span> <span class="variable">*resp</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*val</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OCSP_copy_nonce</span><span class="operator">(</span><span class="variable">OCSP_BASICRESP</span> <span class="variable">*resp</span><span class="operator">,</span> <span class="variable">OCSP_REQUEST</span> <span class="variable">*req</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OCSP_check_nonce</span><span class="operator">(</span><span class="variable">OCSP_REQUEST</span> <span class="variable">*req</span><span class="operator">,</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*resp</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ocsp.h&gt;
+
+ int OCSP_request_add1_nonce(OCSP_REQUEST *req, unsigned char *val, int len);
+ int OCSP_basic_add1_nonce(OCSP_BASICRESP *resp, unsigned char *val, int len);
+ int OCSP_copy_nonce(OCSP_BASICRESP *resp, OCSP_REQUEST *req);
+ int OCSP_check_nonce(OCSP_REQUEST *req, OCSP_BASICRESP *resp);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -28,26 +28,25 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="variable">*BIO_f_ssl</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">BIO_set_ssl</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">c</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_get_ssl</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">SSL</span> <span class="operator">**</span><span class="variable">sslp</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_ssl_mode</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">client</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_ssl_renegotiate_bytes</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">num</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_ssl_renegotiate_timeout</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">seconds</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_get_num_renegotiates</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="variable">BIO</span> <span class="variable">*BIO_new_ssl</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">client</span><span class="operator">);</span>
- <span class="variable">BIO</span> <span class="variable">*BIO_new_ssl_connect</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">BIO</span> <span class="variable">*BIO_new_buffer_ssl_connect</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_ssl_copy_session_id</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">BIO</span> <span class="variable">*from</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">BIO_ssl_shutdown</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bio</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">BIO_do_handshake</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+ #include &lt;openssl/ssl.h&gt;
+
+ const BIO_METHOD *BIO_f_ssl(void);
+
+ long BIO_set_ssl(BIO *b, SSL *ssl, long c);
+ long BIO_get_ssl(BIO *b, SSL **sslp);
+ long BIO_set_ssl_mode(BIO *b, long client);
+ long BIO_set_ssl_renegotiate_bytes(BIO *b, long num);
+ long BIO_set_ssl_renegotiate_timeout(BIO *b, long seconds);
+ long BIO_get_num_renegotiates(BIO *b);
+
+ BIO *BIO_new_ssl(SSL_CTX *ctx, int client);
+ BIO *BIO_new_ssl_connect(SSL_CTX *ctx);
+ BIO *BIO_new_buffer_ssl_connect(SSL_CTX *ctx);
+ int BIO_ssl_copy_session_id(BIO *to, BIO *from);
+ void BIO_ssl_shutdown(BIO *bio);
+
+ long BIO_do_handshake(BIO *b);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -61,23 +60,23 @@
 
 <p>If the close flag is set when an SSL BIO is freed then the internal SSL structure is also freed using SSL_free().</p>
 
-<p>BIO_set_ssl() sets the internal SSL pointer of BIO <b>b</b> to <b>ssl</b> using the close flag <b>c</b>.</p>
+<p>BIO_set_ssl() sets the internal SSL pointer of SSL BIO <b>b</b> to <b>ssl</b> using the close flag <b>c</b>.</p>
 
-<p>BIO_get_ssl() retrieves the SSL pointer of BIO <b>b</b>, it can then be manipulated using the standard SSL library functions.</p>
+<p>BIO_get_ssl() retrieves the SSL pointer of SSL BIO <b>b</b>, it can then be manipulated using the standard SSL library functions.</p>
 
 <p>BIO_set_ssl_mode() sets the SSL BIO mode to <b>client</b>. If <b>client</b> is 1 client mode is set. If <b>client</b> is 0 server mode is set.</p>
 
-<p>BIO_set_ssl_renegotiate_bytes() sets the renegotiate byte count to <b>num</b>. When set after every <b>num</b> bytes of I/O (read and write) the SSL session is automatically renegotiated. <b>num</b> must be at least 512 bytes.</p>
+<p>BIO_set_ssl_renegotiate_bytes() sets the renegotiate byte count of SSL BIO <b>b</b> to <b>num</b>. When set after every <b>num</b> bytes of I/O (read and write) the SSL session is automatically renegotiated. <b>num</b> must be at least 512 bytes.</p>
 
-<p>BIO_set_ssl_renegotiate_timeout() sets the renegotiate timeout to <b>seconds</b>. When the renegotiate timeout elapses the session is automatically renegotiated.</p>
+<p>BIO_set_ssl_renegotiate_timeout() sets the renegotiate timeout of SSL BIO <b>b</b> to <b>seconds</b>. When the renegotiate timeout elapses the session is automatically renegotiated.</p>
 
-<p>BIO_get_num_renegotiates() returns the total number of session renegotiations due to I/O or timeout.</p>
+<p>BIO_get_num_renegotiates() returns the total number of session renegotiations due to I/O or timeout of SSL BIO <b>b</b>.</p>
 
 <p>BIO_new_ssl() allocates an SSL BIO using SSL_CTX <b>ctx</b> and using client mode if <b>client</b> is non zero.</p>
 
 <p>BIO_new_ssl_connect() creates a new BIO chain consisting of an SSL BIO (using <b>ctx</b>) followed by a connect BIO.</p>
 
-<p>BIO_new_buffer_ssl_connect() creates a new BIO chain consisting of a buffering BIO, an SSL BIO (using <b>ctx</b>) and a connect BIO.</p>
+<p>BIO_new_buffer_ssl_connect() creates a new BIO chain consisting of a buffering BIO, an SSL BIO (using <b>ctx</b>), and a connect BIO.</p>
 
 <p>BIO_ssl_copy_session_id() copies an SSL session id between BIO chains <b>from</b> and <b>to</b>. It does this by locating the SSL BIOs in each chain and calling SSL_copy_session_id() on the internal SSL pointer.</p>
 
@@ -113,135 +112,133 @@
 
 <p>This SSL/TLS client example attempts to retrieve a page from an SSL/TLS web server. The I/O routines are identical to those of the unencrypted example in <a href="../man3/BIO_s_connect.html">BIO_s_connect(3)</a>.</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*sbio</span><span class="operator">,</span> <span class="variable">*out</span><span class="operator">;</span>
- <span class="keyword">int</span> <span class="variable">len</span><span class="operator">;</span>
- <span class="variable">char</span> <span class="variable">tmpbuf</span><span class="operator">[</span><span class="number">1024</span><span class="operator">]</span><span class="operator">;</span>
- <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
- <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">;</span>
- 
- <span class="regex">/* XXX Seed the PRNG if needed. */</span>
- 
- <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">SSL_CTX_new</span><span class="operator">(</span><span class="variable">TLS_client_method</span><span class="operator">());</span>
- 
- <span class="regex">/* XXX Set verify paths and mode here. */</span>
- 
- <span class="variable">sbio</span> <span class="operator">=</span> <span class="variable">BIO_new_ssl_connect</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
- <span class="variable">BIO_get_ssl</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">ssl</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ssl</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Can't locate SSL pointer\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="regex">/* Don't want any retries */</span>
- <span class="variable">SSL_set_mode</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">,</span> <span class="variable">SSL_MODE_AUTO_RETRY</span><span class="operator">);</span>
- 
- <span class="regex">/* XXX We might want to do other things with ssl here */</span>
- 
- <span class="operator">/*</span> <span class="variable">An</span> <span class="variable">empty</span> <span class="variable">host</span> <span class="variable">part</span> <span class="variable">means</span> <span class="variable">the</span> <span class="variable">loopback</span> <span class="variable">address</span> <span class="operator">*/</span>
- <span class="variable">BIO_set_conn_hostname</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="string">":https"</span><span class="operator">);</span>
- 
- <span class="variable">out</span> <span class="operator">=</span> <span class="variable">BIO_new_fp</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">BIO_NOCLOSE</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">BIO_do_connect</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error connecting to server\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="regex">/* XXX Could examine ssl here to get connection info */</span>
- 
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="string">"GET / HTTP/1.0\n\n"</span><span class="operator">);</span>
- <span class="keyword">for</span> <span class="operator">(;;)</span> <span class="operator">{</span>
-     <span class="variable">len</span> <span class="operator">=</span> <span class="variable">BIO_read</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="variable">tmpbuf</span><span class="operator">,</span> <span class="number">1024</span><span class="operator">);</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">len</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-         <span class="keyword">break</span><span class="operator">;</span>
-     <span class="variable">BIO_write</span><span class="operator">(</span><span class="variable">out</span><span class="operator">,</span> <span class="variable">tmpbuf</span><span class="operator">,</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="operator">}</span>
- <span class="variable">BIO_free_all</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">);</span>
- <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">out</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *sbio, *out;
+ int len;
+ char tmpbuf[1024];
+ SSL_CTX *ctx;
+ SSL *ssl;
+
+ /* XXX Seed the PRNG if needed. */
+
+ ctx = SSL_CTX_new(TLS_client_method());
+
+ /* XXX Set verify paths and mode here. */
+
+ sbio = BIO_new_ssl_connect(ctx);
+ BIO_get_ssl(sbio, &amp;ssl);
+ if (ssl == NULL) {
+     fprintf(stderr, &quot;Can&#39;t locate SSL pointer\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+
+ /* Don&#39;t want any retries */
+ SSL_set_mode(ssl, SSL_MODE_AUTO_RETRY);
+
+ /* XXX We might want to do other things with ssl here */
+
+ /* An empty host part means the loopback address */
+ BIO_set_conn_hostname(sbio, &quot;:https&quot;);
+
+ out = BIO_new_fp(stdout, BIO_NOCLOSE);
+ if (BIO_do_connect(sbio) &lt;= 0) {
+     fprintf(stderr, &quot;Error connecting to server\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+
+ /* XXX Could examine ssl here to get connection info */
+
+ BIO_puts(sbio, &quot;GET / HTTP/1.0\n\n&quot;);
+ for (;;) {
+     len = BIO_read(sbio, tmpbuf, 1024);
+     if (len &lt;= 0)
+         break;
+     BIO_write(out, tmpbuf, len);
+ }
+ BIO_free_all(sbio);
+ BIO_free(out);</code></pre>
 
 <p>Here is a simple server example. It makes use of a buffering BIO to allow lines to be read from the SSL BIO using BIO_gets. It creates a pseudo web page containing the actual request from a client and also echoes the request to standard output.</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*sbio</span><span class="operator">,</span> <span class="variable">*bbio</span><span class="operator">,</span> <span class="variable">*acpt</span><span class="operator">,</span> <span class="variable">*out</span><span class="operator">;</span>
- <span class="keyword">int</span> <span class="variable">len</span><span class="operator">;</span>
- <span class="variable">char</span> <span class="variable">tmpbuf</span><span class="operator">[</span><span class="number">1024</span><span class="operator">]</span><span class="operator">;</span>
- <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
- <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">;</span>
- 
- <span class="regex">/* XXX Seed the PRNG if needed. */</span>
- 
- <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">SSL_CTX_new</span><span class="operator">(</span><span class="variable">TLS_server_method</span><span class="operator">());</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">SSL_CTX_use_certificate_file</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"server.pem"</span><span class="operator">,</span> <span class="variable">SSL_FILETYPE_PEM</span><span class="operator">)</span>
-         <span class="operator">||</span> <span class="operator">!</span><span class="variable">SSL_CTX_use_PrivateKey_file</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"server.pem"</span><span class="operator">,</span> <span class="variable">SSL_FILETYPE_PEM</span><span class="operator">)</span>
-         <span class="operator">||</span> <span class="operator">!</span><span class="variable">SSL_CTX_check_private_key</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">))</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error setting up SSL_CTX\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="regex">/* XXX Other things like set verify locations, EDH temp callbacks. */</span>
- 
- <span class="operator">/*</span> <span class="variable">New</span> <span class="variable">SSL</span> <span class="variable">BIO</span> <span class="variable">setup</span> <span class="variable">as</span> <span class="variable">server</span> <span class="operator">*/</span>
- <span class="variable">sbio</span> <span class="operator">=</span> <span class="variable">BIO_new_ssl</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
- <span class="variable">BIO_get_ssl</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">ssl</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ssl</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Can't locate SSL pointer\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="variable">SSL_set_mode</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">,</span> <span class="variable">SSL_MODE_AUTO_RETRY</span><span class="operator">);</span>
- <span class="variable">bbio</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_f_buffer</span><span class="operator">());</span>
- <span class="variable">sbio</span> <span class="operator">=</span> <span class="variable">BIO_push</span><span class="operator">(</span><span class="variable">bbio</span><span class="operator">,</span> <span class="variable">sbio</span><span class="operator">);</span>
- <span class="variable">acpt</span> <span class="operator">=</span> <span class="variable">BIO_new_accept</span><span class="operator">(</span><span class="string">"4433"</span><span class="operator">);</span>
- 
- <span class="regex">/*
+<pre><code> BIO *sbio, *bbio, *acpt, *out;
+ int len;
+ char tmpbuf[1024];
+ SSL_CTX *ctx;
+ SSL *ssl;
+
+ /* XXX Seed the PRNG if needed. */
+
+ ctx = SSL_CTX_new(TLS_server_method());
+ if (!SSL_CTX_use_certificate_file(ctx, &quot;server.pem&quot;, SSL_FILETYPE_PEM)
+         || !SSL_CTX_use_PrivateKey_file(ctx, &quot;server.pem&quot;, SSL_FILETYPE_PEM)
+         || !SSL_CTX_check_private_key(ctx)) {
+     fprintf(stderr, &quot;Error setting up SSL_CTX\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+
+ /* XXX Other things like set verify locations, EDH temp callbacks. */
+
+ /* New SSL BIO setup as server */
+ sbio = BIO_new_ssl(ctx, 0);
+ BIO_get_ssl(sbio, &amp;ssl);
+ if (ssl == NULL) {
+     fprintf(stderr, &quot;Can&#39;t locate SSL pointer\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+
+ SSL_set_mode(ssl, SSL_MODE_AUTO_RETRY);
+ bbio = BIO_new(BIO_f_buffer());
+ sbio = BIO_push(bbio, sbio);
+ acpt = BIO_new_accept(&quot;4433&quot;);
+
+ /*
   * By doing this when a new connection is established
   * we automatically have sbio inserted into it. The
-  * BIO chain is now 'swallowed' by the accept BIO and
+  * BIO chain is now &#39;swallowed&#39; by the accept BIO and
   * will be freed when the accept BIO is freed.
-  */</span>
- <span class="variable">BIO_set_accept_bios</span><span class="operator">(</span><span class="variable">acpt</span><span class="operator">,</span> <span class="variable">sbio</span><span class="operator">);</span>
- <span class="variable">out</span> <span class="operator">=</span> <span class="variable">BIO_new_fp</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">BIO_NOCLOSE</span><span class="operator">);</span>
- 
- <span class="regex">/* Setup accept BIO */</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">BIO_do_accept</span><span class="operator">(</span><span class="variable">acpt</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error setting up accept BIO\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="regex">/* We only want one connection so remove and free accept BIO */</span>
- <span class="variable">sbio</span> <span class="operator">=</span> <span class="variable">BIO_pop</span><span class="operator">(</span><span class="variable">acpt</span><span class="operator">);</span>
- <span class="variable">BIO_free_all</span><span class="operator">(</span><span class="variable">acpt</span><span class="operator">);</span>
- 
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">BIO_do_handshake</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error in SSL handshake\n"</span><span class="operator">);</span>
-     <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-     <span class="keyword">exit</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="string">"HTTP/1.0 200 OK\r\nContent-type: text/plain\r\n\r\n"</span><span class="operator">);</span>
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="string">"\r\nConnection Established\r\nRequest headers:\r\n"</span><span class="operator">);</span>
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="string">"--------------------------------------------------\r\n"</span><span class="operator">);</span>
- 
- <span class="keyword">for</span> <span class="operator">(;;)</span> <span class="operator">{</span>
-     <span class="variable">len</span> <span class="operator">=</span> <span class="variable">BIO_gets</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="variable">tmpbuf</span><span class="operator">,</span> <span class="number">1024</span><span class="operator">);</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">len</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-         <span class="keyword">break</span><span class="operator">;</span>
-     <span class="variable">BIO_write</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="variable">tmpbuf</span><span class="operator">,</span> <span class="variable">len</span><span class="operator">);</span>
-     <span class="variable">BIO_write</span><span class="operator">(</span><span class="variable">out</span><span class="operator">,</span> <span class="variable">tmpbuf</span><span class="operator">,</span> <span class="variable">len</span><span class="operator">);</span>
-     <span class="regex">/* Look for blank line signifying end of headers*/</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">tmpbuf</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span> <span class="operator">==</span> <span class="string">'\r'</span> <span class="operator">||</span> <span class="variable">tmpbuf</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span> <span class="operator">==</span> <span class="string">'\n'</span><span class="operator">)</span>
-         <span class="keyword">break</span><span class="operator">;</span>
- <span class="operator">}</span>
- 
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="string">"--------------------------------------------------\r\n"</span><span class="operator">);</span>
- <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">,</span> <span class="string">"\r\n"</span><span class="operator">);</span>
- <span class="variable">BIO_flush</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">);</span>
- <span class="variable">BIO_free_all</span><span class="operator">(</span><span class="variable">sbio</span><span class="operator">);</span>
-</code></pre>
+  */
+ BIO_set_accept_bios(acpt, sbio);
+ out = BIO_new_fp(stdout, BIO_NOCLOSE);
+
+ /* Setup accept BIO */
+ if (BIO_do_accept(acpt) &lt;= 0) {
+     fprintf(stderr, &quot;Error setting up accept BIO\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+
+ /* We only want one connection so remove and free accept BIO */
+ sbio = BIO_pop(acpt);
+ BIO_free_all(acpt);
+
+ if (BIO_do_handshake(sbio) &lt;= 0) {
+     fprintf(stderr, &quot;Error in SSL handshake\n&quot;);
+     ERR_print_errors_fp(stderr);
+     exit(1);
+ }
+
+ BIO_puts(sbio, &quot;HTTP/1.0 200 OK\r\nContent-type: text/plain\r\n\r\n&quot;);
+ BIO_puts(sbio, &quot;\r\nConnection Established\r\nRequest headers:\r\n&quot;);
+ BIO_puts(sbio, &quot;--------------------------------------------------\r\n&quot;);
+
+ for (;;) {
+     len = BIO_gets(sbio, tmpbuf, 1024);
+     if (len &lt;= 0)
+         break;
+     BIO_write(sbio, tmpbuf, len);
+     BIO_write(out, tmpbuf, len);
+     /* Look for blank line signifying end of headers*/
+     if (tmpbuf[0] == &#39;\r&#39; || tmpbuf[0] == &#39;\n&#39;)
+         break;
+ }
+
+ BIO_puts(sbio, &quot;--------------------------------------------------\r\n&quot;);
+ BIO_puts(sbio, &quot;\r\n&quot;);
+ BIO_flush(sbio);
+ BIO_free_all(sbio);</code></pre>
 
 <h1 id="HISTORY">HISTORY</h1>
 

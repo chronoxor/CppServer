@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_quiet_shutdown</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">mode</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_get_quiet_shutdown</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_set_quiet_shutdown</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">mode</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_quiet_shutdown</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_quiet_shutdown(SSL_CTX *ctx, int mode);
+ int SSL_CTX_get_quiet_shutdown(const SSL_CTX *ctx);
+
+ void SSL_set_quiet_shutdown(SSL *ssl, int mode);
+ int SSL_get_quiet_shutdown(const SSL *ssl);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -27,12 +27,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">OPENSSL_fork_prepare</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">OPENSSL_fork_parent</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">OPENSSL_fork_child</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/crypto.h&gt;
+
+ void OPENSSL_fork_prepare(void);
+ void OPENSSL_fork_parent(void);
+ void OPENSSL_fork_child(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

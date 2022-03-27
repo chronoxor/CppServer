@@ -27,13 +27,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="variable">X509</span> <span class="variable">*X509_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_free</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_up_ref</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*X509_chain_up_ref</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*x</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ X509 *X509_new(void);
+ void X509_free(X509 *a);
+ int X509_up_ref(X509 *a);
+ STACK_OF(X509) *X509_chain_up_ref(STACK_OF(X509) *x);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

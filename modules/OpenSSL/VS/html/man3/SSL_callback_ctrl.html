@@ -26,14 +26,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_ctrl</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">cmd</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">larg</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*parg</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_callback_ctrl</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="operator">*,</span> <span class="keyword">int</span> <span class="variable">cmd</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*fp</span><span class="operator">)());</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_ctrl</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">cmd</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">larg</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*parg</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_callback_ctrl</span><span class="operator">(</span><span class="variable">SSL</span> <span class="operator">*,</span> <span class="keyword">int</span> <span class="variable">cmd</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*fp</span><span class="operator">)());</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_CTX_ctrl(SSL_CTX *ctx, int cmd, long larg, void *parg);
+ long SSL_CTX_callback_ctrl(SSL_CTX *, int cmd, void (*fp)());
+
+ long SSL_ctrl(SSL *ssl, int cmd, long larg, void *parg);
+ long SSL_callback_ctrl(SSL *, int cmd, void (*fp)());</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

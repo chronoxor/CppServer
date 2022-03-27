@@ -27,13 +27,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_NAME_print_ex</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*nm</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_NAME_print_ex_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*nm</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*X509_NAME_oneline</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_NAME_print</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">obase</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ int X509_NAME_print_ex(BIO *out, const X509_NAME *nm, int indent, unsigned long flags);
+ int X509_NAME_print_ex_fp(FILE *fp, const X509_NAME *nm, int indent, unsigned long flags);
+ char *X509_NAME_oneline(const X509_NAME *a, char *buf, int size);
+ int X509_NAME_print(BIO *bp, const X509_NAME *name, int obase);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

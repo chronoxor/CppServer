@@ -29,10 +29,9 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/pkcs7.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">i2d_PKCS7_bio_stream</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">PKCS7</span> <span class="variable">*p7</span><span class="operator">,</span> <span class="variable">BIO</span> <span class="variable">*data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/pkcs7.h&gt;
+
+ int i2d_PKCS7_bio_stream(BIO *out, PKCS7 *p7, BIO *data, int flags);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

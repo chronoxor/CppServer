@@ -28,14 +28,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/async.h&gt;</span>
- <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_waiting_for_async</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_all_async_fds</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*fd</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*numfds</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_changed_async_fds</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*addfd</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*numaddfds</span><span class="operator">,</span>
-                               <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*delfd</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*numdelfds</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/async.h&gt;
+ #include &lt;openssl/ssl.h&gt;
+
+ int SSL_waiting_for_async(SSL *s);
+ int SSL_get_all_async_fds(SSL *s, OSSL_ASYNC_FD *fd, size_t *numfds);
+ int SSL_get_changed_async_fds(SSL *s, OSSL_ASYNC_FD *addfd, size_t *numaddfds,
+                               OSSL_ASYNC_FD *delfd, size_t *numdelfds);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

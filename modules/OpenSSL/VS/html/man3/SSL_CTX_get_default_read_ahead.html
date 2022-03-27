@@ -27,15 +27,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_set_read_ahead</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">yes</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_read_ahead</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- 
- <span class="variable">SSL_CTX_set_read_ahead</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">yes</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_get_read_ahead</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_get_default_read_ahead</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_set_read_ahead(SSL *s, int yes);
+ int SSL_get_read_ahead(const SSL *s);
+
+ SSL_CTX_set_read_ahead(SSL_CTX *ctx, int yes);
+ long SSL_CTX_get_read_ahead(SSL_CTX *ctx);
+ long SSL_CTX_get_default_read_ahead(SSL_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

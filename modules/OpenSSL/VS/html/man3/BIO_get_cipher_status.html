@@ -26,15 +26,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="variable">*BIO_f_cipher</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">BIO_set_cipher</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span>
-                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_get_cipher_status</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">)</span>
- <span class="keyword">int</span> <span class="variable">BIO_get_cipher_ctx</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="operator">**</span><span class="variable">pctx</span><span class="operator">)</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+ #include &lt;openssl/evp.h&gt;
+
+ const BIO_METHOD *BIO_f_cipher(void);
+ void BIO_set_cipher(BIO *b, const EVP_CIPHER *cipher,
+                     unsigned char *key, unsigned char *iv, int enc);
+ int BIO_get_cipher_status(BIO *b)
+ int BIO_get_cipher_ctx(BIO *b, EVP_CIPHER_CTX **pctx)</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

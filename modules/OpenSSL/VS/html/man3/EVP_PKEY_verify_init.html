@@ -29,13 +29,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_verify_init</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_verify</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                     <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">siglen</span><span class="operator">,</span>
-                     <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*tbs</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">tbslen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int EVP_PKEY_verify_init(EVP_PKEY_CTX *ctx);
+ int EVP_PKEY_verify(EVP_PKEY_CTX *ctx,
+                     const unsigned char *sig, size_t siglen,
+                     const unsigned char *tbs, size_t tbslen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -59,36 +58,35 @@
 
 <p>Verify signature using PKCS#1 and SHA256 digest:</p>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">*sig</span><span class="operator">;</span>
- <span class="variable">size_t</span> <span class="variable">mdlen</span><span class="operator">,</span> <span class="variable">siglen</span><span class="operator">;</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*verify_key</span><span class="operator">;</span>
- 
- <span class="regex">/*
+<pre><code> #include &lt;openssl/evp.h&gt;
+ #include &lt;openssl/rsa.h&gt;
+
+ EVP_PKEY_CTX *ctx;
+ unsigned char *md, *sig;
+ size_t mdlen, siglen;
+ EVP_PKEY *verify_key;
+
+ /*
   * NB: assumes verify_key, sig, siglen md and mdlen are already set up
   * and that verify_key is an RSA public key
-  */</span>
- <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new</span><span class="operator">(</span><span class="variable">verify_key</span><span class="operator">,</span> <span class="variable">NULL</span> <span class="operator">/*</span> <span class="keyword">no</span> <span class="variable">engine</span> <span class="operator">*/);</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ctx</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="variable">occurred</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_verify_init</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_rsa_padding</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">RSA_PKCS1_PADDING</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_CTX_set_signature_md</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">())</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- 
- <span class="regex">/* Perform operation */</span>
- <span class="variable">ret</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_verify</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">sig</span><span class="operator">,</span> <span class="variable">siglen</span><span class="operator">,</span> <span class="variable">md</span><span class="operator">,</span> <span class="variable">mdlen</span><span class="operator">);</span>
- 
- <span class="regex">/*
+  */
+ ctx = EVP_PKEY_CTX_new(verify_key, NULL /* no engine */);
+ if (!ctx)
+     /* Error occurred */
+ if (EVP_PKEY_verify_init(ctx) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_CTX_set_signature_md(ctx, EVP_sha256()) &lt;= 0)
+     /* Error */
+
+ /* Perform operation */
+ ret = EVP_PKEY_verify(ctx, sig, siglen, md, mdlen);
+
+ /*
   * ret == 1 indicates success, 0 verify failure and &lt; 0 for some
   * other error.
-  */</span>
-</code></pre>
+  */</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

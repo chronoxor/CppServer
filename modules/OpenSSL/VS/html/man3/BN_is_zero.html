@@ -26,17 +26,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_ucmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_is_zero</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_is_one</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_is_word</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BN_ULONG</span> <span class="variable">w</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_abs_is_word</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BN_ULONG</span> <span class="variable">w</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_is_odd</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ int BN_cmp(const BIGNUM *a, const BIGNUM *b);
+ int BN_ucmp(const BIGNUM *a, const BIGNUM *b);
+
+ int BN_is_zero(const BIGNUM *a);
+ int BN_is_one(const BIGNUM *a);
+ int BN_is_word(const BIGNUM *a, const BN_ULONG w);
+ int BN_abs_is_word(const BIGNUM *a, const BN_ULONG w);
+ int BN_is_odd(const BIGNUM *a);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -27,16 +27,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="variable">*BIO_f_buffer</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">BIO_get_buffer_num_lines</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_read_buffer_size</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">size</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_write_buffer_size</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">size</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_buffer_size</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">size</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">BIO_set_buffer_read_data</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">num</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+
+ const BIO_METHOD *BIO_f_buffer(void);
+
+ long BIO_get_buffer_num_lines(BIO *b);
+ long BIO_set_read_buffer_size(BIO *b, long size);
+ long BIO_set_write_buffer_size(BIO *b, long size);
+ long BIO_set_buffer_size(BIO *b, long size);
+ long BIO_set_buffer_read_data(BIO *b, void *buf, long num);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

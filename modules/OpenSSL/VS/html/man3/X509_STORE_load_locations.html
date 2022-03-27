@@ -26,24 +26,23 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509_vfy.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">x509_store_st</span> <span class="variable">X509_STORE</span><span class="operator">;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_STORE_add_cert</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_add_crl</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_set_depth</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*store</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">depth</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_set_flags</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_set_purpose</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">purpose</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_set_trust</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">trust</span><span class="operator">);</span>
- 
- <span class="variable">X509_LOOKUP</span> <span class="variable">*X509_STORE_add_lookup</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*store</span><span class="operator">,</span>
-                                    <span class="variable">X509_LOOKUP_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_STORE_load_locations</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                               <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*dir</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_set_default_paths</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509_vfy.h&gt;
+
+ typedef x509_store_st X509_STORE;
+
+ int X509_STORE_add_cert(X509_STORE *ctx, X509 *x);
+ int X509_STORE_add_crl(X509_STORE *ctx, X509_CRL *x);
+ int X509_STORE_set_depth(X509_STORE *store, int depth);
+ int X509_STORE_set_flags(X509_STORE *ctx, unsigned long flags);
+ int X509_STORE_set_purpose(X509_STORE *ctx, int purpose);
+ int X509_STORE_set_trust(X509_STORE *ctx, int trust);
+
+ X509_LOOKUP *X509_STORE_add_lookup(X509_STORE *store,
+                                    X509_LOOKUP_METHOD *meth);
+
+ int X509_STORE_load_locations(X509_STORE *ctx,
+                               const char *file, const char *dir);
+ int X509_STORE_set_default_paths(X509_STORE *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

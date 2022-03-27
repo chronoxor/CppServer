@@ -26,21 +26,20 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_number</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_connect</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_connect_good</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_connect_renegotiate</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_accept</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_accept_good</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_accept_renegotiate</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_hits</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_cb_hits</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_misses</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_timeouts</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_cache_full</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_CTX_sess_number(SSL_CTX *ctx);
+ long SSL_CTX_sess_connect(SSL_CTX *ctx);
+ long SSL_CTX_sess_connect_good(SSL_CTX *ctx);
+ long SSL_CTX_sess_connect_renegotiate(SSL_CTX *ctx);
+ long SSL_CTX_sess_accept(SSL_CTX *ctx);
+ long SSL_CTX_sess_accept_good(SSL_CTX *ctx);
+ long SSL_CTX_sess_accept_renegotiate(SSL_CTX *ctx);
+ long SSL_CTX_sess_hits(SSL_CTX *ctx);
+ long SSL_CTX_sess_cb_hits(SSL_CTX *ctx);
+ long SSL_CTX_sess_misses(SSL_CTX *ctx);
+ long SSL_CTX_sess_timeouts(SSL_CTX *ctx);
+ long SSL_CTX_sess_cache_full(SSL_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

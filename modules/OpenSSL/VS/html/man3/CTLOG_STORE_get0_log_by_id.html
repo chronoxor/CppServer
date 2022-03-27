@@ -27,12 +27,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">CTLOG</span> <span class="variable">*CTLOG_STORE_get0_log_by_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">CTLOG_STORE</span> <span class="variable">*store</span><span class="operator">,</span>
-                                         <span class="variable">const</span> <span class="variable">uint8_t</span> <span class="variable">*log_id</span><span class="operator">,</span>
-                                         <span class="variable">size_t</span> <span class="variable">log_id_len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ct.h&gt;
+
+ const CTLOG *CTLOG_STORE_get0_log_by_id(const CTLOG_STORE *store,
+                                         const uint8_t *log_id,
+                                         size_t log_id_len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

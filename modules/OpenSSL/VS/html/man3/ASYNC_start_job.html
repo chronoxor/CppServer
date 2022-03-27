@@ -29,22 +29,21 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/async.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">ASYNC_init_thread</span><span class="operator">(</span><span class="variable">size_t</span> <span class="variable">max_size</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">init_size</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ASYNC_cleanup_thread</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASYNC_start_job</span><span class="operator">(</span><span class="variable">ASYNC_JOB</span> <span class="operator">**</span><span class="variable">job</span><span class="operator">,</span> <span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*ret</span><span class="operator">,</span>
-                     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*func</span><span class="operator">)(</span><span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*args</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">size</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASYNC_pause_job</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">ASYNC_JOB</span> <span class="variable">*ASYNC_get_current_job</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ASYNC_get_wait_ctx</span><span class="operator">(</span><span class="variable">ASYNC_JOB</span> <span class="variable">*job</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ASYNC_block_pause</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ASYNC_unblock_pause</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASYNC_is_capable</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/async.h&gt;
+
+ int ASYNC_init_thread(size_t max_size, size_t init_size);
+ void ASYNC_cleanup_thread(void);
+
+ int ASYNC_start_job(ASYNC_JOB **job, ASYNC_WAIT_CTX *ctx, int *ret,
+                     int (*func)(void *), void *args, size_t size);
+ int ASYNC_pause_job(void);
+
+ ASYNC_JOB *ASYNC_get_current_job(void);
+ ASYNC_WAIT_CTX *ASYNC_get_wait_ctx(ASYNC_JOB *job);
+ void ASYNC_block_pause(void);
+ void ASYNC_unblock_pause(void);
+
+ int ASYNC_is_capable(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -118,129 +117,128 @@
 
 <p>The following example demonstrates how to use most of the core async APIs:</p>
 
-<pre><code> <span class="comment">#ifdef _WIN32</span>
- <span class="comment"># include &lt;windows.h&gt;</span>
- <span class="comment">#endif</span>
- <span class="comment">#include &lt;stdio.h&gt;</span>
- <span class="comment">#include &lt;unistd.h&gt;</span>
- <span class="comment">#include &lt;openssl/async.h&gt;</span>
- <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">unique</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
- 
- <span class="variable">void</span> <span class="variable">cleanup</span><span class="operator">(</span><span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">r</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*vw</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*w</span> <span class="operator">=</span> <span class="operator">(</span><span class="variable">OSSL_ASYNC_FD</span> <span class="operator">*)</span><span class="variable">vw</span><span class="operator">;</span>
- 
-     <span class="keyword">close</span><span class="operator">(</span><span class="variable">r</span><span class="operator">);</span>
-     <span class="keyword">close</span><span class="operator">(</span><span class="variable">*w</span><span class="operator">);</span>
-     <span class="variable">OPENSSL_free</span><span class="operator">(</span><span class="variable">w</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="keyword">int</span> <span class="variable">jobfunc</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*arg</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">ASYNC_JOB</span> <span class="variable">*currjob</span><span class="operator">;</span>
-     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*msg</span><span class="operator">;</span>
-     <span class="keyword">int</span> <span class="variable">pipefds</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">{</span><span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">}</span><span class="operator">;</span>
-     <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">*wptr</span><span class="operator">;</span>
-     <span class="variable">char</span> <span class="variable">buf</span> <span class="operator">=</span> <span class="string">'X'</span><span class="operator">;</span>
- 
-     <span class="variable">currjob</span> <span class="operator">=</span> <span class="variable">ASYNC_get_current_job</span><span class="operator">();</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">currjob</span> <span class="operator">!=</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Executing within a job\n"</span><span class="operator">);</span>
-     <span class="operator">}</span> <span class="keyword">else</span> <span class="operator">{</span>
-         <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Not executing within a job - should not happen\n"</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="operator">}</span>
- 
-     <span class="variable">msg</span> <span class="operator">=</span> <span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">*)</span><span class="variable">arg</span><span class="operator">;</span>
-     <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Passed in message is: %s\n"</span><span class="operator">,</span> <span class="variable">msg</span><span class="operator">);</span>
- 
-     <span class="keyword">if</span> <span class="operator">(</span><span class="keyword">pipe</span><span class="operator">(</span><span class="variable">pipefds</span><span class="operator">)</span> <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Failed to create pipe\n"</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="variable">wptr</span> <span class="operator">=</span> <span class="variable">OPENSSL_malloc</span><span class="operator">(</span><span class="variable">sizeof</span><span class="operator">(</span><span class="variable">OSSL_ASYNC_FD</span><span class="operator">));</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">wptr</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Failed to malloc\n"</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="variable">*wptr</span> <span class="operator">=</span> <span class="variable">pipefds</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">;</span>
-     <span class="variable">ASYNC_WAIT_CTX_set_wait_fd</span><span class="operator">(</span><span class="variable">ASYNC_get_wait_ctx</span><span class="operator">(</span><span class="variable">currjob</span><span class="operator">),</span> <span class="operator">&amp;</span><span class="variable">unique</span><span class="operator">,</span>
-                                <span class="variable">pipefds</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">wptr</span><span class="operator">,</span> <span class="variable">cleanup</span><span class="operator">);</span>
- 
-     <span class="regex">/*
+<pre><code> #ifdef _WIN32
+ # include &lt;windows.h&gt;
+ #endif
+ #include &lt;stdio.h&gt;
+ #include &lt;unistd.h&gt;
+ #include &lt;openssl/async.h&gt;
+ #include &lt;openssl/crypto.h&gt;
+
+ int unique = 0;
+
+ void cleanup(ASYNC_WAIT_CTX *ctx, const void *key, OSSL_ASYNC_FD r, void *vw)
+ {
+     OSSL_ASYNC_FD *w = (OSSL_ASYNC_FD *)vw;
+
+     close(r);
+     close(*w);
+     OPENSSL_free(w);
+ }
+
+ int jobfunc(void *arg)
+ {
+     ASYNC_JOB *currjob;
+     unsigned char *msg;
+     int pipefds[2] = {0, 0};
+     OSSL_ASYNC_FD *wptr;
+     char buf = &#39;X&#39;;
+
+     currjob = ASYNC_get_current_job();
+     if (currjob != NULL) {
+         printf(&quot;Executing within a job\n&quot;);
+     } else {
+         printf(&quot;Not executing within a job - should not happen\n&quot;);
+         return 0;
+     }
+
+     msg = (unsigned char *)arg;
+     printf(&quot;Passed in message is: %s\n&quot;, msg);
+
+     if (pipe(pipefds) != 0) {
+         printf(&quot;Failed to create pipe\n&quot;);
+         return 0;
+     }
+     wptr = OPENSSL_malloc(sizeof(OSSL_ASYNC_FD));
+     if (wptr == NULL) {
+         printf(&quot;Failed to malloc\n&quot;);
+         return 0;
+     }
+     *wptr = pipefds[1];
+     ASYNC_WAIT_CTX_set_wait_fd(ASYNC_get_wait_ctx(currjob), &amp;unique,
+                                pipefds[0], wptr, cleanup);
+
+     /*
       * Normally some external event would cause this to happen at some
       * later point - but we do it here for demo purposes, i.e.
       * immediately signalling that the job is ready to be woken up after
       * we return to main via ASYNC_pause_job().
-      */</span>
-     <span class="keyword">write</span><span class="operator">(</span><span class="variable">pipefds</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">buf</span><span class="operator">,</span> <span class="number">1</span><span class="operator">);</span>
- 
-     <span class="regex">/* Return control back to main */</span>
-     <span class="variable">ASYNC_pause_job</span><span class="operator">();</span>
- 
-     <span class="regex">/* Clear the wake signal */</span>
-     <span class="keyword">read</span><span class="operator">(</span><span class="variable">pipefds</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">buf</span><span class="operator">,</span> <span class="number">1</span><span class="operator">);</span>
- 
-     <span class="keyword">printf</span> <span class="operator">(</span><span class="string">"Resumed the job after a pause\n"</span><span class="operator">);</span>
- 
-     <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
- <span class="operator">}</span>
- 
- <span class="keyword">int</span> <span class="variable">main</span><span class="operator">(</span><span class="variable">void</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">ASYNC_JOB</span> <span class="variable">*job</span> <span class="operator">=</span> <span class="variable">NULL</span><span class="operator">;</span>
-     <span class="variable">ASYNC_WAIT_CTX</span> <span class="variable">*ctx</span> <span class="operator">=</span> <span class="variable">NULL</span><span class="operator">;</span>
-     <span class="keyword">int</span> <span class="variable">ret</span><span class="operator">;</span>
-     <span class="variable">OSSL_ASYNC_FD</span> <span class="variable">waitfd</span><span class="operator">;</span>
-     <span class="variable">fd_set</span> <span class="variable">waitfdset</span><span class="operator">;</span>
-     <span class="variable">size_t</span> <span class="variable">numfds</span><span class="operator">;</span>
-     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">msg</span><span class="operator">[</span><span class="number">13</span><span class="operator">]</span> <span class="operator">=</span> <span class="string">"Hello world!"</span><span class="operator">;</span>
- 
-     <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Starting...\n"</span><span class="operator">);</span>
- 
-     <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">ASYNC_WAIT_CTX_new</span><span class="operator">();</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ctx</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Failed to create ASYNC_WAIT_CTX\n"</span><span class="operator">);</span>
-         <span class="variable">abort</span><span class="operator">();</span>
-     <span class="operator">}</span>
- 
-     <span class="keyword">for</span> <span class="operator">(;;)</span> <span class="operator">{</span>
-         <span class="variable">switch</span> <span class="operator">(</span><span class="variable">ASYNC_start_job</span><span class="operator">(&amp;</span><span class="variable">job</span><span class="operator">,</span> <span class="variable">ctx</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">ret</span><span class="operator">,</span> <span class="variable">jobfunc</span><span class="operator">,</span> <span class="variable">msg</span><span class="operator">,</span> <span class="variable">sizeof</span><span class="operator">(</span><span class="variable">msg</span><span class="operator">)))</span> <span class="operator">{</span>
-         <span class="variable">case</span> <span class="variable">ASYNC_ERR</span><span class="operator">:</span>
-         <span class="variable">case</span> <span class="variable">ASYNC_NO_JOBS</span><span class="operator">:</span>
-             <span class="keyword">printf</span><span class="operator">(</span><span class="string">"An error occurred\n"</span><span class="operator">);</span>
-             <span class="keyword">goto</span> <span class="variable">end</span><span class="operator">;</span>
-         <span class="variable">case</span> <span class="variable">ASYNC_PAUSE</span><span class="operator">:</span>
-             <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Job was paused\n"</span><span class="operator">);</span>
-             <span class="keyword">break</span><span class="operator">;</span>
-         <span class="variable">case</span> <span class="variable">ASYNC_FINISH</span><span class="operator">:</span>
-             <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Job finished with return value %d\n"</span><span class="operator">,</span> <span class="variable">ret</span><span class="operator">);</span>
-             <span class="keyword">goto</span> <span class="variable">end</span><span class="operator">;</span>
-         <span class="operator">}</span>
- 
-         <span class="regex">/* Wait for the job to be woken */</span>
-         <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Waiting for the job to be woken up\n"</span><span class="operator">);</span>
- 
-         <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ASYNC_WAIT_CTX_get_all_fds</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">numfds</span><span class="operator">)</span>
-                 <span class="operator">||</span> <span class="variable">numfds</span> <span class="operator">&gt;</span> <span class="number">1</span><span class="operator">)</span> <span class="operator">{</span>
-             <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Unexpected number of fds\n"</span><span class="operator">);</span>
-             <span class="variable">abort</span><span class="operator">();</span>
-         <span class="operator">}</span>
-         <span class="variable">ASYNC_WAIT_CTX_get_all_fds</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">waitfd</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">numfds</span><span class="operator">);</span>
-         <span class="variable">FD_ZERO</span><span class="operator">(&amp;</span><span class="variable">waitfdset</span><span class="operator">);</span>
-         <span class="variable">FD_SET</span><span class="operator">(</span><span class="variable">waitfd</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">waitfdset</span><span class="operator">);</span>
-         <span class="keyword">select</span><span class="operator">(</span><span class="variable">waitfd</span> <span class="operator">+</span> <span class="number">1</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">waitfdset</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-     <span class="operator">}</span>
- 
- <span class="variable">end</span><span class="operator">:</span>
-     <span class="variable">ASYNC_WAIT_CTX_free</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-     <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Finishing\n"</span><span class="operator">);</span>
- 
-     <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
- <span class="operator">}</span>
-</code></pre>
+      */
+     write(pipefds[1], &amp;buf, 1);
+
+     /* Return control back to main */
+     ASYNC_pause_job();
+
+     /* Clear the wake signal */
+     read(pipefds[0], &amp;buf, 1);
+
+     printf (&quot;Resumed the job after a pause\n&quot;);
+
+     return 1;
+ }
+
+ int main(void)
+ {
+     ASYNC_JOB *job = NULL;
+     ASYNC_WAIT_CTX *ctx = NULL;
+     int ret;
+     OSSL_ASYNC_FD waitfd;
+     fd_set waitfdset;
+     size_t numfds;
+     unsigned char msg[13] = &quot;Hello world!&quot;;
+
+     printf(&quot;Starting...\n&quot;);
+
+     ctx = ASYNC_WAIT_CTX_new();
+     if (ctx == NULL) {
+         printf(&quot;Failed to create ASYNC_WAIT_CTX\n&quot;);
+         abort();
+     }
+
+     for (;;) {
+         switch (ASYNC_start_job(&amp;job, ctx, &amp;ret, jobfunc, msg, sizeof(msg))) {
+         case ASYNC_ERR:
+         case ASYNC_NO_JOBS:
+             printf(&quot;An error occurred\n&quot;);
+             goto end;
+         case ASYNC_PAUSE:
+             printf(&quot;Job was paused\n&quot;);
+             break;
+         case ASYNC_FINISH:
+             printf(&quot;Job finished with return value %d\n&quot;, ret);
+             goto end;
+         }
+
+         /* Wait for the job to be woken */
+         printf(&quot;Waiting for the job to be woken up\n&quot;);
+
+         if (!ASYNC_WAIT_CTX_get_all_fds(ctx, NULL, &amp;numfds)
+                 || numfds &gt; 1) {
+             printf(&quot;Unexpected number of fds\n&quot;);
+             abort();
+         }
+         ASYNC_WAIT_CTX_get_all_fds(ctx, &amp;waitfd, &amp;numfds);
+         FD_ZERO(&amp;waitfdset);
+         FD_SET(waitfd, &amp;waitfdset);
+         select(waitfd + 1, &amp;waitfdset, NULL, NULL, NULL);
+     }
+
+ end:
+     ASYNC_WAIT_CTX_free(ctx);
+     printf(&quot;Finishing\n&quot;);
+
+     return 0;
+ }</code></pre>
 
 <p>The expected output from executing the above example program is:</p>
 

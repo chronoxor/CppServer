@@ -26,19 +26,18 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ec.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*EC_GFp_simple_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*EC_GFp_mont_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*EC_GFp_nist_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*EC_GFp_nistp224_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*EC_GFp_nistp256_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*EC_GFp_nistp521_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*EC_GF2m_simple_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_METHOD_get_field_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ec.h&gt;
+
+ const EC_METHOD *EC_GFp_simple_method(void);
+ const EC_METHOD *EC_GFp_mont_method(void);
+ const EC_METHOD *EC_GFp_nist_method(void);
+ const EC_METHOD *EC_GFp_nistp224_method(void);
+ const EC_METHOD *EC_GFp_nistp256_method(void);
+ const EC_METHOD *EC_GFp_nistp521_method(void);
+
+ const EC_METHOD *EC_GF2m_simple_method(void);
+
+ int EC_METHOD_get_field_type(const EC_METHOD *meth);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

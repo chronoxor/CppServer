@@ -26,11 +26,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="variable">BIGNUM</span> <span class="variable">*BN_mod_inverse</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*n</span><span class="operator">,</span>
-                        <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ BIGNUM *BN_mod_inverse(BIGNUM *r, BIGNUM *a, const BIGNUM *n,
+                        BN_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -28,64 +28,63 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">enum</span> <span class="operator">{</span>
-     <span class="variable">CT_LOG_ENTRY_TYPE_NOT_SET</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span>
-     <span class="variable">CT_LOG_ENTRY_TYPE_X509</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">,</span>
-     <span class="variable">CT_LOG_ENTRY_TYPE_PRECERT</span> <span class="operator">=</span> <span class="number">1</span>
- <span class="operator">}</span> <span class="variable">ct_log_entry_type_t</span><span class="operator">;</span>
- 
- <span class="variable">typedef</span> <span class="variable">enum</span> <span class="operator">{</span>
-     <span class="variable">SCT_VERSION_NOT_SET</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span>
-     <span class="variable">SCT_VERSION_V1</span> <span class="operator">=</span> <span class="number">0</span>
- <span class="operator">}</span> <span class="variable">sct_version_t</span><span class="operator">;</span>
- 
- <span class="variable">typedef</span> <span class="variable">enum</span> <span class="operator">{</span>
-     <span class="variable">SCT_SOURCE_UNKNOWN</span><span class="operator">,</span>
-     <span class="variable">SCT_SOURCE_TLS_EXTENSION</span><span class="operator">,</span>
-     <span class="variable">SCT_SOURCE_X509V3_EXTENSION</span><span class="operator">,</span>
-     <span class="variable">SCT_SOURCE_OCSP_STAPLED_RESPONSE</span>
- <span class="operator">}</span> <span class="variable">sct_source_t</span><span class="operator">;</span>
- 
- <span class="variable">SCT</span> <span class="variable">*SCT_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">SCT</span> <span class="variable">*SCT_new_from_base64</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">version</span><span class="operator">,</span>
-                          <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*logid_base64</span><span class="operator">,</span>
-                          <span class="variable">ct_log_entry_type_t</span> <span class="variable">entry_type</span><span class="operator">,</span>
-                          <span class="variable">uint64_t</span> <span class="variable">timestamp</span><span class="operator">,</span>
-                          <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*extensions_base64</span><span class="operator">,</span>
-                          <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*signature_base64</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SCT_free</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SCT_LIST_free</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="variable">sct_version_t</span> <span class="variable">SCT_get_version</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SCT_set_version</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">sct_version_t</span> <span class="variable">version</span><span class="operator">);</span>
- 
- <span class="variable">ct_log_entry_type_t</span> <span class="variable">SCT_get_log_entry_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SCT_set_log_entry_type</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">ct_log_entry_type_t</span> <span class="variable">entry_type</span><span class="operator">);</span>
- 
- <span class="variable">size_t</span> <span class="variable">SCT_get0_log_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">log_id</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SCT_set0_log_id</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*log_id</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">log_id_len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SCT_set1_log_id</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*log_id</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">log_id_len</span><span class="operator">);</span>
- 
- <span class="variable">uint64_t</span> <span class="variable">SCT_get_timestamp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SCT_set_timestamp</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">uint64_t</span> <span class="variable">timestamp</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SCT_get_signature_nid</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SCT_set_signature_nid</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- 
- <span class="variable">size_t</span> <span class="variable">SCT_get0_signature</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">sig</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SCT_set0_signature</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">sig_len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SCT_set1_signature</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">sig_len</span><span class="operator">);</span>
- 
- <span class="variable">size_t</span> <span class="variable">SCT_get0_extensions</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">ext</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SCT_set0_extensions</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*ext</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">ext_len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SCT_set1_extensions</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*ext</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">ext_len</span><span class="operator">);</span>
- 
- <span class="variable">sct_source_t</span> <span class="variable">SCT_get_source</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SCT_set_source</span><span class="operator">(</span><span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">sct_source_t</span> <span class="variable">source</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ct.h&gt;
+
+ typedef enum {
+     CT_LOG_ENTRY_TYPE_NOT_SET = -1,
+     CT_LOG_ENTRY_TYPE_X509 = 0,
+     CT_LOG_ENTRY_TYPE_PRECERT = 1
+ } ct_log_entry_type_t;
+
+ typedef enum {
+     SCT_VERSION_NOT_SET = -1,
+     SCT_VERSION_V1 = 0
+ } sct_version_t;
+
+ typedef enum {
+     SCT_SOURCE_UNKNOWN,
+     SCT_SOURCE_TLS_EXTENSION,
+     SCT_SOURCE_X509V3_EXTENSION,
+     SCT_SOURCE_OCSP_STAPLED_RESPONSE
+ } sct_source_t;
+
+ SCT *SCT_new(void);
+ SCT *SCT_new_from_base64(unsigned char version,
+                          const char *logid_base64,
+                          ct_log_entry_type_t entry_type,
+                          uint64_t timestamp,
+                          const char *extensions_base64,
+                          const char *signature_base64);
+
+ void SCT_free(SCT *sct);
+ void SCT_LIST_free(STACK_OF(SCT) *a);
+
+ sct_version_t SCT_get_version(const SCT *sct);
+ int SCT_set_version(SCT *sct, sct_version_t version);
+
+ ct_log_entry_type_t SCT_get_log_entry_type(const SCT *sct);
+ int SCT_set_log_entry_type(SCT *sct, ct_log_entry_type_t entry_type);
+
+ size_t SCT_get0_log_id(const SCT *sct, unsigned char **log_id);
+ int SCT_set0_log_id(SCT *sct, unsigned char *log_id, size_t log_id_len);
+ int SCT_set1_log_id(SCT *sct, const unsigned char *log_id, size_t log_id_len);
+
+ uint64_t SCT_get_timestamp(const SCT *sct);
+ void SCT_set_timestamp(SCT *sct, uint64_t timestamp);
+
+ int SCT_get_signature_nid(const SCT *sct);
+ int SCT_set_signature_nid(SCT *sct, int nid);
+
+ size_t SCT_get0_signature(const SCT *sct, unsigned char **sig);
+ void SCT_set0_signature(SCT *sct, unsigned char *sig, size_t sig_len);
+ int SCT_set1_signature(SCT *sct, const unsigned char *sig, size_t sig_len);
+
+ size_t SCT_get0_extensions(const SCT *sct, unsigned char **ext);
+ void SCT_set0_extensions(SCT *sct, unsigned char *ext, size_t ext_len);
+ int SCT_set1_extensions(SCT *sct, const unsigned char *ext, size_t ext_len);
+
+ sct_source_t SCT_get_source(const SCT *sct);
+ int SCT_set_source(SCT *sct, sct_source_t source);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -27,18 +27,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SSL_CIPHER</span><span class="operator">)</span> <span class="variable">*SSL_get_ciphers</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SSL_CIPHER</span><span class="operator">)</span> <span class="variable">*SSL_CTX_get_ciphers</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SSL_CIPHER</span><span class="operator">)</span> <span class="variable">*SSL_get1_supported_ciphers</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SSL_CIPHER</span><span class="operator">)</span> <span class="variable">*SSL_get_client_ciphers</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_bytes_to_cipher_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*bytes</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span>
-                              <span class="keyword">int</span> <span class="variable">isv2format</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SSL_CIPHER</span><span class="operator">)</span> <span class="operator">**</span><span class="variable">sk</span><span class="operator">,</span>
-                              <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SSL_CIPHER</span><span class="operator">)</span> <span class="operator">**</span><span class="variable">scsvs</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_get_cipher_list</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">priority</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*SSL_get_shared_ciphers</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ STACK_OF(SSL_CIPHER) *SSL_get_ciphers(const SSL *ssl);
+ STACK_OF(SSL_CIPHER) *SSL_CTX_get_ciphers(const SSL_CTX *ctx);
+ STACK_OF(SSL_CIPHER) *SSL_get1_supported_ciphers(SSL *s);
+ STACK_OF(SSL_CIPHER) *SSL_get_client_ciphers(const SSL *ssl);
+ int SSL_bytes_to_cipher_list(SSL *s, const unsigned char *bytes, size_t len,
+                              int isv2format, STACK_OF(SSL_CIPHER) **sk,
+                              STACK_OF(SSL_CIPHER) **scsvs);
+ const char *SSL_get_cipher_list(const SSL *ssl, int priority);
+ char *SSL_get_shared_ciphers(const SSL *s, char *buf, int size);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

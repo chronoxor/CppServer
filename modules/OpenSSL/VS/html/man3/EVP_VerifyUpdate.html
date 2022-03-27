@@ -28,15 +28,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_VerifyInit_ex</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*type</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*impl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_VerifyUpdate</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">cnt</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_VerifyFinal</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span>
-                     <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_VerifyInit</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*type</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int EVP_VerifyInit_ex(EVP_MD_CTX *ctx, const EVP_MD *type, ENGINE *impl);
+ int EVP_VerifyUpdate(EVP_MD_CTX *ctx, const void *d, unsigned int cnt);
+ int EVP_VerifyFinal(EVP_MD_CTX *ctx, unsigned char *sigbuf, unsigned int siglen,
+                     EVP_PKEY *pkey);
+
+ int EVP_VerifyInit(EVP_MD_CTX *ctx, const EVP_MD *type);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

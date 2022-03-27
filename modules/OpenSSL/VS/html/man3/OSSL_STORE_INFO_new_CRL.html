@@ -33,36 +33,35 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/store.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">ossl_store_info_st</span> <span class="variable">OSSL_STORE_INFO</span><span class="operator">;</span>
- 
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_INFO_get_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*OSSL_STORE_INFO_get0_NAME</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*OSSL_STORE_INFO_get1_NAME</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*OSSL_STORE_INFO_get0_NAME_description</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span>
-                                                   <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*OSSL_STORE_INFO_get1_NAME_description</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*OSSL_STORE_INFO_get0_PARAMS</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*OSSL_STORE_INFO_get1_PARAMS</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*OSSL_STORE_INFO_get0_PKEY</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*OSSL_STORE_INFO_get1_PKEY</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">X509</span> <span class="variable">*OSSL_STORE_INFO_get0_CERT</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">X509</span> <span class="variable">*OSSL_STORE_INFO_get1_CERT</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">X509_CRL</span> <span class="variable">*OSSL_STORE_INFO_get0_CRL</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- <span class="variable">X509_CRL</span> <span class="variable">*OSSL_STORE_INFO_get1_CRL</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*OSSL_STORE_INFO_type_string</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">OSSL_STORE_INFO_free</span><span class="operator">(</span><span class="variable">OSSL_STORE_INFO</span> <span class="variable">*store_info</span><span class="operator">);</span>
- 
- <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*OSSL_STORE_INFO_new_NAME</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_INFO_set0_NAME_description</span><span class="operator">(</span><span class="variable">OSSL_STORE_INFO</span> <span class="variable">*info</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*desc</span><span class="operator">);</span>
- <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*OSSL_STORE_INFO_new_PARAMS</span><span class="operator">(</span><span class="variable">DSA</span> <span class="variable">*dsa_params</span><span class="operator">);</span>
- <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*OSSL_STORE_INFO_new_PKEY</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*OSSL_STORE_INFO_new_CERT</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x509</span><span class="operator">);</span>
- <span class="variable">OSSL_STORE_INFO</span> <span class="variable">*OSSL_STORE_INFO_new_CRL</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/store.h&gt;
+
+ typedef struct ossl_store_info_st OSSL_STORE_INFO;
+
+ int OSSL_STORE_INFO_get_type(const OSSL_STORE_INFO *store_info);
+ const char *OSSL_STORE_INFO_get0_NAME(const OSSL_STORE_INFO *store_info);
+ char *OSSL_STORE_INFO_get1_NAME(const OSSL_STORE_INFO *store_info);
+ const char *OSSL_STORE_INFO_get0_NAME_description(const OSSL_STORE_INFO
+                                                   *store_info);
+ char *OSSL_STORE_INFO_get1_NAME_description(const OSSL_STORE_INFO *store_info);
+ EVP_PKEY *OSSL_STORE_INFO_get0_PARAMS(const OSSL_STORE_INFO *store_info);
+ EVP_PKEY *OSSL_STORE_INFO_get1_PARAMS(const OSSL_STORE_INFO *store_info);
+ EVP_PKEY *OSSL_STORE_INFO_get0_PKEY(const OSSL_STORE_INFO *store_info);
+ EVP_PKEY *OSSL_STORE_INFO_get1_PKEY(const OSSL_STORE_INFO *store_info);
+ X509 *OSSL_STORE_INFO_get0_CERT(const OSSL_STORE_INFO *store_info);
+ X509 *OSSL_STORE_INFO_get1_CERT(const OSSL_STORE_INFO *store_info);
+ X509_CRL *OSSL_STORE_INFO_get0_CRL(const OSSL_STORE_INFO *store_info);
+ X509_CRL *OSSL_STORE_INFO_get1_CRL(const OSSL_STORE_INFO *store_info);
+
+ const char *OSSL_STORE_INFO_type_string(int type);
+
+ void OSSL_STORE_INFO_free(OSSL_STORE_INFO *store_info);
+
+ OSSL_STORE_INFO *OSSL_STORE_INFO_new_NAME(char *name);
+ int OSSL_STORE_INFO_set0_NAME_description(OSSL_STORE_INFO *info, char *desc);
+ OSSL_STORE_INFO *OSSL_STORE_INFO_new_PARAMS(DSA *dsa_params);
+ OSSL_STORE_INFO *OSSL_STORE_INFO_new_PKEY(EVP_PKEY *pkey);
+ OSSL_STORE_INFO *OSSL_STORE_INFO_new_CERT(X509 *x509);
+ OSSL_STORE_INFO *OSSL_STORE_INFO_new_CRL(X509_CRL *crl);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

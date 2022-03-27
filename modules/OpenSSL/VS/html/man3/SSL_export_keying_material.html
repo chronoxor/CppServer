@@ -26,18 +26,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_export_keying_material</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">olen</span><span class="operator">,</span>
-                                <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*label</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">llen</span><span class="operator">,</span>
-                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*context</span><span class="operator">,</span>
-                                <span class="variable">size_t</span> <span class="variable">contextlen</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">use_context</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_export_keying_material_early</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">olen</span><span class="operator">,</span>
-                                      <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*label</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">llen</span><span class="operator">,</span>
-                                      <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*context</span><span class="operator">,</span>
-                                      <span class="variable">size_t</span> <span class="variable">contextlen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_export_keying_material(SSL *s, unsigned char *out, size_t olen,
+                                const char *label, size_t llen,
+                                const unsigned char *context,
+                                size_t contextlen, int use_context);
+
+ int SSL_export_keying_material_early(SSL *s, unsigned char *out, size_t olen,
+                                      const char *label, size_t llen,
+                                      const unsigned char *context,
+                                      size_t contextlen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -26,31 +26,30 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ui.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">ui_string_st</span> <span class="variable">UI_STRING</span><span class="operator">;</span>
- 
- <span class="variable">enum</span> <span class="variable">UI_string_types</span> <span class="operator">{</span>
-     <span class="variable">UIT_NONE</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">,</span>
-     <span class="variable">UIT_PROMPT</span><span class="operator">,</span>                 <span class="regex">/* Prompt for a string */</span>
-     <span class="variable">UIT_VERIFY</span><span class="operator">,</span>                 <span class="regex">/* Prompt for a string and verify */</span>
-     <span class="variable">UIT_BOOLEAN</span><span class="operator">,</span>                <span class="regex">/* Prompt for a yes/no</span> <span class="variable">response</span> <span class="operator">*/</span>
-     <span class="variable">UIT_INFO</span><span class="operator">,</span>                   <span class="regex">/* Send info to the user */</span>
-     <span class="variable">UIT_ERROR</span>                   <span class="operator">/*</span> <span class="variable">Send</span> <span class="variable">an</span> <span class="variable">error</span> <span class="variable">message</span> <span class="variable">to</span> <span class="variable">the</span> <span class="variable">user</span> <span class="operator">*/</span>
- <span class="operator">};</span>
- 
- <span class="variable">enum</span> <span class="variable">UI_string_types</span> <span class="variable">UI_get_string_type</span><span class="operator">(</span><span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">UI_get_input_flags</span><span class="operator">(</span><span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*UI_get0_output_string</span><span class="operator">(</span><span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*UI_get0_action_string</span><span class="operator">(</span><span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*UI_get0_result_string</span><span class="operator">(</span><span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">UI_get_result_string_length</span><span class="operator">(</span><span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*UI_get0_test_string</span><span class="operator">(</span><span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">UI_get_result_minsize</span><span class="operator">(</span><span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">UI_get_result_maxsize</span><span class="operator">(</span><span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">UI_set_result</span><span class="operator">(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">,</span> <span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*result</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">UI_set_result_ex</span><span class="operator">(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">,</span> <span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*result</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ui.h&gt;
+
+ typedef struct ui_string_st UI_STRING;
+
+ enum UI_string_types {
+     UIT_NONE = 0,
+     UIT_PROMPT,                 /* Prompt for a string */
+     UIT_VERIFY,                 /* Prompt for a string and verify */
+     UIT_BOOLEAN,                /* Prompt for a yes/no response */
+     UIT_INFO,                   /* Send info to the user */
+     UIT_ERROR                   /* Send an error message to the user */
+ };
+
+ enum UI_string_types UI_get_string_type(UI_STRING *uis);
+ int UI_get_input_flags(UI_STRING *uis);
+ const char *UI_get0_output_string(UI_STRING *uis);
+ const char *UI_get0_action_string(UI_STRING *uis);
+ const char *UI_get0_result_string(UI_STRING *uis);
+ int UI_get_result_string_length(UI_STRING *uis);
+ const char *UI_get0_test_string(UI_STRING *uis);
+ int UI_get_result_minsize(UI_STRING *uis);
+ int UI_get_result_maxsize(UI_STRING *uis);
+ int UI_set_result(UI *ui, UI_STRING *uis, const char *result);
+ int UI_set_result_ex(UI *ui, UI_STRING *uis, const char *result, int len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

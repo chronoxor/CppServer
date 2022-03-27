@@ -27,24 +27,23 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_CRL_get0_by_serial</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">,</span>
-                             <span class="variable">X509_REVOKED</span> <span class="operator">**</span><span class="variable">ret</span><span class="operator">,</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*serial</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_CRL_get0_by_cert</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">,</span> <span class="variable">X509_REVOKED</span> <span class="operator">**</span><span class="variable">ret</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_REVOKED</span><span class="operator">)</span> <span class="variable">*X509_CRL_get_REVOKED</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*X509_REVOKED_get0_serialNumber</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_REVOKED</span> <span class="variable">*r</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*X509_REVOKED_get0_revocationDate</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_REVOKED</span> <span class="variable">*r</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_REVOKED_set_serialNumber</span><span class="operator">(</span><span class="variable">X509_REVOKED</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*serial</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_REVOKED_set_revocationDate</span><span class="operator">(</span><span class="variable">X509_REVOKED</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">ASN1_TIME</span> <span class="variable">*tm</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_CRL_add0_revoked</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">,</span> <span class="variable">X509_REVOKED</span> <span class="variable">*rev</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_CRL_sort</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ int X509_CRL_get0_by_serial(X509_CRL *crl,
+                             X509_REVOKED **ret, ASN1_INTEGER *serial);
+ int X509_CRL_get0_by_cert(X509_CRL *crl, X509_REVOKED **ret, X509 *x);
+
+ STACK_OF(X509_REVOKED) *X509_CRL_get_REVOKED(X509_CRL *crl);
+
+ const ASN1_INTEGER *X509_REVOKED_get0_serialNumber(const X509_REVOKED *r);
+ const ASN1_TIME *X509_REVOKED_get0_revocationDate(const X509_REVOKED *r);
+
+ int X509_REVOKED_set_serialNumber(X509_REVOKED *r, ASN1_INTEGER *serial);
+ int X509_REVOKED_set_revocationDate(X509_REVOKED *r, ASN1_TIME *tm);
+
+ int X509_CRL_add0_revoked(X509_CRL *crl, X509_REVOKED *rev);
+
+ int X509_CRL_sort(X509_CRL *crl);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

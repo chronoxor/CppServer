@@ -28,20 +28,19 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509v3.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">X509_get_pathlen</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">uint32_t</span> <span class="variable">X509_get_extension_flags</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">uint32_t</span> <span class="variable">X509_get_key_usage</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">uint32_t</span> <span class="variable">X509_get_extended_key_usage</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*X509_get0_subject_key_id</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*X509_get0_authority_key_id</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">GENERAL_NAMES</span> <span class="variable">*X509_get0_authority_issuer</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*X509_get0_authority_serial</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_set_proxy_flag</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_set_proxy_pathlen</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">l</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">X509_get_proxy_pathlen</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509v3.h&gt;
+
+ long X509_get_pathlen(X509 *x);
+ uint32_t X509_get_extension_flags(X509 *x);
+ uint32_t X509_get_key_usage(X509 *x);
+ uint32_t X509_get_extended_key_usage(X509 *x);
+ const ASN1_OCTET_STRING *X509_get0_subject_key_id(X509 *x);
+ const ASN1_OCTET_STRING *X509_get0_authority_key_id(X509 *x);
+ const GENERAL_NAMES *X509_get0_authority_issuer(X509 *x);
+ const ASN1_INTEGER *X509_get0_authority_serial(X509 *x);
+ void X509_set_proxy_flag(X509 *x);
+ void X509_set_proxy_pathlen(int l);
+ long X509_get_proxy_pathlen(X509 *x);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

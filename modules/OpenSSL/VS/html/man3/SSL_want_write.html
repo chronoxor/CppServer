@@ -28,17 +28,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_want</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_want_nothing</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_want_read</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_want_write</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_want_x509_lookup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_want_async</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_want_async_job</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_want_client_hello_cb</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_want(const SSL *ssl);
+ int SSL_want_nothing(const SSL *ssl);
+ int SSL_want_read(const SSL *ssl);
+ int SSL_want_write(const SSL *ssl);
+ int SSL_want_x509_lookup(const SSL *ssl);
+ int SSL_want_async(const SSL *ssl);
+ int SSL_want_async_job(const SSL *ssl);
+ int SSL_want_client_hello_cb(const SSL *ssl);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

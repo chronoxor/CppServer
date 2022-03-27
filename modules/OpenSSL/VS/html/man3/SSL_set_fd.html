@@ -16,6 +16,7 @@
   <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#NOTES">NOTES</a></li>
   <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
@@ -26,12 +27,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_set_fd</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fd</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_rfd</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fd</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_wfd</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fd</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_set_fd(SSL *ssl, int fd);
+ int SSL_set_rfd(SSL *ssl, int fd);
+ int SSL_set_wfd(SSL *ssl, int fd);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -63,13 +63,17 @@
 </dd>
 </dl>
 
+<h1 id="NOTES">NOTES</h1>
+
+<p>On Windows, a socket handle is a 64-bit data type (UINT_PTR), which leads to a compiler warning (conversion from &#39;SOCKET&#39; to &#39;int&#39;, possible loss of data) when passing the socket handle to SSL_set_*fd(). For the time being, this warning can safely be ignored, because although the Microsoft documentation claims that the upper limit is INVALID_SOCKET-1 (2^64 - 2), in practice the current socket() implementation returns an index into the kernel handle table, the size of which is limited to 2^24.</p>
+
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
 <p><a href="../man3/SSL_get_fd.html">SSL_get_fd(3)</a>, <a href="../man3/SSL_set_bio.html">SSL_set_bio(3)</a>, <a href="../man3/SSL_connect.html">SSL_connect(3)</a>, <a href="../man3/SSL_accept.html">SSL_accept(3)</a>, <a href="../man3/SSL_shutdown.html">SSL_shutdown(3)</a>, <a href="../man7/ssl.html">ssl(7)</a> , <a href="../man7/bio.html">bio(7)</a></p>
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

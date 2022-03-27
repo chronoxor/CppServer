@@ -28,13 +28,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*EVP_PKEY_CTX_new</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*EVP_PKEY_CTX_new_id</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">id</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*EVP_PKEY_CTX_dup</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EVP_PKEY_CTX_free</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ EVP_PKEY_CTX *EVP_PKEY_CTX_new(EVP_PKEY *pkey, ENGINE *e);
+ EVP_PKEY_CTX *EVP_PKEY_CTX_new_id(int id, ENGINE *e);
+ EVP_PKEY_CTX *EVP_PKEY_CTX_dup(EVP_PKEY_CTX *ctx);
+ void EVP_PKEY_CTX_free(EVP_PKEY_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

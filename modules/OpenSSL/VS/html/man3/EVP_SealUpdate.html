@@ -27,15 +27,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_SealInit</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*type</span><span class="operator">,</span>
-                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">ek</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*ekl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">,</span>
-                  <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">pubk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">npubk</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_SealUpdate</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span>
-                    <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">inl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_SealFinal</span><span class="operator">(</span><span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int EVP_SealInit(EVP_CIPHER_CTX *ctx, const EVP_CIPHER *type,
+                  unsigned char **ek, int *ekl, unsigned char *iv,
+                  EVP_PKEY **pubk, int npubk);
+ int EVP_SealUpdate(EVP_CIPHER_CTX *ctx, unsigned char *out,
+                    int *outl, unsigned char *in, int inl);
+ int EVP_SealFinal(EVP_CIPHER_CTX *ctx, unsigned char *out, int *outl);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

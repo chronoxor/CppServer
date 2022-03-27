@@ -27,15 +27,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">BIO_set_data</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">*BIO_get_data</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">BIO_set_init</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">init</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_get_init</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">BIO_set_shutdown</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">shut</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_get_shutdown</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*a</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+
+ void BIO_set_data(BIO *a, void *ptr);
+ void *BIO_get_data(BIO *a);
+ void BIO_set_init(BIO *a, int init);
+ int BIO_get_init(BIO *a);
+ void BIO_set_shutdown(BIO *a, int shut);
+ int BIO_get_shutdown(BIO *a);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -57,7 +56,7 @@
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
-<p><a href="/man7/bio.html">bio</a>, <a href="/man3/BIO_meth_new.html">BIO_meth_new</a></p>
+<p><a href="/../man7/bio.html">bio</a>, <a href="/../man3/BIO_meth_new.html">BIO_meth_new</a></p>
 
 <h1 id="HISTORY">HISTORY</h1>
 

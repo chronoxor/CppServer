@@ -28,18 +28,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rand.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_bytes</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RAND_priv_bytes</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rand.h&gt;
+
+ int RAND_bytes(unsigned char *buf, int num);
+ int RAND_priv_bytes(unsigned char *buf, int num);</code></pre>
 
 <p>Deprecated:</p>
 
-<pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x10100000L</span>
- <span class="keyword">int</span> <span class="variable">RAND_pseudo_bytes</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
- <span class="comment">#endif</span>
-</code></pre>
+<pre><code> #if OPENSSL_API_COMPAT &lt; 0x10100000L
+ int RAND_pseudo_bytes(unsigned char *buf, int num);
+ #endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

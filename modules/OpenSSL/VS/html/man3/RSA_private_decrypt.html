@@ -28,14 +28,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_public_encrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_private_decrypt</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                         <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rsa.h&gt;
+
+ int RSA_public_encrypt(int flen, const unsigned char *from,
+                        unsigned char *to, RSA *rsa, int padding);
+
+ int RSA_private_decrypt(int flen, const unsigned char *from,
+                         unsigned char *to, RSA *rsa, int padding);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

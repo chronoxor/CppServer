@@ -29,47 +29,46 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="variable">ASN1_TIME</span> <span class="variable">*ASN1_TIME_set</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">);</span>
- <span class="variable">ASN1_UTCTIME</span> <span class="variable">*ASN1_UTCTIME_set</span><span class="operator">(</span><span class="variable">ASN1_UTCTIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">);</span>
- <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*ASN1_GENERALIZEDTIME_set</span><span class="operator">(</span><span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*s</span><span class="operator">,</span>
-                                                <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">);</span>
- 
- <span class="variable">ASN1_TIME</span> <span class="variable">*ASN1_TIME_adj</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">offset_day</span><span class="operator">,</span>
-                          <span class="variable">long</span> <span class="variable">offset_sec</span><span class="operator">);</span>
- <span class="variable">ASN1_UTCTIME</span> <span class="variable">*ASN1_UTCTIME_adj</span><span class="operator">(</span><span class="variable">ASN1_UTCTIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">,</span>
-                                <span class="keyword">int</span> <span class="variable">offset_day</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">offset_sec</span><span class="operator">);</span>
- <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*ASN1_GENERALIZEDTIME_adj</span><span class="operator">(</span><span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*s</span><span class="operator">,</span>
-                                                <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">offset_day</span><span class="operator">,</span>
-                                                <span class="variable">long</span> <span class="variable">offset_sec</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_TIME_set_string</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_TIME_set_string_X509</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_UTCTIME_set_string</span><span class="operator">(</span><span class="variable">ASN1_UTCTIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_GENERALIZEDTIME_set_string</span><span class="operator">(</span><span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*s</span><span class="operator">,</span>
-                                     <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_TIME_normalize</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*s</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_TIME_check</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*t</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_UTCTIME_check</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_UTCTIME</span> <span class="variable">*t</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_GENERALIZEDTIME_check</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*t</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_TIME_print</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_UTCTIME_print</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_UTCTIME</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_GENERALIZEDTIME_print</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*s</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_TIME_to_tm</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">struct</span> <span class="variable">tm</span> <span class="variable">*tm</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_TIME_diff</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">*pday</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*psec</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*from</span><span class="operator">,</span>
-                    <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*to</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_TIME_cmp_time_t</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_UTCTIME_cmp_time_t</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_UTCTIME</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_TIME_compare</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*ASN1_TIME_to_generalizedtime</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*t</span><span class="operator">,</span>
-                                                    <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">);</span>
-</code></pre>
+<pre><code> ASN1_TIME *ASN1_TIME_set(ASN1_TIME *s, time_t t);
+ ASN1_UTCTIME *ASN1_UTCTIME_set(ASN1_UTCTIME *s, time_t t);
+ ASN1_GENERALIZEDTIME *ASN1_GENERALIZEDTIME_set(ASN1_GENERALIZEDTIME *s,
+                                                time_t t);
+
+ ASN1_TIME *ASN1_TIME_adj(ASN1_TIME *s, time_t t, int offset_day,
+                          long offset_sec);
+ ASN1_UTCTIME *ASN1_UTCTIME_adj(ASN1_UTCTIME *s, time_t t,
+                                int offset_day, long offset_sec);
+ ASN1_GENERALIZEDTIME *ASN1_GENERALIZEDTIME_adj(ASN1_GENERALIZEDTIME *s,
+                                                time_t t, int offset_day,
+                                                long offset_sec);
+
+ int ASN1_TIME_set_string(ASN1_TIME *s, const char *str);
+ int ASN1_TIME_set_string_X509(ASN1_TIME *s, const char *str);
+ int ASN1_UTCTIME_set_string(ASN1_UTCTIME *s, const char *str);
+ int ASN1_GENERALIZEDTIME_set_string(ASN1_GENERALIZEDTIME *s,
+                                     const char *str);
+
+ int ASN1_TIME_normalize(ASN1_TIME *s);
+
+ int ASN1_TIME_check(const ASN1_TIME *t);
+ int ASN1_UTCTIME_check(const ASN1_UTCTIME *t);
+ int ASN1_GENERALIZEDTIME_check(const ASN1_GENERALIZEDTIME *t);
+
+ int ASN1_TIME_print(BIO *b, const ASN1_TIME *s);
+ int ASN1_UTCTIME_print(BIO *b, const ASN1_UTCTIME *s);
+ int ASN1_GENERALIZEDTIME_print(BIO *b, const ASN1_GENERALIZEDTIME *s);
+
+ int ASN1_TIME_to_tm(const ASN1_TIME *s, struct tm *tm);
+ int ASN1_TIME_diff(int *pday, int *psec, const ASN1_TIME *from,
+                    const ASN1_TIME *to);
+
+ int ASN1_TIME_cmp_time_t(const ASN1_TIME *s, time_t t);
+ int ASN1_UTCTIME_cmp_time_t(const ASN1_UTCTIME *s, time_t t);
+
+ int ASN1_TIME_compare(const ASN1_TIME *a, const ASN1_TIME *b);
+
+ ASN1_GENERALIZEDTIME *ASN1_TIME_to_generalizedtime(ASN1_TIME *t,
+                                                    ASN1_GENERALIZEDTIME **out);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -145,35 +144,33 @@
 
 <p>Set a time structure to one hour after the current time and print it out:</p>
 
-<pre><code> <span class="comment">#include &lt;time.h&gt;</span>
- <span class="comment">#include &lt;openssl/asn1.h&gt;</span>
- 
- <span class="variable">ASN1_TIME</span> <span class="variable">*tm</span><span class="operator">;</span>
- <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">;</span>
- <span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">;</span>
- 
- <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">time</span><span class="operator">(</span><span class="variable">NULL</span><span class="operator">);</span>
- <span class="variable">tm</span> <span class="operator">=</span> <span class="variable">ASN1_TIME_adj</span><span class="operator">(</span><span class="variable">NULL</span><span class="operator">,</span> <span class="variable">t</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">60</span> <span class="operator">*</span> <span class="number">60</span><span class="operator">);</span>
- <span class="variable">b</span> <span class="operator">=</span> <span class="variable">BIO_new_fp</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">BIO_NOCLOSE</span><span class="operator">);</span>
- <span class="variable">ASN1_TIME_print</span><span class="operator">(</span><span class="variable">b</span><span class="operator">,</span> <span class="variable">tm</span><span class="operator">);</span>
- <span class="variable">ASN1_STRING_free</span><span class="operator">(</span><span class="variable">tm</span><span class="operator">);</span>
- <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">b</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;time.h&gt;
+ #include &lt;openssl/asn1.h&gt;
+
+ ASN1_TIME *tm;
+ time_t t;
+ BIO *b;
+
+ t = time(NULL);
+ tm = ASN1_TIME_adj(NULL, t, 0, 60 * 60);
+ b = BIO_new_fp(stdout, BIO_NOCLOSE);
+ ASN1_TIME_print(b, tm);
+ ASN1_STRING_free(tm);
+ BIO_free(b);</code></pre>
 
 <p>Determine if one time is later or sooner than the current time:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">day</span><span class="operator">,</span> <span class="variable">sec</span><span class="operator">;</span>
- 
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ASN1_TIME_diff</span><span class="operator">(&amp;</span><span class="variable">day</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">sec</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">to</span><span class="operator">))</span>
-     <span class="operator">/*</span> <span class="variable">Invalid</span> <span class="keyword">time</span> <span class="keyword">format</span> <span class="operator">*/</span>
- 
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">day</span> <span class="operator">&gt;</span> <span class="number">0</span> <span class="operator">||</span> <span class="variable">sec</span> <span class="operator">&gt;</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Later\n"</span><span class="operator">);</span>
- <span class="keyword">else</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">day</span> <span class="operator">&lt;</span> <span class="number">0</span> <span class="operator">||</span> <span class="variable">sec</span> <span class="operator">&lt;</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Sooner\n"</span><span class="operator">);</span>
- <span class="keyword">else</span>
-     <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Same\n"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> int day, sec;
+
+ if (!ASN1_TIME_diff(&amp;day, &amp;sec, NULL, to))
+     /* Invalid time format */
+
+ if (day &gt; 0 || sec &gt; 0)
+     printf(&quot;Later\n&quot;);
+ else if (day &lt; 0 || sec &lt; 0)
+     printf(&quot;Sooner\n&quot;);
+ else
+     printf(&quot;Same\n&quot;);</code></pre>
 
 <h1 id="HISTORY">HISTORY</h1>
 

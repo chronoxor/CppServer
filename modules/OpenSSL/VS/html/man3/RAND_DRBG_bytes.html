@@ -28,16 +28,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rand_drbg.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_DRBG_generate</span><span class="operator">(</span><span class="variable">RAND_DRBG</span> <span class="variable">*drbg</span><span class="operator">,</span>
-                        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">outlen</span><span class="operator">,</span>
-                        <span class="keyword">int</span> <span class="variable">prediction_resistance</span><span class="operator">,</span>
-                        <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*adin</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">adinlen</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_DRBG_bytes</span><span class="operator">(</span><span class="variable">RAND_DRBG</span> <span class="variable">*drbg</span><span class="operator">,</span>
-                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">outlen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rand_drbg.h&gt;
+
+ int RAND_DRBG_generate(RAND_DRBG *drbg,
+                        unsigned char *out, size_t outlen,
+                        int prediction_resistance,
+                        const unsigned char *adin, size_t adinlen);
+
+ int RAND_DRBG_bytes(RAND_DRBG *drbg,
+                     unsigned char *out, size_t outlen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

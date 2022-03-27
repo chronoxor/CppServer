@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rand.h&gt;</span>
- 
- <span class="variable">RAND_METHOD</span> <span class="variable">*RAND_OpenSSL</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_set_rand_method</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RAND_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">RAND_METHOD</span> <span class="variable">*RAND_get_rand_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rand.h&gt;
+
+ RAND_METHOD *RAND_OpenSSL(void);
+
+ int RAND_set_rand_method(const RAND_METHOD *meth);
+
+ const RAND_METHOD *RAND_get_rand_method(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -50,15 +49,14 @@
 
 <h1 id="THE-RAND_METHOD-STRUCTURE">THE RAND_METHOD STRUCTURE</h1>
 
-<pre><code> <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">rand_meth_st</span> <span class="operator">{</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*seed</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*bytes</span><span class="operator">)(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
-     <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cleanup</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">);</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*add</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">double</span> <span class="variable">entropy</span><span class="operator">);</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pseudorand</span><span class="operator">)(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*status</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="operator">}</span> <span class="variable">RAND_METHOD</span><span class="operator">;</span>
-</code></pre>
+<pre><code> typedef struct rand_meth_st {
+     int (*seed)(const void *buf, int num);
+     int (*bytes)(unsigned char *buf, int num);
+     void (*cleanup)(void);
+     int (*add)(const void *buf, int num, double entropy);
+     int (*pseudorand)(unsigned char *buf, int num);
+     int (*status)(void);
+ } RAND_METHOD;</code></pre>
 
 <p>The fields point to functions that are used by, in order, RAND_seed(), RAND_bytes(), internal RAND cleanup, RAND_add(), RAND_pseudo_rand() and RAND_status(). Each pointer may be NULL if the function is not implemented.</p>
 

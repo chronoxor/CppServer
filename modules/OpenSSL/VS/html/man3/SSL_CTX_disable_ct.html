@@ -28,23 +28,22 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*ssl_ct_validation_cb</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">CT_POLICY_EVAL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                    <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="variable">*scts</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_enable_ct</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">validation_mode</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_enable_ct</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">validation_mode</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_ct_validation_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">ssl_ct_validation_cb</span> <span class="variable">callback</span><span class="operator">,</span>
-                                    <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_ct_validation_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                        <span class="variable">ssl_ct_validation_cb</span> <span class="variable">callback</span><span class="operator">,</span>
-                                        <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_disable_ct</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_disable_ct</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_ct_is_enabled</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_ct_is_enabled</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ typedef int (*ssl_ct_validation_cb)(const CT_POLICY_EVAL_CTX *ctx,
+                                    const STACK_OF(SCT) *scts, void *arg);
+
+ int SSL_enable_ct(SSL *s, int validation_mode);
+ int SSL_CTX_enable_ct(SSL_CTX *ctx, int validation_mode);
+ int SSL_set_ct_validation_callback(SSL *s, ssl_ct_validation_cb callback,
+                                    void *arg);
+ int SSL_CTX_set_ct_validation_callback(SSL_CTX *ctx,
+                                        ssl_ct_validation_cb callback,
+                                        void *arg);
+ void SSL_disable_ct(SSL *s);
+ void SSL_CTX_disable_ct(SSL_CTX *ctx);
+ int SSL_ct_is_enabled(const SSL *s);
+ int SSL_CTX_ct_is_enabled(const SSL_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

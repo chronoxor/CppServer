@@ -26,17 +26,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_in_init</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_in_before</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_is_init_finished</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_in_connect_init</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_in_accept_init</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- 
- <span class="variable">OSSL_HANDSHAKE_STATE</span> <span class="variable">SSL_get_state</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_in_init(const SSL *s);
+ int SSL_in_before(const SSL *s);
+ int SSL_is_init_finished(const SSL *s);
+
+ int SSL_in_connect_init(SSL *s);
+ int SSL_in_accept_init(SSL *s);
+
+ OSSL_HANDSHAKE_STATE SSL_get_state(const SSL *ssl);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

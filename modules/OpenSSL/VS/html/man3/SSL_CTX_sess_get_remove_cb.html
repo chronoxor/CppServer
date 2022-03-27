@@ -27,26 +27,25 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_sess_set_new_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                              <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*new_session_cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="operator">*,</span> <span class="variable">SSL_SESSION</span> <span class="operator">*));</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_sess_set_remove_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                 <span class="variable">void</span> <span class="operator">(</span><span class="variable">*remove_session_cb</span><span class="operator">)(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                                           <span class="variable">SSL_SESSION</span> <span class="operator">*));</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_sess_set_get_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                              <span class="variable">SSL_SESSION</span> <span class="operator">(</span><span class="variable">*get_session_cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="operator">*,</span>
-                                                            <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">*,</span>
-                                                            <span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">*));</span>
- 
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_CTX_sess_get_new_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">))(</span><span class="variable">struct</span> <span class="variable">ssl_st</span> <span class="variable">*ssl</span><span class="operator">,</span>
-                                              <span class="variable">SSL_SESSION</span> <span class="variable">*sess</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="operator">(</span><span class="variable">*SSL_CTX_sess_get_remove_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">))(</span><span class="variable">struct</span> <span class="variable">ssl_ctx_st</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                                  <span class="variable">SSL_SESSION</span> <span class="variable">*sess</span><span class="operator">);</span>
- <span class="variable">SSL_SESSION</span> <span class="operator">*(</span><span class="variable">*SSL_CTX_sess_get_get_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">))(</span><span class="variable">struct</span> <span class="variable">ssl_st</span> <span class="variable">*ssl</span><span class="operator">,</span>
-                                                       <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">,</span>
-                                                       <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*copy</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_sess_set_new_cb(SSL_CTX *ctx,
+                              int (*new_session_cb)(SSL *, SSL_SESSION *));
+ void SSL_CTX_sess_set_remove_cb(SSL_CTX *ctx,
+                                 void (*remove_session_cb)(SSL_CTX *ctx,
+                                                           SSL_SESSION *));
+ void SSL_CTX_sess_set_get_cb(SSL_CTX *ctx,
+                              SSL_SESSION (*get_session_cb)(SSL *,
+                                                            const unsigned char *,
+                                                            int, int *));
+
+ int (*SSL_CTX_sess_get_new_cb(SSL_CTX *ctx))(struct ssl_st *ssl,
+                                              SSL_SESSION *sess);
+ void (*SSL_CTX_sess_get_remove_cb(SSL_CTX *ctx))(struct ssl_ctx_st *ctx,
+                                                  SSL_SESSION *sess);
+ SSL_SESSION *(*SSL_CTX_sess_get_get_cb(SSL_CTX *ctx))(struct ssl_st *ssl,
+                                                       const unsigned char *data,
+                                                       int len, int *copy);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -28,30 +28,29 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set0_chain</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set1_chain</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_add0_chain_cert</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x509</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_add1_chain_cert</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x509</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_get0_chain_certs</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="operator">**</span><span class="variable">sk</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_clear_chain_certs</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_set0_chain</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set1_chain</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_add0_chain_cert</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x509</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_add1_chain_cert</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x509</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get0_chain_certs</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="operator">**</span><span class="variable">sk</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_clear_chain_certs</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_build_cert_chain</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_build_cert_chain</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_select_current_cert</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x509</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_select_current_cert</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x509</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_current_cert</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">op</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_current_cert</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">op</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_set0_chain(SSL_CTX *ctx, STACK_OF(X509) *sk);
+ int SSL_CTX_set1_chain(SSL_CTX *ctx, STACK_OF(X509) *sk);
+ int SSL_CTX_add0_chain_cert(SSL_CTX *ctx, X509 *x509);
+ int SSL_CTX_add1_chain_cert(SSL_CTX *ctx, X509 *x509);
+ int SSL_CTX_get0_chain_certs(SSL_CTX *ctx, STACK_OF(X509) **sk);
+ int SSL_CTX_clear_chain_certs(SSL_CTX *ctx);
+
+ int SSL_set0_chain(SSL *ssl, STACK_OF(X509) *sk);
+ int SSL_set1_chain(SSL *ssl, STACK_OF(X509) *sk);
+ int SSL_add0_chain_cert(SSL *ssl, X509 *x509);
+ int SSL_add1_chain_cert(SSL *ssl, X509 *x509);
+ int SSL_get0_chain_certs(SSL *ssl, STACK_OF(X509) **sk);
+ int SSL_clear_chain_certs(SSL *ssl);
+
+ int SSL_CTX_build_cert_chain(SSL_CTX *ctx, flags);
+ int SSL_build_cert_chain(SSL *ssl, flags);
+
+ int SSL_CTX_select_current_cert(SSL_CTX *ctx, X509 *x509);
+ int SSL_select_current_cert(SSL *ssl, X509 *x509);
+ int SSL_CTX_set_current_cert(SSL_CTX *ctx, long op);
+ int SSL_set_current_cert(SSL *ssl, long op);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

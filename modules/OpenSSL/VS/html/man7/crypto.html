@@ -41,9 +41,8 @@
 
 <p>Some of the newer functions follow a naming convention using the numbers <b>0</b> and <b>1</b>. For example the functions:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">X509_CRL_add0_revoked</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">,</span> <span class="variable">X509_REVOKED</span> <span class="variable">*rev</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_add1_trust_object</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">);</span>
-</code></pre>
+<pre><code> int X509_CRL_add0_revoked(X509_CRL *crl, X509_REVOKED *rev);
+ int X509_add1_trust_object(X509 *x, const ASN1_OBJECT *obj);</code></pre>
 
 <p>The <b>0</b> version uses the supplied structure pointer directly in the parent and it will be freed up when the parent is freed. In the above example <b>crl</b> would be freed but <b>rev</b> would not.</p>
 

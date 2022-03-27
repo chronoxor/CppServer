@@ -28,14 +28,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="variable">BN_CTX</span> <span class="variable">*BN_CTX_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">BN_CTX</span> <span class="variable">*BN_CTX_secure_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">BN_CTX_free</span><span class="operator">(</span><span class="variable">BN_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ BN_CTX *BN_CTX_new(void);
+
+ BN_CTX *BN_CTX_secure_new(void);
+
+ void BN_CTX_free(BN_CTX *c);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -55,18 +54,16 @@
 
 <h1 id="REMOVED-FUNCTIONALITY">REMOVED FUNCTIONALITY</h1>
 
-<pre><code> <span class="variable">void</span> <span class="variable">BN_CTX_init</span><span class="operator">(</span><span class="variable">BN_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
-</code></pre>
+<pre><code> void BN_CTX_init(BN_CTX *c);</code></pre>
 
 <p>BN_CTX_init() is no longer available as of OpenSSL 1.1.0. Applications should replace use of BN_CTX_init with BN_CTX_new instead:</p>
 
-<pre><code> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
- <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">BN_CTX_new</span><span class="operator">();</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ctx</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">error</span> <span class="operator">*/</span>
- <span class="operator">...</span>
- <span class="variable">BN_CTX_free</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BN_CTX *ctx;
+ ctx = BN_CTX_new();
+ if (!ctx)
+     /* error */
+ ...
+ BN_CTX_free(ctx);</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

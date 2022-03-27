@@ -26,12 +26,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">X509_cmp_time</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*asn1_time</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">*in_tm</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_cmp_current_time</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*asn1_time</span><span class="operator">);</span>
- <span class="variable">ASN1_TIME</span> <span class="variable">*X509_time_adj</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*asn1_time</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">offset_sec</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">*in_tm</span><span class="operator">);</span>
- <span class="variable">ASN1_TIME</span> <span class="variable">*X509_time_adj_ex</span><span class="operator">(</span><span class="variable">ASN1_TIME</span> <span class="variable">*asn1_time</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">offset_day</span><span class="operator">,</span> <span class="variable">long</span>
-                             <span class="variable">offset_sec</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">*in_tm</span><span class="operator">);</span>
-</code></pre>
+<pre><code> int X509_cmp_time(const ASN1_TIME *asn1_time, time_t *in_tm);
+ int X509_cmp_current_time(const ASN1_TIME *asn1_time);
+ ASN1_TIME *X509_time_adj(ASN1_TIME *asn1_time, long offset_sec, time_t *in_tm);
+ ASN1_TIME *X509_time_adj_ex(ASN1_TIME *asn1_time, int offset_day, long
+                             offset_sec, time_t *in_tm);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

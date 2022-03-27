@@ -28,16 +28,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">BIO_read_ex</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">dlen</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*readbytes</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_write_ex</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">dlen</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*written</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BIO_read</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">dlen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_gets</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_write</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">dlen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_puts</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+
+ int BIO_read_ex(BIO *b, void *data, size_t dlen, size_t *readbytes);
+ int BIO_write_ex(BIO *b, const void *data, size_t dlen, size_t *written);
+
+ int BIO_read(BIO *b, void *data, int dlen);
+ int BIO_gets(BIO *b, char *buf, int size);
+ int BIO_write(BIO *b, const void *data, int dlen);
+ int BIO_puts(BIO *b, const char *buf);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

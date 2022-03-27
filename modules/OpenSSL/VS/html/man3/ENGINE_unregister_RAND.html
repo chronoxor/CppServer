@@ -35,116 +35,115 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/engine.h&gt;</span>
- 
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_first</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_last</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_next</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_prev</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ENGINE_add</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_remove</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- 
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_by_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*id</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ENGINE_init</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_finish</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">ENGINE_load_builtin_engines</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_default_RSA</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_default_DSA</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_default_DH</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_default_RAND</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_cipher_engine</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_get_digest_engine</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ENGINE_set_default_RSA</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_default_DSA</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_default_DH</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_default_RAND</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_default_ciphers</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_default_digests</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_default_string</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*list</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ENGINE_set_default</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">ENGINE_get_table_flags</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_set_table_flags</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ENGINE_register_RSA</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_unregister_RSA</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_register_all_RSA</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_register_DSA</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_unregister_DSA</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_register_all_DSA</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_register_DH</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_unregister_DH</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_register_all_DH</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_register_RAND</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_unregister_RAND</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_register_all_RAND</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_register_ciphers</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_unregister_ciphers</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_register_all_ciphers</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_register_digests</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_unregister_digests</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ENGINE_register_all_digests</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_register_complete</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_register_all_complete</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ENGINE_ctrl</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">cmd</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">i</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*f</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">));</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_cmd_is_executable</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">cmd</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_ctrl_cmd</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*cmd_name</span><span class="operator">,</span>
-                     <span class="variable">long</span> <span class="variable">i</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*f</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">),</span> <span class="keyword">int</span> <span class="variable">cmd_optional</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_ctrl_cmd_string</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*cmd_name</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*arg</span><span class="operator">,</span>
-                            <span class="keyword">int</span> <span class="variable">cmd_optional</span><span class="operator">);</span>
- 
- <span class="variable">ENGINE</span> <span class="variable">*ENGINE_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_free</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_up_ref</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ENGINE_set_id</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*id</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_name</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_RSA</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*rsa_meth</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_DSA</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">DSA_METHOD</span> <span class="variable">*dsa_meth</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_DH</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">DH_METHOD</span> <span class="variable">*dh_meth</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_RAND</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">RAND_METHOD</span> <span class="variable">*rand_meth</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_destroy_function</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">ENGINE_GEN_INT_FUNC_PTR</span> <span class="variable">destroy_f</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_init_function</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">ENGINE_GEN_INT_FUNC_PTR</span> <span class="variable">init_f</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_finish_function</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">ENGINE_GEN_INT_FUNC_PTR</span> <span class="variable">finish_f</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_ctrl_function</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">ENGINE_CTRL_FUNC_PTR</span> <span class="variable">ctrl_f</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_load_privkey_function</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">ENGINE_LOAD_KEY_PTR</span> <span class="variable">loadpriv_f</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_load_pubkey_function</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">ENGINE_LOAD_KEY_PTR</span> <span class="variable">loadpub_f</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_ciphers</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">ENGINE_CIPHERS_PTR</span> <span class="variable">f</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_digests</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">ENGINE_DIGESTS_PTR</span> <span class="variable">f</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_flags</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_set_cmd_defns</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ENGINE_CMD_DEFN</span> <span class="variable">*defns</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*ENGINE_get_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*ENGINE_get_name</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*ENGINE_get_RSA</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">DSA_METHOD</span> <span class="variable">*ENGINE_get_DSA</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">DH_METHOD</span> <span class="variable">*ENGINE_get_DH</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">RAND_METHOD</span> <span class="variable">*ENGINE_get_RAND</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">ENGINE_GEN_INT_FUNC_PTR</span> <span class="variable">ENGINE_get_destroy_function</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">ENGINE_GEN_INT_FUNC_PTR</span> <span class="variable">ENGINE_get_init_function</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">ENGINE_GEN_INT_FUNC_PTR</span> <span class="variable">ENGINE_get_finish_function</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">ENGINE_CTRL_FUNC_PTR</span> <span class="variable">ENGINE_get_ctrl_function</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">ENGINE_LOAD_KEY_PTR</span> <span class="variable">ENGINE_get_load_privkey_function</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">ENGINE_LOAD_KEY_PTR</span> <span class="variable">ENGINE_get_load_pubkey_function</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">ENGINE_CIPHERS_PTR</span> <span class="variable">ENGINE_get_ciphers</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">ENGINE_DIGESTS_PTR</span> <span class="variable">ENGINE_get_digests</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*ENGINE_get_cipher</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*ENGINE_get_digest</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ENGINE_get_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ENGINE_CMD_DEFN</span> <span class="variable">*ENGINE_get_cmd_defns</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">);</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*ENGINE_load_private_key</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*key_id</span><span class="operator">,</span>
-                                   <span class="variable">UI_METHOD</span> <span class="variable">*ui_method</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*callback_data</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*ENGINE_load_public_key</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*key_id</span><span class="operator">,</span>
-                                  <span class="variable">UI_METHOD</span> <span class="variable">*ui_method</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*callback_data</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/engine.h&gt;
+
+ ENGINE *ENGINE_get_first(void);
+ ENGINE *ENGINE_get_last(void);
+ ENGINE *ENGINE_get_next(ENGINE *e);
+ ENGINE *ENGINE_get_prev(ENGINE *e);
+
+ int ENGINE_add(ENGINE *e);
+ int ENGINE_remove(ENGINE *e);
+
+ ENGINE *ENGINE_by_id(const char *id);
+
+ int ENGINE_init(ENGINE *e);
+ int ENGINE_finish(ENGINE *e);
+
+ void ENGINE_load_builtin_engines(void);
+
+ ENGINE *ENGINE_get_default_RSA(void);
+ ENGINE *ENGINE_get_default_DSA(void);
+ ENGINE *ENGINE_get_default_DH(void);
+ ENGINE *ENGINE_get_default_RAND(void);
+ ENGINE *ENGINE_get_cipher_engine(int nid);
+ ENGINE *ENGINE_get_digest_engine(int nid);
+
+ int ENGINE_set_default_RSA(ENGINE *e);
+ int ENGINE_set_default_DSA(ENGINE *e);
+ int ENGINE_set_default_DH(ENGINE *e);
+ int ENGINE_set_default_RAND(ENGINE *e);
+ int ENGINE_set_default_ciphers(ENGINE *e);
+ int ENGINE_set_default_digests(ENGINE *e);
+ int ENGINE_set_default_string(ENGINE *e, const char *list);
+
+ int ENGINE_set_default(ENGINE *e, unsigned int flags);
+
+ unsigned int ENGINE_get_table_flags(void);
+ void ENGINE_set_table_flags(unsigned int flags);
+
+ int ENGINE_register_RSA(ENGINE *e);
+ void ENGINE_unregister_RSA(ENGINE *e);
+ void ENGINE_register_all_RSA(void);
+ int ENGINE_register_DSA(ENGINE *e);
+ void ENGINE_unregister_DSA(ENGINE *e);
+ void ENGINE_register_all_DSA(void);
+ int ENGINE_register_DH(ENGINE *e);
+ void ENGINE_unregister_DH(ENGINE *e);
+ void ENGINE_register_all_DH(void);
+ int ENGINE_register_RAND(ENGINE *e);
+ void ENGINE_unregister_RAND(ENGINE *e);
+ void ENGINE_register_all_RAND(void);
+ int ENGINE_register_ciphers(ENGINE *e);
+ void ENGINE_unregister_ciphers(ENGINE *e);
+ void ENGINE_register_all_ciphers(void);
+ int ENGINE_register_digests(ENGINE *e);
+ void ENGINE_unregister_digests(ENGINE *e);
+ void ENGINE_register_all_digests(void);
+ int ENGINE_register_complete(ENGINE *e);
+ int ENGINE_register_all_complete(void);
+
+ int ENGINE_ctrl(ENGINE *e, int cmd, long i, void *p, void (*f)(void));
+ int ENGINE_cmd_is_executable(ENGINE *e, int cmd);
+ int ENGINE_ctrl_cmd(ENGINE *e, const char *cmd_name,
+                     long i, void *p, void (*f)(void), int cmd_optional);
+ int ENGINE_ctrl_cmd_string(ENGINE *e, const char *cmd_name, const char *arg,
+                            int cmd_optional);
+
+ ENGINE *ENGINE_new(void);
+ int ENGINE_free(ENGINE *e);
+ int ENGINE_up_ref(ENGINE *e);
+
+ int ENGINE_set_id(ENGINE *e, const char *id);
+ int ENGINE_set_name(ENGINE *e, const char *name);
+ int ENGINE_set_RSA(ENGINE *e, const RSA_METHOD *rsa_meth);
+ int ENGINE_set_DSA(ENGINE *e, const DSA_METHOD *dsa_meth);
+ int ENGINE_set_DH(ENGINE *e, const DH_METHOD *dh_meth);
+ int ENGINE_set_RAND(ENGINE *e, const RAND_METHOD *rand_meth);
+ int ENGINE_set_destroy_function(ENGINE *e, ENGINE_GEN_INT_FUNC_PTR destroy_f);
+ int ENGINE_set_init_function(ENGINE *e, ENGINE_GEN_INT_FUNC_PTR init_f);
+ int ENGINE_set_finish_function(ENGINE *e, ENGINE_GEN_INT_FUNC_PTR finish_f);
+ int ENGINE_set_ctrl_function(ENGINE *e, ENGINE_CTRL_FUNC_PTR ctrl_f);
+ int ENGINE_set_load_privkey_function(ENGINE *e, ENGINE_LOAD_KEY_PTR loadpriv_f);
+ int ENGINE_set_load_pubkey_function(ENGINE *e, ENGINE_LOAD_KEY_PTR loadpub_f);
+ int ENGINE_set_ciphers(ENGINE *e, ENGINE_CIPHERS_PTR f);
+ int ENGINE_set_digests(ENGINE *e, ENGINE_DIGESTS_PTR f);
+ int ENGINE_set_flags(ENGINE *e, int flags);
+ int ENGINE_set_cmd_defns(ENGINE *e, const ENGINE_CMD_DEFN *defns);
+
+ const char *ENGINE_get_id(const ENGINE *e);
+ const char *ENGINE_get_name(const ENGINE *e);
+ const RSA_METHOD *ENGINE_get_RSA(const ENGINE *e);
+ const DSA_METHOD *ENGINE_get_DSA(const ENGINE *e);
+ const DH_METHOD *ENGINE_get_DH(const ENGINE *e);
+ const RAND_METHOD *ENGINE_get_RAND(const ENGINE *e);
+ ENGINE_GEN_INT_FUNC_PTR ENGINE_get_destroy_function(const ENGINE *e);
+ ENGINE_GEN_INT_FUNC_PTR ENGINE_get_init_function(const ENGINE *e);
+ ENGINE_GEN_INT_FUNC_PTR ENGINE_get_finish_function(const ENGINE *e);
+ ENGINE_CTRL_FUNC_PTR ENGINE_get_ctrl_function(const ENGINE *e);
+ ENGINE_LOAD_KEY_PTR ENGINE_get_load_privkey_function(const ENGINE *e);
+ ENGINE_LOAD_KEY_PTR ENGINE_get_load_pubkey_function(const ENGINE *e);
+ ENGINE_CIPHERS_PTR ENGINE_get_ciphers(const ENGINE *e);
+ ENGINE_DIGESTS_PTR ENGINE_get_digests(const ENGINE *e);
+ const EVP_CIPHER *ENGINE_get_cipher(ENGINE *e, int nid);
+ const EVP_MD *ENGINE_get_digest(ENGINE *e, int nid);
+ int ENGINE_get_flags(const ENGINE *e);
+ const ENGINE_CMD_DEFN *ENGINE_get_cmd_defns(const ENGINE *e);
+
+ EVP_PKEY *ENGINE_load_private_key(ENGINE *e, const char *key_id,
+                                   UI_METHOD *ui_method, void *callback_data);
+ EVP_PKEY *ENGINE_load_public_key(ENGINE *e, const char *key_id,
+                                  UI_METHOD *ui_method, void *callback_data);</code></pre>
 
 <p>Deprecated:</p>
 
@@ -211,41 +210,39 @@
 
 <p>Here we&#39;ll assume an application has been configured by its user or admin to want to use the &quot;ACME&quot; ENGINE if it is available in the version of OpenSSL the application was compiled with. If it is available, it should be used by default for all RSA, DSA, and symmetric cipher operations, otherwise OpenSSL should use its builtin software as per usual. The following code illustrates how to approach this;</p>
 
-<pre><code> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">;</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*engine_id</span> <span class="operator">=</span> <span class="string">"ACME"</span><span class="operator">;</span>
- <span class="variable">ENGINE_load_builtin_engines</span><span class="operator">();</span>
- <span class="variable">e</span> <span class="operator">=</span> <span class="variable">ENGINE_by_id</span><span class="operator">(</span><span class="variable">engine_id</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">e</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">the</span> <span class="variable">engine</span> <span class="variable">isn't</span> <span class="variable">available</span> <span class="operator">*/</span>
-     <span class="keyword">return</span><span class="operator">;</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ENGINE_init</span><span class="operator">(</span><span class="variable">e</span><span class="operator">))</span> <span class="operator">{</span>
-     <span class="regex">/* the engine couldn't initialise, release 'e' */</span>
-     <span class="variable">ENGINE_free</span><span class="operator">(</span><span class="variable">e</span><span class="operator">);</span>
-     <span class="keyword">return</span><span class="operator">;</span>
- <span class="operator">}</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ENGINE_set_default_RSA</span><span class="operator">(</span><span class="variable">e</span><span class="operator">))</span>
-     <span class="operator">/*</span>
-      <span class="operator">*</span> <span class="variable">This</span> <span class="variable">should</span> <span class="variable">only</span> <span class="variable">happen</span> <span class="keyword">when</span> <span class="string">'e'</span> <span class="variable">can't</span> <span class="variable">initialise</span><span class="operator">,</span> <span class="variable">but</span> <span class="variable">the</span> <span class="variable">previous</span>
-      <span class="operator">*</span> <span class="variable">statement</span> <span class="variable">suggests</span> <span class="variable">it</span> <span class="variable">did</span><span class="operator">.</span>
-      <span class="operator">*</span><span class="regex">/
+<pre><code> ENGINE *e;
+ const char *engine_id = &quot;ACME&quot;;
+ ENGINE_load_builtin_engines();
+ e = ENGINE_by_id(engine_id);
+ if (!e)
+     /* the engine isn&#39;t available */
+     return;
+ if (!ENGINE_init(e)) {
+     /* the engine couldn&#39;t initialise, release &#39;e&#39; */
+     ENGINE_free(e);
+     return;
+ }
+ if (!ENGINE_set_default_RSA(e))
+     /*
+      * This should only happen when &#39;e&#39; can&#39;t initialise, but the previous
+      * statement suggests it did.
+      */
      abort();
  ENGINE_set_default_DSA(e);
  ENGINE_set_default_ciphers(e);
- /</span><span class="operator">*</span> <span class="variable">Release</span> <span class="variable">the</span> <span class="variable">functional</span> <span class="variable">reference</span> <span class="variable">from</span> <span class="variable">ENGINE_init</span><span class="operator">()</span> <span class="operator">*/</span>
- <span class="variable">ENGINE_finish</span><span class="operator">(</span><span class="variable">e</span><span class="operator">);</span>
- <span class="regex">/* Release the structural reference from ENGINE_by_id() */</span>
- <span class="variable">ENGINE_free</span><span class="operator">(</span><span class="variable">e</span><span class="operator">);</span>
-</code></pre>
+ /* Release the functional reference from ENGINE_init() */
+ ENGINE_finish(e);
+ /* Release the structural reference from ENGINE_by_id() */
+ ENGINE_free(e);</code></pre>
 
 <p><i>Automatically using builtin ENGINE implementations</i></p>
 
 <p>Here we&#39;ll assume we want to load and register all ENGINE implementations bundled with OpenSSL, such that for any cryptographic algorithm required by OpenSSL - if there is an ENGINE that implements it and can be initialised, it should be used. The following code illustrates how this can work;</p>
 
-<pre><code> <span class="regex">/* Load all bundled ENGINEs into memory and make them visible */</span>
- <span class="variable">ENGINE_load_builtin_engines</span><span class="operator">();</span>
- <span class="regex">/* Register all of them for every algorithm they collectively implement */</span>
- <span class="variable">ENGINE_register_all_complete</span><span class="operator">();</span>
-</code></pre>
+<pre><code> /* Load all bundled ENGINEs into memory and make them visible */
+ ENGINE_load_builtin_engines();
+ /* Register all of them for every algorithm they collectively implement */
+ ENGINE_register_all_complete();</code></pre>
 
 <p>That&#39;s all that&#39;s required. Eg. the next time OpenSSL tries to set up an RSA key, any bundled ENGINEs that implement RSA_METHOD will be passed to ENGINE_init() and if any of those succeed, that ENGINE will be set as the default for RSA use from then on.</p>
 
@@ -259,45 +256,44 @@
 
 <p>Let&#39;s illustrate by example; a function for which the caller supplies the name of the ENGINE it wishes to use, a table of string-pairs for use before initialisation, and another table for use after initialisation. Note that the string-pairs used for control commands consist of a command &quot;name&quot; followed by the command &quot;parameter&quot; - the parameter could be NULL in some cases but the name can not. This function should initialise the ENGINE (issuing the &quot;pre&quot; commands beforehand and the &quot;post&quot; commands afterwards) and set it as the default for everything except RAND and then return a boolean success or failure.</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">generic_load_engine_fn</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*engine_id</span><span class="operator">,</span>
-                            <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pre_cmds</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pre_num</span><span class="operator">,</span>
-                            <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">post_cmds</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">post_num</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">ENGINE</span> <span class="variable">*e</span> <span class="operator">=</span> <span class="variable">ENGINE_by_id</span><span class="operator">(</span><span class="variable">engine_id</span><span class="operator">);</span>
-     <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">e</span><span class="operator">)</span> <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="keyword">while</span> <span class="operator">(</span><span class="variable">pre_num</span><span class="operator">--)</span> <span class="operator">{</span>
-         <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ENGINE_ctrl_cmd_string</span><span class="operator">(</span><span class="variable">e</span><span class="operator">,</span> <span class="variable">pre_cmds</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">pre_cmds</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">,</span> <span class="number">0</span><span class="operator">))</span> <span class="operator">{</span>
-             <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Failed command (%s - %s:%s)\n"</span><span class="operator">,</span> <span class="variable">engine_id</span><span class="operator">,</span>
-                     <span class="variable">pre_cmds</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">pre_cmds</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span> <span class="operator">?</span> <span class="variable">pre_cmds</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span> <span class="operator">:</span> <span class="string">"(NULL)"</span><span class="operator">);</span>
-             <span class="variable">ENGINE_free</span><span class="operator">(</span><span class="variable">e</span><span class="operator">);</span>
-             <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-         <span class="operator">}</span>
-         <span class="variable">pre_cmds</span> <span class="operator">+=</span> <span class="number">2</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ENGINE_init</span><span class="operator">(</span><span class="variable">e</span><span class="operator">))</span> <span class="operator">{</span>
-         <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Failed initialisation\n"</span><span class="operator">);</span>
-         <span class="variable">ENGINE_free</span><span class="operator">(</span><span class="variable">e</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="regex">/*
+<pre><code> int generic_load_engine_fn(const char *engine_id,
+                            const char **pre_cmds, int pre_num,
+                            const char **post_cmds, int post_num)
+ {
+     ENGINE *e = ENGINE_by_id(engine_id);
+     if (!e) return 0;
+     while (pre_num--) {
+         if (!ENGINE_ctrl_cmd_string(e, pre_cmds[0], pre_cmds[1], 0)) {
+             fprintf(stderr, &quot;Failed command (%s - %s:%s)\n&quot;, engine_id,
+                     pre_cmds[0], pre_cmds[1] ? pre_cmds[1] : &quot;(NULL)&quot;);
+             ENGINE_free(e);
+             return 0;
+         }
+         pre_cmds += 2;
+     }
+     if (!ENGINE_init(e)) {
+         fprintf(stderr, &quot;Failed initialisation\n&quot;);
+         ENGINE_free(e);
+         return 0;
+     }
+     /*
       * ENGINE_init() returned a functional reference, so free the structural
       * reference from ENGINE_by_id().
-      */</span>
-     <span class="variable">ENGINE_free</span><span class="operator">(</span><span class="variable">e</span><span class="operator">);</span>
-     <span class="keyword">while</span> <span class="operator">(</span><span class="variable">post_num</span><span class="operator">--)</span> <span class="operator">{</span>
-         <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ENGINE_ctrl_cmd_string</span><span class="operator">(</span><span class="variable">e</span><span class="operator">,</span> <span class="variable">post_cmds</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">post_cmds</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">,</span> <span class="number">0</span><span class="operator">))</span> <span class="operator">{</span>
-             <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Failed command (%s - %s:%s)\n"</span><span class="operator">,</span> <span class="variable">engine_id</span><span class="operator">,</span>
-                     <span class="variable">post_cmds</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">post_cmds</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span> <span class="operator">?</span> <span class="variable">post_cmds</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span> <span class="operator">:</span> <span class="string">"(NULL)"</span><span class="operator">);</span>
-             <span class="variable">ENGINE_finish</span><span class="operator">(</span><span class="variable">e</span><span class="operator">);</span>
-             <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-         <span class="operator">}</span>
-         <span class="variable">post_cmds</span> <span class="operator">+=</span> <span class="number">2</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="variable">ENGINE_set_default</span><span class="operator">(</span><span class="variable">e</span><span class="operator">,</span> <span class="variable">ENGINE_METHOD_ALL</span> <span class="operator">&amp;</span> <span class="operator">~</span><span class="variable">ENGINE_METHOD_RAND</span><span class="operator">);</span>
-     <span class="regex">/* Success */</span>
-     <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
- <span class="operator">}</span>
-</code></pre>
+      */
+     ENGINE_free(e);
+     while (post_num--) {
+         if (!ENGINE_ctrl_cmd_string(e, post_cmds[0], post_cmds[1], 0)) {
+             fprintf(stderr, &quot;Failed command (%s - %s:%s)\n&quot;, engine_id,
+                     post_cmds[0], post_cmds[1] ? post_cmds[1] : &quot;(NULL)&quot;);
+             ENGINE_finish(e);
+             return 0;
+         }
+         post_cmds += 2;
+     }
+     ENGINE_set_default(e, ENGINE_METHOD_ALL &amp; ~ENGINE_METHOD_RAND);
+     /* Success */
+     return 1;
+ }</code></pre>
 
 <p>Note that ENGINE_ctrl_cmd_string() accepts a boolean argument that can relax the semantics of the function - if set nonzero it will only return failure if the ENGINE supported the given command name but failed while executing it, if the ENGINE doesn&#39;t support the command name it will simply return success without doing anything. In this case we assume the user is only supplying commands specific to the given ENGINE so we set this to FALSE.</p>
 
@@ -319,16 +315,15 @@
 
 <p>Whilst these commands are automatically processed by the OpenSSL framework code, they use various properties exposed by each ENGINE to process these queries. An ENGINE has 3 properties it exposes that can affect how this behaves; it can supply a ctrl() handler, it can specify ENGINE_FLAGS_MANUAL_CMD_CTRL in the ENGINE&#39;s flags, and it can expose an array of control command descriptions. If an ENGINE specifies the ENGINE_FLAGS_MANUAL_CMD_CTRL flag, then it will simply pass all these &quot;core&quot; control commands directly to the ENGINE&#39;s ctrl() handler (and thus, it must have supplied one), so it is up to the ENGINE to reply to these &quot;discovery&quot; commands itself. If that flag is not set, then the OpenSSL framework code will work with the following rules:</p>
 
-<pre><code> <span class="keyword">if</span> <span class="keyword">no</span> <span class="variable">ctrl</span><span class="operator">()</span> <span class="variable">handler</span> <span class="variable">supplied</span><span class="operator">;</span>
-     <span class="variable">ENGINE_HAS_CTRL_FUNCTION</span> <span class="variable">returns</span> <span class="variable">FALSE</span> <span class="operator">(</span><span class="variable">zero</span><span class="operator">),</span>
-     <span class="variable">all</span> <span class="variable">other</span> <span class="variable">commands</span> <span class="variable">fail</span><span class="operator">.</span>
- <span class="keyword">if</span> <span class="variable">a</span> <span class="variable">ctrl</span><span class="operator">()</span> <span class="variable">handler</span> <span class="variable">was</span> <span class="variable">supplied</span> <span class="variable">but</span> <span class="keyword">no</span> <span class="variable">array</span> <span class="variable">of</span> <span class="variable">control</span> <span class="variable">commands</span><span class="operator">;</span>
-     <span class="variable">ENGINE_HAS_CTRL_FUNCTION</span> <span class="variable">returns</span> <span class="variable">TRUE</span><span class="operator">,</span>
-     <span class="variable">all</span> <span class="variable">other</span> <span class="variable">commands</span> <span class="variable">fail</span><span class="operator">.</span>
- <span class="keyword">if</span> <span class="variable">a</span> <span class="variable">ctrl</span><span class="operator">()</span> <span class="variable">handler</span> <span class="keyword">and</span> <span class="variable">array</span> <span class="variable">of</span> <span class="variable">control</span> <span class="variable">commands</span> <span class="variable">was</span> <span class="variable">supplied</span><span class="operator">;</span>
-     <span class="variable">ENGINE_HAS_CTRL_FUNCTION</span> <span class="variable">returns</span> <span class="variable">TRUE</span><span class="operator">,</span>
-     <span class="variable">all</span> <span class="variable">other</span> <span class="variable">commands</span> <span class="variable">proceed</span> <span class="variable">processing</span> <span class="operator">...</span>
-</code></pre>
+<pre><code> if no ctrl() handler supplied;
+     ENGINE_HAS_CTRL_FUNCTION returns FALSE (zero),
+     all other commands fail.
+ if a ctrl() handler was supplied but no array of control commands;
+     ENGINE_HAS_CTRL_FUNCTION returns TRUE,
+     all other commands fail.
+ if a ctrl() handler and array of control commands was supplied;
+     ENGINE_HAS_CTRL_FUNCTION returns TRUE,
+     all other commands proceed processing ...</code></pre>
 
 <p>If the ENGINE&#39;s array of control commands is empty then all other commands will fail, otherwise; ENGINE_CTRL_GET_FIRST_CMD_TYPE returns the identifier of the first command supported by the ENGINE, ENGINE_GET_NEXT_CMD_TYPE takes the identifier of a command supported by the ENGINE and returns the next command identifier or fails if there are no more, ENGINE_CMD_FROM_NAME takes a string name for a command and returns the corresponding identifier or fails if no such command name exists, and the remaining commands take a command identifier and return properties of the corresponding commands. All except ENGINE_CTRL_GET_FLAGS return the string length of a command name or description, or populate a supplied character buffer with a copy of the command name or description. ENGINE_CTRL_GET_FLAGS returns a bitwise-OR&#39;d mask of the following possible values:</p>
 
@@ -371,7 +366,7 @@
 
 <p>All ENGINE_register_TYPE() functions return 1 on success or 0 on error.</p>
 
-<p>ENGINE_register_complete() and ENGINE_register_all_complete() return 1 on success or 0 on error.</p>
+<p>ENGINE_register_complete() and ENGINE_register_all_complete() always return 1.</p>
 
 <p>ENGINE_ctrl() returns a positive value on success or others on error.</p>
 
@@ -381,7 +376,7 @@
 
 <p>ENGINE_new() returns a valid <b>ENGINE</b> structure on success or NULL if an error occurred.</p>
 
-<p>ENGINE_free() returns 1 on success or 0 on error.</p>
+<p>ENGINE_free() always returns 1.</p>
 
 <p>ENGINE_up_ref() returns 1 on success or 0 on error.</p>
 
@@ -415,7 +410,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2002-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2002-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

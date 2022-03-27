@@ -32,132 +32,131 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/pem.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="variable">pem_password_cb</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rwflag</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*PEM_read_bio_PrivateKey</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**x,</span>
-                                   <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*PEM_read_PrivateKey</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**x,</span>
-                               <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_PrivateKey</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*enc</span><span class="operator">,</span>
-                              <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                              <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_PrivateKey_traditional</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">,</span>
-                                          <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*enc</span><span class="operator">,</span>
-                                          <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                                          <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_PrivateKey</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*enc</span><span class="operator">,</span>
-                          <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                          <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_PKCS8PrivateKey</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*enc</span><span class="operator">,</span>
-                                   <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                                   <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_PKCS8PrivateKey</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*enc</span><span class="operator">,</span>
-                               <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                               <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_PKCS8PrivateKey_nid</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span>
-                                       <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                                       <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_PKCS8PrivateKey_nid</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span>
-                                   <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                                   <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*PEM_read_bio_PUBKEY</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**x,</span>
-                               <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*PEM_read_PUBKEY</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**x,</span>
-                           <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_PUBKEY</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_PUBKEY</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">RSA</span> <span class="variable">*PEM_read_bio_RSAPrivateKey</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="operator">**x,</span>
-                                 <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">RSA</span> <span class="variable">*PEM_read_RSAPrivateKey</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="operator">**x,</span>
-                             <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_RSAPrivateKey</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*enc</span><span class="operator">,</span>
-                                 <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                                 <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_RSAPrivateKey</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*enc</span><span class="operator">,</span>
-                             <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                             <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- 
- <span class="variable">RSA</span> <span class="variable">*PEM_read_bio_RSAPublicKey</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="operator">**x,</span>
-                                <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">RSA</span> <span class="variable">*PEM_read_RSAPublicKey</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="operator">**x,</span>
-                            <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_RSAPublicKey</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_RSAPublicKey</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">RSA</span> <span class="variable">*PEM_read_bio_RSA_PUBKEY</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="operator">**x,</span>
-                              <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">RSA</span> <span class="variable">*PEM_read_RSA_PUBKEY</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="operator">**x,</span>
-                          <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_RSA_PUBKEY</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_RSA_PUBKEY</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">DSA</span> <span class="variable">*PEM_read_bio_DSAPrivateKey</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="operator">**x,</span>
-                                 <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">DSA</span> <span class="variable">*PEM_read_DSAPrivateKey</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="operator">**x,</span>
-                             <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_DSAPrivateKey</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*enc</span><span class="operator">,</span>
-                                 <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                                 <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_DSAPrivateKey</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*enc</span><span class="operator">,</span>
-                             <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*kstr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">klen</span><span class="operator">,</span>
-                             <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- 
- <span class="variable">DSA</span> <span class="variable">*PEM_read_bio_DSA_PUBKEY</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="operator">**x,</span>
-                              <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">DSA</span> <span class="variable">*PEM_read_DSA_PUBKEY</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="operator">**x,</span>
-                          <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_DSA_PUBKEY</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_DSA_PUBKEY</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*PEM_read_bio_Parameters</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**x);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_Parameters</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">DSA</span> <span class="variable">*PEM_read_bio_DSAparams</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">DSA</span> <span class="variable">*PEM_read_DSAparams</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_DSAparams</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_DSAparams</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">DH</span> <span class="variable">*PEM_read_bio_DHparams</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">DH</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">DH</span> <span class="variable">*PEM_read_DHparams</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">DH</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_DHparams</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">DH</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_DHparams</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">DH</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">X509</span> <span class="variable">*PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">X509</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">X509</span> <span class="variable">*PEM_read_X509</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">X509</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_X509</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_X509</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">X509</span> <span class="variable">*PEM_read_bio_X509_AUX</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">X509</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">X509</span> <span class="variable">*PEM_read_X509_AUX</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">X509</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_X509_AUX</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_X509_AUX</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">X509_REQ</span> <span class="variable">*PEM_read_bio_X509_REQ</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">X509_REQ</span> <span class="operator">**x,</span>
-                                 <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">X509_REQ</span> <span class="variable">*PEM_read_X509_REQ</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">X509_REQ</span> <span class="operator">**x,</span>
-                             <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_X509_REQ</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">X509_REQ</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_X509_REQ</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">X509_REQ</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_X509_REQ_NEW</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">X509_REQ</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_X509_REQ_NEW</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">X509_REQ</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">X509_CRL</span> <span class="variable">*PEM_read_bio_X509_CRL</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">X509_CRL</span> <span class="operator">**x,</span>
-                                 <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">X509_CRL</span> <span class="variable">*PEM_read_X509_CRL</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">X509_CRL</span> <span class="operator">**x,</span>
-                             <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_X509_CRL</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_X509_CRL</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">PKCS7</span> <span class="variable">*PEM_read_bio_PKCS7</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">PKCS7</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">PKCS7</span> <span class="variable">*PEM_read_PKCS7</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">PKCS7</span> <span class="operator">**x,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_PKCS7</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">PKCS7</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_PKCS7</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">PKCS7</span> <span class="variable">*x</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/pem.h&gt;
+
+ typedef int pem_password_cb(char *buf, int size, int rwflag, void *u);
+
+ EVP_PKEY *PEM_read_bio_PrivateKey(BIO *bp, EVP_PKEY **x,
+                                   pem_password_cb *cb, void *u);
+ EVP_PKEY *PEM_read_PrivateKey(FILE *fp, EVP_PKEY **x,
+                               pem_password_cb *cb, void *u);
+ int PEM_write_bio_PrivateKey(BIO *bp, EVP_PKEY *x, const EVP_CIPHER *enc,
+                              unsigned char *kstr, int klen,
+                              pem_password_cb *cb, void *u);
+ int PEM_write_bio_PrivateKey_traditional(BIO *bp, EVP_PKEY *x,
+                                          const EVP_CIPHER *enc,
+                                          unsigned char *kstr, int klen,
+                                          pem_password_cb *cb, void *u);
+ int PEM_write_PrivateKey(FILE *fp, EVP_PKEY *x, const EVP_CIPHER *enc,
+                          unsigned char *kstr, int klen,
+                          pem_password_cb *cb, void *u);
+
+ int PEM_write_bio_PKCS8PrivateKey(BIO *bp, EVP_PKEY *x, const EVP_CIPHER *enc,
+                                   char *kstr, int klen,
+                                   pem_password_cb *cb, void *u);
+ int PEM_write_PKCS8PrivateKey(FILE *fp, EVP_PKEY *x, const EVP_CIPHER *enc,
+                               char *kstr, int klen,
+                               pem_password_cb *cb, void *u);
+ int PEM_write_bio_PKCS8PrivateKey_nid(BIO *bp, EVP_PKEY *x, int nid,
+                                       char *kstr, int klen,
+                                       pem_password_cb *cb, void *u);
+ int PEM_write_PKCS8PrivateKey_nid(FILE *fp, EVP_PKEY *x, int nid,
+                                   char *kstr, int klen,
+                                   pem_password_cb *cb, void *u);
+
+ EVP_PKEY *PEM_read_bio_PUBKEY(BIO *bp, EVP_PKEY **x,
+                               pem_password_cb *cb, void *u);
+ EVP_PKEY *PEM_read_PUBKEY(FILE *fp, EVP_PKEY **x,
+                           pem_password_cb *cb, void *u);
+ int PEM_write_bio_PUBKEY(BIO *bp, EVP_PKEY *x);
+ int PEM_write_PUBKEY(FILE *fp, EVP_PKEY *x);
+
+ RSA *PEM_read_bio_RSAPrivateKey(BIO *bp, RSA **x,
+                                 pem_password_cb *cb, void *u);
+ RSA *PEM_read_RSAPrivateKey(FILE *fp, RSA **x,
+                             pem_password_cb *cb, void *u);
+ int PEM_write_bio_RSAPrivateKey(BIO *bp, RSA *x, const EVP_CIPHER *enc,
+                                 unsigned char *kstr, int klen,
+                                 pem_password_cb *cb, void *u);
+ int PEM_write_RSAPrivateKey(FILE *fp, RSA *x, const EVP_CIPHER *enc,
+                             unsigned char *kstr, int klen,
+                             pem_password_cb *cb, void *u);
+
+ RSA *PEM_read_bio_RSAPublicKey(BIO *bp, RSA **x,
+                                pem_password_cb *cb, void *u);
+ RSA *PEM_read_RSAPublicKey(FILE *fp, RSA **x,
+                            pem_password_cb *cb, void *u);
+ int PEM_write_bio_RSAPublicKey(BIO *bp, RSA *x);
+ int PEM_write_RSAPublicKey(FILE *fp, RSA *x);
+
+ RSA *PEM_read_bio_RSA_PUBKEY(BIO *bp, RSA **x,
+                              pem_password_cb *cb, void *u);
+ RSA *PEM_read_RSA_PUBKEY(FILE *fp, RSA **x,
+                          pem_password_cb *cb, void *u);
+ int PEM_write_bio_RSA_PUBKEY(BIO *bp, RSA *x);
+ int PEM_write_RSA_PUBKEY(FILE *fp, RSA *x);
+
+ DSA *PEM_read_bio_DSAPrivateKey(BIO *bp, DSA **x,
+                                 pem_password_cb *cb, void *u);
+ DSA *PEM_read_DSAPrivateKey(FILE *fp, DSA **x,
+                             pem_password_cb *cb, void *u);
+ int PEM_write_bio_DSAPrivateKey(BIO *bp, DSA *x, const EVP_CIPHER *enc,
+                                 unsigned char *kstr, int klen,
+                                 pem_password_cb *cb, void *u);
+ int PEM_write_DSAPrivateKey(FILE *fp, DSA *x, const EVP_CIPHER *enc,
+                             unsigned char *kstr, int klen,
+                             pem_password_cb *cb, void *u);
+
+ DSA *PEM_read_bio_DSA_PUBKEY(BIO *bp, DSA **x,
+                              pem_password_cb *cb, void *u);
+ DSA *PEM_read_DSA_PUBKEY(FILE *fp, DSA **x,
+                          pem_password_cb *cb, void *u);
+ int PEM_write_bio_DSA_PUBKEY(BIO *bp, DSA *x);
+ int PEM_write_DSA_PUBKEY(FILE *fp, DSA *x);
+
+ EVP_PKEY *PEM_read_bio_Parameters(BIO *bp, EVP_PKEY **x);
+ int PEM_write_bio_Parameters(BIO *bp, const EVP_PKEY *x);
+
+ DSA *PEM_read_bio_DSAparams(BIO *bp, DSA **x, pem_password_cb *cb, void *u);
+ DSA *PEM_read_DSAparams(FILE *fp, DSA **x, pem_password_cb *cb, void *u);
+ int PEM_write_bio_DSAparams(BIO *bp, DSA *x);
+ int PEM_write_DSAparams(FILE *fp, DSA *x);
+
+ DH *PEM_read_bio_DHparams(BIO *bp, DH **x, pem_password_cb *cb, void *u);
+ DH *PEM_read_DHparams(FILE *fp, DH **x, pem_password_cb *cb, void *u);
+ int PEM_write_bio_DHparams(BIO *bp, DH *x);
+ int PEM_write_DHparams(FILE *fp, DH *x);
+
+ X509 *PEM_read_bio_X509(BIO *bp, X509 **x, pem_password_cb *cb, void *u);
+ X509 *PEM_read_X509(FILE *fp, X509 **x, pem_password_cb *cb, void *u);
+ int PEM_write_bio_X509(BIO *bp, X509 *x);
+ int PEM_write_X509(FILE *fp, X509 *x);
+
+ X509 *PEM_read_bio_X509_AUX(BIO *bp, X509 **x, pem_password_cb *cb, void *u);
+ X509 *PEM_read_X509_AUX(FILE *fp, X509 **x, pem_password_cb *cb, void *u);
+ int PEM_write_bio_X509_AUX(BIO *bp, X509 *x);
+ int PEM_write_X509_AUX(FILE *fp, X509 *x);
+
+ X509_REQ *PEM_read_bio_X509_REQ(BIO *bp, X509_REQ **x,
+                                 pem_password_cb *cb, void *u);
+ X509_REQ *PEM_read_X509_REQ(FILE *fp, X509_REQ **x,
+                             pem_password_cb *cb, void *u);
+ int PEM_write_bio_X509_REQ(BIO *bp, X509_REQ *x);
+ int PEM_write_X509_REQ(FILE *fp, X509_REQ *x);
+ int PEM_write_bio_X509_REQ_NEW(BIO *bp, X509_REQ *x);
+ int PEM_write_X509_REQ_NEW(FILE *fp, X509_REQ *x);
+
+ X509_CRL *PEM_read_bio_X509_CRL(BIO *bp, X509_CRL **x,
+                                 pem_password_cb *cb, void *u);
+ X509_CRL *PEM_read_X509_CRL(FILE *fp, X509_CRL **x,
+                             pem_password_cb *cb, void *u);
+ int PEM_write_bio_X509_CRL(BIO *bp, X509_CRL *x);
+ int PEM_write_X509_CRL(FILE *fp, X509_CRL *x);
+
+ PKCS7 *PEM_read_bio_PKCS7(BIO *bp, PKCS7 **x, pem_password_cb *cb, void *u);
+ PKCS7 *PEM_read_PKCS7(FILE *fp, PKCS7 **x, pem_password_cb *cb, void *u);
+ int PEM_write_bio_PKCS7(BIO *bp, PKCS7 *x);
+ int PEM_write_PKCS7(FILE *fp, PKCS7 *x);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -223,8 +222,7 @@
 
 <p>The default passphrase callback is sometimes inappropriate (for example in a GUI application) so an alternative can be supplied. The callback routine has the following form:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">cb</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rwflag</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
-</code></pre>
+<pre><code> int cb(char *buf, int size, int rwflag, void *u);</code></pre>
 
 <p><b>buf</b> is the buffer to write the passphrase to. <b>size</b> is the maximum length of the passphrase (i.e. the size of buf). <b>rwflag</b> is a flag which is set to 0 when reading and 1 when writing. A typical routine will ask the user to verify the passphrase (for example by prompting for it twice) if <b>rwflag</b> is 1. The <b>u</b> parameter has the same value as the <b>u</b> parameter passed to the PEM routine. It allows arbitrary data to be passed to the callback by the application (for example a window handle in a GUI application). The callback <b>must</b> return the number of characters in the passphrase or -1 if an error occurred.</p>
 
@@ -236,10 +234,9 @@
 
 <p>A frequent cause of problems is attempting to use the PEM routines like this:</p>
 
-<pre><code> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">;</span>
- 
- <span class="variable">PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="operator">&amp;x,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-</code></pre>
+<pre><code> X509 *x;
+
+ PEM_read_bio_X509(bp, &amp;x, 0, NULL);</code></pre>
 
 <p>this is a bug because an attempt will be made to reuse the data at <b>x</b> which is an uninitialised pointer.</p>
 
@@ -266,34 +263,31 @@
 
 <p>The pseudo code to derive the key would look similar to:</p>
 
-<pre><code> <span class="variable">EVP_CIPHER</span><span class="operator">*</span> <span class="variable">cipher</span> <span class="operator">=</span> <span class="variable">EVP_des_ede3_cbc</span><span class="operator">();</span>
- <span class="variable">EVP_MD</span><span class="operator">*</span> <span class="variable">md</span> <span class="operator">=</span> <span class="variable">EVP_md5</span><span class="operator">();</span>
- 
- <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">nkey</span> <span class="operator">=</span> <span class="variable">EVP_CIPHER_key_length</span><span class="operator">(</span><span class="variable">cipher</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">niv</span> <span class="operator">=</span> <span class="variable">EVP_CIPHER_iv_length</span><span class="operator">(</span><span class="variable">cipher</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">key</span><span class="operator">[</span><span class="variable">nkey</span><span class="operator">]</span><span class="operator">;</span>
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">iv</span><span class="operator">[</span><span class="variable">niv</span><span class="operator">]</span><span class="operator">;</span>
- 
- <span class="variable">memcpy</span><span class="operator">(</span><span class="variable">iv</span><span class="operator">,</span> <span class="variable">HexToBin</span><span class="operator">(</span><span class="string">"3F17F5316E2BAC89"</span><span class="operator">),</span> <span class="variable">niv</span><span class="operator">);</span>
- <span class="variable">rc</span> <span class="operator">=</span> <span class="variable">EVP_BytesToKey</span><span class="operator">(</span><span class="variable">cipher</span><span class="operator">,</span> <span class="variable">md</span><span class="operator">,</span> <span class="variable">iv</span> <span class="operator">/</span><span class="variable">*salt</span><span class="operator">*/,</span> <span class="variable">pword</span><span class="operator">,</span> <span class="variable">plen</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">,</span> <span class="variable">NULL</span> <span class="operator">/</span><span class="variable">*iv</span><span class="operator">*/);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">rc</span> <span class="operator">!=</span> <span class="variable">nkey</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- 
- <span class="regex">/* On success, use key and iv to initialize the cipher */</span>
-</code></pre>
+<pre><code> EVP_CIPHER* cipher = EVP_des_ede3_cbc();
+ EVP_MD* md = EVP_md5();
+
+ unsigned int nkey = EVP_CIPHER_key_length(cipher);
+ unsigned int niv = EVP_CIPHER_iv_length(cipher);
+ unsigned char key[nkey];
+ unsigned char iv[niv];
+
+ memcpy(iv, HexToBin(&quot;3F17F5316E2BAC89&quot;), niv);
+ rc = EVP_BytesToKey(cipher, md, iv /*salt*/, pword, plen, 1, key, NULL /*iv*/);
+ if (rc != nkey)
+     /* Error */
+
+ /* On success, use key and iv to initialize the cipher */</code></pre>
 
 <h1 id="BUGS">BUGS</h1>
 
 <p>The PEM read routines in some versions of OpenSSL will not correctly reuse an existing structure. Therefore, the following:</p>
 
-<pre><code> <span class="variable">PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="operator">&amp;x,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-</code></pre>
+<pre><code> PEM_read_bio_X509(bp, &amp;x, 0, NULL);</code></pre>
 
 <p>where <b>x</b> already contains a valid certificate, may not work, whereas:</p>
 
-<pre><code> <span class="variable">X509_free</span><span class="operator">(x);</span>
- <span class="operator">x</span> <span class="operator">=</span> <span class="variable">PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-</code></pre>
+<pre><code> X509_free(x);
+ x = PEM_read_bio_X509(bp, NULL, 0, NULL);</code></pre>
 
 <p>is guaranteed to work.</p>
 
@@ -309,20 +303,18 @@
 
 <p>Read a certificate in PEM format from a BIO:</p>
 
-<pre><code> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">;</span>
- 
- <span class="operator">x</span> <span class="operator">=</span> <span class="variable">PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(x</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
-</code></pre>
+<pre><code> X509 *x;
+
+ x = PEM_read_bio_X509(bp, NULL, 0, NULL);
+ if (x == NULL)
+     /* Error */</code></pre>
 
 <p>Alternative method:</p>
 
-<pre><code> <span class="variable">X509</span> <span class="variable">*x</span> <span class="operator">=</span> <span class="variable">NULL</span><span class="operator">;</span>
- 
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">PEM_read_bio_X509</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="operator">&amp;x,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">))</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
-</code></pre>
+<pre><code> X509 *x = NULL;
+
+ if (!PEM_read_bio_X509(bp, &amp;x, 0, NULL))
+     /* Error */</code></pre>
 
 <p>Write a certificate to a BIO:</p>
 
@@ -342,32 +334,30 @@
 
 <p>Read a private key from a BIO using a pass phrase callback:</p>
 
-<pre><code> <span class="variable">key</span> <span class="operator">=</span> <span class="variable">PEM_read_bio_PrivateKey</span><span class="operator">(</span><span class="variable">bp</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">pass_cb</span><span class="operator">,</span> <span class="string">"My Private Key"</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
-</code></pre>
+<pre><code> key = PEM_read_bio_PrivateKey(bp, NULL, pass_cb, &quot;My Private Key&quot;);
+ if (key == NULL)
+     /* Error */</code></pre>
 
 <p>Skeleton pass phrase callback:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">pass_cb</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rwflag</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">)</span>
- <span class="operator">{</span>
- 
-     <span class="regex">/* We'd probably do something else if 'rwflag' is 1 */</span>
-     <span class="keyword">printf</span><span class="operator">(</span><span class="string">"Enter pass phrase for \"%s\"\n"</span><span class="operator">,</span> <span class="operator">(</span><span class="variable">char</span> <span class="operator">*)</span><span class="variable">u</span><span class="operator">);</span>
- 
-     <span class="regex">/* get pass phrase, length 'len' into 'tmp' */</span>
-     <span class="variable">char</span> <span class="variable">*tmp</span> <span class="operator">=</span> <span class="string">"hello"</span><span class="operator">;</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">tmp</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">/*</span> <span class="variable">An</span> <span class="variable">error</span> <span class="variable">occurred</span> <span class="operator">*/</span>
-         <span class="keyword">return</span> <span class="operator">-</span><span class="number">1</span><span class="operator">;</span>
- 
-     <span class="variable">size_t</span> <span class="variable">len</span> <span class="operator">=</span> <span class="variable">strlen</span><span class="operator">(</span><span class="variable">tmp</span><span class="operator">);</span>
- 
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">len</span> <span class="operator">&gt;</span> <span class="variable">size</span><span class="operator">)</span>
-         <span class="variable">len</span> <span class="operator">=</span> <span class="variable">size</span><span class="operator">;</span>
-     <span class="variable">memcpy</span><span class="operator">(</span><span class="variable">buf</span><span class="operator">,</span> <span class="variable">tmp</span><span class="operator">,</span> <span class="variable">len</span><span class="operator">);</span>
-     <span class="keyword">return</span> <span class="variable">len</span><span class="operator">;</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> int pass_cb(char *buf, int size, int rwflag, void *u)
+ {
+
+     /* We&#39;d probably do something else if &#39;rwflag&#39; is 1 */
+     printf(&quot;Enter pass phrase for \&quot;%s\&quot;\n&quot;, (char *)u);
+
+     /* get pass phrase, length &#39;len&#39; into &#39;tmp&#39; */
+     char *tmp = &quot;hello&quot;;
+     if (tmp == NULL) /* An error occurred */
+         return -1;
+
+     size_t len = strlen(tmp);
+
+     if (len &gt; size)
+         len = size;
+     memcpy(buf, tmp, len);
+     return len;
+ }</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

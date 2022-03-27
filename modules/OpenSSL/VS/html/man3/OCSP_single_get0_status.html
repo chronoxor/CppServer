@@ -27,47 +27,46 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ocsp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_resp_find_status</span><span class="operator">(</span><span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span> <span class="variable">OCSP_CERTID</span> <span class="variable">*id</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*status</span><span class="operator">,</span>
-                           <span class="keyword">int</span> <span class="variable">*reason</span><span class="operator">,</span>
-                           <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="operator">**</span><span class="variable">revtime</span><span class="operator">,</span>
-                           <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="operator">**</span><span class="variable">thisupd</span><span class="operator">,</span>
-                           <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="operator">**</span><span class="variable">nextupd</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_resp_count</span><span class="operator">(</span><span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">);</span>
- <span class="variable">OCSP_SINGLERESP</span> <span class="variable">*OCSP_resp_get0</span><span class="operator">(</span><span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OCSP_resp_find</span><span class="operator">(</span><span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span> <span class="variable">OCSP_CERTID</span> <span class="variable">*id</span><span class="operator">,</span> <span class="keyword">int</span> <span class="keyword">last</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OCSP_single_get0_status</span><span class="operator">(</span><span class="variable">OCSP_SINGLERESP</span> <span class="variable">*single</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*reason</span><span class="operator">,</span>
-                             <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="operator">**</span><span class="variable">revtime</span><span class="operator">,</span>
-                             <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="operator">**</span><span class="variable">thisupd</span><span class="operator">,</span>
-                             <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="operator">**</span><span class="variable">nextupd</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*OCSP_resp_get0_produced_at</span><span class="operator">(</span>
-                             <span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span><span class="operator">*</span> <span class="variable">single</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*OCSP_resp_get0_signature</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="variable">*OCSP_resp_get0_tbs_sigalg</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">OCSP_RESPDATA</span> <span class="variable">*OCSP_resp_get0_respdata</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*OCSP_resp_get0_certs</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_resp_get0_signer</span><span class="operator">(</span><span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span> <span class="variable">X509</span> <span class="operator">**</span><span class="variable">signer</span><span class="operator">,</span>
-                           <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*extra_certs</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_resp_get0_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span>
-                       <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">pid</span><span class="operator">,</span>
-                       <span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="operator">**</span><span class="variable">pname</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OCSP_resp_get1_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span>
-                       <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">pid</span><span class="operator">,</span>
-                       <span class="variable">X509_NAME</span> <span class="operator">**</span><span class="variable">pname</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_check_validity</span><span class="operator">(</span><span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*thisupd</span><span class="operator">,</span>
-                         <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*nextupd</span><span class="operator">,</span>
-                         <span class="variable">long</span> <span class="variable">sec</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">maxsec</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_basic_verify</span><span class="operator">(</span><span class="variable">OCSP_BASICRESP</span> <span class="variable">*bs</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*certs</span><span class="operator">,</span>
-                      <span class="variable">X509_STORE</span> <span class="variable">*st</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ocsp.h&gt;
+
+ int OCSP_resp_find_status(OCSP_BASICRESP *bs, OCSP_CERTID *id, int *status,
+                           int *reason,
+                           ASN1_GENERALIZEDTIME **revtime,
+                           ASN1_GENERALIZEDTIME **thisupd,
+                           ASN1_GENERALIZEDTIME **nextupd);
+
+ int OCSP_resp_count(OCSP_BASICRESP *bs);
+ OCSP_SINGLERESP *OCSP_resp_get0(OCSP_BASICRESP *bs, int idx);
+ int OCSP_resp_find(OCSP_BASICRESP *bs, OCSP_CERTID *id, int last);
+ int OCSP_single_get0_status(OCSP_SINGLERESP *single, int *reason,
+                             ASN1_GENERALIZEDTIME **revtime,
+                             ASN1_GENERALIZEDTIME **thisupd,
+                             ASN1_GENERALIZEDTIME **nextupd);
+
+ const ASN1_GENERALIZEDTIME *OCSP_resp_get0_produced_at(
+                             const OCSP_BASICRESP* single);
+
+ const ASN1_OCTET_STRING *OCSP_resp_get0_signature(const OCSP_BASICRESP *bs);
+ const X509_ALGOR *OCSP_resp_get0_tbs_sigalg(const OCSP_BASICRESP *bs);
+ const OCSP_RESPDATA *OCSP_resp_get0_respdata(const OCSP_BASICRESP *bs);
+ const STACK_OF(X509) *OCSP_resp_get0_certs(const OCSP_BASICRESP *bs);
+
+ int OCSP_resp_get0_signer(OCSP_BASICRESP *bs, X509 **signer,
+                           STACK_OF(X509) *extra_certs);
+
+ int OCSP_resp_get0_id(const OCSP_BASICRESP *bs,
+                       const ASN1_OCTET_STRING **pid,
+                       const X509_NAME **pname);
+ int OCSP_resp_get1_id(const OCSP_BASICRESP *bs,
+                       ASN1_OCTET_STRING **pid,
+                       X509_NAME **pname);
+
+ int OCSP_check_validity(ASN1_GENERALIZEDTIME *thisupd,
+                         ASN1_GENERALIZEDTIME *nextupd,
+                         long sec, long maxsec);
+
+ int OCSP_basic_verify(OCSP_BASICRESP *bs, STACK_OF(X509) *certs,
+                      X509_STORE *st, unsigned long flags);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

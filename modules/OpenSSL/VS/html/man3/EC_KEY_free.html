@@ -26,44 +26,43 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ec.h&gt;</span>
- 
- <span class="variable">EC_KEY</span> <span class="variable">*EC_KEY_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_get_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EC_KEY_set_flags</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EC_KEY_clear_flags</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">EC_KEY</span> <span class="variable">*EC_KEY_new_by_curve_name</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EC_KEY_free</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="variable">EC_KEY</span> <span class="variable">*EC_KEY_copy</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*dst</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*src</span><span class="operator">);</span>
- <span class="variable">EC_KEY</span> <span class="variable">*EC_KEY_dup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*src</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_up_ref</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*EC_KEY_get0_engine</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*EC_KEY_get0_group</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_set_group</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*EC_KEY_get0_private_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_set_private_key</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*prv</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EC_POINT</span> <span class="variable">*EC_KEY_get0_public_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_set_public_key</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_POINT</span> <span class="variable">*pub</span><span class="operator">);</span>
- <span class="variable">point_conversion_form_t</span> <span class="variable">EC_KEY_get_conv_form</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EC_KEY_set_conv_form</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="variable">point_conversion_form_t</span> <span class="variable">cform</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EC_KEY_set_asn1_flag</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">asn1_flag</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_decoded_from_explicit_params</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_precompute_mult</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_generate_key</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_check_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_set_public_key_affine_coordinates</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*y</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EC_KEY_METHOD</span> <span class="variable">*EC_KEY_get_method</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_KEY_set_method</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EC_KEY_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_KEY_oct2key</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">EC_KEY_key2buf</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="variable">point_conversion_form_t</span> <span class="variable">form</span><span class="operator">,</span>
-                       <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pbuf</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_KEY_oct2priv</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">EC_KEY_priv2oct</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
- 
- <span class="variable">size_t</span> <span class="variable">EC_KEY_priv2buf</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pbuf</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ec.h&gt;
+
+ EC_KEY *EC_KEY_new(void);
+ int EC_KEY_get_flags(const EC_KEY *key);
+ void EC_KEY_set_flags(EC_KEY *key, int flags);
+ void EC_KEY_clear_flags(EC_KEY *key, int flags);
+ EC_KEY *EC_KEY_new_by_curve_name(int nid);
+ void EC_KEY_free(EC_KEY *key);
+ EC_KEY *EC_KEY_copy(EC_KEY *dst, const EC_KEY *src);
+ EC_KEY *EC_KEY_dup(const EC_KEY *src);
+ int EC_KEY_up_ref(EC_KEY *key);
+ ENGINE *EC_KEY_get0_engine(const EC_KEY *eckey);
+ const EC_GROUP *EC_KEY_get0_group(const EC_KEY *key);
+ int EC_KEY_set_group(EC_KEY *key, const EC_GROUP *group);
+ const BIGNUM *EC_KEY_get0_private_key(const EC_KEY *key);
+ int EC_KEY_set_private_key(EC_KEY *key, const BIGNUM *prv);
+ const EC_POINT *EC_KEY_get0_public_key(const EC_KEY *key);
+ int EC_KEY_set_public_key(EC_KEY *key, const EC_POINT *pub);
+ point_conversion_form_t EC_KEY_get_conv_form(const EC_KEY *key);
+ void EC_KEY_set_conv_form(EC_KEY *eckey, point_conversion_form_t cform);
+ void EC_KEY_set_asn1_flag(EC_KEY *eckey, int asn1_flag);
+ int EC_KEY_decoded_from_explicit_params(const EC_KEY *key);
+ int EC_KEY_precompute_mult(EC_KEY *key, BN_CTX *ctx);
+ int EC_KEY_generate_key(EC_KEY *key);
+ int EC_KEY_check_key(const EC_KEY *key);
+ int EC_KEY_set_public_key_affine_coordinates(EC_KEY *key, BIGNUM *x, BIGNUM *y);
+ const EC_KEY_METHOD *EC_KEY_get_method(const EC_KEY *key);
+ int EC_KEY_set_method(EC_KEY *key, const EC_KEY_METHOD *meth);
+
+ int EC_KEY_oct2key(EC_KEY *eckey, const unsigned char *buf, size_t len, BN_CTX *ctx);
+ size_t EC_KEY_key2buf(const EC_KEY *eckey, point_conversion_form_t form,
+                       unsigned char **pbuf, BN_CTX *ctx);
+
+ int EC_KEY_oct2priv(EC_KEY *eckey, const unsigned char *buf, size_t len);
+ size_t EC_KEY_priv2oct(const EC_KEY *eckey, unsigned char *buf, size_t len);
+
+ size_t EC_KEY_priv2buf(const EC_KEY *eckey, unsigned char **pbuf);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

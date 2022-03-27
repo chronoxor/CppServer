@@ -27,13 +27,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_SESSION_has_ticket</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">SSL_SESSION_get_ticket_lifetime_hint</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_SESSION_get0_ticket</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">tick</span><span class="operator">,</span>
-                              <span class="variable">size_t</span> <span class="variable">*len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_SESSION_has_ticket(const SSL_SESSION *s);
+ unsigned long SSL_SESSION_get_ticket_lifetime_hint(const SSL_SESSION *s);
+ void SSL_SESSION_get0_ticket(const SSL_SESSION *s, const unsigned char **tick,
+                              size_t *len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

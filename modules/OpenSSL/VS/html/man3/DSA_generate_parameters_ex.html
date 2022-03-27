@@ -28,22 +28,20 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dsa.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">DSA_generate_parameters_ex</span><span class="operator">(</span><span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span>
-                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*seed</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">seed_len</span><span class="operator">,</span>
-                                <span class="keyword">int</span> <span class="variable">*counter_ret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">*h_ret</span><span class="operator">,</span>
-                                <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dsa.h&gt;
+
+ int DSA_generate_parameters_ex(DSA *dsa, int bits,
+                                const unsigned char *seed, int seed_len,
+                                int *counter_ret, unsigned long *h_ret,
+                                BN_GENCB *cb);</code></pre>
 
 <p>Deprecated:</p>
 
-<pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x00908000L</span>
- <span class="variable">DSA</span> <span class="variable">*DSA_generate_parameters</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*seed</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">seed_len</span><span class="operator">,</span>
-                              <span class="keyword">int</span> <span class="variable">*counter_ret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">*h_ret</span><span class="operator">,</span>
-                              <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="keyword">int</span><span class="operator">,</span> <span class="keyword">int</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">*),</span> <span class="variable">void</span> <span class="variable">*cb_arg</span><span class="operator">);</span>
- <span class="comment">#endif</span>
-</code></pre>
+<pre><code> #if OPENSSL_API_COMPAT &lt; 0x00908000L
+ DSA *DSA_generate_parameters(int bits, unsigned char *seed, int seed_len,
+                              int *counter_ret, unsigned long *h_ret,
+                              void (*callback)(int, int, void *), void *cb_arg);
+ #endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

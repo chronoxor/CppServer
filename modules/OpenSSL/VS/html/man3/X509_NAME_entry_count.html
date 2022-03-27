@@ -28,17 +28,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_NAME_get_index_by_NID</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_NAME_get_index_by_OBJ</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_NAME_entry_count</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*X509_NAME_get_entry</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_NAME_get_text_by_NID</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_NAME_get_text_by_OBJ</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ int X509_NAME_get_index_by_NID(X509_NAME *name, int nid, int lastpos);
+ int X509_NAME_get_index_by_OBJ(X509_NAME *name, const ASN1_OBJECT *obj, int lastpos);
+
+ int X509_NAME_entry_count(const X509_NAME *name);
+ X509_NAME_ENTRY *X509_NAME_get_entry(const X509_NAME *name, int loc);
+
+ int X509_NAME_get_text_by_NID(X509_NAME *name, int nid, char *buf, int len);
+ int X509_NAME_get_text_by_OBJ(X509_NAME *name, const ASN1_OBJECT *obj, char *buf, int len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -74,28 +73,26 @@
 
 <p>Process all entries:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">i</span><span class="operator">;</span>
- <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*e</span><span class="operator">;</span>
- 
- <span class="keyword">for</span> <span class="operator">(</span><span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span> <span class="variable">i</span> <span class="operator">&lt;</span> <span class="variable">X509_NAME_entry_count</span><span class="operator">(</span><span class="variable">nm</span><span class="operator">);</span> <span class="variable">i</span><span class="operator">++)</span> <span class="operator">{</span>
-     <span class="variable">e</span> <span class="operator">=</span> <span class="variable">X509_NAME_get_entry</span><span class="operator">(</span><span class="variable">nm</span><span class="operator">,</span> <span class="variable">i</span><span class="operator">);</span>
-     <span class="regex">/* Do something with e */</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> int i;
+ X509_NAME_ENTRY *e;
+
+ for (i = 0; i &lt; X509_NAME_entry_count(nm); i++) {
+     e = X509_NAME_get_entry(nm, i);
+     /* Do something with e */
+ }</code></pre>
 
 <p>Process all commonName entries:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">lastpos</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span><span class="operator">;</span>
- <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*e</span><span class="operator">;</span>
- 
- <span class="keyword">for</span> <span class="operator">(;;)</span> <span class="operator">{</span>
-     <span class="variable">lastpos</span> <span class="operator">=</span> <span class="variable">X509_NAME_get_index_by_NID</span><span class="operator">(</span><span class="variable">nm</span><span class="operator">,</span> <span class="variable">NID_commonName</span><span class="operator">,</span> <span class="variable">lastpos</span><span class="operator">);</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">lastpos</span> <span class="operator">==</span> <span class="operator">-</span><span class="number">1</span><span class="operator">)</span>
-         <span class="keyword">break</span><span class="operator">;</span>
-     <span class="variable">e</span> <span class="operator">=</span> <span class="variable">X509_NAME_get_entry</span><span class="operator">(</span><span class="variable">nm</span><span class="operator">,</span> <span class="variable">lastpos</span><span class="operator">);</span>
-     <span class="regex">/* Do something with e */</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> int lastpos = -1;
+ X509_NAME_ENTRY *e;
+
+ for (;;) {
+     lastpos = X509_NAME_get_index_by_NID(nm, NID_commonName, lastpos);
+     if (lastpos == -1)
+         break;
+     e = X509_NAME_get_entry(nm, lastpos);
+     /* Do something with e */
+ }</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

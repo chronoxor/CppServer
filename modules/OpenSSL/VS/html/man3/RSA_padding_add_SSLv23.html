@@ -27,50 +27,49 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_add_PKCS1_type_1</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                                  <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_check_PKCS1_type_1</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                                    <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_add_PKCS1_type_2</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                                  <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_check_PKCS1_type_2</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                                    <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_add_PKCS1_OAEP</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span>
-                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_check_PKCS1_OAEP</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                                  <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">,</span>
-                                  <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_add_PKCS1_OAEP_mgf1</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                                     <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span>
-                                     <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pl</span><span class="operator">,</span>
-                                     <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*mgf1md</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_check_PKCS1_OAEP_mgf1</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                                       <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">,</span>
-                                       <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pl</span><span class="operator">,</span>
-                                       <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*mgf1md</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_add_SSLv23</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                            <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_check_SSLv23</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                              <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_add_none</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                          <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_padding_check_none</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tlen</span><span class="operator">,</span>
-                            <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">fl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rsa_len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rsa.h&gt;
+
+ int RSA_padding_add_PKCS1_type_1(unsigned char *to, int tlen,
+                                  const unsigned char *f, int fl);
+
+ int RSA_padding_check_PKCS1_type_1(unsigned char *to, int tlen,
+                                    const unsigned char *f, int fl, int rsa_len);
+
+ int RSA_padding_add_PKCS1_type_2(unsigned char *to, int tlen,
+                                  const unsigned char *f, int fl);
+
+ int RSA_padding_check_PKCS1_type_2(unsigned char *to, int tlen,
+                                    const unsigned char *f, int fl, int rsa_len);
+
+ int RSA_padding_add_PKCS1_OAEP(unsigned char *to, int tlen,
+                                const unsigned char *f, int fl,
+                                const unsigned char *p, int pl);
+
+ int RSA_padding_check_PKCS1_OAEP(unsigned char *to, int tlen,
+                                  const unsigned char *f, int fl, int rsa_len,
+                                  const unsigned char *p, int pl);
+
+ int RSA_padding_add_PKCS1_OAEP_mgf1(unsigned char *to, int tlen,
+                                     const unsigned char *f, int fl,
+                                     const unsigned char *p, int pl,
+                                     const EVP_MD *md, const EVP_MD *mgf1md);
+
+ int RSA_padding_check_PKCS1_OAEP_mgf1(unsigned char *to, int tlen,
+                                       const unsigned char *f, int fl, int rsa_len,
+                                       const unsigned char *p, int pl,
+                                       const EVP_MD *md, const EVP_MD *mgf1md);
+
+ int RSA_padding_add_SSLv23(unsigned char *to, int tlen,
+                            const unsigned char *f, int fl);
+
+ int RSA_padding_check_SSLv23(unsigned char *to, int tlen,
+                              const unsigned char *f, int fl, int rsa_len);
+
+ int RSA_padding_add_none(unsigned char *to, int tlen,
+                          const unsigned char *f, int fl);
+
+ int RSA_padding_check_none(unsigned char *to, int tlen,
+                            const unsigned char *f, int fl, int rsa_len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -28,15 +28,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">BIO_socket</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">domain</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">socktype</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">protocol</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">options</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_bind</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">sock</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*addr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">options</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_connect</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">sock</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*addr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">options</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_listen</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">sock</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*addr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">options</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_accept_ex</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">accept_sock</span><span class="operator">,</span> <span class="variable">BIO_ADDR</span> <span class="variable">*peer</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">options</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_closesocket</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">sock</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+
+ int BIO_socket(int domain, int socktype, int protocol, int options);
+ int BIO_bind(int sock, const BIO_ADDR *addr, int options);
+ int BIO_connect(int sock, const BIO_ADDR *addr, int options);
+ int BIO_listen(int sock, const BIO_ADDR *addr, int options);
+ int BIO_accept_ex(int accept_sock, BIO_ADDR *peer, int options);
+ int BIO_closesocket(int sock);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -90,8 +89,7 @@
 
 <p>These flags are bit flags, so they are to be combined with the <code>|</code> operator, for example:</p>
 
-<pre><code> <span class="variable">BIO_connect</span><span class="operator">(</span><span class="variable">sock</span><span class="operator">,</span> <span class="variable">addr</span><span class="operator">,</span> <span class="variable">BIO_SOCK_KEEPALIVE</span> <span class="operator">|</span> <span class="variable">BIO_SOCK_NONBLOCK</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO_connect(sock, addr, BIO_SOCK_KEEPALIVE | BIO_SOCK_NONBLOCK);</code></pre>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 

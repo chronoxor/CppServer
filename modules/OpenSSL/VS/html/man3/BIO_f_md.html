@@ -29,14 +29,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="variable">*BIO_f_md</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_set_md</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_get_md</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">EVP_MD</span> <span class="operator">**</span><span class="variable">mdp</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_get_md_ctx</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">EVP_MD_CTX</span> <span class="operator">**</span><span class="variable">mdcp</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+ #include &lt;openssl/evp.h&gt;
+
+ const BIO_METHOD *BIO_f_md(void);
+ int BIO_set_md(BIO *b, EVP_MD *md);
+ int BIO_get_md(BIO *b, EVP_MD **mdp);
+ int BIO_get_md_ctx(BIO *b, EVP_MD_CTX **mdcp);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -76,67 +75,64 @@
 
 <p>The following example creates a BIO chain containing an SHA1 and MD5 digest BIO and passes the string &quot;Hello World&quot; through it. Error checking has been omitted for clarity.</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*bio</span><span class="operator">,</span> <span class="variable">*mdtmp</span><span class="operator">;</span>
- <span class="variable">char</span> <span class="variable">message</span><span class="operator">[]</span> <span class="operator">=</span> <span class="string">"Hello World"</span><span class="operator">;</span>
- 
- <span class="variable">bio</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_s_null</span><span class="operator">());</span>
- <span class="variable">mdtmp</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_f_md</span><span class="operator">());</span>
- <span class="variable">BIO_set_md</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">EVP_sha1</span><span class="operator">());</span>
- <span class="regex">/*
+<pre><code> BIO *bio, *mdtmp;
+ char message[] = &quot;Hello World&quot;;
+
+ bio = BIO_new(BIO_s_null());
+ mdtmp = BIO_new(BIO_f_md());
+ BIO_set_md(mdtmp, EVP_sha1());
+ /*
   * For BIO_push() we want to append the sink BIO and keep a note of
   * the start of the chain.
-  */</span>
- <span class="variable">bio</span> <span class="operator">=</span> <span class="variable">BIO_push</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">bio</span><span class="operator">);</span>
- <span class="variable">mdtmp</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_f_md</span><span class="operator">());</span>
- <span class="variable">BIO_set_md</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">EVP_md5</span><span class="operator">());</span>
- <span class="variable">bio</span> <span class="operator">=</span> <span class="variable">BIO_push</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">bio</span><span class="operator">);</span>
- <span class="regex">/* Note: mdtmp can now be discarded */</span>
- <span class="variable">BIO_write</span><span class="operator">(</span><span class="variable">bio</span><span class="operator">,</span> <span class="variable">message</span><span class="operator">,</span> <span class="variable">strlen</span><span class="operator">(</span><span class="variable">message</span><span class="operator">));</span>
-</code></pre>
+  */
+ bio = BIO_push(mdtmp, bio);
+ mdtmp = BIO_new(BIO_f_md());
+ BIO_set_md(mdtmp, EVP_md5());
+ bio = BIO_push(mdtmp, bio);
+ /* Note: mdtmp can now be discarded */
+ BIO_write(bio, message, strlen(message));</code></pre>
 
 <p>The next example digests data by reading through a chain instead:</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*bio</span><span class="operator">,</span> <span class="variable">*mdtmp</span><span class="operator">;</span>
- <span class="variable">char</span> <span class="variable">buf</span><span class="operator">[</span><span class="number">1024</span><span class="operator">]</span><span class="operator">;</span>
- <span class="keyword">int</span> <span class="variable">rdlen</span><span class="operator">;</span>
- 
- <span class="variable">bio</span> <span class="operator">=</span> <span class="variable">BIO_new_file</span><span class="operator">(</span><span class="variable">file</span><span class="operator">,</span> <span class="string">"rb"</span><span class="operator">);</span>
- <span class="variable">mdtmp</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_f_md</span><span class="operator">());</span>
- <span class="variable">BIO_set_md</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">EVP_sha1</span><span class="operator">());</span>
- <span class="variable">bio</span> <span class="operator">=</span> <span class="variable">BIO_push</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">bio</span><span class="operator">);</span>
- <span class="variable">mdtmp</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_f_md</span><span class="operator">());</span>
- <span class="variable">BIO_set_md</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">EVP_md5</span><span class="operator">());</span>
- <span class="variable">bio</span> <span class="operator">=</span> <span class="variable">BIO_push</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">bio</span><span class="operator">);</span>
- <span class="keyword">do</span> <span class="operator">{</span>
-     <span class="variable">rdlen</span> <span class="operator">=</span> <span class="variable">BIO_read</span><span class="operator">(</span><span class="variable">bio</span><span class="operator">,</span> <span class="variable">buf</span><span class="operator">,</span> <span class="variable">sizeof</span><span class="operator">(</span><span class="variable">buf</span><span class="operator">));</span>
-     <span class="regex">/* Might want to do something with the data here */</span>
- <span class="operator">}</span> <span class="keyword">while</span> <span class="operator">(</span><span class="variable">rdlen</span> <span class="operator">&gt;</span> <span class="number">0</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *bio, *mdtmp;
+ char buf[1024];
+ int rdlen;
+
+ bio = BIO_new_file(file, &quot;rb&quot;);
+ mdtmp = BIO_new(BIO_f_md());
+ BIO_set_md(mdtmp, EVP_sha1());
+ bio = BIO_push(mdtmp, bio);
+ mdtmp = BIO_new(BIO_f_md());
+ BIO_set_md(mdtmp, EVP_md5());
+ bio = BIO_push(mdtmp, bio);
+ do {
+     rdlen = BIO_read(bio, buf, sizeof(buf));
+     /* Might want to do something with the data here */
+ } while (rdlen &gt; 0);</code></pre>
 
 <p>This next example retrieves the message digests from a BIO chain and outputs them. This could be used with the examples above.</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*mdtmp</span><span class="operator">;</span>
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">mdbuf</span><span class="operator">[</span><span class="variable">EVP_MAX_MD_SIZE</span><span class="operator">]</span><span class="operator">;</span>
- <span class="keyword">int</span> <span class="variable">mdlen</span><span class="operator">;</span>
- <span class="keyword">int</span> <span class="variable">i</span><span class="operator">;</span>
- 
- <span class="variable">mdtmp</span> <span class="operator">=</span> <span class="variable">bio</span><span class="operator">;</span>   <span class="regex">/* Assume bio has previously been set up */</span>
- <span class="keyword">do</span> <span class="operator">{</span>
-     <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">;</span>
- 
-     <span class="variable">mdtmp</span> <span class="operator">=</span> <span class="variable">BIO_find_type</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">BIO_TYPE_MD</span><span class="operator">);</span>
-     <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">mdtmp</span><span class="operator">)</span>
-         <span class="keyword">break</span><span class="operator">;</span>
-     <span class="variable">BIO_get_md</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">md</span><span class="operator">);</span>
-     <span class="keyword">printf</span><span class="operator">(</span><span class="string">"%s digest"</span><span class="operator">,</span> <span class="variable">OBJ_nid2sn</span><span class="operator">(</span><span class="variable">EVP_MD_type</span><span class="operator">(</span><span class="variable">md</span><span class="operator">)));</span>
-     <span class="variable">mdlen</span> <span class="operator">=</span> <span class="variable">BIO_gets</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">,</span> <span class="variable">mdbuf</span><span class="operator">,</span> <span class="variable">EVP_MAX_MD_SIZE</span><span class="operator">);</span>
-     <span class="keyword">for</span> <span class="operator">(</span><span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span> <span class="variable">i</span> <span class="operator">&lt;</span> <span class="variable">mdlen</span><span class="operator">;</span> <span class="variable">i</span><span class="operator">++)</span> <span class="keyword">printf</span><span class="operator">(</span><span class="string">":%02X"</span><span class="operator">,</span> <span class="variable">mdbuf</span><span class="operator">[</span><span class="variable">i</span><span class="operator">]</span><span class="operator">);</span>
-     <span class="keyword">printf</span><span class="operator">(</span><span class="string">"\n"</span><span class="operator">);</span>
-     <span class="variable">mdtmp</span> <span class="operator">=</span> <span class="variable">BIO_next</span><span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">);</span>
- <span class="operator">}</span> <span class="keyword">while</span> <span class="operator">(</span><span class="variable">mdtmp</span><span class="operator">);</span>
- 
- <span class="variable">BIO_free_all</span><span class="operator">(</span><span class="variable">bio</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *mdtmp;
+ unsigned char mdbuf[EVP_MAX_MD_SIZE];
+ int mdlen;
+ int i;
+
+ mdtmp = bio;   /* Assume bio has previously been set up */
+ do {
+     EVP_MD *md;
+
+     mdtmp = BIO_find_type(mdtmp, BIO_TYPE_MD);
+     if (!mdtmp)
+         break;
+     BIO_get_md(mdtmp, &amp;md);
+     printf(&quot;%s digest&quot;, OBJ_nid2sn(EVP_MD_type(md)));
+     mdlen = BIO_gets(mdtmp, mdbuf, EVP_MAX_MD_SIZE);
+     for (i = 0; i &lt; mdlen; i++) printf(&quot;:%02X&quot;, mdbuf[i]);
+     printf(&quot;\n&quot;);
+     mdtmp = BIO_next(mdtmp);
+ } while (mdtmp);
+
+ BIO_free_all(bio);</code></pre>
 
 <h1 id="BUGS">BUGS</h1>
 

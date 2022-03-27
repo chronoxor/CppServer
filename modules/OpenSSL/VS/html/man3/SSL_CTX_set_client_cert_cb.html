@@ -28,15 +28,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_client_cert_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                 <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*client_cert_cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">X509</span> <span class="operator">**</span><span class="variable">x509</span><span class="operator">,</span>
-                                                       <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">pkey</span><span class="operator">));</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_CTX_get_client_cert_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">))(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">X509</span> <span class="operator">**</span><span class="variable">x509</span><span class="operator">,</span>
-                                                 <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">pkey</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*client_cert_cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">X509</span> <span class="operator">**</span><span class="variable">x509</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">pkey</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_client_cert_cb(SSL_CTX *ctx,
+                                 int (*client_cert_cb)(SSL *ssl, X509 **x509,
+                                                       EVP_PKEY **pkey));
+ int (*SSL_CTX_get_client_cert_cb(SSL_CTX *ctx))(SSL *ssl, X509 **x509,
+                                                 EVP_PKEY **pkey);
+ int (*client_cert_cb)(SSL *ssl, X509 **x509, EVP_PKEY **pkey);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

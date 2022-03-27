@@ -27,12 +27,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509_vfy.h&gt;</span>
- 
- <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*X509_STORE_get0_param</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_set1_param</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*pm</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_OBJECT</span><span class="operator">)</span> <span class="variable">*X509_STORE_get0_objects</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509_vfy.h&gt;
+
+ X509_VERIFY_PARAM *X509_STORE_get0_param(X509_STORE *ctx);
+ int X509_STORE_set1_param(X509_STORE *ctx, X509_VERIFY_PARAM *pm);
+ STACK_OF(X509_OBJECT) *X509_STORE_get0_objects(X509_STORE *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

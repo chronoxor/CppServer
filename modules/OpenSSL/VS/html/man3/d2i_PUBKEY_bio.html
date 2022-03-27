@@ -27,31 +27,30 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="variable">X509_PUBKEY</span> <span class="variable">*X509_PUBKEY_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_PUBKEY_free</span><span class="operator">(</span><span class="variable">X509_PUBKEY</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_PUBKEY_set</span><span class="operator">(</span><span class="variable">X509_PUBKEY</span> <span class="operator">**x,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*X509_PUBKEY_get0</span><span class="operator">(</span><span class="variable">X509_PUBKEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*X509_PUBKEY_get</span><span class="operator">(</span><span class="variable">X509_PUBKEY</span> <span class="variable">*key</span><span class="operator">);</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PUBKEY</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span> <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_PUBKEY</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PUBKEY_bio</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PUBKEY_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">i2d_PUBKEY_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_PUBKEY_bio</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_PUBKEY_set0_param</span><span class="operator">(</span><span class="variable">X509_PUBKEY</span> <span class="variable">*pub</span><span class="operator">,</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*aobj</span><span class="operator">,</span>
-                            <span class="keyword">int</span> <span class="variable">ptype</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*pval</span><span class="operator">,</span>
-                            <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*penc</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">penclen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_PUBKEY_get0_param</span><span class="operator">(</span><span class="variable">ASN1_OBJECT</span> <span class="operator">**</span><span class="variable">ppkalg</span><span class="operator">,</span>
-                            <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*ppklen</span><span class="operator">,</span>
-                            <span class="variable">X509_ALGOR</span> <span class="operator">**</span><span class="variable">pa</span><span class="operator">,</span> <span class="variable">X509_PUBKEY</span> <span class="variable">*pub</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ X509_PUBKEY *X509_PUBKEY_new(void);
+ void X509_PUBKEY_free(X509_PUBKEY *a);
+
+ int X509_PUBKEY_set(X509_PUBKEY **x, EVP_PKEY *pkey);
+ EVP_PKEY *X509_PUBKEY_get0(X509_PUBKEY *key);
+ EVP_PKEY *X509_PUBKEY_get(X509_PUBKEY *key);
+
+ EVP_PKEY *d2i_PUBKEY(EVP_PKEY **a, const unsigned char **pp, long length);
+ int i2d_PUBKEY(EVP_PKEY *a, unsigned char **pp);
+
+ EVP_PKEY *d2i_PUBKEY_bio(BIO *bp, EVP_PKEY **a);
+ EVP_PKEY *d2i_PUBKEY_fp(FILE *fp, EVP_PKEY **a);
+
+ int i2d_PUBKEY_fp(FILE *fp, EVP_PKEY *pkey);
+ int i2d_PUBKEY_bio(BIO *bp, EVP_PKEY *pkey);
+
+ int X509_PUBKEY_set0_param(X509_PUBKEY *pub, ASN1_OBJECT *aobj,
+                            int ptype, void *pval,
+                            unsigned char *penc, int penclen);
+ int X509_PUBKEY_get0_param(ASN1_OBJECT **ppkalg,
+                            const unsigned char **pk, int *ppklen,
+                            X509_ALGOR **pa, X509_PUBKEY *pub);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

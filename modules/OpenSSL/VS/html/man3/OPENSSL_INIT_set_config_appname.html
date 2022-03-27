@@ -28,22 +28,21 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">OPENSSL_cleanup</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OPENSSL_init_crypto</span><span class="operator">(</span><span class="variable">uint64_t</span> <span class="variable">opts</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">OPENSSL_INIT_SETTINGS</span> <span class="variable">*settings</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OPENSSL_atexit</span><span class="operator">(</span><span class="variable">void</span> <span class="operator">(</span><span class="variable">*handler</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">));</span>
- <span class="variable">void</span> <span class="variable">OPENSSL_thread_stop</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">OPENSSL_INIT_SETTINGS</span> <span class="variable">*OPENSSL_INIT_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OPENSSL_INIT_set_config_filename</span><span class="operator">(</span><span class="variable">OPENSSL_INIT_SETTINGS</span> <span class="variable">*init</span><span class="operator">,</span>
-                                      <span class="variable">const</span> <span class="variable">char</span><span class="operator">*</span> <span class="variable">filename</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OPENSSL_INIT_set_config_file_flags</span><span class="operator">(</span><span class="variable">OPENSSL_INIT_SETTINGS</span> <span class="variable">*init</span><span class="operator">,</span>
-                                        <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OPENSSL_INIT_set_config_appname</span><span class="operator">(</span><span class="variable">OPENSSL_INIT_SETTINGS</span> <span class="variable">*init</span><span class="operator">,</span>
-                                     <span class="variable">const</span> <span class="variable">char</span><span class="operator">*</span> <span class="variable">name</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">OPENSSL_INIT_free</span><span class="operator">(</span><span class="variable">OPENSSL_INIT_SETTINGS</span> <span class="variable">*init</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/crypto.h&gt;
+
+ void OPENSSL_cleanup(void);
+ int OPENSSL_init_crypto(uint64_t opts, const OPENSSL_INIT_SETTINGS *settings);
+ int OPENSSL_atexit(void (*handler)(void));
+ void OPENSSL_thread_stop(void);
+
+ OPENSSL_INIT_SETTINGS *OPENSSL_INIT_new(void);
+ int OPENSSL_INIT_set_config_filename(OPENSSL_INIT_SETTINGS *init,
+                                      const char* filename);
+ int OPENSSL_INIT_set_config_file_flags(OPENSSL_INIT_SETTINGS *init,
+                                        unsigned long flags);
+ int OPENSSL_INIT_set_config_appname(OPENSSL_INIT_SETTINGS *init,
+                                     const char* name);
+ void OPENSSL_INIT_free(OPENSSL_INIT_SETTINGS *init);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -177,9 +176,8 @@
 
 <p>Multiple options may be combined together in a single call to OPENSSL_init_crypto(). For example:</p>
 
-<pre><code> <span class="variable">OPENSSL_init_crypto</span><span class="operator">(</span><span class="variable">OPENSSL_INIT_NO_ADD_ALL_CIPHERS</span>
-                     <span class="operator">|</span> <span class="variable">OPENSSL_INIT_NO_ADD_ALL_DIGESTS</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-</code></pre>
+<pre><code> OPENSSL_init_crypto(OPENSSL_INIT_NO_ADD_ALL_CIPHERS
+                     | OPENSSL_INIT_NO_ADD_ALL_DIGESTS, NULL);</code></pre>
 
 <p>The OPENSSL_cleanup() function deinitialises OpenSSL (both libcrypto and libssl). All resources allocated by OpenSSL are freed. Typically there should be no need to call this function directly as it is initiated automatically on application exit. This is done via the standard C library atexit() function. In the event that the application will close in a manner that will not call the registered atexit() handlers then the application should call OPENSSL_cleanup() directly. Developers of libraries using OpenSSL are discouraged from calling this function and should instead, typically, rely on auto-deinitialisation. This is to avoid error conditions where both an application and a library it depends on both use OpenSSL, and the library deinitialises it before the application has finished using it.</p>
 

@@ -26,12 +26,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_SESSION_print</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*ses</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_SESSION_print_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*ses</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_SESSION_print_keylog</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*x</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_SESSION_print(BIO *fp, const SSL_SESSION *ses);
+ int SSL_SESSION_print_fp(FILE *fp, const SSL_SESSION *ses);
+ int SSL_SESSION_print_keylog(BIO *bp, const SSL_SESSION *x);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

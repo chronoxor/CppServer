@@ -29,12 +29,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_derive_init</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_derive_set_peer</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*peer</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_derive</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*keylen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int EVP_PKEY_derive_init(EVP_PKEY_CTX *ctx);
+ int EVP_PKEY_derive_set_peer(EVP_PKEY_CTX *ctx, EVP_PKEY *peer);
+ int EVP_PKEY_derive(EVP_PKEY_CTX *ctx, unsigned char *key, size_t *keylen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -58,38 +57,37 @@
 
 <p>Derive shared secret (for example DH or EC keys):</p>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*ctx</span><span class="operator">;</span>
- <span class="variable">ENGINE</span> <span class="variable">*eng</span><span class="operator">;</span>
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*skey</span><span class="operator">;</span>
- <span class="variable">size_t</span> <span class="variable">skeylen</span><span class="operator">;</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">*peerkey</span><span class="operator">;</span>
- <span class="regex">/* NB: assumes pkey, eng, peerkey have been already set up */</span>
- 
- <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new</span><span class="operator">(</span><span class="variable">pkey</span><span class="operator">,</span> <span class="variable">eng</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">ctx</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="variable">occurred</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_derive_init</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_derive_set_peer</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">peerkey</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- 
- <span class="regex">/* Determine buffer length */</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_derive</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">skeylen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- 
- <span class="variable">skey</span> <span class="operator">=</span> <span class="variable">OPENSSL_malloc</span><span class="operator">(</span><span class="variable">skeylen</span><span class="operator">);</span>
- 
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">skey</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">malloc</span> <span class="variable">failure</span> <span class="operator">*/</span>
- 
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">EVP_PKEY_derive</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">skey</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">skeylen</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- 
- <span class="regex">/* Shared secret is skey bytes written to buffer skey */</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+ #include &lt;openssl/rsa.h&gt;
+
+ EVP_PKEY_CTX *ctx;
+ ENGINE *eng;
+ unsigned char *skey;
+ size_t skeylen;
+ EVP_PKEY *pkey, *peerkey;
+ /* NB: assumes pkey, eng, peerkey have been already set up */
+
+ ctx = EVP_PKEY_CTX_new(pkey, eng);
+ if (!ctx)
+     /* Error occurred */
+ if (EVP_PKEY_derive_init(ctx) &lt;= 0)
+     /* Error */
+ if (EVP_PKEY_derive_set_peer(ctx, peerkey) &lt;= 0)
+     /* Error */
+
+ /* Determine buffer length */
+ if (EVP_PKEY_derive(ctx, NULL, &amp;skeylen) &lt;= 0)
+     /* Error */
+
+ skey = OPENSSL_malloc(skeylen);
+
+ if (!skey)
+     /* malloc failure */
+
+ if (EVP_PKEY_derive(ctx, skey, &amp;skeylen) &lt;= 0)
+     /* Error */
+
+ /* Shared secret is skey bytes written to buffer skey */</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

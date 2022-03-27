@@ -29,29 +29,28 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/asn1.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_INTEGER_get_int64</span><span class="operator">(</span><span class="variable">int64_t</span> <span class="variable">*pr</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">ASN1_INTEGER_get</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_INTEGER_set_int64</span><span class="operator">(</span><span class="variable">ASN1_INTEGER</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">int64_t</span> <span class="variable">r</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_INTEGER_set</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">v</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_INTEGER_get_uint64</span><span class="operator">(</span><span class="variable">uint64_t</span> <span class="variable">*pr</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_INTEGER_set_uint64</span><span class="operator">(</span><span class="variable">ASN1_INTEGER</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">uint64_t</span> <span class="variable">r</span><span class="operator">);</span>
- 
- <span class="variable">ASN1_INTEGER</span> <span class="variable">*BN_to_ASN1_INTEGER</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*bn</span><span class="operator">,</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*ai</span><span class="operator">);</span>
- <span class="variable">BIGNUM</span> <span class="variable">*ASN1_INTEGER_to_BN</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*ai</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*bn</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_ENUMERATED_get_int64</span><span class="operator">(</span><span class="variable">int64_t</span> <span class="variable">*pr</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_ENUMERATED</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">ASN1_ENUMERATED_get</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_ENUMERATED</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_ENUMERATED_set_int64</span><span class="operator">(</span><span class="variable">ASN1_ENUMERATED</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">int64_t</span> <span class="variable">r</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_ENUMERATED_set</span><span class="operator">(</span><span class="variable">ASN1_ENUMERATED</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">v</span><span class="operator">);</span>
- 
- <span class="variable">ASN1_ENUMERATED</span> <span class="variable">*BN_to_ASN1_ENUMERATED</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*bn</span><span class="operator">,</span> <span class="variable">ASN1_ENUMERATED</span> <span class="variable">*ai</span><span class="operator">);</span>
- <span class="variable">BIGNUM</span> <span class="variable">*ASN1_ENUMERATED_to_BN</span><span class="operator">(</span><span class="variable">ASN1_ENUMERATED</span> <span class="variable">*ai</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*bn</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/asn1.h&gt;
+
+ int ASN1_INTEGER_get_int64(int64_t *pr, const ASN1_INTEGER *a);
+ long ASN1_INTEGER_get(const ASN1_INTEGER *a);
+
+ int ASN1_INTEGER_set_int64(ASN1_INTEGER *a, int64_t r);
+ int ASN1_INTEGER_set(const ASN1_INTEGER *a, long v);
+
+ int ASN1_INTEGER_get_uint64(uint64_t *pr, const ASN1_INTEGER *a);
+ int ASN1_INTEGER_set_uint64(ASN1_INTEGER *a, uint64_t r);
+
+ ASN1_INTEGER *BN_to_ASN1_INTEGER(const BIGNUM *bn, ASN1_INTEGER *ai);
+ BIGNUM *ASN1_INTEGER_to_BN(const ASN1_INTEGER *ai, BIGNUM *bn);
+
+ int ASN1_ENUMERATED_get_int64(int64_t *pr, const ASN1_ENUMERATED *a);
+ long ASN1_ENUMERATED_get(const ASN1_ENUMERATED *a);
+
+ int ASN1_ENUMERATED_set_int64(ASN1_ENUMERATED *a, int64_t r);
+ int ASN1_ENUMERATED_set(ASN1_ENUMERATED *a, long v);
+
+ ASN1_ENUMERATED *BN_to_ASN1_ENUMERATED(BIGNUM *bn, ASN1_ENUMERATED *ai);
+ BIGNUM *ASN1_ENUMERATED_to_BN(ASN1_ENUMERATED *ai, BIGNUM *bn);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

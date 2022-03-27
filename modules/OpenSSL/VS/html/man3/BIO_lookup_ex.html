@@ -27,28 +27,27 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;sys/types.h&gt;</span>
- <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">union</span> <span class="variable">bio_addrinfo_st</span> <span class="variable">BIO_ADDRINFO</span><span class="operator">;</span>
- 
- <span class="variable">enum</span> <span class="variable">BIO_lookup_type</span> <span class="operator">{</span>
-     <span class="variable">BIO_LOOKUP_CLIENT</span><span class="operator">,</span> <span class="variable">BIO_LOOKUP_SERVER</span>
- <span class="operator">};</span>
- 
- <span class="keyword">int</span> <span class="variable">BIO_lookup_ex</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*host</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*service</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lookup_type</span><span class="operator">,</span>
-                   <span class="keyword">int</span> <span class="variable">family</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">socktype</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">protocol</span><span class="operator">,</span> <span class="variable">BIO_ADDRINFO</span> <span class="operator">**</span><span class="variable">res</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_lookup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*node</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*service</span><span class="operator">,</span>
-                <span class="variable">enum</span> <span class="variable">BIO_lookup_type</span> <span class="variable">lookup_type</span><span class="operator">,</span>
-                <span class="keyword">int</span> <span class="variable">family</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">socktype</span><span class="operator">,</span> <span class="variable">BIO_ADDRINFO</span> <span class="operator">**</span><span class="variable">res</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">BIO_ADDRINFO</span> <span class="variable">*BIO_ADDRINFO_next</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDRINFO</span> <span class="variable">*bai</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_ADDRINFO_family</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDRINFO</span> <span class="variable">*bai</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_ADDRINFO_socktype</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDRINFO</span> <span class="variable">*bai</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_ADDRINFO_protocol</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDRINFO</span> <span class="variable">*bai</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*BIO_ADDRINFO_address</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDRINFO</span> <span class="variable">*bai</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">BIO_ADDRINFO_free</span><span class="operator">(</span><span class="variable">BIO_ADDRINFO</span> <span class="variable">*bai</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;sys/types.h&gt;
+ #include &lt;openssl/bio.h&gt;
+
+ typedef union bio_addrinfo_st BIO_ADDRINFO;
+
+ enum BIO_lookup_type {
+     BIO_LOOKUP_CLIENT, BIO_LOOKUP_SERVER
+ };
+
+ int BIO_lookup_ex(const char *host, const char *service, int lookup_type,
+                   int family, int socktype, int protocol, BIO_ADDRINFO **res);
+ int BIO_lookup(const char *node, const char *service,
+                enum BIO_lookup_type lookup_type,
+                int family, int socktype, BIO_ADDRINFO **res);
+
+ const BIO_ADDRINFO *BIO_ADDRINFO_next(const BIO_ADDRINFO *bai);
+ int BIO_ADDRINFO_family(const BIO_ADDRINFO *bai);
+ int BIO_ADDRINFO_socktype(const BIO_ADDRINFO *bai);
+ int BIO_ADDRINFO_protocol(const BIO_ADDRINFO *bai);
+ const BIO_ADDR *BIO_ADDRINFO_address(const BIO_ADDRINFO *bai);
+ void BIO_ADDRINFO_free(BIO_ADDRINFO *bai);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

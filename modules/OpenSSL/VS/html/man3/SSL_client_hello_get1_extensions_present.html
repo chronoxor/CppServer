@@ -28,21 +28,20 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_client_hello_cb_fn</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*al</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_client_hello_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">SSL_client_hello_cb_fn</span> <span class="variable">*f</span><span class="operator">,</span>
-                                  <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_client_hello_isv2</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">SSL_client_hello_get0_legacy_version</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">SSL_client_hello_get0_random</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">SSL_client_hello_get0_session_id</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">SSL_client_hello_get0_ciphers</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">SSL_client_hello_get0_compression_methods</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span>
-                                                  <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_client_hello_get1_extensions_present</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">,</span>
-                                              <span class="variable">size_t</span> <span class="variable">*outlen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_client_hello_get0_ext</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">,</span>
-                               <span class="variable">size_t</span> <span class="variable">*outlen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> typedef int (*SSL_client_hello_cb_fn)(SSL *s, int *al, void *arg);
+ void SSL_CTX_set_client_hello_cb(SSL_CTX *c, SSL_client_hello_cb_fn *f,
+                                  void *arg);
+ int SSL_client_hello_isv2(SSL *s);
+ unsigned int SSL_client_hello_get0_legacy_version(SSL *s);
+ size_t SSL_client_hello_get0_random(SSL *s, const unsigned char **out);
+ size_t SSL_client_hello_get0_session_id(SSL *s, const unsigned char **out);
+ size_t SSL_client_hello_get0_ciphers(SSL *s, const unsigned char **out);
+ size_t SSL_client_hello_get0_compression_methods(SSL *s,
+                                                  const unsigned char **out);
+ int SSL_client_hello_get1_extensions_present(SSL *s, int **out,
+                                              size_t *outlen);
+ int SSL_client_hello_get0_ext(SSL *s, int type, const unsigned char **out,
+                               size_t *outlen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

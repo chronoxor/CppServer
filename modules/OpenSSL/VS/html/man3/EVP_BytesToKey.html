@@ -28,13 +28,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_BytesToKey</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">,</span>
-                    <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*salt</span><span class="operator">,</span>
-                    <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">datal</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">count</span><span class="operator">,</span>
-                    <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int EVP_BytesToKey(const EVP_CIPHER *type, const EVP_MD *md,
+                    const unsigned char *salt,
+                    const unsigned char *data, int datal, int count,
+                    unsigned char *key, unsigned char *iv);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

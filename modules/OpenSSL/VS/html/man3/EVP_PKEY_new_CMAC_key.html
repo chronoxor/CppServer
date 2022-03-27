@@ -28,26 +28,25 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*EVP_PKEY_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_up_ref</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EVP_PKEY_free</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*key</span><span class="operator">);</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*EVP_PKEY_new_raw_private_key</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span>
-                                        <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">keylen</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*EVP_PKEY_new_raw_public_key</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span>
-                                       <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">keylen</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*EVP_PKEY_new_CMAC_key</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*priv</span><span class="operator">,</span>
-                                 <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*EVP_PKEY_new_mac_key</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span>
-                                <span class="keyword">int</span> <span class="variable">keylen</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_get_raw_private_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*priv</span><span class="operator">,</span>
-                                  <span class="variable">size_t</span> <span class="variable">*len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_get_raw_public_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*pub</span><span class="operator">,</span>
-                                 <span class="variable">size_t</span> <span class="variable">*len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ EVP_PKEY *EVP_PKEY_new(void);
+ int EVP_PKEY_up_ref(EVP_PKEY *key);
+ void EVP_PKEY_free(EVP_PKEY *key);
+
+ EVP_PKEY *EVP_PKEY_new_raw_private_key(int type, ENGINE *e,
+                                        const unsigned char *key, size_t keylen);
+ EVP_PKEY *EVP_PKEY_new_raw_public_key(int type, ENGINE *e,
+                                       const unsigned char *key, size_t keylen);
+ EVP_PKEY *EVP_PKEY_new_CMAC_key(ENGINE *e, const unsigned char *priv,
+                                 size_t len, const EVP_CIPHER *cipher);
+ EVP_PKEY *EVP_PKEY_new_mac_key(int type, ENGINE *e, const unsigned char *key,
+                                int keylen);
+
+ int EVP_PKEY_get_raw_private_key(const EVP_PKEY *pkey, unsigned char *priv,
+                                  size_t *len);
+ int EVP_PKEY_get_raw_public_key(const EVP_PKEY *pkey, unsigned char *pub,
+                                 size_t *len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -28,20 +28,19 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_msg_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                               <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">write_p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">,</span>
-                                          <span class="keyword">int</span> <span class="variable">content_type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span>
-                                          <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">));</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_msg_callback_arg</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_set_msg_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span>
-                           <span class="variable">void</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">write_p</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">,</span>
-                                      <span class="keyword">int</span> <span class="variable">content_type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span>
-                                      <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">));</span>
- <span class="variable">void</span> <span class="variable">SSL_set_msg_callback_arg</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_msg_callback(SSL_CTX *ctx,
+                               void (*cb)(int write_p, int version,
+                                          int content_type, const void *buf,
+                                          size_t len, SSL *ssl, void *arg));
+ void SSL_CTX_set_msg_callback_arg(SSL_CTX *ctx, void *arg);
+
+ void SSL_set_msg_callback(SSL *ssl,
+                           void (*cb)(int write_p, int version,
+                                      int content_type, const void *buf,
+                                      size_t len, SSL *ssl, void *arg));
+ void SSL_set_msg_callback_arg(SSL *ssl, void *arg);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

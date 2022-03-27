@@ -27,11 +27,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_set_cache_size</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">t</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_sess_get_cache_size</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_CTX_sess_set_cache_size(SSL_CTX *ctx, long t);
+ long SSL_CTX_sess_get_cache_size(SSL_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

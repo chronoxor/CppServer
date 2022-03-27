@@ -28,17 +28,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_tlsext_servername_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                   <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*al</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">));</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_tlsext_servername_arg</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_get_servername</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_servername_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_set_tlsext_host_name</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_CTX_set_tlsext_servername_callback(SSL_CTX *ctx,
+                                   int (*cb)(SSL *s, int *al, void *arg));
+ long SSL_CTX_set_tlsext_servername_arg(SSL_CTX *ctx, void *arg);
+
+ const char *SSL_get_servername(const SSL *s, const int type);
+ int SSL_get_servername_type(const SSL *s);
+
+ int SSL_set_tlsext_host_name(const SSL *s, const char *name);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

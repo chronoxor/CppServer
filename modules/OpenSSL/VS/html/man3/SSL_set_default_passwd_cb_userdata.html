@@ -29,18 +29,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_default_passwd_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_default_passwd_cb_userdata</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">pem_password_cb</span> <span class="variable">*SSL_CTX_get_default_passwd_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">*SSL_CTX_get_default_passwd_cb_userdata</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_set_default_passwd_cb</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_set_default_passwd_cb_userdata</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">pem_password_cb</span> <span class="variable">*SSL_get_default_passwd_cb</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">*SSL_get_default_passwd_cb_userdata</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_default_passwd_cb(SSL_CTX *ctx, pem_password_cb *cb);
+ void SSL_CTX_set_default_passwd_cb_userdata(SSL_CTX *ctx, void *u);
+ pem_password_cb *SSL_CTX_get_default_passwd_cb(SSL_CTX *ctx);
+ void *SSL_CTX_get_default_passwd_cb_userdata(SSL_CTX *ctx);
+
+ void SSL_set_default_passwd_cb(SSL *s, pem_password_cb *cb);
+ void SSL_set_default_passwd_cb_userdata(SSL *s, void *u);
+ pem_password_cb *SSL_get_default_passwd_cb(SSL *s);
+ void *SSL_get_default_passwd_cb_userdata(SSL *s);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -72,13 +71,12 @@
 
 <p>The following example returns the password provided as userdata to the calling function. The password is considered to be a &#39;\0&#39; terminated string. If the password does not fit into the buffer, the password is truncated.</p>
 
-<pre><code> <span class="keyword">int</span> <span class="variable">my_cb</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rwflag</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">strncpy</span><span class="operator">(</span><span class="variable">buf</span><span class="operator">,</span> <span class="operator">(</span><span class="variable">char</span> <span class="operator">*)</span><span class="variable">u</span><span class="operator">,</span> <span class="variable">size</span><span class="operator">);</span>
-     <span class="variable">buf</span><span class="operator">[</span><span class="variable">size</span> <span class="operator">-</span> <span class="number">1</span><span class="operator">]</span> <span class="operator">=</span> <span class="string">'\0'</span><span class="operator">;</span>
-     <span class="keyword">return</span> <span class="variable">strlen</span><span class="operator">(</span><span class="variable">buf</span><span class="operator">);</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> int my_cb(char *buf, int size, int rwflag, void *u)
+ {
+     strncpy(buf, (char *)u, size);
+     buf[size - 1] = &#39;\0&#39;;
+     return strlen(buf);
+ }</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

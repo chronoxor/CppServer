@@ -28,24 +28,23 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_max_send_fragment</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set_max_send_fragment</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="regex">m);
- 
- long SSL_CTX_set_max_pipelines(SSL_CTX *ctx, long m)</span><span class="operator">;</span>
- <span class="variable">long</span> <span class="variable">SSL_set_max_pipelines</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="regex">m);
- 
- long SSL_CTX_set_split_send_fragment(SSL_CTX *ctx, long m)</span><span class="operator">;</span>
- <span class="variable">long</span> <span class="variable">SSL_set_split_send_fragment</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="regex">m);
- 
- void SSL_CTX_set_default_read_buffer_len(SSL_CTX *ctx, size_t len)</span><span class="operator">;</span>
- <span class="variable">void</span> <span class="variable">SSL_set_default_read_buffer_len</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_tlsext_max_fragment_length</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">uint8_t</span> <span class="variable">mode</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_tlsext_max_fragment_length</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">uint8_t</span> <span class="variable">mode</span><span class="operator">);</span>
- <span class="variable">uint8_t</span> <span class="variable">SSL_SESSION_get_max_fragment_length</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*session</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_CTX_set_max_send_fragment(SSL_CTX *ctx, long);
+ long SSL_set_max_send_fragment(SSL *ssl, long m);
+
+ long SSL_CTX_set_max_pipelines(SSL_CTX *ctx, long m);
+ long SSL_set_max_pipelines(SSL_CTX *ssl, long m);
+
+ long SSL_CTX_set_split_send_fragment(SSL_CTX *ctx, long m);
+ long SSL_set_split_send_fragment(SSL *ssl, long m);
+
+ void SSL_CTX_set_default_read_buffer_len(SSL_CTX *ctx, size_t len);
+ void SSL_set_default_read_buffer_len(SSL *s, size_t len);
+
+ int SSL_CTX_set_tlsext_max_fragment_length(SSL_CTX *ctx, uint8_t mode);
+ int SSL_set_tlsext_max_fragment_length(SSL *ssl, uint8_t mode);
+ uint8_t SSL_SESSION_get_max_fragment_length(SSL_SESSION *session);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

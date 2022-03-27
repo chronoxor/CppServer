@@ -27,23 +27,22 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*X509_get0_notBefore</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*X509_get0_notAfter</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">ASN1_TIME</span> <span class="variable">*X509_getm_notBefore</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">ASN1_TIME</span> <span class="variable">*X509_getm_notAfter</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_set1_notBefore</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*tm</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_set1_notAfter</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*tm</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*X509_CRL_get0_lastUpdate</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*X509_CRL_get0_nextUpdate</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_CRL_set1_lastUpdate</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*tm</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_CRL_set1_nextUpdate</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_TIME</span> <span class="variable">*tm</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ const ASN1_TIME *X509_get0_notBefore(const X509 *x);
+ const ASN1_TIME *X509_get0_notAfter(const X509 *x);
+
+ ASN1_TIME *X509_getm_notBefore(const X509 *x);
+ ASN1_TIME *X509_getm_notAfter(const X509 *x);
+
+ int X509_set1_notBefore(X509 *x, const ASN1_TIME *tm);
+ int X509_set1_notAfter(X509 *x, const ASN1_TIME *tm);
+
+ const ASN1_TIME *X509_CRL_get0_lastUpdate(const X509_CRL *crl);
+ const ASN1_TIME *X509_CRL_get0_nextUpdate(const X509_CRL *crl);
+
+ int X509_CRL_set1_lastUpdate(X509_CRL *x, const ASN1_TIME *tm);
+ int X509_CRL_set1_nextUpdate(X509_CRL *x, const ASN1_TIME *tm);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

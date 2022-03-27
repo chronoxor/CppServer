@@ -29,10 +29,9 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/cms.h&gt;</span>
- 
- <span class="variable">BIO</span> <span class="variable">*BIO_new_CMS</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">CMS_ContentInfo</span> <span class="variable">*cms</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/cms.h&gt;
+
+ BIO *BIO_new_CMS(BIO *out, CMS_ContentInfo *cms);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

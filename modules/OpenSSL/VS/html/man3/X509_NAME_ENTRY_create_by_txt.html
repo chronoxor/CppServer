@@ -27,25 +27,24 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="variable">ASN1_OBJECT</span> <span class="variable">*X509_NAME_ENTRY_get_object</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*ne</span><span class="operator">);</span>
- <span class="variable">ASN1_STRING</span> <span class="variable">*X509_NAME_ENTRY_get_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*ne</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_NAME_ENTRY_set_object</span><span class="operator">(</span><span class="variable">X509_NAME_ENTRY</span> <span class="variable">*ne</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_NAME_ENTRY_set_data</span><span class="operator">(</span><span class="variable">X509_NAME_ENTRY</span> <span class="variable">*ne</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span>
-                              <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*bytes</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
- 
- <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*X509_NAME_ENTRY_create_by_txt</span><span class="operator">(</span><span class="variable">X509_NAME_ENTRY</span> <span class="operator">**</span><span class="keyword">ne</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*field</span><span class="operator">,</span>
-                                                <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*bytes</span><span class="operator">,</span>
-                                                <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*X509_NAME_ENTRY_create_by_NID</span><span class="operator">(</span><span class="variable">X509_NAME_ENTRY</span> <span class="operator">**</span><span class="keyword">ne</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span>
-                                                <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*bytes</span><span class="operator">,</span>
-                                                <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*X509_NAME_ENTRY_create_by_OBJ</span><span class="operator">(</span><span class="variable">X509_NAME_ENTRY</span> <span class="operator">**</span><span class="keyword">ne</span><span class="operator">,</span>
-                                                <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span>
-                                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*bytes</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ ASN1_OBJECT *X509_NAME_ENTRY_get_object(const X509_NAME_ENTRY *ne);
+ ASN1_STRING *X509_NAME_ENTRY_get_data(const X509_NAME_ENTRY *ne);
+
+ int X509_NAME_ENTRY_set_object(X509_NAME_ENTRY *ne, const ASN1_OBJECT *obj);
+ int X509_NAME_ENTRY_set_data(X509_NAME_ENTRY *ne, int type,
+                              const unsigned char *bytes, int len);
+
+ X509_NAME_ENTRY *X509_NAME_ENTRY_create_by_txt(X509_NAME_ENTRY **ne, const char *field,
+                                                int type, const unsigned char *bytes,
+                                                int len);
+ X509_NAME_ENTRY *X509_NAME_ENTRY_create_by_NID(X509_NAME_ENTRY **ne, int nid,
+                                                int type, const unsigned char *bytes,
+                                                int len);
+ X509_NAME_ENTRY *X509_NAME_ENTRY_create_by_OBJ(X509_NAME_ENTRY **ne,
+                                                const ASN1_OBJECT *obj, int type,
+                                                const unsigned char *bytes, int len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

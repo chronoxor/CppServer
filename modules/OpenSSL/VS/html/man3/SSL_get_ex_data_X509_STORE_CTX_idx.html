@@ -30,21 +30,20 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_verify_cb</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">preverify_ok</span><span class="operator">,</span> <span class="variable">X509_STORE_CTX</span> <span class="variable">*x509_ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_verify</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">mode</span><span class="operator">,</span> <span class="variable">SSL_verify_cb</span> <span class="variable">verify_callback</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_set_verify</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">mode</span><span class="operator">,</span> <span class="variable">SSL_verify_cb</span> <span class="variable">verify_callback</span><span class="operator">);</span>
- <span class="variable">SSL_get_ex_data_X509_STORE_CTX_idx</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_verify_depth</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">depth</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_set_verify_depth</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">depth</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_verify_client_post_handshake</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_post_handshake_auth</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">val</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_set_post_handshake_auth</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">val</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ typedef int (*SSL_verify_cb)(int preverify_ok, X509_STORE_CTX *x509_ctx);
+
+ void SSL_CTX_set_verify(SSL_CTX *ctx, int mode, SSL_verify_cb verify_callback);
+ void SSL_set_verify(SSL *ssl, int mode, SSL_verify_cb verify_callback);
+ SSL_get_ex_data_X509_STORE_CTX_idx(void);
+
+ void SSL_CTX_set_verify_depth(SSL_CTX *ctx, int depth);
+ void SSL_set_verify_depth(SSL *ssl, int depth);
+
+ int SSL_verify_client_post_handshake(SSL *ssl);
+ void SSL_CTX_set_post_handshake_auth(SSL_CTX *ctx, int val);
+ void SSL_set_post_handshake_auth(SSL *ssl, int val);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -146,103 +145,102 @@
 
 <p>The example makes use of the ex_data technique to store application data into/retrieve application data from the SSL structure (see <a href="../man3/CRYPTO_get_ex_new_index.html">CRYPTO_get_ex_new_index(3)</a>, <a href="../man3/SSL_get_ex_data_X509_STORE_CTX_idx.html">SSL_get_ex_data_X509_STORE_CTX_idx(3)</a>).</p>
 
-<pre><code> <span class="operator">...</span>
- <span class="variable">typedef</span> <span class="variable">struct</span> <span class="operator">{</span>
-   <span class="keyword">int</span> <span class="variable">verbose_mode</span><span class="operator">;</span>
-   <span class="keyword">int</span> <span class="variable">verify_depth</span><span class="operator">;</span>
-   <span class="keyword">int</span> <span class="variable">always_continue</span><span class="operator">;</span>
- <span class="operator">}</span> <span class="variable">mydata_t</span><span class="operator">;</span>
- <span class="keyword">int</span> <span class="variable">mydata_index</span><span class="operator">;</span>
- 
- <span class="operator">...</span>
- <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">verify_callback</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">preverify_ok</span><span class="operator">,</span> <span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">char</span>    <span class="variable">buf</span><span class="operator">[</span><span class="number">256</span><span class="operator">]</span><span class="operator">;</span>
-     <span class="variable">X509</span>   <span class="variable">*err_cert</span><span class="operator">;</span>
-     <span class="keyword">int</span>     <span class="variable">err</span><span class="operator">,</span> <span class="variable">depth</span><span class="operator">;</span>
-     <span class="variable">SSL</span>    <span class="variable">*ssl</span><span class="operator">;</span>
-     <span class="variable">mydata_t</span> <span class="variable">*mydata</span><span class="operator">;</span>
- 
-     <span class="variable">err_cert</span> <span class="operator">=</span> <span class="variable">X509_STORE_CTX_get_current_cert</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-     <span class="variable">err</span> <span class="operator">=</span> <span class="variable">X509_STORE_CTX_get_error</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-     <span class="variable">depth</span> <span class="operator">=</span> <span class="variable">X509_STORE_CTX_get_error_depth</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
- 
-     <span class="regex">/*
+<pre><code> ...
+ typedef struct {
+   int verbose_mode;
+   int verify_depth;
+   int always_continue;
+ } mydata_t;
+ int mydata_index;
+
+ ...
+ static int verify_callback(int preverify_ok, X509_STORE_CTX *ctx)
+ {
+     char    buf[256];
+     X509   *err_cert;
+     int     err, depth;
+     SSL    *ssl;
+     mydata_t *mydata;
+
+     err_cert = X509_STORE_CTX_get_current_cert(ctx);
+     err = X509_STORE_CTX_get_error(ctx);
+     depth = X509_STORE_CTX_get_error_depth(ctx);
+
+     /*
       * Retrieve the pointer to the SSL of the connection currently treated
       * and the application specific data stored into the SSL object.
-      */</span>
-     <span class="variable">ssl</span> <span class="operator">=</span> <span class="variable">X509_STORE_CTX_get_ex_data</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">SSL_get_ex_data_X509_STORE_CTX_idx</span><span class="operator">());</span>
-     <span class="variable">mydata</span> <span class="operator">=</span> <span class="variable">SSL_get_ex_data</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">,</span> <span class="variable">mydata_index</span><span class="operator">);</span>
- 
-     <span class="variable">X509_NAME_oneline</span><span class="operator">(</span><span class="variable">X509_get_subject_name</span><span class="operator">(</span><span class="variable">err_cert</span><span class="operator">),</span> <span class="variable">buf</span><span class="operator">,</span> <span class="number">256</span><span class="operator">);</span>
- 
-     <span class="regex">/*
+      */
+     ssl = X509_STORE_CTX_get_ex_data(ctx, SSL_get_ex_data_X509_STORE_CTX_idx());
+     mydata = SSL_get_ex_data(ssl, mydata_index);
+
+     X509_NAME_oneline(X509_get_subject_name(err_cert), buf, 256);
+
+     /*
       * Catch a too long certificate chain. The depth limit set using
-      * SSL_CTX_set_verify_depth() is by purpose set to "limit+1" so
-      * that whenever the "depth&gt;verify_depth" condition is met, we
+      * SSL_CTX_set_verify_depth() is by purpose set to &quot;limit+1&quot; so
+      * that whenever the &quot;depth&gt;verify_depth&quot; condition is met, we
       * have violated the limit and want to log this error condition.
       * We must do it here, because the CHAIN_TOO_LONG error would not
       * be found explicitly; only errors introduced by cutting off the
       * additional certificates would be logged.
-      */</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">depth</span> <span class="operator">&gt;</span> <span class="variable">mydata</span><span class="operator">-&gt;</span><span class="variable">verify_depth</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="variable">preverify_ok</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
-         <span class="variable">err</span> <span class="operator">=</span> <span class="variable">X509_V_ERR_CERT_CHAIN_TOO_LONG</span><span class="operator">;</span>
-         <span class="variable">X509_STORE_CTX_set_error</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">err</span><span class="operator">);</span>
-     <span class="operator">}</span>
-     <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">preverify_ok</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="keyword">printf</span><span class="operator">(</span><span class="string">"verify error:num=%d:%s:depth=%d:%s\n"</span><span class="operator">,</span> <span class="variable">err</span><span class="operator">,</span>
-                <span class="variable">X509_verify_cert_error_string</span><span class="operator">(</span><span class="variable">err</span><span class="operator">),</span> <span class="variable">depth</span><span class="operator">,</span> <span class="variable">buf</span><span class="operator">);</span>
-     <span class="operator">}</span> <span class="keyword">else</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">mydata</span><span class="operator">-&gt;</span><span class="variable">verbose_mode</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="keyword">printf</span><span class="operator">(</span><span class="string">"depth=%d:%s\n"</span><span class="operator">,</span> <span class="variable">depth</span><span class="operator">,</span> <span class="variable">buf</span><span class="operator">);</span>
-     <span class="operator">}</span>
- 
-     <span class="regex">/*
+      */
+     if (depth &gt; mydata-&gt;verify_depth) {
+         preverify_ok = 0;
+         err = X509_V_ERR_CERT_CHAIN_TOO_LONG;
+         X509_STORE_CTX_set_error(ctx, err);
+     }
+     if (!preverify_ok) {
+         printf(&quot;verify error:num=%d:%s:depth=%d:%s\n&quot;, err,
+                X509_verify_cert_error_string(err), depth, buf);
+     } else if (mydata-&gt;verbose_mode) {
+         printf(&quot;depth=%d:%s\n&quot;, depth, buf);
+     }
+
+     /*
       * At this point, err contains the last verification error. We can use
       * it for something special
-      */</span>
-     <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">preverify_ok</span> <span class="operator">&amp;&amp;</span> <span class="operator">(</span><span class="variable">err</span> <span class="operator">==</span> <span class="variable">X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT</span><span class="operator">))</span> <span class="operator">{</span>
-         <span class="variable">X509_NAME_oneline</span><span class="operator">(</span><span class="variable">X509_get_issuer_name</span><span class="operator">(</span><span class="variable">err_cert</span><span class="operator">),</span> <span class="variable">buf</span><span class="operator">,</span> <span class="number">256</span><span class="operator">);</span>
-         <span class="keyword">printf</span><span class="operator">(</span><span class="string">"issuer= %s\n"</span><span class="operator">,</span> <span class="variable">buf</span><span class="operator">);</span>
-     <span class="operator">}</span>
- 
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">mydata</span><span class="operator">-&gt;</span><span class="variable">always_continue</span><span class="operator">)</span>
-         <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
-     <span class="keyword">else</span>
-         <span class="keyword">return</span> <span class="variable">preverify_ok</span><span class="operator">;</span>
- <span class="operator">}</span>
- <span class="operator">...</span>
- 
- <span class="variable">mydata_t</span> <span class="variable">mydata</span><span class="operator">;</span>
- 
- <span class="operator">...</span>
- <span class="variable">mydata_index</span> <span class="operator">=</span> <span class="variable">SSL_get_ex_new_index</span><span class="operator">(</span><span class="number">0</span><span class="operator">,</span> <span class="string">"mydata index"</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
- 
- <span class="operator">...</span>
- <span class="variable">SSL_CTX_set_verify</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">SSL_VERIFY_PEER</span> <span class="operator">|</span> <span class="variable">SSL_VERIFY_CLIENT_ONCE</span><span class="operator">,</span>
-                    <span class="variable">verify_callback</span><span class="operator">);</span>
- 
- <span class="regex">/*
+      */
+     if (!preverify_ok &amp;&amp; (err == X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT)) {
+         X509_NAME_oneline(X509_get_issuer_name(err_cert), buf, 256);
+         printf(&quot;issuer= %s\n&quot;, buf);
+     }
+
+     if (mydata-&gt;always_continue)
+         return 1;
+     else
+         return preverify_ok;
+ }
+ ...
+
+ mydata_t mydata;
+
+ ...
+ mydata_index = SSL_get_ex_new_index(0, &quot;mydata index&quot;, NULL, NULL, NULL);
+
+ ...
+ SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER | SSL_VERIFY_CLIENT_ONCE,
+                    verify_callback);
+
+ /*
   * Let the verify_callback catch the verify_depth error so that we get
   * an appropriate error in the logfile.
-  */</span>
- <span class="variable">SSL_CTX_set_verify_depth</span><span class="operator">(</span><span class="variable">verify_depth</span> <span class="operator">+</span> <span class="number">1</span><span class="operator">);</span>
- 
- <span class="regex">/*
-  * Set up the SSL specific data into "mydata" and store it into th SSL
+  */
+ SSL_CTX_set_verify_depth(verify_depth + 1);
+
+ /*
+  * Set up the SSL specific data into &quot;mydata&quot; and store it into th SSL
   * structure.
-  */</span>
- <span class="variable">mydata</span><span class="operator">.</span><span class="variable">verify_depth</span> <span class="operator">=</span> <span class="variable">verify_depth</span><span class="operator">;</span> <span class="operator">...</span>
- <span class="variable">SSL_set_ex_data</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">,</span> <span class="variable">mydata_index</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">mydata</span><span class="operator">);</span>
- 
- <span class="operator">...</span>
- <span class="variable">SSL_accept</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">);</span>       <span class="regex">/* check of success left out for clarity */</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">peer</span> <span class="operator">=</span> <span class="variable">SSL_get_peer_certificate</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">))</span> <span class="operator">{</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">SSL_get_verify_result</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">)</span> <span class="operator">==</span> <span class="variable">X509_V_OK</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="regex">/* The client sent a certificate which verified OK */</span>
-     <span class="operator">}</span>
- <span class="operator">}</span>
-</code></pre>
+  */
+ mydata.verify_depth = verify_depth; ...
+ SSL_set_ex_data(ssl, mydata_index, &amp;mydata);
+
+ ...
+ SSL_accept(ssl);       /* check of success left out for clarity */
+ if (peer = SSL_get_peer_certificate(ssl)) {
+     if (SSL_get_verify_result(ssl) == X509_V_OK) {
+         /* The client sent a certificate which verified OK */
+     }
+ }</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

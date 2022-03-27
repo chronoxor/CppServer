@@ -29,11 +29,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/pkcs7.h&gt;</span>
- 
- <span class="variable">PKCS7</span> <span class="variable">*PKCS7_encrypt</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*certs</span><span class="operator">,</span> <span class="variable">BIO</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_CIPHER</span> <span class="variable">*cipher</span><span class="operator">,</span>
-                      <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/pkcs7.h&gt;
+
+ PKCS7 *PKCS7_encrypt(STACK_OF(X509) *certs, BIO *in, const EVP_CIPHER *cipher,
+                      int flags);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

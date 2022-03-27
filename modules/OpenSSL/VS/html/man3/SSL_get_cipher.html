@@ -27,16 +27,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">SSL_CIPHER</span> <span class="variable">*SSL_get_current_cipher</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="variable">SSL_CIPHER</span> <span class="variable">*SSL_get_pending_cipher</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_get_cipher_name</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_get_cipher</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_cipher_bits</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*np</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_get_cipher_version</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ SSL_CIPHER *SSL_get_current_cipher(const SSL *ssl);
+ SSL_CIPHER *SSL_get_pending_cipher(const SSL *ssl);
+
+ const char *SSL_get_cipher_name(const SSL *s);
+ const char *SSL_get_cipher(const SSL *s);
+ int SSL_get_cipher_bits(const SSL *s, int *np);
+ const char *SSL_get_cipher_version(const SSL *s);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

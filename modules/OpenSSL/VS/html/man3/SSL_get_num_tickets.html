@@ -26,19 +26,18 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_set_num_tickets</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num_tickets</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">SSL_get_num_tickets</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_num_tickets</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num_tickets</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">SSL_CTX_get_num_tickets</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_set_num_tickets(SSL *s, size_t num_tickets);
+ size_t SSL_get_num_tickets(SSL *s);
+ int SSL_CTX_set_num_tickets(SSL_CTX *ctx, size_t num_tickets);
+ size_t SSL_CTX_get_num_tickets(SSL_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
 <p>SSL_CTX_set_num_tickets() and SSL_set_num_tickets() can be called for a server application and set the number of TLSv1.3 session tickets that will be sent to the client after a full handshake. Set the desired value (which could be 0) in the <b>num_tickets</b> argument. Typically these functions should be called before the start of the handshake.</p>
 
-<p>The default number of tickets is 2; the default number of tickets sent following a resumption handshake is 1 but this cannot be changed using these functions. The number of tickets following a resumption handshake can be reduced to 0 using custom session ticket callbacks (see <a href="../man3/SSL_CTX_set_session_ticket_cb.html">SSL_CTX_set_session_ticket_cb(3)</a>).</p>
+<p>The default number of tickets is 2. Following a resumption the number of tickets issued will never be more than 1 regardless of the value set via SSL_set_num_tickets() or SSL_CTX_set_num_tickets(). If <b>num_tickets</b> is set to 0 then no tickets will be issued for either a normal connection or a resumption.</p>
 
 <p>Tickets are also issued on receipt of a post-handshake certificate from the client following a request by the server using <a href="../man3/SSL_verify_client_post_handshake.html">SSL_verify_client_post_handshake(3)</a>. These new tickets will be associated with the updated client identity (i.e. including their certificate and verification status). The number of tickets issued will normally be the same as was used for the initial handshake. If the initial handshake was a full handshake then SSL_set_num_tickets() can be called again prior to calling SSL_verify_client_post_handshake() to update the number of tickets that will be sent.</p>
 
@@ -56,7 +55,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2018-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

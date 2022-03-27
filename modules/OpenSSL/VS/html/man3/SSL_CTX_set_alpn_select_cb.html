@@ -27,44 +27,43 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_alpn_protos</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*protos</span><span class="operator">,</span>
-                             <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">protos_len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_alpn_protos</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*protos</span><span class="operator">,</span>
-                         <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">protos_len</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_alpn_select_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                 <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span>
-                                            <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">,</span>
-                                            <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*outlen</span><span class="operator">,</span>
-                                            <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span>
-                                            <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">inlen</span><span class="operator">,</span>
-                                            <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">),</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_get0_alpn_selected</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span>
-                             <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*len</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_next_protos_advertised_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                            <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span>
-                                                      <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">,</span>
-                                                      <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*outlen</span><span class="operator">,</span>
-                                                      <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">),</span>
-                                            <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_next_proto_select_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                               <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span>
-                                         <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">,</span>
-                                         <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*outlen</span><span class="operator">,</span>
-                                         <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span>
-                                         <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">inlen</span><span class="operator">,</span>
-                                         <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">),</span>
-                               <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_select_next_proto</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*outlen</span><span class="operator">,</span>
-                           <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*server</span><span class="operator">,</span>
-                           <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">server_len</span><span class="operator">,</span>
-                           <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*client</span><span class="operator">,</span>
-                           <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">client_len</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">SSL_get0_next_proto_negotiated</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span>
-                             <span class="variable">unsigned</span> <span class="variable">*len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_set_alpn_protos(SSL_CTX *ctx, const unsigned char *protos,
+                             unsigned int protos_len);
+ int SSL_set_alpn_protos(SSL *ssl, const unsigned char *protos,
+                         unsigned int protos_len);
+ void SSL_CTX_set_alpn_select_cb(SSL_CTX *ctx,
+                                 int (*cb) (SSL *ssl,
+                                            const unsigned char **out,
+                                            unsigned char *outlen,
+                                            const unsigned char *in,
+                                            unsigned int inlen,
+                                            void *arg), void *arg);
+ void SSL_get0_alpn_selected(const SSL *ssl, const unsigned char **data,
+                             unsigned int *len);
+
+ void SSL_CTX_set_next_protos_advertised_cb(SSL_CTX *ctx,
+                                            int (*cb)(SSL *ssl,
+                                                      const unsigned char **out,
+                                                      unsigned int *outlen,
+                                                      void *arg),
+                                            void *arg);
+ void SSL_CTX_set_next_proto_select_cb(SSL_CTX *ctx,
+                               int (*cb)(SSL *s,
+                                         unsigned char **out,
+                                         unsigned char *outlen,
+                                         const unsigned char *in,
+                                         unsigned int inlen,
+                                         void *arg),
+                               void *arg);
+ int SSL_select_next_proto(unsigned char **out, unsigned char *outlen,
+                           const unsigned char *server,
+                           unsigned int server_len,
+                           const unsigned char *client,
+                           unsigned int client_len)
+ void SSL_get0_next_proto_negotiated(const SSL *s, const unsigned char **data,
+                             unsigned *len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -90,12 +89,11 @@
 
 <p>Example:</p>
 
-<pre><code> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">vector</span><span class="operator">[]</span> <span class="operator">=</span> <span class="operator">{</span>
-     <span class="number">6</span><span class="operator">,</span> <span class="string">'s'</span><span class="operator">,</span> <span class="string">'p'</span><span class="operator">,</span> <span class="string">'d'</span><span class="operator">,</span> <span class="string">'y'</span><span class="operator">,</span> <span class="string">'/'</span><span class="operator">,</span> <span class="string">'1'</span><span class="operator">,</span>
-     <span class="number">8</span><span class="operator">,</span> <span class="string">'h'</span><span class="operator">,</span> <span class="string">'t'</span><span class="operator">,</span> <span class="string">'t'</span><span class="operator">,</span> <span class="string">'p'</span><span class="operator">,</span> <span class="string">'/'</span><span class="operator">,</span> <span class="string">'1'</span><span class="operator">,</span> <span class="string">'.'</span><span class="operator">,</span> <span class="string">'1'</span>
- <span class="operator">}</span><span class="operator">;</span>
- <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="keyword">length</span> <span class="operator">=</span> <span class="variable">sizeof</span><span class="operator">(</span><span class="variable">vector</span><span class="operator">);</span>
-</code></pre>
+<pre><code> unsigned char vector[] = {
+     6, &#39;s&#39;, &#39;p&#39;, &#39;d&#39;, &#39;y&#39;, &#39;/&#39;, &#39;1&#39;,
+     8, &#39;h&#39;, &#39;t&#39;, &#39;t&#39;, &#39;p&#39;, &#39;/&#39;, &#39;1&#39;, &#39;.&#39;, &#39;1&#39;
+ };
+ unsigned int length = sizeof(vector);</code></pre>
 
 <p>The ALPN callback is executed after the servername callback; as that servername callback may update the SSL_CTX, and subsequently, the ALPN callback.</p>
 

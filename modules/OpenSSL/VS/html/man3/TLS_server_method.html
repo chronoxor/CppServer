@@ -28,59 +28,58 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">SSL_CTX</span> <span class="variable">*SSL_CTX_new</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*method</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_up_ref</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLS_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLS_server_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLS_client_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*SSLv23_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*SSLv23_server_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*SSLv23_client_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="comment">#ifndef OPENSSL_NO_SSL3_METHOD</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*SSLv3_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*SSLv3_server_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*SSLv3_client_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
- 
- <span class="comment">#ifndef OPENSSL_NO_TLS1_METHOD</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLSv1_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLSv1_server_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLSv1_client_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
- 
- <span class="comment">#ifndef OPENSSL_NO_TLS1_1_METHOD</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLSv1_1_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLSv1_1_server_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLSv1_1_client_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
- 
- <span class="comment">#ifndef OPENSSL_NO_TLS1_2_METHOD</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLSv1_2_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLSv1_2_server_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*TLSv1_2_client_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
- 
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*DTLS_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*DTLS_server_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*DTLS_client_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="comment">#ifndef OPENSSL_NO_DTLS1_METHOD</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*DTLSv1_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*DTLSv1_server_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*DTLSv1_client_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
- 
- <span class="comment">#ifndef OPENSSL_NO_DTLS1_2_METHOD</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*DTLSv1_2_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*DTLSv1_2_server_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">SSL_METHOD</span> <span class="variable">*DTLSv1_2_client_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ SSL_CTX *SSL_CTX_new(const SSL_METHOD *method);
+ int SSL_CTX_up_ref(SSL_CTX *ctx);
+
+ const SSL_METHOD *TLS_method(void);
+ const SSL_METHOD *TLS_server_method(void);
+ const SSL_METHOD *TLS_client_method(void);
+
+ const SSL_METHOD *SSLv23_method(void);
+ const SSL_METHOD *SSLv23_server_method(void);
+ const SSL_METHOD *SSLv23_client_method(void);
+
+ #ifndef OPENSSL_NO_SSL3_METHOD
+ const SSL_METHOD *SSLv3_method(void);
+ const SSL_METHOD *SSLv3_server_method(void);
+ const SSL_METHOD *SSLv3_client_method(void);
+ #endif
+
+ #ifndef OPENSSL_NO_TLS1_METHOD
+ const SSL_METHOD *TLSv1_method(void);
+ const SSL_METHOD *TLSv1_server_method(void);
+ const SSL_METHOD *TLSv1_client_method(void);
+ #endif
+
+ #ifndef OPENSSL_NO_TLS1_1_METHOD
+ const SSL_METHOD *TLSv1_1_method(void);
+ const SSL_METHOD *TLSv1_1_server_method(void);
+ const SSL_METHOD *TLSv1_1_client_method(void);
+ #endif
+
+ #ifndef OPENSSL_NO_TLS1_2_METHOD
+ const SSL_METHOD *TLSv1_2_method(void);
+ const SSL_METHOD *TLSv1_2_server_method(void);
+ const SSL_METHOD *TLSv1_2_client_method(void);
+ #endif
+
+ const SSL_METHOD *DTLS_method(void);
+ const SSL_METHOD *DTLS_server_method(void);
+ const SSL_METHOD *DTLS_client_method(void);
+
+ #ifndef OPENSSL_NO_DTLS1_METHOD
+ const SSL_METHOD *DTLSv1_method(void);
+ const SSL_METHOD *DTLSv1_server_method(void);
+ const SSL_METHOD *DTLSv1_client_method(void);
+ #endif
+
+ #ifndef OPENSSL_NO_DTLS1_2_METHOD
+ const SSL_METHOD *DTLSv1_2_method(void);
+ const SSL_METHOD *DTLSv1_2_server_method(void);
+ const SSL_METHOD *DTLSv1_2_client_method(void);
+ #endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

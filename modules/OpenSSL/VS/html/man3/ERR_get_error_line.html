@@ -26,23 +26,22 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/err.h&gt;</span>
- 
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_get_error</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_peek_error</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_peek_last_error</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_get_error_line</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_peek_error_line</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_peek_last_error_line</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">);</span>
- 
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_get_error_line_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">,</span>
-                                       <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*flags</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_peek_error_line_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">,</span>
-                                        <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*flags</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">ERR_peek_last_error_line_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*line</span><span class="operator">,</span>
-                                             <span class="variable">const</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*flags</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/err.h&gt;
+
+ unsigned long ERR_get_error(void);
+ unsigned long ERR_peek_error(void);
+ unsigned long ERR_peek_last_error(void);
+
+ unsigned long ERR_get_error_line(const char **file, int *line);
+ unsigned long ERR_peek_error_line(const char **file, int *line);
+ unsigned long ERR_peek_last_error_line(const char **file, int *line);
+
+ unsigned long ERR_get_error_line_data(const char **file, int *line,
+                                       const char **data, int *flags);
+ unsigned long ERR_peek_error_line_data(const char **file, int *line,
+                                        const char **data, int *flags);
+ unsigned long ERR_peek_last_error_line_data(const char **file, int *line,
+                                             const char **data, int *flags);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

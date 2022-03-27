@@ -25,19 +25,18 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/asn1t.h&gt;</span>
- 
- <span class="variable">DECLARE_ASN1_FUNCTIONS</span><span class="operator">(</span><span class="variable">type</span><span class="operator">)</span>
- <span class="variable">IMPLEMENT_ASN1_FUNCTIONS</span><span class="operator">(</span><span class="variable">stname</span><span class="operator">)</span>
- 
- <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">ASN1_ITEM_st</span> <span class="variable">ASN1_ITEM</span><span class="operator">;</span>
- 
- <span class="variable">extern</span> <span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">TYPE_it</span><span class="operator">;</span>
- <span class="variable">TYPE</span> <span class="variable">*TYPE_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*TYPE_dup</span><span class="operator">(</span><span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">TYPE_free</span><span class="operator">(</span><span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">TYPE_print_ctx</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_PCTX</span> <span class="variable">*pctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/asn1t.h&gt;
+
+ DECLARE_ASN1_FUNCTIONS(type)
+ IMPLEMENT_ASN1_FUNCTIONS(stname)
+
+ typedef struct ASN1_ITEM_st ASN1_ITEM;
+
+ extern const ASN1_ITEM TYPE_it;
+ TYPE *TYPE_new(void);
+ TYPE *TYPE_dup(TYPE *a);
+ void TYPE_free(TYPE *a);
+ int TYPE_print_ctx(BIO *out, TYPE *a, int indent, const ASN1_PCTX *pctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -26,18 +26,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dsa.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">DSA_set_default_method</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DSA_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">DSA_METHOD</span> <span class="variable">*DSA_get_default_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">DSA_set_method</span><span class="operator">(</span><span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">DSA_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="variable">DSA</span> <span class="variable">*DSA_new_method</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*engine</span><span class="operator">);</span>
- 
- <span class="variable">DSA_METHOD</span> <span class="variable">*DSA_OpenSSL</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dsa.h&gt;
+
+ void DSA_set_default_method(const DSA_METHOD *meth);
+
+ const DSA_METHOD *DSA_get_default_method(void);
+
+ int DSA_set_method(DSA *dsa, const DSA_METHOD *meth);
+
+ DSA *DSA_new_method(ENGINE *engine);
+
+ DSA_METHOD *DSA_OpenSSL(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -49,7 +48,7 @@
 
 <p>DSA_get_default_method() returns a pointer to the current default DSA_METHOD. However, the meaningfulness of this result is dependent on whether the ENGINE API is being used, so this function is no longer recommended.</p>
 
-<p>DSA_set_method() selects <b>meth</b> to perform all operations using the key <b>rsa</b>. This will replace the DSA_METHOD used by the DSA key and if the previous method was supplied by an ENGINE, the handle to that ENGINE will be released during the change. It is possible to have DSA keys that only work with certain DSA_METHOD implementations (e.g. from an ENGINE module that supports embedded hardware-protected keys), and in such cases attempting to change the DSA_METHOD for the key can have unexpected results. See <a href="/man3/DSA_meth_new.html">DSA_meth_new</a> for information on constructing custom DSA_METHOD objects;</p>
+<p>DSA_set_method() selects <b>meth</b> to perform all operations using the key <b>rsa</b>. This will replace the DSA_METHOD used by the DSA key and if the previous method was supplied by an ENGINE, the handle to that ENGINE will be released during the change. It is possible to have DSA keys that only work with certain DSA_METHOD implementations (e.g. from an ENGINE module that supports embedded hardware-protected keys), and in such cases attempting to change the DSA_METHOD for the key can have unexpected results. See <a href="/../man3/DSA_meth_new.html">DSA_meth_new</a> for information on constructing custom DSA_METHOD objects;</p>
 
 <p>DSA_new_method() allocates and initializes a DSA structure so that <b>engine</b> will be used for the DSA operations. If <b>engine</b> is NULL, the default engine for DSA operations is used, and if no default ENGINE is set, the DSA_METHOD controlled by DSA_set_default_method() is used.</p>
 

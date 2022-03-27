@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ui.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">UI_UTIL_read_pw_string</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="keyword">length</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*prompt</span><span class="operator">,</span>
-                            <span class="keyword">int</span> <span class="variable">verify</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">UI_UTIL_read_pw</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*buff</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">size</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*prompt</span><span class="operator">,</span>
-                     <span class="keyword">int</span> <span class="variable">verify</span><span class="operator">);</span>
- <span class="variable">UI_METHOD</span> <span class="variable">*UI_UTIL_wrap_read_pem_callback</span><span class="operator">(</span><span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">rwflag</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ui.h&gt;
+
+ int UI_UTIL_read_pw_string(char *buf, int length, const char *prompt,
+                            int verify);
+ int UI_UTIL_read_pw(char *buf, char *buff, int size, const char *prompt,
+                     int verify);
+ UI_METHOD *UI_UTIL_wrap_read_pem_callback(pem_password_cb *cb, int rwflag);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

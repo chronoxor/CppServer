@@ -35,19 +35,18 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_options</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">options</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set_options</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">options</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_clear_options</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">options</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_clear_options</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">options</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_get_options</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_get_options</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_get_secure_renegotiation_support</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_CTX_set_options(SSL_CTX *ctx, long options);
+ long SSL_set_options(SSL *ssl, long options);
+
+ long SSL_CTX_clear_options(SSL_CTX *ctx, long options);
+ long SSL_clear_options(SSL *ssl, long options);
+
+ long SSL_CTX_get_options(SSL_CTX *ctx);
+ long SSL_get_options(SSL *ssl);
+
+ long SSL_get_secure_renegotiation_support(SSL *ssl);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

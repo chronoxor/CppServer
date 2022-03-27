@@ -36,13 +36,11 @@
 
 <p>A context for the <b>X25519</b> algorithm can be obtained by calling:</p>
 
-<pre><code> <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new_id</span><span class="operator">(</span><span class="variable">EVP_PKEY_X25519</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-</code></pre>
+<pre><code> EVP_PKEY_CTX *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_X25519, NULL);</code></pre>
 
 <p>For the <b>X448</b> algorithm a context can be obtained by calling:</p>
 
-<pre><code> <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new_id</span><span class="operator">(</span><span class="variable">EVP_PKEY_X448</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-</code></pre>
+<pre><code> EVP_PKEY_CTX *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_X448, NULL);</code></pre>
 
 <p>X25519 or X448 private keys can be set directly using <a href="../man3/EVP_PKEY_new_raw_private_key.html">EVP_PKEY_new_raw_private_key(3)</a> or loaded from a PKCS#8 private key file using <a href="../man3/PEM_read_bio_PrivateKey.html">PEM_read_bio_PrivateKey(3)</a> (or similar function). Completely new keys can also be generated (see the example below). Setting a private key also sets the associated public key.</p>
 
@@ -52,16 +50,15 @@
 
 <p>This example generates an <b>X25519</b> private key and writes it to standard output in PEM format:</p>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- <span class="comment">#include &lt;openssl/pem.h&gt;</span>
- <span class="operator">...</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span> <span class="operator">=</span> <span class="variable">NULL</span><span class="operator">;</span>
- <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new_id</span><span class="operator">(</span><span class="variable">EVP_PKEY_X25519</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY_keygen_init</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY_keygen</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="variable">pkey</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY_CTX_free</span><span class="operator">(</span><span class="variable">pctx</span><span class="operator">);</span>
- <span class="variable">PEM_write_PrivateKey</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">pkey</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+ #include &lt;openssl/pem.h&gt;
+ ...
+ EVP_PKEY *pkey = NULL;
+ EVP_PKEY_CTX *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_X25519, NULL);
+ EVP_PKEY_keygen_init(pctx);
+ EVP_PKEY_keygen(pctx, &amp;pkey);
+ EVP_PKEY_CTX_free(pctx);
+ PEM_write_PrivateKey(stdout, pkey, NULL, NULL, 0, NULL, NULL);</code></pre>
 
 <p>The key derivation example in <a href="../man3/EVP_PKEY_derive.html">EVP_PKEY_derive(3)</a> can be used with <b>X25519</b> and <b>X448</b>.</p>
 

@@ -32,11 +32,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">SSL_CONF_CTX</span> <span class="variable">*cctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*cmd</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*value</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CONF_cmd_value_type</span><span class="operator">(</span><span class="variable">SSL_CONF_CTX</span> <span class="variable">*cctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*cmd</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CONF_cmd(SSL_CONF_CTX *cctx, const char *cmd, const char *value);
+ int SSL_CONF_cmd_value_type(SSL_CONF_CTX *cctx, const char *cmd);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -357,7 +356,7 @@
 
 <p><b>SessionTicket</b>: session ticket support, enabled by default. Inverse of <b>SSL_OP_NO_TICKET</b>: that is <b>-SessionTicket</b> is the same as setting <b>SSL_OP_NO_TICKET</b>.</p>
 
-<p><b>Compression</b>: SSL/TLS compression support, enabled by default. Inverse of <b>SSL_OP_NO_COMPRESSION</b>.</p>
+<p><b>Compression</b>: SSL/TLS compression support, disabled by default. Inverse of <b>SSL_OP_NO_COMPRESSION</b>.</p>
 
 <p><b>EmptyFragments</b>: use empty fragments as a countermeasure against a SSL 3.0/TLS 1.0 protocol vulnerability affecting CBC ciphers. It is set by default. Inverse of <b>SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS</b>.</p>
 
@@ -456,15 +455,13 @@
 
 <p>The order of operations is significant. This can be used to set either defaults or values which cannot be overridden. For example if an application calls:</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"Protocol"</span><span class="operator">,</span> <span class="string">"-SSLv3"</span><span class="operator">);</span>
- <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">userparam</span><span class="operator">,</span> <span class="variable">uservalue</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;Protocol&quot;, &quot;-SSLv3&quot;);
+ SSL_CONF_cmd(ctx, userparam, uservalue);</code></pre>
 
 <p>it will disable SSLv3 support by default but the user can override it. If however the call sequence is:</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">userparam</span><span class="operator">,</span> <span class="variable">uservalue</span><span class="operator">);</span>
- <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"Protocol"</span><span class="operator">,</span> <span class="string">"-SSLv3"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, userparam, uservalue);
+ SSL_CONF_cmd(ctx, &quot;Protocol&quot;, &quot;-SSLv3&quot;);</code></pre>
 
 <p>SSLv3 is <b>always</b> disabled and attempt to override this by the user are ignored.</p>
 
@@ -492,51 +489,42 @@
 
 <p>Set supported signature algorithms:</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"SignatureAlgorithms"</span><span class="operator">,</span> <span class="string">"ECDSA+SHA256:RSA+SHA256:DSA+SHA256"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;SignatureAlgorithms&quot;, &quot;ECDSA+SHA256:RSA+SHA256:DSA+SHA256&quot;);</code></pre>
 
 <p>There are various ways to select the supported protocols.</p>
 
 <p>This set the minimum protocol version to TLSv1, and so disables SSLv3. This is the recommended way to disable protocols.</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"MinProtocol"</span><span class="operator">,</span> <span class="string">"TLSv1"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;MinProtocol&quot;, &quot;TLSv1&quot;);</code></pre>
 
 <p>The following also disables SSLv3:</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"Protocol"</span><span class="operator">,</span> <span class="string">"-SSLv3"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;Protocol&quot;, &quot;-SSLv3&quot;);</code></pre>
 
 <p>The following will first enable all protocols, and then disable SSLv3. If no protocol versions were disabled before this has the same effect as &quot;-SSLv3&quot;, but if some versions were disables this will re-enable them before disabling SSLv3.</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"Protocol"</span><span class="operator">,</span> <span class="string">"ALL,-SSLv3"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;Protocol&quot;, &quot;ALL,-SSLv3&quot;);</code></pre>
 
 <p>Only enable TLSv1.2:</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"MinProtocol"</span><span class="operator">,</span> <span class="string">"TLSv1.2"</span><span class="operator">);</span>
- <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"MaxProtocol"</span><span class="operator">,</span> <span class="string">"TLSv1.2"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;MinProtocol&quot;, &quot;TLSv1.2&quot;);
+ SSL_CONF_cmd(ctx, &quot;MaxProtocol&quot;, &quot;TLSv1.2&quot;);</code></pre>
 
 <p>This also only enables TLSv1.2:</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"Protocol"</span><span class="operator">,</span> <span class="string">"-ALL,TLSv1.2"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;Protocol&quot;, &quot;-ALL,TLSv1.2&quot;);</code></pre>
 
 <p>Disable TLS session tickets:</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"Options"</span><span class="operator">,</span> <span class="string">"-SessionTicket"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;Options&quot;, &quot;-SessionTicket&quot;);</code></pre>
 
 <p>Enable compression:</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"Options"</span><span class="operator">,</span> <span class="string">"Compression"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;Options&quot;, &quot;Compression&quot;);</code></pre>
 
 <p>Set supported curves to P-256, P-384:</p>
 
-<pre><code> <span class="variable">SSL_CONF_cmd</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"Curves"</span><span class="operator">,</span> <span class="string">"P-256:P-384"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> SSL_CONF_cmd(ctx, &quot;Curves&quot;, &quot;P-256:P-384&quot;);</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
@@ -556,7 +544,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2012-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2012-2022 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

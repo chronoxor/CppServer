@@ -28,41 +28,40 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_set1_RSA</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_set1_DSA</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_set1_DH</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">DH</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_set1_EC_KEY</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- 
- <span class="variable">RSA</span> <span class="variable">*EVP_PKEY_get1_RSA</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="variable">DSA</span> <span class="variable">*EVP_PKEY_get1_DSA</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="variable">DH</span> <span class="variable">*EVP_PKEY_get1_DH</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="variable">EC_KEY</span> <span class="variable">*EVP_PKEY_get1_EC_KEY</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*EVP_PKEY_get0_hmac</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*len</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*EVP_PKEY_get0_poly1305</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*len</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*EVP_PKEY_get0_siphash</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*len</span><span class="operator">);</span>
- <span class="variable">RSA</span> <span class="variable">*EVP_PKEY_get0_RSA</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="variable">DSA</span> <span class="variable">*EVP_PKEY_get0_DSA</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="variable">DH</span> <span class="variable">*EVP_PKEY_get0_DH</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="variable">EC_KEY</span> <span class="variable">*EVP_PKEY_get0_EC_KEY</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_assign_RSA</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_assign_DSA</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_assign_DH</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">DH</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_assign_EC_KEY</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_assign_POLY1305</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_assign_SIPHASH</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="variable">*key</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_base_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_type</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_set_alias_type</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
- 
- <span class="variable">ENGINE</span> <span class="variable">*EVP_PKEY_get0_engine</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_set1_engine</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*engine</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int EVP_PKEY_set1_RSA(EVP_PKEY *pkey, RSA *key);
+ int EVP_PKEY_set1_DSA(EVP_PKEY *pkey, DSA *key);
+ int EVP_PKEY_set1_DH(EVP_PKEY *pkey, DH *key);
+ int EVP_PKEY_set1_EC_KEY(EVP_PKEY *pkey, EC_KEY *key);
+
+ RSA *EVP_PKEY_get1_RSA(EVP_PKEY *pkey);
+ DSA *EVP_PKEY_get1_DSA(EVP_PKEY *pkey);
+ DH *EVP_PKEY_get1_DH(EVP_PKEY *pkey);
+ EC_KEY *EVP_PKEY_get1_EC_KEY(EVP_PKEY *pkey);
+
+ const unsigned char *EVP_PKEY_get0_hmac(const EVP_PKEY *pkey, size_t *len);
+ const unsigned char *EVP_PKEY_get0_poly1305(const EVP_PKEY *pkey, size_t *len);
+ const unsigned char *EVP_PKEY_get0_siphash(const EVP_PKEY *pkey, size_t *len);
+ RSA *EVP_PKEY_get0_RSA(EVP_PKEY *pkey);
+ DSA *EVP_PKEY_get0_DSA(EVP_PKEY *pkey);
+ DH *EVP_PKEY_get0_DH(EVP_PKEY *pkey);
+ EC_KEY *EVP_PKEY_get0_EC_KEY(EVP_PKEY *pkey);
+
+ int EVP_PKEY_assign_RSA(EVP_PKEY *pkey, RSA *key);
+ int EVP_PKEY_assign_DSA(EVP_PKEY *pkey, DSA *key);
+ int EVP_PKEY_assign_DH(EVP_PKEY *pkey, DH *key);
+ int EVP_PKEY_assign_EC_KEY(EVP_PKEY *pkey, EC_KEY *key);
+ int EVP_PKEY_assign_POLY1305(EVP_PKEY *pkey, ASN1_OCTET_STRING *key);
+ int EVP_PKEY_assign_SIPHASH(EVP_PKEY *pkey, ASN1_OCTET_STRING *key);
+
+ int EVP_PKEY_id(const EVP_PKEY *pkey);
+ int EVP_PKEY_base_id(const EVP_PKEY *pkey);
+ int EVP_PKEY_type(int type);
+ int EVP_PKEY_set_alias_type(EVP_PKEY *pkey, int type);
+
+ ENGINE *EVP_PKEY_get0_engine(const EVP_PKEY *pkey);
+ int EVP_PKEY_set1_engine(EVP_PKEY *pkey, ENGINE *engine);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -116,8 +115,7 @@
 
 <p>After loading an ECC key, it is possible to convert it to using SM2 algorithms with EVP_PKEY_set_alias_type:</p>
 
-<pre><code> <span class="variable">EVP_PKEY_set_alias_type</span><span class="operator">(</span><span class="variable">pkey</span><span class="operator">,</span> <span class="variable">EVP_PKEY_SM2</span><span class="operator">);</span>
-</code></pre>
+<pre><code> EVP_PKEY_set_alias_type(pkey, EVP_PKEY_SM2);</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

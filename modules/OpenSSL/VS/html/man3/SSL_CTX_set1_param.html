@@ -56,9 +56,8 @@
 
 <p>Check hostname matches &quot;www.foo.com&quot; in peer certificate:</p>
 
-<pre><code> <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*vpm</span> <span class="operator">=</span> <span class="variable">SSL_get0_param</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">);</span>
- <span class="variable">X509_VERIFY_PARAM_set1_host</span><span class="operator">(</span><span class="variable">vpm</span><span class="operator">,</span> <span class="string">"www.foo.com"</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
-</code></pre>
+<pre><code> X509_VERIFY_PARAM *vpm = SSL_get0_param(ssl);
+ X509_VERIFY_PARAM_set1_host(vpm, &quot;www.foo.com&quot;, 0);</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

@@ -28,38 +28,37 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_set0_key</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*n</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*d</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_set0_factors</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*q</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_set0_crt_params</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*dmp1</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*dmq1</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*iqmp</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">RSA_get0_key</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span>
-                   <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">n</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">d</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">RSA_get0_factors</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">p</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="string">q);
+<pre><code> #include &lt;openssl/rsa.h&gt;
+
+ int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d);
+ int RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q);
+ int RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *iqmp);
+ void RSA_get0_key(const RSA *r,
+                   const BIGNUM **n, const BIGNUM **e, const BIGNUM **d);
+ void RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **q);
  void RSA_get0_crt_params(const RSA *r,
                           const BIGNUM **dmp1, const BIGNUM **dmq1,
-                          const BIGNUM **iqmp)</span><span class="operator">;</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*RSA_get0_n</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*d</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*RSA_get0_e</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*d</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*RSA_get0_d</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*d</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*RSA_get0_p</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*d</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*RSA_get0_q</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*d</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*RSA_get0_dmp1</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*RSA_get0_dmq1</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*RSA_get0_iqmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">RSA_PSS_PARAMS</span> <span class="variable">*RSA_get0_pss_params</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">RSA_clear_flags</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_test_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">RSA_set_flags</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">ENGINE</span> <span class="variable">*RSA_get0_engine</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_get_multi_prime_extra_count</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_get0_multi_prime_factors</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*primes</span><span class="operator">[]</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_get0_multi_prime_crt_params</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*exps</span><span class="operator">[]</span><span class="operator">,</span>
-                                     <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*coeffs</span><span class="operator">[]</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_set0_multi_prime_params</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*primes</span><span class="operator">[]</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*exps</span><span class="operator">[]</span><span class="operator">,</span>
-                                <span class="variable">BIGNUM</span> <span class="variable">*coeffs</span><span class="operator">[]</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">pnum</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_get_version</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*r</span><span class="operator">);</span>
-</code></pre>
+                          const BIGNUM **iqmp);
+ const BIGNUM *RSA_get0_n(const RSA *d);
+ const BIGNUM *RSA_get0_e(const RSA *d);
+ const BIGNUM *RSA_get0_d(const RSA *d);
+ const BIGNUM *RSA_get0_p(const RSA *d);
+ const BIGNUM *RSA_get0_q(const RSA *d);
+ const BIGNUM *RSA_get0_dmp1(const RSA *r);
+ const BIGNUM *RSA_get0_dmq1(const RSA *r);
+ const BIGNUM *RSA_get0_iqmp(const RSA *r);
+ const RSA_PSS_PARAMS *RSA_get0_pss_params(const RSA *r);
+ void RSA_clear_flags(RSA *r, int flags);
+ int RSA_test_flags(const RSA *r, int flags);
+ void RSA_set_flags(RSA *r, int flags);
+ ENGINE *RSA_get0_engine(RSA *r);
+ int RSA_get_multi_prime_extra_count(const RSA *r);
+ int RSA_get0_multi_prime_factors(const RSA *r, const BIGNUM *primes[]);
+ int RSA_get0_multi_prime_crt_params(const RSA *r, const BIGNUM *exps[],
+                                     const BIGNUM *coeffs[]);
+ int RSA_set0_multi_prime_params(RSA *r, BIGNUM *primes[], BIGNUM *exps[],
+                                BIGNUM *coeffs[], int pnum);
+ int RSA_get_version(RSA *r);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -34,31 +34,30 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/store.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">ossl_store_search_st</span> <span class="variable">OSSL_STORE_SEARCH</span><span class="operator">;</span>
- 
- <span class="variable">OSSL_STORE_SEARCH</span> <span class="variable">*OSSL_STORE_SEARCH_by_name</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="variable">OSSL_STORE_SEARCH</span> <span class="variable">*OSSL_STORE_SEARCH_by_issuer_serial</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span>
-                                                       <span class="variable">const</span> <span class="variable">ASN1_INTEGER</span>
-                                                       <span class="variable">*serial</span><span class="operator">);</span>
- <span class="variable">OSSL_STORE_SEARCH</span> <span class="variable">*OSSL_STORE_SEARCH_by_key_fingerprint</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*digest</span><span class="operator">,</span>
-                                                         <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span>
-                                                         <span class="variable">*bytes</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="variable">OSSL_STORE_SEARCH</span> <span class="variable">*OSSL_STORE_SEARCH_by_alias</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*alias</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">OSSL_STORE_SEARCH_free</span><span class="operator">(</span><span class="variable">OSSL_STORE_SEARCH</span> <span class="variable">*search</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_SEARCH_get_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_SEARCH</span> <span class="variable">*criterion</span><span class="operator">);</span>
- <span class="variable">X509_NAME</span> <span class="variable">*OSSL_STORE_SEARCH_get0_name</span><span class="operator">(</span><span class="variable">OSSL_STORE_SEARCH</span> <span class="variable">*criterion</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*OSSL_STORE_SEARCH_get0_serial</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_SEARCH</span>
-                                                   <span class="variable">*criterion</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*OSSL_STORE_SEARCH_get0_bytes</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_SEARCH</span>
-                                                   <span class="variable">*criterion</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*length</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*OSSL_STORE_SEARCH_get0_string</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_SEARCH</span> <span class="variable">*criterion</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*OSSL_STORE_SEARCH_get0_digest</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_SEARCH</span>
-                                             <span class="variable">*criterion</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/store.h&gt;
+
+ typedef struct ossl_store_search_st OSSL_STORE_SEARCH;
+
+ OSSL_STORE_SEARCH *OSSL_STORE_SEARCH_by_name(X509_NAME *name);
+ OSSL_STORE_SEARCH *OSSL_STORE_SEARCH_by_issuer_serial(X509_NAME *name,
+                                                       const ASN1_INTEGER
+                                                       *serial);
+ OSSL_STORE_SEARCH *OSSL_STORE_SEARCH_by_key_fingerprint(const EVP_MD *digest,
+                                                         const unsigned char
+                                                         *bytes, int len);
+ OSSL_STORE_SEARCH *OSSL_STORE_SEARCH_by_alias(const char *alias);
+
+ void OSSL_STORE_SEARCH_free(OSSL_STORE_SEARCH *search);
+
+ int OSSL_STORE_SEARCH_get_type(const OSSL_STORE_SEARCH *criterion);
+ X509_NAME *OSSL_STORE_SEARCH_get0_name(OSSL_STORE_SEARCH *criterion);
+ const ASN1_INTEGER *OSSL_STORE_SEARCH_get0_serial(const OSSL_STORE_SEARCH
+                                                   *criterion);
+ const unsigned char *OSSL_STORE_SEARCH_get0_bytes(const OSSL_STORE_SEARCH
+                                                   *criterion, size_t *length);
+ const char *OSSL_STORE_SEARCH_get0_string(const OSSL_STORE_SEARCH *criterion);
+ const EVP_MD *OSSL_STORE_SEARCH_get0_digest(const OSSL_STORE_SEARCH
+                                             *criterion);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -27,32 +27,31 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_stateless_cookie_generate_cb</span><span class="operator">(</span>
-     <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*gen_stateless_cookie_cb</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span>
-                                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*cookie</span><span class="operator">,</span>
-                                     <span class="variable">size_t</span> <span class="variable">*cookie_len</span><span class="operator">));</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_stateless_cookie_verify_cb</span><span class="operator">(</span>
-     <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*verify_stateless_cookie_cb</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span>
-                                        <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*cookie</span><span class="operator">,</span>
-                                        <span class="variable">size_t</span> <span class="variable">cookie_len</span><span class="operator">));</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_cookie_generate_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*app_gen_cookie_cb</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span>
-                                                               <span class="variable">unsigned</span> <span class="variable">char</span>
-                                                               <span class="variable">*cookie</span><span class="operator">,</span>
-                                                               <span class="variable">unsigned</span> <span class="keyword">int</span>
-                                                               <span class="variable">*cookie_len</span><span class="operator">));</span>
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_cookie_verify_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                   <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*app_verify_cookie_cb</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span>
-                                                                <span class="variable">const</span> <span class="variable">unsigned</span>
-                                                                <span class="variable">char</span> <span class="variable">*cookie</span><span class="operator">,</span>
-                                                                <span class="variable">unsigned</span> <span class="keyword">int</span>
-                                                                <span class="variable">cookie_len</span><span class="operator">));</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_stateless_cookie_generate_cb(
+     SSL_CTX *ctx,
+     int (*gen_stateless_cookie_cb) (SSL *ssl,
+                                     unsigned char *cookie,
+                                     size_t *cookie_len));
+ void SSL_CTX_set_stateless_cookie_verify_cb(
+     SSL_CTX *ctx,
+     int (*verify_stateless_cookie_cb) (SSL *ssl,
+                                        const unsigned char *cookie,
+                                        size_t cookie_len));
+
+ void SSL_CTX_set_cookie_generate_cb(SSL_CTX *ctx,
+                                     int (*app_gen_cookie_cb) (SSL *ssl,
+                                                               unsigned char
+                                                               *cookie,
+                                                               unsigned int
+                                                               *cookie_len));
+ void SSL_CTX_set_cookie_verify_cb(SSL_CTX *ctx,
+                                   int (*app_verify_cookie_cb) (SSL *ssl,
+                                                                const unsigned
+                                                                char *cookie,
+                                                                unsigned int
+                                                                cookie_len));</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

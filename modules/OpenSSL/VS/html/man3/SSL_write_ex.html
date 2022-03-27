@@ -29,11 +29,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_write_ex</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*written</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_write</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_write_ex(SSL *s, const void *buf, size_t num, size_t *written);
+ int SSL_write(SSL *ssl, const void *buf, int num);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

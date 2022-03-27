@@ -29,31 +29,30 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">CRYPTO_get_ex_new_index</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">class_index</span><span class="operator">,</span>
-                             <span class="variable">long</span> <span class="variable">argl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*argp</span><span class="operator">,</span>
-                             <span class="variable">CRYPTO_EX_new</span> <span class="variable">*new_func</span><span class="operator">,</span>
-                             <span class="variable">CRYPTO_EX_dup</span> <span class="variable">*dup_func</span><span class="operator">,</span>
-                             <span class="variable">CRYPTO_EX_free</span> <span class="variable">*free_func</span><span class="operator">);</span>
- 
- <span class="variable">typedef</span> <span class="variable">void</span> <span class="variable">CRYPTO_EX_new</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*parent</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">,</span> <span class="variable">CRYPTO_EX_DATA</span> <span class="variable">*ad</span><span class="operator">,</span>
-                            <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">argl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*argp</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="variable">void</span> <span class="variable">CRYPTO_EX_free</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*parent</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">,</span> <span class="variable">CRYPTO_EX_DATA</span> <span class="variable">*ad</span><span class="operator">,</span>
-                             <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">argl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*argp</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="variable">CRYPTO_EX_dup</span><span class="operator">(</span><span class="variable">CRYPTO_EX_DATA</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">CRYPTO_EX_DATA</span> <span class="variable">*from</span><span class="operator">,</span>
-                           <span class="variable">void</span> <span class="variable">*from_d</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">argl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*argp</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">CRYPTO_new_ex_data</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">class_index</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*obj</span><span class="operator">,</span> <span class="variable">CRYPTO_EX_DATA</span> <span class="variable">*ad</span><span class="operator">)</span>
- 
- <span class="keyword">int</span> <span class="variable">CRYPTO_set_ex_data</span><span class="operator">(</span><span class="variable">CRYPTO_EX_DATA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">*CRYPTO_get_ex_data</span><span class="operator">(</span><span class="variable">CRYPTO_EX_DATA</span> <span class="variable">*r</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">CRYPTO_free_ex_data</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">class_index</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*obj</span><span class="operator">,</span> <span class="variable">CRYPTO_EX_DATA</span> <span class="variable">*r</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">CRYPTO_free_ex_index</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">class_index</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/crypto.h&gt;
+
+ int CRYPTO_get_ex_new_index(int class_index,
+                             long argl, void *argp,
+                             CRYPTO_EX_new *new_func,
+                             CRYPTO_EX_dup *dup_func,
+                             CRYPTO_EX_free *free_func);
+
+ typedef void CRYPTO_EX_new(void *parent, void *ptr, CRYPTO_EX_DATA *ad,
+                            int idx, long argl, void *argp);
+ typedef void CRYPTO_EX_free(void *parent, void *ptr, CRYPTO_EX_DATA *ad,
+                             int idx, long argl, void *argp);
+ typedef int CRYPTO_EX_dup(CRYPTO_EX_DATA *to, const CRYPTO_EX_DATA *from,
+                           void *from_d, int idx, long argl, void *argp);
+
+ int CRYPTO_new_ex_data(int class_index, void *obj, CRYPTO_EX_DATA *ad)
+
+ int CRYPTO_set_ex_data(CRYPTO_EX_DATA *r, int idx, void *arg);
+
+ void *CRYPTO_get_ex_data(CRYPTO_EX_DATA *r, int idx);
+
+ void CRYPTO_free_ex_data(int class_index, void *obj, CRYPTO_EX_DATA *r);
+
+ int CRYPTO_free_ex_index(int class_index, int idx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

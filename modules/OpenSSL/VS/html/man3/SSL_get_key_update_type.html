@@ -27,15 +27,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_key_update</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">updatetype</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_key_update_type</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_renegotiate</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_renegotiate_abbreviated</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_renegotiate_pending</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_key_update(SSL *s, int updatetype);
+ int SSL_get_key_update_type(const SSL *s);
+
+ int SSL_renegotiate(SSL *s);
+ int SSL_renegotiate_abbreviated(SSL *s);
+ int SSL_renegotiate_pending(const SSL *s);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

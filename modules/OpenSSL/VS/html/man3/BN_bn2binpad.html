@@ -26,26 +26,25 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_bn2bin</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_bn2binpad</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tolen</span><span class="operator">);</span>
- <span class="variable">BIGNUM</span> <span class="variable">*BN_bin2bn</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*ret</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_bn2lebinpad</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">tolen</span><span class="operator">);</span>
- <span class="variable">BIGNUM</span> <span class="variable">*BN_lebin2bn</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*ret</span><span class="operator">);</span>
- 
- <span class="variable">char</span> <span class="variable">*BN_bn2hex</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*BN_bn2dec</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_hex2bn</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_dec2bn</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_print</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_print_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_bn2mpi</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">);</span>
- <span class="variable">BIGNUM</span> <span class="variable">*BN_mpi2bn</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*ret</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ int BN_bn2bin(const BIGNUM *a, unsigned char *to);
+ int BN_bn2binpad(const BIGNUM *a, unsigned char *to, int tolen);
+ BIGNUM *BN_bin2bn(const unsigned char *s, int len, BIGNUM *ret);
+
+ int BN_bn2lebinpad(const BIGNUM *a, unsigned char *to, int tolen);
+ BIGNUM *BN_lebin2bn(const unsigned char *s, int len, BIGNUM *ret);
+
+ char *BN_bn2hex(const BIGNUM *a);
+ char *BN_bn2dec(const BIGNUM *a);
+ int BN_hex2bn(BIGNUM **a, const char *str);
+ int BN_dec2bn(BIGNUM **a, const char *str);
+
+ int BN_print(BIO *fp, const BIGNUM *a);
+ int BN_print_fp(FILE *fp, const BIGNUM *a);
+
+ int BN_bn2mpi(const BIGNUM *a, unsigned char *to);
+ BIGNUM *BN_mpi2bn(unsigned char *s, int len, BIGNUM *ret);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

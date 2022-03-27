@@ -28,16 +28,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">BN_zero</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_one</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*BN_value_one</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_set_word</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BN_ULONG</span> <span class="variable">w</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">BN_ULONG</span> <span class="variable">BN_get_word</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ void BN_zero(BIGNUM *a);
+ int BN_one(BIGNUM *a);
+
+ const BIGNUM *BN_value_one(void);
+
+ int BN_set_word(BIGNUM *a, BN_ULONG w);
+ unsigned BN_ULONG BN_get_word(BIGNUM *a);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

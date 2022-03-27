@@ -26,13 +26,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="variable">size_t</span> <span class="variable">EVP_PKEY_meth_get_count</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">EVP_PKEY_METHOD</span> <span class="variable">*EVP_PKEY_meth_get0</span><span class="operator">(</span><span class="variable">size_t</span> <span class="variable">idx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EVP_PKEY_meth_get0_info</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">*ppkey_id</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*pflags</span><span class="operator">,</span>
-                              <span class="variable">const</span> <span class="variable">EVP_PKEY_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ size_t EVP_PKEY_meth_get_count(void);
+ const EVP_PKEY_METHOD *EVP_PKEY_meth_get0(size_t idx);
+ void EVP_PKEY_meth_get0_info(int *ppkey_id, int *pflags,
+                              const EVP_PKEY_METHOD *meth);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

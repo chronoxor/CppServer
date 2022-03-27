@@ -27,18 +27,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/cms.h&gt;</span>
- 
- <span class="variable">CMS_RecipientInfo</span> <span class="variable">*CMS_add1_recipient_cert</span><span class="operator">(</span><span class="variable">CMS_ContentInfo</span> <span class="variable">*cms</span><span class="operator">,</span>
-                                            <span class="variable">X509</span> <span class="variable">*recip</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">CMS_RecipientInfo</span> <span class="variable">*CMS_add0_recipient_key</span><span class="operator">(</span><span class="variable">CMS_ContentInfo</span> <span class="variable">*cms</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span>
-                                           <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">keylen</span><span class="operator">,</span>
-                                           <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*id</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">idlen</span><span class="operator">,</span>
-                                           <span class="variable">ASN1_GENERALIZEDTIME</span> <span class="variable">*date</span><span class="operator">,</span>
-                                           <span class="variable">ASN1_OBJECT</span> <span class="variable">*otherTypeId</span><span class="operator">,</span>
-                                           <span class="variable">ASN1_TYPE</span> <span class="variable">*otherType</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/cms.h&gt;
+
+ CMS_RecipientInfo *CMS_add1_recipient_cert(CMS_ContentInfo *cms,
+                                            X509 *recip, unsigned int flags);
+
+ CMS_RecipientInfo *CMS_add0_recipient_key(CMS_ContentInfo *cms, int nid,
+                                           unsigned char *key, size_t keylen,
+                                           unsigned char *id, size_t idlen,
+                                           ASN1_GENERALIZEDTIME *date,
+                                           ASN1_OBJECT *otherTypeId,
+                                           ASN1_TYPE *otherType);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

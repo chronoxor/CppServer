@@ -27,12 +27,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_add_session</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">SSL_SESSION</span> <span class="variable">*c</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_remove_session</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">SSL_SESSION</span> <span class="variable">*c</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_add_session(SSL_CTX *ctx, SSL_SESSION *c);
+
+ int SSL_CTX_remove_session(SSL_CTX *ctx, SSL_SESSION *c);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

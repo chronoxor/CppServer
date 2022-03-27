@@ -27,27 +27,26 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ocsp.h&gt;</span>
- 
- <span class="variable">OCSP_REQ_CTX</span> <span class="variable">*OCSP_sendreq_new</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*io</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*path</span><span class="operator">,</span> <span class="variable">OCSP_REQUEST</span> <span class="variable">*req</span><span class="operator">,</span>
-                                <span class="keyword">int</span> <span class="variable">maxline</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_sendreq_nbio</span><span class="operator">(</span><span class="variable">OCSP_RESPONSE</span> <span class="operator">**</span><span class="variable">presp</span><span class="operator">,</span> <span class="variable">OCSP_REQ_CTX</span> <span class="variable">*rctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">OCSP_REQ_CTX_free</span><span class="operator">(</span><span class="variable">OCSP_REQ_CTX</span> <span class="variable">*rctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">OCSP_set_max_response_length</span><span class="operator">(</span><span class="variable">OCSP_REQ_CTX</span> <span class="variable">*rctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_REQ_CTX_add1_header</span><span class="operator">(</span><span class="variable">OCSP_REQ_CTX</span> <span class="variable">*rctx</span><span class="operator">,</span>
-                              <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*value</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_REQ_CTX_set1_req</span><span class="operator">(</span><span class="variable">OCSP_REQ_CTX</span> <span class="variable">*rctx</span><span class="operator">,</span> <span class="variable">OCSP_REQUEST</span> <span class="variable">*req</span><span class="operator">);</span>
- 
- <span class="variable">OCSP_RESPONSE</span> <span class="variable">*OCSP_sendreq_bio</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*io</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*path</span><span class="operator">,</span> <span class="variable">OCSP_REQUEST</span> <span class="variable">*req</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_REQ_CTX_i2d</span><span class="operator">(</span><span class="variable">OCSP_REQ_CTX</span> <span class="variable">*rctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*content_type</span><span class="operator">,</span>
-                      <span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">*it</span><span class="operator">,</span> <span class="variable">ASN1_VALUE</span> <span class="variable">*req</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ocsp.h&gt;
+
+ OCSP_REQ_CTX *OCSP_sendreq_new(BIO *io, const char *path, OCSP_REQUEST *req,
+                                int maxline);
+
+ int OCSP_sendreq_nbio(OCSP_RESPONSE **presp, OCSP_REQ_CTX *rctx);
+
+ void OCSP_REQ_CTX_free(OCSP_REQ_CTX *rctx);
+
+ void OCSP_set_max_response_length(OCSP_REQ_CTX *rctx, unsigned long len);
+
+ int OCSP_REQ_CTX_add1_header(OCSP_REQ_CTX *rctx,
+                              const char *name, const char *value);
+
+ int OCSP_REQ_CTX_set1_req(OCSP_REQ_CTX *rctx, OCSP_REQUEST *req);
+
+ OCSP_RESPONSE *OCSP_sendreq_bio(BIO *io, const char *path, OCSP_REQUEST *req);
+
+ int OCSP_REQ_CTX_i2d(OCSP_REQ_CTX *rctx, const char *content_type,
+                      const ASN1_ITEM *it, ASN1_VALUE *req);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -92,8 +91,7 @@
 
 <p>The headers added with OCSP_REQ_CTX_add1_header() are of the form &quot;<b>name</b>: <b>value</b>&quot; or just &quot;<b>name</b>&quot; if <b>value</b> is <b>NULL</b>. So to add a Host header for <b>ocsp.com</b> you would call:</p>
 
-<pre><code> <span class="variable">OCSP_REQ_CTX_add1_header</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"Host"</span><span class="operator">,</span> <span class="string">"ocsp.com"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> OCSP_REQ_CTX_add1_header(ctx, &quot;Host&quot;, &quot;ocsp.com&quot;);</code></pre>
 
 <p>If OCSP_sendreq_nbio() indicates an operation should be retried the corresponding BIO can be examined to determine which operation (read or write) should be retried and appropriate action taken (for example a select() call on the underlying socket).</p>
 

@@ -28,11 +28,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/kdf.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set1_pbe_pass</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*pass</span><span class="operator">,</span>
-                                <span class="keyword">int</span> <span class="variable">passlen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/kdf.h&gt;
+
+ int EVP_PKEY_CTX_set1_pbe_pass(EVP_PKEY_CTX *pctx, unsigned char *pass,
+                                int passlen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

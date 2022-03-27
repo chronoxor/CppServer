@@ -26,14 +26,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rand.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_load_file</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*filename</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">max_bytes</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_write_file</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*filename</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*RAND_file_name</span><span class="operator">(</span><span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rand.h&gt;
+
+ int RAND_load_file(const char *filename, long max_bytes);
+
+ int RAND_write_file(const char *filename);
+
+ const char *RAND_file_name(char *buf, size_t num);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

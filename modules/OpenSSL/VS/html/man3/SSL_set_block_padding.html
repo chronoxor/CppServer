@@ -28,20 +28,19 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_record_padding_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">));</span>
- <span class="variable">void</span> <span class="variable">SSL_set_record_padding_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">));</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_record_padding_callback_arg</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">*SSL_CTX_get_record_padding_callback_arg</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_set_record_padding_callback_arg</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">*SSL_get_record_padding_callback_arg</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_block_padding</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">block_size</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_block_padding</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">block_size</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_record_padding_callback(SSL_CTX *ctx, size_t (*cb)(SSL *s, int type, size_t len, void *arg));
+ void SSL_set_record_padding_callback(SSL *ssl, size_t (*cb)(SSL *s, int type, size_t len, void *arg));
+
+ void SSL_CTX_set_record_padding_callback_arg(SSL_CTX *ctx, void *arg);
+ void *SSL_CTX_get_record_padding_callback_arg(const SSL_CTX *ctx);
+
+ void SSL_set_record_padding_callback_arg(SSL *ssl, void *arg);
+ void *SSL_get_record_padding_callback_arg(const SSL *ssl);
+
+ int SSL_CTX_set_block_padding(SSL_CTX *ctx, size_t block_size);
+ int SSL_set_block_padding(SSL *ssl, size_t block_size);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -29,11 +29,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_config</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_config</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_config(SSL_CTX *ctx, const char *name);
+ int SSL_config(SSL *s, const char *name);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -70,18 +69,17 @@
 
 <p>An application could call:</p>
 
-<pre><code> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">CONF_modules_load_file</span><span class="operator">(</span><span class="string">"config.cnf"</span><span class="operator">,</span> <span class="string">"testapp"</span><span class="operator">,</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error processing config file\n"</span><span class="operator">);</span>
-     <span class="keyword">goto</span> <span class="variable">err</span><span class="operator">;</span>
- <span class="operator">}</span>
- 
- <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">SSL_CTX_new</span><span class="operator">(</span><span class="variable">TLS_server_method</span><span class="operator">());</span>
- 
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">SSL_CTX_config</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="string">"server"</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error configuring server.\n"</span><span class="operator">);</span>
-     <span class="keyword">goto</span> <span class="variable">err</span><span class="operator">;</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> if (CONF_modules_load_file(&quot;config.cnf&quot;, &quot;testapp&quot;, 0) &lt;= 0) {
+     fprintf(stderr, &quot;Error processing config file\n&quot;);
+     goto err;
+ }
+
+ ctx = SSL_CTX_new(TLS_server_method());
+
+ if (SSL_CTX_config(ctx, &quot;server&quot;) == 0) {
+     fprintf(stderr, &quot;Error configuring server.\n&quot;);
+     goto err;
+ }</code></pre>
 
 <p>In this example two certificates and the cipher list are configured without the need for any additional application code.</p>
 

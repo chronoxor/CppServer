@@ -33,54 +33,53 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/store.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">ossl_store_loader_st</span> <span class="variable">OSSL_STORE_LOADER</span><span class="operator">;</span>
- 
- <span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*OSSL_STORE_LOADER_new</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*scheme</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ENGINE</span> <span class="variable">*OSSL_STORE_LOADER_get0_engine</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_LOADER</span>
-                                             <span class="variable">*store_loader</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*OSSL_STORE_LOADER_get0_scheme</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OSSL_STORE_LOADER</span>
-                                           <span class="variable">*store_loader</span><span class="operator">);</span>
- 
- <span class="regex">/* struct ossl_store_loader_ctx_st is defined differently by each loader */</span>
- <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">ossl_store_loader_ctx_st</span> <span class="variable">OSSL_STORE_LOADER_CTX</span><span class="operator">;</span>
- 
- <span class="variable">typedef</span> <span class="variable">OSSL_STORE_LOADER_CTX</span> <span class="operator">*(</span><span class="variable">*OSSL_STORE_open_fn</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*uri</span><span class="operator">,</span>
-                                                      <span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*ui_method</span><span class="operator">,</span>
-                                                      <span class="variable">void</span> <span class="variable">*ui_data</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_LOADER_set_open</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*store_loader</span><span class="operator">,</span>
-                                <span class="variable">OSSL_STORE_open_fn</span> <span class="variable">store_open_function</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*OSSL_STORE_ctrl_fn</span><span class="operator">)(</span><span class="variable">OSSL_STORE_LOADER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">cmd</span><span class="operator">,</span>
-                                   <span class="variable">va_list</span> <span class="variable">args</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_LOADER_set_ctrl</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*store_loader</span><span class="operator">,</span>
-                                <span class="variable">OSSL_STORE_ctrl_fn</span> <span class="variable">store_ctrl_function</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*OSSL_STORE_expect_fn</span><span class="operator">)(</span><span class="variable">OSSL_STORE_LOADER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">expected</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_LOADER_set_expect</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*loader</span><span class="operator">,</span>
-                                  <span class="variable">OSSL_STORE_expect_fn</span> <span class="variable">expect_function</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*OSSL_STORE_find_fn</span><span class="operator">)(</span><span class="variable">OSSL_STORE_LOADER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                   <span class="variable">OSSL_STORE_SEARCH</span> <span class="variable">*criteria</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_LOADER_set_find</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*loader</span><span class="operator">,</span>
-                                <span class="variable">OSSL_STORE_find_fn</span> <span class="variable">find_function</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="variable">OSSL_STORE_INFO</span> <span class="operator">*(</span><span class="variable">*OSSL_STORE_load_fn</span><span class="operator">)(</span><span class="variable">OSSL_STORE_LOADER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                                <span class="variable">UI_METHOD</span> <span class="variable">*ui_method</span><span class="operator">,</span>
-                                                <span class="variable">void</span> <span class="variable">*ui_data</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_LOADER_set_load</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*store_loader</span><span class="operator">,</span>
-                                <span class="variable">OSSL_STORE_load_fn</span> <span class="variable">store_load_function</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*OSSL_STORE_eof_fn</span><span class="operator">)(</span><span class="variable">OSSL_STORE_LOADER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_LOADER_set_eof</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*store_loader</span><span class="operator">,</span>
-                               <span class="variable">OSSL_STORE_eof_fn</span> <span class="variable">store_eof_function</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*OSSL_STORE_error_fn</span><span class="operator">)(</span><span class="variable">OSSL_STORE_LOADER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_LOADER_set_error</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*store_loader</span><span class="operator">,</span>
-                                 <span class="variable">OSSL_STORE_error_fn</span> <span class="variable">store_error_function</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*OSSL_STORE_close_fn</span><span class="operator">)(</span><span class="variable">OSSL_STORE_LOADER_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_LOADER_set_close</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*store_loader</span><span class="operator">,</span>
-                                 <span class="variable">OSSL_STORE_close_fn</span> <span class="variable">store_close_function</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">OSSL_STORE_LOADER_free</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*store_loader</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OSSL_STORE_register_loader</span><span class="operator">(</span><span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*loader</span><span class="operator">);</span>
- <span class="variable">OSSL_STORE_LOADER</span> <span class="variable">*OSSL_STORE_unregister_loader</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*scheme</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/store.h&gt;
+
+ typedef struct ossl_store_loader_st OSSL_STORE_LOADER;
+
+ OSSL_STORE_LOADER *OSSL_STORE_LOADER_new(ENGINE *e, const char *scheme);
+ const ENGINE *OSSL_STORE_LOADER_get0_engine(const OSSL_STORE_LOADER
+                                             *store_loader);
+ const char *OSSL_STORE_LOADER_get0_scheme(const OSSL_STORE_LOADER
+                                           *store_loader);
+
+ /* struct ossl_store_loader_ctx_st is defined differently by each loader */
+ typedef struct ossl_store_loader_ctx_st OSSL_STORE_LOADER_CTX;
+
+ typedef OSSL_STORE_LOADER_CTX *(*OSSL_STORE_open_fn)(const char *uri,
+                                                      const UI_METHOD *ui_method,
+                                                      void *ui_data);
+ int OSSL_STORE_LOADER_set_open(OSSL_STORE_LOADER *store_loader,
+                                OSSL_STORE_open_fn store_open_function);
+ typedef int (*OSSL_STORE_ctrl_fn)(OSSL_STORE_LOADER_CTX *ctx, int cmd,
+                                   va_list args);
+ int OSSL_STORE_LOADER_set_ctrl(OSSL_STORE_LOADER *store_loader,
+                                OSSL_STORE_ctrl_fn store_ctrl_function);
+ typedef int (*OSSL_STORE_expect_fn)(OSSL_STORE_LOADER_CTX *ctx, int expected);
+ int OSSL_STORE_LOADER_set_expect(OSSL_STORE_LOADER *loader,
+                                  OSSL_STORE_expect_fn expect_function);
+ typedef int (*OSSL_STORE_find_fn)(OSSL_STORE_LOADER_CTX *ctx,
+                                   OSSL_STORE_SEARCH *criteria);
+ int OSSL_STORE_LOADER_set_find(OSSL_STORE_LOADER *loader,
+                                OSSL_STORE_find_fn find_function);
+ typedef OSSL_STORE_INFO *(*OSSL_STORE_load_fn)(OSSL_STORE_LOADER_CTX *ctx,
+                                                UI_METHOD *ui_method,
+                                                void *ui_data);
+ int OSSL_STORE_LOADER_set_load(OSSL_STORE_LOADER *store_loader,
+                                OSSL_STORE_load_fn store_load_function);
+ typedef int (*OSSL_STORE_eof_fn)(OSSL_STORE_LOADER_CTX *ctx);
+ int OSSL_STORE_LOADER_set_eof(OSSL_STORE_LOADER *store_loader,
+                               OSSL_STORE_eof_fn store_eof_function);
+ typedef int (*OSSL_STORE_error_fn)(OSSL_STORE_LOADER_CTX *ctx);
+ int OSSL_STORE_LOADER_set_error(OSSL_STORE_LOADER *store_loader,
+                                 OSSL_STORE_error_fn store_error_function);
+ typedef int (*OSSL_STORE_close_fn)(OSSL_STORE_LOADER_CTX *ctx);
+ int OSSL_STORE_LOADER_set_close(OSSL_STORE_LOADER *store_loader,
+                                 OSSL_STORE_close_fn store_close_function);
+ void OSSL_STORE_LOADER_free(OSSL_STORE_LOADER *store_loader);
+
+ int OSSL_STORE_register_loader(OSSL_STORE_LOADER *loader);
+ OSSL_STORE_LOADER *OSSL_STORE_unregister_loader(const char *scheme);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

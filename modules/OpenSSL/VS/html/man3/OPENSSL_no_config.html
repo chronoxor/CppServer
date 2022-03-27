@@ -29,13 +29,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/conf.h&gt;</span>
- 
- <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x10100000L</span>
- <span class="variable">void</span> <span class="variable">OPENSSL_config</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*appname</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">OPENSSL_no_config</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
-</code></pre>
+<pre><code> #include &lt;openssl/conf.h&gt;
+
+ #if OPENSSL_API_COMPAT &lt; 0x10100000L
+ void OPENSSL_config(const char *appname);
+ void OPENSSL_no_config(void);
+ #endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

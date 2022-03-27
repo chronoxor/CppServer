@@ -29,19 +29,18 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
- 
- <span class="variable">CRYPTO_ONCE</span> <span class="variable">CRYPTO_ONCE_STATIC_INIT</span><span class="operator">;</span>
- <span class="keyword">int</span> <span class="variable">CRYPTO_THREAD_run_once</span><span class="operator">(</span><span class="variable">CRYPTO_ONCE</span> <span class="variable">*once</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*init</span><span class="operator">)(</span><span class="variable">void</span><span class="operator">));</span>
- 
- <span class="variable">CRYPTO_RWLOCK</span> <span class="variable">*CRYPTO_THREAD_lock_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CRYPTO_THREAD_read_lock</span><span class="operator">(</span><span class="variable">CRYPTO_RWLOCK</span> <span class="variable">*lock</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CRYPTO_THREAD_write_lock</span><span class="operator">(</span><span class="variable">CRYPTO_RWLOCK</span> <span class="variable">*lock</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CRYPTO_THREAD_unlock</span><span class="operator">(</span><span class="variable">CRYPTO_RWLOCK</span> <span class="variable">*lock</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">CRYPTO_THREAD_lock_free</span><span class="operator">(</span><span class="variable">CRYPTO_RWLOCK</span> <span class="variable">*lock</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">CRYPTO_atomic_add</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">*val</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">amount</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*ret</span><span class="operator">,</span> <span class="variable">CRYPTO_RWLOCK</span> <span class="variable">*lock</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/crypto.h&gt;
+
+ CRYPTO_ONCE CRYPTO_ONCE_STATIC_INIT;
+ int CRYPTO_THREAD_run_once(CRYPTO_ONCE *once, void (*init)(void));
+
+ CRYPTO_RWLOCK *CRYPTO_THREAD_lock_new(void);
+ int CRYPTO_THREAD_read_lock(CRYPTO_RWLOCK *lock);
+ int CRYPTO_THREAD_write_lock(CRYPTO_RWLOCK *lock);
+ int CRYPTO_THREAD_unlock(CRYPTO_RWLOCK *lock);
+ void CRYPTO_THREAD_lock_free(CRYPTO_RWLOCK *lock);
+
+ int CRYPTO_atomic_add(int *val, int amount, int *ret, CRYPTO_RWLOCK *lock);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -92,43 +91,42 @@
 
 <p>This example safely initializes and uses a lock.</p>
 
-<pre><code> <span class="comment">#ifdef _WIN32</span>
- <span class="comment"># include &lt;windows.h&gt;</span>
- <span class="comment">#endif</span>
- <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
- 
- <span class="variable">static</span> <span class="variable">CRYPTO_ONCE</span> <span class="variable">once</span> <span class="operator">=</span> <span class="variable">CRYPTO_ONCE_STATIC_INIT</span><span class="operator">;</span>
- <span class="variable">static</span> <span class="variable">CRYPTO_RWLOCK</span> <span class="variable">*lock</span><span class="operator">;</span>
- 
- <span class="variable">static</span> <span class="variable">void</span> <span class="variable">myinit</span><span class="operator">(</span><span class="variable">void</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="keyword">lock</span> <span class="operator">=</span> <span class="variable">CRYPTO_THREAD_lock_new</span><span class="operator">();</span>
- <span class="operator">}</span>
- 
- <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">mylock</span><span class="operator">(</span><span class="variable">void</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">CRYPTO_THREAD_run_once</span><span class="operator">(&amp;</span><span class="variable">once</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">init</span><span class="operator">)</span> <span class="operator">||</span> <span class="keyword">lock</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
-         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-     <span class="keyword">return</span> <span class="variable">CRYPTO_THREAD_write_lock</span><span class="operator">(</span><span class="keyword">lock</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">myunlock</span><span class="operator">(</span><span class="variable">void</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="keyword">return</span> <span class="variable">CRYPTO_THREAD_unlock</span><span class="operator">(</span><span class="keyword">lock</span><span class="operator">);</span>
- <span class="operator">}</span>
- 
- <span class="keyword">int</span> <span class="variable">serialized</span><span class="operator">(</span><span class="variable">void</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="keyword">int</span> <span class="variable">ret</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
- 
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">mylock</span><span class="operator">())</span> <span class="operator">{</span>
-         <span class="regex">/* Your code here, do not return without releasing the lock! */</span>
-         <span class="variable">ret</span> <span class="operator">=</span> <span class="operator">...</span> <span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="variable">myunlock</span><span class="operator">();</span>
-     <span class="keyword">return</span> <span class="variable">ret</span><span class="operator">;</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> #ifdef _WIN32
+ # include &lt;windows.h&gt;
+ #endif
+ #include &lt;openssl/crypto.h&gt;
+
+ static CRYPTO_ONCE once = CRYPTO_ONCE_STATIC_INIT;
+ static CRYPTO_RWLOCK *lock;
+
+ static void myinit(void)
+ {
+     lock = CRYPTO_THREAD_lock_new();
+ }
+
+ static int mylock(void)
+ {
+     if (!CRYPTO_THREAD_run_once(&amp;once, void init) || lock == NULL)
+         return 0;
+     return CRYPTO_THREAD_write_lock(lock);
+ }
+
+ static int myunlock(void)
+ {
+     return CRYPTO_THREAD_unlock(lock);
+ }
+
+ int serialized(void)
+ {
+     int ret = 0;
+
+     if (mylock()) {
+         /* Your code here, do not return without releasing the lock! */
+         ret = ... ;
+     }
+     myunlock();
+     return ret;
+ }</code></pre>
 
 <p>Finalization of locks is an advanced topic, not covered in this example. This can only be done at process exit or when a dynamically loaded library is no longer in use and is unloaded. The simplest solution is to just &quot;leak&quot; the lock in applications and not repeatedly load/unload shared libraries that allocate locks.</p>
 

@@ -28,18 +28,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_min_proto_version</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_max_proto_version</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_get_min_proto_version</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_get_max_proto_version</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_set_min_proto_version</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_max_proto_version</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_min_proto_version</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_max_proto_version</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_set_min_proto_version(SSL_CTX *ctx, int version);
+ int SSL_CTX_set_max_proto_version(SSL_CTX *ctx, int version);
+ int SSL_CTX_get_min_proto_version(SSL_CTX *ctx);
+ int SSL_CTX_get_max_proto_version(SSL_CTX *ctx);
+
+ int SSL_set_min_proto_version(SSL *ssl, int version);
+ int SSL_set_max_proto_version(SSL *ssl, int version);
+ int SSL_get_min_proto_version(SSL *ssl);
+ int SSL_get_max_proto_version(SSL *ssl);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

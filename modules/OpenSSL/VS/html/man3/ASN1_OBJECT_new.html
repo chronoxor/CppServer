@@ -27,11 +27,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/asn1.h&gt;</span>
- 
- <span class="variable">ASN1_OBJECT</span> <span class="variable">*ASN1_OBJECT_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ASN1_OBJECT_free</span><span class="operator">(</span><span class="variable">ASN1_OBJECT</span> <span class="variable">*a</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/asn1.h&gt;
+
+ ASN1_OBJECT *ASN1_OBJECT_new(void);
+ void ASN1_OBJECT_free(ASN1_OBJECT *a);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -28,13 +28,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/tls1.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_tlsext_ticket_key_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">sslctx</span><span class="operator">,</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">key_name</span><span class="operator">[</span><span class="number">16</span><span class="operator">]</span><span class="operator">,</span>
-               <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">iv</span><span class="operator">[</span><span class="variable">EVP_MAX_IV_LENGTH</span><span class="operator">]</span><span class="operator">,</span>
-               <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">HMAC_CTX</span> <span class="variable">*hctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">));</span>
-</code></pre>
+<pre><code> #include &lt;openssl/tls1.h&gt;
+
+ long SSL_CTX_set_tlsext_ticket_key_cb(SSL_CTX sslctx,
+     int (*cb)(SSL *s, unsigned char key_name[16],
+               unsigned char iv[EVP_MAX_IV_LENGTH],
+               EVP_CIPHER_CTX *ctx, HMAC_CTX *hctx, int enc));</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -102,66 +101,64 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>returns 0 to indicate the callback function was set.</p>
+<p>Returns 1 to indicate the callback function was set and 0 otherwise.</p>
 
 <h1 id="EXAMPLES">EXAMPLES</h1>
 
 <p>Reference Implementation:</p>
 
-<pre><code> <span class="variable">SSL_CTX_set_tlsext_ticket_key_cb</span><span class="operator">(</span><span class="variable">SSL</span><span class="operator">,</span> <span class="variable">ssl_tlsext_ticket_key_cb</span><span class="operator">);</span>
- <span class="operator">...</span>
- 
- <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">ssl_tlsext_ticket_key_cb</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">key_name</span><span class="operator">[</span><span class="number">16</span><span class="operator">]</span><span class="operator">,</span>
-                                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*iv</span><span class="operator">,</span> <span class="variable">EVP_CIPHER_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                     <span class="variable">HMAC_CTX</span> <span class="variable">*hctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">enc</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">your_type_t</span> <span class="variable">*key</span><span class="operator">;</span> <span class="regex">/* something that you need to implement */</span>
- 
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">enc</span><span class="operator">)</span> <span class="operator">{</span> <span class="regex">/* create new session */</span>
-         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">RAND_bytes</span><span class="operator">(</span><span class="variable">iv</span><span class="operator">,</span> <span class="variable">EVP_MAX_IV_LENGTH</span><span class="operator">)</span> <span class="operator">&lt;=</span> <span class="number">0</span><span class="operator">)</span>
-             <span class="keyword">return</span> <span class="operator">-</span><span class="number">1</span><span class="operator">;</span> <span class="regex">/* insufficient random */</span>
- 
-         <span class="variable">key</span> <span class="operator">=</span> <span class="variable">currentkey</span><span class="operator">();</span> <span class="regex">/* something that you need to implement */</span>
-         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-             <span class="regex">/* current key doesn't exist or isn't valid */</span>
-             <span class="variable">key</span> <span class="operator">=</span> <span class="variable">createkey</span><span class="operator">();</span> <span class="regex">/*
+<pre><code> SSL_CTX_set_tlsext_ticket_key_cb(SSL, ssl_tlsext_ticket_key_cb);
+ ...
+
+ static int ssl_tlsext_ticket_key_cb(SSL *s, unsigned char key_name[16],
+                                     unsigned char *iv, EVP_CIPHER_CTX *ctx,
+                                     HMAC_CTX *hctx, int enc)
+ {
+     your_type_t *key; /* something that you need to implement */
+
+     if (enc) { /* create new session */
+         if (RAND_bytes(iv, EVP_MAX_IV_LENGTH) &lt;= 0)
+             return -1; /* insufficient random */
+
+         key = currentkey(); /* something that you need to implement */
+         if (key == NULL) {
+             /* current key doesn&#39;t exist or isn&#39;t valid */
+             key = createkey(); /*
                                  * Something that you need to implement.
                                  * createkey needs to initialise a name,
                                  * an aes_key, a hmac_key and optionally
                                  * an expire time.
-                                 */</span>
-             <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">/*</span> <span class="variable">key</span> <span class="variable">couldn't</span> <span class="variable">be</span> <span class="variable">created</span> <span class="operator">*/</span>
-                 <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
-         <span class="operator">}</span>
-         <span class="variable">memcpy</span><span class="operator">(</span><span class="variable">key_name</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">,</span> <span class="number">16</span><span class="operator">);</span>
- 
-         <span class="variable">EVP_EncryptInit_ex</span><span class="operator">(&amp;</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_aes_256_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">aes_key</span><span class="operator">,</span> <span class="variable">iv</span><span class="operator">);</span>
-         <span class="variable">HMAC_Init_ex</span><span class="operator">(&amp;</span><span class="variable">hctx</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">hmac_key</span><span class="operator">,</span> <span class="number">32</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">);</span>
- 
-         <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
- 
-     <span class="operator">}</span> <span class="keyword">else</span> <span class="operator">{</span> <span class="regex">/* retrieve session */</span>
-         <span class="variable">time_t</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">time</span><span class="operator">(</span><span class="variable">NULL</span><span class="operator">);</span>
-         <span class="variable">key</span> <span class="operator">=</span> <span class="variable">findkey</span><span class="operator">(</span><span class="variable">key_name</span><span class="operator">);</span> <span class="regex">/* something that you need to implement */</span>
- 
-         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span> <span class="operator">==</span> <span class="variable">NULL</span> <span class="operator">||</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">expire</span> <span class="operator">&lt;</span> <span class="variable">t</span><span class="operator">)</span>
-             <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
- 
-         <span class="variable">HMAC_Init_ex</span><span class="operator">(&amp;</span><span class="variable">hctx</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">hmac_key</span><span class="operator">,</span> <span class="number">32</span><span class="operator">,</span> <span class="variable">EVP_sha256</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">);</span>
-         <span class="variable">EVP_DecryptInit_ex</span><span class="operator">(&amp;</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">EVP_aes_256_cbc</span><span class="operator">(),</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">aes_key</span><span class="operator">,</span> <span class="variable">iv</span><span class="operator">);</span>
- 
-         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">key</span><span class="operator">-&gt;</span><span class="variable">expire</span> <span class="operator">&lt;</span> <span class="variable">t</span> <span class="operator">-</span> <span class="variable">RENEW_TIME</span><span class="operator">)</span> <span class="operator">{</span> <span class="regex">/* RENEW_TIME: implement */</span>
-             <span class="operator">/*</span>
-              <span class="operator">*</span> <span class="keyword">return</span> <span class="number">2</span> <span class="operator">-</span> <span class="variable">This</span> <span class="variable">session</span> <span class="variable">will</span> <span class="variable">get</span> <span class="variable">a</span> <span class="variable">new</span> <span class="variable">ticket</span> <span class="variable">even</span> <span class="variable">though</span> <span class="variable">the</span>
-              <span class="operator">*</span> <span class="variable">current</span> <span class="variable">one</span> <span class="variable">is</span> <span class="variable">still</span> <span class="variable">valid</span><span class="operator">.</span>
-              <span class="operator">*</span><span class="regex">/
+                                 */
+             if (key == NULL) /* key couldn&#39;t be created */
+                 return 0;
+         }
+         memcpy(key_name, key-&gt;name, 16);
+
+         EVP_EncryptInit_ex(&amp;ctx, EVP_aes_256_cbc(), NULL, key-&gt;aes_key, iv);
+         HMAC_Init_ex(&amp;hctx, key-&gt;hmac_key, 32, EVP_sha256(), NULL);
+
+         return 1;
+
+     } else { /* retrieve session */
+         time_t t = time(NULL);
+         key = findkey(key_name); /* something that you need to implement */
+
+         if (key == NULL || key-&gt;expire &lt; t)
+             return 0;
+
+         HMAC_Init_ex(&amp;hctx, key-&gt;hmac_key, 32, EVP_sha256(), NULL);
+         EVP_DecryptInit_ex(&amp;ctx, EVP_aes_256_cbc(), NULL, key-&gt;aes_key, iv);
+
+         if (key-&gt;expire &lt; t - RENEW_TIME) { /* RENEW_TIME: implement */
+             /*
+              * return 2 - This session will get a new ticket even though the
+              * current one is still valid.
+              */
              return 2;
          }
          return 1;
      }
- }
- </span>
-</code></pre>
+ }</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
@@ -169,7 +166,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2014-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2014-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -29,22 +29,21 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">RSA_set_default_method</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="variable">RSA_METHOD</span> <span class="variable">*RSA_get_default_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_set_method</span><span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="variable">RSA_METHOD</span> <span class="variable">*RSA_get_method</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
- 
- <span class="variable">RSA_METHOD</span> <span class="variable">*RSA_PKCS1_OpenSSL</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
- 
- <span class="variable">RSA</span> <span class="variable">*RSA_new_method</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*engine</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rsa.h&gt;
+
+ void RSA_set_default_method(const RSA_METHOD *meth);
+
+ RSA_METHOD *RSA_get_default_method(void);
+
+ int RSA_set_method(RSA *rsa, const RSA_METHOD *meth);
+
+ RSA_METHOD *RSA_get_method(const RSA *rsa);
+
+ RSA_METHOD *RSA_PKCS1_OpenSSL(void);
+
+ int RSA_flags(const RSA *rsa);
+
+ RSA *RSA_new_method(ENGINE *engine);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -70,62 +69,61 @@
 
 <h1 id="THE-RSA_METHOD-STRUCTURE">THE RSA_METHOD STRUCTURE</h1>
 
-<pre><code> <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">rsa_meth_st</span>
- <span class="operator">{</span>
-     <span class="regex">/* name of the implementation */</span>
-     <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">;</span>
- 
-     <span class="regex">/* encrypt */</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*rsa_pub_enc</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- 
-     <span class="regex">/* verify arbitrary data */</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*rsa_pub_dec</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- 
-     <span class="regex">/* sign arbitrary data */</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*rsa_priv_enc</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                         <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- 
-     <span class="regex">/* decrypt */</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*rsa_priv_dec</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                         <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- 
-     <span class="regex">/* compute r0 = r0 ^ I mod rsa-&gt;n (May be NULL for some implementations) */</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*rsa_mod_exp</span><span class="operator">)(</span><span class="variable">BIGNUM</span> <span class="variable">*r0</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*I</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
- 
-     <span class="regex">/* compute r = a ^ p mod m (May be NULL for some implementations) */</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*bn_mod_exp</span><span class="operator">)(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span>
-                       <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">BN_MONT_CTX</span> <span class="variable">*m_ctx</span><span class="operator">);</span>
- 
-     <span class="regex">/* called at RSA_new */</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*init</span><span class="operator">)(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
- 
-     <span class="regex">/* called at RSA_free */</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*finish</span><span class="operator">)(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
- 
-     <span class="regex">/*
+<pre><code> typedef struct rsa_meth_st
+ {
+     /* name of the implementation */
+     const char *name;
+
+     /* encrypt */
+     int (*rsa_pub_enc)(int flen, unsigned char *from,
+                        unsigned char *to, RSA *rsa, int padding);
+
+     /* verify arbitrary data */
+     int (*rsa_pub_dec)(int flen, unsigned char *from,
+                        unsigned char *to, RSA *rsa, int padding);
+
+     /* sign arbitrary data */
+     int (*rsa_priv_enc)(int flen, unsigned char *from,
+                         unsigned char *to, RSA *rsa, int padding);
+
+     /* decrypt */
+     int (*rsa_priv_dec)(int flen, unsigned char *from,
+                         unsigned char *to, RSA *rsa, int padding);
+
+     /* compute r0 = r0 ^ I mod rsa-&gt;n (May be NULL for some implementations) */
+     int (*rsa_mod_exp)(BIGNUM *r0, BIGNUM *I, RSA *rsa);
+
+     /* compute r = a ^ p mod m (May be NULL for some implementations) */
+     int (*bn_mod_exp)(BIGNUM *r, BIGNUM *a, const BIGNUM *p,
+                       const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *m_ctx);
+
+     /* called at RSA_new */
+     int (*init)(RSA *rsa);
+
+     /* called at RSA_free */
+     int (*finish)(RSA *rsa);
+
+     /*
       * RSA_FLAG_EXT_PKEY        - rsa_mod_exp is called for private key
       *                            operations, even if p,q,dmp1,dmq1,iqmp
       *                            are NULL
-      * RSA_METHOD_FLAG_NO_CHECK - don't check pub/private</span> <span class="variable">match</span>
-      <span class="operator">*/</span>
-     <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">;</span>
- 
-     <span class="variable">char</span> <span class="variable">*app_data</span><span class="operator">;</span> <span class="regex">/* ?? */</span>
- 
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*rsa_sign</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span>
-                     <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_length</span><span class="operator">,</span>
-                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigret</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*siglen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*rsa_verify</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">dtype</span><span class="operator">,</span>
-                       <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_length</span><span class="operator">,</span>
-                       <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span>
-                       <span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
-     <span class="regex">/* keygen. If NULL builtin RSA key generation will be used */</span>
-     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*rsa_keygen</span><span class="operator">)(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
- 
- <span class="operator">}</span> <span class="variable">RSA_METHOD</span><span class="operator">;</span>
-</code></pre>
+      * RSA_METHOD_FLAG_NO_CHECK - don&#39;t check pub/private match
+      */
+     int flags;
+
+     char *app_data; /* ?? */
+
+     int (*rsa_sign)(int type,
+                     const unsigned char *m, unsigned int m_length,
+                     unsigned char *sigret, unsigned int *siglen, const RSA *rsa);
+     int (*rsa_verify)(int dtype,
+                       const unsigned char *m, unsigned int m_length,
+                       const unsigned char *sigbuf, unsigned int siglen,
+                       const RSA *rsa);
+     /* keygen. If NULL builtin RSA key generation will be used */
+     int (*rsa_keygen)(RSA *rsa, int bits, BIGNUM *e, BN_GENCB *cb);
+
+ } RSA_METHOD;</code></pre>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 

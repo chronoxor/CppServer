@@ -28,20 +28,19 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_sign</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_sign_ctx</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_verify</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*r</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_REQ_sign</span><span class="operator">(</span><span class="variable">X509_REQ</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_REQ_sign_ctx</span><span class="operator">(</span><span class="variable">X509_REQ</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_REQ_verify</span><span class="operator">(</span><span class="variable">X509_REQ</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*r</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_CRL_sign</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_CRL_sign_ctx</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_CRL_verify</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*r</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ int X509_sign(X509 *x, EVP_PKEY *pkey, const EVP_MD *md);
+ int X509_sign_ctx(X509 *x, EVP_MD_CTX *ctx);
+ int X509_verify(X509 *a, EVP_PKEY *r);
+
+ int X509_REQ_sign(X509_REQ *x, EVP_PKEY *pkey, const EVP_MD *md);
+ int X509_REQ_sign_ctx(X509_REQ *x, EVP_MD_CTX *ctx);
+ int X509_REQ_verify(X509_REQ *a, EVP_PKEY *r);
+
+ int X509_CRL_sign(X509_CRL *x, EVP_PKEY *pkey, const EVP_MD *md);
+ int X509_CRL_sign_ctx(X509_CRL *x, EVP_MD_CTX *ctx);
+ int X509_CRL_verify(X509_CRL *a, EVP_PKEY *r);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

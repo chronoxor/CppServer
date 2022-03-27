@@ -26,13 +26,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dsa.h&gt;</span>
- 
- <span class="variable">DSA_SIG</span> <span class="variable">*DSA_SIG_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">DSA_SIG_free</span><span class="operator">(</span><span class="variable">DSA_SIG</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">DSA_SIG_get0</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DSA_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">pr</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="operator">**</span><span class="variable">ps</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">DSA_SIG_set0</span><span class="operator">(</span><span class="variable">DSA_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*s</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dsa.h&gt;
+
+ DSA_SIG *DSA_SIG_new(void);
+ void DSA_SIG_free(DSA_SIG *a);
+ void DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps);
+ int DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

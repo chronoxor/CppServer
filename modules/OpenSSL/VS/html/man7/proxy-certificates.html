@@ -55,13 +55,11 @@
 
 <p>OpenSSL expects applications that want to use proxy certificates to be specially aware of them, and make that explicit. This is done by setting an X509 verification flag:</p>
 
-<pre><code>    <span class="variable">X509_STORE_CTX_set_flags</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">X509_V_FLAG_ALLOW_PROXY_CERTS</span><span class="operator">);</span>
-</code></pre>
+<pre><code>    X509_STORE_CTX_set_flags(ctx, X509_V_FLAG_ALLOW_PROXY_CERTS);</code></pre>
 
 <p>or</p>
 
-<pre><code>    <span class="variable">X509_VERIFY_PARAM_set_flags</span><span class="operator">(</span><span class="variable">param</span><span class="operator">,</span> <span class="variable">X509_V_FLAG_ALLOW_PROXY_CERTS</span><span class="operator">);</span>
-</code></pre>
+<pre><code>    X509_VERIFY_PARAM_set_flags(param, X509_V_FLAG_ALLOW_PROXY_CERTS);</code></pre>
 
 <p>See <a href="#NOTES">&quot;NOTES&quot;</a> for a discussion on this requirement.</p>
 
@@ -164,84 +162,84 @@
 
 <p>The following skeleton code can be used as a starting point:</p>
 
-<pre><code>    <span class="comment">#include &lt;string.h&gt;</span>
-    <span class="comment">#include &lt;netdb.h&gt;</span>
-    <span class="comment">#include &lt;openssl/x509.h&gt;</span>
-    <span class="comment">#include &lt;openssl/x509v3.h&gt;</span>
-    
-    <span class="comment">#define total_rights 25</span>
-    
-    <span class="regex">/*
+<pre><code>    #include &lt;string.h&gt;
+    #include &lt;netdb.h&gt;
+    #include &lt;openssl/x509.h&gt;
+    #include &lt;openssl/x509v3.h&gt;
+
+    #define total_rights 25
+
+    /*
      * In this example, I will use a view of granted rights as a bit
      * array, one bit for each possible right.
-     */</span>
-    <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">your_rights</span> <span class="operator">{</span>
-        <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">rights</span><span class="operator">[</span><span class="operator">(</span><span class="variable">total_rights</span> <span class="operator">+</span> <span class="number">7</span><span class="operator">)</span> <span class="operator">/</span> <span class="number">8</span><span class="operator">]</span><span class="operator">;</span>
-    <span class="operator">}</span> <span class="variable">YOUR_RIGHTS</span><span class="operator">;</span>
-    
-    <span class="regex">/*
+     */
+    typedef struct your_rights {
+        unsigned char rights[(total_rights + 7) / 8];
+    } YOUR_RIGHTS;
+
+    /*
      * The following procedure will create an index for the ex_data
-     * store in the X509 validation context the first time it's
+     * store in the X509 validation context the first time it&#39;s
      * called.  Subsequent calls will return the same index.
-     */</span>
-    <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">get_proxy_auth_ex_data_idx</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">)</span>
-    <span class="operator">{</span>
-        <span class="variable">static</span> <span class="variable">volatile</span> <span class="keyword">int</span> <span class="variable">idx</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span><span class="operator">;</span>
-    
-        <span class="keyword">if</span> <span class="operator">(</span><span class="variable">idx</span> <span class="operator">&lt;</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-            <span class="variable">X509_STORE_lock</span><span class="operator">(</span><span class="variable">X509_STORE_CTX_get0_store</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">));</span>
-            <span class="keyword">if</span> <span class="operator">(</span><span class="variable">idx</span> <span class="operator">&lt;</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-                <span class="variable">idx</span> <span class="operator">=</span> <span class="variable">X509_STORE_CTX_get_ex_new_index</span><span class="operator">(</span><span class="number">0</span><span class="operator">,</span>
-                                                      <span class="string">"for verify callback"</span><span class="operator">,</span>
-                                                      <span class="variable">NULL</span><span class="operator">,</span><span class="variable">NULL</span><span class="operator">,</span><span class="variable">NULL</span><span class="operator">);</span>
-            <span class="operator">}</span>
-            <span class="variable">X509_STORE_unlock</span><span class="operator">(</span><span class="variable">X509_STORE_CTX_get0_store</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">));</span>
-        <span class="operator">}</span>
-        <span class="keyword">return</span> <span class="variable">idx</span><span class="operator">;</span>
-    <span class="operator">}</span>
-    
-    <span class="regex">/* Callback to be given to the X509 validation procedure.  */</span>
-    <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">verify_callback</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">ok</span><span class="operator">,</span> <span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">)</span>
-    <span class="operator">{</span>
-        <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ok</span> <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> <span class="operator">{</span>
-            <span class="regex">/*
-             * It's REALLY important you keep the proxy policy check
-             * within this section.  It's important to know that when
+     */
+    static int get_proxy_auth_ex_data_idx(X509_STORE_CTX *ctx)
+    {
+        static volatile int idx = -1;
+
+        if (idx &lt; 0) {
+            X509_STORE_lock(X509_STORE_CTX_get0_store(ctx));
+            if (idx &lt; 0) {
+                idx = X509_STORE_CTX_get_ex_new_index(0,
+                                                      &quot;for verify callback&quot;,
+                                                      NULL,NULL,NULL);
+            }
+            X509_STORE_unlock(X509_STORE_CTX_get0_store(ctx));
+        }
+        return idx;
+    }
+
+    /* Callback to be given to the X509 validation procedure.  */
+    static int verify_callback(int ok, X509_STORE_CTX *ctx)
+    {
+        if (ok == 1) {
+            /*
+             * It&#39;s REALLY important you keep the proxy policy check
+             * within this section.  It&#39;s important to know that when
              * ok is 1, the certificates are checked from top to
              * bottom.  You get the CA root first, followed by the
              * possible chain of intermediate CAs, followed by the EE
              * certificate, followed by the possible proxy
              * certificates. 
-             */</span>
-            <span class="variable">X509</span> <span class="variable">*xs</span> <span class="operator">=</span> <span class="variable">X509_STORE_CTX_get_current_cert</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-    
-            <span class="keyword">if</span> <span class="operator">(</span><span class="variable">X509_get_extension_flags</span><span class="operator">(</span><span class="variable">xs</span><span class="operator">)</span> <span class="operator">&amp;</span> <span class="variable">EXFLAG_PROXY</span><span class="operator">)</span> <span class="operator">{</span>
-                <span class="variable">YOUR_RIGHTS</span> <span class="variable">*rights</span> <span class="operator">=</span>
-                    <span class="operator">(</span><span class="variable">YOUR_RIGHTS</span> <span class="operator">*)</span><span class="variable">X509_STORE_CTX_get_ex_data</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span>
-                        <span class="variable">get_proxy_auth_ex_data_idx</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">));</span>
-                <span class="variable">PROXY_CERT_INFO_EXTENSION</span> <span class="variable">*pci</span> <span class="operator">=</span>
-                    <span class="variable">X509_get_ext_d2i</span><span class="operator">(</span><span class="variable">xs</span><span class="operator">,</span> <span class="variable">NID_proxyCertInfo</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-    
-                <span class="variable">switch</span> <span class="operator">(</span><span class="variable">OBJ_obj2nid</span><span class="operator">(</span><span class="variable">pci</span><span class="operator">-&gt;</span><span class="variable">proxyPolicy</span><span class="operator">-&gt;</span><span class="variable">policyLanguage</span><span class="operator">))</span> <span class="operator">{</span>
-                <span class="variable">case</span> <span class="variable">NID_Independent</span><span class="operator">:</span>
-                    <span class="regex">/*
+             */
+            X509 *xs = X509_STORE_CTX_get_current_cert(ctx);
+
+            if (X509_get_extension_flags(xs) &amp; EXFLAG_PROXY) {
+                YOUR_RIGHTS *rights =
+                    (YOUR_RIGHTS *)X509_STORE_CTX_get_ex_data(ctx,
+                        get_proxy_auth_ex_data_idx(ctx));
+                PROXY_CERT_INFO_EXTENSION *pci =
+                    X509_get_ext_d2i(xs, NID_proxyCertInfo, NULL, NULL);
+
+                switch (OBJ_obj2nid(pci-&gt;proxyPolicy-&gt;policyLanguage)) {
+                case NID_Independent:
+                    /*
                      * Do whatever you need to grant explicit rights
                      * to this particular proxy certificate, usually
                      * by pulling them from some database.  If there
                      * are none to be found, clear all rights (making
                      * this and any subsequent proxy certificate void
                      * of any rights). 
-                     */</span>
-                    <span class="variable">memset</span><span class="operator">(</span><span class="variable">rights</span><span class="operator">-&gt;</span><span class="variable">rights</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="variable">sizeof</span><span class="operator">(</span><span class="variable">rights</span><span class="operator">-&gt;</span><span class="variable">rights</span><span class="operator">));</span>
-                    <span class="keyword">break</span><span class="operator">;</span>
-                <span class="variable">case</span> <span class="variable">NID_id_ppl_inheritAll</span><span class="operator">:</span>
-                    <span class="regex">/*
+                     */
+                    memset(rights-&gt;rights, 0, sizeof(rights-&gt;rights));
+                    break;
+                case NID_id_ppl_inheritAll:
+                    /*
                      * This is basically a NOP, we simply let the
                      * current rights stand as they are.
-                     */</span>
-                    <span class="keyword">break</span><span class="operator">;</span>
-                <span class="keyword">default</span><span class="operator">:</span>
-                    <span class="regex">/*
+                     */
+                    break;
+                default:
+                    /*
                      * This is usually the most complex section of
                      * code.  You really do whatever you want as long
                      * as you follow RFC 3820.  In the example we use
@@ -249,79 +247,77 @@
                      * another, temporary bit array and fill it with
                      * the rights granted by the current proxy
                      * certificate, then use it as a mask on the
-                     * accumulated rights bit array, and voilÃ , you
+                     * accumulated rights bit array, and voil&agrave;, you
                      * now have a new accumulated rights bit array.
-                     */</span>
-                    <span class="operator">{</span>
-                        <span class="keyword">int</span> <span class="variable">i</span><span class="operator">;</span>
-                        <span class="variable">YOUR_RIGHTS</span> <span class="variable">tmp_rights</span><span class="operator">;</span>
-                        <span class="variable">memset</span><span class="operator">(</span><span class="variable">tmp_rights</span><span class="operator">.</span><span class="variable">rights</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span>
-                               <span class="variable">sizeof</span><span class="operator">(</span><span class="variable">tmp_rights</span><span class="operator">.</span><span class="variable">rights</span><span class="operator">));</span>
-    
-                        <span class="regex">/*
+                     */
+                    {
+                        int i;
+                        YOUR_RIGHTS tmp_rights;
+                        memset(tmp_rights.rights, 0,
+                               sizeof(tmp_rights.rights));
+
+                        /*
                          * process_rights() is supposed to be a
                          * procedure that takes a string and its
                          * length, interprets it and sets the bits
                          * in the YOUR_RIGHTS pointed at by the
                          * third argument.
-                         */</span>
-                        <span class="variable">process_rights</span><span class="operator">((</span><span class="variable">char</span> <span class="operator">*)</span> <span class="variable">pci</span><span class="operator">-&gt;</span><span class="variable">proxyPolicy</span><span class="operator">-&gt;</span><span class="variable">policy</span><span class="operator">-&gt;</span><span class="variable">data</span><span class="operator">,</span>
-                                       <span class="variable">pci</span><span class="operator">-&gt;</span><span class="variable">proxyPolicy</span><span class="operator">-&gt;</span><span class="variable">policy</span><span class="operator">-&gt;</span><span class="variable">length</span><span class="operator">,</span>
-                                       <span class="operator">&amp;</span><span class="variable">tmp_rights</span><span class="operator">);</span>
-    
-                        <span class="keyword">for</span><span class="operator">(</span><span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span> <span class="variable">i</span> <span class="operator">&lt;</span> <span class="variable">total_rights</span> <span class="operator">/</span> <span class="number">8</span><span class="operator">;</span> <span class="variable">i</span><span class="operator">++)</span>
-                            <span class="variable">rights</span><span class="operator">-&gt;</span><span class="variable">rights</span><span class="operator">[</span><span class="variable">i</span><span class="operator">]</span> <span class="operator">&amp;=</span> <span class="variable">tmp_rights</span><span class="operator">.</span><span class="variable">rights</span><span class="operator">[</span><span class="variable">i</span><span class="operator">]</span><span class="operator">;</span>
-                    <span class="operator">}</span>
-                    <span class="keyword">break</span><span class="operator">;</span>
-                <span class="operator">}</span>
-                <span class="variable">PROXY_CERT_INFO_EXTENSION_free</span><span class="operator">(</span><span class="variable">pci</span><span class="operator">);</span>
-            <span class="operator">}</span> <span class="keyword">else</span> <span class="keyword">if</span> <span class="operator">(!(</span><span class="variable">X509_get_extension_flags</span><span class="operator">(</span><span class="variable">xs</span><span class="operator">)</span> <span class="operator">&amp;</span> <span class="variable">EXFLAG_CA</span><span class="operator">))</span> <span class="operator">{</span>
-                <span class="regex">/* We have an EE certificate, let's use it to set default! */</span>
-                <span class="variable">YOUR_RIGHTS</span> <span class="variable">*rights</span> <span class="operator">=</span>
-                    <span class="operator">(</span><span class="variable">YOUR_RIGHTS</span> <span class="operator">*)</span><span class="variable">X509_STORE_CTX_get_ex_data</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span>
-                        <span class="variable">get_proxy_auth_ex_data_idx</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">));</span>
-    
-                <span class="regex">/*
+                         */
+                        process_rights((char *) pci-&gt;proxyPolicy-&gt;policy-&gt;data,
+                                       pci-&gt;proxyPolicy-&gt;policy-&gt;length,
+                                       &amp;tmp_rights);
+
+                        for(i = 0; i &lt; total_rights / 8; i++)
+                            rights-&gt;rights[i] &amp;= tmp_rights.rights[i];
+                    }
+                    break;
+                }
+                PROXY_CERT_INFO_EXTENSION_free(pci);
+            } else if (!(X509_get_extension_flags(xs) &amp; EXFLAG_CA)) {
+                /* We have an EE certificate, let&#39;s use it to set default! */
+                YOUR_RIGHTS *rights =
+                    (YOUR_RIGHTS *)X509_STORE_CTX_get_ex_data(ctx,
+                        get_proxy_auth_ex_data_idx(ctx));
+
+                /*
                  * The following procedure finds out what rights the
                  * owner of the current certificate has, and sets them
                  * in the YOUR_RIGHTS structure pointed at by the
                  * second argument.
-                 */</span>
-                <span class="variable">set_default_rights</span><span class="operator">(</span><span class="variable">xs</span><span class="operator">,</span> <span class="variable">rights</span><span class="operator">);</span>
-            <span class="operator">}</span>
-        <span class="operator">}</span>
-        <span class="keyword">return</span> <span class="variable">ok</span><span class="operator">;</span>
-    <span class="operator">}</span>
-    
-    <span class="variable">static</span> <span class="keyword">int</span> <span class="variable">my_X509_verify_cert</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                   <span class="variable">YOUR_RIGHTS</span> <span class="variable">*needed_rights</span><span class="operator">)</span>
-    <span class="operator">{</span>
-        <span class="keyword">int</span> <span class="variable">ok</span><span class="operator">;</span>
-        <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*save_verify_cb</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">ok</span><span class="operator">,</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">)</span> <span class="operator">=</span>
-            <span class="variable">X509_STORE_CTX_get_verify_cb</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-        <span class="variable">YOUR_RIGHTS</span> <span class="variable">rights</span><span class="operator">;</span>
-    
-        <span class="variable">X509_STORE_CTX_set_verify_cb</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">verify_callback</span><span class="operator">);</span>
-        <span class="variable">X509_STORE_CTX_set_ex_data</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">get_proxy_auth_ex_data_idx</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">),</span>
-                                   <span class="operator">&amp;</span><span class="variable">rights</span><span class="operator">);</span>
-        <span class="variable">X509_STORE_CTX_set_flags</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">X509_V_FLAG_ALLOW_PROXY_CERTS</span><span class="operator">);</span>
-        <span class="variable">ok</span> <span class="operator">=</span> <span class="variable">X509_verify_cert</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">);</span>
-    
-        <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ok</span> <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> <span class="operator">{</span>
-            <span class="variable">ok</span> <span class="operator">=</span> <span class="variable">check_needed_rights</span><span class="operator">(</span><span class="variable">rights</span><span class="operator">,</span> <span class="variable">needed_rights</span><span class="operator">);</span>
-        <span class="operator">}</span>
-    
-        <span class="variable">X509_STORE_CTX_set_verify_cb</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">save_verify_cb</span><span class="operator">);</span>
-    
-        <span class="keyword">return</span> <span class="variable">ok</span><span class="operator">;</span>
-    <span class="operator">}</span>
-</code></pre>
+                 */
+                set_default_rights(xs, rights);
+            }
+        }
+        return ok;
+    }
+
+    static int my_X509_verify_cert(X509_STORE_CTX *ctx,
+                                   YOUR_RIGHTS *needed_rights)
+    {
+        int ok;
+        int (*save_verify_cb)(int ok,X509_STORE_CTX *ctx) =
+            X509_STORE_CTX_get_verify_cb(ctx);
+        YOUR_RIGHTS rights;
+
+        X509_STORE_CTX_set_verify_cb(ctx, verify_callback);
+        X509_STORE_CTX_set_ex_data(ctx, get_proxy_auth_ex_data_idx(ctx),
+                                   &amp;rights);
+        X509_STORE_CTX_set_flags(ctx, X509_V_FLAG_ALLOW_PROXY_CERTS);
+        ok = X509_verify_cert(ctx);
+
+        if (ok == 1) {
+            ok = check_needed_rights(rights, needed_rights);
+        }
+
+        X509_STORE_CTX_set_verify_cb(ctx, save_verify_cb);
+
+        return ok;
+    }</code></pre>
 
 <p>If you use SSL or TLS, you can easily set up a callback to have the certificates checked properly, using the code above:</p>
 
-<pre><code>    <span class="variable">SSL_CTX_set_cert_verify_callback</span><span class="operator">(</span><span class="variable">s_ctx</span><span class="operator">,</span> <span class="variable">my_X509_verify_cert</span><span class="operator">,</span>
-                                     <span class="operator">&amp;</span><span class="variable">needed_rights</span><span class="operator">);</span>
-</code></pre>
+<pre><code>    SSL_CTX_set_cert_verify_callback(s_ctx, my_X509_verify_cert,
+                                     &amp;needed_rights);</code></pre>
 
 <h1 id="NOTES">NOTES</h1>
 

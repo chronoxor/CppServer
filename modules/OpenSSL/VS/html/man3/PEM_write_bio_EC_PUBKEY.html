@@ -27,15 +27,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/pem.h&gt;</span>
- 
- <span class="variable">DECLARE_PEM_rw</span><span class="operator">(</span><span class="variable">name</span><span class="operator">,</span> <span class="variable">TYPE</span><span class="operator">)</span>
- 
- <span class="variable">TYPE</span> <span class="variable">*PEM_read_TYPE</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*PEM_read_bio_TYPE</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">pem_password_cb</span> <span class="variable">*cb</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_TYPE</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_TYPE</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/pem.h&gt;
+
+ DECLARE_PEM_rw(name, TYPE)
+
+ TYPE *PEM_read_TYPE(FILE *fp, TYPE **a, pem_password_cb *cb, void *u);
+ TYPE *PEM_read_bio_TYPE(BIO *bp, TYPE **a, pem_password_cb *cb, void *u);
+ int PEM_write_TYPE(FILE *fp, const TYPE *a);
+ int PEM_write_bio_TYPE(BIO *bp, const TYPE *a);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

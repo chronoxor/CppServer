@@ -27,12 +27,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="variable">ASN1_INTEGER</span> <span class="variable">*X509_get_serialNumber</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*X509_get0_serialNumber</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_set_serialNumber</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">ASN1_INTEGER</span> <span class="variable">*serial</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ ASN1_INTEGER *X509_get_serialNumber(X509 *x);
+ const ASN1_INTEGER *X509_get0_serialNumber(const X509 *x);
+ int X509_set_serialNumber(X509 *x, ASN1_INTEGER *serial);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

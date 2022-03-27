@@ -27,46 +27,45 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/safestack.h&gt;</span>
- 
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span>
- <span class="variable">DEFINE_STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span>
- <span class="variable">DEFINE_STACK_OF_CONST</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span>
- <span class="variable">DEFINE_SPECIAL_STACK_OF</span><span class="operator">(</span><span class="variable">FUNCTYPE</span><span class="operator">,</span> <span class="variable">TYPE</span><span class="operator">)</span>
- <span class="variable">DEFINE_SPECIAL_STACK_OF_CONST</span><span class="operator">(</span><span class="variable">FUNCTYPE</span><span class="operator">,</span> <span class="variable">TYPE</span><span class="operator">)</span>
- 
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*sk_TYPE_compfunc</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*const</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*const</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="variable">TYPE</span> <span class="operator">*</span> <span class="operator">(</span><span class="variable">*sk_TYPE_copyfunc</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*sk_TYPE_freefunc</span><span class="operator">)(</span><span class="variable">TYPE</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">sk_TYPE_num</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*sk_TYPE_value</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk_TYPE_new</span><span class="operator">(</span><span class="variable">sk_TYPE_compfunc</span> <span class="variable">compare</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk_TYPE_new_null</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">sk_TYPE_reserve</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">sk_TYPE_free</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">sk_TYPE_zero</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*sk_TYPE_delete</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">i</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*sk_TYPE_delete_ptr</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*ptr</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">sk_TYPE_push</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*ptr</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">sk_TYPE_unshift</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*ptr</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*sk_TYPE_pop</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*sk_TYPE_shift</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">sk_TYPE_pop_free</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="variable">sk_TYPE_freefunc</span> <span class="variable">freefunc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">sk_TYPE_insert</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*ptr</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
- <span class="variable">TYPE</span> <span class="variable">*sk_TYPE_set</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*ptr</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">sk_TYPE_find</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*ptr</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">sk_TYPE_find_ex</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="variable">TYPE</span> <span class="variable">*ptr</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">sk_TYPE_sort</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">sk_TYPE_is_sorted</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk_TYPE_dup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk_TYPE_deep_copy</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span>
-                                   <span class="variable">sk_TYPE_copyfunc</span> <span class="variable">copyfunc</span><span class="operator">,</span>
-                                   <span class="variable">sk_TYPE_freefunc</span> <span class="variable">freefunc</span><span class="operator">);</span>
- <span class="variable">sk_TYPE_compfunc</span> <span class="operator">(</span><span class="variable">*sk_TYPE_set_cmp_func</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span>
-                                         <span class="variable">sk_TYPE_compfunc</span> <span class="variable">compare</span><span class="operator">));</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk_TYPE_new_reserve</span><span class="operator">(</span><span class="variable">sk_TYPE_compfunc</span> <span class="variable">compare</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/safestack.h&gt;
+
+ STACK_OF(TYPE)
+ DEFINE_STACK_OF(TYPE)
+ DEFINE_STACK_OF_CONST(TYPE)
+ DEFINE_SPECIAL_STACK_OF(FUNCTYPE, TYPE)
+ DEFINE_SPECIAL_STACK_OF_CONST(FUNCTYPE, TYPE)
+
+ typedef int (*sk_TYPE_compfunc)(const TYPE *const *a, const TYPE *const *b);
+ typedef TYPE * (*sk_TYPE_copyfunc)(const TYPE *a);
+ typedef void (*sk_TYPE_freefunc)(TYPE *a);
+
+ int sk_TYPE_num(const STACK_OF(TYPE) *sk);
+ TYPE *sk_TYPE_value(const STACK_OF(TYPE) *sk, int idx);
+ STACK_OF(TYPE) *sk_TYPE_new(sk_TYPE_compfunc compare);
+ STACK_OF(TYPE) *sk_TYPE_new_null(void);
+ int sk_TYPE_reserve(STACK_OF(TYPE) *sk, int n);
+ void sk_TYPE_free(const STACK_OF(TYPE) *sk);
+ void sk_TYPE_zero(const STACK_OF(TYPE) *sk);
+ TYPE *sk_TYPE_delete(STACK_OF(TYPE) *sk, int i);
+ TYPE *sk_TYPE_delete_ptr(STACK_OF(TYPE) *sk, TYPE *ptr);
+ int sk_TYPE_push(STACK_OF(TYPE) *sk, const TYPE *ptr);
+ int sk_TYPE_unshift(STACK_OF(TYPE) *sk, const TYPE *ptr);
+ TYPE *sk_TYPE_pop(STACK_OF(TYPE) *sk);
+ TYPE *sk_TYPE_shift(STACK_OF(TYPE) *sk);
+ void sk_TYPE_pop_free(STACK_OF(TYPE) *sk, sk_TYPE_freefunc freefunc);
+ int sk_TYPE_insert(STACK_OF(TYPE) *sk, TYPE *ptr, int idx);
+ TYPE *sk_TYPE_set(STACK_OF(TYPE) *sk, int idx, const TYPE *ptr);
+ int sk_TYPE_find(STACK_OF(TYPE) *sk, TYPE *ptr);
+ int sk_TYPE_find_ex(STACK_OF(TYPE) *sk, TYPE *ptr);
+ void sk_TYPE_sort(const STACK_OF(TYPE) *sk);
+ int sk_TYPE_is_sorted(const STACK_OF(TYPE) *sk);
+ STACK_OF(TYPE) *sk_TYPE_dup(const STACK_OF(TYPE) *sk);
+ STACK_OF(TYPE) *sk_TYPE_deep_copy(const STACK_OF(TYPE) *sk,
+                                   sk_TYPE_copyfunc copyfunc,
+                                   sk_TYPE_freefunc freefunc);
+ sk_TYPE_compfunc (*sk_TYPE_set_cmp_func(STACK_OF(TYPE) *sk,
+                                         sk_TYPE_compfunc compare));
+ STACK_OF(TYPE) *sk_TYPE_new_reserve(sk_TYPE_compfunc compare, int n);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -74,23 +73,19 @@
 
 <p>STACK_OF() returns the name for a stack of the specified <b>TYPE</b>. DEFINE_STACK_OF() creates set of functions for a stack of <b>TYPE</b>. This will mean that type <b>TYPE</b> is stored in each stack, the type is referenced by STACK_OF(TYPE) and each function name begins with <i>sk_TYPE_</i>. For example:</p>
 
-<pre><code> <span class="variable">TYPE</span> <span class="variable">*sk_TYPE_value</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> TYPE *sk_TYPE_value(STACK_OF(TYPE) *sk, int idx);</code></pre>
 
 <p>DEFINE_STACK_OF_CONST() is identical to DEFINE_STACK_OF() except each element is constant. For example:</p>
 
-<pre><code> <span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*sk_TYPE_value</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> const TYPE *sk_TYPE_value(STACK_OF(TYPE) *sk, int idx);</code></pre>
 
 <p>DEFINE_SPECIAL_STACK_OF() defines a stack of <b>TYPE</b> but each function uses <b>FUNCNAME</b> in the function name. For example:</p>
 
-<pre><code> <span class="variable">TYPE</span> <span class="variable">*sk_FUNCNAME_value</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> TYPE *sk_FUNCNAME_value(STACK_OF(TYPE) *sk, int idx);</code></pre>
 
 <p>DEFINE_SPECIAL_STACK_OF_CONST() is similar except that each element is constant:</p>
 
-<pre><code> <span class="variable">const</span> <span class="variable">TYPE</span> <span class="variable">*sk_FUNCNAME_value</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">TYPE</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> const TYPE *sk_FUNCNAME_value(STACK_OF(TYPE) *sk, int idx);</code></pre>
 
 <p>sk_TYPE_num() returns the number of elements in <b>sk</b> or -1 if <b>sk</b> is <b>NULL</b>.</p>
 
@@ -120,13 +115,11 @@
 
 <p>sk_TYPE_push() appends <b>ptr</b> to <b>sk</b> it is equivalent to:</p>
 
-<pre><code> <span class="variable">sk_TYPE_insert</span><span class="operator">(</span><span class="variable">sk</span><span class="operator">,</span> <span class="variable">ptr</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">);</span>
-</code></pre>
+<pre><code> sk_TYPE_insert(sk, ptr, -1);</code></pre>
 
 <p>sk_TYPE_unshift() inserts <b>ptr</b> at the start of <b>sk</b> it is equivalent to:</p>
 
-<pre><code> <span class="variable">sk_TYPE_insert</span><span class="operator">(</span><span class="variable">sk</span><span class="operator">,</span> <span class="variable">ptr</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
-</code></pre>
+<pre><code> sk_TYPE_insert(sk, ptr, 0);</code></pre>
 
 <p>sk_TYPE_pop() returns and removes the last element from <b>sk</b>.</p>
 
@@ -174,7 +167,7 @@
 
 <p>sk_TYPE_pop(), sk_TYPE_shift(), sk_TYPE_delete() and sk_TYPE_delete_ptr() return a pointer to the deleted element or <b>NULL</b> on error.</p>
 
-<p>sk_TYPE_insert(), sk_TYPE_push() and sk_TYPE_unshift() return the total number of elements in the stack and 0 if an error occurred.</p>
+<p>sk_TYPE_insert(), sk_TYPE_push() and sk_TYPE_unshift() return the total number of elements in the stack and 0 if an error occurred. sk_TYPE_push() further returns -1 if <b>sk</b> is <b>NULL</b>.</p>
 
 <p>sk_TYPE_set() returns a pointer to the replacement element or <b>NULL</b> on error.</p>
 

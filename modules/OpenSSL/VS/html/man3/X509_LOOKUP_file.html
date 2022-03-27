@@ -31,15 +31,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509_vfy.h&gt;</span>
- 
- <span class="variable">X509_LOOKUP_METHOD</span> <span class="variable">*X509_LOOKUP_hash_dir</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">X509_LOOKUP_METHOD</span> <span class="variable">*X509_LOOKUP_file</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_load_cert_file</span><span class="operator">(</span><span class="variable">X509_LOOKUP</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_load_crl_file</span><span class="operator">(</span><span class="variable">X509_LOOKUP</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_load_cert_crl_file</span><span class="operator">(</span><span class="variable">X509_LOOKUP</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509_vfy.h&gt;
+
+ X509_LOOKUP_METHOD *X509_LOOKUP_hash_dir(void);
+ X509_LOOKUP_METHOD *X509_LOOKUP_file(void);
+
+ int X509_load_cert_file(X509_LOOKUP *ctx, const char *file, int type);
+ int X509_load_crl_file(X509_LOOKUP *ctx, const char *file, int type);
+ int X509_load_cert_crl_file(X509_LOOKUP *ctx, const char *file, int type);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

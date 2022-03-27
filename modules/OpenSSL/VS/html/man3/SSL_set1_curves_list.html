@@ -28,26 +28,25 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set1_groups</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*glist</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">glistlen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set1_groups_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*list</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_set1_groups</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*glist</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">glistlen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set1_groups_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*list</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_get1_groups</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*groups</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_shared_group</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set1_curves</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*clist</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">clistlen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set1_curves_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*list</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_set1_curves</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*clist</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">clistlen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set1_curves_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*list</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_get1_curves</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*curves</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_get_shared_curve</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_set1_groups(SSL_CTX *ctx, int *glist, int glistlen);
+ int SSL_CTX_set1_groups_list(SSL_CTX *ctx, char *list);
+
+ int SSL_set1_groups(SSL *ssl, int *glist, int glistlen);
+ int SSL_set1_groups_list(SSL *ssl, char *list);
+
+ int SSL_get1_groups(SSL *ssl, int *groups);
+ int SSL_get_shared_group(SSL *s, int n);
+
+ int SSL_CTX_set1_curves(SSL_CTX *ctx, int *clist, int clistlen);
+ int SSL_CTX_set1_curves_list(SSL_CTX *ctx, char *list);
+
+ int SSL_set1_curves(SSL *ssl, int *clist, int clistlen);
+ int SSL_set1_curves_list(SSL *ssl, char *list);
+
+ int SSL_get1_curves(SSL *ssl, int *curves);
+ int SSL_get_shared_curve(SSL *s, int n);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

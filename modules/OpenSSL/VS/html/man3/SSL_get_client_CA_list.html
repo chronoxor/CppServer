@@ -28,24 +28,23 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_client_CA_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_NAME</span><span class="operator">)</span> <span class="variable">*list</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_set_client_CA_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_NAME</span><span class="operator">)</span> <span class="variable">*list</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_NAME</span><span class="operator">)</span> <span class="variable">*SSL_get_client_CA_list</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_NAME</span><span class="operator">)</span> <span class="variable">*SSL_CTX_get_client_CA_list</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_add_client_CA</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*cacert</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_add_client_CA</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*cacert</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set0_CA_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_NAME</span><span class="operator">)</span> <span class="variable">*name_list</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SSL_set0_CA_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_NAME</span><span class="operator">)</span> <span class="variable">*name_list</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_NAME</span><span class="operator">)</span> <span class="variable">*SSL_CTX_get0_CA_list</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_NAME</span><span class="operator">)</span> <span class="variable">*SSL_get0_CA_list</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_add1_to_CA_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_add1_to_CA_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_NAME</span><span class="operator">)</span> <span class="variable">*SSL_get0_peer_CA_list</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_client_CA_list(SSL_CTX *ctx, STACK_OF(X509_NAME) *list);
+ void SSL_set_client_CA_list(SSL *s, STACK_OF(X509_NAME) *list);
+ STACK_OF(X509_NAME) *SSL_get_client_CA_list(const SSL *s);
+ STACK_OF(X509_NAME) *SSL_CTX_get_client_CA_list(const SSL_CTX *ctx);
+ int SSL_CTX_add_client_CA(SSL_CTX *ctx, X509 *cacert);
+ int SSL_add_client_CA(SSL *ssl, X509 *cacert);
+
+ void SSL_CTX_set0_CA_list(SSL_CTX *ctx, STACK_OF(X509_NAME) *name_list);
+ void SSL_set0_CA_list(SSL *s, STACK_OF(X509_NAME) *name_list);
+ const STACK_OF(X509_NAME) *SSL_CTX_get0_CA_list(const SSL_CTX *ctx);
+ const STACK_OF(X509_NAME) *SSL_get0_CA_list(const SSL *s);
+ int SSL_CTX_add1_to_CA_list(SSL_CTX *ctx, const X509 *x);
+ int SSL_add1_to_CA_list(SSL *ssl, const X509 *x);
+
+ const STACK_OF(X509_NAME) *SSL_get0_peer_CA_list(const SSL *s);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -111,8 +110,7 @@
 
 <p>Scan all certificates in <b>CAfile</b> and list them as acceptable CAs:</p>
 
-<pre><code> <span class="variable">SSL_CTX_set_client_CA_list</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">SSL_load_client_CA_file</span><span class="operator">(</span><span class="variable">CAfile</span><span class="operator">));</span>
-</code></pre>
+<pre><code> SSL_CTX_set_client_CA_list(ctx, SSL_load_client_CA_file(CAfile));</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

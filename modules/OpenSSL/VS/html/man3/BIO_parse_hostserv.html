@@ -26,14 +26,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="variable">enum</span> <span class="variable">BIO_hostserv_priorities</span> <span class="operator">{</span>
-     <span class="variable">BIO_PARSE_PRIO_HOST</span><span class="operator">,</span> <span class="variable">BIO_PARSE_PRIO_SERV</span>
- <span class="operator">};</span>
- <span class="keyword">int</span> <span class="variable">BIO_parse_hostserv</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*hostserv</span><span class="operator">,</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">host</span><span class="operator">,</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">service</span><span class="operator">,</span>
-                        <span class="variable">enum</span> <span class="variable">BIO_hostserv_priorities</span> <span class="variable">hostserv_prio</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+
+ enum BIO_hostserv_priorities {
+     BIO_PARSE_PRIO_HOST, BIO_PARSE_PRIO_SERV
+ };
+ int BIO_parse_hostserv(const char *hostserv, char **host, char **service,
+                        enum BIO_hostserv_priorities hostserv_prio);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

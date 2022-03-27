@@ -27,46 +27,45 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509v3_get_ext_count</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">X509_EXTENSION</span> <span class="variable">*X509v3_get_ext</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509v3_get_ext_by_NID</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*x</span><span class="operator">,</span>
-                           <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509v3_get_ext_by_OBJ</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*x</span><span class="operator">,</span>
-                           <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509v3_get_ext_by_critical</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*x</span><span class="operator">,</span>
-                                <span class="keyword">int</span> <span class="variable">crit</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="variable">X509_EXTENSION</span> <span class="variable">*X509v3_delete_ext</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*X509v3_add_ext</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="operator">**x,</span>
-                                          <span class="variable">X509_EXTENSION</span> <span class="variable">*ex</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_get_ext_count</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">X509_EXTENSION</span> <span class="variable">*X509_get_ext</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_get_ext_by_NID</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_get_ext_by_OBJ</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_get_ext_by_critical</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">crit</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="variable">X509_EXTENSION</span> <span class="variable">*X509_delete_ext</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_add_ext</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">X509_EXTENSION</span> <span class="variable">*ex</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_CRL_get_ext_count</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">X509_EXTENSION</span> <span class="variable">*X509_CRL_get_ext</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_CRL_get_ext_by_NID</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_CRL_get_ext_by_OBJ</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_CRL_get_ext_by_critical</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">crit</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="variable">X509_EXTENSION</span> <span class="variable">*X509_CRL_delete_ext</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_CRL_add_ext</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">X509_EXTENSION</span> <span class="variable">*ex</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_REVOKED_get_ext_count</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_REVOKED</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">X509_EXTENSION</span> <span class="variable">*X509_REVOKED_get_ext</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_REVOKED</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_REVOKED_get_ext_by_NID</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_REVOKED</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_REVOKED_get_ext_by_OBJ</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_REVOKED</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">,</span>
-                                 <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_REVOKED_get_ext_by_critical</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_REVOKED</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">crit</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">lastpos</span><span class="operator">);</span>
- <span class="variable">X509_EXTENSION</span> <span class="variable">*X509_REVOKED_delete_ext</span><span class="operator">(</span><span class="variable">X509_REVOKED</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_REVOKED_add_ext</span><span class="operator">(</span><span class="variable">X509_REVOKED</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">X509_EXTENSION</span> <span class="variable">*ex</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ int X509v3_get_ext_count(const STACK_OF(X509_EXTENSION) *x);
+ X509_EXTENSION *X509v3_get_ext(const STACK_OF(X509_EXTENSION) *x, int loc);
+
+ int X509v3_get_ext_by_NID(const STACK_OF(X509_EXTENSION) *x,
+                           int nid, int lastpos);
+ int X509v3_get_ext_by_OBJ(const STACK_OF(X509_EXTENSION) *x,
+                           const ASN1_OBJECT *obj, int lastpos);
+ int X509v3_get_ext_by_critical(const STACK_OF(X509_EXTENSION) *x,
+                                int crit, int lastpos);
+ X509_EXTENSION *X509v3_delete_ext(STACK_OF(X509_EXTENSION) *x, int loc);
+ STACK_OF(X509_EXTENSION) *X509v3_add_ext(STACK_OF(X509_EXTENSION) **x,
+                                          X509_EXTENSION *ex, int loc);
+
+ int X509_get_ext_count(const X509 *x);
+ X509_EXTENSION *X509_get_ext(const X509 *x, int loc);
+ int X509_get_ext_by_NID(const X509 *x, int nid, int lastpos);
+ int X509_get_ext_by_OBJ(const X509 *x, const ASN1_OBJECT *obj, int lastpos);
+ int X509_get_ext_by_critical(const X509 *x, int crit, int lastpos);
+ X509_EXTENSION *X509_delete_ext(X509 *x, int loc);
+ int X509_add_ext(X509 *x, X509_EXTENSION *ex, int loc);
+
+ int X509_CRL_get_ext_count(const X509_CRL *x);
+ X509_EXTENSION *X509_CRL_get_ext(const X509_CRL *x, int loc);
+ int X509_CRL_get_ext_by_NID(const X509_CRL *x, int nid, int lastpos);
+ int X509_CRL_get_ext_by_OBJ(const X509_CRL *x, const ASN1_OBJECT *obj, int lastpos);
+ int X509_CRL_get_ext_by_critical(const X509_CRL *x, int crit, int lastpos);
+ X509_EXTENSION *X509_CRL_delete_ext(X509_CRL *x, int loc);
+ int X509_CRL_add_ext(X509_CRL *x, X509_EXTENSION *ex, int loc);
+
+ int X509_REVOKED_get_ext_count(const X509_REVOKED *x);
+ X509_EXTENSION *X509_REVOKED_get_ext(const X509_REVOKED *x, int loc);
+ int X509_REVOKED_get_ext_by_NID(const X509_REVOKED *x, int nid, int lastpos);
+ int X509_REVOKED_get_ext_by_OBJ(const X509_REVOKED *x, const ASN1_OBJECT *obj,
+                                 int lastpos);
+ int X509_REVOKED_get_ext_by_critical(const X509_REVOKED *x, int crit, int lastpos);
+ X509_EXTENSION *X509_REVOKED_delete_ext(X509_REVOKED *x, int loc);
+ int X509_REVOKED_add_ext(X509_REVOKED *x, X509_EXTENSION *ex, int loc);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

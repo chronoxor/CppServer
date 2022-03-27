@@ -25,11 +25,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#ifdef OPENSSL_CPUID_OBJ</span>
- <span class="variable">size_t</span> <span class="variable">OPENSSL_instrument_bus</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">*vector</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">OPENSSL_instrument_bus2</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">*vector</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">max</span><span class="operator">);</span>
- <span class="comment">#endif</span>
-</code></pre>
+<pre><code> #ifdef OPENSSL_CPUID_OBJ
+ size_t OPENSSL_instrument_bus(int *vector, size_t num);
+ size_t OPENSSL_instrument_bus2(int *vector, size_t num, size_t max);
+ #endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

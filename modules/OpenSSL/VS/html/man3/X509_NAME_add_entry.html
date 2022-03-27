@@ -29,21 +29,20 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_NAME_add_entry_by_txt</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*field</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span>
-                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*bytes</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">set</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_NAME_add_entry_by_OBJ</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_OBJECT</span> <span class="variable">*obj</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span>
-                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*bytes</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">set</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_NAME_add_entry_by_NID</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span>
-                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*bytes</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">set</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_NAME_add_entry</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*ne</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">set</span><span class="operator">);</span>
- 
- <span class="variable">X509_NAME_ENTRY</span> <span class="variable">*X509_NAME_delete_entry</span><span class="operator">(</span><span class="variable">X509_NAME</span> <span class="variable">*name</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">loc</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ int X509_NAME_add_entry_by_txt(X509_NAME *name, const char *field, int type,
+                                const unsigned char *bytes, int len, int loc, int set);
+
+ int X509_NAME_add_entry_by_OBJ(X509_NAME *name, const ASN1_OBJECT *obj, int type,
+                                const unsigned char *bytes, int len, int loc, int set);
+
+ int X509_NAME_add_entry_by_NID(X509_NAME *name, int nid, int type,
+                                const unsigned char *bytes, int len, int loc, int set);
+
+ int X509_NAME_add_entry(X509_NAME *name, const X509_NAME_ENTRY *ne, int loc, int set);
+
+ X509_NAME_ENTRY *X509_NAME_delete_entry(X509_NAME *name, int loc);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -83,21 +82,20 @@
 
 <p>&quot;C=UK, O=Disorganized Organization, CN=Joe Bloggs&quot;</p>
 
-<pre><code> <span class="variable">X509_NAME</span> <span class="variable">*nm</span><span class="operator">;</span>
- 
- <span class="variable">nm</span> <span class="operator">=</span> <span class="variable">X509_NAME_new</span><span class="operator">();</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">nm</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Some</span> <span class="variable">error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">X509_NAME_add_entry_by_txt</span><span class="operator">(</span><span class="variable">nm</span><span class="operator">,</span> <span class="string">"C"</span><span class="operator">,</span> <span class="variable">MBSTRING_ASC</span><span class="operator">,</span>
-                                 <span class="string">"UK"</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">))</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">X509_NAME_add_entry_by_txt</span><span class="operator">(</span><span class="variable">nm</span><span class="operator">,</span> <span class="string">"O"</span><span class="operator">,</span> <span class="variable">MBSTRING_ASC</span><span class="operator">,</span>
-                                 <span class="string">"Disorganized Organization"</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">))</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">X509_NAME_add_entry_by_txt</span><span class="operator">(</span><span class="variable">nm</span><span class="operator">,</span> <span class="string">"CN"</span><span class="operator">,</span> <span class="variable">MBSTRING_ASC</span><span class="operator">,</span>
-                                 <span class="string">"Joe Bloggs"</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">))</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
-</code></pre>
+<pre><code> X509_NAME *nm;
+
+ nm = X509_NAME_new();
+ if (nm == NULL)
+     /* Some error */
+ if (!X509_NAME_add_entry_by_txt(nm, &quot;C&quot;, MBSTRING_ASC,
+                                 &quot;UK&quot;, -1, -1, 0))
+     /* Error */
+ if (!X509_NAME_add_entry_by_txt(nm, &quot;O&quot;, MBSTRING_ASC,
+                                 &quot;Disorganized Organization&quot;, -1, -1, 0))
+     /* Error */
+ if (!X509_NAME_add_entry_by_txt(nm, &quot;CN&quot;, MBSTRING_ASC,
+                                 &quot;Joe Bloggs&quot;, -1, -1, 0))
+     /* Error */</code></pre>
 
 <h1 id="BUGS">BUGS</h1>
 

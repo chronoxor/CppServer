@@ -26,13 +26,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rand.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_egd_bytes</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*path</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RAND_egd</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*path</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_query_egd_bytes</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*path</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rand.h&gt;
+
+ int RAND_egd_bytes(const char *path, int num);
+ int RAND_egd(const char *path);
+
+ int RAND_query_egd_bytes(const char *path, unsigned char *buf, int num);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

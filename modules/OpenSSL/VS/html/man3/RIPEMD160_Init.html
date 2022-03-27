@@ -28,15 +28,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ripemd.h&gt;</span>
- 
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*RIPEMD160</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span>
-                          <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RIPEMD160_Init</span><span class="operator">(</span><span class="variable">RIPEMD160_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RIPEMD160_Update</span><span class="operator">(</span><span class="variable">RIPEMD160_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RIPEMD160_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">RIPEMD160_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ripemd.h&gt;
+
+ unsigned char *RIPEMD160(const unsigned char *d, unsigned long n,
+                          unsigned char *md);
+
+ int RIPEMD160_Init(RIPEMD160_CTX *c);
+ int RIPEMD160_Update(RIPEMD160_CTX *c, const void *data, unsigned long len);
+ int RIPEMD160_Final(unsigned char *md, RIPEMD160_CTX *c);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

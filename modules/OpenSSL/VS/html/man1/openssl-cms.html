@@ -610,6 +610,8 @@
 
 <p>No revocation checking is done on the signer&#39;s certificate.</p>
 
+<p>The <b>-binary</b> option does not work correctly when processing text input which (contrary to the S/MIME specification) uses LF rather than CRLF line endings.</p>
+
 <h1 id="HISTORY">HISTORY</h1>
 
 <p>The use of multiple <b>-signer</b> options and the <b>-resign</b> command were first added in OpenSSL 1.0.0.</p>
@@ -624,7 +626,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2008-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2008-2022 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

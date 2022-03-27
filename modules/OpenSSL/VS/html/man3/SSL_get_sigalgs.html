@@ -27,16 +27,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_get_shared_sigalgs</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span>
-                            <span class="keyword">int</span> <span class="variable">*psign</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*phash</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*psignhash</span><span class="operator">,</span>
-                            <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*rsig</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*rhash</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_get_sigalgs</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span>
-                     <span class="keyword">int</span> <span class="variable">*psign</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*phash</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*psignhash</span><span class="operator">,</span>
-                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*rsig</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*rhash</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_get_shared_sigalgs(SSL *s, int idx,
+                            int *psign, int *phash, int *psignhash,
+                            unsigned char *rsig, unsigned char *rhash);
+
+ int SSL_get_sigalgs(SSL *s, int idx,
+                     int *psign, int *phash, int *psignhash,
+                     unsigned char *rsig, unsigned char *rhash);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

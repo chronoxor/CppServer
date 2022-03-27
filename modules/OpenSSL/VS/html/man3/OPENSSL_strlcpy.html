@@ -26,66 +26,65 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">OPENSSL_malloc_init</span><span class="operator">(</span><span class="variable">void</span><span class="operator">)</span>
- 
- <span class="variable">void</span> <span class="variable">*OPENSSL_malloc</span><span class="operator">(</span><span class="variable">size_t</span> <span class="variable">num</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">*OPENSSL_zalloc</span><span class="operator">(</span><span class="variable">size_t</span> <span class="variable">num</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">*OPENSSL_realloc</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*addr</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">OPENSSL_free</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*addr</span><span class="operator">)</span>
- <span class="variable">char</span> <span class="variable">*OPENSSL_strdup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">)</span>
- <span class="variable">char</span> <span class="variable">*OPENSSL_strndup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="regex">s)
+<pre><code> #include &lt;openssl/crypto.h&gt;
+
+ int OPENSSL_malloc_init(void)
+
+ void *OPENSSL_malloc(size_t num)
+ void *OPENSSL_zalloc(size_t num)
+ void *OPENSSL_realloc(void *addr, size_t num)
+ void OPENSSL_free(void *addr)
+ char *OPENSSL_strdup(const char *str)
+ char *OPENSSL_strndup(const char *str, size_t s)
  size_t OPENSSL_strlcat(char *dst, const char *src, size_t size);
- size_t OPENSSL_strlcpy(char *dst, const char *src, size_t size)</span><span class="operator">;</span>
- <span class="variable">void</span> <span class="variable">*OPENSSL_memdup</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="regex">s)
+ size_t OPENSSL_strlcpy(char *dst, const char *src, size_t size);
+ void *OPENSSL_memdup(void *data, size_t s)
  void *OPENSSL_clear_realloc(void *p, size_t old_len, size_t num)
- void OPENSSL_clear_free(void *str, size_t num)</span>
- <span class="variable">void</span> <span class="variable">OPENSSL_cleanse</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*ptr</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
- 
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*OPENSSL_hexstr2buf</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">*len</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*OPENSSL_buf2hexstr</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*buffer</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OPENSSL_hexchar2int</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">c</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">*CRYPTO_malloc</span><span class="operator">(</span><span class="variable">size_t</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">line</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">*CRYPTO_zalloc</span><span class="operator">(</span><span class="variable">size_t</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">line</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">*CRYPTO_realloc</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">line</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">CRYPTO_free</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*str</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="keyword">int</span><span class="operator">)</span>
- <span class="variable">char</span> <span class="variable">*CRYPTO_strdup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">line</span><span class="operator">)</span>
- <span class="variable">char</span> <span class="variable">*CRYPTO_strndup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">line</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">*CRYPTO_clear_realloc</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">old_len</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">,</span>
-                            <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">line</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">CRYPTO_clear_free</span><span class="operator">(</span><span class="variable">void</span> <span class="variable">*str</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="keyword">int</span><span class="operator">)</span>
- 
- <span class="variable">void</span> <span class="variable">CRYPTO_get_mem_functions</span><span class="operator">(</span>
-         <span class="variable">void</span> <span class="operator">*(**</span><span class="regex">m)(size_t, const char *, int)</span><span class="operator">,</span>
-         <span class="variable">void</span> <span class="operator">*(**</span><span class="variable">r</span><span class="operator">)(</span><span class="variable">void</span> <span class="operator">*,</span> <span class="variable">size_t</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="keyword">int</span><span class="operator">),</span>
-         <span class="variable">void</span> <span class="operator">(**</span><span class="variable">f</span><span class="operator">)(</span><span class="variable">void</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="keyword">int</span><span class="operator">))</span>
- <span class="keyword">int</span> <span class="variable">CRYPTO_set_mem_functions</span><span class="operator">(</span>
-         <span class="variable">void</span> <span class="operator">*(</span><span class="variable">*m</span><span class="operator">)(</span><span class="variable">size_t</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="keyword">int</span><span class="operator">),</span>
-         <span class="variable">void</span> <span class="operator">*(</span><span class="variable">*r</span><span class="operator">)(</span><span class="variable">void</span> <span class="operator">*,</span> <span class="variable">size_t</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="keyword">int</span><span class="operator">),</span>
-         <span class="variable">void</span> <span class="operator">(</span><span class="variable">*f</span><span class="operator">)(</span><span class="variable">void</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="keyword">int</span><span class="operator">))</span>
- 
- <span class="variable">void</span> <span class="variable">CRYPTO_get_alloc_counts</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">*m</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*r</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*f</span><span class="operator">)</span>
- 
- <span class="keyword">int</span> <span class="variable">CRYPTO_set_mem_debug</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">onoff</span><span class="operator">)</span>
- 
- <span class="variable">env</span> <span class="variable">OPENSSL_MALLOC_FAILURES</span><span class="operator">=...</span> <span class="operator">&lt;</span><span class="variable">application</span><span class="operator">&gt;</span>
- <span class="variable">env</span> <span class="variable">OPENSSL_MALLOC_FD</span><span class="operator">=...</span> <span class="operator">&lt;</span><span class="variable">application</span><span class="operator">&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">CRYPTO_mem_ctrl</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">mode</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OPENSSL_mem_debug_push</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*info</span><span class="operator">)</span>
- <span class="keyword">int</span> <span class="variable">OPENSSL_mem_debug_pop</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">CRYPTO_mem_debug_push</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*info</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">line</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CRYPTO_mem_debug_pop</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">CRYPTO_mem_leaks</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CRYPTO_mem_leaks_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CRYPTO_mem_leaks_cb</span><span class="operator">(</span><span class="keyword">int</span> <span class="operator">(</span><span class="variable">*cb</span><span class="operator">)(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*u</span><span class="operator">),</span>
-                         <span class="variable">void</span> <span class="variable">*u</span><span class="operator">);</span>
-</code></pre>
+ void OPENSSL_clear_free(void *str, size_t num)
+ void OPENSSL_cleanse(void *ptr, size_t len);
+
+ unsigned char *OPENSSL_hexstr2buf(const char *str, long *len);
+ char *OPENSSL_buf2hexstr(const unsigned char *buffer, long len);
+ int OPENSSL_hexchar2int(unsigned char c);
+
+ void *CRYPTO_malloc(size_t num, const char *file, int line)
+ void *CRYPTO_zalloc(size_t num, const char *file, int line)
+ void *CRYPTO_realloc(void *p, size_t num, const char *file, int line)
+ void CRYPTO_free(void *str, const char *, int)
+ char *CRYPTO_strdup(const char *p, const char *file, int line)
+ char *CRYPTO_strndup(const char *p, size_t num, const char *file, int line)
+ void *CRYPTO_clear_realloc(void *p, size_t old_len, size_t num,
+                            const char *file, int line)
+ void CRYPTO_clear_free(void *str, size_t num, const char *, int)
+
+ void CRYPTO_get_mem_functions(
+         void *(**m)(size_t, const char *, int),
+         void *(**r)(void *, size_t, const char *, int),
+         void (**f)(void *, const char *, int))
+ int CRYPTO_set_mem_functions(
+         void *(*m)(size_t, const char *, int),
+         void *(*r)(void *, size_t, const char *, int),
+         void (*f)(void *, const char *, int))
+
+ void CRYPTO_get_alloc_counts(int *m, int *r, int *f)
+
+ int CRYPTO_set_mem_debug(int onoff)
+
+ env OPENSSL_MALLOC_FAILURES=... &lt;application&gt;
+ env OPENSSL_MALLOC_FD=... &lt;application&gt;
+
+ int CRYPTO_mem_ctrl(int mode);
+
+ int OPENSSL_mem_debug_push(const char *info)
+ int OPENSSL_mem_debug_pop(void);
+
+ int CRYPTO_mem_debug_push(const char *info, const char *file, int line);
+ int CRYPTO_mem_debug_pop(void);
+
+ int CRYPTO_mem_leaks(BIO *b);
+ int CRYPTO_mem_leaks_fp(FILE *fp);
+ int CRYPTO_mem_leaks_cb(int (*cb)(const char *str, size_t len, void *u),
+                         void *u);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -123,18 +122,15 @@
 
 <p>The function CRYPTO_get_alloc_counts() fills in the number of times each of CRYPTO_malloc(), CRYPTO_realloc(), and CRYPTO_free() have been called, into the values pointed to by <b>mcount</b>, <b>rcount</b>, and <b>fcount</b>, respectively. If a pointer is NULL, then the corresponding count is not stored.</p>
 
-<p>The variable <b>OPENSSL_MALLOC_FAILURES</b> controls how often allocations should fail. It is a set of fields separated by semicolons, which each field is a count (defaulting to zero) and an optional atsign and percentage (defaulting to 100). If the count is zero, then it lasts forever. For example, <code><span class="number">100</span><span class="operator">;</span><span class="variable">@25</span>
-</code> or <code><span class="number">100</span><span class="variable">@0</span><span class="operator">;</span><span class="number">0</span><span class="variable">@25</span>
-</code> means the first 100 allocations pass, then all other allocations (until the program exits or crashes) have a 25% chance of failing.</p>
+<p>The variable <b>OPENSSL_MALLOC_FAILURES</b> controls how often allocations should fail. It is a set of fields separated by semicolons, which each field is a count (defaulting to zero) and an optional atsign and percentage (defaulting to 100). If the count is zero, then it lasts forever. For example, <code>100;@25</code> or <code>100@0;0@25</code> means the first 100 allocations pass, then all other allocations (until the program exits or crashes) have a 25% chance of failing.</p>
 
 <p>If the variable <b>OPENSSL_MALLOC_FD</b> is parsed as a positive integer, then it is taken as an open file descriptor, and a record of all allocations is written to that descriptor. If an allocation will fail, and the platform supports it, then a backtrace will be written to the descriptor. This can be useful because a malloc may fail but not be checked, and problems will only occur later. The following example in classic shell syntax shows how to use this (will not work on all platforms):</p>
 
-<pre><code>  <span class="variable">OPENSSL_MALLOC_FAILURES</span><span class="operator">=</span><span class="string">'200;@10'</span>
-  <span class="variable">export</span> <span class="variable">OPENSSL_MALLOC_FAILURES</span>
-  <span class="variable">OPENSSL_MALLOC_FD</span><span class="operator">=</span><span class="number">3</span>
-  <span class="variable">export</span> <span class="variable">OPENSSL_MALLOC_FD</span>
-  <span class="operator">...</span><span class="variable">app</span> <span class="variable">invocation</span><span class="operator">...</span> <span class="number">3</span><span class="operator">&gt;</span><span class="regex">/tmp/log</span><span class="variable">$$</span>
-</code></pre>
+<pre><code>  OPENSSL_MALLOC_FAILURES=&#39;200;@10&#39;
+  export OPENSSL_MALLOC_FAILURES
+  OPENSSL_MALLOC_FD=3
+  export OPENSSL_MALLOC_FD
+  ...app invocation... 3&gt;/tmp/log$$</code></pre>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 

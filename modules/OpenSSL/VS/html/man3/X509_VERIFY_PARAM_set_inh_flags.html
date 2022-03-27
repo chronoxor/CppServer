@@ -32,50 +32,49 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509_vfy.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_set_flags</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                 <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_clear_flags</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                   <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">X509_VERIFY_PARAM_get_flags</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_set_inh_flags</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                     <span class="variable">uint32_t</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">uint32_t</span> <span class="variable">X509_VERIFY_PARAM_get_inh_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_set_purpose</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">purpose</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_set_trust</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">trust</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_VERIFY_PARAM_set_time</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span> <span class="variable">time_t</span> <span class="variable">t</span><span class="operator">);</span>
- <span class="variable">time_t</span> <span class="variable">X509_VERIFY_PARAM_get_time</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_add0_policy</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                   <span class="variable">ASN1_OBJECT</span> <span class="variable">*policy</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_set1_policies</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                     <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">ASN1_OBJECT</span><span class="operator">)</span> <span class="variable">*policies</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_VERIFY_PARAM_set_depth</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">depth</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_get_depth</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_VERIFY_PARAM_set_auth_level</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                       <span class="keyword">int</span> <span class="variable">auth_level</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_get_auth_level</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_set1_host</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                 <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">namelen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_add1_host</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                 <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">namelen</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_VERIFY_PARAM_set_hostflags</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                      <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_get_hostflags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*X509_VERIFY_PARAM_get0_peername</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_set1_email</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                                  <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*email</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">emaillen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_set1_ip</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span>
-                               <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*ip</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">iplen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_VERIFY_PARAM_set1_ip_asc</span><span class="operator">(</span><span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*ipasc</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509_vfy.h&gt;
+
+ int X509_VERIFY_PARAM_set_flags(X509_VERIFY_PARAM *param,
+                                 unsigned long flags);
+ int X509_VERIFY_PARAM_clear_flags(X509_VERIFY_PARAM *param,
+                                   unsigned long flags);
+ unsigned long X509_VERIFY_PARAM_get_flags(X509_VERIFY_PARAM *param);
+
+ int X509_VERIFY_PARAM_set_inh_flags(X509_VERIFY_PARAM *param,
+                                     uint32_t flags);
+ uint32_t X509_VERIFY_PARAM_get_inh_flags(const X509_VERIFY_PARAM *param);
+
+ int X509_VERIFY_PARAM_set_purpose(X509_VERIFY_PARAM *param, int purpose);
+ int X509_VERIFY_PARAM_set_trust(X509_VERIFY_PARAM *param, int trust);
+
+ void X509_VERIFY_PARAM_set_time(X509_VERIFY_PARAM *param, time_t t);
+ time_t X509_VERIFY_PARAM_get_time(const X509_VERIFY_PARAM *param);
+
+ int X509_VERIFY_PARAM_add0_policy(X509_VERIFY_PARAM *param,
+                                   ASN1_OBJECT *policy);
+ int X509_VERIFY_PARAM_set1_policies(X509_VERIFY_PARAM *param,
+                                     STACK_OF(ASN1_OBJECT) *policies);
+
+ void X509_VERIFY_PARAM_set_depth(X509_VERIFY_PARAM *param, int depth);
+ int X509_VERIFY_PARAM_get_depth(const X509_VERIFY_PARAM *param);
+
+ void X509_VERIFY_PARAM_set_auth_level(X509_VERIFY_PARAM *param,
+                                       int auth_level);
+ int X509_VERIFY_PARAM_get_auth_level(const X509_VERIFY_PARAM *param);
+
+ int X509_VERIFY_PARAM_set1_host(X509_VERIFY_PARAM *param,
+                                 const char *name, size_t namelen);
+ int X509_VERIFY_PARAM_add1_host(X509_VERIFY_PARAM *param,
+                                 const char *name, size_t namelen);
+ void X509_VERIFY_PARAM_set_hostflags(X509_VERIFY_PARAM *param,
+                                      unsigned int flags);
+ unsigned int X509_VERIFY_PARAM_get_hostflags(const X509_VERIFY_PARAM *param);
+ char *X509_VERIFY_PARAM_get0_peername(X509_VERIFY_PARAM *param);
+ int X509_VERIFY_PARAM_set1_email(X509_VERIFY_PARAM *param,
+                                  const char *email, size_t emaillen);
+ int X509_VERIFY_PARAM_set1_ip(X509_VERIFY_PARAM *param,
+                               const unsigned char *ip, size_t iplen);
+ int X509_VERIFY_PARAM_set1_ip_asc(X509_VERIFY_PARAM *param, const char *ipasc);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -201,13 +200,12 @@
 
 <p>Enable CRL checking when performing certificate verification during SSL connections associated with an <b>SSL_CTX</b> structure <b>ctx</b>:</p>
 
-<pre><code> <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">;</span>
- 
- <span class="variable">param</span> <span class="operator">=</span> <span class="variable">X509_VERIFY_PARAM_new</span><span class="operator">();</span>
- <span class="variable">X509_VERIFY_PARAM_set_flags</span><span class="operator">(</span><span class="variable">param</span><span class="operator">,</span> <span class="variable">X509_V_FLAG_CRL_CHECK</span><span class="operator">);</span>
- <span class="variable">SSL_CTX_set1_param</span><span class="operator">(</span><span class="variable">ctx</span><span class="operator">,</span> <span class="variable">param</span><span class="operator">);</span>
- <span class="variable">X509_VERIFY_PARAM_free</span><span class="operator">(</span><span class="variable">param</span><span class="operator">);</span>
-</code></pre>
+<pre><code> X509_VERIFY_PARAM *param;
+
+ param = X509_VERIFY_PARAM_new();
+ X509_VERIFY_PARAM_set_flags(param, X509_V_FLAG_CRL_CHECK);
+ SSL_CTX_set1_param(ctx, param);
+ X509_VERIFY_PARAM_free(param);</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

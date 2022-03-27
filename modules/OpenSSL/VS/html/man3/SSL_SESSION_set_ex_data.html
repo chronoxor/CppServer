@@ -26,11 +26,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_SESSION_set_ex_data</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*ss</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">*SSL_SESSION_get_ex_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_SESSION_set_ex_data(SSL_SESSION *ss, int idx, void *data);
+ void *SSL_SESSION_get_ex_data(const SSL_SESSION *s, int idx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

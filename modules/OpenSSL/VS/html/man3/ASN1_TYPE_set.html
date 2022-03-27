@@ -26,17 +26,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/asn1.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_TYPE_get</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TYPE</span> <span class="variable">*a</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ASN1_TYPE_set</span><span class="operator">(</span><span class="variable">ASN1_TYPE</span> <span class="variable">*a</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*value</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_TYPE_set1</span><span class="operator">(</span><span class="variable">ASN1_TYPE</span> <span class="variable">*a</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*value</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">ASN1_TYPE_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_TYPE</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_TYPE</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">*ASN1_TYPE_unpack_sequence</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">*it</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_TYPE</span> <span class="variable">*t</span><span class="operator">);</span>
- <span class="variable">ASN1_TYPE</span> <span class="variable">*ASN1_TYPE_pack_sequence</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ASN1_ITEM</span> <span class="variable">*it</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*s</span><span class="operator">,</span>
-                                    <span class="variable">ASN1_TYPE</span> <span class="operator">**</span><span class="variable">t</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/asn1.h&gt;
+
+ int ASN1_TYPE_get(const ASN1_TYPE *a);
+ void ASN1_TYPE_set(ASN1_TYPE *a, int type, void *value);
+ int ASN1_TYPE_set1(ASN1_TYPE *a, int type, const void *value);
+ int ASN1_TYPE_cmp(const ASN1_TYPE *a, const ASN1_TYPE *b);
+
+ void *ASN1_TYPE_unpack_sequence(const ASN1_ITEM *it, const ASN1_TYPE *t);
+ ASN1_TYPE *ASN1_TYPE_pack_sequence(const ASN1_ITEM *it, void *s,
+                                    ASN1_TYPE **t);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

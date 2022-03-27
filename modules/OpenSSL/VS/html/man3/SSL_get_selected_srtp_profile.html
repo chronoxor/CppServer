@@ -26,14 +26,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/srtp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_tlsext_use_srtp</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*profiles</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_tlsext_use_srtp</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*profiles</span><span class="operator">);</span>
- 
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SRTP_PROTECTION_PROFILE</span><span class="operator">)</span> <span class="variable">*SSL_get_srtp_profiles</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
- <span class="variable">SRTP_PROTECTION_PROFILE</span> <span class="variable">*SSL_get_selected_srtp_profile</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/srtp.h&gt;
+
+ int SSL_CTX_set_tlsext_use_srtp(SSL_CTX *ctx, const char *profiles);
+ int SSL_set_tlsext_use_srtp(SSL *ssl, const char *profiles);
+
+ STACK_OF(SRTP_PROTECTION_PROFILE) *SSL_get_srtp_profiles(SSL *ssl);
+ SRTP_PROTECTION_PROFILE *SSL_get_selected_srtp_profile(SSL *s);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

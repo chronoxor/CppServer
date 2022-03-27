@@ -26,24 +26,23 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*EVP_ENCODE_CTX_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EVP_ENCODE_CTX_free</span><span class="operator">(</span><span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_ENCODE_CTX_copy</span><span class="operator">(</span><span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*dctx</span><span class="operator">,</span> <span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*sctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_ENCODE_CTX_num</span><span class="operator">(</span><span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EVP_EncodeInit</span><span class="operator">(</span><span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_EncodeUpdate</span><span class="operator">(</span><span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">,</span>
-                      <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">inl</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EVP_EncodeFinal</span><span class="operator">(</span><span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_EncodeBlock</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*t</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">EVP_DecodeInit</span><span class="operator">(</span><span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_DecodeUpdate</span><span class="operator">(</span><span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">,</span>
-                      <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">inl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_DecodeFinal</span><span class="operator">(</span><span class="variable">EVP_ENCODE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*outl</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_DecodeBlock</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*t</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*f</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">n</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ EVP_ENCODE_CTX *EVP_ENCODE_CTX_new(void);
+ void EVP_ENCODE_CTX_free(EVP_ENCODE_CTX *ctx);
+ int EVP_ENCODE_CTX_copy(EVP_ENCODE_CTX *dctx, EVP_ENCODE_CTX *sctx);
+ int EVP_ENCODE_CTX_num(EVP_ENCODE_CTX *ctx);
+ void EVP_EncodeInit(EVP_ENCODE_CTX *ctx);
+ int EVP_EncodeUpdate(EVP_ENCODE_CTX *ctx, unsigned char *out, int *outl,
+                      const unsigned char *in, int inl);
+ void EVP_EncodeFinal(EVP_ENCODE_CTX *ctx, unsigned char *out, int *outl);
+ int EVP_EncodeBlock(unsigned char *t, const unsigned char *f, int n);
+
+ void EVP_DecodeInit(EVP_ENCODE_CTX *ctx);
+ int EVP_DecodeUpdate(EVP_ENCODE_CTX *ctx, unsigned char *out, int *outl,
+                      const unsigned char *in, int inl);
+ int EVP_DecodeFinal(EVP_ENCODE_CTX *ctx, unsigned char *out, int *outl);
+ int EVP_DecodeBlock(unsigned char *t, const unsigned char *f, int n);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

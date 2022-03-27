@@ -29,80 +29,79 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509_vfy.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*X509_STORE_CTX_get_issuer_fn</span><span class="operator">)(</span><span class="variable">X509</span> <span class="operator">**</span><span class="variable">issuer</span><span class="operator">,</span>
-                                             <span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*X509_STORE_CTX_check_issued_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                               <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*issuer</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*X509_STORE_CTX_check_revocation_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*X509_STORE_CTX_get_crl_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                          <span class="variable">X509_CRL</span> <span class="operator">**</span><span class="variable">crl</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*X509_STORE_CTX_check_crl_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*X509_STORE_CTX_cert_crl_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                           <span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*X509_STORE_CTX_check_policy_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="operator">*(</span><span class="variable">*X509_STORE_CTX_lookup_certs_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                                           <span class="variable">X509_NAME</span> <span class="variable">*nm</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_CRL</span><span class="operator">)</span> <span class="operator">*(</span><span class="variable">*X509_STORE_CTX_lookup_crls_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                                              <span class="variable">X509_NAME</span> <span class="variable">*nm</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*X509_STORE_CTX_cleanup_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_verify_cb</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                               <span class="variable">X509_STORE_CTX_verify_cb</span> <span class="variable">verify_cb</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_verify_cb</span> <span class="variable">X509_STORE_get_verify_cb</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_verify</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_STORE_CTX_verify_fn</span> <span class="variable">verify</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_verify_fn</span> <span class="variable">X509_STORE_CTX_get_verify</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_get_issuer</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                <span class="variable">X509_STORE_CTX_get_issuer_fn</span> <span class="variable">get_issuer</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_get_issuer_fn</span> <span class="variable">X509_STORE_get_get_issuer</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_check_issued</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                  <span class="variable">X509_STORE_CTX_check_issued_fn</span> <span class="variable">check_issued</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_check_issued_fn</span> <span class="variable">X509_STORE_get_check_issued</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_check_revocation</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                      <span class="variable">X509_STORE_CTX_check_revocation_fn</span> <span class="variable">check_revocation</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_check_revocation_fn</span> <span class="variable">X509_STORE_get_check_revocation</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_get_crl</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                             <span class="variable">X509_STORE_CTX_get_crl_fn</span> <span class="variable">get_crl</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_get_crl_fn</span> <span class="variable">X509_STORE_get_get_crl</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_check_crl</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                               <span class="variable">X509_STORE_CTX_check_crl_fn</span> <span class="variable">check_crl</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_check_crl_fn</span> <span class="variable">X509_STORE_get_check_crl</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_cert_crl</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                              <span class="variable">X509_STORE_CTX_cert_crl_fn</span> <span class="variable">cert_crl</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_cert_crl_fn</span> <span class="variable">X509_STORE_get_cert_crl</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_check_policy</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                  <span class="variable">X509_STORE_CTX_check_policy_fn</span> <span class="variable">check_policy</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_check_policy_fn</span> <span class="variable">X509_STORE_get_check_policy</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_lookup_certs</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                  <span class="variable">X509_STORE_CTX_lookup_certs_fn</span> <span class="variable">lookup_certs</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_lookup_certs_fn</span> <span class="variable">X509_STORE_get_lookup_certs</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_lookup_crls</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                 <span class="variable">X509_STORE_CTX_lookup_crls_fn</span> <span class="variable">lookup_crls</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_lookup_crls_fn</span> <span class="variable">X509_STORE_get_lookup_crls</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_set_cleanup</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                             <span class="variable">X509_STORE_CTX_cleanup_fn</span> <span class="variable">cleanup</span><span class="operator">);</span>
- <span class="variable">X509_STORE_CTX_cleanup_fn</span> <span class="variable">X509_STORE_get_cleanup</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="regex">/* Aliases */</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_set_verify_cb_func</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*st</span><span class="operator">,</span>
-                                    <span class="variable">X509_STORE_CTX_verify_cb</span> <span class="variable">verify_cb</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_set_verify_func</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                 <span class="variable">X509_STORE_CTX_verify_fn</span> <span class="variable">verify</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_set_lookup_crls_cb</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                    <span class="variable">X509_STORE_CTX_lookup_crls_fn</span> <span class="variable">lookup_crls</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509_vfy.h&gt;
+
+ typedef int (*X509_STORE_CTX_get_issuer_fn)(X509 **issuer,
+                                             X509_STORE_CTX *ctx, X509 *x);
+ typedef int (*X509_STORE_CTX_check_issued_fn)(X509_STORE_CTX *ctx,
+                                               X509 *x, X509 *issuer);
+ typedef int (*X509_STORE_CTX_check_revocation_fn)(X509_STORE_CTX *ctx);
+ typedef int (*X509_STORE_CTX_get_crl_fn)(X509_STORE_CTX *ctx,
+                                          X509_CRL **crl, X509 *x);
+ typedef int (*X509_STORE_CTX_check_crl_fn)(X509_STORE_CTX *ctx, X509_CRL *crl);
+ typedef int (*X509_STORE_CTX_cert_crl_fn)(X509_STORE_CTX *ctx,
+                                           X509_CRL *crl, X509 *x);
+ typedef int (*X509_STORE_CTX_check_policy_fn)(X509_STORE_CTX *ctx);
+ typedef STACK_OF(X509) *(*X509_STORE_CTX_lookup_certs_fn)(X509_STORE_CTX *ctx,
+                                                           X509_NAME *nm);
+ typedef STACK_OF(X509_CRL) *(*X509_STORE_CTX_lookup_crls_fn)(X509_STORE_CTX *ctx,
+                                                              X509_NAME *nm);
+ typedef int (*X509_STORE_CTX_cleanup_fn)(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_verify_cb(X509_STORE *ctx,
+                               X509_STORE_CTX_verify_cb verify_cb);
+ X509_STORE_CTX_verify_cb X509_STORE_get_verify_cb(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_verify(X509_STORE *ctx, X509_STORE_CTX_verify_fn verify);
+ X509_STORE_CTX_verify_fn X509_STORE_CTX_get_verify(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_get_issuer(X509_STORE *ctx,
+                                X509_STORE_CTX_get_issuer_fn get_issuer);
+ X509_STORE_CTX_get_issuer_fn X509_STORE_get_get_issuer(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_check_issued(X509_STORE *ctx,
+                                  X509_STORE_CTX_check_issued_fn check_issued);
+ X509_STORE_CTX_check_issued_fn X509_STORE_get_check_issued(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_check_revocation(X509_STORE *ctx,
+                                      X509_STORE_CTX_check_revocation_fn check_revocation);
+ X509_STORE_CTX_check_revocation_fn X509_STORE_get_check_revocation(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_get_crl(X509_STORE *ctx,
+                             X509_STORE_CTX_get_crl_fn get_crl);
+ X509_STORE_CTX_get_crl_fn X509_STORE_get_get_crl(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_check_crl(X509_STORE *ctx,
+                               X509_STORE_CTX_check_crl_fn check_crl);
+ X509_STORE_CTX_check_crl_fn X509_STORE_get_check_crl(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_cert_crl(X509_STORE *ctx,
+                              X509_STORE_CTX_cert_crl_fn cert_crl);
+ X509_STORE_CTX_cert_crl_fn X509_STORE_get_cert_crl(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_check_policy(X509_STORE *ctx,
+                                  X509_STORE_CTX_check_policy_fn check_policy);
+ X509_STORE_CTX_check_policy_fn X509_STORE_get_check_policy(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_lookup_certs(X509_STORE *ctx,
+                                  X509_STORE_CTX_lookup_certs_fn lookup_certs);
+ X509_STORE_CTX_lookup_certs_fn X509_STORE_get_lookup_certs(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_lookup_crls(X509_STORE *ctx,
+                                 X509_STORE_CTX_lookup_crls_fn lookup_crls);
+ X509_STORE_CTX_lookup_crls_fn X509_STORE_get_lookup_crls(X509_STORE_CTX *ctx);
+
+ void X509_STORE_set_cleanup(X509_STORE *ctx,
+                             X509_STORE_CTX_cleanup_fn cleanup);
+ X509_STORE_CTX_cleanup_fn X509_STORE_get_cleanup(X509_STORE_CTX *ctx);
+
+ /* Aliases */
+ void X509_STORE_set_verify_cb_func(X509_STORE *st,
+                                    X509_STORE_CTX_verify_cb verify_cb);
+ void X509_STORE_set_verify_func(X509_STORE *ctx,
+                                 X509_STORE_CTX_verify_fn verify);
+ void X509_STORE_set_lookup_crls_cb(X509_STORE *ctx,
+                                    X509_STORE_CTX_lookup_crls_fn lookup_crls);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

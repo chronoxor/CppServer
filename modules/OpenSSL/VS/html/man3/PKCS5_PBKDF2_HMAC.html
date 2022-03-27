@@ -27,17 +27,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">PKCS5_PBKDF2_HMAC</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*pass</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">passlen</span><span class="operator">,</span>
-                       <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*salt</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">saltlen</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">iter</span><span class="operator">,</span>
-                       <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*digest</span><span class="operator">,</span>
-                       <span class="keyword">int</span> <span class="variable">keylen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">PKCS5_PBKDF2_HMAC_SHA1</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*pass</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">passlen</span><span class="operator">,</span>
-                            <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*salt</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">saltlen</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">iter</span><span class="operator">,</span>
-                            <span class="keyword">int</span> <span class="variable">keylen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int PKCS5_PBKDF2_HMAC(const char *pass, int passlen,
+                       const unsigned char *salt, int saltlen, int iter,
+                       const EVP_MD *digest,
+                       int keylen, unsigned char *out);
+
+ int PKCS5_PBKDF2_HMAC_SHA1(const char *pass, int passlen,
+                            const unsigned char *salt, int saltlen, int iter,
+                            int keylen, unsigned char *out);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

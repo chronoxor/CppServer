@@ -26,14 +26,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="variable">X509</span> <span class="variable">*d2i_X509_AUX</span><span class="operator">(</span><span class="variable">X509</span> <span class="operator">**</span><span class="variable">px</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">in</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_X509_AUX</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_re_X509_tbs</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_re_X509_CRL_tbs</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_re_X509_REQ_tbs</span><span class="operator">(</span><span class="variable">X509_REQ</span> <span class="variable">*req</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ X509 *d2i_X509_AUX(X509 **px, const unsigned char **in, long len);
+ int i2d_X509_AUX(X509 *x, unsigned char **out);
+ int i2d_re_X509_tbs(X509 *x, unsigned char **out);
+ int i2d_re_X509_CRL_tbs(X509_CRL *crl, unsigned char **pp);
+ int i2d_re_X509_REQ_tbs(X509_REQ *req, unsigned char **pp);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

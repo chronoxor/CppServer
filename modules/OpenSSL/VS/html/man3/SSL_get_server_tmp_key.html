@@ -27,12 +27,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_get_peer_tmp_key</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">key</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_get_server_tmp_key</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">key</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_get_tmp_key</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">key</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_get_peer_tmp_key(SSL *ssl, EVP_PKEY **key);
+ long SSL_get_server_tmp_key(SSL *ssl, EVP_PKEY **key);
+ long SSL_get_tmp_key(SSL *ssl, EVP_PKEY **key);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

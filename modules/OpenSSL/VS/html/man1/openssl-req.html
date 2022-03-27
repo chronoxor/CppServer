@@ -473,9 +473,8 @@
 
 <p>Example of a section pointed to by <b>oid_section</b> making use of variable expansion:</p>
 
-<pre><code> <span class="variable">testoid1</span><span class="operator">=</span><span class="number">1.2</span><span class="operator">.</span><span class="number">3.5</span>
- <span class="variable">testoid2</span><span class="operator">=</span><span class="variable">$</span><span class="operator">{</span><span class="string">testoid1</span><span class="operator">}</span><span class="number">.6</span>
-</code></pre>
+<pre><code> testoid1=1.2.3.5
+ testoid2=${testoid1}.6</code></pre>
 
 <p>Sample configuration file prompting for field values:</p>
 

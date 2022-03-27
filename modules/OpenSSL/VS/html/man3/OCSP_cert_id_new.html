@@ -27,25 +27,24 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ocsp.h&gt;</span>
- 
- <span class="variable">OCSP_CERTID</span> <span class="variable">*OCSP_cert_to_id</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*dgst</span><span class="operator">,</span>
-                              <span class="variable">X509</span> <span class="variable">*subject</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*issuer</span><span class="operator">);</span>
- 
- <span class="variable">OCSP_CERTID</span> <span class="variable">*OCSP_cert_id_new</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*dgst</span><span class="operator">,</span>
-                               <span class="variable">X509_NAME</span> <span class="variable">*issuerName</span><span class="operator">,</span>
-                               <span class="variable">ASN1_BIT_STRING</span> <span class="variable">*issuerKey</span><span class="operator">,</span>
-                               <span class="variable">ASN1_INTEGER</span> <span class="variable">*serialNumber</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">OCSP_CERTID_free</span><span class="operator">(</span><span class="variable">OCSP_CERTID</span> <span class="variable">*id</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_id_issuer_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_CERTID</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">OCSP_CERTID</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">OCSP_id_cmp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">OCSP_CERTID</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">OCSP_CERTID</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">OCSP_id_get0_info</span><span class="operator">(</span><span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">piNameHash</span><span class="operator">,</span> <span class="variable">ASN1_OBJECT</span> <span class="operator">**</span><span class="variable">pmd</span><span class="operator">,</span>
-                       <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">pikeyHash</span><span class="operator">,</span>
-                       <span class="variable">ASN1_INTEGER</span> <span class="operator">**</span><span class="variable">pserial</span><span class="operator">,</span> <span class="variable">OCSP_CERTID</span> <span class="variable">*cid</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ocsp.h&gt;
+
+ OCSP_CERTID *OCSP_cert_to_id(const EVP_MD *dgst,
+                              X509 *subject, X509 *issuer);
+
+ OCSP_CERTID *OCSP_cert_id_new(const EVP_MD *dgst,
+                               X509_NAME *issuerName,
+                               ASN1_BIT_STRING *issuerKey,
+                               ASN1_INTEGER *serialNumber);
+
+ void OCSP_CERTID_free(OCSP_CERTID *id);
+
+ int OCSP_id_issuer_cmp(const OCSP_CERTID *a, const OCSP_CERTID *b);
+ int OCSP_id_cmp(const OCSP_CERTID *a, const OCSP_CERTID *b);
+
+ int OCSP_id_get0_info(ASN1_OCTET_STRING **piNameHash, ASN1_OBJECT **pmd,
+                       ASN1_OCTET_STRING **pikeyHash,
+                       ASN1_INTEGER **pserial, OCSP_CERTID *cid);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

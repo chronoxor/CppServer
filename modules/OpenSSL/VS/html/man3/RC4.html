@@ -27,13 +27,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rc4.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">RC4_set_key</span><span class="operator">(</span><span class="variable">RC4_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">RC4</span><span class="operator">(</span><span class="variable">RC4_KEY</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*indata</span><span class="operator">,</span>
-          <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*outdata</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rc4.h&gt;
+
+ void RC4_set_key(RC4_KEY *key, int len, const unsigned char *data);
+
+ void RC4(RC4_KEY *key, unsigned long len, const unsigned char *indata,
+          unsigned char *outdata);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

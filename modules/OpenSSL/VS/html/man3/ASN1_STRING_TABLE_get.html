@@ -31,15 +31,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/asn1.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">asn1_string_table_st</span> <span class="variable">ASN1_STRING_TABLE</span><span class="operator">;</span>
- 
- <span class="keyword">int</span> <span class="variable">ASN1_STRING_TABLE_add</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">minsize</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">maxsize</span><span class="operator">,</span>
-                           <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">mask</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">ASN1_STRING_TABLE</span> <span class="operator">*</span> <span class="variable">ASN1_STRING_TABLE_get</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ASN1_STRING_TABLE_cleanup</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/asn1.h&gt;
+
+ typedef struct asn1_string_table_st ASN1_STRING_TABLE;
+
+ int ASN1_STRING_TABLE_add(int nid, long minsize, long maxsize,
+                           unsigned long mask, unsigned long flags);
+ ASN1_STRING_TABLE * ASN1_STRING_TABLE_get(int nid);
+ void ASN1_STRING_TABLE_cleanup(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

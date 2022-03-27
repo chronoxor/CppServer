@@ -28,16 +28,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_mode</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">mode</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_clear_mode</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">mode</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set_mode</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">mode</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_clear_mode</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">mode</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_get_mode</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_get_mode</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_CTX_set_mode(SSL_CTX *ctx, long mode);
+ long SSL_CTX_clear_mode(SSL_CTX *ctx, long mode);
+ long SSL_set_mode(SSL *ssl, long mode);
+ long SSL_clear_mode(SSL *ssl, long mode);
+
+ long SSL_CTX_get_mode(SSL_CTX *ctx);
+ long SSL_get_mode(SSL *ssl);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

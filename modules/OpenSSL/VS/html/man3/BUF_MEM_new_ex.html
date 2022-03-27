@@ -27,19 +27,18 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/buffer.h&gt;</span>
- 
- <span class="variable">BUF_MEM</span> <span class="variable">*BUF_MEM_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">BUF_MEM</span> <span class="variable">*BUF_MEM_new_ex</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">BUF_MEM_free</span><span class="operator">(</span><span class="variable">BUF_MEM</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BUF_MEM_grow</span><span class="operator">(</span><span class="variable">BUF_MEM</span> <span class="variable">*str</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="variable">size_t</span> <span class="variable">BUF_MEM_grow_clean</span><span class="operator">(</span><span class="variable">BUF_MEM</span> <span class="variable">*str</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">BUF_reverse</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">size</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/buffer.h&gt;
+
+ BUF_MEM *BUF_MEM_new(void);
+
+ BUF_MEM *BUF_MEM_new_ex(unsigned long flags);
+
+ void BUF_MEM_free(BUF_MEM *a);
+
+ int BUF_MEM_grow(BUF_MEM *str, int len);
+ size_t BUF_MEM_grow_clean(BUF_MEM *str, size_t len);
+
+ void BUF_reverse(unsigned char *out, const unsigned char *in, size_t size);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

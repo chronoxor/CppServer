@@ -27,24 +27,22 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rand.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_status</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RAND_poll</span><span class="operator">();</span>
- 
- <span class="variable">void</span> <span class="variable">RAND_add</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">,</span> <span class="variable">double</span> <span class="variable">randomness</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">RAND_seed</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">void</span> <span class="variable">*buf</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">num</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">RAND_keep_random_devices_open</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">keep</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rand.h&gt;
+
+ int RAND_status(void);
+ int RAND_poll();
+
+ void RAND_add(const void *buf, int num, double randomness);
+ void RAND_seed(const void *buf, int num);
+
+ void RAND_keep_random_devices_open(int keep);</code></pre>
 
 <p>Deprecated:</p>
 
-<pre><code> <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x10100000L</span>
- <span class="keyword">int</span> <span class="variable">RAND_event</span><span class="operator">(</span><span class="variable">UINT</span> <span class="variable">iMsg</span><span class="operator">,</span> <span class="variable">WPARAM</span> <span class="variable">wParam</span><span class="operator">,</span> <span class="variable">LPARAM</span> <span class="variable">lParam</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">RAND_screen</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
-</code></pre>
+<pre><code> #if OPENSSL_API_COMPAT &lt; 0x10100000L
+ int RAND_event(UINT iMsg, WPARAM wParam, LPARAM lParam);
+ void RAND_screen(void);
+ #endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

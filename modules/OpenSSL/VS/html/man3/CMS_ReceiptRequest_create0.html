@@ -27,19 +27,18 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/cms.h&gt;</span>
- 
- <span class="variable">CMS_ReceiptRequest</span> <span class="variable">*CMS_ReceiptRequest_create0</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*id</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idlen</span><span class="operator">,</span>
-                                                <span class="keyword">int</span> <span class="variable">allorfirst</span><span class="operator">,</span>
-                                                <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">GENERAL_NAMES</span><span class="operator">)</span> <span class="variable">*receiptList</span><span class="operator">,</span>
-                                                <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">GENERAL_NAMES</span><span class="operator">)</span> <span class="variable">*receiptsTo</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CMS_add1_ReceiptRequest</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">,</span> <span class="variable">CMS_ReceiptRequest</span> <span class="variable">*rr</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CMS_get1_ReceiptRequest</span><span class="operator">(</span><span class="variable">CMS_SignerInfo</span> <span class="variable">*si</span><span class="operator">,</span> <span class="variable">CMS_ReceiptRequest</span> <span class="operator">**</span><span class="variable">prr</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">CMS_ReceiptRequest_get0_values</span><span class="operator">(</span><span class="variable">CMS_ReceiptRequest</span> <span class="variable">*rr</span><span class="operator">,</span> <span class="variable">ASN1_STRING</span> <span class="operator">**</span><span class="variable">pcid</span><span class="operator">,</span>
-                                     <span class="keyword">int</span> <span class="variable">*pallorfirst</span><span class="operator">,</span>
-                                     <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">GENERAL_NAMES</span><span class="operator">)</span> <span class="operator">**</span><span class="variable">plist</span><span class="operator">,</span>
-                                     <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">GENERAL_NAMES</span><span class="operator">)</span> <span class="operator">**</span><span class="variable">prto</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/cms.h&gt;
+
+ CMS_ReceiptRequest *CMS_ReceiptRequest_create0(unsigned char *id, int idlen,
+                                                int allorfirst,
+                                                STACK_OF(GENERAL_NAMES) *receiptList,
+                                                STACK_OF(GENERAL_NAMES) *receiptsTo);
+ int CMS_add1_ReceiptRequest(CMS_SignerInfo *si, CMS_ReceiptRequest *rr);
+ int CMS_get1_ReceiptRequest(CMS_SignerInfo *si, CMS_ReceiptRequest **prr);
+ void CMS_ReceiptRequest_get0_values(CMS_ReceiptRequest *rr, ASN1_STRING **pcid,
+                                     int *pallorfirst,
+                                     STACK_OF(GENERAL_NAMES) **plist,
+                                     STACK_OF(GENERAL_NAMES) **prto);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

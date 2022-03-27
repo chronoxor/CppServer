@@ -26,12 +26,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">SSL_SESSION</span> <span class="variable">*d2i_SSL_SESSION</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span>
-                              <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_SSL_SESSION</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*in</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ SSL_SESSION *d2i_SSL_SESSION(SSL_SESSION **a, const unsigned char **pp,
+                              long length);
+ int i2d_SSL_SESSION(SSL_SESSION *in, unsigned char **pp);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

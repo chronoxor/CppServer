@@ -26,34 +26,33 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="variable">BN_BLINDING</span> <span class="variable">*BN_BLINDING_new</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*A</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*Ai</span><span class="operator">,</span>
-                              <span class="variable">BIGNUM</span> <span class="variable">*mod</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">BN_BLINDING_free</span><span class="operator">(</span><span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_BLINDING_update</span><span class="operator">(</span><span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_BLINDING_convert</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*n</span><span class="operator">,</span> <span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_BLINDING_invert</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*n</span><span class="operator">,</span> <span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_BLINDING_convert_ex</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*n</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">,</span>
-                            <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_BLINDING_invert_ex</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*n</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">,</span>
-                           <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_BLINDING_is_current_thread</span><span class="operator">(</span><span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">BN_BLINDING_set_current_thread</span><span class="operator">(</span><span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_BLINDING_lock</span><span class="operator">(</span><span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BN_BLINDING_unlock</span><span class="operator">(</span><span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">BN_BLINDING_get_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BN_BLINDING</span> <span class="operator">*);</span>
- <span class="variable">void</span> <span class="variable">BN_BLINDING_set_flags</span><span class="operator">(</span><span class="variable">BN_BLINDING</span> <span class="operator">*,</span> <span class="variable">unsigned</span> <span class="variable">long</span><span class="operator">);</span>
- <span class="variable">BN_BLINDING</span> <span class="variable">*BN_BLINDING_create_param</span><span class="operator">(</span><span class="variable">BN_BLINDING</span> <span class="variable">*b</span><span class="operator">,</span>
-                                       <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                       <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*bn_mod_exp</span><span class="operator">)(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span>
-                                                         <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span>
-                                                         <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span>
-                                                         <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span>
-                                                         <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                                         <span class="variable">BN_MONT_CTX</span> <span class="variable">*m_ctx</span><span class="operator">),</span>
-                                       <span class="variable">BN_MONT_CTX</span> <span class="variable">*m_ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ BN_BLINDING *BN_BLINDING_new(const BIGNUM *A, const BIGNUM *Ai,
+                              BIGNUM *mod);
+ void BN_BLINDING_free(BN_BLINDING *b);
+ int BN_BLINDING_update(BN_BLINDING *b, BN_CTX *ctx);
+ int BN_BLINDING_convert(BIGNUM *n, BN_BLINDING *b, BN_CTX *ctx);
+ int BN_BLINDING_invert(BIGNUM *n, BN_BLINDING *b, BN_CTX *ctx);
+ int BN_BLINDING_convert_ex(BIGNUM *n, BIGNUM *r, BN_BLINDING *b,
+                            BN_CTX *ctx);
+ int BN_BLINDING_invert_ex(BIGNUM *n, const BIGNUM *r, BN_BLINDING *b,
+                           BN_CTX *ctx);
+ int BN_BLINDING_is_current_thread(BN_BLINDING *b);
+ void BN_BLINDING_set_current_thread(BN_BLINDING *b);
+ int BN_BLINDING_lock(BN_BLINDING *b);
+ int BN_BLINDING_unlock(BN_BLINDING *b);
+ unsigned long BN_BLINDING_get_flags(const BN_BLINDING *);
+ void BN_BLINDING_set_flags(BN_BLINDING *, unsigned long);
+ BN_BLINDING *BN_BLINDING_create_param(BN_BLINDING *b,
+                                       const BIGNUM *e, BIGNUM *m, BN_CTX *ctx,
+                                       int (*bn_mod_exp)(BIGNUM *r,
+                                                         const BIGNUM *a,
+                                                         const BIGNUM *p,
+                                                         const BIGNUM *m,
+                                                         BN_CTX *ctx,
+                                                         BN_MONT_CTX *m_ctx),
+                                       BN_MONT_CTX *m_ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -27,23 +27,22 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;sys/types.h&gt;</span>
- <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">union</span> <span class="variable">bio_addr_st</span> <span class="variable">BIO_ADDR</span><span class="operator">;</span>
- 
- <span class="variable">BIO_ADDR</span> <span class="variable">*BIO_ADDR_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">BIO_ADDR_free</span><span class="operator">(</span><span class="variable">BIO_ADDR</span> <span class="operator">*);</span>
- <span class="variable">void</span> <span class="variable">BIO_ADDR_clear</span><span class="operator">(</span><span class="variable">BIO_ADDR</span> <span class="variable">*ap</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_ADDR_rawmake</span><span class="operator">(</span><span class="variable">BIO_ADDR</span> <span class="variable">*ap</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">family</span><span class="operator">,</span>
-                      <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*where</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">wherelen</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">short</span> <span class="variable">port</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_ADDR_family</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*ap</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">BIO_ADDR_rawaddress</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*ap</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*l</span><span class="operator">);</span>
- <span class="variable">unsigned</span> <span class="variable">short</span> <span class="variable">BIO_ADDR_rawport</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*ap</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*BIO_ADDR_hostname_string</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*ap</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">numeric</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*BIO_ADDR_service_string</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*ap</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">numeric</span><span class="operator">);</span>
- <span class="variable">char</span> <span class="variable">*BIO_ADDR_path_string</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIO_ADDR</span> <span class="variable">*ap</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;sys/types.h&gt;
+ #include &lt;openssl/bio.h&gt;
+
+ typedef union bio_addr_st BIO_ADDR;
+
+ BIO_ADDR *BIO_ADDR_new(void);
+ void BIO_ADDR_free(BIO_ADDR *);
+ void BIO_ADDR_clear(BIO_ADDR *ap);
+ int BIO_ADDR_rawmake(BIO_ADDR *ap, int family,
+                      const void *where, size_t wherelen, unsigned short port);
+ int BIO_ADDR_family(const BIO_ADDR *ap);
+ int BIO_ADDR_rawaddress(const BIO_ADDR *ap, void *p, size_t *l);
+ unsigned short BIO_ADDR_rawport(const BIO_ADDR *ap);
+ char *BIO_ADDR_hostname_string(const BIO_ADDR *ap, int numeric);
+ char *BIO_ADDR_service_string(const BIO_ADDR *ap, int numeric);
+ char *BIO_ADDR_path_string(const BIO_ADDR *ap);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

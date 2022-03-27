@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_alert_type_string</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">value</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_alert_type_string_long</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">value</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_alert_desc_string</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">value</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SSL_alert_desc_string_long</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">value</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ const char *SSL_alert_type_string(int value);
+ const char *SSL_alert_type_string_long(int value);
+
+ const char *SSL_alert_desc_string(int value);
+ const char *SSL_alert_desc_string_long(int value);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

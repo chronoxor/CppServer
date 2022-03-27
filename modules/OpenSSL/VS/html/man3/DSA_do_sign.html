@@ -26,13 +26,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dsa.h&gt;</span>
- 
- <span class="variable">DSA_SIG</span> <span class="variable">*DSA_do_sign</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*dgst</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">dlen</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">DSA_do_verify</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*dgst</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">dgst_len</span><span class="operator">,</span>
-                   <span class="variable">DSA_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">DSA</span> <span class="variable">*dsa</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dsa.h&gt;
+
+ DSA_SIG *DSA_do_sign(const unsigned char *dgst, int dlen, DSA *dsa);
+
+ int DSA_do_verify(const unsigned char *dgst, int dgst_len,
+                   DSA_SIG *sig, DSA *dsa);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

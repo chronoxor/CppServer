@@ -27,11 +27,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">X509_get0_uids</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">ASN1_BIT_STRING</span> <span class="operator">**</span><span class="variable">piuid</span><span class="operator">,</span>
-                     <span class="variable">const</span> <span class="variable">ASN1_BIT_STRING</span> <span class="operator">**</span><span class="variable">psuid</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ void X509_get0_uids(const X509 *x, const ASN1_BIT_STRING **piuid,
+                     const ASN1_BIT_STRING **psuid);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

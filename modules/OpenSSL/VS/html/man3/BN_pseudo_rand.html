@@ -28,24 +28,23 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_rand</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*rnd</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">top</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bottom</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_priv_rand</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*rnd</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">top</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bottom</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_pseudo_rand</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*rnd</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">top</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bottom</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_rand_range</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*rnd</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*range</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_priv_rand_range</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*rnd</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*range</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_pseudo_rand_range</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*rnd</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*range</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ int BN_rand(BIGNUM *rnd, int bits, int top, int bottom);
+
+ int BN_priv_rand(BIGNUM *rnd, int bits, int top, int bottom);
+
+ int BN_pseudo_rand(BIGNUM *rnd, int bits, int top, int bottom);
+
+ int BN_rand_range(BIGNUM *rnd, BIGNUM *range);
+
+ int BN_priv_rand_range(BIGNUM *rnd, BIGNUM *range);
+
+ int BN_pseudo_rand_range(BIGNUM *rnd, BIGNUM *range);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>BN_rand() generates a cryptographically strong pseudo-random number of <b>bits</b> in length and stores it in <b>rnd</b>. If <b>bits</b> is less than zero, or too small to accommodate the requirements specified by the <b>top</b> and <b>bottom</b> parameters, an error is returned. The <b>top</b> parameters specifies requirements on the most significant bit of the generated number. If it is <b>BN_RAND_TOP_ANY</b>, there is no constraint. If it is <b>BN_RAND_TOP_ONE</b>, the top bit must be one. If it is <b>BN_RAND_TOP_TWO</b>, the two most significant bits of the number will be set to 1, so that the product of two such random numbers will always have 2*<b>bits</b> length. If <b>bottom</b> is <b>BN_RAND_BOTTOM_ODD</b>, the number will be odd; if it is <b>BN_RAND_BOTTOM_ANY</b> it can be odd or even. If <b>bits</b> is 1 then <b>top</b> cannot also be <b>BN_RAND_FLG_TOPTWO</b>.</p>
+<p>BN_rand() generates a cryptographically strong pseudo-random number of <b>bits</b> in length and stores it in <b>rnd</b>. If <b>bits</b> is less than zero, or too small to accommodate the requirements specified by the <b>top</b> and <b>bottom</b> parameters, an error is returned. The <b>top</b> parameters specifies requirements on the most significant bit of the generated number. If it is <b>BN_RAND_TOP_ANY</b>, there is no constraint. If it is <b>BN_RAND_TOP_ONE</b>, the top bit must be one. If it is <b>BN_RAND_TOP_TWO</b>, the two most significant bits of the number will be set to 1, so that the product of two such random numbers will always have 2*<b>bits</b> length. If <b>bottom</b> is <b>BN_RAND_BOTTOM_ODD</b>, the number will be odd; if it is <b>BN_RAND_BOTTOM_ANY</b> it can be odd or even. If <b>bits</b> is 1 then <b>top</b> cannot also be <b>BN_RAND_TOP_TWO</b>.</p>
 
 <p>BN_rand_range() generates a cryptographically strong pseudo-random number <b>rnd</b> in the range 0 &lt;= <b>rnd</b> &lt; <b>range</b>.</p>
 
@@ -77,7 +76,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
- 
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="variable">*o2i_SCT_LIST</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span>
-                             <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2o_SCT_LIST</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
- <span class="variable">SCT</span> <span class="variable">*o2i_SCT</span><span class="operator">(</span><span class="variable">SCT</span> <span class="operator">**</span><span class="variable">psct</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">in</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2o_SCT</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">out</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ct.h&gt;
+
+ STACK_OF(SCT) *o2i_SCT_LIST(STACK_OF(SCT) **a, const unsigned char **pp,
+                             size_t len);
+ int i2o_SCT_LIST(const STACK_OF(SCT) *a, unsigned char **pp);
+ SCT *o2i_SCT(SCT **psct, const unsigned char **in, size_t len);
+ int i2o_SCT(const SCT *sct, unsigned char **out);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

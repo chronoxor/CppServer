@@ -25,12 +25,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/err.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">ERR_set_mark</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ERR_pop_to_mark</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/err.h&gt;
+
+ int ERR_set_mark(void);
+
+ int ERR_pop_to_mark(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

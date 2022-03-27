@@ -25,38 +25,42 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>X509_STORE_CTX_new, X509_STORE_CTX_cleanup, X509_STORE_CTX_free, X509_STORE_CTX_init, X509_STORE_CTX_set0_trusted_stack, X509_STORE_CTX_set_cert, X509_STORE_CTX_set0_crls, X509_STORE_CTX_get0_chain, X509_STORE_CTX_set0_verified_chain, X509_STORE_CTX_get0_param, X509_STORE_CTX_set0_param, X509_STORE_CTX_get0_untrusted, X509_STORE_CTX_set0_untrusted, X509_STORE_CTX_get_num_untrusted, X509_STORE_CTX_set_default, X509_STORE_CTX_set_verify, X509_STORE_CTX_verify_fn - X509_STORE_CTX initialisation</p>
+<p>X509_STORE_CTX_new, X509_STORE_CTX_cleanup, X509_STORE_CTX_free, X509_STORE_CTX_init, X509_STORE_CTX_set0_trusted_stack, X509_STORE_CTX_set_cert, X509_STORE_CTX_set0_crls, X509_STORE_CTX_get0_chain, X509_STORE_CTX_set0_verified_chain, X509_STORE_CTX_get0_param, X509_STORE_CTX_set0_param, X509_STORE_CTX_get0_untrusted, X509_STORE_CTX_set0_untrusted, X509_STORE_CTX_get_num_untrusted, X509_STORE_CTX_set_default, X509_STORE_CTX_set_verify, X509_STORE_CTX_verify_fn, X509_STORE_CTX_set_purpose, X509_STORE_CTX_set_trust, X509_STORE_CTX_purpose_inherit - X509_STORE_CTX initialisation</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509_vfy.h&gt;</span>
- 
- <span class="variable">X509_STORE_CTX</span> <span class="variable">*X509_STORE_CTX_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_CTX_cleanup</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_CTX_free</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_STORE_CTX_init</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_STORE</span> <span class="variable">*store</span><span class="operator">,</span>
-                         <span class="variable">X509</span> <span class="variable">*x509</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*chain</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_CTX_set0_trusted_stack</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">X509_STORE_CTX_set_cert</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*X509_STORE_CTX_get0_chain</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_CTX_set0_verified_chain</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*chain</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_CTX_set0_crls</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_CRL</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- 
- <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*X509_STORE_CTX_get0_param</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_CTX_set0_param</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_VERIFY_PARAM</span> <span class="variable">*param</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_CTX_set_default</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- 
- <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)*</span> <span class="variable">X509_STORE_CTX_get0_untrusted</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_CTX_set0_untrusted</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509</span><span class="operator">)</span> <span class="variable">*sk</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_STORE_CTX_get_num_untrusted</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*X509_STORE_CTX_verify_fn</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="operator">*);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_CTX_set_verify</span><span class="operator">(</span><span class="variable">X509_STORE_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">X509_STORE_CTX_verify_fn</span> <span class="variable">verify</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509_vfy.h&gt;
+
+ X509_STORE_CTX *X509_STORE_CTX_new(void);
+ void X509_STORE_CTX_cleanup(X509_STORE_CTX *ctx);
+ void X509_STORE_CTX_free(X509_STORE_CTX *ctx);
+
+ int X509_STORE_CTX_init(X509_STORE_CTX *ctx, X509_STORE *store,
+                         X509 *x509, STACK_OF(X509) *chain);
+
+ void X509_STORE_CTX_set0_trusted_stack(X509_STORE_CTX *ctx, STACK_OF(X509) *sk);
+
+ void X509_STORE_CTX_set_cert(X509_STORE_CTX *ctx, X509 *x);
+ STACK_OF(X509) *X509_STORE_CTX_get0_chain(X509_STORE_CTX *ctx);
+ void X509_STORE_CTX_set0_verified_chain(X509_STORE_CTX *ctx, STACK_OF(X509) *chain);
+ void X509_STORE_CTX_set0_crls(X509_STORE_CTX *ctx, STACK_OF(X509_CRL) *sk);
+
+ X509_VERIFY_PARAM *X509_STORE_CTX_get0_param(X509_STORE_CTX *ctx);
+ void X509_STORE_CTX_set0_param(X509_STORE_CTX *ctx, X509_VERIFY_PARAM *param);
+ int X509_STORE_CTX_set_default(X509_STORE_CTX *ctx, const char *name);
+
+ STACK_OF(X509)* X509_STORE_CTX_get0_untrusted(X509_STORE_CTX *ctx);
+ void X509_STORE_CTX_set0_untrusted(X509_STORE_CTX *ctx, STACK_OF(X509) *sk);
+
+ int X509_STORE_CTX_get_num_untrusted(X509_STORE_CTX *ctx);
+
+ typedef int (*X509_STORE_CTX_verify_fn)(X509_STORE_CTX *);
+ void X509_STORE_CTX_set_verify(X509_STORE_CTX *ctx, X509_STORE_CTX_verify_fn verify);
+
+ int X509_STORE_CTX_set_purpose(X509_STORE_CTX *ctx, int purpose);
+ int X509_STORE_CTX_set_trust(X509_STORE_CTX *ctx, int trust);
+ int X509_STORE_CTX_purpose_inherit(X509_STORE_CTX *ctx, int def_purpose,
+                                    int purpose, int trust);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -94,10 +98,17 @@
 
 <p>A verify function is defined as an X509_STORE_CTX_verify type which has the following signature:</p>
 
-<pre><code> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*verify</span><span class="operator">)(</span><span class="variable">X509_STORE_CTX</span> <span class="operator">*);</span>
-</code></pre>
+<pre><code> int (*verify)(X509_STORE_CTX *);</code></pre>
 
 <p>This function should receive the current X509_STORE_CTX as a parameter and return 1 on success or 0 on failure.</p>
+
+<p>X509 certificates may contain information about what purposes keys contained within them can be used for. For example &quot;TLS WWW Server Authentication&quot; or &quot;Email Protection&quot;. This &quot;key usage&quot; information is held internally to the certificate itself. In addition the trust store containing trusted certificates can declare what purposes we trust different certificates for. This &quot;trust&quot; information is not held within the certificate itself but is &quot;meta&quot; information held alongside it. This &quot;meta&quot; information is associated with the certificate after it is issued and could be determined by a system administrator. For example a certificate might declare that it is suitable for use for both &quot;TLS WWW Server Authentication&quot; and &quot;TLS Client Authentication&quot;, but a system administrator might only trust it for the former. An X.509 certificate extension exists that can record extended key usage information to supplement the purpose information described above. This extended mechanism is arbitrarily extensible and not well suited for a generic library API; applications that need to validate extended key usage information in certifiates will need to define a custom &quot;purpose&quot; (see below) or supply a nondefault verification callback (<a href="../man3/X509_STORE_set_verify_cb_func.html">X509_STORE_set_verify_cb_func(3)</a>).</p>
+
+<p>X509_STORE_CTX_set_purpose() sets the purpose for the target certificate being verified in the <i>ctx</i>. Built-in available values for the <i>purpose</i> argument are <b>X509_PURPOSE_SSL_CLIENT</b>, <b>X509_PURPOSE_SSL_SERVER</b>, <b>X509_PURPOSE_NS_SSL_SERVER</b>, <b>X509_PURPOSE_SMIME_SIGN</b>, <b>X509_PURPOSE_SMIME_ENCRYPT</b>, <b>X509_PURPOSE_CRL_SIGN</b>, <b>X509_PURPOSE_ANY</b>, <b>X509_PURPOSE_OCSP_HELPER</b> and <b>X509_PURPOSE_TIMESTAMP_SIGN</b>. It is also possible to create a custom purpose value. Setting a purpose will ensure that the key usage declared within certificates in the chain being verified is consistent with that purpose as well as, potentially, other checks. Every purpose also has an associated default trust value which will also be set at the same time. During verification this trust setting will be verified to check it is consistent with the trust set by the system administrator for certificates in the chain.</p>
+
+<p>X509_STORE_CTX_set_trust() sets the trust value for the target certificate being verified in the <i>ctx</i>. Built-in available values for the <i>trust</i> argument are <b>X509_TRUST_COMPAT</b>, <b>X509_TRUST_SSL_CLIENT</b>, <b>X509_TRUST_SSL_SERVER</b>, <b>X509_TRUST_EMAIL</b>, <b>X509_TRUST_OBJECT_SIGN</b>, <b>X509_TRUST_OCSP_SIGN</b>, <b>X509_TRUST_OCSP_REQUEST</b> and <b>X509_TRUST_TSA</b>. It is also possible to create a custom trust value. Since X509_STORE_CTX_set_purpose() also sets the trust value it is normally sufficient to only call that function. If both are called then X509_STORE_CTX_set_trust() should be called after X509_STORE_CTX_set_purpose() since the trust setting of the last call will be used.</p>
+
+<p>It should not normally be necessary for end user applications to call X509_STORE_CTX_purpose_inherit() directly. Typically applications should call X509_STORE_CTX_set_purpose() or X509_STORE_CTX_set_trust() instead. Using this function it is possible to set the purpose and trust values for the <i>ctx</i> at the same time. The <i>def_purpose</i> and <i>purpose</i> arguments can have the same purpose values as described for X509_STORE_CTX_set_purpose() above. The <i>trust</i> argument can have the same trust values as described in X509_STORE_CTX_set_trust() above. Any of the <i>def_purpose</i>, <i>purpose</i> or <i>trust</i> values may also have the value 0 to indicate that the supplied parameter should be ignored. After calling this function the purpose to be used for verification is set from the <i>purpose</i> argument, and the trust is set from the <i>trust</i> argument. If <i>trust</i> is 0 then the trust value will be set from the default trust value for <i>purpose</i>. If the default trust value for the purpose is <i>X509_TRUST_DEFAULT</i> and <i>trust</i> is 0 then the default trust value associated with the <i>def_purpose</i> value is used for the trust setting instead.</p>
 
 <h1 id="NOTES">NOTES</h1>
 
@@ -131,7 +142,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2009-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2009-2022 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

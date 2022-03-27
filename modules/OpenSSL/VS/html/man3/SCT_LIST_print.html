@@ -27,17 +27,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SCT_print</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">,</span> <span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">CTLOG_STORE</span> <span class="variable">*logs</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">SCT_LIST_print</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">SCT</span><span class="operator">)</span> <span class="variable">*sct_list</span><span class="operator">,</span> <span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">indent</span><span class="operator">,</span>
-                     <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*separator</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">CTLOG_STORE</span> <span class="variable">*logs</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*SCT_validation_status_string</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SCT</span> <span class="variable">*sct</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ct.h&gt;
+
+ void SCT_print(const SCT *sct, BIO *out, int indent, const CTLOG_STORE *logs);
+ void SCT_LIST_print(const STACK_OF(SCT) *sct_list, BIO *out, int indent,
+                     const char *separator, const CTLOG_STORE *logs);
+ const char *SCT_validation_status_string(const SCT *sct);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>SCT_print() prints a single Signed Certificate Timestamp (SCT) to a <a href="/man7/bio.html">bio</a> in a human-readable format. SCT_LIST_print() prints an entire list of SCTs in a similar way. A separator can be specified to delimit each SCT in the output.</p>
+<p>SCT_print() prints a single Signed Certificate Timestamp (SCT) to a <a href="/../man7/bio.html">bio</a> in a human-readable format. SCT_LIST_print() prints an entire list of SCTs in a similar way. A separator can be specified to delimit each SCT in the output.</p>
 
 <p>The output can be indented by a specified number of spaces. If a <b>CTLOG_STORE</b> is provided, it will be used to print the description of the CT log that issued each SCT (if that log is in the CTLOG_STORE). Alternatively, NULL can be passed as the CTLOG_STORE parameter to disable this feature.</p>
 

@@ -25,10 +25,9 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dh.h&gt;</span>
- <span class="variable">DH</span> <span class="variable">*DH_new_by_nid</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">*DH_get_nid</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dh.h&gt;
+ DH *DH_new_by_nid(int nid);
+ int *DH_get_nid(const DH *dh);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

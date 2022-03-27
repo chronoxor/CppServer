@@ -28,20 +28,19 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/kdf.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set1_scrypt_salt</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*salt</span><span class="operator">,</span>
-                                   <span class="keyword">int</span> <span class="variable">saltlen</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set_scrypt_N</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="variable">uint64_t</span> <span class="variable">N</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set_scrypt_r</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="variable">uint64_t</span> <span class="variable">r</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set_scrypt_p</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span> <span class="variable">uint64_t</span> <span class="variable">p</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set_scrypt_maxmem_bytes</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span>
-                                          <span class="variable">uint64_t</span> <span class="variable">maxmem</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/kdf.h&gt;
+
+ int EVP_PKEY_CTX_set1_scrypt_salt(EVP_PKEY_CTX *pctx, unsigned char *salt,
+                                   int saltlen);
+
+ int EVP_PKEY_CTX_set_scrypt_N(EVP_PKEY_CTX *pctx, uint64_t N);
+
+ int EVP_PKEY_CTX_set_scrypt_r(EVP_PKEY_CTX *pctx, uint64_t r);
+
+ int EVP_PKEY_CTX_set_scrypt_p(EVP_PKEY_CTX *pctx, uint64_t p);
+
+ int EVP_PKEY_CTX_set_scrypt_maxmem_bytes(EVP_PKEY_CTX *pctx,
+                                          uint64_t maxmem);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

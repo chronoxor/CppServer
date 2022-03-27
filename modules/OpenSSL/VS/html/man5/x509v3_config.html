@@ -181,20 +181,19 @@
 
 <p>Examples:</p>
 
-<pre><code> <span class="variable">subjectAltName</span><span class="operator">=</span><span class="variable">email</span><span class="operator">:</span><span class="variable">copy</span><span class="operator">,</span><span class="variable">email</span><span class="operator">:</span><span class="keyword">my</span><span class="variable">@other</span><span class="operator">.</span><span class="variable">address</span><span class="operator">,</span><span class="variable">URI</span><span class="operator">:</span><span class="variable">http</span><span class="operator">:</span><span class="regex">//my</span><span class="operator">.</span><span class="variable">url</span><span class="operator">.</span><span class="variable">here</span><span class="operator">/</span>
- <span class="variable">subjectAltName</span><span class="operator">=</span><span class="variable">IP</span><span class="operator">:</span><span class="number">192.168</span><span class="operator">.</span><span class="number">7.1</span>
- <span class="variable">subjectAltName</span><span class="operator">=</span><span class="variable">IP</span><span class="operator">:</span><span class="number">13</span><span class="variable">::17</span>
- <span class="variable">subjectAltName</span><span class="operator">=</span><span class="variable">email</span><span class="operator">:</span><span class="keyword">my</span><span class="variable">@other</span><span class="operator">.</span><span class="variable">address</span><span class="operator">,</span><span class="variable">RID</span><span class="operator">:</span><span class="number">1.2</span><span class="operator">.</span><span class="number">3.4</span>
- <span class="variable">subjectAltName</span><span class="operator">=</span><span class="variable">otherName</span><span class="operator">:</span><span class="number">1.2</span><span class="operator">.</span><span class="number">3.4</span><span class="operator">;</span><span class="variable">UTF8</span><span class="operator">:</span><span class="variable">some</span> <span class="variable">other</span> <span class="variable">identifier</span>
- 
- <span class="variable">subjectAltName</span><span class="operator">=</span><span class="variable">dirName</span><span class="operator">:</span><span class="variable">dir_sect</span>
- 
- <span class="operator">[</span><span class="variable">dir_sect</span><span class="operator">]</span>
- <span class="variable">C</span><span class="operator">=</span><span class="variable">UK</span>
- <span class="variable">O</span><span class="operator">=</span><span class="variable">My</span> <span class="variable">Organization</span>
- <span class="variable">OU</span><span class="operator">=</span><span class="variable">My</span> <span class="variable">Unit</span>
- <span class="variable">CN</span><span class="operator">=</span><span class="variable">My</span> <span class="variable">Name</span>
-</code></pre>
+<pre><code> subjectAltName=email:copy,email:my@other.address,URI:http://my.url.here/
+ subjectAltName=IP:192.168.7.1
+ subjectAltName=IP:13::17
+ subjectAltName=email:my@other.address,RID:1.2.3.4
+ subjectAltName=otherName:1.2.3.4;UTF8:some other identifier
+
+ subjectAltName=dirName:dir_sect
+
+ [dir_sect]
+ C=UK
+ O=My Organization
+ OU=My Unit
+ CN=My Name</code></pre>
 
 <h2 id="Issuer-Alternative-Name">Issuer Alternative Name.</h2>
 
@@ -210,9 +209,8 @@
 
 <p>Example:</p>
 
-<pre><code> <span class="variable">authorityInfoAccess</span> <span class="operator">=</span> <span class="variable">OCSP</span><span class="operator">;</span><span class="variable">URI</span><span class="operator">:</span><span class="variable">http</span><span class="operator">:</span><span class="regex">//ocsp</span><span class="operator">.</span><span class="keyword">my</span><span class="operator">.</span><span class="variable">host</span><span class="operator">/</span>
- <span class="variable">authorityInfoAccess</span> <span class="operator">=</span> <span class="variable">caIssuers</span><span class="operator">;</span><span class="variable">URI</span><span class="operator">:</span><span class="variable">http</span><span class="operator">:</span><span class="regex">//my</span><span class="operator">.</span><span class="variable">ca</span><span class="operator">/</span><span class="variable">ca</span><span class="operator">.</span><span class="variable">html</span>
-</code></pre>
+<pre><code> authorityInfoAccess = OCSP;URI:http://ocsp.my.host/
+ authorityInfoAccess = caIssuers;URI:http://my.ca/ca.html</code></pre>
 
 <h2 id="CRL-distribution-points">CRL distribution points</h2>
 
@@ -341,12 +339,11 @@
 
 <p>Examples:</p>
 
-<pre><code> <span class="variable">nameConstraints</span><span class="operator">=</span><span class="variable">permitted</span><span class="operator">;</span><span class="variable">IP</span><span class="operator">:</span><span class="number">192.168</span><span class="operator">.</span><span class="number">0</span><span class="operator">.</span><span class="number">0</span><span class="operator">/</span><span class="number">255.255</span><span class="operator">.</span><span class="number">0</span><span class="operator">.</span><span class="number">0</span>
- 
- <span class="variable">nameConstraints</span><span class="operator">=</span><span class="variable">permitted</span><span class="operator">;</span><span class="variable">email</span><span class="operator">:.</span><span class="variable">somedomain</span><span class="operator">.</span><span class="variable">com</span>
- 
- <span class="variable">nameConstraints</span><span class="operator">=</span><span class="variable">excluded</span><span class="operator">;</span><span class="variable">email</span><span class="operator">:.</span><span class="variable">com</span>
-</code></pre>
+<pre><code> nameConstraints=permitted;IP:192.168.0.0/255.255.0.0
+
+ nameConstraints=permitted;email:.somedomain.com
+
+ nameConstraints=excluded;email:.com</code></pre>
 
 <h2 id="OCSP-No-Check">OCSP No Check</h2>
 

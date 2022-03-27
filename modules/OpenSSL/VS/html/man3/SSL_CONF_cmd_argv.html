@@ -27,10 +27,9 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CONF_cmd_argv</span><span class="operator">(</span><span class="variable">SSL_CONF_CTX</span> <span class="variable">*cctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*pargc</span><span class="operator">,</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">*pargv</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CONF_cmd_argv(SSL_CONF_CTX *cctx, int *pargc, char ***pargv);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

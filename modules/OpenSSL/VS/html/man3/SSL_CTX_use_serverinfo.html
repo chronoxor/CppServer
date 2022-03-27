@@ -25,17 +25,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_use_serverinfo_ex</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">version</span><span class="operator">,</span>
-                               <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*serverinfo</span><span class="operator">,</span>
-                               <span class="variable">size_t</span> <span class="variable">serverinfo_length</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_use_serverinfo</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*serverinfo</span><span class="operator">,</span>
-                            <span class="variable">size_t</span> <span class="variable">serverinfo_length</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_use_serverinfo_file</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_use_serverinfo_ex(SSL_CTX *ctx, unsigned int version,
+                               const unsigned char *serverinfo,
+                               size_t serverinfo_length);
+
+ int SSL_CTX_use_serverinfo(SSL_CTX *ctx, const unsigned char *serverinfo,
+                            size_t serverinfo_length);
+
+ int SSL_CTX_use_serverinfo_file(SSL_CTX *ctx, const char *file);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

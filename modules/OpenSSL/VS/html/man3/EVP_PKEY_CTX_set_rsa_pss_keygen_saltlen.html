@@ -32,15 +32,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set_rsa_pss_keygen_md</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span>
-                                        <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set_rsa_pss_keygen_mgf1_md</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span>
-                                             <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*md</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_PKEY_CTX_set_rsa_pss_keygen_saltlen</span><span class="operator">(</span><span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span><span class="operator">,</span>
-                                             <span class="keyword">int</span> <span class="variable">saltlen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rsa.h&gt;
+
+ int EVP_PKEY_CTX_set_rsa_pss_keygen_md(EVP_PKEY_CTX *pctx,
+                                        const EVP_MD *md);
+ int EVP_PKEY_CTX_set_rsa_pss_keygen_mgf1_md(EVP_PKEY_CTX *pctx,
+                                             const EVP_MD *md);
+ int EVP_PKEY_CTX_set_rsa_pss_keygen_saltlen(EVP_PKEY_CTX *pctx,
+                                             int saltlen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -70,8 +69,7 @@
 
 <p>A context for the <b>RSA-PSS</b> algorithm can be obtained by calling:</p>
 
-<pre><code> <span class="variable">EVP_PKEY_CTX</span> <span class="variable">*pctx</span> <span class="operator">=</span> <span class="variable">EVP_PKEY_CTX_new_id</span><span class="operator">(</span><span class="variable">EVP_PKEY_RSA_PSS</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-</code></pre>
+<pre><code> EVP_PKEY_CTX *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA_PSS, NULL);</code></pre>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 

@@ -27,16 +27,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/err.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">ERR_GET_LIB</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">e</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ERR_GET_FUNC</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">e</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ERR_GET_REASON</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">e</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">ERR_FATAL_ERROR</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">e</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/err.h&gt;
+
+ int ERR_GET_LIB(unsigned long e);
+
+ int ERR_GET_FUNC(unsigned long e);
+
+ int ERR_GET_REASON(unsigned long e);
+
+ int ERR_FATAL_ERROR(unsigned long e);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

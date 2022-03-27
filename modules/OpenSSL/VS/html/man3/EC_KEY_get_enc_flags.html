@@ -26,11 +26,10 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ec.h&gt;</span>
- 
- <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">EC_KEY_get_enc_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_KEY</span> <span class="variable">*key</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EC_KEY_set_enc_flags</span><span class="operator">(</span><span class="variable">EC_KEY</span> <span class="variable">*eckey</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ec.h&gt;
+
+ unsigned int EC_KEY_get_enc_flags(const EC_KEY *key);
+ void EC_KEY_set_enc_flags(EC_KEY *eckey, unsigned int flags);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

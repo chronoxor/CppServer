@@ -29,10 +29,9 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/cms.h&gt;</span>
- 
- <span class="variable">CMS_ContentInfo</span> <span class="variable">*CMS_compress</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*in</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">comp_nid</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/cms.h&gt;
+
+ CMS_ContentInfo *CMS_compress(BIO *in, int comp_nid, unsigned int flags);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

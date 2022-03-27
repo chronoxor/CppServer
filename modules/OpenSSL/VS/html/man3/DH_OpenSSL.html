@@ -26,18 +26,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dh.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">DH_set_default_method</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">DH_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">DH_METHOD</span> <span class="variable">*DH_get_default_method</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">DH_set_method</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">DH_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="variable">DH</span> <span class="variable">*DH_new_method</span><span class="operator">(</span><span class="variable">ENGINE</span> <span class="variable">*engine</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">DH_METHOD</span> <span class="variable">*DH_OpenSSL</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dh.h&gt;
+
+ void DH_set_default_method(const DH_METHOD *meth);
+
+ const DH_METHOD *DH_get_default_method(void);
+
+ int DH_set_method(DH *dh, const DH_METHOD *meth);
+
+ DH *DH_new_method(ENGINE *engine);
+
+ const DH_METHOD *DH_OpenSSL(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

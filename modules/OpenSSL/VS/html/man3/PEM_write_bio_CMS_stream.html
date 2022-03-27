@@ -28,10 +28,9 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/cms.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">PEM_write_bio_CMS_stream</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">,</span> <span class="variable">CMS_ContentInfo</span> <span class="variable">*cms</span><span class="operator">,</span> <span class="variable">BIO</span> <span class="variable">*data</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/cms.h&gt;
+
+ int PEM_write_bio_CMS_stream(BIO *out, CMS_ContentInfo *cms, BIO *data, int flags);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

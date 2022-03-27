@@ -28,16 +28,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509v3.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_check_host</span><span class="operator">(</span><span class="variable">X509</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">namelen</span><span class="operator">,</span>
-                     <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">,</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">peername</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_check_email</span><span class="operator">(</span><span class="variable">X509</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*address</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">addresslen</span><span class="operator">,</span>
-                      <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_check_ip</span><span class="operator">(</span><span class="variable">X509</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*address</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">addresslen</span><span class="operator">,</span>
-                   <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_check_ip_asc</span><span class="operator">(</span><span class="variable">X509</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*address</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509v3.h&gt;
+
+ int X509_check_host(X509 *, const char *name, size_t namelen,
+                     unsigned int flags, char **peername);
+ int X509_check_email(X509 *, const char *address, size_t addresslen,
+                      unsigned int flags);
+ int X509_check_ip(X509 *, const unsigned char *address, size_t addresslen,
+                   unsigned int flags);
+ int X509_check_ip_asc(X509 *, const char *address, unsigned int flags);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

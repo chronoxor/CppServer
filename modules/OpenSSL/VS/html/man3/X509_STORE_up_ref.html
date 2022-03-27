@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509_vfy.h&gt;</span>
- 
- <span class="variable">X509_STORE</span> <span class="variable">*X509_STORE_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_STORE_free</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*v</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_lock</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*v</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_unlock</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*v</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_STORE_up_ref</span><span class="operator">(</span><span class="variable">X509_STORE</span> <span class="variable">*v</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509_vfy.h&gt;
+
+ X509_STORE *X509_STORE_new(void);
+ void X509_STORE_free(X509_STORE *v);
+ int X509_STORE_lock(X509_STORE *v);
+ int X509_STORE_unlock(X509_STORE *v);
+ int X509_STORE_up_ref(X509_STORE *v);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -27,12 +27,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_check_private_key</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*k</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">X509_REQ_check_private_key</span><span class="operator">(</span><span class="variable">X509_REQ</span> <span class="variable">*x</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*k</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ int X509_check_private_key(X509 *x, EVP_PKEY *k);
+
+ int X509_REQ_check_private_key(X509_REQ *x, EVP_PKEY *k);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

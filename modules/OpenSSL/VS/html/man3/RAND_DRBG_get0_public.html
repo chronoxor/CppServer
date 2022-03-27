@@ -28,12 +28,11 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rand_drbg.h&gt;</span>
- 
- <span class="variable">RAND_DRBG</span> <span class="variable">*RAND_DRBG_get0_master</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">RAND_DRBG</span> <span class="variable">*RAND_DRBG_get0_public</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">RAND_DRBG</span> <span class="variable">*RAND_DRBG_get0_private</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rand_drbg.h&gt;
+
+ RAND_DRBG *RAND_DRBG_get0_master(void);
+ RAND_DRBG *RAND_DRBG_get0_public(void);
+ RAND_DRBG *RAND_DRBG_get0_private(void);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

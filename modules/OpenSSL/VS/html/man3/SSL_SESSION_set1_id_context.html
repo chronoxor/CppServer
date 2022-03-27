@@ -27,13 +27,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*SSL_SESSION_get0_id_context</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">,</span>
-                                                  <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*len</span><span class="operator">)</span>
- <span class="keyword">int</span> <span class="variable">SSL_SESSION_set1_id_context</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sid_ctx</span><span class="operator">,</span>
-                                <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">sid_ctx_len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ const unsigned char *SSL_SESSION_get0_id_context(const SSL_SESSION *s,
+                                                  unsigned int *len)
+ int SSL_SESSION_set1_id_context(SSL_SESSION *s, const unsigned char *sid_ctx,
+                                unsigned int sid_ctx_len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

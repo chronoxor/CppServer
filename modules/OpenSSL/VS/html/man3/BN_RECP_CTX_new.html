@@ -27,19 +27,18 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="variable">BN_RECP_CTX</span> <span class="variable">*BN_RECP_CTX_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">BN_RECP_CTX_free</span><span class="operator">(</span><span class="variable">BN_RECP_CTX</span> <span class="variable">*recp</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_RECP_CTX_set</span><span class="operator">(</span><span class="variable">BN_RECP_CTX</span> <span class="variable">*recp</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_div_recp</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*dv</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*rem</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BN_RECP_CTX</span> <span class="variable">*recp</span><span class="operator">,</span>
-                 <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_mod_mul_reciprocal</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span>
-                           <span class="variable">BN_RECP_CTX</span> <span class="variable">*recp</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ BN_RECP_CTX *BN_RECP_CTX_new(void);
+ void BN_RECP_CTX_free(BN_RECP_CTX *recp);
+
+ int BN_RECP_CTX_set(BN_RECP_CTX *recp, const BIGNUM *m, BN_CTX *ctx);
+
+ int BN_div_recp(BIGNUM *dv, BIGNUM *rem, BIGNUM *a, BN_RECP_CTX *recp,
+                 BN_CTX *ctx);
+
+ int BN_mod_mul_reciprocal(BIGNUM *r, BIGNUM *a, BIGNUM *b,
+                           BN_RECP_CTX *recp, BN_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

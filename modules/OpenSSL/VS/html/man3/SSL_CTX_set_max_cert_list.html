@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_max_cert_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">size</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_get_max_cert_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_set_max_cert_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">long</span> <span class="variable">size</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_get_max_cert_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ long SSL_CTX_set_max_cert_list(SSL_CTX *ctx, long size);
+ long SSL_CTX_get_max_cert_list(SSL_CTX *ctx);
+
+ long SSL_set_max_cert_list(SSL *ssl, long size);
+ long SSL_get_max_cert_list(SSL *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

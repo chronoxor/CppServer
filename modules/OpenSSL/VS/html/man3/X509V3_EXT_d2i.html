@@ -37,32 +37,31 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509v3.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">*X509V3_get_d2i</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*crit</span><span class="operator">,</span>
-                      <span class="keyword">int</span> <span class="variable">*idx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509V3_add1_i2d</span><span class="operator">(</span><span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="operator">**x,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*value</span><span class="operator">,</span>
-                     <span class="keyword">int</span> <span class="variable">crit</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">*X509V3_EXT_d2i</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span> <span class="variable">*ext</span><span class="operator">);</span>
- <span class="variable">X509_EXTENSION</span> <span class="variable">*X509V3_EXT_i2d</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">ext_nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">crit</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ext</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">*X509_get_ext_d2i</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*crit</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*idx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_add1_ext_i2d</span><span class="operator">(</span><span class="variable">X509</span> <span class="variable">*x</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*value</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">crit</span><span class="operator">,</span>
-                       <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">*X509_CRL_get_ext_d2i</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*crit</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*idx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_CRL_add1_ext_i2d</span><span class="operator">(</span><span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*value</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">crit</span><span class="operator">,</span>
-                           <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">*X509_REVOKED_get_ext_d2i</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_REVOKED</span> <span class="variable">*r</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*crit</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">*idx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">X509_REVOKED_add1_ext_i2d</span><span class="operator">(</span><span class="variable">X509_REVOKED</span> <span class="variable">*r</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*value</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">crit</span><span class="operator">,</span>
-                               <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*X509_get0_extensions</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509</span> <span class="variable">*x</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*X509_CRL_get0_extensions</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_CRL</span> <span class="variable">*crl</span><span class="operator">);</span>
- <span class="variable">const</span> <span class="variable">STACK_OF</span><span class="operator">(</span><span class="variable">X509_EXTENSION</span><span class="operator">)</span> <span class="variable">*X509_REVOKED_get0_extensions</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_REVOKED</span> <span class="variable">*r</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509v3.h&gt;
+
+ void *X509V3_get_d2i(const STACK_OF(X509_EXTENSION) *x, int nid, int *crit,
+                      int *idx);
+ int X509V3_add1_i2d(STACK_OF(X509_EXTENSION) **x, int nid, void *value,
+                     int crit, unsigned long flags);
+
+ void *X509V3_EXT_d2i(X509_EXTENSION *ext);
+ X509_EXTENSION *X509V3_EXT_i2d(int ext_nid, int crit, void *ext);
+
+ void *X509_get_ext_d2i(const X509 *x, int nid, int *crit, int *idx);
+ int X509_add1_ext_i2d(X509 *x, int nid, void *value, int crit,
+                       unsigned long flags);
+
+ void *X509_CRL_get_ext_d2i(const X509_CRL *crl, int nid, int *crit, int *idx);
+ int X509_CRL_add1_ext_i2d(X509_CRL *crl, int nid, void *value, int crit,
+                           unsigned long flags);
+
+ void *X509_REVOKED_get_ext_d2i(const X509_REVOKED *r, int nid, int *crit, int *idx);
+ int X509_REVOKED_add1_ext_i2d(X509_REVOKED *r, int nid, void *value, int crit,
+                               unsigned long flags);
+
+ const STACK_OF(X509_EXTENSION) *X509_get0_extensions(const X509 *x);
+ const STACK_OF(X509_EXTENSION) *X509_CRL_get0_extensions(const X509_CRL *crl);
+ const STACK_OF(X509_EXTENSION) *X509_REVOKED_get0_extensions(const X509_REVOKED *r);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -26,15 +26,14 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/opensslv.h&gt;</span>
- <span class="comment">#define OPENSSL_VERSION_NUMBER 0xnnnnnnnnnL</span>
- <span class="comment">#define OPENSSL_VERSION_TEXT "OpenSSL x.y.z xx XXX xxxx"</span>
- 
- <span class="comment">#include &lt;openssl/crypto.h&gt;</span>
- 
- <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">OpenSSL_version_num</span><span class="operator">();</span>
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*OpenSSL_version</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">t</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/opensslv.h&gt;
+ #define OPENSSL_VERSION_NUMBER 0xnnnnnnnnnL
+ #define OPENSSL_VERSION_TEXT &quot;OpenSSL x.y.z xx XXX xxxx&quot;
+
+ #include &lt;openssl/crypto.h&gt;
+
+ unsigned long OpenSSL_version_num();
+ const char *OpenSSL_version(int t);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

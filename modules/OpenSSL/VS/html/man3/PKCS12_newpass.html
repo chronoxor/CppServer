@@ -30,10 +30,9 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/pkcs12.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">PKCS12_newpass</span><span class="operator">(</span><span class="variable">PKCS12</span> <span class="variable">*p12</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*oldpass</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*newpass</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/pkcs12.h&gt;
+
+ int PKCS12_newpass(PKCS12 *p12, const char *oldpass, const char *newpass);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -55,49 +54,48 @@
 
 <p>This example loads a PKCS#12 file, changes its password and writes out the result to a new file.</p>
 
-<pre><code> <span class="comment">#include &lt;stdio.h&gt;</span>
- <span class="comment">#include &lt;stdlib.h&gt;</span>
- <span class="comment">#include &lt;openssl/pem.h&gt;</span>
- <span class="comment">#include &lt;openssl/err.h&gt;</span>
- <span class="comment">#include &lt;openssl/pkcs12.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">main</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">argc</span><span class="operator">,</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">argv</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">;</span>
-     <span class="variable">PKCS12</span> <span class="variable">*p12</span><span class="operator">;</span>
- 
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">argc</span> <span class="operator">!=</span> <span class="number">5</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Usage: pkread p12file password newpass opfile\n"</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="keyword">if</span> <span class="operator">((</span><span class="variable">fp</span> <span class="operator">=</span> <span class="variable">fopen</span><span class="operator">(</span><span class="variable">argv</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">,</span> <span class="string">"rb"</span><span class="operator">))</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error opening file %s\n"</span><span class="operator">,</span> <span class="variable">argv</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="variable">p12</span> <span class="operator">=</span> <span class="variable">d2i_PKCS12_fp</span><span class="operator">(</span><span class="variable">fp</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-     <span class="variable">fclose</span><span class="operator">(</span><span class="variable">fp</span><span class="operator">);</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">p12</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error reading PKCS#12 file\n"</span><span class="operator">);</span>
-         <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">PKCS12_newpass</span><span class="operator">(</span><span class="variable">p12</span><span class="operator">,</span> <span class="variable">argv</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">argv</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error changing password\n"</span><span class="operator">);</span>
-         <span class="variable">ERR_print_errors_fp</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">);</span>
-         <span class="variable">PKCS12_free</span><span class="operator">(</span><span class="variable">p12</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="keyword">if</span> <span class="operator">((</span><span class="variable">fp</span> <span class="operator">=</span> <span class="variable">fopen</span><span class="operator">(</span><span class="variable">argv</span><span class="operator">[</span><span class="number">4</span><span class="operator">]</span><span class="operator">,</span> <span class="string">"wb"</span><span class="operator">))</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="variable">fprintf</span><span class="operator">(</span><span class="variable">stderr</span><span class="operator">,</span> <span class="string">"Error opening file %s\n"</span><span class="operator">,</span> <span class="variable">argv</span><span class="operator">[</span><span class="number">4</span><span class="operator">]</span><span class="operator">);</span>
-         <span class="variable">PKCS12_free</span><span class="operator">(</span><span class="variable">p12</span><span class="operator">);</span>
-         <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
-     <span class="operator">}</span>
-     <span class="variable">i2d_PKCS12_fp</span><span class="operator">(</span><span class="variable">fp</span><span class="operator">,</span> <span class="variable">p12</span><span class="operator">);</span>
-     <span class="variable">PKCS12_free</span><span class="operator">(</span><span class="variable">p12</span><span class="operator">);</span>
-     <span class="variable">fclose</span><span class="operator">(</span><span class="variable">fp</span><span class="operator">);</span>
-     <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span>
- <span class="operator">}</span>
-</code></pre>
+<pre><code> #include &lt;stdio.h&gt;
+ #include &lt;stdlib.h&gt;
+ #include &lt;openssl/pem.h&gt;
+ #include &lt;openssl/err.h&gt;
+ #include &lt;openssl/pkcs12.h&gt;
+
+ int main(int argc, char **argv)
+ {
+     FILE *fp;
+     PKCS12 *p12;
+
+     if (argc != 5) {
+         fprintf(stderr, &quot;Usage: pkread p12file password newpass opfile\n&quot;);
+         return 1;
+     }
+     if ((fp = fopen(argv[1], &quot;rb&quot;)) == NULL) {
+         fprintf(stderr, &quot;Error opening file %s\n&quot;, argv[1]);
+         return 1;
+     }
+     p12 = d2i_PKCS12_fp(fp, NULL);
+     fclose(fp);
+     if (p12 == NULL) {
+         fprintf(stderr, &quot;Error reading PKCS#12 file\n&quot;);
+         ERR_print_errors_fp(stderr);
+         return 1;
+     }
+     if (PKCS12_newpass(p12, argv[2], argv[3]) == 0) {
+         fprintf(stderr, &quot;Error changing password\n&quot;);
+         ERR_print_errors_fp(stderr);
+         PKCS12_free(p12);
+         return 1;
+     }
+     if ((fp = fopen(argv[4], &quot;wb&quot;)) == NULL) {
+         fprintf(stderr, &quot;Error opening file %s\n&quot;, argv[4]);
+         PKCS12_free(p12);
+         return 1;
+     }
+     i2d_PKCS12_fp(fp, p12);
+     PKCS12_free(p12);
+     fclose(fp);
+     return 0;
+ }</code></pre>
 
 <h1 id="NOTES1">NOTES</h1>
 

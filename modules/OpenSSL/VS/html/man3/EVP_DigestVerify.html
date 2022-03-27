@@ -28,16 +28,15 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">EVP_DigestVerifyInit</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">EVP_PKEY_CTX</span> <span class="operator">**</span><span class="variable">pctx</span><span class="operator">,</span>
-                          <span class="variable">const</span> <span class="variable">EVP_MD</span> <span class="variable">*type</span><span class="operator">,</span> <span class="variable">ENGINE</span> <span class="variable">*e</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="variable">*pkey</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_DigestVerifyUpdate</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">cnt</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_DigestVerifyFinal</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sig</span><span class="operator">,</span>
-                           <span class="variable">size_t</span> <span class="variable">siglen</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EVP_DigestVerify</span><span class="operator">(</span><span class="variable">EVP_MD_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigret</span><span class="operator">,</span>
-                      <span class="variable">size_t</span> <span class="variable">siglen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*tbs</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">tbslen</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ int EVP_DigestVerifyInit(EVP_MD_CTX *ctx, EVP_PKEY_CTX **pctx,
+                          const EVP_MD *type, ENGINE *e, EVP_PKEY *pkey);
+ int EVP_DigestVerifyUpdate(EVP_MD_CTX *ctx, const void *d, size_t cnt);
+ int EVP_DigestVerifyFinal(EVP_MD_CTX *ctx, const unsigned char *sig,
+                           size_t siglen);
+ int EVP_DigestVerify(EVP_MD_CTX *ctx, const unsigned char *sigret,
+                      size_t siglen, const unsigned char *tbs, size_t tbslen);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -26,13 +26,12 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/x509.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">X509_SIG_get0</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">X509_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">X509_ALGOR</span> <span class="operator">**</span><span class="variable">palg</span><span class="operator">,</span>
-                    <span class="variable">const</span> <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">pdigest</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">X509_SIG_getm</span><span class="operator">(</span><span class="variable">X509_SIG</span> <span class="variable">*sig</span><span class="operator">,</span> <span class="variable">X509_ALGOR</span> <span class="operator">**</span><span class="variable">palg</span><span class="operator">,</span>
-                    <span class="variable">ASN1_OCTET_STRING</span> <span class="operator">**</span><span class="variable">pdigest</span><span class="operator">,</span>
-</code></pre>
+<pre><code> #include &lt;openssl/x509.h&gt;
+
+ void X509_SIG_get0(const X509_SIG *sig, const X509_ALGOR **palg,
+                    const ASN1_OCTET_STRING **pdigest);
+ void X509_SIG_getm(X509_SIG *sig, X509_ALGOR **palg,
+                    ASN1_OCTET_STRING **pdigest,</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

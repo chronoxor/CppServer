@@ -27,20 +27,19 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PrivateKey</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span>
-                          <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PublicKey</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span>
-                         <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_AutoPrivateKey</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">,</span>
-                              <span class="variable">long</span> <span class="keyword">length</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_PrivateKey</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">i2d_PublicKey</span><span class="operator">(</span><span class="variable">EVP_PKEY</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">pp</span><span class="operator">);</span>
- 
- <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PrivateKey_bio</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*bp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">);</span>
- <span class="variable">EVP_PKEY</span> <span class="variable">*d2i_PrivateKey_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="variable">EVP_PKEY</span> <span class="operator">**</span><span class="variable">a</span><span class="operator">)</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ EVP_PKEY *d2i_PrivateKey(int type, EVP_PKEY **a, const unsigned char **pp,
+                          long length);
+ EVP_PKEY *d2i_PublicKey(int type, EVP_PKEY **a, const unsigned char **pp,
+                         long length);
+ EVP_PKEY *d2i_AutoPrivateKey(EVP_PKEY **a, const unsigned char **pp,
+                              long length);
+ int i2d_PrivateKey(EVP_PKEY *a, unsigned char **pp);
+ int i2d_PublicKey(EVP_PKEY *a, unsigned char **pp);
+
+ EVP_PKEY *d2i_PrivateKey_bio(BIO *bp, EVP_PKEY **a);
+ EVP_PKEY *d2i_PrivateKey_fp(FILE *fp, EVP_PKEY **a)</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

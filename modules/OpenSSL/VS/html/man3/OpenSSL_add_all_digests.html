@@ -27,19 +27,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/evp.h&gt;</span>
-</code></pre>
+<pre><code> #include &lt;openssl/evp.h&gt;</code></pre>
 
 <p>Deprecated:</p>
 
-<pre><code> <span class="comment"># if OPENSSL_API_COMPAT &lt; 0x10100000L</span>
- <span class="variable">void</span> <span class="variable">OpenSSL_add_all_algorithms</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">OpenSSL_add_all_ciphers</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">OpenSSL_add_all_digests</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">EVP_cleanup</span><span class="operator">(</span><span class="variable">void</span><span class="operator">)</span>
- <span class="comment"># endif</span>
-</code></pre>
+<pre><code> # if OPENSSL_API_COMPAT &lt; 0x10100000L
+ void OpenSSL_add_all_algorithms(void);
+ void OpenSSL_add_all_ciphers(void);
+ void OpenSSL_add_all_digests(void);
+
+ void EVP_cleanup(void)
+# endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

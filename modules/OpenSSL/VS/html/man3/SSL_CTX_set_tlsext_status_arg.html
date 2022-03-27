@@ -26,23 +26,22 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/tls1.h&gt;</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_tlsext_status_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="operator">*,</span> <span class="variable">void</span> <span class="operator">*));</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_get_tlsext_status_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(**</span><span class="variable">callback</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="operator">*,</span> <span class="variable">void</span> <span class="operator">*));</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_tlsext_status_arg</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_get_tlsext_status_arg</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">**</span><span class="variable">arg</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_tlsext_status_type</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_get_tlsext_status_type</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_set_tlsext_status_type</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">type</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_get_tlsext_status_type</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">);</span>
- 
- <span class="variable">long</span> <span class="variable">SSL_get_tlsext_status_ocsp_resp</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="operator">**</span><span class="variable">resp</span><span class="operator">);</span>
- <span class="variable">long</span> <span class="variable">SSL_set_tlsext_status_ocsp_resp</span><span class="operator">(</span><span class="variable">ssl</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*resp</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/tls1.h&gt;
+
+ long SSL_CTX_set_tlsext_status_cb(SSL_CTX *ctx, int (*callback)(SSL *, void *));
+ long SSL_CTX_get_tlsext_status_cb(SSL_CTX *ctx, int (**callback)(SSL *, void *));
+
+ long SSL_CTX_set_tlsext_status_arg(SSL_CTX *ctx, void *arg);
+ long SSL_CTX_get_tlsext_status_arg(SSL_CTX *ctx, void **arg);
+
+ long SSL_CTX_set_tlsext_status_type(SSL_CTX *ctx, int type);
+ long SSL_CTX_get_tlsext_status_type(SSL_CTX *ctx);
+
+ long SSL_set_tlsext_status_type(SSL *s, int type);
+ long SSL_get_tlsext_status_type(SSL *s);
+
+ long SSL_get_tlsext_status_ocsp_resp(ssl, unsigned char **resp);
+ long SSL_set_tlsext_status_ocsp_resp(ssl, unsigned char *resp, int len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/dh.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">DH_generate_key</span><span class="operator">(</span><span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">DH_compute_key</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*pub_key</span><span class="operator">,</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">DH_compute_key_padded</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*key</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*pub_key</span><span class="operator">,</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/dh.h&gt;
+
+ int DH_generate_key(DH *dh);
+
+ int DH_compute_key(unsigned char *key, const BIGNUM *pub_key, DH *dh);
+
+ int DH_compute_key_padded(unsigned char *key, const BIGNUM *pub_key, DH *dh);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

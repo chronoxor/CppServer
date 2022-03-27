@@ -28,21 +28,20 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*SSL_CTX_generate_session_ticket_fn</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="variable">typedef</span> <span class="variable">SSL_TICKET_RETURN</span> <span class="operator">(</span><span class="variable">*SSL_CTX_decrypt_session_ticket_fn</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">SSL_SESSION</span> <span class="variable">*ss</span><span class="operator">,</span>
-                                                                <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*keyname</span><span class="operator">,</span>
-                                                                <span class="variable">size_t</span> <span class="variable">keyname_len</span><span class="operator">,</span>
-                                                                <span class="variable">SSL_TICKET_STATUS</span> <span class="variable">status</span><span class="operator">,</span>
-                                                                <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_session_ticket_cb</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                   <span class="variable">SSL_CTX_generate_session_ticket_fn</span> <span class="variable">gen_cb</span><span class="operator">,</span>
-                                   <span class="variable">SSL_CTX_decrypt_session_ticket_fn</span> <span class="variable">dec_cb</span><span class="operator">,</span>
-                                   <span class="variable">void</span> <span class="variable">*arg</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_SESSION_set1_ticket_appdata</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*ss</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_SESSION_get0_ticket_appdata</span><span class="operator">(</span><span class="variable">SSL_SESSION</span> <span class="variable">*ss</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">**</span><span class="variable">data</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">*len</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ typedef int (*SSL_CTX_generate_session_ticket_fn)(SSL *s, void *arg);
+ typedef SSL_TICKET_RETURN (*SSL_CTX_decrypt_session_ticket_fn)(SSL *s, SSL_SESSION *ss,
+                                                                const unsigned char *keyname,
+                                                                size_t keyname_len,
+                                                                SSL_TICKET_STATUS status,
+                                                                void *arg);
+ int SSL_CTX_set_session_ticket_cb(SSL_CTX *ctx,
+                                   SSL_CTX_generate_session_ticket_fn gen_cb,
+                                   SSL_CTX_decrypt_session_ticket_fn dec_cb,
+                                   void *arg);
+ int SSL_SESSION_set1_ticket_appdata(SSL_SESSION *ss, const void *data, size_t len);
+ int SSL_SESSION_get0_ticket_appdata(SSL_SESSION *ss, void **data, size_t *len);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

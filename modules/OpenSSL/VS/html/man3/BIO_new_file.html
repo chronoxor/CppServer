@@ -29,20 +29,19 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bio.h&gt;</span>
- 
- <span class="variable">const</span> <span class="variable">BIO_METHOD</span> <span class="variable">*BIO_s_file</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">BIO</span> <span class="variable">*BIO_new_file</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*filename</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*mode</span><span class="operator">);</span>
- <span class="variable">BIO</span> <span class="variable">*BIO_new_fp</span><span class="operator">(</span><span class="variable">FILE</span> <span class="variable">*stream</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">BIO_set_fp</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">FILE</span> <span class="variable">*fp</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">BIO_get_fp</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">FILE</span> <span class="operator">**</span><span class="variable">fpp</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BIO_read_filename</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">)</span>
- <span class="keyword">int</span> <span class="variable">BIO_write_filename</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">)</span>
- <span class="keyword">int</span> <span class="variable">BIO_append_filename</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">)</span>
- <span class="keyword">int</span> <span class="variable">BIO_rw_filename</span><span class="operator">(</span><span class="variable">BIO</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">)</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bio.h&gt;
+
+ const BIO_METHOD *BIO_s_file(void);
+ BIO *BIO_new_file(const char *filename, const char *mode);
+ BIO *BIO_new_fp(FILE *stream, int flags);
+
+ BIO_set_fp(BIO *b, FILE *fp, int flags);
+ BIO_get_fp(BIO *b, FILE **fpp);
+
+ int BIO_read_filename(BIO *b, char *name)
+ int BIO_write_filename(BIO *b, char *name)
+ int BIO_append_filename(BIO *b, char *name)
+ int BIO_rw_filename(BIO *b, char *name)</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -100,47 +99,43 @@
 
 <p>File BIO &quot;hello world&quot;:</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*bio_out</span><span class="operator">;</span>
- 
- <span class="variable">bio_out</span> <span class="operator">=</span> <span class="variable">BIO_new_fp</span><span class="operator">(</span><span class="variable">stdout</span><span class="operator">,</span> <span class="variable">BIO_NOCLOSE</span><span class="operator">);</span>
- <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_out</span><span class="operator">,</span> <span class="string">"Hello World\n"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *bio_out;
+
+ bio_out = BIO_new_fp(stdout, BIO_NOCLOSE);
+ BIO_printf(bio_out, &quot;Hello World\n&quot;);</code></pre>
 
 <p>Alternative technique:</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*bio_out</span><span class="operator">;</span>
- 
- <span class="variable">bio_out</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_s_file</span><span class="operator">());</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">bio_out</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">BIO_set_fp</span><span class="operator">(</span><span class="variable">bio_out</span><span class="operator">,</span> <span class="variable">stdout</span><span class="operator">,</span> <span class="variable">BIO_NOCLOSE</span><span class="operator">))</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_out</span><span class="operator">,</span> <span class="string">"Hello World\n"</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *bio_out;
+
+ bio_out = BIO_new(BIO_s_file());
+ if (bio_out == NULL)
+     /* Error */
+ if (!BIO_set_fp(bio_out, stdout, BIO_NOCLOSE))
+     /* Error */
+ BIO_printf(bio_out, &quot;Hello World\n&quot;);</code></pre>
 
 <p>Write to a file:</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">;</span>
- 
- <span class="variable">out</span> <span class="operator">=</span> <span class="variable">BIO_new_file</span><span class="operator">(</span><span class="string">"filename.txt"</span><span class="operator">,</span> <span class="string">"w"</span><span class="operator">);</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">out</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">out</span><span class="operator">,</span> <span class="string">"Hello World\n"</span><span class="operator">);</span>
- <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">out</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *out;
+
+ out = BIO_new_file(&quot;filename.txt&quot;, &quot;w&quot;);
+ if (!out)
+     /* Error */
+ BIO_printf(out, &quot;Hello World\n&quot;);
+ BIO_free(out);</code></pre>
 
 <p>Alternative technique:</p>
 
-<pre><code> <span class="variable">BIO</span> <span class="variable">*out</span><span class="operator">;</span>
- 
- <span class="variable">out</span> <span class="operator">=</span> <span class="variable">BIO_new</span><span class="operator">(</span><span class="variable">BIO_s_file</span><span class="operator">());</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">out</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">BIO_write_filename</span><span class="operator">(</span><span class="variable">out</span><span class="operator">,</span> <span class="string">"filename.txt"</span><span class="operator">))</span>
-     <span class="operator">/*</span> <span class="variable">Error</span> <span class="operator">*/</span>
- <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">out</span><span class="operator">,</span> <span class="string">"Hello World\n"</span><span class="operator">);</span>
- <span class="variable">BIO_free</span><span class="operator">(</span><span class="variable">out</span><span class="operator">);</span>
-</code></pre>
+<pre><code> BIO *out;
+
+ out = BIO_new(BIO_s_file());
+ if (out == NULL)
+     /* Error */
+ if (!BIO_write_filename(out, &quot;filename.txt&quot;))
+     /* Error */
+ BIO_printf(out, &quot;Hello World\n&quot;);
+ BIO_free(out);</code></pre>
 
 <h1 id="BUGS">BUGS</h1>
 

@@ -27,40 +27,39 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ui.h&gt;</span>
- 
- <span class="variable">typedef</span> <span class="variable">struct</span> <span class="variable">ui_method_st</span> <span class="variable">UI_METHOD</span><span class="operator">;</span>
- 
- <span class="variable">UI_METHOD</span> <span class="variable">*UI_create_method</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">UI_destroy_method</span><span class="operator">(</span><span class="variable">UI_METHOD</span> <span class="variable">*ui_method</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">UI_method_set_opener</span><span class="operator">(</span><span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*opener</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">));</span>
- <span class="keyword">int</span> <span class="variable">UI_method_set_writer</span><span class="operator">(</span><span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">,</span>
-                          <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*writer</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">,</span> <span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">));</span>
- <span class="keyword">int</span> <span class="variable">UI_method_set_flusher</span><span class="operator">(</span><span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*flusher</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">));</span>
- <span class="keyword">int</span> <span class="variable">UI_method_set_reader</span><span class="operator">(</span><span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">,</span>
-                          <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*reader</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">,</span> <span class="variable">UI_STRING</span> <span class="variable">*uis</span><span class="operator">));</span>
- <span class="keyword">int</span> <span class="variable">UI_method_set_closer</span><span class="operator">(</span><span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*closer</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">));</span>
- <span class="keyword">int</span> <span class="variable">UI_method_set_data_duplicator</span><span class="operator">(</span><span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">,</span>
-                                   <span class="variable">void</span> <span class="operator">*(</span><span class="variable">*duplicator</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ui_data</span><span class="operator">),</span>
-                                   <span class="variable">void</span> <span class="operator">(</span><span class="variable">*destructor</span><span class="operator">)(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*ui_data</span><span class="operator">));</span>
- <span class="keyword">int</span> <span class="variable">UI_method_set_prompt_constructor</span><span class="operator">(</span><span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">,</span>
-                                      <span class="variable">char</span> <span class="operator">*(</span><span class="variable">*prompt_constructor</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">UI</span> <span class="variable">*ui</span><span class="operator">,</span>
-                                                                   <span class="variable">const</span> <span class="variable">char</span>
-                                                                   <span class="variable">*object_desc</span><span class="operator">,</span>
-                                                                   <span class="variable">const</span> <span class="variable">char</span>
-                                                                   <span class="variable">*object_name</span><span class="operator">));</span>
- <span class="keyword">int</span> <span class="variable">UI_method_set_ex_data</span><span class="operator">(</span><span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*UI_method_get_opener</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">))</span> <span class="operator">(</span><span class="variable">UI</span> <span class="operator">*);</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*UI_method_get_writer</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">))</span> <span class="operator">(</span><span class="variable">UI</span> <span class="operator">*,</span> <span class="variable">UI_STRING</span> <span class="operator">*);</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*UI_method_get_flusher</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">))</span> <span class="operator">(</span><span class="variable">UI</span> <span class="operator">*);</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*UI_method_get_reader</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">))</span> <span class="operator">(</span><span class="variable">UI</span> <span class="operator">*,</span> <span class="variable">UI_STRING</span> <span class="operator">*);</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*UI_method_get_closer</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">))</span> <span class="operator">(</span><span class="variable">UI</span> <span class="operator">*);</span>
- <span class="variable">char</span> <span class="operator">*(</span><span class="variable">*UI_method_get_prompt_constructor</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">))</span>
-     <span class="operator">(</span><span class="variable">UI</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="operator">*);</span>
- <span class="variable">void</span> <span class="operator">*(</span><span class="variable">*UI_method_get_data_duplicator</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">))</span> <span class="operator">(</span><span class="variable">UI</span> <span class="operator">*,</span> <span class="variable">void</span> <span class="operator">*);</span>
- <span class="variable">void</span> <span class="operator">(</span><span class="variable">*UI_method_get_data_destructor</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">))</span> <span class="operator">(</span><span class="variable">UI</span> <span class="operator">*,</span> <span class="variable">void</span> <span class="operator">*);</span>
- <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*UI_method_get_ex_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">UI_METHOD</span> <span class="variable">*method</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ui.h&gt;
+
+ typedef struct ui_method_st UI_METHOD;
+
+ UI_METHOD *UI_create_method(const char *name);
+ void UI_destroy_method(UI_METHOD *ui_method);
+ int UI_method_set_opener(UI_METHOD *method, int (*opener) (UI *ui));
+ int UI_method_set_writer(UI_METHOD *method,
+                          int (*writer) (UI *ui, UI_STRING *uis));
+ int UI_method_set_flusher(UI_METHOD *method, int (*flusher) (UI *ui));
+ int UI_method_set_reader(UI_METHOD *method,
+                          int (*reader) (UI *ui, UI_STRING *uis));
+ int UI_method_set_closer(UI_METHOD *method, int (*closer) (UI *ui));
+ int UI_method_set_data_duplicator(UI_METHOD *method,
+                                   void *(*duplicator) (UI *ui, void *ui_data),
+                                   void (*destructor)(UI *ui, void *ui_data));
+ int UI_method_set_prompt_constructor(UI_METHOD *method,
+                                      char *(*prompt_constructor) (UI *ui,
+                                                                   const char
+                                                                   *object_desc,
+                                                                   const char
+                                                                   *object_name));
+ int UI_method_set_ex_data(UI_METHOD *method, int idx, void *data);
+ int (*UI_method_get_opener(const UI_METHOD *method)) (UI *);
+ int (*UI_method_get_writer(const UI_METHOD *method)) (UI *, UI_STRING *);
+ int (*UI_method_get_flusher(const UI_METHOD *method)) (UI *);
+ int (*UI_method_get_reader(const UI_METHOD *method)) (UI *, UI_STRING *);
+ int (*UI_method_get_closer(const UI_METHOD *method)) (UI *);
+ char *(*UI_method_get_prompt_constructor(const UI_METHOD *method))
+     (UI *, const char *, const char *);
+ void *(*UI_method_get_data_duplicator(const UI_METHOD *method)) (UI *, void *);
+ void (*UI_method_get_data_destructor(const UI_METHOD *method)) (UI *, void *);
+ const void *UI_method_get_ex_data(const UI_METHOD *method, int idx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

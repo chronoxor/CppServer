@@ -28,32 +28,31 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/md2.h&gt;</span>
- 
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*MD2</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">MD2_Init</span><span class="operator">(</span><span class="variable">MD2_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">MD2_Update</span><span class="operator">(</span><span class="variable">MD2_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">MD2_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">MD2_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- 
- 
- <span class="comment">#include &lt;openssl/md4.h&gt;</span>
- 
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*MD4</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">MD4_Init</span><span class="operator">(</span><span class="variable">MD4_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">MD4_Update</span><span class="operator">(</span><span class="variable">MD4_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">MD4_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">MD4_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- 
- 
- <span class="comment">#include &lt;openssl/md5.h&gt;</span>
- 
- <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*MD5</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*d</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">n</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">MD5_Init</span><span class="operator">(</span><span class="variable">MD5_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">MD5_Update</span><span class="operator">(</span><span class="variable">MD5_CTX</span> <span class="variable">*c</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">long</span> <span class="variable">len</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">MD5_Final</span><span class="operator">(</span><span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*md</span><span class="operator">,</span> <span class="variable">MD5_CTX</span> <span class="variable">*c</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/md2.h&gt;
+
+ unsigned char *MD2(const unsigned char *d, unsigned long n, unsigned char *md);
+
+ int MD2_Init(MD2_CTX *c);
+ int MD2_Update(MD2_CTX *c, const unsigned char *data, unsigned long len);
+ int MD2_Final(unsigned char *md, MD2_CTX *c);
+
+
+ #include &lt;openssl/md4.h&gt;
+
+ unsigned char *MD4(const unsigned char *d, unsigned long n, unsigned char *md);
+
+ int MD4_Init(MD4_CTX *c);
+ int MD4_Update(MD4_CTX *c, const void *data, unsigned long len);
+ int MD4_Final(unsigned char *md, MD4_CTX *c);
+
+
+ #include &lt;openssl/md5.h&gt;
+
+ unsigned char *MD5(const unsigned char *d, unsigned long n, unsigned char *md);
+
+ int MD5_Init(MD5_CTX *c);
+ int MD5_Update(MD5_CTX *c, const void *data, unsigned long len);
+ int MD5_Final(unsigned char *md, MD5_CTX *c);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

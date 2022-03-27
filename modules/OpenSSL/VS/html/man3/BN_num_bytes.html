@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_num_bytes</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_num_bits</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_num_bits_word</span><span class="operator">(</span><span class="variable">BN_ULONG</span> <span class="variable">w</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ int BN_num_bytes(const BIGNUM *a);
+
+ int BN_num_bits(const BIGNUM *a);
+
+ int BN_num_bits_word(BN_ULONG w);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

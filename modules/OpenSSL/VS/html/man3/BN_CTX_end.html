@@ -26,14 +26,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">BN_CTX_start</span><span class="operator">(</span><span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">BIGNUM</span> <span class="variable">*BN_CTX_get</span><span class="operator">(</span><span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">BN_CTX_end</span><span class="operator">(</span><span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ void BN_CTX_start(BN_CTX *ctx);
+
+ BIGNUM *BN_CTX_get(BN_CTX *ctx);
+
+ void BN_CTX_end(BN_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

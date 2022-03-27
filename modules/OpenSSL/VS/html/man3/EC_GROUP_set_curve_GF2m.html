@@ -26,38 +26,37 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ec.h&gt;</span>
- 
- <span class="variable">EC_GROUP</span> <span class="variable">*EC_GROUP_new</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- <span class="variable">EC_GROUP</span> <span class="variable">*EC_GROUP_new_from_ecparameters</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ECPARAMETERS</span> <span class="variable">*params</span><span class="operator">)</span>
- <span class="variable">EC_GROUP</span> <span class="variable">*EC_GROUP_new_from_ecpkparameters</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">ECPKPARAMETERS</span> <span class="variable">*params</span><span class="operator">)</span>
- <span class="variable">void</span> <span class="variable">EC_GROUP_free</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">EC_GROUP_clear_free</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">);</span>
- 
- <span class="variable">EC_GROUP</span> <span class="variable">*EC_GROUP_new_curve_GFp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span>
-                                  <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">EC_GROUP</span> <span class="variable">*EC_GROUP_new_curve_GF2m</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span>
-                                   <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="variable">EC_GROUP</span> <span class="variable">*EC_GROUP_new_by_curve_name</span><span class="operator">(</span><span class="keyword">int</span> <span class="variable">nid</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">EC_GROUP_set_curve</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span>
-                        <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_curve</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span>
-                        <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_set_curve_GFp</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span>
-                            <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_curve_GFp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span>
-                            <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_set_curve_GF2m</span><span class="operator">(</span><span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span>
-                             <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">EC_GROUP_get_curve_GF2m</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span>
-                             <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="variable">ECPARAMETERS</span> <span class="variable">*EC_GROUP_get_ecparameters</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">ECPARAMETERS</span> <span class="variable">*params</span><span class="operator">)</span>
- <span class="variable">ECPKPARAMETERS</span> <span class="variable">*EC_GROUP_get_ecpkparameters</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">EC_GROUP</span> <span class="variable">*group</span><span class="operator">,</span> <span class="variable">ECPKPARAMETERS</span> <span class="variable">*params</span><span class="operator">)</span>
- 
- <span class="variable">size_t</span> <span class="variable">EC_get_builtin_curves</span><span class="operator">(</span><span class="variable">EC_builtin_curve</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">size_t</span> <span class="variable">nitems</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ec.h&gt;
+
+ EC_GROUP *EC_GROUP_new(const EC_METHOD *meth);
+ EC_GROUP *EC_GROUP_new_from_ecparameters(const ECPARAMETERS *params)
+ EC_GROUP *EC_GROUP_new_from_ecpkparameters(const ECPKPARAMETERS *params)
+ void EC_GROUP_free(EC_GROUP *group);
+ void EC_GROUP_clear_free(EC_GROUP *group);
+
+ EC_GROUP *EC_GROUP_new_curve_GFp(const BIGNUM *p, const BIGNUM *a,
+                                  const BIGNUM *b, BN_CTX *ctx);
+ EC_GROUP *EC_GROUP_new_curve_GF2m(const BIGNUM *p, const BIGNUM *a,
+                                   const BIGNUM *b, BN_CTX *ctx);
+ EC_GROUP *EC_GROUP_new_by_curve_name(int nid);
+
+ int EC_GROUP_set_curve(EC_GROUP *group, const BIGNUM *p, const BIGNUM *a,
+                        const BIGNUM *b, BN_CTX *ctx);
+ int EC_GROUP_get_curve(const EC_GROUP *group, BIGNUM *p, BIGNUM *a, BIGNUM *b,
+                        BN_CTX *ctx);
+ int EC_GROUP_set_curve_GFp(EC_GROUP *group, const BIGNUM *p,
+                            const BIGNUM *a, const BIGNUM *b, BN_CTX *ctx);
+ int EC_GROUP_get_curve_GFp(const EC_GROUP *group, BIGNUM *p,
+                            BIGNUM *a, BIGNUM *b, BN_CTX *ctx);
+ int EC_GROUP_set_curve_GF2m(EC_GROUP *group, const BIGNUM *p,
+                             const BIGNUM *a, const BIGNUM *b, BN_CTX *ctx);
+ int EC_GROUP_get_curve_GF2m(const EC_GROUP *group, BIGNUM *p,
+                             BIGNUM *a, BIGNUM *b, BN_CTX *ctx);
+
+ ECPARAMETERS *EC_GROUP_get_ecparameters(const EC_GROUP *group, ECPARAMETERS *params)
+ ECPKPARAMETERS *EC_GROUP_get_ecpkparameters(const EC_GROUP *group, ECPKPARAMETERS *params)
+
+ size_t EC_get_builtin_curves(EC_builtin_curve *r, size_t nitems);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -85,11 +84,10 @@
 
 <p>Whilst the library can be used to create any curve using the functions described above, there are also a number of predefined curves that are available. In order to obtain a list of all of the predefined curves, call the function EC_get_builtin_curves(). The parameter <b>r</b> should be an array of EC_builtin_curve structures of size <b>nitems</b>. The function will populate the <b>r</b> array with information about the builtin curves. If <b>nitems</b> is less than the total number of curves available, then the first <b>nitems</b> curves will be returned. Otherwise the total number of curves will be provided. The return value is the total number of curves available (whether that number has been populated in <b>r</b> or not). Passing a NULL <b>r</b>, or setting <b>nitems</b> to 0 will do nothing other than return the total number of curves available. The EC_builtin_curve structure is defined as follows:</p>
 
-<pre><code> <span class="variable">typedef</span> <span class="variable">struct</span> <span class="operator">{</span>
-        <span class="keyword">int</span> <span class="variable">nid</span><span class="operator">;</span>
-        <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*comment</span><span class="operator">;</span>
-        <span class="operator">}</span> <span class="variable">EC_builtin_curve</span><span class="operator">;</span>
-</code></pre>
+<pre><code> typedef struct {
+        int nid;
+        const char *comment;
+        } EC_builtin_curve;</code></pre>
 
 <p>Each EC_builtin_curve item has a unique integer id (<b>nid</b>), and a human readable comment string describing the curve.</p>
 

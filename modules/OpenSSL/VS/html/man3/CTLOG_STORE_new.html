@@ -28,20 +28,19 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ct.h&gt;</span>
- 
- <span class="variable">CTLOG_STORE</span> <span class="variable">*CTLOG_STORE_new</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">CTLOG_STORE_free</span><span class="operator">(</span><span class="variable">CTLOG_STORE</span> <span class="variable">*store</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">CTLOG_STORE_load_default_file</span><span class="operator">(</span><span class="variable">CTLOG_STORE</span> <span class="variable">*store</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">CTLOG_STORE_load_file</span><span class="operator">(</span><span class="variable">CTLOG_STORE</span> <span class="variable">*store</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*file</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ct.h&gt;
+
+ CTLOG_STORE *CTLOG_STORE_new(void);
+ void CTLOG_STORE_free(CTLOG_STORE *store);
+
+ int CTLOG_STORE_load_default_file(CTLOG_STORE *store);
+ int CTLOG_STORE_load_file(CTLOG_STORE *store, const char *file);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
 <p>A CTLOG_STORE is a container for a list of CTLOGs (Certificate Transparency logs). The list can be loaded from one or more files and then searched by LogID (see RFC 6962, Section 3.2, for the definition of a LogID).</p>
 
-<p>CTLOG_STORE_new() creates an empty list of CT logs. This is then populated by CTLOG_STORE_load_default_file() or CTLOG_STORE_load_file(). CTLOG_STORE_load_default_file() loads from the default file, which is named &quot;ct_log_list.cnf&quot; in OPENSSLDIR (see the output of <a href="/man1/version.html">version</a>). This can be overridden using an environment variable named &quot;CTLOG_FILE&quot;. CTLOG_STORE_load_file() loads from a caller-specified file path instead. Both of these functions append any loaded CT logs to the CTLOG_STORE.</p>
+<p>CTLOG_STORE_new() creates an empty list of CT logs. This is then populated by CTLOG_STORE_load_default_file() or CTLOG_STORE_load_file(). CTLOG_STORE_load_default_file() loads from the default file, which is named &quot;ct_log_list.cnf&quot; in OPENSSLDIR (see the output of <a href="/../man1/version.html">version</a>). This can be overridden using an environment variable named &quot;CTLOG_FILE&quot;. CTLOG_STORE_load_file() loads from a caller-specified file path instead. Both of these functions append any loaded CT logs to the CTLOG_STORE.</p>
 
 <p>The expected format of the file is:</p>
 

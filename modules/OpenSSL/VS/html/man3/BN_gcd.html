@@ -22,45 +22,46 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>BN_add, BN_sub, BN_mul, BN_sqr, BN_div, BN_mod, BN_nnmod, BN_mod_add, BN_mod_sub, BN_mod_mul, BN_mod_sqr, BN_exp, BN_mod_exp, BN_gcd - arithmetic operations on BIGNUMs</p>
+<p>BN_add, BN_sub, BN_mul, BN_sqr, BN_div, BN_mod, BN_nnmod, BN_mod_add, BN_mod_sub, BN_mod_mul, BN_mod_sqr, BN_mod_sqrt, BN_exp, BN_mod_exp, BN_gcd - arithmetic operations on BIGNUMs</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/bn.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_add</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_sub</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_mul</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_sqr</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_div</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*dv</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*rem</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*d</span><span class="operator">,</span>
-            <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_mod</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*rem</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_nnmod</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_mod_add</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span>
-                <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_mod_sub</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span>
-                <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_mod_mul</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span>
-                <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_mod_sqr</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_exp</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_mod_exp</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span>
-                <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">BN_gcd</span><span class="operator">(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*b</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/bn.h&gt;
+
+ int BN_add(BIGNUM *r, const BIGNUM *a, const BIGNUM *b);
+
+ int BN_sub(BIGNUM *r, const BIGNUM *a, const BIGNUM *b);
+
+ int BN_mul(BIGNUM *r, BIGNUM *a, BIGNUM *b, BN_CTX *ctx);
+
+ int BN_sqr(BIGNUM *r, BIGNUM *a, BN_CTX *ctx);
+
+ int BN_div(BIGNUM *dv, BIGNUM *rem, const BIGNUM *a, const BIGNUM *d,
+            BN_CTX *ctx);
+
+ int BN_mod(BIGNUM *rem, const BIGNUM *a, const BIGNUM *m, BN_CTX *ctx);
+
+ int BN_nnmod(BIGNUM *r, const BIGNUM *a, const BIGNUM *m, BN_CTX *ctx);
+
+ int BN_mod_add(BIGNUM *r, BIGNUM *a, BIGNUM *b, const BIGNUM *m,
+                BN_CTX *ctx);
+
+ int BN_mod_sub(BIGNUM *r, BIGNUM *a, BIGNUM *b, const BIGNUM *m,
+                BN_CTX *ctx);
+
+ int BN_mod_mul(BIGNUM *r, BIGNUM *a, BIGNUM *b, const BIGNUM *m,
+                BN_CTX *ctx);
+
+ int BN_mod_sqr(BIGNUM *r, BIGNUM *a, const BIGNUM *m, BN_CTX *ctx);
+
+ BIGNUM *BN_mod_sqrt(BIGNUM *in, BIGNUM *a, const BIGNUM *p, BN_CTX *ctx);
+
+ int BN_exp(BIGNUM *r, BIGNUM *a, BIGNUM *p, BN_CTX *ctx);
+
+ int BN_mod_exp(BIGNUM *r, BIGNUM *a, const BIGNUM *p,
+                const BIGNUM *m, BN_CTX *ctx);
+
+ int BN_gcd(BIGNUM *r, BIGNUM *a, BIGNUM *b, BN_CTX *ctx);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -86,6 +87,8 @@
 
 <p>BN_mod_sqr() takes the square of <i>a</i> modulo <b>m</b> and places the result in <i>r</i>.</p>
 
+<p>BN_mod_sqrt() returns the modular square root of <i>a</i> such that <code>in^2 = a (mod p)</code>. The modulus <i>p</i> must be a prime, otherwise an error or an incorrect &quot;result&quot; will be returned. The result is stored into <i>in</i> which can be NULL. The result will be newly allocated in that case.</p>
+
 <p>BN_exp() raises <i>a</i> to the <i>p</i>-th power and places the result in <i>r</i> (<code>r=a^p</code>). This function is faster than repeated applications of BN_mul().</p>
 
 <p>BN_mod_exp() computes <i>a</i> to the <i>p</i>-th power modulo <i>m</i> (<code>r=a^p % m</code>). This function uses less time and space than BN_exp(). Do not call this function when <b>m</b> is even and any of the parameters have the <b>BN_FLG_CONSTTIME</b> flag set.</p>
@@ -98,8 +101,9 @@
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>For all functions, 1 is returned for success, 0 on error. The return value should always be checked (e.g., <code><span class="keyword">if</span> <span class="operator">(!</span><span class="variable">BN_add</span><span class="operator">(</span><span class="variable">r</span><span class="operator">,</span><span class="variable">a</span><span class="operator">,</span><span class="variable">b</span><span class="operator">))</span> <span class="keyword">goto</span> <span class="variable">err</span><span class="operator">;</span>
-</code>). The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
+<p>The BN_mod_sqrt() returns the result (possibly incorrect if <i>p</i> is not a prime), or NULL.</p>
+
+<p>For all remaining functions, 1 is returned for success, 0 on error. The return value should always be checked (e.g., <code>if (!BN_add(r,a,b)) goto err;</code>). The error codes can be obtained by <a href="../man3/ERR_get_error.html">ERR_get_error(3)</a>.</p>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 
@@ -107,7 +111,7 @@
 
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2000-2022 The OpenSSL Project Authors. All Rights Reserved.</p>
 
 <p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 

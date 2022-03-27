@@ -29,19 +29,18 @@
 
 <p>Deprecated:</p>
 
-<pre><code> <span class="comment">#include &lt;openssl/err.h&gt;</span>
- 
- <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x10100000L</span>
- <span class="variable">void</span> <span class="variable">ERR_load_crypto_strings</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">ERR_free_strings</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
- 
- <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="comment">#if OPENSSL_API_COMPAT &lt; 0x10100000L</span>
- <span class="variable">void</span> <span class="variable">SSL_load_error_strings</span><span class="operator">(</span><span class="variable">void</span><span class="operator">);</span>
- <span class="comment">#endif</span>
-</code></pre>
+<pre><code> #include &lt;openssl/err.h&gt;
+
+ #if OPENSSL_API_COMPAT &lt; 0x10100000L
+ void ERR_load_crypto_strings(void);
+ void ERR_free_strings(void);
+ #endif
+
+ #include &lt;openssl/ssl.h&gt;
+
+ #if OPENSSL_API_COMPAT &lt; 0x10100000L
+ void SSL_load_error_strings(void);
+ #endif</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

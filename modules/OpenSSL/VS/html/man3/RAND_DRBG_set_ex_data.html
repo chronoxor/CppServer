@@ -27,17 +27,16 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rand_drbg.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_DRBG_set_ex_data</span><span class="operator">(</span><span class="variable">RAND_DRBG</span> <span class="variable">*drbg</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*data</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">*RAND_DRBG_get_ex_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RAND_DRBG</span> <span class="variable">*drbg</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">idx</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RAND_DRBG_get_ex_new_index</span><span class="operator">(</span><span class="variable">long</span> <span class="variable">argl</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*argp</span><span class="operator">,</span>
-                                <span class="variable">CRYPTO_EX_new</span> <span class="variable">*new_func</span><span class="operator">,</span>
-                                <span class="variable">CRYPTO_EX_dup</span> <span class="variable">*dup_func</span><span class="operator">,</span>
-                                <span class="variable">CRYPTO_EX_free</span> <span class="variable">*free_func</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rand_drbg.h&gt;
+
+ int RAND_DRBG_set_ex_data(RAND_DRBG *drbg, int idx, void *data);
+
+ void *RAND_DRBG_get_ex_data(const RAND_DRBG *drbg, int idx);
+
+ int RAND_DRBG_get_ex_new_index(long argl, void *argp,
+                                CRYPTO_EX_new *new_func,
+                                CRYPTO_EX_dup *dup_func,
+                                CRYPTO_EX_free *free_func);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 

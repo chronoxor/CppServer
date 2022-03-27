@@ -28,18 +28,17 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_tmp_dh_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                                  <span class="variable">DH</span> <span class="operator">*(</span><span class="variable">*tmp_dh_callback</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">is_export</span><span class="operator">,</span>
-                                                         <span class="keyword">int</span> <span class="variable">keylength</span><span class="operator">));</span>
- <span class="variable">long</span> <span class="variable">SSL_CTX_set_tmp_dh</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_set_tmp_dh_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ctx</span><span class="operator">,</span>
-                              <span class="variable">DH</span> <span class="operator">*(</span><span class="variable">*tmp_dh_callback</span><span class="operator">)(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">is_export</span><span class="operator">,</span>
-                                                     <span class="keyword">int</span> <span class="variable">keylength</span><span class="operator">));</span>
- <span class="variable">long</span> <span class="variable">SSL_set_tmp_dh</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">DH</span> <span class="variable">*dh</span><span class="operator">)</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_tmp_dh_callback(SSL_CTX *ctx,
+                                  DH *(*tmp_dh_callback)(SSL *ssl, int is_export,
+                                                         int keylength));
+ long SSL_CTX_set_tmp_dh(SSL_CTX *ctx, DH *dh);
+
+ void SSL_set_tmp_dh_callback(SSL *ctx,
+                              DH *(*tmp_dh_callback)(SSL *ssl, int is_export,
+                                                     int keylength));
+ long SSL_set_tmp_dh(SSL *ssl, DH *dh)</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -85,24 +84,22 @@
 
 <p>Code for setting up parameters during server initialization:</p>
 
-<pre><code> <span class="variable">SSL_CTX</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="variable">SSL_CTX_new</span><span class="operator">();</span>
- 
- <span class="variable">DH</span> <span class="variable">*dh_2048</span> <span class="operator">=</span> <span class="variable">NULL</span><span class="operator">;</span>
- <span class="variable">FILE</span> <span class="variable">*paramfile</span> <span class="operator">=</span> <span class="variable">fopen</span><span class="operator">(</span><span class="string">"dh_param_2048.pem"</span><span class="operator">,</span> <span class="string">"r"</span><span class="operator">);</span>
- 
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">paramfile</span><span class="operator">)</span> <span class="operator">{</span>
-     <span class="variable">dh_2048</span> <span class="operator">=</span> <span class="variable">PEM_read_DHparams</span><span class="operator">(</span><span class="variable">paramfile</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
-     <span class="variable">fclose</span><span class="operator">(</span><span class="variable">paramfile</span><span class="operator">);</span>
- <span class="operator">}</span> <span class="keyword">else</span> <span class="operator">{</span>
-     <span class="regex">/* Error. */</span>
- <span class="operator">}</span>
- <span class="keyword">if</span> <span class="operator">(</span><span class="variable">dh_2048</span> <span class="operator">==</span> <span class="variable">NULL</span><span class="operator">)</span>
-     <span class="operator">/*</span> <span class="variable">Error</span><span class="operator">.</span> <span class="operator">*</span><span class="regex">/
+<pre><code> SSL_CTX ctx = SSL_CTX_new();
+
+ DH *dh_2048 = NULL;
+ FILE *paramfile = fopen(&quot;dh_param_2048.pem&quot;, &quot;r&quot;);
+
+ if (paramfile) {
+     dh_2048 = PEM_read_DHparams(paramfile, NULL, NULL, NULL);
+     fclose(paramfile);
+ } else {
+     /* Error. */
+ }
+ if (dh_2048 == NULL)
+     /* Error. */
  if (SSL_CTX_set_tmp_dh(ctx, dh_2048) != 1)
-     /</span><span class="operator">*</span> <span class="variable">Error</span><span class="operator">.</span> <span class="operator">*</span><span class="regex">/
- ...
- </span>
-</code></pre>
+     /* Error. */
+ ...</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

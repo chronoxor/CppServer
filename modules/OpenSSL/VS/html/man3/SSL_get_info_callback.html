@@ -28,14 +28,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_CTX_set_info_callback</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)());</span>
- <span class="variable">void</span> <span class="operator">(</span><span class="variable">*SSL_CTX_get_info_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">))();</span>
- 
- <span class="variable">void</span> <span class="variable">SSL_set_info_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">void</span> <span class="operator">(</span><span class="variable">*callback</span><span class="operator">)());</span>
- <span class="variable">void</span> <span class="operator">(</span><span class="variable">*SSL_get_info_callback</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">))();</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ void SSL_CTX_set_info_callback(SSL_CTX *ctx, void (*callback)());
+ void (*SSL_CTX_get_info_callback(const SSL_CTX *ctx))();
+
+ void SSL_set_info_callback(SSL *ssl, void (*callback)());
+ void (*SSL_get_info_callback(const SSL *ssl))();</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
@@ -139,37 +138,35 @@
 
 <p>The following example callback function prints state strings, information about alerts being handled and error messages to the <b>bio_err</b> BIO.</p>
 
-<pre><code> <span class="variable">void</span> <span class="variable">apps_ssl_info_callback</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">where</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">ret</span><span class="operator">)</span>
- <span class="operator">{</span>
-     <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">;</span>
-     <span class="keyword">int</span> <span class="variable">w</span> <span class="operator">=</span> <span class="variable">where</span> <span class="operator">&amp;</span> <span class="operator">~</span><span class="variable">SSL_ST_MASK</span><span class="operator">;</span>
- 
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">w</span> <span class="operator">&amp;</span> <span class="variable">SSL_ST_CONNECT</span><span class="operator">)</span>
-         <span class="variable">str</span> <span class="operator">=</span> <span class="string">"SSL_connect"</span><span class="operator">;</span>
-     <span class="keyword">else</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">w</span> <span class="operator">&amp;</span> <span class="variable">SSL_ST_ACCEPT</span><span class="operator">)</span>
-         <span class="variable">str</span> <span class="operator">=</span> <span class="string">"SSL_accept"</span><span class="operator">;</span>
-     <span class="keyword">else</span>
-         <span class="variable">str</span> <span class="operator">=</span> <span class="string">"undefined"</span><span class="operator">;</span>
- 
-     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">where</span> <span class="operator">&amp;</span> <span class="variable">SSL_CB_LOOP</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_err</span><span class="operator">,</span> <span class="string">"%s:%s\n"</span><span class="operator">,</span> <span class="variable">str</span><span class="operator">,</span> <span class="variable">SSL_state_string_long</span><span class="operator">(</span><span class="regex">s));
-     } else if (where &amp; SSL_CB_ALERT)</span> <span class="operator">{</span>
-         <span class="variable">str</span> <span class="operator">=</span> <span class="operator">(</span><span class="variable">where</span> <span class="operator">&amp;</span> <span class="variable">SSL_CB_READ</span><span class="operator">)</span> <span class="operator">?</span> <span class="string">"read"</span> <span class="operator">:</span> <span class="string">"write"</span><span class="operator">;</span>
-         <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_err</span><span class="operator">,</span> <span class="string">"SSL3 alert %s:%s:%s\n"</span><span class="operator">,</span> <span class="variable">str</span><span class="operator">,</span>
-                    <span class="variable">SSL_alert_type_string_long</span><span class="operator">(</span><span class="variable">ret</span><span class="operator">),</span>
-                    <span class="variable">SSL_alert_desc_string_long</span><span class="operator">(</span><span class="variable">ret</span><span class="operator">));</span>
-     <span class="operator">}</span> <span class="keyword">else</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">where</span> <span class="operator">&amp;</span> <span class="variable">SSL_CB_EXIT</span><span class="operator">)</span> <span class="operator">{</span>
-         <span class="keyword">if</span> <span class="operator">(</span><span class="variable">ret</span> <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-             <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_err</span><span class="operator">,</span> <span class="string">"%s:failed in %s\n"</span><span class="operator">,</span>
-                        <span class="variable">str</span><span class="operator">,</span> <span class="variable">SSL_state_string_long</span><span class="operator">(</span><span class="regex">s));
-         } else if (ret &lt; 0)</span> <span class="operator">{</span>
-             <span class="variable">BIO_printf</span><span class="operator">(</span><span class="variable">bio_err</span><span class="operator">,</span> <span class="string">"%s:error in %s\n"</span><span class="operator">,</span>
-                        <span class="variable">str</span><span class="operator">,</span> <span class="variable">SSL_state_string_long</span><span class="operator">(</span><span class="regex">s));
+<pre><code> void apps_ssl_info_callback(SSL *s, int where, int ret)
+ {
+     const char *str;
+     int w = where &amp; ~SSL_ST_MASK;
+
+     if (w &amp; SSL_ST_CONNECT)
+         str = &quot;SSL_connect&quot;;
+     else if (w &amp; SSL_ST_ACCEPT)
+         str = &quot;SSL_accept&quot;;
+     else
+         str = &quot;undefined&quot;;
+
+     if (where &amp; SSL_CB_LOOP) {
+         BIO_printf(bio_err, &quot;%s:%s\n&quot;, str, SSL_state_string_long(s));
+     } else if (where &amp; SSL_CB_ALERT) {
+         str = (where &amp; SSL_CB_READ) ? &quot;read&quot; : &quot;write&quot;;
+         BIO_printf(bio_err, &quot;SSL3 alert %s:%s:%s\n&quot;, str,
+                    SSL_alert_type_string_long(ret),
+                    SSL_alert_desc_string_long(ret));
+     } else if (where &amp; SSL_CB_EXIT) {
+         if (ret == 0) {
+             BIO_printf(bio_err, &quot;%s:failed in %s\n&quot;,
+                        str, SSL_state_string_long(s));
+         } else if (ret &lt; 0) {
+             BIO_printf(bio_err, &quot;%s:error in %s\n&quot;,
+                        str, SSL_state_string_long(s));
          }
      }
- }
- </span>
-</code></pre>
+ }</code></pre>
 
 <h1 id="SEE-ALSO">SEE ALSO</h1>
 

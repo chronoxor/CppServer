@@ -27,113 +27,112 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/rsa.h&gt;</span>
- 
- <span class="variable">RSA_METHOD</span> <span class="variable">*RSA_meth_new</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- <span class="variable">void</span> <span class="variable">RSA_meth_free</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="variable">RSA_METHOD</span> <span class="variable">*RSA_meth_dup</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- 
- <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*RSA_meth_get0_name</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set1_name</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*name</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_meth_get_flags</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_flags</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">flags</span><span class="operator">);</span>
- 
- <span class="variable">void</span> <span class="variable">*RSA_meth_get0_app_data</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set0_app_data</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*app_data</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_pub_enc</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                                                     <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_pub_enc</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                          <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_enc</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                                         <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                                         <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">));</span>
- 
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_pub_dec</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))</span>
-     <span class="operator">(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_pub_dec</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                          <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*pub_dec</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                                         <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                                         <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">));</span>
- 
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_priv_enc</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                                                      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                                                      <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_priv_enc</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                           <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*priv_enc</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                                           <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">));</span>
- 
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_priv_dec</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                                                      <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                                                      <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_priv_dec</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                           <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*priv_dec</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">flen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*from</span><span class="operator">,</span>
-                                           <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*to</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">padding</span><span class="operator">));</span>
- 
- <span class="regex">/* Can be null */</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_mod_exp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="variable">BIGNUM</span> <span class="variable">*r0</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*i</span><span class="operator">,</span>
-                                                     <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_mod_exp</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                          <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*mod_exp</span><span class="operator">)(</span><span class="variable">BIGNUM</span> <span class="variable">*r0</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*i</span><span class="operator">,</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                                         <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">));</span>
- 
- <span class="regex">/* Can be null */</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_bn_mod_exp</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span>
-                                                        <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span>
-                                                        <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">BN_MONT_CTX</span> <span class="variable">*m_ctx</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_bn_mod_exp</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                             <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*bn_mod_exp</span><span class="operator">)(</span><span class="variable">BIGNUM</span> <span class="variable">*r</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*a</span><span class="operator">,</span>
-                                               <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*p</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">BIGNUM</span> <span class="variable">*m</span><span class="operator">,</span>
-                                               <span class="variable">BN_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">BN_MONT_CTX</span> <span class="variable">*m_ctx</span><span class="operator">));</span>
- 
- <span class="regex">/* called at new */</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_init</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_init</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*init</span> <span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">));</span>
- 
- <span class="regex">/* called at free */</span>
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_finish</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_finish</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*finish</span><span class="operator">)(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">));</span>
- 
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_sign</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*m</span><span class="operator">,</span>
-                                                  <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_length</span><span class="operator">,</span>
-                                                  <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigret</span><span class="operator">,</span>
-                                                  <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*siglen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_sign</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                       <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*sign</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">type</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*m</span><span class="operator">,</span>
-                                   <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_length</span><span class="operator">,</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigret</span><span class="operator">,</span>
-                                   <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">*siglen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">));</span>
- 
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_verify</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="keyword">int</span> <span class="variable">dtype</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*m</span><span class="operator">,</span>
-                                                    <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_length</span><span class="operator">,</span>
-                                                    <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span>
-                                                    <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_verify</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                         <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*verify</span><span class="operator">)(</span><span class="keyword">int</span> <span class="variable">dtype</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*m</span><span class="operator">,</span>
-                                       <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">m_length</span><span class="operator">,</span>
-                                       <span class="variable">const</span> <span class="variable">unsigned</span> <span class="variable">char</span> <span class="variable">*sigbuf</span><span class="operator">,</span>
-                                       <span class="variable">unsigned</span> <span class="keyword">int</span> <span class="variable">siglen</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">));</span>
- 
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_keygen</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*e</span><span class="operator">,</span>
-                                                    <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_keygen</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*rsa</span><span class="operator">,</span>
-                         <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*keygen</span><span class="operator">)(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*e</span><span class="operator">,</span>
-                                       <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">));</span>
- 
- <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*RSA_meth_get_multi_prime_keygen</span><span class="operator">(</span><span class="variable">const</span> <span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">))(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span>
-                                                                <span class="keyword">int</span> <span class="variable">primes</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*e</span><span class="operator">,</span>
-                                                                <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">RSA_meth_set_multi_prime_keygen</span><span class="operator">(</span><span class="variable">RSA_METHOD</span> <span class="variable">*meth</span><span class="operator">,</span>
-                                     <span class="keyword">int</span> <span class="operator">(</span><span class="variable">*keygen</span><span class="operator">)</span> <span class="operator">(</span><span class="variable">RSA</span> <span class="variable">*rsa</span><span class="operator">,</span> <span class="keyword">int</span> <span class="variable">bits</span><span class="operator">,</span>
-                                                    <span class="keyword">int</span> <span class="variable">primes</span><span class="operator">,</span> <span class="variable">BIGNUM</span> <span class="variable">*e</span><span class="operator">,</span>
-                                                    <span class="variable">BN_GENCB</span> <span class="variable">*cb</span><span class="operator">));</span>
-</code></pre>
+<pre><code> #include &lt;openssl/rsa.h&gt;
+
+ RSA_METHOD *RSA_meth_new(const char *name, int flags);
+ void RSA_meth_free(RSA_METHOD *meth);
+
+ RSA_METHOD *RSA_meth_dup(const RSA_METHOD *meth);
+
+ const char *RSA_meth_get0_name(const RSA_METHOD *meth);
+ int RSA_meth_set1_name(RSA_METHOD *meth, const char *name);
+
+ int RSA_meth_get_flags(const RSA_METHOD *meth);
+ int RSA_meth_set_flags(RSA_METHOD *meth, int flags);
+
+ void *RSA_meth_get0_app_data(const RSA_METHOD *meth);
+ int RSA_meth_set0_app_data(RSA_METHOD *meth, void *app_data);
+
+ int (*RSA_meth_get_pub_enc(const RSA_METHOD *meth))(int flen, const unsigned char *from,
+                                                     unsigned char *to, RSA *rsa, int padding);
+ int RSA_meth_set_pub_enc(RSA_METHOD *rsa,
+                          int (*pub_enc)(int flen, const unsigned char *from,
+                                         unsigned char *to, RSA *rsa,
+                                         int padding));
+
+ int (*RSA_meth_get_pub_dec(const RSA_METHOD *meth))
+     (int flen, const unsigned char *from,
+      unsigned char *to, RSA *rsa, int padding);
+ int RSA_meth_set_pub_dec(RSA_METHOD *rsa,
+                          int (*pub_dec)(int flen, const unsigned char *from,
+                                         unsigned char *to, RSA *rsa,
+                                         int padding));
+
+ int (*RSA_meth_get_priv_enc(const RSA_METHOD *meth))(int flen, const unsigned char *from,
+                                                      unsigned char *to, RSA *rsa,
+                                                      int padding);
+ int RSA_meth_set_priv_enc(RSA_METHOD *rsa,
+                           int (*priv_enc)(int flen, const unsigned char *from,
+                                           unsigned char *to, RSA *rsa, int padding));
+
+ int (*RSA_meth_get_priv_dec(const RSA_METHOD *meth))(int flen, const unsigned char *from,
+                                                      unsigned char *to, RSA *rsa,
+                                                      int padding);
+ int RSA_meth_set_priv_dec(RSA_METHOD *rsa,
+                           int (*priv_dec)(int flen, const unsigned char *from,
+                                           unsigned char *to, RSA *rsa, int padding));
+
+ /* Can be null */
+ int (*RSA_meth_get_mod_exp(const RSA_METHOD *meth))(BIGNUM *r0, const BIGNUM *i,
+                                                     RSA *rsa, BN_CTX *ctx);
+ int RSA_meth_set_mod_exp(RSA_METHOD *rsa,
+                          int (*mod_exp)(BIGNUM *r0, const BIGNUM *i, RSA *rsa,
+                                         BN_CTX *ctx));
+
+ /* Can be null */
+ int (*RSA_meth_get_bn_mod_exp(const RSA_METHOD *meth))(BIGNUM *r, const BIGNUM *a,
+                                                        const BIGNUM *p, const BIGNUM *m,
+                                                        BN_CTX *ctx, BN_MONT_CTX *m_ctx);
+ int RSA_meth_set_bn_mod_exp(RSA_METHOD *rsa,
+                             int (*bn_mod_exp)(BIGNUM *r, const BIGNUM *a,
+                                               const BIGNUM *p, const BIGNUM *m,
+                                               BN_CTX *ctx, BN_MONT_CTX *m_ctx));
+
+ /* called at new */
+ int (*RSA_meth_get_init(const RSA_METHOD *meth) (RSA *rsa);
+ int RSA_meth_set_init(RSA_METHOD *rsa, int (*init (RSA *rsa));
+
+ /* called at free */
+ int (*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa);
+ int RSA_meth_set_finish(RSA_METHOD *rsa, int (*finish)(RSA *rsa));
+
+ int (*RSA_meth_get_sign(const RSA_METHOD *meth))(int type, const unsigned char *m,
+                                                  unsigned int m_length,
+                                                  unsigned char *sigret,
+                                                  unsigned int *siglen, const RSA *rsa);
+ int RSA_meth_set_sign(RSA_METHOD *rsa,
+                       int (*sign)(int type, const unsigned char *m,
+                                   unsigned int m_length, unsigned char *sigret,
+                                   unsigned int *siglen, const RSA *rsa));
+
+ int (*RSA_meth_get_verify(const RSA_METHOD *meth))(int dtype, const unsigned char *m,
+                                                    unsigned int m_length,
+                                                    const unsigned char *sigbuf,
+                                                    unsigned int siglen, const RSA *rsa);
+ int RSA_meth_set_verify(RSA_METHOD *rsa,
+                         int (*verify)(int dtype, const unsigned char *m,
+                                       unsigned int m_length,
+                                       const unsigned char *sigbuf,
+                                       unsigned int siglen, const RSA *rsa));
+
+ int (*RSA_meth_get_keygen(const RSA_METHOD *meth))(RSA *rsa, int bits, BIGNUM *e,
+                                                    BN_GENCB *cb);
+ int RSA_meth_set_keygen(RSA_METHOD *rsa,
+                         int (*keygen)(RSA *rsa, int bits, BIGNUM *e,
+                                       BN_GENCB *cb));
+
+ int (*RSA_meth_get_multi_prime_keygen(const RSA_METHOD *meth))(RSA *rsa, int bits,
+                                                                int primes, BIGNUM *e,
+                                                                BN_GENCB *cb);
+
+ int RSA_meth_set_multi_prime_keygen(RSA_METHOD *meth,
+                                     int (*keygen) (RSA *rsa, int bits,
+                                                    int primes, BIGNUM *e,
+                                                    BN_GENCB *cb));</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>The <b>RSA_METHOD</b> type is a structure used for the provision of custom RSA implementations. It provides a set of functions used by OpenSSL for the implementation of the various RSA capabilities. See the <a href="/man1/rsa.html">rsa</a> page for more information.</p>
+<p>The <b>RSA_METHOD</b> type is a structure used for the provision of custom RSA implementations. It provides a set of functions used by OpenSSL for the implementation of the various RSA capabilities. See the <a href="/../man1/rsa.html">rsa</a> page for more information.</p>
 
 <p>RSA_meth_new() creates a new <b>RSA_METHOD</b> structure. It should be given a unique <b>name</b> and a set of <b>flags</b>. The <b>name</b> should be a NULL terminated string, which will be duplicated and stored in the <b>RSA_METHOD</b> object. It is the callers responsibility to free the original string. The flags will be used during the construction of a new <b>RSA</b> object based on this <b>RSA_METHOD</b>. Any new <b>RSA</b> object will have those flags set by default.</p>
 

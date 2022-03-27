@@ -27,14 +27,13 @@
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> <span class="comment">#include &lt;openssl/ssl.h&gt;</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_cipher_list</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_cipher_list</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*ssl</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- 
- <span class="keyword">int</span> <span class="variable">SSL_CTX_set_ciphersuites</span><span class="operator">(</span><span class="variable">SSL_CTX</span> <span class="variable">*ctx</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
- <span class="keyword">int</span> <span class="variable">SSL_set_ciphersuites</span><span class="operator">(</span><span class="variable">SSL</span> <span class="variable">*s</span><span class="operator">,</span> <span class="variable">const</span> <span class="variable">char</span> <span class="variable">*str</span><span class="operator">);</span>
-</code></pre>
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ int SSL_CTX_set_cipher_list(SSL_CTX *ctx, const char *str);
+ int SSL_set_cipher_list(SSL *ssl, const char *str);
+
+ int SSL_CTX_set_ciphersuites(SSL_CTX *ctx, const char *str);
+ int SSL_set_ciphersuites(SSL *s, const char *str);</code></pre>
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
