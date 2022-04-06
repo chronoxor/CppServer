@@ -121,7 +121,7 @@ public:
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    virtual bool Disconnect();
+    virtual bool Disconnect() { return DisconnectInternal(); }
     //! Reconnect the client (synchronous)
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
@@ -143,7 +143,7 @@ public:
     /*!
         \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
     */
-    virtual bool DisconnectAsync() { return DisconnectAsync(false); }
+    virtual bool DisconnectAsync() { return DisconnectInternalAsync(false); }
     //! Reconnect the client (asynchronous)
     /*!
         \return 'true' if the client was successfully reconnected, 'false' if the client is already reconnected
@@ -440,12 +440,10 @@ private:
     bool _option_reuse_port;
     bool _option_multicast;
 
-    //! Disconnect the client (asynchronous)
-    /*!
-        \param dispatch - Dispatch flag
-        \return 'true' if the client was successfully disconnected, 'false' if the client is already disconnected
-    */
-    bool DisconnectAsync(bool dispatch);
+    //! Disconnect the client (internal synchronous)
+    bool DisconnectInternal();
+    //! Disconnect the client (internal asynchronous)
+    bool DisconnectInternalAsync(bool dispatch);
 
     //! Try to receive new datagram
     void TryReceive();

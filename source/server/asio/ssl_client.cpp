@@ -309,7 +309,7 @@ bool SSLClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
     return true;
 }
 
-bool SSLClient::Disconnect()
+bool SSLClient::DisconnectInternal()
 {
     if (!IsConnected() || _resolving || _connecting || _handshaking)
         return false;
@@ -428,7 +428,7 @@ bool SSLClient::ConnectAsync()
                     {
                         // Disconnect in case of the bad handshake
                         SendError(ec2);
-                        DisconnectAsync(true);
+                        DisconnectInternalAsync(true);
                     }
                 });
                 if (_strand_required)
@@ -554,7 +554,7 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
                             {
                                 // Disconnect in case of the bad handshake
                                 SendError(ec3);
-                                DisconnectAsync(true);
+                                DisconnectInternalAsync(true);
                             }
                         });
                         if (_strand_required)
@@ -599,7 +599,7 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
     return true;
 }
 
-bool SSLClient::DisconnectAsync(bool dispatch)
+bool SSLClient::DisconnectInternalAsync(bool dispatch)
 {
     if (!IsConnected() || _resolving || _connecting || _handshaking)
         return false;
@@ -617,7 +617,7 @@ bool SSLClient::DisconnectAsync(bool dispatch)
         socket().cancel(ec);
 
         // Async SSL shutdown with the shutdown handler
-        auto async_shutdown_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2) { Disconnect(); });
+        auto async_shutdown_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2) { DisconnectInternal(); });
         if (_strand_required)
             _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));
         else
@@ -954,7 +954,7 @@ void SSLClient::TryReceive()
                 if (((2 * size) > _receive_buffer_limit) && (_receive_buffer_limit > 0))
                 {
                     SendError(asio::error::no_buffer_space);
-                    DisconnectAsync(true);
+                    DisconnectInternalAsync(true);
                     return;
                 }
 
@@ -968,7 +968,7 @@ void SSLClient::TryReceive()
         else
         {
             SendError(ec);
-            DisconnectAsync(true);
+            DisconnectInternalAsync(true);
         }
     });
     if (_strand_required)
@@ -1045,7 +1045,7 @@ void SSLClient::TrySend()
         else
         {
             SendError(ec);
-            DisconnectAsync(true);
+            DisconnectInternalAsync(true);
         }
     });
     if (_strand_required)

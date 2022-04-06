@@ -242,7 +242,7 @@ bool TCPClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
     return true;
 }
 
-bool TCPClient::Disconnect()
+bool TCPClient::DisconnectInternal()
 {
     if (!IsConnected())
         return false;
@@ -460,7 +460,7 @@ bool TCPClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
     return true;
 }
 
-bool TCPClient::DisconnectAsync(bool dispatch)
+bool TCPClient::DisconnectInternalAsync(bool dispatch)
 {
     if (!IsConnected() || _resolving || _connecting)
         return false;
@@ -472,7 +472,7 @@ bool TCPClient::DisconnectAsync(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = [this, self]() { Disconnect(); };
+    auto disconnect_handler = [this, self]() { DisconnectInternal(); };
     if (_strand_required)
     {
         if (dispatch)
@@ -804,7 +804,7 @@ void TCPClient::TryReceive()
                 if (((2 * size) > _receive_buffer_limit) && (_receive_buffer_limit > 0))
                 {
                     SendError(asio::error::no_buffer_space);
-                    DisconnectAsync(true);
+                    DisconnectInternalAsync(true);
                     return;
                 }
 
@@ -818,7 +818,7 @@ void TCPClient::TryReceive()
         else
         {
             SendError(ec);
-            DisconnectAsync(true);
+            DisconnectInternalAsync(true);
         }
     });
     if (_strand_required)
@@ -895,7 +895,7 @@ void TCPClient::TrySend()
         else
         {
             SendError(ec);
-            DisconnectAsync(true);
+            DisconnectInternalAsync(true);
         }
     });
     if (_strand_required)

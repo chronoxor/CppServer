@@ -239,7 +239,7 @@ bool UDPClient::Connect(const std::shared_ptr<UDPResolver>& resolver)
     return true;
 }
 
-bool UDPClient::Disconnect()
+bool UDPClient::DisconnectInternal()
 {
     if (!IsConnected())
         return false;
@@ -374,7 +374,7 @@ bool UDPClient::ConnectAsync(const std::shared_ptr<UDPResolver>& resolver)
     return true;
 }
 
-bool UDPClient::DisconnectAsync(bool dispatch)
+bool UDPClient::DisconnectInternalAsync(bool dispatch)
 {
     if (!IsConnected())
         return false;
@@ -386,7 +386,7 @@ bool UDPClient::DisconnectAsync(bool dispatch)
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
-    auto disconnect_handler = [this, self]() { Disconnect(); };
+    auto disconnect_handler = [this, self]() { DisconnectInternal(); };
     if (_strand_required)
     {
         if (dispatch)
@@ -636,7 +636,7 @@ bool UDPClient::SendAsync(const asio::ip::udp::endpoint& endpoint, const void* b
         if (ec)
         {
             SendError(ec);
-            DisconnectAsync(true);
+            DisconnectInternalAsync(true);
             return;
         }
 
@@ -798,7 +798,7 @@ void UDPClient::TryReceive()
         if (ec)
         {
             SendError(ec);
-            DisconnectAsync(true);
+            DisconnectInternalAsync(true);
             return;
         }
 
@@ -816,7 +816,7 @@ void UDPClient::TryReceive()
             if (((2 * size) > _receive_buffer_limit) && (_receive_buffer_limit > 0))
             {
                 SendError(asio::error::no_buffer_space);
-                DisconnectAsync(true);
+                DisconnectInternalAsync(true);
                 return;
             }
 
