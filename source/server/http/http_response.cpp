@@ -270,7 +270,7 @@ HTTPResponse& HTTPResponse::SetHeader(std::string_view key, std::string_view val
     return *this;
 }
 
-HTTPResponse& HTTPResponse::SetCookie(std::string_view name, std::string_view value, size_t max_age, std::string_view path, std::string_view domain, bool secure, bool http_only)
+HTTPResponse& HTTPResponse::SetCookie(std::string_view name, std::string_view value, size_t max_age, std::string_view path, std::string_view domain, bool secure, bool strict, bool http_only)
 {
     size_t index = _cache.size();
 
@@ -305,6 +305,8 @@ HTTPResponse& HTTPResponse::SetCookie(std::string_view name, std::string_view va
     }
     if (secure)
         _cache.append("; Secure");
+    if (strict)
+        _cache.append("; SameSite=Strict");
     if (http_only)
         _cache.append("; HttpOnly");
 

@@ -119,9 +119,10 @@ public:
         \param path - Cookie path (default is "")
         \param domain - Cookie domain (default is "")
         \param secure - Cookie secure flag (default is true)
-        \param http_only - Cookie HTTP-only flag (default is false)
+        \param strict - Cookie strict flag (default is true)
+        \param http_only - Cookie HTTP-only flag (default is true)
     */
-    HTTPResponse& SetCookie(std::string_view name, std::string_view value, size_t max_age = 86400, std::string_view path = "", std::string_view domain = "", bool secure = true, bool http_only = false);
+    HTTPResponse& SetCookie(std::string_view name, std::string_view value, size_t max_age = 86400, std::string_view path = "", std::string_view domain = "", bool secure = true, bool strict = true, bool http_only = true);
     //! Set the HTTP response body
     /*!
         \param body - Body content (default is "")
