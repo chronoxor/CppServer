@@ -308,7 +308,7 @@ $(function() {
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;}</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
-<div class="line"><a name="l00245"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aafe229787d6b1e36da865ff62d79e1dd">  245</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aafe229787d6b1e36da865ff62d79e1dd">TCPClient::Disconnect</a>()</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="keywordtype">bool</span> TCPClient::DisconnectInternal()</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;{</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a081a6105230cc8753acf20e0e3039a2e">IsConnected</a>())</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -336,7 +336,7 @@ $(function() {
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
 <div class="line"><a name="l00271"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#afe309507092ca4b3e5c3c6c37c4e02a3">  271</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#afe309507092ca4b3e5c3c6c37c4e02a3">TCPClient::Reconnect</a>()</div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;{</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aafe229787d6b1e36da865ff62d79e1dd">Disconnect</a>())</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a311a050321d3860f763a1e6314a79f15">Disconnect</a>())</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a1252491897a4b58a4f3fb167a41d9678">Connect</a>();</div>
@@ -526,7 +526,7 @@ $(function() {
 <div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;}</div>
 <div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160; </div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#acb1c9332b440fa86664c88e005a98754">TCPClient::DisconnectAsync</a>(<span class="keywordtype">bool</span> dispatch)</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;<span class="keywordtype">bool</span> TCPClient::DisconnectInternalAsync(<span class="keywordtype">bool</span> dispatch)</div>
 <div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;{</div>
 <div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a081a6105230cc8753acf20e0e3039a2e">IsConnected</a>() || _resolving || _connecting)</div>
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -538,7 +538,7 @@ $(function() {
 <div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160; </div>
 <div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;    <span class="comment">// Dispatch or post the disconnect handler</span></div>
 <div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;    <span class="keyword">auto</span> <span class="keyword">self</span>(this-&gt;shared_from_this());</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;    <span class="keyword">auto</span> disconnect_handler = [<span class="keyword">this</span>, <span class="keyword">self</span>]() { <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aafe229787d6b1e36da865ff62d79e1dd">Disconnect</a>(); };</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;    <span class="keyword">auto</span> disconnect_handler = [<span class="keyword">this</span>, <span class="keyword">self</span>]() { DisconnectInternal(); };</div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
 <div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;    {</div>
 <div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        <span class="keywordflow">if</span> (dispatch)</div>
@@ -597,7 +597,7 @@ $(function() {
 <div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;    <span class="keywordflow">if</span> (ec)</div>
 <div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;    {</div>
 <div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;        SendError(ec);</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aafe229787d6b1e36da865ff62d79e1dd">Disconnect</a>();</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a311a050321d3860f763a1e6314a79f15">Disconnect</a>();</div>
 <div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    }</div>
 <div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160; </div>
 <div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;    <span class="keywordflow">return</span> sent;</div>
@@ -660,7 +660,7 @@ $(function() {
 <div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;    <span class="keywordflow">if</span> (error &amp;&amp; (error != asio::error::timed_out))</div>
 <div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;    {</div>
 <div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;        SendError(error);</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aafe229787d6b1e36da865ff62d79e1dd">Disconnect</a>();</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a311a050321d3860f763a1e6314a79f15">Disconnect</a>();</div>
 <div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;    }</div>
 <div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160; </div>
 <div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;    <span class="keywordflow">return</span> sent;</div>
@@ -747,7 +747,7 @@ $(function() {
 <div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;    <span class="keywordflow">if</span> (ec)</div>
 <div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;    {</div>
 <div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;        SendError(ec);</div>
-<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aafe229787d6b1e36da865ff62d79e1dd">Disconnect</a>();</div>
+<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a311a050321d3860f763a1e6314a79f15">Disconnect</a>();</div>
 <div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;    }</div>
 <div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160; </div>
 <div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;    <span class="keywordflow">return</span> received;</div>
@@ -817,7 +817,7 @@ $(function() {
 <div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;    <span class="keywordflow">if</span> (error &amp;&amp; (error != asio::error::timed_out))</div>
 <div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;    {</div>
 <div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;        SendError(error);</div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aafe229787d6b1e36da865ff62d79e1dd">Disconnect</a>();</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;        <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a311a050321d3860f763a1e6314a79f15">Disconnect</a>();</div>
 <div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;    }</div>
 <div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160; </div>
 <div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;    <span class="keywordflow">return</span> received;</div>
@@ -870,7 +870,7 @@ $(function() {
 <div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;                <span class="keywordflow">if</span> (((2 * size) &gt; _receive_buffer_limit) &amp;&amp; (_receive_buffer_limit &gt; 0))</div>
 <div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;                {</div>
 <div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;                    SendError(asio::error::no_buffer_space);</div>
-<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;                    <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#acb1c9332b440fa86664c88e005a98754">DisconnectAsync</a>(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;                    DisconnectInternalAsync(<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;                    <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;                }</div>
 <div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160; </div>
@@ -884,7 +884,7 @@ $(function() {
 <div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;        <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;        {</div>
 <div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;            SendError(ec);</div>
-<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#acb1c9332b440fa86664c88e005a98754">DisconnectAsync</a>(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;            DisconnectInternalAsync(<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;        }</div>
 <div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;    });</div>
 <div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
@@ -961,7 +961,7 @@ $(function() {
 <div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;        <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;        {</div>
 <div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;            SendError(ec);</div>
-<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;            <a class="code" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#acb1c9332b440fa86664c88e005a98754">DisconnectAsync</a>(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;            DisconnectInternalAsync(<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;        }</div>
 <div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;    });</div>
 <div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;    <span class="keywordflow">if</span> (_strand_required)</div>
@@ -1003,13 +1003,13 @@ $(function() {
 <div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;} <span class="comment">// namespace CppServer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_acb1c9332b440fa86664c88e005a98754"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#acb1c9332b440fa86664c88e005a98754">CppServer::Asio::TCPClient::DisconnectAsync</a></div><div class="ttdeci">virtual bool DisconnectAsync()</div><div class="ttdoc">Disconnect the client (asynchronous)</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8h_source.html#l00146">tcp_client.h:146</a></div></div>
-<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_aafe229787d6b1e36da865ff62d79e1dd"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#aafe229787d6b1e36da865ff62d79e1dd">CppServer::Asio::TCPClient::Disconnect</a></div><div class="ttdeci">virtual bool Disconnect()</div><div class="ttdoc">Disconnect the client (synchronous)</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8cpp_source.html#l00245">tcp_client.cpp:245</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_a78024b4228956d7469ddd912ca9e9498"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a78024b4228956d7469ddd912ca9e9498">CppServer::Asio::TCPClient::onEmpty</a></div><div class="ttdeci">virtual void onEmpty()</div><div class="ttdoc">Handle empty send buffer notification.</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8h_source.html#l00312">tcp_client.h:312</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_a16d1f93958c8c98a7a1315b6fc0f3a39"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a16d1f93958c8c98a7a1315b6fc0f3a39">CppServer::Asio::TCPClient::Send</a></div><div class="ttdeci">virtual size_t Send(const void *buffer, size_t size)</div><div class="ttdoc">Send data to the server (synchronous)</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8cpp_source.html#l00505">tcp_client.cpp:505</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_abf31a320cde40db966dc0a365a2ef402"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#abf31a320cde40db966dc0a365a2ef402">CppServer::Asio::TCPClient::ConnectAsync</a></div><div class="ttdeci">virtual bool ConnectAsync()</div><div class="ttdoc">Connect the client (asynchronous)</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8cpp_source.html#l00279">tcp_client.cpp:279</a></div></div>
 <div class="ttc" id="anamespace_cpp_server_1_1_asio_html_a5a9899def2e680af872640662636c133"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">CppServer::Asio::make_alloc_handler</a></div><div class="ttdeci">AllocateHandler&lt; THandler &gt; make_alloc_handler(HandlerStorage &amp;storage, THandler handler)</div><div class="ttdoc">Helper function to wrap a handler object to add custom allocation.</div><div class="ttdef"><b>Definition:</b> <a href="memory_8inl_source.html#l00039">memory.inl:39</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_a9e35eddda7c6b4037386e97f41100089"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a9e35eddda7c6b4037386e97f41100089">CppServer::Asio::TCPClient::endpoint</a></div><div class="ttdeci">asio::ip::tcp::endpoint &amp; endpoint() noexcept</div><div class="ttdoc">Get the client endpoint.</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8h_source.html#l00069">tcp_client.h:69</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_a36129dd96a9ea18c5635780bb54b9868"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a36129dd96a9ea18c5635780bb54b9868">CppServer::Asio::TCPClient::onSent</a></div><div class="ttdeci">virtual void onSent(size_t sent, size_t pending)</div><div class="ttdoc">Handle buffer sent notification.</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8h_source.html#l00303">tcp_client.h:303</a></div></div>
+<div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_a311a050321d3860f763a1e6314a79f15"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a311a050321d3860f763a1e6314a79f15">CppServer::Asio::TCPClient::Disconnect</a></div><div class="ttdeci">virtual bool Disconnect()</div><div class="ttdoc">Disconnect the client (synchronous)</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8h_source.html#l00124">tcp_client.h:124</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_a35feec3293913beb0122c1ae06dc4821"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a35feec3293913beb0122c1ae06dc4821">CppServer::Asio::TCPClient::SendAsync</a></div><div class="ttdeci">virtual bool SendAsync(const void *buffer, size_t size)</div><div class="ttdoc">Send data to the server (asynchronous)</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8cpp_source.html#l00603">tcp_client.cpp:603</a></div></div>
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_t_c_p_client_html_a1252491897a4b58a4f3fb167a41d9678"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a1252491897a4b58a4f3fb167a41d9678">CppServer::Asio::TCPClient::Connect</a></div><div class="ttdeci">virtual bool Connect()</div><div class="ttdoc">Connect the client (synchronous)</div><div class="ttdef"><b>Definition:</b> <a href="tcp__client_8cpp_source.html#l00123">tcp_client.cpp:123</a></div></div>
 <div class="ttc" id="anamespace_cpp_server_html"><div class="ttname"><a href="namespace_cpp_server.html">CppServer</a></div><div class="ttdoc">C++ Server project definitions.</div><div class="ttdef"><b>Definition:</b> <a href="asio_8h_source.html#l00056">asio.h:56</a></div></div>
