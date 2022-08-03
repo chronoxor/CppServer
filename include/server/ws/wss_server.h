@@ -55,10 +55,6 @@ public:
     size_t MulticastPing(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, false, buffer, size); return Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()); }
     size_t MulticastPing(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PING, false, text.data(), text.size()); return Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()); }
 
-    // WebSocket multicast pong methods
-    size_t MulticastPong(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, false, buffer, size); return Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-    size_t MulticastPong(std::string_view text) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_PONG, false, text.data(), text.size()); return Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()); }
-
 protected:
     std::shared_ptr<Asio::SSLSession> CreateSession(const std::shared_ptr<Asio::SSLServer>& server) override { return std::make_shared<WSSSession>(std::dynamic_pointer_cast<WSSServer>(server)); }
 };
