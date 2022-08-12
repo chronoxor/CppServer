@@ -5,7 +5,8 @@ if(NOT TARGET cpp-optparse)
   add_library(cpp-optparse ${SOURCE_FILES})
   if(MSVC)
     # C4244: 'conversion' conversion from 'type1' to 'type2', possible loss of data
-    set_target_properties(cpp-optparse PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS} /wd4244")
+    # C4996: <header> is removed in C++20
+    set_target_properties(cpp-optparse PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS} /wd4244 /wd4996")
   else()
     set_target_properties(cpp-optparse PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}")
   endif()
