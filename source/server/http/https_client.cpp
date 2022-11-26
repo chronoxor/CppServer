@@ -121,6 +121,8 @@ std::future<HTTPResponse> HTTPSClientEx::SendRequest(const HTTPRequest& request,
 
 void HTTPSClientEx::onHandshaked()
 {
+    HTTPSClient::onHandshaked();
+
     // Send prepared HTTP request on connect
     if (!_request.empty() && !_request.error())
         if (!SendRequestAsync())

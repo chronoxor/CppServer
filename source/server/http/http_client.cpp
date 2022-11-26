@@ -121,6 +121,8 @@ std::future<HTTPResponse> HTTPClientEx::SendRequest(const HTTPRequest& request, 
 
 void HTTPClientEx::onConnected()
 {
+    HTTPClient::onConnected();
+
     // Send prepared HTTP request on connect
     if (!_request.empty() && !_request.error())
         if (!SendRequestAsync())
