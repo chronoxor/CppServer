@@ -141,7 +141,7 @@ int main(int argc, char** argv)
     std::cout << "Done!" << std::endl;
 
     // Create and prepare a new SSL client context
-    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv12);
+    auto context = std::make_shared<CppServer::Asio::SSLContext>(asio::ssl::context::tlsv13);
     context->set_default_verify_paths();
     context->set_root_certs();
     context->set_verify_mode(asio::ssl::verify_peer | asio::ssl::verify_fail_if_no_peer_cert);

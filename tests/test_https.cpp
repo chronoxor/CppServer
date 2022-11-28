@@ -175,7 +175,7 @@ public:
 
     static std::shared_ptr<SSLContext> CreateContext()
     {
-        auto context = std::make_shared<SSLContext>(asio::ssl::context::tlsv12);
+        auto context = std::make_shared<SSLContext>(asio::ssl::context::tlsv13);
         context->set_password_callback([](size_t max_length, asio::ssl::context::password_purpose purpose) -> std::string { return "qwerty"; });
         context->use_certificate_chain_file("../tools/certificates/server.pem");
         context->use_private_key_file("../tools/certificates/server.pem", asio::ssl::context::pem);
