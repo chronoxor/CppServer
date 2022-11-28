@@ -158,7 +158,7 @@ $(function() {
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Done!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Create and prepare a new SSL server context</span></div>
-<div class="line">    <span class="keyword">auto</span> context = std::make_shared&lt;CppServer::Asio::SSLContext&gt;(asio::ssl::context::tlsv12);</div>
+<div class="line">    <span class="keyword">auto</span> context = std::make_shared&lt;CppServer::Asio::SSLContext&gt;(asio::ssl::context::tlsv13);</div>
 <div class="line">    context-&gt;set_password_callback([](<span class="keywordtype">size_t</span> max_length, asio::ssl::context::password_purpose purpose) -&gt; std::string { <span class="keywordflow">return</span> <span class="stringliteral">&quot;qwerty&quot;</span>; });</div>
 <div class="line">    context-&gt;use_certificate_chain_file(<span class="stringliteral">&quot;../tools/certificates/server.pem&quot;</span>);</div>
 <div class="line">    context-&gt;use_private_key_file(<span class="stringliteral">&quot;../tools/certificates/server.pem&quot;</span>, asio::ssl::context::pem);</div>
