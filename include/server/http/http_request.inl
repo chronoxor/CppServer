@@ -10,6 +10,7 @@
 template <> struct fmt::formatter<CppServer::HTTP::HTTPRequest> : ostream_formatter {};
 #endif
 
+//! \cond DOXYGEN_SKIP
 template <>
 struct std::hash<CppServer::HTTP::HTTPRequest>
 {
@@ -23,3 +24,4 @@ struct std::hash<CppServer::HTTP::HTTPRequest>
         return result;
     }
 };
+//! \endcond

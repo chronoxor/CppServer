@@ -50,7 +50,7 @@ private:
     // Whether the handler-based custom allocation storage has been used
     bool _in_use;
     // Storage space used for handler-based custom memory allocation
-    typename std::aligned_storage<1024>::type _storage;
+    std::byte _storage[1024];
 };
 
 //! Asio handler allocator
