@@ -318,7 +318,7 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
         }
 
         uint8_t opcode = _ws_receive_frame_buffer[0] & 0x0F;
-        [[maybe_unused]] bool fin = ((_ws_receive_frame_buffer[0] >> 7) & 0x01) != 0;
+        bool fin = ((_ws_receive_frame_buffer[0] >> 7) & 0x01) != 0;
         bool mask = ((_ws_receive_frame_buffer[1] >> 7) & 0x01) != 0;
         size_t payload = _ws_receive_frame_buffer[1] & (~0x80);
 
