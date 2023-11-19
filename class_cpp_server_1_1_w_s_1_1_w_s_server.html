@@ -104,8 +104,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6a11bb3fb535f6c7f7895d114de6ce07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac18d83ad293940dade4c9f73bd4c0991"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_server.html">WSServer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_server.html#ac18d83ad293940dade4c9f73bd4c0991">operator=</a> (<a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_server.html">WSServer</a> &amp;&amp;)=delete</td></tr>
 <tr class="separator:ac18d83ad293940dade4c9f73bd4c0991"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7d639237ebeeee6c18dcbcbb8dfd5cc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_server.html#ab7d639237ebeeee6c18dcbcbb8dfd5cc">CloseAll</a> (int status)</td></tr>
-<tr class="separator:ab7d639237ebeeee6c18dcbcbb8dfd5cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba740e84171320e65f213b0ff80a00be"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_server.html#aba740e84171320e65f213b0ff80a00be">CloseAll</a> ()</td></tr>
+<tr class="separator:aba740e84171320e65f213b0ff80a00be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03b6f9cf6f323ce04b035eaec8dfe651"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_server.html#a03b6f9cf6f323ce04b035eaec8dfe651">CloseAll</a> (int status)</td></tr>
+<tr class="separator:a03b6f9cf6f323ce04b035eaec8dfe651"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f7b9751303812710c8275c6a398cc5c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_server.html#a8f7b9751303812710c8275c6a398cc5c">CloseAll</a> (int status, const void *buffer, size_t size)</td></tr>
+<tr class="separator:a8f7b9751303812710c8275c6a398cc5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8ef40fc15531884d3d2cb496b760c86"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_server.html#ab8ef40fc15531884d3d2cb496b760c86">CloseAll</a> (int status, std::string_view text)</td></tr>
+<tr class="separator:ab8ef40fc15531884d3d2cb496b760c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8925be2993e8e01add13dc98bb876ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_server.html#af8925be2993e8e01add13dc98bb876ba">Multicast</a> (const void *buffer, size_t size) override</td></tr>
 <tr class="memdesc:af8925be2993e8e01add13dc98bb876ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multicast data to all connected <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> sessions.  <a href="class_cpp_server_1_1_w_s_1_1_w_s_server.html#af8925be2993e8e01add13dc98bb876ba">More...</a><br /></td></tr>
 <tr class="separator:af8925be2993e8e01add13dc98bb876ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -296,9 +302,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a694032f8a32f3912420c3ca635b83506">onWSReceived</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> received notification.  <a href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a694032f8a32f3912420c3ca635b83506">More...</a><br /></td></tr>
 <tr class="separator:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaaedd215c327fe5844283b36a29b07b inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#acaaedd215c327fe5844283b36a29b07b">onWSClose</a> (const void *buffer, size_t size)</td></tr>
-<tr class="memdesc:acaaedd215c327fe5844283b36a29b07b inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> client close notification.  <a href="class_cpp_server_1_1_w_s_1_1_web_socket.html#acaaedd215c327fe5844283b36a29b07b">More...</a><br /></td></tr>
-<tr class="separator:acaaedd215c327fe5844283b36a29b07b inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38317e4bc8cb90e9416f146263ff186e inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a38317e4bc8cb90e9416f146263ff186e">onWSClose</a> (const void *buffer, size_t size, int status=1000)</td></tr>
+<tr class="memdesc:a38317e4bc8cb90e9416f146263ff186e inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> client close notification.  <a href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a38317e4bc8cb90e9416f146263ff186e">More...</a><br /></td></tr>
+<tr class="separator:a38317e4bc8cb90e9416f146263ff186e inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d09fc5adcdcfd6f3edde57ffc6ffa36 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a6d09fc5adcdcfd6f3edde57ffc6ffa36">onWSPing</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a6d09fc5adcdcfd6f3edde57ffc6ffa36 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> ping notification.  <a href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a6d09fc5adcdcfd6f3edde57ffc6ffa36">More...</a><br /></td></tr>
 <tr class="separator:a6d09fc5adcdcfd6f3edde57ffc6ffa36 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -505,8 +511,63 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab7d639237ebeeee6c18dcbcbb8dfd5cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7d639237ebeeee6c18dcbcbb8dfd5cc">&#9670;&nbsp;</a></span>CloseAll()</h2>
+<a id="aba740e84171320e65f213b0ff80a00be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba740e84171320e65f213b0ff80a00be">&#9670;&nbsp;</a></span>CloseAll() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool CppServer::WS::WSServer::CloseAll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00041">41</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
+
+</div>
+</div>
+<a id="a03b6f9cf6f323ce04b035eaec8dfe651"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03b6f9cf6f323ce04b035eaec8dfe651">&#9670;&nbsp;</a></span>CloseAll() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool CppServer::WS::WSServer::CloseAll </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00042">42</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
+
+</div>
+</div>
+<a id="a8f7b9751303812710c8275c6a398cc5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f7b9751303812710c8275c6a398cc5c">&#9670;&nbsp;</a></span>CloseAll() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -518,8 +579,24 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">bool CppServer::WS::WSServer::CloseAll </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>status</em></td><td>)</td>
+          <td class="paramname"><em>status</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -530,6 +607,44 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="ws__server_8cpp_source.html#l00014">14</a> of file <a class="el" href="ws__server_8cpp_source.html">ws_server.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab8ef40fc15531884d3d2cb496b760c86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8ef40fc15531884d3d2cb496b760c86">&#9670;&nbsp;</a></span>CloseAll() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CppServer::WS::WSServer::CloseAll </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>status</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>text</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ws__server_8cpp_source.html#l00025">25</a> of file <a class="el" href="ws__server_8cpp_source.html">ws_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -559,7 +674,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ws_chat_server_8cpp-example.html#a13">ws_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00059">59</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00062">62</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
 
 </div>
 </div>
@@ -601,7 +716,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_server.html#a0514a60e47990eb5839208ea3d2f8735">CppServer::Asio::TCPServer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws__server_8cpp_source.html#l00025">25</a> of file <a class="el" href="ws__server_8cpp_source.html">ws_server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__server_8cpp_source.html#l00036">36</a> of file <a class="el" href="ws__server_8cpp_source.html">ws_server.cpp</a>.</p>
 
 </div>
 </div>
@@ -639,7 +754,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00051">51</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00054">54</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
 
 </div>
 </div>
@@ -667,7 +782,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00052">52</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00055">55</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
 
 </div>
 </div>
@@ -705,7 +820,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00055">55</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00058">58</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
 
 </div>
 </div>
@@ -733,7 +848,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00056">56</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00059">59</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
 
 </div>
 </div>
@@ -771,7 +886,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00047">47</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00050">50</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
 
 </div>
 </div>
@@ -799,7 +914,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00048">48</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__server_8h_source.html#l00051">51</a> of file <a class="el" href="ws__server_8h_source.html">ws_server.h</a>.</p>
 
 </div>
 </div>

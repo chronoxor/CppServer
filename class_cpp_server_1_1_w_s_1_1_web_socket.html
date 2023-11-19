@@ -177,9 +177,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a694032f8a32f3912420c3ca635b83506"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a694032f8a32f3912420c3ca635b83506">onWSReceived</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a694032f8a32f3912420c3ca635b83506"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> received notification.  <a href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a694032f8a32f3912420c3ca635b83506">More...</a><br /></td></tr>
 <tr class="separator:a694032f8a32f3912420c3ca635b83506"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaaedd215c327fe5844283b36a29b07b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#acaaedd215c327fe5844283b36a29b07b">onWSClose</a> (const void *buffer, size_t size)</td></tr>
-<tr class="memdesc:acaaedd215c327fe5844283b36a29b07b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> client close notification.  <a href="class_cpp_server_1_1_w_s_1_1_web_socket.html#acaaedd215c327fe5844283b36a29b07b">More...</a><br /></td></tr>
-<tr class="separator:acaaedd215c327fe5844283b36a29b07b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38317e4bc8cb90e9416f146263ff186e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a38317e4bc8cb90e9416f146263ff186e">onWSClose</a> (const void *buffer, size_t size, int status=1000)</td></tr>
+<tr class="memdesc:a38317e4bc8cb90e9416f146263ff186e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> client close notification.  <a href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a38317e4bc8cb90e9416f146263ff186e">More...</a><br /></td></tr>
+<tr class="separator:a38317e4bc8cb90e9416f146263ff186e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d09fc5adcdcfd6f3edde57ffc6ffa36"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a6d09fc5adcdcfd6f3edde57ffc6ffa36">onWSPing</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a6d09fc5adcdcfd6f3edde57ffc6ffa36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> ping notification.  <a href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a6d09fc5adcdcfd6f3edde57ffc6ffa36">More...</a><br /></td></tr>
 <tr class="separator:a6d09fc5adcdcfd6f3edde57ffc6ffa36"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -362,7 +362,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Clear <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> send/receive buffers. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8cpp_source.html#l00456">456</a> of file <a class="el" href="ws_8cpp_source.html">ws.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8cpp_source.html#l00484">484</a> of file <a class="el" href="ws_8cpp_source.html">ws.cpp</a>.</p>
 
 </div>
 </div>
@@ -387,8 +387,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="acaaedd215c327fe5844283b36a29b07b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acaaedd215c327fe5844283b36a29b07b">&#9670;&nbsp;</a></span>onWSClose()</h2>
+<a id="a38317e4bc8cb90e9416f146263ff186e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38317e4bc8cb90e9416f146263ff186e">&#9670;&nbsp;</a></span>onWSClose()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -406,7 +406,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>status</em> = <code>1000</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -426,13 +432,14 @@ Protected Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">buffer</td><td>- Received buffer </td></tr>
     <tr><td class="paramname">size</td><td>- Received buffer size </td></tr>
+    <tr><td class="paramname">status</td><td>- <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> status (defualt is 1000) </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#ae779e6ef883bbef3bdd49240b28f8c85">CppServer::WS::WSSSession</a>, <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#ae0873c0987275c5600d2435d60b33d30">CppServer::WS::WSSClient</a>, <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#ac38be9fe5a590be12f8c9f7bcc942d13">CppServer::WS::WSSession</a>, and <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_client.html#a233d143c5d6e75452cd74fa131ca1c81">CppServer::WS::WSClient</a>.</p>
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#aca970d411a943b05e4ae5317b3a2a043">CppServer::WS::WSSSession</a>, <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a2b298182f45abda959b0b2cd80b10875">CppServer::WS::WSSClient</a>, <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#a8824396d7ea75bb27f2ba02d18b1e8c8">CppServer::WS::WSSession</a>, and <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_client.html#aeaa093e3724fb15afca60bb9984dddfc">CppServer::WS::WSClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00146">146</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00147">147</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -663,7 +670,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#af449f25208417c55399514961511119d">CppServer::WS::WSSSession</a>, <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a42d2742a3d8ff6e7ff4e8c5366ac5925">CppServer::WS::WSSClient</a>, <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#a179a318f3622bf92b79cb00a9aaa636d">CppServer::WS::WSSession</a>, and <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_client.html#aad00fa3b25c7452bc5c43648c7abcbd7">CppServer::WS::WSClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00164">164</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00165">165</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -712,7 +719,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#a10a281d3afe812cd5e7d7a8c8053a86a">CppServer::WS::WSSSession</a>, <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a7a5f76000c9f2a83c9578ff039541c70">CppServer::WS::WSSClient</a>, <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#a712746cd49d6445ad5b6d017f4568f90">CppServer::WS::WSSession</a>, and <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_client.html#a419aff6c90f3ca593e9429bb381cb6b6">CppServer::WS::WSClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00152">152</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00153">153</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -759,7 +766,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00158">158</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00159">159</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -979,7 +986,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ws_8cpp_source.html#l00255">255</a> of file <a class="el" href="ws_8cpp_source.html">ws.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8cpp_source.html#l00273">273</a> of file <a class="el" href="ws_8cpp_source.html">ws.cpp</a>.</p>
 
 </div>
 </div>
@@ -1060,7 +1067,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Required <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> receive frame size. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8cpp_source.html#l00430">430</a> of file <a class="el" href="ws_8cpp_source.html">ws.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8cpp_source.html#l00458">458</a> of file <a class="el" href="ws_8cpp_source.html">ws.cpp</a>.</p>
 
 </div>
 </div>
@@ -1096,7 +1103,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00201">201</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00202">202</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1154,7 +1161,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Received final flag. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00175">175</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00176">176</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1180,7 +1187,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Received frame flag. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00173">173</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00174">174</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1206,7 +1213,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Handshaked flag. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00168">168</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00169">169</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1232,7 +1239,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Received frame header size. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00177">177</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00178">178</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1258,7 +1265,7 @@ Protected Attributes</h2></td></tr>
 
 <p><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> random nonce of 16 bytes. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00195">195</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00196">196</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1284,7 +1291,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Received frame opcode. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00171">171</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00172">172</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1310,7 +1317,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Received frame payload size. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00179">179</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00180">180</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1336,7 +1343,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Receive final buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00183">183</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00184">184</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1362,7 +1369,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Receive frame buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00181">181</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00182">182</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1388,7 +1395,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Receive mask. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00185">185</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00186">186</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1414,7 +1421,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Send buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00190">190</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00191">191</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1440,7 +1447,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Send buffer lock. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00188">188</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00189">189</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
@@ -1466,7 +1473,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Send mask. </p>
 
-<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00192">192</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws_8h_source.html#l00193">193</a> of file <a class="el" href="ws_8h_source.html">ws.h</a>.</p>
 
 </div>
 </div>
