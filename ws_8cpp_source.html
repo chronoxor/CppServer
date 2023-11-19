@@ -384,7 +384,7 @@ $(function() {
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        }</div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        uint8_t opcode = <a class="code" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a11945ccf913b2ffb138dabffc593ff81">_ws_receive_frame_buffer</a>[0] &amp; 0x0F;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        [[maybe_unused]] <span class="keywordtype">bool</span> fin = ((<a class="code" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a11945ccf913b2ffb138dabffc593ff81">_ws_receive_frame_buffer</a>[0] &gt;&gt; 7) &amp; 0x01) != 0;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="keywordtype">bool</span> fin = ((<a class="code" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a11945ccf913b2ffb138dabffc593ff81">_ws_receive_frame_buffer</a>[0] &gt;&gt; 7) &amp; 0x01) != 0;</div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordtype">bool</span> mask = ((<a class="code" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a11945ccf913b2ffb138dabffc593ff81">_ws_receive_frame_buffer</a>[1] &gt;&gt; 7) &amp; 0x01) != 0;</div>
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        <span class="keywordtype">size_t</span> payload = <a class="code" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a11945ccf913b2ffb138dabffc593ff81">_ws_receive_frame_buffer</a>[1] &amp; (~0x80);</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; </div>
