@@ -101,7 +101,7 @@ $(function() {
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">// Whether the handler-based custom allocation storage has been used</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">bool</span> _in_use;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// Storage space used for handler-based custom memory allocation</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    typename std::aligned_storage&lt;1024&gt;::type _storage;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    std::<span class="keywordtype">byte</span> _storage[1024];</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
