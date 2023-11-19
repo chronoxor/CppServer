@@ -40,8 +40,14 @@ public:
     bool Connect(const std::shared_ptr<Asio::TCPResolver>& resolver) override;
     bool ConnectAsync() override;
     bool ConnectAsync(const std::shared_ptr<Asio::TCPResolver>& resolver) override;
-    virtual bool Close(int status) { SendClose(status, nullptr, 0); HTTPSClient::Disconnect(); return true; }
-    virtual bool CloseAsync(int status) { SendCloseAsync(status, nullptr, 0); HTTPSClient::DisconnectAsync(); return true; }
+    virtual bool Close() { return Close(0, nullptr, 0); }
+    virtual bool Close(int status) { return Close(status, nullptr, 0); }
+    virtual bool Close(int status, const void* buffer, size_t size) { SendClose(status, buffer, size); HTTPSClient::Disconnect(); return true; }
+    virtual bool Close(int status, std::string_view text) { SendClose(status, text); HTTPSClient::Disconnect(); return true; }
+    virtual bool CloseAsync() { return CloseAsync(0, nullptr, 0); }
+    virtual bool CloseAsync(int status) { return CloseAsync(status, nullptr, 0); }
+    virtual bool CloseAsync(int status, const void* buffer, size_t size) { SendCloseAsync(status, buffer, size); HTTPSClient::DisconnectAsync(); return true; }
+    virtual bool CloseAsync(int status, std::string_view text) { SendCloseAsync(status, text); HTTPSClient::DisconnectAsync(); return true; }
 
     // WebSocket send text methods
     size_t SendText(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, true, buffer, size); return HTTPSClient::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
@@ -98,7 +104,7 @@ protected:
     void onReceivedResponseError(const HTTP::HTTPResponse& response, const std::string& error) override;
 
     //! Handle WebSocket close notification
-    void onWSClose(const void* buffer, size_t size) override { CloseAsync(1000); }
+    void onWSClose(const void* buffer, size_t size, int status = 1000) override { CloseAsync(); }
     //! Handle WebSocket ping notification
     void onWSPing(const void* buffer, size_t size) override { SendPongAsync(buffer, size); }
     //! Handle WebSocket error notification

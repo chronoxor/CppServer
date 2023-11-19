@@ -211,6 +211,11 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
 
 void WebSocket::PrepareSendFrame(uint8_t opcode, bool mask, const void* buffer, size_t size, int status)
 {
+    // Check if we need to store additional 2 bytes of close status frame
+    bool store_status = ((opcode & WS_CLOSE) == WS_CLOSE) && ((size > 0) || (status != 0));
+    if (store_status)
+        size += 2;
+
     // Clear the previous WebSocket send buffer
     _ws_send_buffer.clear();
 
@@ -246,10 +251,23 @@ void WebSocket::PrepareSendFrame(uint8_t opcode, bool mask, const void* buffer, 
     size_t offset = _ws_send_buffer.size();
     _ws_send_buffer.resize(offset + size);
 
-    // Mask WebSocket frame content
+    size_t index = 0;
     const uint8_t* data = (const uint8_t*)buffer;
-    for (size_t i = 0; i < size; ++i)
-        _ws_send_buffer[offset + i] = data[i] ^ _ws_send_mask[i % 4];
+
+    // Append WebSocket close status
+    // RFC 6455: If there is a body, the first two bytes of the body MUST
+    // be a 2-byte unsigned integer (in network byte order) representing
+    // a status code with value code.
+    if (store_status)
+    {
+        index += 2;
+        _ws_send_buffer[offset + 0] = ((status >> 8) & 0xFF) ^ _ws_send_mask[0];
+        _ws_send_buffer[offset + 1] = (status & 0xFF) ^ _ws_send_mask[1];
+    }
+
+    // Mask WebSocket frame content
+    for (size_t i = index; i < size; ++i)
+        _ws_send_buffer[offset + i] = data[i - index] ^ _ws_send_mask[i % 4];
 }
 
 void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
@@ -410,8 +428,18 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
                     }
                     case WS_CLOSE:
                     {
+                        size_t sindex = 0;
+                        int status = 1000;
+
+                        // Read WebSocket close status
+                        if (_ws_receive_final_buffer.size() >= 2)
+                        {
+                            sindex += 2;
+                            status = ((_ws_receive_final_buffer[0] << 8) | (_ws_receive_final_buffer[1] << 0));
+                        }
+
                         // Call the WebSocket close handler
-                        onWSClose(_ws_receive_final_buffer.data(), _ws_receive_final_buffer.size());
+                        onWSClose(_ws_receive_final_buffer.data() + sindex, _ws_receive_final_buffer.size() - sindex, status);
                         break;
                     }
                     case WS_BINARY:

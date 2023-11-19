@@ -42,7 +42,7 @@ protected:
 
         // If the buffer starts with '!' the disconnect the current session
         if (message == "!")
-            Close(1000);
+            Close();
     }
 
     void onError(int error, const std::string& category, const std::string& message) override

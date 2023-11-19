@@ -38,7 +38,10 @@ public:
     WSSServer& operator=(WSSServer&&) = delete;
 
     // WebSocket connection methods
-    virtual bool CloseAll(int status);
+    virtual bool CloseAll() { return CloseAll(0, nullptr, 0); }
+    virtual bool CloseAll(int status) { return CloseAll(status, nullptr, 0); }
+    virtual bool CloseAll(int status, const void* buffer, size_t size);
+    virtual bool CloseAll(int status, std::string_view text);
 
     //! Multicast data to all connected WebSocket sessions
     bool Multicast(const void* buffer, size_t size) override;

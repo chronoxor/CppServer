@@ -142,8 +142,9 @@ protected:
     /*!
         \param buffer - Received buffer
         \param size - Received buffer size
+        \param status - WebSocket status (defualt is 1000)
     */
-    virtual void onWSClose(const void* buffer, size_t size) {}
+    virtual void onWSClose(const void* buffer, size_t size, int status = 1000) {}
     //! Handle WebSocket ping notification
     /*!
         \param buffer - Received buffer

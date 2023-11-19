@@ -37,7 +37,10 @@ public:
     WSSSession& operator=(WSSSession&&) = delete;
 
     // WebSocket connection methods
-    virtual bool Close(int status) { SendCloseAsync(status, nullptr, 0); HTTPSSession::Disconnect(); return true; }
+    virtual bool Close() { return Close(0, nullptr, 0); }
+    virtual bool Close(int status) { return Close(status, nullptr, 0); }
+    virtual bool Close(int status, const void* buffer, size_t size) { SendCloseAsync(status, buffer, size); HTTPSSession::Disconnect(); return true; }
+    virtual bool Close(int status, std::string_view text) { SendCloseAsync(status, text); HTTPSSession::Disconnect(); return true; }
 
     // WebSocket send text methods
     size_t SendText(const void* buffer, size_t size) { std::scoped_lock locker(_ws_send_lock); PrepareSendFrame(WS_FIN | WS_TEXT, false, buffer, size); return HTTPSSession::Send(_ws_send_buffer.data(), _ws_send_buffer.size()); }
@@ -93,7 +96,7 @@ protected:
     void onReceivedRequestError(const HTTP::HTTPRequest& request, const std::string& error) override;
 
     //! Handle WebSocket close notification
-    void onWSClose(const void* buffer, size_t size) override { Close(1000); }
+    void onWSClose(const void* buffer, size_t size, int status = 1000) override { Close(); }
     //! Handle WebSocket ping notification
     void onWSPing(const void* buffer, size_t size) override { SendPongAsync(buffer, size); }
     //! Handle WebSocket error notification

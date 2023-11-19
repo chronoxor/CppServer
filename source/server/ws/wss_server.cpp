@@ -11,11 +11,22 @@
 namespace CppServer {
 namespace WS {
 
-bool WSSServer::CloseAll(int status)
+bool WSSServer::CloseAll(int status, const void* buffer, size_t size)
 {
     std::scoped_lock locker(_ws_send_lock);
 
-    PrepareSendFrame(WS_FIN | WS_CLOSE, false, nullptr, 0, status);
+    PrepareSendFrame(WS_FIN | WS_CLOSE, false, buffer, size, status);
+    if (!Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()))
+        return false;
+
+    return HTTPSServer::DisconnectAll();
+}
+
+bool WSSServer::CloseAll(int status, std::string_view text)
+{
+    std::scoped_lock locker(_ws_send_lock);
+
+    PrepareSendFrame(WS_FIN | WS_CLOSE, false, text.data(), text.size(), status);
     if (!Multicast(_ws_send_buffer.data(), _ws_send_buffer.size()))
         return false;
 
