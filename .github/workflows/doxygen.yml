@@ -14,7 +14,7 @@ jobs:
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: "Setup cmake"
         run: cmake --version

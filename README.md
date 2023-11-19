@@ -1,10 +1,11 @@
 # CppServer
 
 [![Awesome C++](https://awesome.re/badge.svg)](https://github.com/fffaraz/awesome-cpp)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Release](https://img.shields.io/github/release/chronoxor/CppServer.svg?sort=semver)](https://github.com/chronoxor/CppServer/releases)
 <br/>
 [![Linux (clang)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-clang.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-clang.yml)
 [![Linux (gcc)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-gcc.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-linux-gcc.yml)
-<br/>
 [![MacOS](https://github.com/chronoxor/CppServer/actions/workflows/build-macos.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-macos.yml)
 <br/>
 [![Windows (MSYS2)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msys2.yml/badge.svg)](https://github.com/chronoxor/CppServer/actions/workflows/build-windows-msys2.yml)

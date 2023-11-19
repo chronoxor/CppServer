@@ -194,7 +194,7 @@ protected:
 
     //! Handle buffer received notification
     /*!
-        Notification is called when another chunk of buffer was received
+        Notification is called when another part of buffer was received
         from the client.
 
         \param buffer - Received buffer
@@ -203,7 +203,7 @@ protected:
     virtual void onReceived(const void* buffer, size_t size) {}
     //! Handle buffer sent notification
     /*!
-        Notification is called when another chunk of buffer was sent
+        Notification is called when another part of buffer was sent
         to the client.
 
         This handler could be used to send another buffer to the client

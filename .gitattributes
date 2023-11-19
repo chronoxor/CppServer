@@ -6,3 +6,4 @@ images/* linguist-vendored
 modules/* linguist-vendored
 temp/* linguist-vendored
 tools/* linguist-vendored
+www/* linguist-vendored
