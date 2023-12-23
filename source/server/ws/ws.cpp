@@ -122,7 +122,7 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
 
         if (CppCommon::StringUtils::CompareNoCase(key, "Connection"))
         {
-            if (!CppCommon::StringUtils::CompareNoCase(value, "Upgrade") && !CppCommon::StringUtils::CompareNoCase(value, "keep-alive, Upgrade"))
+            if (!CppCommon::StringUtils::CompareNoCase(value, "Upgrade") && !CppCommon::StringUtils::CompareNoCase(CppCommon::StringUtils::RemoveBlank(value), "keep-alive,Upgrade"))
             {
                 error = true;
                 response.MakeErrorResponse(400, "Invalid WebSocket handshaked request: 'Connection' header value must be 'Upgrade' or 'keep-alive, Upgrade'");
