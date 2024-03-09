@@ -17,16 +17,17 @@ jobs:
       - name: "Setup MSYS2"
         uses: msys2/setup-msys2@v2
         with:
+          msystem: UCRT64
           release: false
           install: >-
             git
             make
-            python3-pip
-            mingw-w64-x86_64-cmake
-            mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-doxygen
-            mingw-w64-x86_64-graphviz
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-doxygen
+            mingw-w64-ucrt-x86_64-graphviz
             msys2-w32api-runtime
+            python-pip
 
       - name: "Setup cmake"
         run: cmake --version
