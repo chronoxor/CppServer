@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: "Setup required packages"
-        run: sudo apt-get install -y binutils-dev libssl-dev uuid-dev
+        run: sudo apt-get install -y binutils-dev libc++-dev libssl-dev uuid-dev
 
       - name: "Setup clang"
         uses: egor-tensin/setup-clang@v1
