@@ -21,7 +21,7 @@ jobs:
 
       - name: "Setup doxygen"
         run: |
-          sudo apt-get -y install doxygen graphviz binutils-dev
+          sudo apt-get -y install doxygen doxygen-latex graphviz binutils-dev
           doxygen --version
           dot -V
 
