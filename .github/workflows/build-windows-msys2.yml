@@ -34,7 +34,7 @@ jobs:
 
       - name: "Setup gil"
         run: |
-          pip3 install gil
+          pip3 install gil --break-system-packages
           gil update
 
       - name: "Build"
