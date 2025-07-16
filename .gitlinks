@@ -1,5 +1,5 @@
 # Modules
-asio modules/asio https://github.com/chriskohlhoff/asio.git master
+asio modules/asio https://github.com/chriskohlhoff/asio.git asio-1-32-0
 Catch2 modules/Catch2 https://github.com/catchorg/Catch2.git devel
 cpp-optparse modules/cpp-optparse https://github.com/chronoxor/cpp-optparse.git main
 CppBenchmark modules/CppBenchmark https://github.com/chronoxor/CppBenchmark.git master
