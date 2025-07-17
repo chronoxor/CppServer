@@ -317,14 +317,14 @@ bool TCPClient::ConnectAsync()
                 _bytes_sent = 0;
                 _bytes_received = 0;
 
+                // Call the client connected handler, onConnected will reset FBE buffers, so it could not be located after _connected flag changed
+                onConnected();
+                
                 // Update the connected flag
                 _connected = true;
 
                 // Try to receive something from the server
-                TryReceive();
-
-                // Call the client connected handler
-                onConnected();
+                TryReceive();                
 
                 // Call the empty send buffer handler
                 if (_send_buffer_main.empty())
@@ -409,15 +409,15 @@ bool TCPClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
                         _bytes_sending = 0;
                         _bytes_sent = 0;
                         _bytes_received = 0;
-
+                        
+                        // Call the client connected handler, onConnected will reset FBE buffers, so it could not be located after _connected flag changed
+                        onConnected();
+                        
                         // Update the connected flag
                         _connected = true;
 
                         // Try to receive something from the server
                         TryReceive();
-
-                        // Call the client connected handler
-                        onConnected();
 
                         // Call the empty send buffer handler
                         if (_send_buffer_main.empty())
