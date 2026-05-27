@@ -99,44 +99,44 @@ $(function() {
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#ac30033f128d95d474d19104201e5129f">threads</a> == 0)</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    {</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="comment">// Single Asio IO service without thread pool</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        _services.emplace_back(std::make_shared&lt;asio::io_service&gt;());</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="comment">// Single Asio IO context without thread pool</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        _io_contexts.emplace_back(std::make_shared&lt;asio::io_context&gt;());</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!pool)</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="comment">// Io-service-per-thread design</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="comment">// IO-context-per-thread design</span></div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> thread = 0; thread &lt; <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#ac30033f128d95d474d19104201e5129f">threads</a>; ++thread)</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            _services.emplace_back(std::make_shared&lt;asio::io_service&gt;());</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            _io_contexts.emplace_back(std::make_shared&lt;asio::io_context&gt;());</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            _threads.emplace_back(std::thread());</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        }</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    {</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="comment">// Thread-pool design</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        _services.emplace_back(std::make_shared&lt;asio::io_service&gt;());</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        _io_contexts.emplace_back(std::make_shared&lt;asio::io_context&gt;());</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> thread = 0; thread &lt; <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#ac30033f128d95d474d19104201e5129f">threads</a>; ++thread)</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            _threads.emplace_back(std::thread());</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        _strand = std::make_shared&lt;asio::io_service::strand&gt;(*_services[0]);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        _strand = std::make_shared&lt;asio::io_context::strand&gt;(*_io_contexts[0]);</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        _strand_required = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
 </div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
 <div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_service.html#a756c1cad8633a7cb98378bcd3c267f23">   49</a></span><a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#ab1f1e89a53a2711813bab0121c7ab672">Service::Service</a>(<span class="keyword">const</span> std::shared_ptr&lt;asio::io_service&gt;&amp; service, <span class="keywordtype">bool</span> strands)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_service.html#a24a127621ab608afaf4ee33dce015f50">   49</a></span><a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#ab1f1e89a53a2711813bab0121c7ab672">Service::Service</a>(<span class="keyword">const</span> std::shared_ptr&lt;asio::io_context&gt;&amp; io_context, <span class="keywordtype">bool</span> strands)</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    : _strand_required(strands),</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      _polling(false),</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      _started(false),</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>      _round_robin_index(0)</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>{</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    assert((service != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Asio IO service is invalid!&quot;</span>);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">if</span> (service == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">throw</span> CppCommon::ArgumentException(<span class="stringliteral">&quot;Asio IO service is invalid!&quot;</span>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    assert((io_context != <span class="keyword">nullptr</span>) &amp;&amp; <span class="stringliteral">&quot;Asio IO context is invalid!&quot;</span>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">if</span> (io_context == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">throw</span> CppCommon::ArgumentException(<span class="stringliteral">&quot;Asio IO context is invalid!&quot;</span>);</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    _services.emplace_back(service);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    _io_contexts.emplace_back(io_context);</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        _strand = std::make_shared&lt;asio::io_service::strand&gt;(*_services[0]);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        _strand = std::make_shared&lt;asio::io_context::strand&gt;(*_io_contexts[0]);</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}</div>
 </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
@@ -167,13 +167,13 @@ $(function() {
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#aee3c2638430d5a2980ee685f30adeccc">onStarted</a>();</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    };</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        _strand-&gt;post(start_handler);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        asio::post(*_strand, start_handler);</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        _services[0]-&gt;post(start_handler);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        asio::post(*_io_contexts[0], start_handler);</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="comment">// Start service working threads</span></div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> thread = 0; thread &lt; _threads.size(); ++thread)</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        _threads[thread] = CppCommon::Thread::Start([<span class="keyword">this</span>, self, thread]() { ServiceThread(self, _services[thread % _services.size()]); });</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        _threads[thread] = CppCommon::Thread::Start([<span class="keyword">this</span>, self, thread]() { ServiceThread(self, _io_contexts[thread % _io_contexts.size()]); });</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="comment">// Wait for service is started</span></div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">while</span> (!<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#a770d2a41a4ee672522b075baa14aaa7b">IsStarted</a>())</div>
@@ -197,9 +197,9 @@ $(function() {
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#a770d2a41a4ee672522b075baa14aaa7b">IsStarted</a>())</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="comment">// Stop Asio services</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; service : _services)</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            service-&gt;stop();</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="comment">// Stop Asio IO contexts</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; io_context : _io_contexts)</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            io_context-&gt;stop();</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="comment">// Update the started flag</span></div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        _started = <span class="keyword">false</span>;</div>
@@ -208,9 +208,9 @@ $(function() {
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#a1577a18d4db40d75c194c1aa5b0993b5">onStopped</a>();</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    };</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        _strand-&gt;post(stop_handler);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        asio::post(*_strand, stop_handler);</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        _services[0]-&gt;post(stop_handler);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        asio::post(*_io_contexts[0], stop_handler);</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="comment">// Wait for all service working threads</span></div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; thread : _threads)</div>
@@ -235,17 +235,17 @@ $(function() {
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#a920a43e459a1de2859393bb27fc2686c">Stop</a>())</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="comment">// Reinitialize new Asio IO services</span></div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> service = 0; service &lt; _services.size(); ++service)</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        _services[service] = std::make_shared&lt;asio::io_service&gt;();</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="comment">// Reinitialize new Asio IO contexts</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; _io_contexts.size(); ++i)</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        _io_contexts[i] = std::make_shared&lt;asio::io_context&gt;();</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        _strand = std::make_shared&lt;asio::io_service::strand&gt;(*_services[0]);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        _strand = std::make_shared&lt;asio::io_context::strand&gt;(*_io_contexts[0]);</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_service.html#aa85bf639de313817cea8673a700d16d2">Start</a>(polling);</div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>}</div>
 </div>
 <div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="keywordtype">void</span> Service::ServiceThread(<span class="keyword">const</span> std::shared_ptr&lt;Service&gt;&amp; service, <span class="keyword">const</span> std::shared_ptr&lt;asio::io_service&gt;&amp; io_service)</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="keywordtype">void</span> Service::ServiceThread(<span class="keyword">const</span> std::shared_ptr&lt;Service&gt;&amp; service, <span class="keyword">const</span> std::shared_ptr&lt;asio::io_context&gt;&amp; io_context)</div>
 <div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>{</div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordtype">bool</span> polling = service-&gt;IsPolling();</div>
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
@@ -254,8 +254,8 @@ $(function() {
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    {</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="comment">// Attach the current working thread to the Asio service</span></div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        asio::io_service::work work(*io_service);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="comment">// Attach the current working thread to the Asio context</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        <span class="keyword">auto</span> work = asio::make_work_guard(*io_context);</div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="comment">// Service loop...</span></div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">do</span></div>
@@ -266,7 +266,7 @@ $(function() {
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>                <span class="keywordflow">if</span> (polling)</div>
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                {</div>
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>                    <span class="comment">// Poll all pending handlers</span></div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                    io_service-&gt;poll();</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                    io_context-&gt;poll();</div>
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                    <span class="comment">// Call the idle handler</span></div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>                    service-&gt;onIdle();</div>
@@ -274,7 +274,7 @@ $(function() {
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>                <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>                {</div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                    <span class="comment">// Run all pending handlers</span></div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                    io_service-&gt;run();</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                    io_context-&gt;run();</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                    <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                }</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            }</div>

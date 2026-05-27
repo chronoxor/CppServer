@@ -90,11 +90,11 @@ $(function() {
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad69938145d86ede83450a2971e0d120d">   14</a></span><a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad69938145d86ede83450a2971e0d120d">UDPServer::UDPServer</a>(<span class="keyword">const</span> std::shared_ptr&lt;Service&gt;&amp; <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad4f66b422452174dc5a45d4e7ac099eb">service</a>, <span class="keywordtype">int</span> <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a11a4e4c111de36a9e2d1fa4bbbc8b8f1">port</a>, <a class="code hl_enumeration" href="namespace_cpp_server_1_1_asio.html#aac39dbbace10e6ff08eb6d2febbf1ff4">InternetProtocol</a> protocol)</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    : _id(CppCommon::UUID::Sequential()),</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>      _service(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad4f66b422452174dc5a45d4e7ac099eb">service</a>),</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>      _io_service(_service-&gt;GetAsioService()),</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>      _strand(*_io_service),</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>      _io_context(_service-&gt;GetAsioContext()),</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>      _strand(*_io_context),</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>      _strand_required(_service-&gt;IsStrandRequired()),</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>      _port(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a11a4e4c111de36a9e2d1fa4bbbc8b8f1">port</a>),</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>      _socket(*_io_service),</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>      _socket(*_io_context),</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>      _started(false),</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>      _bytes_sending(0),</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>      _bytes_sent(0),</div>
@@ -127,12 +127,12 @@ $(function() {
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a22f3edd00990298fdc543aaf1f94c7db">   49</a></span><a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad69938145d86ede83450a2971e0d120d">UDPServer::UDPServer</a>(<span class="keyword">const</span> std::shared_ptr&lt;Service&gt;&amp; <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad4f66b422452174dc5a45d4e7ac099eb">service</a>, <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a51466b3bf302592a3bbfd359d953af95">address</a>, <span class="keywordtype">int</span> <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a11a4e4c111de36a9e2d1fa4bbbc8b8f1">port</a>)</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    : _id(CppCommon::UUID::Sequential()),</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      _service(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad4f66b422452174dc5a45d4e7ac099eb">service</a>),</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      _io_service(_service-&gt;GetAsioService()),</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>      _strand(*_io_service),</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      _io_context(_service-&gt;GetAsioContext()),</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>      _strand(*_io_context),</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>      _strand_required(_service-&gt;IsStrandRequired()),</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>      _address(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a51466b3bf302592a3bbfd359d953af95">address</a>),</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>      _port(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a11a4e4c111de36a9e2d1fa4bbbc8b8f1">port</a>),</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>      _socket(*_io_service),</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>      _socket(*_io_context),</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>      _started(false),</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      _bytes_sending(0),</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>      _bytes_sent(0),</div>
@@ -157,13 +157,13 @@ $(function() {
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a9a9a92801711a05dab4e8ffd768d8511">   77</a></span><a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad69938145d86ede83450a2971e0d120d">UDPServer::UDPServer</a>(<span class="keyword">const</span> std::shared_ptr&lt;Service&gt;&amp; <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad4f66b422452174dc5a45d4e7ac099eb">service</a>, <span class="keyword">const</span> asio::ip::udp::endpoint&amp; <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad942bf064a1cb417a5dc3b3c7605f94b">endpoint</a>)</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    : _id(CppCommon::UUID::Sequential()),</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>      _service(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad4f66b422452174dc5a45d4e7ac099eb">service</a>),</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>      _io_service(_service-&gt;GetAsioService()),</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>      _strand(*_io_service),</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>      _io_context(_service-&gt;GetAsioContext()),</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>      _strand(*_io_context),</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>      _strand_required(_service-&gt;IsStrandRequired()),</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>      _address(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad942bf064a1cb417a5dc3b3c7605f94b">endpoint</a>.<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a51466b3bf302592a3bbfd359d953af95">address</a>().to_string()),</div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>      _port(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad942bf064a1cb417a5dc3b3c7605f94b">endpoint</a>.<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a11a4e4c111de36a9e2d1fa4bbbc8b8f1">port</a>()),</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>      _endpoint(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#ad942bf064a1cb417a5dc3b3c7605f94b">endpoint</a>),</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      _socket(*_io_service),</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      _socket(*_io_context),</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>      _started(false),</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>      _bytes_sending(0),</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>      _bytes_sent(0),</div>
@@ -257,9 +257,9 @@ $(function() {
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#a2478b2ab932ae0080dfa2f15a9f9ec18">onStarted</a>();</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    };</div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        _strand.post(start_handler);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        asio::post(_strand, start_handler);</div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        _io_service-&gt;post(start_handler);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        asio::post(*_io_context, start_handler);</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>}</div>
@@ -312,9 +312,9 @@ $(function() {
 <div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_server.html#aff82bd1e287939d1043fb66e79875199">onStopped</a>();</div>
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    };</div>
 <div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        _strand.post(stop_handler);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        asio::post(_strand, stop_handler);</div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        _io_service-&gt;post(stop_handler);</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        asio::post(*_io_context, stop_handler);</div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>}</div>
@@ -425,7 +425,7 @@ $(function() {
 <div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    };</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>    <span class="comment">// Async wait for timeout</span></div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    timer.expires_from_now(timeout.chrono());</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    timer.expires_after(timeout.chrono());</div>
 <div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>    timer.async_wait([&amp;](<span class="keyword">const</span> asio::error_code&amp; ec) { async_done_handler(ec ? ec : asio::error::timed_out); });</div>
 <div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span> </div>
 <div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    <span class="comment">// Async send datagram to the client</span></div>
@@ -611,7 +611,7 @@ $(function() {
 <div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>    };</div>
 <div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span> </div>
 <div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>    <span class="comment">// Async wait for timeout</span></div>
-<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>    timer.expires_from_now(timeout.chrono());</div>
+<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>    timer.expires_after(timeout.chrono());</div>
 <div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>    timer.async_wait([&amp;](<span class="keyword">const</span> asio::error_code&amp; ec) { async_done_handler(ec ? ec : asio::error::timed_out); });</div>
 <div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span> </div>
 <div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>    <span class="comment">// Async receive datagram from the client</span></div>

@@ -113,10 +113,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab3502e390e6eb35ad761ada5b6046ac3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the session Id.  <br /></td></tr>
 <tr class="memitem:a2ce23f61a2c0a5d77c5f9a6bd4f09da3" id="r_a2ce23f61a2c0a5d77c5f9a6bd4f09da3"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="#ae4cfdb1814d91a8d28dadb49adda68f0">TCPServer</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a2ce23f61a2c0a5d77c5f9a6bd4f09da3">server</a> () noexcept</td></tr>
 <tr class="memdesc:a2ce23f61a2c0a5d77c5f9a6bd4f09da3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the server.  <br /></td></tr>
-<tr class="memitem:aa2084ebf5492dd5d7d1247889c8485ab" id="r_aa2084ebf5492dd5d7d1247889c8485ab"><td class="memItemLeft">std::shared_ptr&lt; asio::io_service &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa2084ebf5492dd5d7d1247889c8485ab">io_service</a> () noexcept</td></tr>
-<tr class="memdesc:aa2084ebf5492dd5d7d1247889c8485ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service.  <br /></td></tr>
-<tr class="memitem:a8fb2ab8328e49d651467dada4093b67f" id="r_a8fb2ab8328e49d651467dada4093b67f"><td class="memItemLeft">asio::io_service::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a8fb2ab8328e49d651467dada4093b67f">strand</a> () noexcept</td></tr>
-<tr class="memdesc:a8fb2ab8328e49d651467dada4093b67f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
+<tr class="memitem:a287a7154f9ae99e3a60209cd49b9feef" id="r_a287a7154f9ae99e3a60209cd49b9feef"><td class="memItemLeft">std::shared_ptr&lt; asio::io_context &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a287a7154f9ae99e3a60209cd49b9feef">io_context</a> () noexcept</td></tr>
+<tr class="memdesc:a287a7154f9ae99e3a60209cd49b9feef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context.  <br /></td></tr>
+<tr class="memitem:a1701f1a47a0d9ff0f92cf5029e48d219" id="r_a1701f1a47a0d9ff0f92cf5029e48d219"><td class="memItemLeft">asio::io_context::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1701f1a47a0d9ff0f92cf5029e48d219">strand</a> () noexcept</td></tr>
+<tr class="memdesc:a1701f1a47a0d9ff0f92cf5029e48d219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
 <tr class="memitem:a278b6afa533ac1a3abfc1a21d03e94b5" id="r_a278b6afa533ac1a3abfc1a21d03e94b5"><td class="memItemLeft">asio::ip::tcp::socket &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a278b6afa533ac1a3abfc1a21d03e94b5">socket</a> () noexcept</td></tr>
 <tr class="memdesc:a278b6afa533ac1a3abfc1a21d03e94b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the session socket.  <br /></td></tr>
 <tr class="memitem:a0cdf90976b0718701126178bdd3319b5" id="r_a0cdf90976b0718701126178bdd3319b5"><td class="memItemLeft">uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#a0cdf90976b0718701126178bdd3319b5">bytes_pending</a> () const noexcept</td></tr>
@@ -459,8 +459,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="aa2084ebf5492dd5d7d1247889c8485ab" name="aa2084ebf5492dd5d7d1247889c8485ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2084ebf5492dd5d7d1247889c8485ab">&#9670;&#160;</a></span>io_service()</h2>
+<a id="a287a7154f9ae99e3a60209cd49b9feef" name="a287a7154f9ae99e3a60209cd49b9feef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a287a7154f9ae99e3a60209cd49b9feef">&#9670;&#160;</a></span>io_context()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -469,7 +469,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; asio::io_service &gt; &amp; CppServer::Asio::TCPSession::io_service </td>
+          <td class="memname">std::shared_ptr&lt; asio::io_context &gt; &amp; CppServer::Asio::TCPSession::io_context </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -482,7 +482,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service. </p>
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context. </p>
 
 <p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00050">50</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
 
@@ -1523,8 +1523,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a8fb2ab8328e49d651467dada4093b67f" name="a8fb2ab8328e49d651467dada4093b67f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fb2ab8328e49d651467dada4093b67f">&#9670;&#160;</a></span>strand()</h2>
+<a id="a1701f1a47a0d9ff0f92cf5029e48d219" name="a1701f1a47a0d9ff0f92cf5029e48d219"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1701f1a47a0d9ff0f92cf5029e48d219">&#9670;&#160;</a></span>strand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1533,7 +1533,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">asio::io_service::strand &amp; CppServer::Asio::TCPSession::strand </td>
+          <td class="memname">asio::io_context::strand &amp; CppServer::Asio::TCPSession::strand </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>

@@ -112,10 +112,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a17337831b0b2f06f2208f76442585499"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the client Id.  <br /></td></tr>
 <tr class="memitem:af0a971b37288bb3b6d700f143bf3ac55" id="r_af0a971b37288bb3b6d700f143bf3ac55"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#af0a971b37288bb3b6d700f143bf3ac55">service</a> () noexcept</td></tr>
 <tr class="memdesc:af0a971b37288bb3b6d700f143bf3ac55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service.  <br /></td></tr>
-<tr class="memitem:a346ad9d05872886dc17041643c291e14" id="r_a346ad9d05872886dc17041643c291e14"><td class="memItemLeft">std::shared_ptr&lt; asio::io_service &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a346ad9d05872886dc17041643c291e14">io_service</a> () noexcept</td></tr>
-<tr class="memdesc:a346ad9d05872886dc17041643c291e14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service.  <br /></td></tr>
-<tr class="memitem:a984884270817f3dfca8084cb2f8c896a" id="r_a984884270817f3dfca8084cb2f8c896a"><td class="memItemLeft">asio::io_service::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a984884270817f3dfca8084cb2f8c896a">strand</a> () noexcept</td></tr>
-<tr class="memdesc:a984884270817f3dfca8084cb2f8c896a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
+<tr class="memitem:aa4880726319c081003f0724a967bc5a2" id="r_aa4880726319c081003f0724a967bc5a2"><td class="memItemLeft">std::shared_ptr&lt; asio::io_context &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa4880726319c081003f0724a967bc5a2">io_context</a> () noexcept</td></tr>
+<tr class="memdesc:aa4880726319c081003f0724a967bc5a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context.  <br /></td></tr>
+<tr class="memitem:a78e74022574d748a457c52e524faaf09" id="r_a78e74022574d748a457c52e524faaf09"><td class="memItemLeft">asio::io_context::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a78e74022574d748a457c52e524faaf09">strand</a> () noexcept</td></tr>
+<tr class="memdesc:a78e74022574d748a457c52e524faaf09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
 <tr class="memitem:a18375d7b1049d19acbe413b2406e20d1" id="r_a18375d7b1049d19acbe413b2406e20d1"><td class="memItemLeft">asio::ip::udp::endpoint &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a18375d7b1049d19acbe413b2406e20d1">endpoint</a> () noexcept</td></tr>
 <tr class="memdesc:a18375d7b1049d19acbe413b2406e20d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the client endpoint.  <br /></td></tr>
 <tr class="memitem:acf62b4b3c3ff5cc0f258556b85b675b4" id="r_acf62b4b3c3ff5cc0f258556b85b675b4"><td class="memItemLeft">asio::ip::udp::socket &amp;&#160;</td><td class="memItemRight"><a class="el" href="#acf62b4b3c3ff5cc0f258556b85b675b4">socket</a> () noexcept</td></tr>
@@ -647,7 +647,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="udp_echo_client_8cpp-example.html#a8">udp_echo_client.cpp</a>, and <a class="el" href="udp_multicast_client_8cpp-example.html#a8">udp_multicast_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00275">275</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00274">274</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -683,7 +683,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00291">291</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00290">290</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -867,8 +867,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a346ad9d05872886dc17041643c291e14" name="a346ad9d05872886dc17041643c291e14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a346ad9d05872886dc17041643c291e14">&#9670;&#160;</a></span>io_service()</h2>
+<a id="aa4880726319c081003f0724a967bc5a2" name="aa4880726319c081003f0724a967bc5a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4880726319c081003f0724a967bc5a2">&#9670;&#160;</a></span>io_context()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -877,7 +877,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; asio::io_service &gt; &amp; CppServer::Asio::UDPClient::io_service </td>
+          <td class="memname">std::shared_ptr&lt; asio::io_context &gt; &amp; CppServer::Asio::UDPClient::io_context </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -890,7 +890,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service. </p>
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context. </p>
 
 <p class="definition">Definition at line <a class="el" href="udp__client_8h_source.html#l00065">65</a> of file <a class="el" href="udp__client_8h_source.html">udp_client.h</a>.</p>
 
@@ -960,7 +960,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="udp_multicast_client_8cpp-example.html#a5">udp_multicast_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00419">419</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00417">417</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -995,7 +995,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00447">447</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00445">445</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1030,7 +1030,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00433">433</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00431">431</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1065,7 +1065,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00461">461</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00459">459</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1643,7 +1643,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00699">699</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00697">697</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1690,7 +1690,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00766">766</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00764">764</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1737,7 +1737,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received datagram </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00665">665</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00663">663</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1790,7 +1790,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received datagram </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00706">706</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00704">704</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1821,7 +1821,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="udp_echo_client_8cpp-example.html#a6">udp_echo_client.cpp</a>, and <a class="el" href="udp_multicast_client_8cpp-example.html#a6">udp_multicast_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00773">773</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00771">771</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1851,7 +1851,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client (synchronous). </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00267">267</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00266">266</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1881,7 +1881,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client (asynchronous). </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00408">408</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00406">406</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1957,7 +1957,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent datagram </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00481">481</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00479">479</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -2010,7 +2010,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent datagram </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00523">523</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00521">521</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -2139,7 +2139,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent datagram </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00475">475</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00473">473</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -2186,7 +2186,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent datagram </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00517">517</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00515">515</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -2310,7 +2310,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully sent, 'false' if the datagram was not sent </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00593">593</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00591">591</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -2392,7 +2392,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the datagram was successfully sent, 'false' if the datagram was not sent </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00587">587</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="udp__client_8cpp_source.html#l00585">585</a> of file <a class="el" href="udp__client_8cpp_source.html">udp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -2725,8 +2725,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a984884270817f3dfca8084cb2f8c896a" name="a984884270817f3dfca8084cb2f8c896a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a984884270817f3dfca8084cb2f8c896a">&#9670;&#160;</a></span>strand()</h2>
+<a id="a78e74022574d748a457c52e524faaf09" name="a78e74022574d748a457c52e524faaf09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78e74022574d748a457c52e524faaf09">&#9670;&#160;</a></span>strand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2735,7 +2735,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">asio::io_service::strand &amp; CppServer::Asio::UDPClient::strand </td>
+          <td class="memname">asio::io_context::strand &amp; CppServer::Asio::UDPClient::strand </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
