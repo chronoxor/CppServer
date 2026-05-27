@@ -322,7 +322,7 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
         uint8_t opcode = _ws_receive_frame_buffer[0] & 0x0F;
         bool fin = ((_ws_receive_frame_buffer[0] >> 7) & 0x01) != 0;
         bool mask = ((_ws_receive_frame_buffer[1] >> 7) & 0x01) != 0;
-        size_t payload = _ws_receive_frame_buffer[1] & (~0x80);
+        size_t payload = (size_t)_ws_receive_frame_buffer[1] & (~0x80);
 
         // Prepare WebSocket opcode
         _ws_opcode = (opcode != 0) ? opcode : _ws_opcode;
@@ -437,7 +437,7 @@ void WebSocket::PrepareReceiveFrame(const void* buffer, size_t size)
                         if (_ws_receive_final_buffer.size() >= 2)
                         {
                             sindex += 2;
-                            status = ((_ws_receive_final_buffer[0] << 8) | (_ws_receive_final_buffer[1] << 0));
+                            status = (((int)_ws_receive_final_buffer[0] << 8) | ((int)_ws_receive_final_buffer[1] << 0));
                         }
 
                         // Call the WebSocket close handler
@@ -467,7 +467,7 @@ size_t WebSocket::RequiredReceiveFrameSize()
         return 2 - _ws_receive_frame_buffer.size();
 
     bool mask = ((_ws_receive_frame_buffer[1] >> 7) & 0x01) != 0;
-    size_t payload = _ws_receive_frame_buffer[1] & (~0x80);
+    size_t payload = (size_t)_ws_receive_frame_buffer[1] & (~0x80);
 
     // Required WebSocket frame size
     if ((payload == 126) && (_ws_receive_frame_buffer.size() < 4))
