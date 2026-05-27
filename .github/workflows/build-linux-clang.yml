@@ -9,13 +9,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: "Setup required packages"
         run: sudo apt-get install -y binutils-dev libc++-dev libssl-dev uuid-dev
 
       - name: "Setup clang"
-        uses: egor-tensin/setup-clang@v1
+        uses: egor-tensin/setup-clang@v2
 
       - name: "Setup cmake"
         run: cmake --version
