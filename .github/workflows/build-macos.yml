@@ -24,6 +24,9 @@ jobs:
           pip3 install gil
           gil update
 
+      - name: "Setup UDP multicast route"
+        run: sudo route -nv add -net 239.0.0.0/8 -interface lo0
+
       - name: "Build"
         run: |
           cd build
