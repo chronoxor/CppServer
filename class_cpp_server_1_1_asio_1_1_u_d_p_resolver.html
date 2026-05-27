@@ -99,10 +99,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9a1ca8d880b8cf97797984175477d4eb" id="r_a9a1ca8d880b8cf97797984175477d4eb"><td class="memItemLeft"><a class="el" href="#a571fb213b70cbf9b53f90790a4f1816e">UDPResolver</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a9a1ca8d880b8cf97797984175477d4eb">operator=</a> (<a class="el" href="#a571fb213b70cbf9b53f90790a4f1816e">UDPResolver</a> &amp;&amp;)=delete</td></tr>
 <tr class="memitem:a437f4bb7463a56aaa9e0903b73af9360" id="r_a437f4bb7463a56aaa9e0903b73af9360"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a437f4bb7463a56aaa9e0903b73af9360">service</a> () noexcept</td></tr>
 <tr class="memdesc:a437f4bb7463a56aaa9e0903b73af9360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service.  <br /></td></tr>
-<tr class="memitem:a593baa12b4f54ddd52e143aa301c96cb" id="r_a593baa12b4f54ddd52e143aa301c96cb"><td class="memItemLeft">std::shared_ptr&lt; asio::io_service &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a593baa12b4f54ddd52e143aa301c96cb">io_service</a> () noexcept</td></tr>
-<tr class="memdesc:a593baa12b4f54ddd52e143aa301c96cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service.  <br /></td></tr>
-<tr class="memitem:a6fceabc6af8ae4a365e1ce4c7fd255fd" id="r_a6fceabc6af8ae4a365e1ce4c7fd255fd"><td class="memItemLeft">asio::io_service::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a6fceabc6af8ae4a365e1ce4c7fd255fd">strand</a> () noexcept</td></tr>
-<tr class="memdesc:a6fceabc6af8ae4a365e1ce4c7fd255fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
+<tr class="memitem:ae8a36db5dd1160334767263b42e9b6ec" id="r_ae8a36db5dd1160334767263b42e9b6ec"><td class="memItemLeft">std::shared_ptr&lt; asio::io_context &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae8a36db5dd1160334767263b42e9b6ec">io_context</a> () noexcept</td></tr>
+<tr class="memdesc:ae8a36db5dd1160334767263b42e9b6ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context.  <br /></td></tr>
+<tr class="memitem:ac119d90ca98de70496bd8af6b3edfc43" id="r_ac119d90ca98de70496bd8af6b3edfc43"><td class="memItemLeft">asio::io_context::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ac119d90ca98de70496bd8af6b3edfc43">strand</a> () noexcept</td></tr>
+<tr class="memdesc:ac119d90ca98de70496bd8af6b3edfc43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
 <tr class="memitem:ad51f70e9dc2fb4f4dda1bcb54b3d853f" id="r_ad51f70e9dc2fb4f4dda1bcb54b3d853f"><td class="memItemLeft">asio::ip::udp::resolver &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad51f70e9dc2fb4f4dda1bcb54b3d853f">resolver</a> () noexcept</td></tr>
 <tr class="memdesc:ad51f70e9dc2fb4f4dda1bcb54b3d853f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the UDP resolver.  <br /></td></tr>
 <tr class="memitem:a02ec2c4e00b5e9d459f1bd3248994b09" id="r_a02ec2c4e00b5e9d459f1bd3248994b09"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a02ec2c4e00b5e9d459f1bd3248994b09">Cancel</a> ()</td></tr>
@@ -249,8 +249,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a593baa12b4f54ddd52e143aa301c96cb" name="a593baa12b4f54ddd52e143aa301c96cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a593baa12b4f54ddd52e143aa301c96cb">&#9670;&#160;</a></span>io_service()</h2>
+<a id="ae8a36db5dd1160334767263b42e9b6ec" name="ae8a36db5dd1160334767263b42e9b6ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8a36db5dd1160334767263b42e9b6ec">&#9670;&#160;</a></span>io_context()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,7 +259,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; asio::io_service &gt; &amp; CppServer::Asio::UDPResolver::io_service </td>
+          <td class="memname">std::shared_ptr&lt; asio::io_context &gt; &amp; CppServer::Asio::UDPResolver::io_context </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -272,7 +272,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service. </p>
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context. </p>
 
 <p class="definition">Definition at line <a class="el" href="udp__resolver_8h_source.html#l00041">41</a> of file <a class="el" href="udp__resolver_8h_source.html">udp_resolver.h</a>.</p>
 
@@ -386,8 +386,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6fceabc6af8ae4a365e1ce4c7fd255fd" name="a6fceabc6af8ae4a365e1ce4c7fd255fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6fceabc6af8ae4a365e1ce4c7fd255fd">&#9670;&#160;</a></span>strand()</h2>
+<a id="ac119d90ca98de70496bd8af6b3edfc43" name="ac119d90ca98de70496bd8af6b3edfc43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac119d90ca98de70496bd8af6b3edfc43">&#9670;&#160;</a></span>strand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -396,7 +396,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">asio::io_service::strand &amp; CppServer::Asio::UDPResolver::strand </td>
+          <td class="memname">asio::io_context::strand &amp; CppServer::Asio::UDPResolver::strand </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
