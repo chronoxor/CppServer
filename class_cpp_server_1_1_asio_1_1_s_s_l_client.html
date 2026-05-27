@@ -210,10 +210,16 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a7385c7198e1a5758a4377ef7b380caf8" id="r_a7385c7198e1a5758a4377ef7b380caf8"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a7385c7198e1a5758a4377ef7b380caf8">onConnecting</a> ()</td></tr>
+<tr class="memdesc:a7385c7198e1a5758a4377ef7b380caf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client connecting notification.  <br /></td></tr>
 <tr class="memitem:ac26b3261387e473b5caae5d7643ddafa" id="r_ac26b3261387e473b5caae5d7643ddafa"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ac26b3261387e473b5caae5d7643ddafa">onConnected</a> ()</td></tr>
 <tr class="memdesc:ac26b3261387e473b5caae5d7643ddafa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client connected notification.  <br /></td></tr>
+<tr class="memitem:a7e6463c5f14700b6b1a7375d63b195bb" id="r_a7e6463c5f14700b6b1a7375d63b195bb"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a7e6463c5f14700b6b1a7375d63b195bb">onHandshaking</a> ()</td></tr>
+<tr class="memdesc:a7e6463c5f14700b6b1a7375d63b195bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session handshaking notification.  <br /></td></tr>
 <tr class="memitem:a3eed61d6ad42bc5b7a325284267fe062" id="r_a3eed61d6ad42bc5b7a325284267fe062"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a3eed61d6ad42bc5b7a325284267fe062">onHandshaked</a> ()</td></tr>
 <tr class="memdesc:a3eed61d6ad42bc5b7a325284267fe062"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session handshaked notification.  <br /></td></tr>
+<tr class="memitem:abc03190a0f5b76df883451cd791b1876" id="r_abc03190a0f5b76df883451cd791b1876"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#abc03190a0f5b76df883451cd791b1876">onDisconnecting</a> ()</td></tr>
+<tr class="memdesc:abc03190a0f5b76df883451cd791b1876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client disconnecting notification.  <br /></td></tr>
 <tr class="memitem:a7c373984822bc7fefe277a50f69ce28d" id="r_a7c373984822bc7fefe277a50f69ce28d"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a7c373984822bc7fefe277a50f69ce28d">onDisconnected</a> ()</td></tr>
 <tr class="memdesc:a7c373984822bc7fefe277a50f69ce28d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client disconnected notification.  <br /></td></tr>
 <tr class="memitem:abb3e22bd3d13a65f18eaa8bfc5f62b66" id="r_abb3e22bd3d13a65f18eaa8bfc5f62b66"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#abb3e22bd3d13a65f18eaa8bfc5f62b66">onReceived</a> (const void *buffer, size_t size)</td></tr>
@@ -622,7 +628,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00224">224</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00236">236</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -656,7 +662,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a8">ssl_chat_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00351">351</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00378">378</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -692,7 +698,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00463">463</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00500">500</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -963,6 +969,35 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a4">ssl_chat_client.cpp</a>.</dd>
 </dl>
 
+<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00291">291</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+
+</div>
+</div>
+<a id="a7385c7198e1a5758a4377ef7b380caf8" name="a7385c7198e1a5758a4377ef7b380caf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7385c7198e1a5758a4377ef7b380caf8">&#9670;&#160;</a></span>onConnecting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::SSLClient::onConnecting </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle client connecting notification. </p>
+
 <p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00289">289</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
@@ -996,7 +1031,38 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a7">ssl_chat_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00293">293</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00299">299</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+
+</div>
+</div>
+<a id="abc03190a0f5b76df883451cd791b1876" name="abc03190a0f5b76df883451cd791b1876"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc03190a0f5b76df883451cd791b1876">&#9670;&#160;</a></span>onDisconnecting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::SSLClient::onDisconnecting </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle client disconnecting notification. </p>
+
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_client.html#a9a9435683f5a35c1b3228cc4aee2a00e">CppServer::WS::WSSClient</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00297">297</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1027,7 +1093,7 @@ Protected Member Functions</h2></td></tr>
 <p>Notification is called when the send buffer is empty and ready for a new data to send.</p>
 <p>This handler could be used to send another buffer to the server. </p>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00324">324</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00330">330</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1075,7 +1141,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a10">ssl_chat_client.cpp</a>, and <a class="el" href="wss_chat_client_8cpp-example.html#a16">wss_chat_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00332">332</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00338">338</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1108,7 +1174,36 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a6">ssl_chat_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00291">291</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00295">295</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+
+</div>
+</div>
+<a id="a7e6463c5f14700b6b1a7375d63b195bb" name="a7e6463c5f14700b6b1a7375d63b195bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e6463c5f14700b6b1a7375d63b195bb">&#9670;&#160;</a></span>onHandshaking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::SSLClient::onHandshaking </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle session handshaking notification. </p>
+
+<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00293">293</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1153,7 +1248,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a9">ssl_chat_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00303">303</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00309">309</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1195,7 +1290,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00315">315</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00321">321</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
 </div>
 </div>
@@ -1468,7 +1563,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00838">838</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00887">887</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1509,7 +1604,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00908">908</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00957">957</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1550,7 +1645,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00803">803</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00852">852</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1597,7 +1692,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00845">845</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00894">894</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1626,7 +1721,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Receive data from the server (asynchronous). </p>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00915">915</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00964">964</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1656,7 +1751,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client (synchronous). </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00343">343</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00370">370</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1686,7 +1781,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client (asynchronous). </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00642">642</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00691">691</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1756,7 +1851,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00653">653</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00702">702</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1803,7 +1898,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00688">688</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00737">737</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1921,7 +2016,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the data was successfully sent, 'false' if the client is not connected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00751">751</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00800">800</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>

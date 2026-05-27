@@ -174,10 +174,16 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:aaad5094cf2f71b7cd72e36d197922d1b" id="r_aaad5094cf2f71b7cd72e36d197922d1b"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#aaad5094cf2f71b7cd72e36d197922d1b">onConnecting</a> ()</td></tr>
+<tr class="memdesc:aaad5094cf2f71b7cd72e36d197922d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session connecting notification.  <br /></td></tr>
 <tr class="memitem:a720258f3f709d2fb7ba9176bdeaaadf8" id="r_a720258f3f709d2fb7ba9176bdeaaadf8"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a720258f3f709d2fb7ba9176bdeaaadf8">onConnected</a> ()</td></tr>
 <tr class="memdesc:a720258f3f709d2fb7ba9176bdeaaadf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session connected notification.  <br /></td></tr>
+<tr class="memitem:aaad73ea11fca61619255022334139ce6" id="r_aaad73ea11fca61619255022334139ce6"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#aaad73ea11fca61619255022334139ce6">onHandshaking</a> ()</td></tr>
+<tr class="memdesc:aaad73ea11fca61619255022334139ce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session handshaking notification.  <br /></td></tr>
 <tr class="memitem:ae4a6244d6836397f6f2625d13436f707" id="r_ae4a6244d6836397f6f2625d13436f707"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ae4a6244d6836397f6f2625d13436f707">onHandshaked</a> ()</td></tr>
 <tr class="memdesc:ae4a6244d6836397f6f2625d13436f707"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session handshaked notification.  <br /></td></tr>
+<tr class="memitem:a65197469ad1a22880da8a8acadaa1c05" id="r_a65197469ad1a22880da8a8acadaa1c05"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a65197469ad1a22880da8a8acadaa1c05">onDisconnecting</a> ()</td></tr>
+<tr class="memdesc:a65197469ad1a22880da8a8acadaa1c05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnecting notification.  <br /></td></tr>
 <tr class="memitem:af1a2e83a7943f4271b9d0a770b01a230" id="r_af1a2e83a7943f4271b9d0a770b01a230"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#af1a2e83a7943f4271b9d0a770b01a230">onDisconnected</a> ()</td></tr>
 <tr class="memdesc:af1a2e83a7943f4271b9d0a770b01a230"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnected notification.  <br /></td></tr>
 <tr class="memitem:a7de652dd6639ae77db073f92b37cc580" id="r_a7de652dd6639ae77db073f92b37cc580"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a7de652dd6639ae77db073f92b37cc580">onReceived</a> (const void *buffer, size_t size)</td></tr>
@@ -579,6 +585,35 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a2">ssl_chat_server.cpp</a>.</dd>
 </dl>
 
+<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00197">197</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+
+</div>
+</div>
+<a id="aaad5094cf2f71b7cd72e36d197922d1b" name="aaad5094cf2f71b7cd72e36d197922d1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaad5094cf2f71b7cd72e36d197922d1b">&#9670;&#160;</a></span>onConnecting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::SSLSession::onConnecting </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle session connecting notification. </p>
+
 <p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00195">195</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
 
 </div>
@@ -612,7 +647,38 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a6">ssl_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00199">199</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00205">205</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+
+</div>
+</div>
+<a id="a65197469ad1a22880da8a8acadaa1c05" name="a65197469ad1a22880da8a8acadaa1c05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65197469ad1a22880da8a8acadaa1c05">&#9670;&#160;</a></span>onDisconnecting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::SSLSession::onDisconnecting </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle session disconnecting notification. </p>
+
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_s_session.html#a2adea75042f7b97d3d0d90b32e5498c2">CppServer::WS::WSSSession</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00203">203</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
 
 </div>
 </div>
@@ -643,7 +709,7 @@ Friends</h2></td></tr>
 <p>Notification is called when the send buffer is empty and ready for a new data to send.</p>
 <p>This handler could be used to send another buffer to the client. </p>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00230">230</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00236">236</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
 
 </div>
 </div>
@@ -691,7 +757,7 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="https_server_8cpp-example.html#a11">https_server.cpp</a>, <a class="el" href="ssl_chat_server_8cpp-example.html#a10">ssl_chat_server.cpp</a>, and <a class="el" href="wss_chat_server_8cpp-example.html#a10">wss_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00238">238</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00244">244</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
 
 </div>
 </div>
@@ -722,7 +788,36 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a4">ssl_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00197">197</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00201">201</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+
+</div>
+</div>
+<a id="aaad73ea11fca61619255022334139ce6" name="aaad73ea11fca61619255022334139ce6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaad73ea11fca61619255022334139ce6">&#9670;&#160;</a></span>onHandshaking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::SSLSession::onHandshaking </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle session handshaking notification. </p>
+
+<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00199">199</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
 
 </div>
 </div>
@@ -767,7 +862,7 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a7">ssl_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00209">209</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00215">215</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
 
 </div>
 </div>
@@ -809,7 +904,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00221">221</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8h_source.html#l00227">227</a> of file <a class="el" href="ssl__session_8h_source.html">ssl_session.h</a>.</p>
 
 </div>
 </div>
@@ -995,7 +1090,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00399">399</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00408">408</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1036,7 +1131,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00470">470</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00479">479</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1077,7 +1172,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00363">363</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00372">372</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1124,7 +1219,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00406">406</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00415">415</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1153,7 +1248,7 @@ Friends</h2></td></tr>
 
 <p>Receive data from the client (asynchronous). </p>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00477">477</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00486">486</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1194,7 +1289,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00211">211</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00220">220</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1241,7 +1336,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00247">247</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00256">256</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1361,7 +1456,7 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_server_8cpp-example.html#a5">ssl_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00311">311</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__session_8cpp_source.html#l00320">320</a> of file <a class="el" href="ssl__session_8cpp_source.html">ssl_session.cpp</a>.</p>
 
 </div>
 </div>

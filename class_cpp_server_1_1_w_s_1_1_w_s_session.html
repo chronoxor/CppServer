@@ -253,6 +253,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a694ddf52b53f48418c93cc6fb1974618" id="r_a694ddf52b53f48418c93cc6fb1974618"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a694ddf52b53f48418c93cc6fb1974618">onDisconnecting</a> () override</td></tr>
+<tr class="memdesc:a694ddf52b53f48418c93cc6fb1974618"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnecting notification.  <br /></td></tr>
 <tr class="memitem:af4cae2a0bf627fe4f9b3a6f108695bca" id="r_af4cae2a0bf627fe4f9b3a6f108695bca"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af4cae2a0bf627fe4f9b3a6f108695bca">onDisconnected</a> () override</td></tr>
 <tr class="memdesc:af4cae2a0bf627fe4f9b3a6f108695bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnected notification.  <br /></td></tr>
 <tr class="memitem:a1908bb0e0341937c994e619e1d574850" id="r_a1908bb0e0341937c994e619e1d574850"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1908bb0e0341937c994e619e1d574850">onReceived</a> (const void *buffer, size_t size) override</td></tr>
@@ -273,6 +275,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a367ee99b57f575b2860f541595065653 inherit pro_methods_class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session" id="r_a367ee99b57f575b2860f541595065653"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a367ee99b57f575b2860f541595065653">onReceivedCachedRequest</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTPRequest</a> &amp;request, std::string_view content)</td></tr>
 <tr class="memdesc:a367ee99b57f575b2860f541595065653 inherit pro_methods_class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> cached request received notification.  <br /></td></tr>
 <tr class="inherit_header pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Member Functions inherited from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html">CppServer::Asio::TCPSession</a></td></tr>
+<tr class="memitem:a551d74facd0c3a20ff99585eeabb198a inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session" id="r_a551d74facd0c3a20ff99585eeabb198a"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a551d74facd0c3a20ff99585eeabb198a">onConnecting</a> ()</td></tr>
+<tr class="memdesc:a551d74facd0c3a20ff99585eeabb198a inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session connecting notification.  <br /></td></tr>
 <tr class="memitem:a0759242c84135a0c6deb984ed4da057e inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session" id="r_a0759242c84135a0c6deb984ed4da057e"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a0759242c84135a0c6deb984ed4da057e">onConnected</a> ()</td></tr>
 <tr class="memdesc:a0759242c84135a0c6deb984ed4da057e inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session connected notification.  <br /></td></tr>
 <tr class="memitem:a9ccda1e8d984193bfb17da0115da97f4 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_session" id="r_a9ccda1e8d984193bfb17da0115da97f4"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a9ccda1e8d984193bfb17da0115da97f4">onSent</a> (size_t sent, size_t pending)</td></tr>
@@ -290,8 +294,10 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:ac3a97b72b72812c3c3d3df50e67c9028 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> server session validating notification.  <br /></td></tr>
 <tr class="memitem:a88179896826b9161b447def151c7cfe1 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_a88179896826b9161b447def151c7cfe1"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a88179896826b9161b447def151c7cfe1">onWSConnected</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTP::HTTPRequest</a> &amp;request)</td></tr>
 <tr class="memdesc:a88179896826b9161b447def151c7cfe1 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> server session connected notification.  <br /></td></tr>
+<tr class="memitem:ac4d12ab09cd21ef0d66d3493b60583ba inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_ac4d12ab09cd21ef0d66d3493b60583ba"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#ac4d12ab09cd21ef0d66d3493b60583ba">onWSDisconnecting</a> ()</td></tr>
+<tr class="memdesc:ac4d12ab09cd21ef0d66d3493b60583ba inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> disconnecting notification.  <br /></td></tr>
 <tr class="memitem:adb3a747ac5a60aebdd583ffff08e5854 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_adb3a747ac5a60aebdd583ffff08e5854"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#adb3a747ac5a60aebdd583ffff08e5854">onWSDisconnected</a> ()</td></tr>
-<tr class="memdesc:adb3a747ac5a60aebdd583ffff08e5854 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> client disconnected notification.  <br /></td></tr>
+<tr class="memdesc:adb3a747ac5a60aebdd583ffff08e5854 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> disconnected notification.  <br /></td></tr>
 <tr class="memitem:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_a694032f8a32f3912420c3ca635b83506"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a694032f8a32f3912420c3ca635b83506">onWSReceived</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> received notification.  <br /></td></tr>
 <tr class="memitem:a90e51a8bcd332e5bee8a64fdf8bdcd22 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_a90e51a8bcd332e5bee8a64fdf8bdcd22"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a90e51a8bcd332e5bee8a64fdf8bdcd22">onWSPong</a> (const void *buffer, size_t size)</td></tr>
@@ -635,6 +641,37 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a732c9d82c5390d824ff4bab316080088">CppServer::HTTP::HTTPSession</a>.</p>
 
+<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00029">29</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a694ddf52b53f48418c93cc6fb1974618" name="a694ddf52b53f48418c93cc6fb1974618"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a694ddf52b53f48418c93cc6fb1974618">&#9670;&#160;</a></span>onDisconnecting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::WS::WSSession::onDisconnecting </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle session disconnecting notification. </p>
+
+<p>Reimplemented from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_session.html#a1136bdab445119cbbef39e7ae538d8c0">CppServer::Asio::TCPSession</a>.</p>
+
 <p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00020">20</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
 
 </div>
@@ -678,7 +715,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a87f5dcb912eeffc0dbdd3966e6dd4c0a">CppServer::HTTP::HTTPSession</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00040">40</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00049">49</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -716,7 +753,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#ad60d64578f47fe837c453a6be9110f54">CppServer::HTTP::HTTPSession</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00067">67</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00076">76</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -759,7 +796,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a974e403b3b4e20257e96d048a3c3a6b9">CppServer::HTTP::HTTPSession</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00081">81</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00090">90</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -797,7 +834,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_session.html#a4383cae275f5ade52beb73b918c0ba1a">CppServer::HTTP::HTTPSession</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00053">53</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00062">62</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -837,7 +874,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a38317e4bc8cb90e9416f146263ff186e">CppServer::WS::WebSocket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8h_source.html#l00099">99</a> of file <a class="el" href="ws__session_8h_source.html">ws_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8h_source.html#l00100">100</a> of file <a class="el" href="ws__session_8h_source.html">ws_session.h</a>.</p>
 
 </div>
 </div>
@@ -868,7 +905,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a979af15582c8c9d9876f50406772fee6">CppServer::WS::WebSocket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8h_source.html#l00103">103</a> of file <a class="el" href="ws__session_8h_source.html">ws_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8h_source.html#l00104">104</a> of file <a class="el" href="ws__session_8h_source.html">ws_session.h</a>.</p>
 
 </div>
 </div>
@@ -903,7 +940,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a6d09fc5adcdcfd6f3edde57ffc6ffa36">CppServer::WS::WebSocket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8h_source.html#l00101">101</a> of file <a class="el" href="ws__session_8h_source.html">ws_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8h_source.html#l00102">102</a> of file <a class="el" href="ws__session_8h_source.html">ws_session.h</a>.</p>
 
 </div>
 </div>
@@ -972,7 +1009,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00155">155</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00164">164</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -991,7 +1028,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00186">186</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00195">195</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1010,7 +1047,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00093">93</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00102">102</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1029,7 +1066,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00124">124</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ws__session_8cpp_source.html#l00133">133</a> of file <a class="el" href="ws__session_8cpp_source.html">ws_session.cpp</a>.</p>
 
 </div>
 </div>

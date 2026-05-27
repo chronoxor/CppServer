@@ -295,6 +295,8 @@ Public Member Functions</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a92cc34a674544f5a667670e3eef4a771" id="r_a92cc34a674544f5a667670e3eef4a771"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a92cc34a674544f5a667670e3eef4a771">onHandshaked</a> () override</td></tr>
 <tr class="memdesc:a92cc34a674544f5a667670e3eef4a771"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session handshaked notification.  <br /></td></tr>
+<tr class="memitem:a9a9435683f5a35c1b3228cc4aee2a00e" id="r_a9a9435683f5a35c1b3228cc4aee2a00e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9a9435683f5a35c1b3228cc4aee2a00e">onDisconnecting</a> () override</td></tr>
+<tr class="memdesc:a9a9435683f5a35c1b3228cc4aee2a00e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client disconnecting notification.  <br /></td></tr>
 <tr class="memitem:aa67f8a6da490c7472ba41db3cfe1c2bd" id="r_aa67f8a6da490c7472ba41db3cfe1c2bd"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa67f8a6da490c7472ba41db3cfe1c2bd">onDisconnected</a> () override</td></tr>
 <tr class="memdesc:aa67f8a6da490c7472ba41db3cfe1c2bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client disconnected notification.  <br /></td></tr>
 <tr class="memitem:a7a266ad047669694ecc29cace16bdf4f" id="r_a7a266ad047669694ecc29cace16bdf4f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7a266ad047669694ecc29cace16bdf4f">onReceived</a> (const void *buffer, size_t size) override</td></tr>
@@ -312,8 +314,12 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a42d2742a3d8ff6e7ff4e8c5366ac5925" id="r_a42d2742a3d8ff6e7ff4e8c5366ac5925"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a42d2742a3d8ff6e7ff4e8c5366ac5925">onWSError</a> (const std::string &amp;message) override</td></tr>
 <tr class="memdesc:a42d2742a3d8ff6e7ff4e8c5366ac5925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> error notification.  <br /></td></tr>
 <tr class="inherit_header pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Member Functions inherited from <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html">CppServer::Asio::SSLClient</a></td></tr>
+<tr class="memitem:a7385c7198e1a5758a4377ef7b380caf8 inherit pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client" id="r_a7385c7198e1a5758a4377ef7b380caf8"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7385c7198e1a5758a4377ef7b380caf8">onConnecting</a> ()</td></tr>
+<tr class="memdesc:a7385c7198e1a5758a4377ef7b380caf8 inherit pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client connecting notification.  <br /></td></tr>
 <tr class="memitem:ac26b3261387e473b5caae5d7643ddafa inherit pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client" id="r_ac26b3261387e473b5caae5d7643ddafa"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#ac26b3261387e473b5caae5d7643ddafa">onConnected</a> ()</td></tr>
 <tr class="memdesc:ac26b3261387e473b5caae5d7643ddafa inherit pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client connected notification.  <br /></td></tr>
+<tr class="memitem:a7e6463c5f14700b6b1a7375d63b195bb inherit pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client" id="r_a7e6463c5f14700b6b1a7375d63b195bb"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a7e6463c5f14700b6b1a7375d63b195bb">onHandshaking</a> ()</td></tr>
+<tr class="memdesc:a7e6463c5f14700b6b1a7375d63b195bb inherit pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session handshaking notification.  <br /></td></tr>
 <tr class="memitem:a2a695319cd3181f1c68ae485c6e83994 inherit pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client" id="r_a2a695319cd3181f1c68ae485c6e83994"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a2a695319cd3181f1c68ae485c6e83994">onSent</a> (size_t sent, size_t pending)</td></tr>
 <tr class="memdesc:a2a695319cd3181f1c68ae485c6e83994 inherit pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle buffer sent notification.  <br /></td></tr>
 <tr class="memitem:a5eca3fdb2dc89f5da009c2f9cba595c3 inherit pro_methods_class_cpp_server_1_1_asio_1_1_s_s_l_client" id="r_a5eca3fdb2dc89f5da009c2f9cba595c3"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#a5eca3fdb2dc89f5da009c2f9cba595c3">onEmpty</a> ()</td></tr>
@@ -329,8 +335,10 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:ac3a97b72b72812c3c3d3df50e67c9028 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> server session validating notification.  <br /></td></tr>
 <tr class="memitem:a88179896826b9161b447def151c7cfe1 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_a88179896826b9161b447def151c7cfe1"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a88179896826b9161b447def151c7cfe1">onWSConnected</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html">HTTP::HTTPRequest</a> &amp;request)</td></tr>
 <tr class="memdesc:a88179896826b9161b447def151c7cfe1 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> server session connected notification.  <br /></td></tr>
+<tr class="memitem:ac4d12ab09cd21ef0d66d3493b60583ba inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_ac4d12ab09cd21ef0d66d3493b60583ba"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#ac4d12ab09cd21ef0d66d3493b60583ba">onWSDisconnecting</a> ()</td></tr>
+<tr class="memdesc:ac4d12ab09cd21ef0d66d3493b60583ba inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> disconnecting notification.  <br /></td></tr>
 <tr class="memitem:adb3a747ac5a60aebdd583ffff08e5854 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_adb3a747ac5a60aebdd583ffff08e5854"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#adb3a747ac5a60aebdd583ffff08e5854">onWSDisconnected</a> ()</td></tr>
-<tr class="memdesc:adb3a747ac5a60aebdd583ffff08e5854 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> client disconnected notification.  <br /></td></tr>
+<tr class="memdesc:adb3a747ac5a60aebdd583ffff08e5854 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> disconnected notification.  <br /></td></tr>
 <tr class="memitem:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_a694032f8a32f3912420c3ca635b83506"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a694032f8a32f3912420c3ca635b83506">onWSReceived</a> (const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a694032f8a32f3912420c3ca635b83506 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html" title="WebSocket utility class.">WebSocket</a> received notification.  <br /></td></tr>
 <tr class="memitem:a90e51a8bcd332e5bee8a64fdf8bdcd22 inherit pro_methods_class_cpp_server_1_1_w_s_1_1_web_socket" id="r_a90e51a8bcd332e5bee8a64fdf8bdcd22"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a90e51a8bcd332e5bee8a64fdf8bdcd22">onWSPong</a> (const void *buffer, size_t size)</td></tr>
@@ -888,6 +896,37 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="wss_chat_client_8cpp-example.html#a14">wss_chat_client.cpp</a>.</dd>
 </dl>
 
+<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00065">65</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9a9435683f5a35c1b3228cc4aee2a00e" name="a9a9435683f5a35c1b3228cc4aee2a00e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a9435683f5a35c1b3228cc4aee2a00e">&#9670;&#160;</a></span>onDisconnecting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::WS::WSSClient::onDisconnecting </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle client disconnecting notification. </p>
+
+<p>Reimplemented from <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_client.html#abc03190a0f5b76df883451cd791b1876">CppServer::Asio::SSLClient</a>.</p>
+
 <p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00056">56</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
@@ -962,7 +1001,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html#ae53e6d4288b1cf456fc2a30ec4c561e8">CppServer::HTTP::HTTPSClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00076">76</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00085">85</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1000,7 +1039,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html#a5b476c6f81025bf9f354c5b4b7f77d8d">CppServer::HTTP::HTTPSClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00103">103</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00112">112</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1043,7 +1082,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html#a1d3f0cbea15d30107cde7e3d8a9a6620">CppServer::HTTP::HTTPSClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00117">117</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00126">126</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1081,7 +1120,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_client.html#ad66b458263e890e2f02478e1a4817994">CppServer::HTTP::HTTPSClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00089">89</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00098">98</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1121,7 +1160,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a38317e4bc8cb90e9416f146263ff186e">CppServer::WS::WebSocket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8h_source.html#l00107">107</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8h_source.html#l00108">108</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
 
 </div>
 </div>
@@ -1152,7 +1191,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a979af15582c8c9d9876f50406772fee6">CppServer::WS::WebSocket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8h_source.html#l00111">111</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8h_source.html#l00112">112</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
 
 </div>
 </div>
@@ -1187,7 +1226,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_w_s_1_1_web_socket.html#a6d09fc5adcdcfd6f3edde57ffc6ffa36">CppServer::WS::WebSocket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8h_source.html#l00109">109</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8h_source.html#l00110">110</a> of file <a class="el" href="wss__client_8h_source.html">wss_client.h</a>.</p>
 
 </div>
 </div>
@@ -1256,7 +1295,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00191">191</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00200">200</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1275,7 +1314,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00222">222</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00231">231</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1294,7 +1333,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00129">129</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00138">138</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1313,7 +1352,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00160">160</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wss__client_8cpp_source.html#l00169">169</a> of file <a class="el" href="wss__client_8cpp_source.html">wss_client.cpp</a>.</p>
 
 </div>
 </div>

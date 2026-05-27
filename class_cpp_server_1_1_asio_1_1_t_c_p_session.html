@@ -170,8 +170,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a551d74facd0c3a20ff99585eeabb198a" id="r_a551d74facd0c3a20ff99585eeabb198a"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a551d74facd0c3a20ff99585eeabb198a">onConnecting</a> ()</td></tr>
+<tr class="memdesc:a551d74facd0c3a20ff99585eeabb198a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session connecting notification.  <br /></td></tr>
 <tr class="memitem:a0759242c84135a0c6deb984ed4da057e" id="r_a0759242c84135a0c6deb984ed4da057e"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a0759242c84135a0c6deb984ed4da057e">onConnected</a> ()</td></tr>
 <tr class="memdesc:a0759242c84135a0c6deb984ed4da057e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session connected notification.  <br /></td></tr>
+<tr class="memitem:a1136bdab445119cbbef39e7ae538d8c0" id="r_a1136bdab445119cbbef39e7ae538d8c0"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a1136bdab445119cbbef39e7ae538d8c0">onDisconnecting</a> ()</td></tr>
+<tr class="memdesc:a1136bdab445119cbbef39e7ae538d8c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnecting notification.  <br /></td></tr>
 <tr class="memitem:a6c60bb261f5423ba3226e247d43a185e" id="r_a6c60bb261f5423ba3226e247d43a185e"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a6c60bb261f5423ba3226e247d43a185e">onDisconnected</a> ()</td></tr>
 <tr class="memdesc:a6c60bb261f5423ba3226e247d43a185e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle session disconnected notification.  <br /></td></tr>
 <tr class="memitem:a5b372295e885793c8788cfc36f38463d" id="r_a5b372295e885793c8788cfc36f38463d"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a5b372295e885793c8788cfc36f38463d">onReceived</a> (const void *buffer, size_t size)</td></tr>
@@ -544,6 +548,35 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tcp_chat_server_8cpp-example.html#a2">tcp_chat_server.cpp</a>.</dd>
 </dl>
 
+<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00193">193</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
+
+</div>
+</div>
+<a id="a551d74facd0c3a20ff99585eeabb198a" name="a551d74facd0c3a20ff99585eeabb198a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a551d74facd0c3a20ff99585eeabb198a">&#9670;&#160;</a></span>onConnecting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::TCPSession::onConnecting </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle session connecting notification. </p>
+
 <p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00191">191</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
 
 </div>
@@ -577,7 +610,38 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tcp_chat_server_8cpp-example.html#a5">tcp_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00193">193</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00197">197</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
+
+</div>
+</div>
+<a id="a1136bdab445119cbbef39e7ae538d8c0" name="a1136bdab445119cbbef39e7ae538d8c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1136bdab445119cbbef39e7ae538d8c0">&#9670;&#160;</a></span>onDisconnecting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CppServer::Asio::TCPSession::onDisconnecting </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle session disconnecting notification. </p>
+
+<p>Reimplemented in <a class="el" href="class_cpp_server_1_1_w_s_1_1_w_s_session.html#a694ddf52b53f48418c93cc6fb1974618">CppServer::WS::WSSession</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00195">195</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
 
 </div>
 </div>
@@ -608,7 +672,7 @@ Friends</h2></td></tr>
 <p>Notification is called when the send buffer is empty and ready for a new data to send.</p>
 <p>This handler could be used to send another buffer to the client. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00224">224</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00228">228</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
 
 </div>
 </div>
@@ -656,7 +720,7 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="http_server_8cpp-example.html#a11">http_server.cpp</a>, <a class="el" href="tcp_chat_server_8cpp-example.html#a9">tcp_chat_server.cpp</a>, and <a class="el" href="ws_chat_server_8cpp-example.html#a10">ws_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00232">232</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00236">236</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
 
 </div>
 </div>
@@ -701,7 +765,7 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tcp_chat_server_8cpp-example.html#a6">tcp_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00203">203</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00207">207</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
 
 </div>
 </div>
@@ -743,7 +807,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00215">215</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8h_source.html#l00219">219</a> of file <a class="el" href="tcp__session_8h_source.html">tcp_session.h</a>.</p>
 
 </div>
 </div>
@@ -929,7 +993,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00345">345</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00351">351</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -970,7 +1034,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00416">416</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00422">422</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1011,7 +1075,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00309">309</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00315">315</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1058,7 +1122,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00352">352</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00358">358</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1087,7 +1151,7 @@ Friends</h2></td></tr>
 
 <p>Receive data from the client (asynchronous). </p>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00423">423</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00429">429</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1128,7 +1192,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00157">157</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00163">163</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1175,7 +1239,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00193">193</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00199">199</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
 
 </div>
 </div>
@@ -1295,7 +1359,7 @@ Friends</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tcp_chat_server_8cpp-example.html#a4">tcp_chat_server.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00257">257</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__session_8cpp_source.html#l00263">263</a> of file <a class="el" href="tcp__session_8cpp_source.html">tcp_session.cpp</a>.</p>
 
 </div>
 </div>
