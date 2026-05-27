@@ -13,10 +13,10 @@ namespace Asio {
 
 TCPResolver::TCPResolver(const std::shared_ptr<Service>& service)
     : _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
-      _resolver(*_io_service)
+      _resolver(*_io_context)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)

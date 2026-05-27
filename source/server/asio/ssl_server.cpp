@@ -14,12 +14,12 @@ namespace Asio {
 SSLServer::SSLServer(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, int port, InternetProtocol protocol)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
       _port(port),
       _context(context),
-      _acceptor(*_io_service),
+      _acceptor(*_io_context),
       _started(false),
       _bytes_pending(0),
       _bytes_sent(0),
@@ -52,13 +52,13 @@ SSLServer::SSLServer(const std::shared_ptr<Service>& service, const std::shared_
 SSLServer::SSLServer(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, int port)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
       _address(address),
       _port(port),
       _context(context),
-      _acceptor(*_io_service),
+      _acceptor(*_io_context),
       _started(false),
       _bytes_pending(0),
       _bytes_sent(0),
@@ -83,14 +83,14 @@ SSLServer::SSLServer(const std::shared_ptr<Service>& service, const std::shared_
 SSLServer::SSLServer(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const asio::ip::tcp::endpoint& endpoint)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
       _address(endpoint.address().to_string()),
       _port(endpoint.port()),
       _context(context),
       _endpoint(endpoint),
-      _acceptor(*_io_service),
+      _acceptor(*_io_context),
       _started(false),
       _bytes_pending(0),
       _bytes_sent(0),
@@ -123,7 +123,7 @@ bool SSLServer::Start()
             return;
 
         // Create a server acceptor
-        _acceptor = asio::ip::tcp::acceptor(*_io_service);
+        _acceptor = asio::ip::tcp::acceptor(*_io_context);
         _acceptor.open(_endpoint.protocol());
         if (option_reuse_address())
             _acceptor.set_option(asio::ip::tcp::acceptor::reuse_address(true));
@@ -152,9 +152,9 @@ bool SSLServer::Start()
         Accept();
     };
     if (_strand_required)
-        _strand.post(start_handler);
+        asio::post(_strand, start_handler);
     else
-        _io_service->post(start_handler);
+        asio::post(*_io_context, start_handler);
 
     return true;
 }
@@ -191,9 +191,9 @@ bool SSLServer::Stop()
         onStopped();
     };
     if (_strand_required)
-        _strand.post(stop_handler);
+        asio::post(_strand, stop_handler);
     else
-        _io_service->post(stop_handler);
+        asio::post(*_io_context, stop_handler);
 
     return true;
 }
@@ -245,9 +245,9 @@ void SSLServer::Accept()
             _acceptor.async_accept(_session->socket(), async_accept_handler);
     });
     if (_strand_required)
-        _strand.dispatch(accept_handler);
+        asio::dispatch(_strand, accept_handler);
     else
-        _io_service->dispatch(accept_handler);
+        asio::dispatch(*_io_context, accept_handler);
 }
 
 bool SSLServer::Multicast(const void* buffer, size_t size)
@@ -290,9 +290,9 @@ bool SSLServer::DisconnectAll()
             session.second->Disconnect();
     };
     if (_strand_required)
-        _strand.dispatch(disconnect_all_handler);
+        asio::dispatch(_strand, disconnect_all_handler);
     else
-        _io_service->dispatch(disconnect_all_handler);
+        asio::dispatch(*_io_context, disconnect_all_handler);
 
     return true;
 }

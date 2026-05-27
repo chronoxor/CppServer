@@ -23,42 +23,42 @@ Service::Service(int threads, bool pool)
 
     if (threads == 0)
     {
-        // Single Asio IO service without thread pool
-        _services.emplace_back(std::make_shared<asio::io_service>());
+        // Single Asio IO context without thread pool
+        _io_contexts.emplace_back(std::make_shared<asio::io_context>());
     }
     else if (!pool)
     {
-        // Io-service-per-thread design
+        // IO-context-per-thread design
         for (int thread = 0; thread < threads; ++thread)
         {
-            _services.emplace_back(std::make_shared<asio::io_service>());
+            _io_contexts.emplace_back(std::make_shared<asio::io_context>());
             _threads.emplace_back(std::thread());
         }
     }
     else
     {
         // Thread-pool design
-        _services.emplace_back(std::make_shared<asio::io_service>());
+        _io_contexts.emplace_back(std::make_shared<asio::io_context>());
         for (int thread = 0; thread < threads; ++thread)
             _threads.emplace_back(std::thread());
-        _strand = std::make_shared<asio::io_service::strand>(*_services[0]);
+        _strand = std::make_shared<asio::io_context::strand>(*_io_contexts[0]);
         _strand_required = true;
     }
 }
 
-Service::Service(const std::shared_ptr<asio::io_service>& service, bool strands)
+Service::Service(const std::shared_ptr<asio::io_context>& io_context, bool strands)
     : _strand_required(strands),
       _polling(false),
       _started(false),
       _round_robin_index(0)
 {
-    assert((service != nullptr) && "Asio IO service is invalid!");
-    if (service == nullptr)
-        throw CppCommon::ArgumentException("Asio IO service is invalid!");
+    assert((io_context != nullptr) && "Asio IO context is invalid!");
+    if (io_context == nullptr)
+        throw CppCommon::ArgumentException("Asio IO context is invalid!");
 
-    _services.emplace_back(service);
+    _io_contexts.emplace_back(io_context);
     if (_strand_required)
-        _strand = std::make_shared<asio::io_service::strand>(*_services[0]);
+        _strand = std::make_shared<asio::io_context::strand>(*_io_contexts[0]);
 }
 
 bool Service::Start(bool polling)
@@ -87,13 +87,13 @@ bool Service::Start(bool polling)
         onStarted();
     };
     if (_strand_required)
-        _strand->post(start_handler);
+        asio::post(*_strand, start_handler);
     else
-        _services[0]->post(start_handler);
+        asio::post(*_io_contexts[0], start_handler);
 
     // Start service working threads
     for (size_t thread = 0; thread < _threads.size(); ++thread)
-        _threads[thread] = CppCommon::Thread::Start([this, self, thread]() { ServiceThread(self, _services[thread % _services.size()]); });
+        _threads[thread] = CppCommon::Thread::Start([this, self, thread]() { ServiceThread(self, _io_contexts[thread % _io_contexts.size()]); });
 
     // Wait for service is started
     while (!IsStarted())
@@ -115,9 +115,9 @@ bool Service::Stop()
         if (!IsStarted())
             return;
 
-        // Stop Asio services
-        for (auto& service : _services)
-            service->stop();
+        // Stop Asio IO contexts
+        for (auto& io_context : _io_contexts)
+            io_context->stop();
 
         // Update the started flag
         _started = false;
@@ -126,9 +126,9 @@ bool Service::Stop()
         onStopped();
     };
     if (_strand_required)
-        _strand->post(stop_handler);
+        asio::post(*_strand, stop_handler);
     else
-        _services[0]->post(stop_handler);
+        asio::post(*_io_contexts[0], stop_handler);
 
     // Wait for all service working threads
     for (auto& thread : _threads)
@@ -151,16 +151,16 @@ bool Service::Restart()
     if (!Stop())
         return false;
 
-    // Reinitialize new Asio IO services
-    for (size_t service = 0; service < _services.size(); ++service)
-        _services[service] = std::make_shared<asio::io_service>();
+    // Reinitialize new Asio IO contexts
+    for (size_t i = 0; i < _io_contexts.size(); ++i)
+        _io_contexts[i] = std::make_shared<asio::io_context>();
     if (_strand_required)
-        _strand = std::make_shared<asio::io_service::strand>(*_services[0]);
+        _strand = std::make_shared<asio::io_context::strand>(*_io_contexts[0]);
 
     return Start(polling);
 }
 
-void Service::ServiceThread(const std::shared_ptr<Service>& service, const std::shared_ptr<asio::io_service>& io_service)
+void Service::ServiceThread(const std::shared_ptr<Service>& service, const std::shared_ptr<asio::io_context>& io_context)
 {
     bool polling = service->IsPolling();
 
@@ -169,8 +169,8 @@ void Service::ServiceThread(const std::shared_ptr<Service>& service, const std::
 
     try
     {
-        // Attach the current working thread to the Asio service
-        asio::io_service::work work(*io_service);
+        // Attach the current working thread to the Asio context
+        auto work = asio::make_work_guard(*io_context);
 
         // Service loop...
         do
@@ -181,7 +181,7 @@ void Service::ServiceThread(const std::shared_ptr<Service>& service, const std::
                 if (polling)
                 {
                     // Poll all pending handlers
-                    io_service->poll();
+                    io_context->poll();
 
                     // Call the idle handler
                     service->onIdle();
@@ -189,7 +189,7 @@ void Service::ServiceThread(const std::shared_ptr<Service>& service, const std::
                 else
                 {
                     // Run all pending handlers
-                    io_service->run();
+                    io_context->run();
                     break;
                 }
             }

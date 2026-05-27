@@ -14,13 +14,13 @@ namespace Asio {
 SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, int port)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
       _address(address),
       _port(port),
       _context(context),
-      _stream(*_io_service, *_context),
+      _stream(*_io_context, *_context),
       _resolving(false),
       _connecting(false),
       _connected(false),
@@ -48,14 +48,14 @@ SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_
 SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const std::string& address, const std::string& scheme)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
       _address(address),
       _scheme(scheme),
       _port(0),
       _context(context),
-      _stream(*_io_service, *_context),
+      _stream(*_io_context, *_context),
       _resolving(false),
       _connecting(false),
       _connected(false),
@@ -83,14 +83,14 @@ SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_
 SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_ptr<SSLContext>& context, const asio::ip::tcp::endpoint& endpoint)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
       _address(endpoint.address().to_string()),
       _port(endpoint.port()),
       _context(context),
       _endpoint(endpoint),
-      _stream(*_io_service, *_context),
+      _stream(*_io_context, *_context),
       _resolving(false),
       _connecting(false),
       _connected(false),
@@ -151,7 +151,7 @@ bool SSLClient::Connect()
         return false;
 
     // Create a new SSL stream
-    _stream = asio::ssl::stream<asio::ip::tcp::socket>(*_io_service, *_context);
+    _stream = asio::ssl::stream<asio::ip::tcp::socket>(*_io_context, *_context);
 
     asio::error_code ec;
 
@@ -227,13 +227,12 @@ bool SSLClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
         return false;
 
     // Create a new SSL stream
-    _stream = asio::ssl::stream<asio::ip::tcp::socket>(*_io_service, *_context);
+    _stream = asio::ssl::stream<asio::ip::tcp::socket>(*_io_context, *_context);
 
     asio::error_code ec;
 
     // Resolve the server endpoint
-    asio::ip::tcp::resolver::query query(_address, (_scheme.empty() ? std::to_string(_port) : _scheme));
-    auto endpoints = resolver->resolver().resolve(query, ec);
+    auto endpoints = resolver->resolver().resolve(_address, (_scheme.empty() ? std::to_string(_port) : _scheme), ec);
 
     // Disconnect on error
     if (ec)
@@ -364,7 +363,7 @@ bool SSLClient::ConnectAsync()
         _connecting = true;
 
         // Create a new SSL stream
-        _stream = asio::ssl::stream<asio::ip::tcp::socket>(*_io_service, *_context);
+        _stream = asio::ssl::stream<asio::ip::tcp::socket>(*_io_context, *_context);
 
         // Async connect with the connect handler
         auto async_connect_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec1)
@@ -454,9 +453,9 @@ bool SSLClient::ConnectAsync()
             socket().async_connect(_endpoint, async_connect_handler);
     });
     if (_strand_required)
-        _strand.post(connect_handler);
+        asio::post(_strand, connect_handler);
     else
-        _io_service->post(connect_handler);
+        asio::post(*_io_context, connect_handler);
 
     return true;
 }
@@ -476,7 +475,7 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
         _resolving = true;
 
         // Create a new SSL stream
-        _stream = asio::ssl::stream<asio::ip::tcp::socket>(*_io_service, *_context);
+        _stream = asio::ssl::stream<asio::ip::tcp::socket>(*_io_context, *_context);
 
         // Async resolve with the resolve handler
         auto async_resolve_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec1, asio::ip::tcp::resolver::results_type endpoints)
@@ -585,16 +584,15 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
         });
 
         // Resolve the server endpoint
-        asio::ip::tcp::resolver::query query(_address, (_scheme.empty() ? std::to_string(_port) : _scheme));
         if (_strand_required)
-            resolver->resolver().async_resolve(query, bind_executor(_strand, async_resolve_handler));
+            resolver->resolver().async_resolve(_address, (_scheme.empty() ? std::to_string(_port) : _scheme), bind_executor(_strand, async_resolve_handler));
         else
-            resolver->resolver().async_resolve(query, async_resolve_handler);
+            resolver->resolver().async_resolve(_address, (_scheme.empty() ? std::to_string(_port) : _scheme), async_resolve_handler);
     });
     if (_strand_required)
-        _strand.post(connect_handler);
+        asio::post(_strand, connect_handler);
     else
-        _io_service->post(connect_handler);
+        asio::post(*_io_context, connect_handler);
 
     return true;
 }
@@ -626,16 +624,16 @@ bool SSLClient::DisconnectInternalAsync(bool dispatch)
     if (_strand_required)
     {
         if (dispatch)
-            _strand.dispatch(disconnect_handler);
+            asio::dispatch(_strand, disconnect_handler);
         else
-            _strand.post(disconnect_handler);
+            asio::post(_strand, disconnect_handler);
     }
     else
     {
         if (dispatch)
-            _io_service->dispatch(disconnect_handler);
+            asio::dispatch(*_io_context, disconnect_handler);
         else
-            _io_service->post(disconnect_handler);
+            asio::post(*_io_context, disconnect_handler);
     }
 
     return true;
@@ -719,7 +717,7 @@ size_t SSLClient::Send(const void* buffer, size_t size, const CppCommon::Timespa
     };
 
     // Async wait for timeout
-    timer.expires_from_now(timeout.chrono());
+    timer.expires_after(timeout.chrono());
     timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
 
     // Async write some data to the server
@@ -795,9 +793,9 @@ bool SSLClient::SendAsync(const void* buffer, size_t size)
         TrySend();
     };
     if (_strand_required)
-        _strand.dispatch(send_handler);
+        asio::dispatch(_strand, send_handler);
     else
-        _io_service->dispatch(send_handler);
+        asio::dispatch(*_io_context, send_handler);
 
     return true;
 }
@@ -876,7 +874,7 @@ size_t SSLClient::Receive(void* buffer, size_t size, const CppCommon::Timespan& 
     };
 
     // Async wait for timeout
-    timer.expires_from_now(timeout.chrono());
+    timer.expires_after(timeout.chrono());
     timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
 
     // Async read some data from the server

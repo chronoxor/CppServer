@@ -2,6 +2,7 @@
 build
 
 # Claude
+.claude/settings.local.json
 .claude/worktrees
 
 # CMake

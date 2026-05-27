@@ -13,10 +13,10 @@ namespace Asio {
 
 Timer::Timer(const std::shared_ptr<Service>& service)
     : _service(service),
-    _io_service(_service->GetAsioService()),
-    _strand(*_io_service),
+    _io_context(_service->GetAsioContext()),
+    _strand(*_io_context),
     _strand_required(_service->IsStrandRequired()),
-    _timer(*_io_service)
+    _timer(*_io_context)
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -25,10 +25,10 @@ Timer::Timer(const std::shared_ptr<Service>& service)
 
 Timer::Timer(const std::shared_ptr<Service>& service, const CppCommon::UtcTime& time)
     : _service(service),
-    _io_service(_service->GetAsioService()),
-    _strand(*_io_service),
+    _io_context(_service->GetAsioContext()),
+    _strand(*_io_context),
     _strand_required(_service->IsStrandRequired()),
-    _timer(*_io_service, time.chrono())
+    _timer(*_io_context, time.chrono())
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -37,10 +37,10 @@ Timer::Timer(const std::shared_ptr<Service>& service, const CppCommon::UtcTime& 
 
 Timer::Timer(const std::shared_ptr<Service>& service, const CppCommon::Timespan& timespan)
     : _service(service),
-    _io_service(_service->GetAsioService()),
-    _strand(*_io_service),
+    _io_context(_service->GetAsioContext()),
+    _strand(*_io_context),
     _strand_required(_service->IsStrandRequired()),
-    _timer(*_io_service, timespan.chrono())
+    _timer(*_io_context, timespan.chrono())
 {
     assert((service != nullptr) && "Asio service is invalid!");
     if (service == nullptr)
@@ -49,10 +49,10 @@ Timer::Timer(const std::shared_ptr<Service>& service, const CppCommon::Timespan&
 
 Timer::Timer(const std::shared_ptr<Service>& service, const std::function<void(bool)>& action)
     : _service(service),
-    _io_service(_service->GetAsioService()),
-    _strand(*_io_service),
+    _io_context(_service->GetAsioContext()),
+    _strand(*_io_context),
     _strand_required(_service->IsStrandRequired()),
-    _timer(*_io_service),
+    _timer(*_io_context),
     _action(action)
 {
     assert((service != nullptr) && "Asio service is invalid!");
@@ -65,10 +65,10 @@ Timer::Timer(const std::shared_ptr<Service>& service, const std::function<void(b
 
 Timer::Timer(const std::shared_ptr<Service>& service, const std::function<void(bool)>& action, const CppCommon::UtcTime& time)
     : _service(service),
-    _io_service(_service->GetAsioService()),
-    _strand(*_io_service),
+    _io_context(_service->GetAsioContext()),
+    _strand(*_io_context),
     _strand_required(_service->IsStrandRequired()),
-    _timer(*_io_service, time.chrono()),
+    _timer(*_io_context, time.chrono()),
     _action(action)
 {
     assert((service != nullptr) && "Asio service is invalid!");
@@ -81,10 +81,10 @@ Timer::Timer(const std::shared_ptr<Service>& service, const std::function<void(b
 
 Timer::Timer(const std::shared_ptr<Service>& service, const std::function<void(bool)>& action, const CppCommon::Timespan& timespan)
     : _service(service),
-    _io_service(_service->GetAsioService()),
-    _strand(*_io_service),
+    _io_context(_service->GetAsioContext()),
+    _strand(*_io_context),
     _strand_required(_service->IsStrandRequired()),
-    _timer(*_io_service, timespan.chrono()),
+    _timer(*_io_context, timespan.chrono()),
     _action(action)
 {
     assert((service != nullptr) && "Asio service is invalid!");
@@ -97,23 +97,23 @@ Timer::Timer(const std::shared_ptr<Service>& service, const std::function<void(b
 
 CppCommon::UtcTime Timer::expire_time() const
 {
-    return CppCommon::UtcTime(_timer.expires_at());
+    return CppCommon::UtcTime(_timer.expiry());
 }
 
 CppCommon::Timespan Timer::expire_timespan() const
 {
-    return CppCommon::Timespan(_timer.expires_from_now());
+    return CppCommon::Timespan(_timer.expiry() - asio::system_timer::clock_type::now());
 }
 
 bool Timer::Setup(const CppCommon::UtcTime& time)
 {
-    asio::error_code ec;
-    _timer.expires_at(time.chrono(), ec);
-
-    // Check for error
-    if (ec)
+    try
     {
-        SendError(ec);
+        _timer.expires_at(time.chrono());
+    }
+    catch (const asio::system_error& ex)
+    {
+        SendError(ex.code());
         return false;
     }
 
@@ -122,13 +122,13 @@ bool Timer::Setup(const CppCommon::UtcTime& time)
 
 bool Timer::Setup(const CppCommon::Timespan& timespan)
 {
-    asio::error_code ec;
-    _timer.expires_from_now(timespan.chrono(), ec);
-
-    // Check for error
-    if (ec)
+    try
     {
-        SendError(ec);
+        _timer.expires_after(timespan.chrono());
+    }
+    catch (const asio::system_error& ex)
+    {
+        SendError(ex.code());
         return false;
     }
 
@@ -216,13 +216,13 @@ bool Timer::WaitSync()
 
 bool Timer::Cancel()
 {
-    asio::error_code ec;
-    _timer.cancel(ec);
-
-    // Check for error
-    if (ec)
+    try
     {
-        SendError(ec);
+        _timer.cancel();
+    }
+    catch (const asio::system_error& ex)
+    {
+        SendError(ex.code());
         return false;
     }
 

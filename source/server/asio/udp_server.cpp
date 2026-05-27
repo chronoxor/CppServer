@@ -14,11 +14,11 @@ namespace Asio {
 UDPServer::UDPServer(const std::shared_ptr<Service>& service, int port, InternetProtocol protocol)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
       _port(port),
-      _socket(*_io_service),
+      _socket(*_io_context),
       _started(false),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -49,12 +49,12 @@ UDPServer::UDPServer(const std::shared_ptr<Service>& service, int port, Internet
 UDPServer::UDPServer(const std::shared_ptr<Service>& service, const std::string& address, int port)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
       _address(address),
       _port(port),
-      _socket(*_io_service),
+      _socket(*_io_context),
       _started(false),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -77,13 +77,13 @@ UDPServer::UDPServer(const std::shared_ptr<Service>& service, const std::string&
 UDPServer::UDPServer(const std::shared_ptr<Service>& service, const asio::ip::udp::endpoint& endpoint)
     : _id(CppCommon::UUID::Sequential()),
       _service(service),
-      _io_service(_service->GetAsioService()),
-      _strand(*_io_service),
+      _io_context(_service->GetAsioContext()),
+      _strand(*_io_context),
       _strand_required(_service->IsStrandRequired()),
       _address(endpoint.address().to_string()),
       _port(endpoint.port()),
       _endpoint(endpoint),
-      _socket(*_io_service),
+      _socket(*_io_context),
       _started(false),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -167,9 +167,9 @@ bool UDPServer::Start()
         onStarted();
     };
     if (_strand_required)
-        _strand.post(start_handler);
+        asio::post(_strand, start_handler);
     else
-        _io_service->post(start_handler);
+        asio::post(*_io_context, start_handler);
 
     return true;
 }
@@ -216,9 +216,9 @@ bool UDPServer::Stop()
         onStopped();
     };
     if (_strand_required)
-        _strand.post(stop_handler);
+        asio::post(_strand, stop_handler);
     else
-        _io_service->post(stop_handler);
+        asio::post(*_io_context, stop_handler);
 
     return true;
 }
@@ -317,7 +317,7 @@ size_t UDPServer::Send(const asio::ip::udp::endpoint& endpoint, const void* buff
     };
 
     // Async wait for timeout
-    timer.expires_from_now(timeout.chrono());
+    timer.expires_after(timeout.chrono());
     timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
 
     // Async send datagram to the client
@@ -495,7 +495,7 @@ size_t UDPServer::Receive(asio::ip::udp::endpoint& endpoint, void* buffer, size_
     };
 
     // Async wait for timeout
-    timer.expires_from_now(timeout.chrono());
+    timer.expires_after(timeout.chrono());
     timer.async_wait([&](const asio::error_code& ec) { async_done_handler(ec ? ec : asio::error::timed_out); });
 
     // Async receive datagram from the client

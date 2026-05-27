@@ -75,10 +75,10 @@ public:
 
     //! Get the Asio service
     std::shared_ptr<Service>& service() noexcept { return _service; }
-    //! Get the Asio IO service
-    std::shared_ptr<asio::io_service>& io_service() noexcept { return _io_service; }
+    //! Get the Asio IO context
+    std::shared_ptr<asio::io_context>& io_context() noexcept { return _io_context; }
     //! Get the Asio service strand for serialized handler execution
-    asio::io_service::strand& strand() noexcept { return _strand; }
+    asio::io_context::strand& strand() noexcept { return _strand; }
 
     //! Get the timer's expiry time as an absolute time
     CppCommon::UtcTime expire_time() const;
@@ -150,10 +150,10 @@ protected:
 private:
     // Asio service
     std::shared_ptr<Service> _service;
-    // Asio IO service
-    std::shared_ptr<asio::io_service> _io_service;
+    // Asio IO context
+    std::shared_ptr<asio::io_context> _io_context;
     // Asio service strand for serialized handler execution
-    asio::io_service::strand _strand;
+    asio::io_context::strand _strand;
     bool _strand_required;
     // Deadline timer
     asio::system_timer _timer;
