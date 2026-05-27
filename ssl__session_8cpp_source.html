@@ -91,10 +91,10 @@ $(function() {
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#abd38b18cf5d9f6eccc1e8bdea67a31fd">   15</a></span><a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#abd38b18cf5d9f6eccc1e8bdea67a31fd">SSLSession::SSLSession</a>(<span class="keyword">const</span> std::shared_ptr&lt;SSLServer&gt;&amp; <a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a9b887d424969ac65db01dc0470b7608a">server</a>)</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    : _id(CppCommon::UUID::Sequential()),</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>      _server(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a9b887d424969ac65db01dc0470b7608a">server</a>),</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>      _io_context(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a9b887d424969ac65db01dc0470b7608a">server</a>-&gt;service()-&gt;GetAsioContext()),</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>      _strand(*_io_context),</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>      _io_service(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a9b887d424969ac65db01dc0470b7608a">server</a>-&gt;service()-&gt;GetAsioService()),</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>      _strand(*_io_service),</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>      _strand_required(_server-&gt;_strand_required),</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>      _stream(*_io_context, *<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a9b887d424969ac65db01dc0470b7608a">server</a>-&gt;context()),</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>      _stream(*_io_service, *<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_s_s_l_session.html#a9b887d424969ac65db01dc0470b7608a">server</a>-&gt;context()),</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>      _connected(false),</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>      _handshaked(false),</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>      _bytes_pending(0),</div>
@@ -246,9 +246,9 @@ $(function() {
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        _server-&gt;UnregisterSession(<span class="keywordtype">id</span>());</div>
 <div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    };</div>
 <div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">if</span> (_server-&gt;_strand_required)</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        asio::dispatch(_server-&gt;_strand, unregister_session_handler);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        _server-&gt;_strand.dispatch(unregister_session_handler);</div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        asio::dispatch(*_server-&gt;_io_context, unregister_session_handler);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        _server-&gt;_io_service-&gt;dispatch(unregister_session_handler);</div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>}</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keywordtype">bool</span> SSLSession::DisconnectAsync(<span class="keywordtype">bool</span> dispatch)</div>
@@ -278,16 +278,16 @@ $(function() {
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <span class="keywordflow">if</span> (_strand_required)</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    {</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        <span class="keywordflow">if</span> (dispatch)</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            asio::dispatch(_strand, disconnect_handler);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            _strand.dispatch(disconnect_handler);</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>            asio::post(_strand, disconnect_handler);</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>            _strand.post(disconnect_handler);</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    }</div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    {</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keywordflow">if</span> (dispatch)</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            asio::dispatch(*_io_context, disconnect_handler);</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            _io_service-&gt;dispatch(disconnect_handler);</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>            asio::post(*_io_context, disconnect_handler);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>            _io_service-&gt;post(disconnect_handler);</div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    }</div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
@@ -364,7 +364,7 @@ $(function() {
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    };</div>
 <div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <span class="comment">// Async wait for timeout</span></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    timer.expires_after(timeout.chrono());</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    timer.expires_from_now(timeout.chrono());</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    timer.async_wait([&amp;](<span class="keyword">const</span> asio::error_code&amp; ec) { async_done_handler(ec ? ec : asio::error::timed_out); });</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <span class="comment">// Async write some data to the client</span></div>
@@ -443,9 +443,9 @@ $(function() {
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>        TrySend();</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    };</div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    <span class="keywordflow">if</span> (_strand_required)</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>        asio::dispatch(_strand, send_handler);</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>        _strand.dispatch(send_handler);</div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        asio::dispatch(*_io_context, send_handler);</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        _io_service-&gt;dispatch(send_handler);</div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span> </div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>}</div>
@@ -531,7 +531,7 @@ $(function() {
 <div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>    };</div>
 <div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span> </div>
 <div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>    <span class="comment">// Async wait for timeout</span></div>
-<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    timer.expires_after(timeout.chrono());</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    timer.expires_from_now(timeout.chrono());</div>
 <div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    timer.async_wait([&amp;](<span class="keyword">const</span> asio::error_code&amp; ec) { async_done_handler(ec ? ec : asio::error::timed_out); });</div>
 <div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span> </div>
 <div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>    <span class="comment">// Async read some data from the client</span></div>

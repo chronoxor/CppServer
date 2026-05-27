@@ -117,10 +117,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9dce1c641136b831ad52e548a40009b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the client Id.  <br /></td></tr>
 <tr class="memitem:aaa26f83d5a6415f9f5640355e2b6e84d" id="r_aaa26f83d5a6415f9f5640355e2b6e84d"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aaa26f83d5a6415f9f5640355e2b6e84d">service</a> () noexcept</td></tr>
 <tr class="memdesc:aaa26f83d5a6415f9f5640355e2b6e84d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service.  <br /></td></tr>
-<tr class="memitem:a628bcfb9582b6c627f9c829f21b79066" id="r_a628bcfb9582b6c627f9c829f21b79066"><td class="memItemLeft">std::shared_ptr&lt; asio::io_context &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a628bcfb9582b6c627f9c829f21b79066">io_context</a> () noexcept</td></tr>
-<tr class="memdesc:a628bcfb9582b6c627f9c829f21b79066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context.  <br /></td></tr>
-<tr class="memitem:a802c36c869bf2c811b0c87adcf73844f" id="r_a802c36c869bf2c811b0c87adcf73844f"><td class="memItemLeft">asio::io_context::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a802c36c869bf2c811b0c87adcf73844f">strand</a> () noexcept</td></tr>
-<tr class="memdesc:a802c36c869bf2c811b0c87adcf73844f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
+<tr class="memitem:af1a18ed2a284136641a2cd31e0c155bd" id="r_af1a18ed2a284136641a2cd31e0c155bd"><td class="memItemLeft">std::shared_ptr&lt; asio::io_service &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#af1a18ed2a284136641a2cd31e0c155bd">io_service</a> () noexcept</td></tr>
+<tr class="memdesc:af1a18ed2a284136641a2cd31e0c155bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service.  <br /></td></tr>
+<tr class="memitem:a1e66617d6a61dab0103fdd7f93b1fc63" id="r_a1e66617d6a61dab0103fdd7f93b1fc63"><td class="memItemLeft">asio::io_service::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1e66617d6a61dab0103fdd7f93b1fc63">strand</a> () noexcept</td></tr>
+<tr class="memdesc:a1e66617d6a61dab0103fdd7f93b1fc63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
 <tr class="memitem:ae5b682c4cf24601a55cbec257eb7d23a" id="r_ae5b682c4cf24601a55cbec257eb7d23a"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_s_s_l_context.html">SSLContext</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae5b682c4cf24601a55cbec257eb7d23a">context</a> () noexcept</td></tr>
 <tr class="memdesc:ae5b682c4cf24601a55cbec257eb7d23a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the client SSL context.  <br /></td></tr>
 <tr class="memitem:aa3a8368f4046d9fc802ca1087f19ebe4" id="r_aa3a8368f4046d9fc802ca1087f19ebe4"><td class="memItemLeft">asio::ip::tcp::endpoint &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa3a8368f4046d9fc802ca1087f19ebe4">endpoint</a> () noexcept</td></tr>
@@ -656,7 +656,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ssl_chat_client_8cpp-example.html#a8">ssl_chat_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00351">351</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00352">352</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -692,7 +692,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00463">463</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00464">464</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -847,8 +847,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a628bcfb9582b6c627f9c829f21b79066" name="a628bcfb9582b6c627f9c829f21b79066"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a628bcfb9582b6c627f9c829f21b79066">&#9670;&#160;</a></span>io_context()</h2>
+<a id="af1a18ed2a284136641a2cd31e0c155bd" name="af1a18ed2a284136641a2cd31e0c155bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1a18ed2a284136641a2cd31e0c155bd">&#9670;&#160;</a></span>io_service()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -857,7 +857,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; asio::io_context &gt; &amp; CppServer::Asio::SSLClient::io_context </td>
+          <td class="memname">std::shared_ptr&lt; asio::io_service &gt; &amp; CppServer::Asio::SSLClient::io_service </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -870,7 +870,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context. </p>
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service. </p>
 
 <p class="definition">Definition at line <a class="el" href="ssl__client_8h_source.html#l00069">69</a> of file <a class="el" href="ssl__client_8h_source.html">ssl_client.h</a>.</p>
 
@@ -1468,7 +1468,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00838">838</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00840">840</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1509,7 +1509,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00908">908</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00910">910</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1550,7 +1550,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00803">803</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00805">805</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1597,7 +1597,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00845">845</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00847">847</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1626,7 +1626,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Receive data from the server (asynchronous). </p>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00915">915</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00917">917</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1656,7 +1656,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client (synchronous). </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00343">343</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00344">344</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1686,7 +1686,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client (asynchronous). </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00642">642</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00644">644</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1756,7 +1756,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00653">653</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00655">655</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1803,7 +1803,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00688">688</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00690">690</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1921,7 +1921,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the data was successfully sent, 'false' if the client is not connected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00751">751</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ssl__client_8cpp_source.html#l00753">753</a> of file <a class="el" href="ssl__client_8cpp_source.html">ssl_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -2220,8 +2220,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a802c36c869bf2c811b0c87adcf73844f" name="a802c36c869bf2c811b0c87adcf73844f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a802c36c869bf2c811b0c87adcf73844f">&#9670;&#160;</a></span>strand()</h2>
+<a id="a1e66617d6a61dab0103fdd7f93b1fc63" name="a1e66617d6a61dab0103fdd7f93b1fc63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e66617d6a61dab0103fdd7f93b1fc63">&#9670;&#160;</a></span>strand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2230,7 +2230,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">asio::io_context::strand &amp; CppServer::Asio::SSLClient::strand </td>
+          <td class="memname">asio::io_service::strand &amp; CppServer::Asio::SSLClient::strand </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>

@@ -118,10 +118,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:adebadef368e59ee0173da6be82ed89d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the server Id.  <br /></td></tr>
 <tr class="memitem:a38f1b17069b0e3d0d62eeec4f7779bad" id="r_a38f1b17069b0e3d0d62eeec4f7779bad"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a38f1b17069b0e3d0d62eeec4f7779bad">service</a> () noexcept</td></tr>
 <tr class="memdesc:a38f1b17069b0e3d0d62eeec4f7779bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service.  <br /></td></tr>
-<tr class="memitem:afea81fdd4b7625decf78d8d7768399b8" id="r_afea81fdd4b7625decf78d8d7768399b8"><td class="memItemLeft">std::shared_ptr&lt; asio::io_context &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#afea81fdd4b7625decf78d8d7768399b8">io_context</a> () noexcept</td></tr>
-<tr class="memdesc:afea81fdd4b7625decf78d8d7768399b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context.  <br /></td></tr>
-<tr class="memitem:aea9d81f1ee3ccfc72c6e8535915ea319" id="r_aea9d81f1ee3ccfc72c6e8535915ea319"><td class="memItemLeft">asio::io_context::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aea9d81f1ee3ccfc72c6e8535915ea319">strand</a> () noexcept</td></tr>
-<tr class="memdesc:aea9d81f1ee3ccfc72c6e8535915ea319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
+<tr class="memitem:a638f9c6521e0ed303c664706e0948499" id="r_a638f9c6521e0ed303c664706e0948499"><td class="memItemLeft">std::shared_ptr&lt; asio::io_service &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a638f9c6521e0ed303c664706e0948499">io_service</a> () noexcept</td></tr>
+<tr class="memdesc:a638f9c6521e0ed303c664706e0948499"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service.  <br /></td></tr>
+<tr class="memitem:a93feb1655853e6375cc6a53bea1cd564" id="r_a93feb1655853e6375cc6a53bea1cd564"><td class="memItemLeft">asio::io_service::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a93feb1655853e6375cc6a53bea1cd564">strand</a> () noexcept</td></tr>
+<tr class="memdesc:a93feb1655853e6375cc6a53bea1cd564"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
 <tr class="memitem:ad051df34be684a538b6bb66bb251a644" id="r_ad051df34be684a538b6bb66bb251a644"><td class="memItemLeft">asio::ip::tcp::endpoint &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad051df34be684a538b6bb66bb251a644">endpoint</a> () noexcept</td></tr>
 <tr class="memdesc:ad051df34be684a538b6bb66bb251a644"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the server endpoint.  <br /></td></tr>
 <tr class="memitem:aa311a20a61ee32e820e245819304f87b" id="r_aa311a20a61ee32e820e245819304f87b"><td class="memItemLeft">asio::ip::tcp::acceptor &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa311a20a61ee32e820e245819304f87b">acceptor</a> () noexcept</td></tr>
@@ -718,8 +718,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="afea81fdd4b7625decf78d8d7768399b8" name="afea81fdd4b7625decf78d8d7768399b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afea81fdd4b7625decf78d8d7768399b8">&#9670;&#160;</a></span>io_context()</h2>
+<a id="a638f9c6521e0ed303c664706e0948499" name="a638f9c6521e0ed303c664706e0948499"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a638f9c6521e0ed303c664706e0948499">&#9670;&#160;</a></span>io_service()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -728,7 +728,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; asio::io_context &gt; &amp; CppServer::Asio::TCPServer::io_context </td>
+          <td class="memname">std::shared_ptr&lt; asio::io_service &gt; &amp; CppServer::Asio::TCPServer::io_service </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -741,7 +741,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context. </p>
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service. </p>
 
 <p class="definition">Definition at line <a class="el" href="tcp__server_8h_source.html#l00068">68</a> of file <a class="el" href="tcp__server_8h_source.html">tcp_server.h</a>.</p>
 
@@ -1490,8 +1490,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="aea9d81f1ee3ccfc72c6e8535915ea319" name="aea9d81f1ee3ccfc72c6e8535915ea319"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea9d81f1ee3ccfc72c6e8535915ea319">&#9670;&#160;</a></span>strand()</h2>
+<a id="a93feb1655853e6375cc6a53bea1cd564" name="a93feb1655853e6375cc6a53bea1cd564"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93feb1655853e6375cc6a53bea1cd564">&#9670;&#160;</a></span>strand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1500,7 +1500,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">asio::io_context::strand &amp; CppServer::Asio::TCPServer::strand </td>
+          <td class="memname">asio::io_service::strand &amp; CppServer::Asio::TCPServer::strand </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>

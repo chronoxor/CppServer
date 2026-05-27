@@ -112,10 +112,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a964b1da1ecc01e63ca39591969f87bc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the server Id.  <br /></td></tr>
 <tr class="memitem:ad4f66b422452174dc5a45d4e7ac099eb" id="r_ad4f66b422452174dc5a45d4e7ac099eb"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad4f66b422452174dc5a45d4e7ac099eb">service</a> () noexcept</td></tr>
 <tr class="memdesc:ad4f66b422452174dc5a45d4e7ac099eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service.  <br /></td></tr>
-<tr class="memitem:aed7a3ceadf8e1319500b8971161524aa" id="r_aed7a3ceadf8e1319500b8971161524aa"><td class="memItemLeft">std::shared_ptr&lt; asio::io_context &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aed7a3ceadf8e1319500b8971161524aa">io_context</a> () noexcept</td></tr>
-<tr class="memdesc:aed7a3ceadf8e1319500b8971161524aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context.  <br /></td></tr>
-<tr class="memitem:aadc6e6f64eff89b4a3b86c40a8350f2e" id="r_aadc6e6f64eff89b4a3b86c40a8350f2e"><td class="memItemLeft">asio::io_context::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aadc6e6f64eff89b4a3b86c40a8350f2e">strand</a> () noexcept</td></tr>
-<tr class="memdesc:aadc6e6f64eff89b4a3b86c40a8350f2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
+<tr class="memitem:a01cdbcc2f99eb0baec0bc810fe2e1045" id="r_a01cdbcc2f99eb0baec0bc810fe2e1045"><td class="memItemLeft">std::shared_ptr&lt; asio::io_service &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a01cdbcc2f99eb0baec0bc810fe2e1045">io_service</a> () noexcept</td></tr>
+<tr class="memdesc:a01cdbcc2f99eb0baec0bc810fe2e1045"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service.  <br /></td></tr>
+<tr class="memitem:aa07f76781d36bf49f32a48fdd55f525c" id="r_aa07f76781d36bf49f32a48fdd55f525c"><td class="memItemLeft">asio::io_service::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa07f76781d36bf49f32a48fdd55f525c">strand</a> () noexcept</td></tr>
+<tr class="memdesc:aa07f76781d36bf49f32a48fdd55f525c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
 <tr class="memitem:ad942bf064a1cb417a5dc3b3c7605f94b" id="r_ad942bf064a1cb417a5dc3b3c7605f94b"><td class="memItemLeft">asio::ip::udp::endpoint &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad942bf064a1cb417a5dc3b3c7605f94b">endpoint</a> () noexcept</td></tr>
 <tr class="memdesc:ad942bf064a1cb417a5dc3b3c7605f94b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the server endpoint.  <br /></td></tr>
 <tr class="memitem:acf2bd0a5959b8fcefecc44a083a5d165" id="r_acf2bd0a5959b8fcefecc44a083a5d165"><td class="memItemLeft">asio::ip::udp::endpoint &amp;&#160;</td><td class="memItemRight"><a class="el" href="#acf2bd0a5959b8fcefecc44a083a5d165">multicast_endpoint</a> () noexcept</td></tr>
@@ -645,8 +645,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aed7a3ceadf8e1319500b8971161524aa" name="aed7a3ceadf8e1319500b8971161524aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed7a3ceadf8e1319500b8971161524aa">&#9670;&#160;</a></span>io_context()</h2>
+<a id="a01cdbcc2f99eb0baec0bc810fe2e1045" name="a01cdbcc2f99eb0baec0bc810fe2e1045"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01cdbcc2f99eb0baec0bc810fe2e1045">&#9670;&#160;</a></span>io_service()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -655,7 +655,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; asio::io_context &gt; &amp; CppServer::Asio::UDPServer::io_context </td>
+          <td class="memname">std::shared_ptr&lt; asio::io_service &gt; &amp; CppServer::Asio::UDPServer::io_service </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -668,7 +668,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context. </p>
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service. </p>
 
 <p class="definition">Definition at line <a class="el" href="udp__server_8h_source.html#l00061">61</a> of file <a class="el" href="udp__server_8h_source.html">udp_server.h</a>.</p>
 
@@ -2305,8 +2305,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aadc6e6f64eff89b4a3b86c40a8350f2e" name="aadc6e6f64eff89b4a3b86c40a8350f2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadc6e6f64eff89b4a3b86c40a8350f2e">&#9670;&#160;</a></span>strand()</h2>
+<a id="aa07f76781d36bf49f32a48fdd55f525c" name="aa07f76781d36bf49f32a48fdd55f525c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa07f76781d36bf49f32a48fdd55f525c">&#9670;&#160;</a></span>strand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2315,7 +2315,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">asio::io_context::strand &amp; CppServer::Asio::UDPServer::strand </td>
+          <td class="memname">asio::io_service::strand &amp; CppServer::Asio::UDPServer::strand </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>

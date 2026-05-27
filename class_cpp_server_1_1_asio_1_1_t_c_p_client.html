@@ -117,10 +117,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:afa1177f6ce81ddb096b687235e60ffc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the client Id.  <br /></td></tr>
 <tr class="memitem:aa235a0518592a1738ae5f24034002e68" id="r_aa235a0518592a1738ae5f24034002e68"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_cpp_server_1_1_asio_1_1_service.html">Service</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa235a0518592a1738ae5f24034002e68">service</a> () noexcept</td></tr>
 <tr class="memdesc:aa235a0518592a1738ae5f24034002e68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service.  <br /></td></tr>
-<tr class="memitem:aad00335ef10026d3bedbe59449f0757a" id="r_aad00335ef10026d3bedbe59449f0757a"><td class="memItemLeft">std::shared_ptr&lt; asio::io_context &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aad00335ef10026d3bedbe59449f0757a">io_context</a> () noexcept</td></tr>
-<tr class="memdesc:aad00335ef10026d3bedbe59449f0757a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context.  <br /></td></tr>
-<tr class="memitem:aa9282828b982da9414db2fde20cd697b" id="r_aa9282828b982da9414db2fde20cd697b"><td class="memItemLeft">asio::io_context::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa9282828b982da9414db2fde20cd697b">strand</a> () noexcept</td></tr>
-<tr class="memdesc:aa9282828b982da9414db2fde20cd697b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
+<tr class="memitem:ae81b2fb0cabd81499e4574b0f96be9cf" id="r_ae81b2fb0cabd81499e4574b0f96be9cf"><td class="memItemLeft">std::shared_ptr&lt; asio::io_service &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae81b2fb0cabd81499e4574b0f96be9cf">io_service</a> () noexcept</td></tr>
+<tr class="memdesc:ae81b2fb0cabd81499e4574b0f96be9cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service.  <br /></td></tr>
+<tr class="memitem:ae29bca1fca77df74e010028438a68186" id="r_ae29bca1fca77df74e010028438a68186"><td class="memItemLeft">asio::io_service::strand &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae29bca1fca77df74e010028438a68186">strand</a> () noexcept</td></tr>
+<tr class="memdesc:ae29bca1fca77df74e010028438a68186"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> service strand for serialized handler execution.  <br /></td></tr>
 <tr class="memitem:ac2c230c26beb9a4847f5973483473365" id="r_ac2c230c26beb9a4847f5973483473365"><td class="memItemLeft">asio::ip::tcp::endpoint &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ac2c230c26beb9a4847f5973483473365">endpoint</a> () noexcept</td></tr>
 <tr class="memdesc:ac2c230c26beb9a4847f5973483473365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the client endpoint.  <br /></td></tr>
 <tr class="memitem:a1fca3097bb54c85183c129fa2153d7e8" id="r_a1fca3097bb54c85183c129fa2153d7e8"><td class="memItemLeft">asio::ip::tcp::socket &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1fca3097bb54c85183c129fa2153d7e8">socket</a> () noexcept</td></tr>
@@ -628,7 +628,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tcp_chat_client_8cpp-example.html#a7">tcp_chat_client.cpp</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00278">278</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00279">279</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -664,7 +664,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully connected, 'false' if the client failed to connect </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00357">357</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00358">358</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -790,8 +790,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aad00335ef10026d3bedbe59449f0757a" name="aad00335ef10026d3bedbe59449f0757a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad00335ef10026d3bedbe59449f0757a">&#9670;&#160;</a></span>io_context()</h2>
+<a id="ae81b2fb0cabd81499e4574b0f96be9cf" name="ae81b2fb0cabd81499e4574b0f96be9cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae81b2fb0cabd81499e4574b0f96be9cf">&#9670;&#160;</a></span>io_service()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -800,7 +800,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; asio::io_context &gt; &amp; CppServer::Asio::TCPClient::io_context </td>
+          <td class="memname">std::shared_ptr&lt; asio::io_service &gt; &amp; CppServer::Asio::TCPClient::io_service </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -813,7 +813,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO context. </p>
+<p>Get the <a class="el" href="namespace_cpp_server_1_1_asio.html" title="Asio definitions.">Asio</a> IO service. </p>
 
 <p class="definition">Definition at line <a class="el" href="tcp__client_8h_source.html#l00065">65</a> of file <a class="el" href="tcp__client_8h_source.html">tcp_client.h</a>.</p>
 
@@ -1351,7 +1351,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00688">688</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00690">690</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1392,7 +1392,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Received text </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00758">758</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00760">760</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1433,7 +1433,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00653">653</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00655">655</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1480,7 +1480,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of received data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00695">695</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00697">697</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1509,7 +1509,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Receive data from the server (asynchronous). </p>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00765">765</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00767">767</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1539,7 +1539,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client (synchronous). </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00270">270</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00271">271</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1569,7 +1569,7 @@ Protected Member Functions</h2></td></tr>
 <p>Reconnect the client (asynchronous). </p>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the client was successfully reconnected, 'false' if the client is already reconnected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00492">492</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00494">494</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1639,7 +1639,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00503">503</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00505">505</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1686,7 +1686,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Size of sent data </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00538">538</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00540">540</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -1804,7 +1804,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>'true' if the data was successfully sent, 'false' if the client is not connected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00601">601</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcp__client_8cpp_source.html#l00603">603</a> of file <a class="el" href="tcp__client_8cpp_source.html">tcp_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -2103,8 +2103,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa9282828b982da9414db2fde20cd697b" name="aa9282828b982da9414db2fde20cd697b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9282828b982da9414db2fde20cd697b">&#9670;&#160;</a></span>strand()</h2>
+<a id="ae29bca1fca77df74e010028438a68186" name="ae29bca1fca77df74e010028438a68186"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae29bca1fca77df74e010028438a68186">&#9670;&#160;</a></span>strand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2113,7 +2113,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">asio::io_context::strand &amp; CppServer::Asio::TCPClient::strand </td>
+          <td class="memname">asio::io_service::strand &amp; CppServer::Asio::TCPClient::strand </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
