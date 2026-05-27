@@ -187,8 +187,12 @@ public:
     void SetupSendBufferSize(size_t size);
 
 protected:
+    //! Handle session connecting notification
+    virtual void onConnecting() {}
     //! Handle session connected notification
     virtual void onConnected() {}
+    //! Handle session disconnecting notification
+    virtual void onDisconnecting() {}
     //! Handle session disconnected notification
     virtual void onDisconnected() {}
 

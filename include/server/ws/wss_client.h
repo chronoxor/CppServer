@@ -97,6 +97,7 @@ public:
 
 protected:
     void onHandshaked() override;
+    void onDisconnecting() override;
     void onDisconnected() override;
     void onReceived(const void* buffer, size_t size) override;
     void onReceivedResponseHeader(const HTTP::HTTPResponse& response) override;

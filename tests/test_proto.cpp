@@ -47,7 +47,8 @@ public:
     using TCPClient::TCPClient;
 
 protected:
-    void onConnected() override { reset(); connected = true; }
+    void onConnecting() override { reset(); }
+    void onConnected() override { connected = true; }
     void onDisconnected() override { disconnected = true; }
     size_t onSend(const void* data, size_t size) override { return SendAsync(data, size) ? size : 0; }
     void onReceived(const void* buffer, size_t size) override { receive(buffer, size); }

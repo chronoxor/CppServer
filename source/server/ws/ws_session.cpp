@@ -17,6 +17,15 @@ WSSession::WSSession(const std::shared_ptr<WSServer>& server)
 {
 }
 
+void WSSession::onDisconnecting()
+{
+    // Disconnecting WebSocket
+    if (_ws_handshaked)
+    {
+        onWSDisconnecting();
+    }
+}
+
 void WSSession::onDisconnected()
 {
     // Disconnect WebSocket

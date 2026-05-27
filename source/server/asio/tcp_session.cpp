@@ -76,6 +76,9 @@ void TCPSession::Connect()
     _bytes_sent = 0;
     _bytes_received = 0;
 
+    // Call the session connecting handler
+    onConnecting();
+
     // Update the connected flag
     _connected = true;
 
@@ -105,6 +108,9 @@ bool TCPSession::Disconnect(bool dispatch)
     {
         if (!IsConnected())
             return;
+
+        // Call the session disconnecting handler
+        onDisconnecting();
 
         // Close the session socket
         _socket.close();

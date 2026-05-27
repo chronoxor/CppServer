@@ -53,6 +53,15 @@ void WSSClient::onHandshaked()
         SendAsync(_request.cache());
 }
 
+void WSSClient::onDisconnecting()
+{
+    // Disconnecting WebSocket
+    if (_ws_handshaked)
+    {
+        onWSDisconnecting();
+    }
+}
+
 void WSSClient::onDisconnected()
 {
     // Disconnect WebSocket

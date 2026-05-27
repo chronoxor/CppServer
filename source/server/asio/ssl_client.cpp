@@ -158,8 +158,17 @@ bool SSLClient::Connect()
     // Create the server endpoint
     _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
 
+    // Update the connecting flag
+    _connecting = true;
+
+    // Call the client connecting handler
+    onConnecting();
+
     // Connect to the server
     socket().connect(_endpoint, ec);
+
+    // Update the connecting flag
+    _connecting = false;
 
     // Disconnect on error
     if (ec)
@@ -195,6 +204,9 @@ bool SSLClient::Connect()
 
     // Call the client connected handler
     onConnected();
+
+    // Call the client handshaking handler
+    onHandshaking();
 
     // SSL handshake
     _stream.handshake(asio::ssl::stream_base::client, ec);
@@ -245,8 +257,17 @@ bool SSLClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
         return false;
     }
 
+    // Update the connecting flag
+    _connecting = true;
+
+    // Call the client connecting handler
+    onConnecting();
+
     //  Connect to the server
     _endpoint = asio::connect(socket(), endpoints, ec);
+
+    // Update the connecting flag
+    _connecting = false;
 
     // Disconnect on error
     if (ec)
@@ -283,6 +304,9 @@ bool SSLClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
     // Call the client connected handler
     onConnected();
 
+    // Call the client handshaking handler
+    onHandshaking();
+
     // SSL handshake
     _stream.handshake(asio::ssl::stream_base::client, ec);
 
@@ -314,6 +338,9 @@ bool SSLClient::DisconnectInternal()
         return false;
 
     auto self(this->shared_from_this());
+
+    // Call the client disconnecting handler
+    onDisconnecting();
 
     // Close the client socket
     socket().close();
@@ -360,14 +387,22 @@ bool SSLClient::ConnectAsync()
         if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
             return;
 
-        _connecting = true;
-
         // Create a new SSL stream
         _stream = asio::ssl::stream<asio::ip::tcp::socket>(*_io_context, *_context);
+
+        // Create the server endpoint
+        _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
+
+        // Update the connecting flag
+        _connecting = true;
+
+        // Call the client connecting handler
+        onConnecting();
 
         // Async connect with the connect handler
         auto async_connect_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec1)
         {
+            // Update the connecting flag
             _connecting = false;
 
             if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
@@ -399,10 +434,16 @@ bool SSLClient::ConnectAsync()
                 // Call the client connected handler
                 onConnected();
 
-                // Async SSL handshake with the handshake handler
+                // Update the handshaking flag
                 _handshaking = true;
+
+                // Call the client handshaking handler
+                onHandshaking();
+
+                // Async SSL handshake with the handshake handler
                 auto async_handshake_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2)
                 {
+                    // Update the handshaking flag
                     _handshaking = false;
 
                     if (IsHandshaked())
@@ -443,10 +484,6 @@ bool SSLClient::ConnectAsync()
                 onDisconnected();
             }
         });
-
-        // Create the server endpoint
-        _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
-
         if (_strand_required)
             socket().async_connect(_endpoint, bind_executor(_strand, async_connect_handler));
         else
@@ -487,10 +524,16 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
 
             if (!ec1)
             {
-                // Async connect with the connect handler
+                // Update the connecting flag
                 _connecting = true;
+
+                // Call the client connecting handler
+                onConnecting();
+                
+                // Async connect with the connect handler
                 auto async_connect_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2, const asio::ip::tcp::endpoint& endpoint)
                 {
+                    // Update the connecting flag
                     _connecting = false;
 
                     if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
@@ -525,10 +568,16 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
                         // Call the client connected handler
                         onConnected();
 
-                        // Async SSL handshake with the handshake handler
+                        // Update the handshaking flag
                         _handshaking = true;
+
+                        // Call the client handshaking handler
+                        onHandshaking();
+
+                        // Async SSL handshake with the handshake handler
                         auto async_handshake_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec3)
                         {
+                            // Update the handshaking flag
                             _handshaking = false;
 
                             if (IsHandshaked())

@@ -128,7 +128,9 @@ protected:
     */
     virtual void onWSConnected(const HTTP::HTTPRequest& request) {}
 
-    //! Handle WebSocket client disconnected notification
+    //! Handle WebSocket disconnecting notification
+    virtual void onWSDisconnecting() {}
+    //! Handle WebSocket disconnected notification
     virtual void onWSDisconnected() {}
 
     //! Handle WebSocket received notification

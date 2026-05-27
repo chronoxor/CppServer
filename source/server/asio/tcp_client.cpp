@@ -130,8 +130,17 @@ bool TCPClient::Connect()
     // Create the server endpoint
     _endpoint = asio::ip::tcp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
 
+    // Update the connecting flag
+    _connecting = true;
+
+    // Call the client connecting handler
+    onConnecting();
+
     // Connect to the server
     _socket.connect(_endpoint, ec);
+
+    // Update the connecting flag
+    _connecting = false;
 
     // Disconnect on error
     if (ec)
@@ -196,8 +205,17 @@ bool TCPClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
         return false;
     }
 
+    // Update the connecting flag
+    _connecting = true;
+
+    // Call the client connecting handler
+    onConnecting();
+
     //  Connect to the server
     _endpoint = asio::connect(_socket, endpoints, ec);
+
+    // Update the connecting flag
+    _connecting = false;
 
     // Disconnect on error
     if (ec)
@@ -246,6 +264,9 @@ bool TCPClient::DisconnectInternal()
     if (!IsConnected())
         return false;
 
+    // Call the client disconnecting handler
+    onDisconnecting();
+
     // Close the client socket
     _socket.close();
 
@@ -287,10 +308,16 @@ bool TCPClient::ConnectAsync()
         if (IsConnected() || _resolving || _connecting)
             return;
 
-        // Async connect with the connect handler
+        // Update the connecting flag
         _connecting = true;
+
+        // Call the client connecting handler
+        onConnecting();
+
+        // Async connect with the connect handler
         auto async_connect_handler = [this, self](std::error_code ec)
         {
+            // Update the connecting flag
             _connecting = false;
 
             if (IsConnected() || _resolving || _connecting)
@@ -377,10 +404,16 @@ bool TCPClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
 
             if (!ec1)
             {
-                // Async connect with the connect handler
+                // Update the connecting flag
                 _connecting = true;
+
+                // Call the client connecting handler
+                onConnecting();                
+                
+                // Async connect with the connect handler
                 auto async_connect_handler = [this, self](std::error_code ec2, const asio::ip::tcp::endpoint& endpoint)
                 {
+                    // Update the connecting flag
                     _connecting = false;
 
                     if (IsConnected() || _resolving || _connecting)

@@ -47,11 +47,14 @@ public:
     }
 
 protected:
-    void onConnected() override
+    void onConnecting() override
     {
         // Reset FBE protocol buffers
         reset();
+    }
 
+    void onConnected() override
+    {
         for (size_t i = _messages; i > 0; --i)
             SendMessage();
     }

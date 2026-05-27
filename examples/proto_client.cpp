@@ -31,12 +31,15 @@ public:
     }
 
 protected:
+    void onConnecting() override
+    {
+        // Reset FBE protocol buffers
+        reset();
+    }
+
     void onConnected() override
     {
         std::cout << "Simple protocol client connected a new session with Id " << id() << std::endl;
-
-        // Reset FBE protocol buffers
-        reset();
     }
 
     void onDisconnected() override

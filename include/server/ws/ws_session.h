@@ -89,6 +89,7 @@ public:
     std::vector<uint8_t> ReceiveBinary(const CppCommon::Timespan& timeout);
 
 protected:
+    void onDisconnecting() override;
     void onDisconnected() override;
     void onReceived(const void* buffer, size_t size) override;
     void onReceivedRequestHeader(const HTTP::HTTPRequest& request) override;

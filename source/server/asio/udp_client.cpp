@@ -135,6 +135,9 @@ bool UDPClient::Connect()
     // Create the server endpoint
     _endpoint = asio::ip::udp::endpoint(asio::ip::make_address(_address), (unsigned short)_port);
 
+    // Call the client connecting handler
+    onConnecting();
+
     // Open a client socket
     _socket.open(_endpoint.protocol());
     if (option_reuse_address())
@@ -203,6 +206,9 @@ bool UDPClient::Connect(const std::shared_ptr<UDPResolver>& resolver)
 
     _endpoint = endpoints.begin()->endpoint();
 
+    // Call the client connecting handler
+    onConnecting();
+
     // Open a client socket
     _socket.open(_endpoint.protocol());
     if (option_reuse_address())
@@ -242,6 +248,9 @@ bool UDPClient::DisconnectInternal()
 {
     if (!IsConnected())
         return false;
+
+    // Call the client disconnecting handler
+    onDisconnecting();
 
     // Close the client socket
     _socket.close();
@@ -316,6 +325,9 @@ bool UDPClient::ConnectAsync(const std::shared_ptr<UDPResolver>& resolver)
             {
                 // Resolve the server endpoint
                 _endpoint = endpoints.begin()->endpoint();
+
+                // Call the client connecting handler
+                onConnecting();
 
                 // Open a client socket
                 _socket.open(_endpoint.protocol());

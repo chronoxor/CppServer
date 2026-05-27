@@ -351,8 +351,12 @@ public:
     void SetupSendBufferSize(size_t size);
 
 protected:
+    //! Handle client connecting notification
+    virtual void onConnecting() {}
     //! Handle client connected notification
     virtual void onConnected() {}
+    //! Handle client disconnecting notification
+    virtual void onDisconnecting() {}
     //! Handle client disconnected notification
     virtual void onDisconnected() {}
 

@@ -77,6 +77,9 @@ void SSLSession::Connect()
     _bytes_sent = 0;
     _bytes_received = 0;
 
+    // Call the session connecting handler
+    onConnecting();
+
     // Update the connected flag
     _connected = true;
 
@@ -86,6 +89,9 @@ void SSLSession::Connect()
     // Call the session connected handler in the server
     auto connected_session(this->shared_from_this());
     _server->onConnected(connected_session);
+
+    // Call the session handshaking handler
+    onHandshaking();
 
     // Async SSL handshake with the handshake handler
     auto self(this->shared_from_this());
@@ -130,6 +136,9 @@ void SSLSession::Disconnect(std::error_code ec)
 {
     if (!IsConnected())
         return;
+
+    // Call the session disconnecting handler
+    onDisconnecting();
 
     // Close the session socket
     socket().close();
