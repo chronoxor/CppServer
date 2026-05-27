@@ -43,7 +43,7 @@ void WSClient::onConnected()
     // Fill the WebSocket upgrade HTTP request
     onWSConnecting(_request);
 
-    // Set empty body of the WebSocket upgrade HTTP request
+    // Set body of the WebSocket upgrade HTTP request
     _request.SetBody();
 
     // Send the WebSocket upgrade HTTP request

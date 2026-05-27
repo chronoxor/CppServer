@@ -192,11 +192,13 @@ bool WebSocket::PerformServerUpgrade(const HTTP::HTTPRequest& request, HTTP::HTT
     response.SetHeader("Connection", "Upgrade");
     response.SetHeader("Upgrade", "websocket");
     response.SetHeader("Sec-WebSocket-Accept", accept);
-    response.SetBody();
 
     // Validate WebSocket upgrade request and response
     if (!onWSConnecting(request, response))
         return false;
+
+    // Set body of the WebSocket upgrade response
+    response.SetBody();
 
     // Send WebSocket upgrade response
     SendResponse(response);
