@@ -5,7 +5,7 @@ cpp-optparse modules/cpp-optparse https://github.com/chronoxor/cpp-optparse.git 
 CppBenchmark modules/CppBenchmark https://github.com/chronoxor/CppBenchmark.git master
 CppCommon modules/CppCommon https://github.com/chronoxor/CppCommon.git master
 OpenSSL modules/OpenSSL https://github.com/chronoxor/OpenSSL.git master
-swagger-ui modules/swagger-ui https://github.com/swagger-api/swagger-ui.git master dist www/api/swagger
+swagger-ui modules/swagger-ui https://github.com/swagger-api/swagger-ui.git main dist www/api/swagger
 
 # Scripts
 build build https://github.com/chronoxor/CppBuildScripts.git master
