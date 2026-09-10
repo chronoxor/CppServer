@@ -1,4 +1,4 @@
-# Doxyfile 1.17.0
+# Doxyfile 1.18.0
 
 # This file describes the settings to be used by the documentation system
 # Doxygen (www.doxygen.org) for a project.
@@ -11,7 +11,7 @@
 # TAG = value [value, ...]
 # For lists, items can also be appended using:
 # TAG += value [value, ...]
-# Values that contain spaces should be placed between quotes (\" \").
+# Values that contain spaces should be placed between quotes (" ").
 #
 # Note:
 #
@@ -845,8 +845,8 @@ SHOW_NAMESPACES        = YES
 # The FILE_VERSION_FILTER tag can be used to specify a program or script that
 # Doxygen should invoke to get the current version for each file (typically from
 # the version control system). Doxygen will invoke the program by executing (via
-# popen()) the command command input-file, where command is the value of the
-# FILE_VERSION_FILTER tag, and input-file is the name of an input file provided
+# popen()) the command command input_file, where command is the value of the
+# FILE_VERSION_FILTER tag, and input_file is the name of an input file provided
 # by Doxygen. Whatever the program writes to standard output is used as the file
 # version. For an example see the documentation.
 
@@ -2095,9 +2095,8 @@ EXTRA_PACKAGES         =
 #
 # Note: Only use a user-defined header if you know what you are doing!
 # Note: The header is subject to change so you typically have to regenerate the
-# default header when upgrading to a newer version of Doxygen. The following
-# commands have a special meaning inside the header (and footer): For a
-# description of the possible markers and block names see the documentation.
+# default header when upgrading to a newer version of Doxygen. For a description
+# of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
 LATEX_HEADER           =
@@ -2920,10 +2919,10 @@ MERMAID_RENDER_MODE    = AUTO
 # relative path, or use MERMAID_RENDER_MODE=CLI to pre-generate images instead.
 # Examples:
 # - Latest v11 (default):
-# 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
+# https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs
 # - Pinned version:
-# 'https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs'
-# - Local copy: './mermaid.esm.min.mjs' (user must place file in HTML output
+# https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs
+# - Local copy: ./mermaid.esm.min.mjs (user must place file in HTML output
 # directory)
 # The default value is:
 # https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs.

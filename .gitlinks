@@ -2,11 +2,11 @@
 asio modules/asio https://github.com/chriskohlhoff/asio.git master
 Catch2 modules/Catch2 https://github.com/catchorg/Catch2.git devel
 cpp-optparse modules/cpp-optparse https://github.com/chronoxor/cpp-optparse.git main
-CppBenchmark modules/CppBenchmark https://github.com/chronoxor/CppBenchmark.git master
-CppCommon modules/CppCommon https://github.com/chronoxor/CppCommon.git master
-OpenSSL modules/OpenSSL https://github.com/chronoxor/OpenSSL.git master
-swagger-ui modules/swagger-ui https://github.com/swagger-api/swagger-ui.git master dist www/api/swagger
+CppBenchmark modules/CppBenchmark https://github.com/chronoxor/CppBenchmark.git main
+CppCommon modules/CppCommon https://github.com/chronoxor/CppCommon.git main
+OpenSSL modules/OpenSSL https://github.com/chronoxor/OpenSSL.git main
+swagger-ui modules/swagger-ui https://github.com/swagger-api/swagger-ui.git main dist www/api/swagger
 
 # Scripts
-build build https://github.com/chronoxor/CppBuildScripts.git master
-cmake cmake https://github.com/chronoxor/CppCMakeScripts.git master
+build build https://github.com/chronoxor/CppBuildScripts.git main
+cmake cmake https://github.com/chronoxor/CppCMakeScripts.git main
