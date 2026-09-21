@@ -27,12 +27,12 @@ class HandlerStorage
 {
 public:
     HandlerStorage() noexcept : _in_use(false) {}
-    HandlerStorage(const HandlerStorage&) = delete;
-    HandlerStorage(HandlerStorage&&) = delete;
+    HandlerStorage(const HandlerStorage&) noexcept = default;
+    HandlerStorage(HandlerStorage&&) noexcept = default;
     ~HandlerStorage() noexcept = default;
 
-    HandlerStorage& operator=(const HandlerStorage&) = delete;
-    HandlerStorage& operator=(HandlerStorage&&) = delete;
+    HandlerStorage& operator=(const HandlerStorage&) noexcept = default;
+    HandlerStorage& operator=(HandlerStorage&&) noexcept = default;
 
     //! Allocate memory buffer
     /*!
