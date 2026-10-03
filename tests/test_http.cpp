@@ -237,3 +237,22 @@ TEST_CASE("HTTP server & client test", "[CppServer][HTTP]")
     while (service->IsStarted())
         Thread::Yield();
 }
+
+TEST_CASE("HTTP client connection failure test", "[CppServer][HTTP]")
+{
+    std::string address = "127.0.0.1";
+    int port = 29999;
+
+    auto service = std::make_shared<Service>();
+    REQUIRE(service->Start());
+    while (!service->IsStarted())
+        Thread::Yield();
+
+    auto client = std::make_shared<HTTPClientEx>(service, address, port);
+    auto future = client->SendGetRequest("/test", CppCommon::Timespan::seconds(2));
+    REQUIRE_THROWS(future.get());
+
+    REQUIRE(service->Stop());
+    while (service->IsStarted())
+        Thread::Yield();
+}

@@ -1,4 +1,4 @@
-if(NOT TARGET cppbenchmark)
+if(CPPSERVER_BENCHMARKS AND NOT TARGET cppbenchmark AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/CppBenchmark/CMakeLists.txt")
 
   # Module flag
   set(CPPBENCHMARK_MODULE Y)
@@ -10,3 +10,4 @@ if(NOT TARGET cppbenchmark)
   set_target_properties(cppbenchmark PROPERTIES FOLDER "modules/CppBenchmark")
 
 endif()
+
