@@ -7,10 +7,18 @@
 */
 
 #include "server/asio/tcp_session.h"
+
+#include <algorithm>
 #include "server/asio/tcp_server.h"
 
 namespace CppServer {
 namespace Asio {
+
+// The operating system may report a zero SO_RCVBUF (seen on Windows, about
+// one connection in a few hundred under load). A zero-sized receive buffer
+// makes every async receive complete at once with 0 bytes: the receive loop
+// spins on one CPU core and never reads the socket. Never start below this.
+static constexpr size_t MIN_RECEIVE_BUFFER_SIZE = 8192;
 
 TCPSession::TCPSession(const std::shared_ptr<TCPServer>& server)
     : _id(CppCommon::UUID::Sequential()),
@@ -66,7 +74,7 @@ void TCPSession::Connect()
         _socket.set_option(asio::ip::tcp::no_delay(true));
 
     // Prepare receive & send buffers
-    _receive_buffer.resize(option_receive_buffer_size());
+    _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
     _send_buffer_main.reserve(option_send_buffer_size());
     _send_buffer_flush.reserve(option_send_buffer_size());
 

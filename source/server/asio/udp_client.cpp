@@ -8,8 +8,16 @@
 
 #include "server/asio/udp_client.h"
 
+#include <algorithm>
+
 namespace CppServer {
 namespace Asio {
+
+// The operating system may report a zero SO_RCVBUF (seen on Windows, about
+// one connection in a few hundred under load). A zero-sized receive buffer
+// makes every async receive complete at once with 0 bytes: the receive loop
+// spins on one CPU core and never reads the socket. Never start below this.
+static constexpr size_t MIN_RECEIVE_BUFFER_SIZE = 8192;
 
 UDPClient::UDPClient(const std::shared_ptr<Service>& service, const std::string& address, int port)
     : _id(CppCommon::UUID::Sequential()),
@@ -155,7 +163,7 @@ bool UDPClient::Connect()
         _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
 
     // Prepare receive buffer
-    _receive_buffer.resize(option_receive_buffer_size());
+    _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
 
     // Reset statistic
     _bytes_sending = 0;
@@ -226,7 +234,7 @@ bool UDPClient::Connect(const std::shared_ptr<UDPResolver>& resolver)
         _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
 
     // Prepare receive buffer
-    _receive_buffer.resize(option_receive_buffer_size());
+    _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
 
     // Reset statistic
     _bytes_sending = 0;
@@ -346,7 +354,7 @@ bool UDPClient::ConnectAsync(const std::shared_ptr<UDPResolver>& resolver)
                     _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
 
                 // Prepare receive buffer
-                _receive_buffer.resize(option_receive_buffer_size());
+                _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
 
                 // Reset statistic
                 _bytes_sending = 0;

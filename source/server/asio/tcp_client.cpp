@@ -8,8 +8,16 @@
 
 #include "server/asio/tcp_client.h"
 
+#include <algorithm>
+
 namespace CppServer {
 namespace Asio {
+
+// The operating system may report a zero SO_RCVBUF (seen on Windows, about
+// one connection in a few hundred under load). A zero-sized receive buffer
+// makes every async receive complete at once with 0 bytes: the receive loop
+// spins on one CPU core and never reads the socket. Never start below this.
+static constexpr size_t MIN_RECEIVE_BUFFER_SIZE = 8192;
 
 TCPClient::TCPClient(const std::shared_ptr<Service>& service, const std::string& address, int port)
     : _id(CppCommon::UUID::Sequential()),
@@ -161,7 +169,7 @@ bool TCPClient::Connect()
         _socket.set_option(asio::ip::tcp::no_delay(true));
 
     // Prepare receive & send buffers
-    _receive_buffer.resize(option_receive_buffer_size());
+    _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
     _send_buffer_main.reserve(option_send_buffer_size());
     _send_buffer_flush.reserve(option_send_buffer_size());
 
@@ -236,7 +244,7 @@ bool TCPClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
         _socket.set_option(asio::ip::tcp::no_delay(true));
 
     // Prepare receive & send buffers
-    _receive_buffer.resize(option_receive_buffer_size());
+    _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
     _send_buffer_main.reserve(option_send_buffer_size());
     _send_buffer_flush.reserve(option_send_buffer_size());
 
@@ -333,7 +341,7 @@ bool TCPClient::ConnectAsync()
                     _socket.set_option(asio::ip::tcp::no_delay(true));
 
                 // Prepare receive & send buffers
-                _receive_buffer.resize(option_receive_buffer_size());
+                _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
                 _send_buffer_main.reserve(option_send_buffer_size());
                 _send_buffer_flush.reserve(option_send_buffer_size());
 
@@ -432,7 +440,7 @@ bool TCPClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
                             _socket.set_option(asio::ip::tcp::no_delay(true));
 
                         // Prepare receive & send buffers
-                        _receive_buffer.resize(option_receive_buffer_size());
+                        _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
                         _send_buffer_main.reserve(option_send_buffer_size());
                         _send_buffer_flush.reserve(option_send_buffer_size());
 
