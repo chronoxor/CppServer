@@ -360,6 +360,8 @@ private:
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaking;
     std::atomic<bool> _handshaked;
+    // A disconnect is in progress: its async SSL shutdown has been started
+    std::atomic<bool> _disconnecting{false};
     HandlerStorage _connect_storage;
     // Client statistic
     uint64_t _bytes_pending;

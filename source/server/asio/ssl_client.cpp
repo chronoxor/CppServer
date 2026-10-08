@@ -353,6 +353,7 @@ bool SSLClient::DisconnectInternal()
     _resolving = false;
     _connecting = false;
     _connected = false;
+    _disconnecting = false;
 
     // Update sending/receiving flags
     _receiving = false;
@@ -651,12 +652,23 @@ bool SSLClient::DisconnectInternalAsync(bool dispatch)
     if (!IsConnected() || _resolving || _connecting || _handshaking)
         return false;
 
+    // Only one disconnect per connection. Cancelling the socket below completes
+    // the pending receive (and send) with an error, and their handlers call
+    // DisconnectInternalAsync() again: without this check a second async SSL
+    // shutdown would run beside the first one on the same stream, and could
+    // still be running when the next ConnectAsync() replaces the stream.
+    if (_disconnecting.exchange(true))
+        return false;
+
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
     auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
         if (!IsConnected() || _resolving || _connecting || _handshaking)
+        {
+            _disconnecting = false;
             return;
+        }
 
         asio::error_code ec;
 
