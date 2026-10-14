@@ -26,6 +26,7 @@ SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_
       _connected(false),
       _handshaking(false),
       _handshaked(false),
+      _shutting(false),
       _bytes_pending(0),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -61,6 +62,7 @@ SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_
       _connected(false),
       _handshaking(false),
       _handshaked(false),
+      _shutting(false),
       _bytes_pending(0),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -96,6 +98,7 @@ SSLClient::SSLClient(const std::shared_ptr<Service>& service, const std::shared_
       _connected(false),
       _handshaking(false),
       _handshaked(false),
+      _shutting(false),
       _bytes_pending(0),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -147,7 +150,7 @@ void SSLClient::SetupSendBufferSize(size_t size)
 
 bool SSLClient::Connect()
 {
-    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking || _shutting)
         return false;
 
     // Create a new SSL stream
@@ -235,7 +238,7 @@ bool SSLClient::Connect()
 
 bool SSLClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
 {
-    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking || _shutting)
         return false;
 
     // Create a new SSL stream
@@ -334,7 +337,7 @@ bool SSLClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
 
 bool SSLClient::DisconnectInternal()
 {
-    if (!IsConnected() || _resolving || _connecting || _handshaking)
+    if (!IsConnected() || _resolving || _connecting || _handshaking || _shutting)
         return false;
 
     auto self(this->shared_from_this());
@@ -353,6 +356,7 @@ bool SSLClient::DisconnectInternal()
     _resolving = false;
     _connecting = false;
     _connected = false;
+    _shutting = false;
 
     // Update sending/receiving flags
     _receiving = false;
@@ -377,14 +381,14 @@ bool SSLClient::Reconnect()
 
 bool SSLClient::ConnectAsync()
 {
-    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking || _shutting)
         return false;
 
     // Post the connect handler
     auto self(this->shared_from_this());
     auto connect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
-        if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+        if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking || _shutting)
             return;
 
         // Create a new SSL stream
@@ -405,7 +409,7 @@ bool SSLClient::ConnectAsync()
             // Update the connecting flag
             _connecting = false;
 
-            if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+            if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking || _shutting)
                 return;
 
             if (!ec1)
@@ -499,14 +503,14 @@ bool SSLClient::ConnectAsync()
 
 bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
 {
-    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking || _shutting)
         return false;
 
     // Post the connect handler
     auto self(this->shared_from_this());
     auto connect_handler = make_alloc_handler(_connect_storage, [this, self, resolver]()
     {
-        if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+        if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking || _shutting)
             return;
 
         _resolving = true;
@@ -519,7 +523,7 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
         {
             _resolving = false;
 
-            if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+            if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking || _shutting)
                 return;
 
             if (!ec1)
@@ -529,14 +533,14 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
 
                 // Call the client connecting handler
                 onConnecting();
-                
+
                 // Async connect with the connect handler
                 auto async_connect_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2, const asio::ip::tcp::endpoint& endpoint)
                 {
                     // Update the connecting flag
                     _connecting = false;
 
-                    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking)
+                    if (IsConnected() || IsHandshaked() || _resolving || _connecting || _handshaking || _shutting)
                         return;
 
                     if (!ec2)
@@ -648,15 +652,17 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
 
 bool SSLClient::DisconnectInternalAsync(bool dispatch)
 {
-    if (!IsConnected() || _resolving || _connecting || _handshaking)
+    if (!IsConnected() || _resolving || _connecting || _handshaking || _shutting)
         return false;
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
     auto disconnect_handler = make_alloc_handler(_connect_storage, [this, self]()
     {
-        if (!IsConnected() || _resolving || _connecting || _handshaking)
+        if (!IsConnected() || _resolving || _connecting || _handshaking || _shutting)
             return;
+
+        _shutting = true;
 
         asio::error_code ec;
 
@@ -664,7 +670,12 @@ bool SSLClient::DisconnectInternalAsync(bool dispatch)
         socket().cancel(ec);
 
         // Async SSL shutdown with the shutdown handler
-        auto async_shutdown_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2) { DisconnectInternal(); });
+        auto async_shutdown_handler = make_alloc_handler(_connect_storage, [this, self](std::error_code ec2)
+        {
+            _shutting = false;
+
+            DisconnectInternal();
+        });
         if (_strand_required)
             _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));
         else

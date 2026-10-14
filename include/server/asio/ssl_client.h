@@ -360,6 +360,7 @@ private:
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaking;
     std::atomic<bool> _handshaked;
+    std::atomic<bool> _shutting;
     HandlerStorage _connect_storage;
     // Client statistic
     uint64_t _bytes_pending;

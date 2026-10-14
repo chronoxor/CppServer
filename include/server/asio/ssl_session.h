@@ -257,6 +257,7 @@ private:
     asio::ssl::stream<asio::ip::tcp::socket> _stream;
     std::atomic<bool> _connected;
     std::atomic<bool> _handshaked;
+    std::atomic<bool> _shutting;
     // Session statistic
     uint64_t _bytes_pending;
     uint64_t _bytes_sending;

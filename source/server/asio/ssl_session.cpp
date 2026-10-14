@@ -21,6 +21,7 @@ SSLSession::SSLSession(const std::shared_ptr<SSLServer>& server)
       _stream(*_io_context, *server->context()),
       _connected(false),
       _handshaked(false),
+      _shutting(false),
       _bytes_pending(0),
       _bytes_sending(0),
       _bytes_sent(0),
@@ -148,6 +149,7 @@ void SSLSession::Disconnect(std::error_code ec)
 
     // Update the connected flag
     _connected = false;
+    _shutting = false;
 
     // Update sending/receiving flags
     _receiving = false;
@@ -177,15 +179,17 @@ void SSLSession::Disconnect(std::error_code ec)
 
 bool SSLSession::DisconnectAsync(bool dispatch)
 {
-    if (!IsConnected())
+    if (!IsConnected() || _shutting)
         return false;
 
     // Dispatch or post the disconnect handler
     auto self(this->shared_from_this());
     auto disconnect_handler = [this, self]()
     {
-        if (!IsConnected())
+        if (!IsConnected() || _shutting)
             return;
+
+        _shutting = true;
 
         asio::error_code ec;
 
@@ -193,7 +197,12 @@ bool SSLSession::DisconnectAsync(bool dispatch)
         socket().cancel(ec);
 
         // Async SSL shutdown with the shutdown handler
-        auto async_shutdown_handler = [this, self](std::error_code ec2) { Disconnect(ec2); };
+        auto async_shutdown_handler = [this, self](std::error_code ec2)
+        {
+            _shutting = false;
+
+            Disconnect(ec2);
+        };
         if (_strand_required)
             _stream.async_shutdown(bind_executor(_strand, async_shutdown_handler));
         else
