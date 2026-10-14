@@ -68,6 +68,11 @@ enum class InternetProtocol
     IPv6                //!< Internet Protocol version 6
 };
 
+//! Minimal receive buffer size
+inline constexpr size_t MIN_RECEIVE_BUFFER_SIZE = 8192;
+//! Minimal send buffer size
+inline constexpr size_t MIN_SEND_BUFFER_SIZE = 8192;
+
 //! Stream output: Internet protocol
 /*!
     \param stream - Output stream

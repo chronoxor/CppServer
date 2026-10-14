@@ -155,7 +155,7 @@ bool UDPClient::Connect()
         _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
 
     // Prepare receive buffer
-    _receive_buffer.resize(option_receive_buffer_size());
+    _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
 
     // Reset statistic
     _bytes_sending = 0;
@@ -226,7 +226,7 @@ bool UDPClient::Connect(const std::shared_ptr<UDPResolver>& resolver)
         _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
 
     // Prepare receive buffer
-    _receive_buffer.resize(option_receive_buffer_size());
+    _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
 
     // Reset statistic
     _bytes_sending = 0;
@@ -346,7 +346,7 @@ bool UDPClient::ConnectAsync(const std::shared_ptr<UDPResolver>& resolver)
                     _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));
 
                 // Prepare receive buffer
-                _receive_buffer.resize(option_receive_buffer_size());
+                _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
 
                 // Reset statistic
                 _bytes_sending = 0;

@@ -151,7 +151,7 @@ bool UDPServer::Start()
         _socket.bind(_endpoint);
 
         // Prepare receive buffer
-        _receive_buffer.resize(option_receive_buffer_size());
+        _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
 
         // Reset statistic
         _bytes_sending = 0;

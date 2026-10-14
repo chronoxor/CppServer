@@ -192,9 +192,9 @@ bool SSLClient::Connect()
         socket().set_option(asio::ip::tcp::no_delay(true));
 
     // Prepare receive & send buffers
-    _receive_buffer.resize(option_receive_buffer_size());
-    _send_buffer_main.reserve(option_send_buffer_size());
-    _send_buffer_flush.reserve(option_send_buffer_size());
+    _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
+    _send_buffer_main.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+    _send_buffer_flush.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
 
     // Reset statistic
     _bytes_pending = 0;
@@ -291,9 +291,9 @@ bool SSLClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
         socket().set_option(asio::ip::tcp::no_delay(true));
 
     // Prepare receive & send buffers
-    _receive_buffer.resize(option_receive_buffer_size());
-    _send_buffer_main.reserve(option_send_buffer_size());
-    _send_buffer_flush.reserve(option_send_buffer_size());
+    _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
+    _send_buffer_main.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+    _send_buffer_flush.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
 
     // Reset statistic
     _bytes_pending = 0;
@@ -422,9 +422,9 @@ bool SSLClient::ConnectAsync()
                     socket().set_option(asio::ip::tcp::no_delay(true));
 
                 // Prepare receive & send buffers
-                _receive_buffer.resize(option_receive_buffer_size());
-                _send_buffer_main.reserve(option_send_buffer_size());
-                _send_buffer_flush.reserve(option_send_buffer_size());
+                _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
+                _send_buffer_main.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+                _send_buffer_flush.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
 
                 // Reset statistic
                 _bytes_pending = 0;
@@ -556,9 +556,9 @@ bool SSLClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
                             socket().set_option(asio::ip::tcp::no_delay(true));
 
                         // Prepare receive & send buffers
-                        _receive_buffer.resize(option_receive_buffer_size());
-                        _send_buffer_main.reserve(option_send_buffer_size());
-                        _send_buffer_flush.reserve(option_send_buffer_size());
+                        _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
+                        _send_buffer_main.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+                        _send_buffer_flush.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
 
                         // Reset statistic
                         _bytes_pending = 0;
