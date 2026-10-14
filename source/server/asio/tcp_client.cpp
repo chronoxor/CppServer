@@ -162,8 +162,8 @@ bool TCPClient::Connect()
 
     // Prepare receive & send buffers
     _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
-    _send_buffer_main.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
-    _send_buffer_flush.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+    _send_buffer_main.reserve(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+    _send_buffer_flush.reserve(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
 
     // Reset statistic
     _bytes_pending = 0;
@@ -237,8 +237,8 @@ bool TCPClient::Connect(const std::shared_ptr<TCPResolver>& resolver)
 
     // Prepare receive & send buffers
     _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
-    _send_buffer_main.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
-    _send_buffer_flush.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+    _send_buffer_main.reserve(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+    _send_buffer_flush.reserve(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
 
     // Reset statistic
     _bytes_pending = 0;
@@ -334,8 +334,8 @@ bool TCPClient::ConnectAsync()
 
                 // Prepare receive & send buffers
                 _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
-                _send_buffer_main.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
-                _send_buffer_flush.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+                _send_buffer_main.reserve(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+                _send_buffer_flush.reserve(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
 
                 // Reset statistic
                 _bytes_pending = 0;
@@ -433,8 +433,8 @@ bool TCPClient::ConnectAsync(const std::shared_ptr<TCPResolver>& resolver)
 
                         // Prepare receive & send buffers
                         _receive_buffer.resize(std::max(option_receive_buffer_size(), MIN_RECEIVE_BUFFER_SIZE));
-                        _send_buffer_main.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
-                        _send_buffer_flush.resize(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+                        _send_buffer_main.reserve(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
+                        _send_buffer_flush.reserve(std::max(option_send_buffer_size(), MIN_SEND_BUFFER_SIZE));
 
                         // Reset statistic
                         _bytes_pending = 0;
