@@ -245,7 +245,7 @@ $(function() {
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="comment">// Prepare receive buffer</span></div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    _receive_buffer.resize(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#af8964053d8956c24a83d42bad22552eb">option_receive_buffer_size</a>());</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    _receive_buffer.resize(std::max(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#af8964053d8956c24a83d42bad22552eb">option_receive_buffer_size</a>(), <a class="code hl_variable" href="namespace_cpp_server_1_1_asio.html#aa69c081637d772df2652baa0d8cde5b7">MIN_RECEIVE_BUFFER_SIZE</a>));</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="comment">// Reset statistic</span></div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    _bytes_sending = 0;</div>
@@ -318,7 +318,7 @@ $(function() {
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));</div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="comment">// Prepare receive buffer</span></div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    _receive_buffer.resize(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#af8964053d8956c24a83d42bad22552eb">option_receive_buffer_size</a>());</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    _receive_buffer.resize(std::max(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#af8964053d8956c24a83d42bad22552eb">option_receive_buffer_size</a>(), <a class="code hl_variable" href="namespace_cpp_server_1_1_asio.html#aa69c081637d772df2652baa0d8cde5b7">MIN_RECEIVE_BUFFER_SIZE</a>));</div>
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="comment">// Reset statistic</span></div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    _bytes_sending = 0;</div>
@@ -444,7 +444,7 @@ $(function() {
 <div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>                    _socket.bind(asio::ip::udp::endpoint(_endpoint.protocol(), 0));</div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>                <span class="comment">// Prepare receive buffer</span></div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                _receive_buffer.resize(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#af8964053d8956c24a83d42bad22552eb">option_receive_buffer_size</a>());</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                _receive_buffer.resize(std::max(<a class="code hl_function" href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#af8964053d8956c24a83d42bad22552eb">option_receive_buffer_size</a>(), <a class="code hl_variable" href="namespace_cpp_server_1_1_asio.html#aa69c081637d772df2652baa0d8cde5b7">MIN_RECEIVE_BUFFER_SIZE</a>));</div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span> </div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                <span class="comment">// Reset statistic</span></div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                _bytes_sending = 0;</div>
@@ -1033,6 +1033,7 @@ $(function() {
 <div class="ttc" id="aclass_cpp_server_1_1_asio_1_1_u_d_p_client_html_afe6e7b506c7789c5b02b263745173069"><div class="ttname"><a href="class_cpp_server_1_1_asio_1_1_u_d_p_client.html#afe6e7b506c7789c5b02b263745173069">CppServer::Asio::UDPClient::ConnectAsync</a></div><div class="ttdeci">virtual bool ConnectAsync()</div><div class="ttdoc">Connect the client (asynchronous).</div><div class="ttdef"><b>Definition</b> <a href="#l00283">udp_client.cpp:283</a></div></div>
 <div class="ttc" id="anamespace_cpp_server_1_1_asio_html"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html">CppServer::Asio</a></div><div class="ttdoc">Asio definitions.</div></div>
 <div class="ttc" id="anamespace_cpp_server_1_1_asio_html_a5a9899def2e680af872640662636c133"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#a5a9899def2e680af872640662636c133">CppServer::Asio::make_alloc_handler</a></div><div class="ttdeci">AllocateHandler&lt; THandler &gt; make_alloc_handler(HandlerStorage &amp;storage, THandler handler)</div><div class="ttdoc">Helper function to wrap a handler object to add custom allocation.</div><div class="ttdef"><b>Definition</b> <a href="memory_8inl_source.html#l00039">memory.inl:39</a></div></div>
+<div class="ttc" id="anamespace_cpp_server_1_1_asio_html_aa69c081637d772df2652baa0d8cde5b7"><div class="ttname"><a href="namespace_cpp_server_1_1_asio.html#aa69c081637d772df2652baa0d8cde5b7">CppServer::Asio::MIN_RECEIVE_BUFFER_SIZE</a></div><div class="ttdeci">constexpr size_t MIN_RECEIVE_BUFFER_SIZE</div><div class="ttdoc">Minimal receive buffer size.</div><div class="ttdef"><b>Definition</b> <a href="asio_8h_source.html#l00072">asio.h:72</a></div></div>
 <div class="ttc" id="anamespace_cpp_server_html"><div class="ttname"><a href="namespace_cpp_server.html">CppServer</a></div><div class="ttdoc">C++ Server project definitions.</div><div class="ttdef"><b>Definition</b> <a href="asio_8h_source.html#l00056">asio.h:56</a></div></div>
 <div class="ttc" id="audp__client_8h_html"><div class="ttname"><a href="udp__client_8h.html">udp_client.h</a></div><div class="ttdoc">UDP client definition.</div></div>
 </div><!-- fragment --></div><!-- contents -->
