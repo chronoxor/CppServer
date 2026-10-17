@@ -267,6 +267,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a9ab1eea36f3306e20648f5275e3569d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client connected notification.  <br /></td></tr>
 <tr class="memitem:a69dce9d8da032d84ea38d1e01e3862bb" id="r_a69dce9d8da032d84ea38d1e01e3862bb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a69dce9d8da032d84ea38d1e01e3862bb">onDisconnected</a> () override</td></tr>
 <tr class="memdesc:a69dce9d8da032d84ea38d1e01e3862bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle client disconnected notification.  <br /></td></tr>
+<tr class="memitem:a2b76d6fb450c73af465798cd2a17fa27" id="r_a2b76d6fb450c73af465798cd2a17fa27"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2b76d6fb450c73af465798cd2a17fa27">onError</a> (int error, const std::string &amp;category, const std::string &amp;message) override</td></tr>
+<tr class="memdesc:a2b76d6fb450c73af465798cd2a17fa27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle error notification.  <br /></td></tr>
 <tr class="memitem:a14615439d9f230f98ea6e9fd13ef19d7" id="r_a14615439d9f230f98ea6e9fd13ef19d7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a14615439d9f230f98ea6e9fd13ef19d7">onReceivedResponse</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;response) override</td></tr>
 <tr class="memdesc:a14615439d9f230f98ea6e9fd13ef19d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> response received notification.  <br /></td></tr>
 <tr class="memitem:ac0d6a2adabcb4a38c99df82127e4a45a" id="r_ac0d6a2adabcb4a38c99df82127e4a45a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac0d6a2adabcb4a38c99df82127e4a45a">onReceivedResponseError</a> (const <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &amp;response, const std::string &amp;error) override</td></tr>
@@ -285,8 +287,6 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a36129dd96a9ea18c5635780bb54b9868 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle buffer sent notification.  <br /></td></tr>
 <tr class="memitem:a78024b4228956d7469ddd912ca9e9498 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_client" id="r_a78024b4228956d7469ddd912ca9e9498"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a78024b4228956d7469ddd912ca9e9498">onEmpty</a> ()</td></tr>
 <tr class="memdesc:a78024b4228956d7469ddd912ca9e9498 inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle empty send buffer notification.  <br /></td></tr>
-<tr class="memitem:a97467407caf5569d42c21b4709282f6a inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_client" id="r_a97467407caf5569d42c21b4709282f6a"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a97467407caf5569d42c21b4709282f6a">onError</a> (int error, const std::string &amp;category, const std::string &amp;message)</td></tr>
-<tr class="memdesc:a97467407caf5569d42c21b4709282f6a inherit pro_methods_class_cpp_server_1_1_asio_1_1_t_c_p_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle error notification.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -415,6 +415,54 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a2b76d6fb450c73af465798cd2a17fa27" name="a2b76d6fb450c73af465798cd2a17fa27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b76d6fb450c73af465798cd2a17fa27">&#9670;&#160;</a></span>onError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CppServer::HTTP::HTTPClientEx::onError </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>error</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>category</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle error notification. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">error</td><td>- Error code </td></tr>
+    <tr><td class="paramname">category</td><td>- Error category </td></tr>
+    <tr><td class="paramname">message</td><td>- Error message </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="class_cpp_server_1_1_asio_1_1_t_c_p_client.html#a97467407caf5569d42c21b4709282f6a">CppServer::Asio::TCPClient</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="http__client_8cpp_source.html#l00144">144</a> of file <a class="el" href="http__client_8cpp_source.html">http_client.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a14615439d9f230f98ea6e9fd13ef19d7" name="a14615439d9f230f98ea6e9fd13ef19d7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a14615439d9f230f98ea6e9fd13ef19d7">&#9670;&#160;</a></span>onReceivedResponse()</h2>
 
@@ -449,7 +497,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client.html#aab9015bbd58ba94e4456399e8e8e2953">CppServer::HTTP::HTTPClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="http__client_8cpp_source.html#l00141">141</a> of file <a class="el" href="http__client_8cpp_source.html">http_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__client_8cpp_source.html#l00156">156</a> of file <a class="el" href="http__client_8cpp_source.html">http_client.cpp</a>.</p>
 
 </div>
 </div>
@@ -492,7 +540,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_client.html#ab01877e7853eec16a51fcd29573ebb26">CppServer::HTTP::HTTPClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="http__client_8cpp_source.html#l00150">150</a> of file <a class="el" href="http__client_8cpp_source.html">http_client.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__client_8cpp_source.html#l00165">165</a> of file <a class="el" href="http__client_8cpp_source.html">http_client.cpp</a>.</p>
 
 </div>
 </div>
