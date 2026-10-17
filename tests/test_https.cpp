@@ -253,3 +253,30 @@ TEST_CASE("HTTPS server & client test", "[CppServer][HTTP]")
     while (service->IsStarted())
         Thread::Yield();
 }
+
+TEST_CASE("HTTPS client connection failure test", "[CppServer][HTTP]")
+{
+    // HTTP server address and port
+    std::string address = "127.0.0.1";
+    int port = 8443;
+
+    // Create and start Asio service
+    auto service = std::make_shared<Service>();
+    REQUIRE(service->Start());
+    while (!service->IsStarted())
+        Thread::Yield();
+
+    // Create and prepare a new SSL client context
+    auto client_context = HTTPSCacheServer::CreateContext();
+
+    // Create a new HTTPS client
+    auto client = std::make_shared<HTTPSClientEx>(service, client_context, address, port);
+
+    // Test failing operation with timeout
+    REQUIRE_THROWS(client->SendGetRequest("/test", CppCommon::Timespan::seconds(1)).get());
+
+    // Stop the Asio service
+    REQUIRE(service->Stop());
+    while (service->IsStarted())
+        Thread::Yield();
+}

@@ -260,6 +260,7 @@ public:
 protected:
     void onConnected() override;
     void onDisconnected() override;
+    void onError(int error, const std::string& category, const std::string& message) override;
     void onReceivedResponse(const HTTPResponse& response) override;
     void onReceivedResponseError(const HTTPResponse& response, const std::string& error) override;
 

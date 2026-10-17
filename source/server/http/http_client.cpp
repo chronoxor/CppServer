@@ -105,9 +105,9 @@ std::future<HTTPResponse> HTTPClientEx::SendRequest(const HTTPRequest& request, 
         if (canceled)
             return;
 
-        // Disconnect on timeout
         onReceivedResponseError(_response, "Timeout!");
-        _response.Clear();
+
+        // Disconnect on timeout
         DisconnectAsync();
     };
     if (!_timeout->Setup(timeout_handler, timeout) || !_timeout->WaitAsync())
@@ -135,7 +135,22 @@ void HTTPClientEx::onDisconnected()
     if (_timeout)
         _timeout->Cancel();
 
+    if (!_request.empty())
+        SetPromiseError("Disconnected!");
+
     HTTPClient::onDisconnected();
+}
+
+void HTTPClientEx::onError(int error, const std::string& category, const std::string& message)
+{
+    // Cancel timeout check timer
+    if (_timeout)
+        _timeout->Cancel();
+
+    if (!_request.empty())
+        SetPromiseError(message.empty() ? "Socket error!" : message);
+
+    HTTPClient::onError(error, category, message);
 }
 
 void HTTPClientEx::onReceivedResponse(const HTTPResponse& response)
@@ -158,13 +173,25 @@ void HTTPClientEx::onReceivedResponseError(const HTTPResponse& response, const s
 
 void HTTPClientEx::SetPromiseValue(const HTTPResponse& response)
 {
-    _promise.set_value(response);
+    // Guard try/catch block against promise double-resolution races
+    try
+    {
+        _promise.set_value(response);
+    } catch (...) {}
+
+    // Clear HTTP request
     _request.Clear();
 }
 
 void HTTPClientEx::SetPromiseError(const std::string& error)
 {
-    _promise.set_exception(std::make_exception_ptr(std::runtime_error(error)));
+    // Guard try/catch block against promise double-resolution races
+    try
+    {
+        _promise.set_exception(std::make_exception_ptr(std::runtime_error(error)));
+    } catch (...) {}
+
+    // Clear HTTP request
     _request.Clear();
 }
 
