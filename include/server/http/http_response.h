@@ -160,7 +160,7 @@ public:
         \return HTTP response
     */
     HTTPResponse& MakeHeadResponse();
-    //! Make content response
+    //! Make GET/QUERY/POST/PUT/DELETE content response
     /*!
         \param content - Content (default is "")
         \param content_type - Content type (default is "text/plain; charset=UTF-8")
