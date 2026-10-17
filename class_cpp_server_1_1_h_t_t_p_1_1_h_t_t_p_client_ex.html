@@ -115,6 +115,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a846556af219cdd411fee158b503549bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send HEAD request.  <br /></td></tr>
 <tr class="memitem:aca04a829282bff21d965bd1cef432a1b" id="r_aca04a829282bff21d965bd1cef432a1b"><td class="memItemLeft">std::future&lt; <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aca04a829282bff21d965bd1cef432a1b">SendGetRequest</a> (std::string_view url, const CppCommon::Timespan &amp;<a class="el" href="#a4e628353db78c95aed8c40a7b3f88da7">timeout</a>=CppCommon::Timespan::minutes(1))</td></tr>
 <tr class="memdesc:aca04a829282bff21d965bd1cef432a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send GET request.  <br /></td></tr>
+<tr class="memitem:aa98324195f517b9f4a4b81a898248eac" id="r_aa98324195f517b9f4a4b81a898248eac"><td class="memItemLeft">std::future&lt; <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aa98324195f517b9f4a4b81a898248eac">SendQueryRequest</a> (std::string_view url, std::string_view content, const CppCommon::Timespan &amp;<a class="el" href="#a4e628353db78c95aed8c40a7b3f88da7">timeout</a>=CppCommon::Timespan::minutes(1))</td></tr>
+<tr class="memdesc:aa98324195f517b9f4a4b81a898248eac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send QUERY request.  <br /></td></tr>
 <tr class="memitem:a15415643884f453a951a16c2c4927621" id="r_a15415643884f453a951a16c2c4927621"><td class="memItemLeft">std::future&lt; <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a15415643884f453a951a16c2c4927621">SendPostRequest</a> (std::string_view url, std::string_view content, const CppCommon::Timespan &amp;<a class="el" href="#a4e628353db78c95aed8c40a7b3f88da7">timeout</a>=CppCommon::Timespan::minutes(1))</td></tr>
 <tr class="memdesc:a15415643884f453a951a16c2c4927621"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send POST request.  <br /></td></tr>
 <tr class="memitem:a22ce7ff1f37e9bf33c2a52e7d5c5542e" id="r_a22ce7ff1f37e9bf33c2a52e7d5c5542e"><td class="memItemLeft">std::future&lt; <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a22ce7ff1f37e9bf33c2a52e7d5c5542e">SendPutRequest</a> (std::string_view url, std::string_view content, const CppCommon::Timespan &amp;<a class="el" href="#a4e628353db78c95aed8c40a7b3f88da7">timeout</a>=CppCommon::Timespan::minutes(1))</td></tr>
@@ -637,7 +639,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request future </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00241">241</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00250">250</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
 
 </div>
 </div>
@@ -760,7 +762,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request future </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00249">249</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00258">258</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
 
 </div>
 </div>
@@ -807,7 +809,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request future </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00224">224</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00233">233</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
 
 </div>
 </div>
@@ -854,7 +856,54 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request future </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00233">233</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00242">242</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+
+</div>
+</div>
+<a id="aa98324195f517b9f4a4b81a898248eac" name="aa98324195f517b9f4a4b81a898248eac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa98324195f517b9f4a4b81a898248eac">&#9670;&#160;</a></span>SendQueryRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::future&lt; <a class="el" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_response.html">HTTPResponse</a> &gt; CppServer::HTTP::HTTPClientEx::SendQueryRequest </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>url</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>content</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CppCommon::Timespan &amp;</td>          <td class="paramname"><span class="paramname"><em>timeout</em></span><span class="paramdefsep"> = </span><span class="paramdefval">CppCommon::Timespan::minutes(1)</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send QUERY request. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>- URL to request </td></tr>
+    <tr><td class="paramname">content</td><td>- Content </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a4e628353db78c95aed8c40a7b3f88da7" title="Get the timeout check timer.">timeout</a></td><td>- <a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request timeout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request future </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00224">224</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
 
 </div>
 </div>
@@ -964,7 +1013,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request future </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00257">257</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__client_8h_source.html#l00266">266</a> of file <a class="el" href="http__client_8h_source.html">http_client.h</a>.</p>
 
 </div>
 </div>

@@ -144,6 +144,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a32543dced2ef07d3041d5c87c7dc3163"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make HEAD request.  <br /></td></tr>
 <tr class="memitem:a9602d6fea76a785131bbcc12573b3ef4" id="r_a9602d6fea76a785131bbcc12573b3ef4"><td class="memItemLeft"><a class="el" href="#a8e0bc86f54988546d4bcaa5465ae45a1">HTTPRequest</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a9602d6fea76a785131bbcc12573b3ef4">MakeGetRequest</a> (std::string_view <a class="el" href="#af0ab795ece4f2eba9efbbc42264eae4a">url</a>)</td></tr>
 <tr class="memdesc:a9602d6fea76a785131bbcc12573b3ef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make GET request.  <br /></td></tr>
+<tr class="memitem:a48887c7c0a695616bc4d4a506cb95caf" id="r_a48887c7c0a695616bc4d4a506cb95caf"><td class="memItemLeft"><a class="el" href="#a8e0bc86f54988546d4bcaa5465ae45a1">HTTPRequest</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a48887c7c0a695616bc4d4a506cb95caf">MakeQueryRequest</a> (std::string_view <a class="el" href="#af0ab795ece4f2eba9efbbc42264eae4a">url</a>, std::string_view content, std::string_view content_type=&quot;text/plain; charset=UTF-8&quot;)</td></tr>
+<tr class="memdesc:a48887c7c0a695616bc4d4a506cb95caf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make QUERY request.  <br /></td></tr>
 <tr class="memitem:a5a9c598bc00f6e18c7ebbd84b3a24036" id="r_a5a9c598bc00f6e18c7ebbd84b3a24036"><td class="memItemLeft"><a class="el" href="#a8e0bc86f54988546d4bcaa5465ae45a1">HTTPRequest</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a5a9c598bc00f6e18c7ebbd84b3a24036">MakePostRequest</a> (std::string_view <a class="el" href="#af0ab795ece4f2eba9efbbc42264eae4a">url</a>, std::string_view content, std::string_view content_type=&quot;text/plain; charset=UTF-8&quot;)</td></tr>
 <tr class="memdesc:a5a9c598bc00f6e18c7ebbd84b3a24036"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make POST request.  <br /></td></tr>
 <tr class="memitem:a1cec0100f3977c4a0a51903c77249055" id="r_a1cec0100f3977c4a0a51903c77249055"><td class="memItemLeft"><a class="el" href="#a8e0bc86f54988546d4bcaa5465ae45a1">HTTPRequest</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1cec0100f3977c4a0a51903c77249055">MakePutRequest</a> (std::string_view <a class="el" href="#af0ab795ece4f2eba9efbbc42264eae4a">url</a>, std::string_view content, std::string_view content_type=&quot;text/plain; charset=UTF-8&quot;)</td></tr>
@@ -667,7 +669,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00247">247</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00257">257</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -751,7 +753,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00255">255</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00265">265</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -790,7 +792,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00227">227</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00237">237</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -829,7 +831,46 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00237">237</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00247">247</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a48887c7c0a695616bc4d4a506cb95caf" name="a48887c7c0a695616bc4d4a506cb95caf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48887c7c0a695616bc4d4a506cb95caf">&#9670;&#160;</a></span>MakeQueryRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a8e0bc86f54988546d4bcaa5465ae45a1">HTTPRequest</a> &amp; CppServer::HTTP::HTTPRequest::MakeQueryRequest </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>url</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>content</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>content_type</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;text/plain;&#160;charset=UTF-8&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Make QUERY request. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="#af0ab795ece4f2eba9efbbc42264eae4a" title="Get the HTTP request URL.">url</a></td><td>- URL to request </td></tr>
+    <tr><td class="paramname">content</td><td>- Content </td></tr>
+    <tr><td class="paramname">content_type</td><td>- Content type (default is "text/plain; charset=UTF-8") </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00227">227</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -857,7 +898,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespace_cpp_server_1_1_h_t_t_p.html" title="HTTP definitions.">HTTP</a> request </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00263">263</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00273">273</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -1185,7 +1226,7 @@ Friends</h2></td></tr>
 
 <p>Swap two instances. </p>
 
-<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00626">626</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00636">636</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -1298,7 +1339,7 @@ Friends</h2></td></tr>
 
 <p>Output instance into the given output stream. </p>
 
-<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00610">610</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__request_8cpp_source.html#l00620">620</a> of file <a class="el" href="http__request_8cpp_source.html">http_request.cpp</a>.</p>
 
 </div>
 </div>
@@ -1329,7 +1370,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="http__request_8h_source.html#l00173">173</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="http__request_8h_source.html#l00181">181</a> of file <a class="el" href="http__request_8h_source.html">http_request.h</a>.</p>
 
 </div>
 </div>

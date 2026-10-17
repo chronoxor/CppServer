@@ -176,13 +176,32 @@ $(function() {
 <div class="line">            <span class="keywordflow">if</span> (key.empty())</div>
 <div class="line">            {</div>
 <div class="line">                <span class="comment">// Response with all cache values</span></div>
-<div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeGetResponse(Cache::GetInstance().GetAllCache(), <span class="stringliteral">&quot;application/json; charset=UTF-8&quot;</span>));</div>
+<div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeContentResponse(Cache::GetInstance().GetAllCache(), <span class="stringliteral">&quot;application/json; charset=UTF-8&quot;</span>));</div>
 <div class="line">            }</div>
 <div class="line">            <span class="comment">// Get the cache value by the given key</span></div>
 <div class="line">            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Cache::GetInstance().GetCacheValue(key, value))</div>
 <div class="line">            {</div>
 <div class="line">                <span class="comment">// Response with the cache value</span></div>
-<div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeGetResponse(value));</div>
+<div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeContentResponse(value));</div>
+<div class="line">            }</div>
+<div class="line">            <span class="keywordflow">else</span></div>
+<div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeErrorResponse(404, <span class="stringliteral">&quot;Required cache value was not found for the key: &quot;</span> + key));</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (request.<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#ace1a6429fccea0c3e8fe2d291ea33538">method</a>() == <span class="stringliteral">&quot;QUERY&quot;</span>)</div>
+<div class="line">        {</div>
+<div class="line">            std::string key(request.<a id="a8" name="a8"></a><a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#af970b5ddefee972a44c3169cda8b9a1c">body</a>());</div>
+<div class="line">            std::string value;</div>
+<div class="line"> </div>
+<div class="line">            <span class="keywordflow">if</span> (key.empty())</div>
+<div class="line">            {</div>
+<div class="line">                <span class="comment">// Response with all cache values</span></div>
+<div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeContentResponse(Cache::GetInstance().GetAllCache(), <span class="stringliteral">&quot;application/json; charset=UTF-8&quot;</span>));</div>
+<div class="line">            }</div>
+<div class="line">            <span class="comment">// Get the cache value by the given key</span></div>
+<div class="line">            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Cache::GetInstance().GetCacheValue(key, value))</div>
+<div class="line">            {</div>
+<div class="line">                <span class="comment">// Response with the cache value</span></div>
+<div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeContentResponse(value));</div>
 <div class="line">            }</div>
 <div class="line">            <span class="keywordflow">else</span></div>
 <div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeErrorResponse(404, <span class="stringliteral">&quot;Required cache value was not found for the key: &quot;</span> + key));</div>
@@ -190,7 +209,7 @@ $(function() {
 <div class="line">        <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((request.<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#ace1a6429fccea0c3e8fe2d291ea33538">method</a>() == <span class="stringliteral">&quot;POST&quot;</span>) || (request.<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#ace1a6429fccea0c3e8fe2d291ea33538">method</a>() == <span class="stringliteral">&quot;PUT&quot;</span>))</div>
 <div class="line">        {</div>
 <div class="line">            std::string key(request.<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#af0ab795ece4f2eba9efbbc42264eae4a">url</a>());</div>
-<div class="line">            std::string value(request.<a id="a8" name="a8"></a><a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#af970b5ddefee972a44c3169cda8b9a1c">body</a>());</div>
+<div class="line">            std::string value(request.<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_request.html#af970b5ddefee972a44c3169cda8b9a1c">body</a>());</div>
 <div class="line"> </div>
 <div class="line">            <span class="comment">// Decode the key value</span></div>
 <div class="line">            key = CppCommon::Encoding::URLDecode(key);</div>
@@ -217,7 +236,7 @@ $(function() {
 <div class="line">            <span class="keywordflow">if</span> (Cache::GetInstance().DeleteCacheValue(key, value))</div>
 <div class="line">            {</div>
 <div class="line">                <span class="comment">// Response with the cache value</span></div>
-<div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeGetResponse(value));</div>
+<div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeContentResponse(value));</div>
 <div class="line">            }</div>
 <div class="line">            <span class="keywordflow">else</span></div>
 <div class="line">                <a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#aaeb6a91a94320fa7259525450a6bd13b">SendResponseAsync</a>(<a class="code hl_function" href="class_cpp_server_1_1_h_t_t_p_1_1_h_t_t_p_s_session.html#ab866888a7b8824af2d7ce8f4db905000">response</a>().MakeErrorResponse(404, <span class="stringliteral">&quot;Deleted cache value was not found for the key: &quot;</span> + key));</div>

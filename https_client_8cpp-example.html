@@ -156,6 +156,16 @@ $(function() {
 <div class="line">                <span class="keyword">auto</span> response = client-&gt;SendGetRequest(commands[1]).get();</div>
 <div class="line">                std::cout &lt;&lt; response &lt;&lt; std::endl;</div>
 <div class="line">            }</div>
+<div class="line">            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (CppCommon::StringUtils::ToUpper(commands[0]) == <span class="stringliteral">&quot;QUERY&quot;</span>)</div>
+<div class="line">            {</div>
+<div class="line">                <span class="keywordflow">if</span> (commands.size() &lt; 3)</div>
+<div class="line">                {</div>
+<div class="line">                    std::cout &lt;&lt; <span class="stringliteral">&quot;HTTP method, URL and body must be entered!&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">                    <span class="keywordflow">continue</span>;</div>
+<div class="line">                }</div>
+<div class="line">                <span class="keyword">auto</span> response = client-&gt;SendQueryRequest(commands[1], commands[2]).get();</div>
+<div class="line">                std::cout &lt;&lt; response &lt;&lt; std::endl;</div>
+<div class="line">            }</div>
 <div class="line">            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (CppCommon::StringUtils::ToUpper(commands[0]) == <span class="stringliteral">&quot;POST&quot;</span>)</div>
 <div class="line">            {</div>
 <div class="line">                <span class="keywordflow">if</span> (commands.size() &lt; 3)</div>
