@@ -160,19 +160,19 @@ public:
         \return HTTP response
     */
     HTTPResponse& MakeHeadResponse();
-    //! Make GET response
+    //! Make content response
     /*!
         \param content - Content (default is "")
         \param content_type - Content type (default is "text/plain; charset=UTF-8")
         \return HTTP response
     */
-    HTTPResponse& MakeGetResponse(std::string_view content = "", std::string_view content_type = "text/plain; charset=UTF-8");
+    HTTPResponse& MakeContentResponse(std::string_view content = "", std::string_view content_type = "text/plain; charset=UTF-8");
     //! Make OPTIONS response
     /*!
-        \param allow - Allow methods (default is "HEAD,GET,POST,PUT,DELETE,OPTIONS,TRACE")
+        \param allow - Allow methods (default is "HEAD,GET,QUERY,POST,PUT,DELETE,OPTIONS,TRACE")
         \return HTTP response
     */
-    HTTPResponse& MakeOptionsResponse(std::string_view allow = "HEAD,GET,POST,PUT,DELETE,OPTIONS,TRACE");
+    HTTPResponse& MakeOptionsResponse(std::string_view allow = "HEAD,GET,QUERY,POST,PUT,DELETE,OPTIONS,TRACE");
     //! Make TRACE response
     /*!
         \param request - Request content

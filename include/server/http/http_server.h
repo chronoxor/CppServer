@@ -21,8 +21,8 @@ namespace HTTP {
 /*!
     HTTP server is used to create HTTP Web server and
     communicate with clients using HTTP protocol.
-    It allows to receive GET, POST, PUT, DELETE requests and
-    send HTTP responses.
+    It allows to receive GET, QUERY, POST, PUT, DELETE
+    requests and send HTTP responses.
 
     Thread-safe.
 */

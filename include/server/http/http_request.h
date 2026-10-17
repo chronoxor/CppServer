@@ -130,6 +130,14 @@ public:
         \return HTTP request
     */
     HTTPRequest& MakeGetRequest(std::string_view url);
+    //! Make QUERY request
+    /*!
+        \param url - URL to request
+        \param content - Content
+        \param content_type - Content type (default is "text/plain; charset=UTF-8")
+        \return HTTP request
+    */
+    HTTPRequest& MakeQueryRequest(std::string_view url, std::string_view content, std::string_view content_type = "text/plain; charset=UTF-8");
     //! Make POST request
     /*!
         \param url - URL to request

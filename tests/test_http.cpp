@@ -101,13 +101,32 @@ protected:
             if (key.empty())
             {
                 // Response with all cache values
-                SendResponseAsync(response().MakeGetResponse(Cache::GetInstance().GetAllCache(), "application/json; charset=UTF-8"));
+                SendResponseAsync(response().MakeContentResponse(Cache::GetInstance().GetAllCache(), "application/json; charset=UTF-8"));
             }
             // Get the cache value by the given key
             else if (Cache::GetInstance().GetCacheValue(key, value))
             {
                 // Response with the cache value
-                SendResponseAsync(response().MakeGetResponse(value));
+                SendResponseAsync(response().MakeContentResponse(value));
+            }
+            else
+                SendResponseAsync(response().MakeErrorResponse(404, "Required cache value was not found for the key: " + key));
+        }
+        else if (request.method() == "QUERY")
+        {
+            std::string key(request.body());
+            std::string value;
+
+            if (key.empty())
+            {
+                // Response with all cache values
+                SendResponseAsync(response().MakeContentResponse(Cache::GetInstance().GetAllCache(), "application/json; charset=UTF-8"));
+            }
+            // Get the cache value by the given key
+            else if (Cache::GetInstance().GetCacheValue(key, value))
+            {
+                // Response with the cache value
+                SendResponseAsync(response().MakeContentResponse(value));
             }
             else
                 SendResponseAsync(response().MakeErrorResponse(404, "Required cache value was not found for the key: " + key));
@@ -142,7 +161,7 @@ protected:
             if (Cache::GetInstance().DeleteCacheValue(key, value))
             {
                 // Response with the cache value
-                SendResponseAsync(response().MakeGetResponse(value));
+                SendResponseAsync(response().MakeContentResponse(value));
             }
             else
                 SendResponseAsync(response().MakeErrorResponse(404, "Deleted cache value was not found for the key: " + key));
@@ -209,22 +228,28 @@ TEST_CASE("HTTP server & client test", "[CppServer][HTTP]")
     auto client = std::make_shared<HTTPClientEx>(service, address, port);
 
     // Test CRUD operations
-    auto response = client->SendGetRequest("/test").get();
+    auto response = client->SendGetRequest("/api/cache?key=test").get();
     REQUIRE(response.status() == 404);
-    response = client->SendPostRequest("/test", "old_value").get();
+    response = client->SendPostRequest("/api/cache?key=test", "old_value").get();
     REQUIRE(response.status() == 200);
-    response = client->SendGetRequest("/test").get();
+    response = client->SendGetRequest("/api/cache?key=test").get();
     REQUIRE(response.status() == 200);
     REQUIRE(response.body() == "old_value");
-    response = client->SendPutRequest("/test", "new_value").get();
+    response = client->SendQueryRequest("/api/cache", "test").get();
     REQUIRE(response.status() == 200);
-    response = client->SendGetRequest("/test").get();
+    REQUIRE(response.body() == "old_value");
+    response = client->SendPutRequest("/api/cache?key=test", "new_value").get();
+    REQUIRE(response.status() == 200);
+    response = client->SendGetRequest("/api/cache?key=test").get();
     REQUIRE(response.status() == 200);
     REQUIRE(response.body() == "new_value");
-    response = client->SendDeleteRequest("/test").get();
+    response = client->SendQueryRequest("/api/cache", "test").get();
     REQUIRE(response.status() == 200);
     REQUIRE(response.body() == "new_value");
-    response = client->SendGetRequest("/test").get();
+    response = client->SendDeleteRequest("/api/cache?key=test").get();
+    REQUIRE(response.status() == 200);
+    REQUIRE(response.body() == "new_value");
+    response = client->SendGetRequest("/api/cache?key=test").get();
     REQUIRE(response.status() == 404);
 
     // Stop the HTTP server
@@ -242,7 +267,7 @@ TEST_CASE("HTTP client connection failure test", "[CppServer][HTTP]")
 {
     // HTTP server address and port
     std::string address = "127.0.0.1";
-    int port = 8080;
+    int port = 9090;
 
     // Create and start Asio service
     auto service = std::make_shared<Service>();

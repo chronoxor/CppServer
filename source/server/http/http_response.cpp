@@ -382,7 +382,7 @@ HTTPResponse& HTTPResponse::MakeHeadResponse()
     return *this;
 }
 
-HTTPResponse& HTTPResponse::MakeGetResponse(std::string_view content, std::string_view content_type)
+HTTPResponse& HTTPResponse::MakeContentResponse(std::string_view content, std::string_view content_type)
 {
     Clear();
     SetBegin(200);

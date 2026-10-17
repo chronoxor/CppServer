@@ -23,8 +23,8 @@ namespace HTTP {
 //! HTTPS client
 /*!
     HTTPS client is used to communicate with secured HTTPS Web server.
-    It allows to send GET, POST, PUT, DELETE requests and receive HTTP
-    result using secure transport.
+    It allows to send GET, QUERY, POST, PUT, DELETE requests and receive
+    HTTP result using secure transport.
 
     Thread-safe.
 */
@@ -214,6 +214,15 @@ public:
     */
     std::future<HTTPResponse> SendGetRequest(std::string_view url, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1))
     { return SendRequest(_request.MakeGetRequest(url), timeout); }
+    //! Send QUERY request
+    /*!
+        \param url - URL to request
+        \param content - Content
+        \param timeout - HTTP request timeout
+        \return HTTP request future
+    */
+    std::future<HTTPResponse> SendQueryRequest(std::string_view url, std::string_view content, const CppCommon::Timespan& timeout = CppCommon::Timespan::minutes(1))
+    { return SendRequest(_request.MakeQueryRequest(url, content), timeout); }
     //! Send POST request
     /*!
         \param url - URL to request
@@ -269,8 +278,8 @@ private:
     std::shared_ptr<Asio::Timer> _timeout;
     std::promise<HTTPResponse> _promise;
 
-    void SetPromiseValue(const HTTPResponse& response);
-    void SetPromiseError(const std::string& error);
+    void SetResponseValue(const HTTPResponse& response);
+    void SetResponseError(const std::string& error);
 };
 
 /*! \example https_client.cpp HTTPS client example */

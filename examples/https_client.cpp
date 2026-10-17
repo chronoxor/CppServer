@@ -84,6 +84,16 @@ int main(int argc, char** argv)
                 auto response = client->SendGetRequest(commands[1]).get();
                 std::cout << response << std::endl;
             }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "QUERY")
+            {
+                if (commands.size() < 3)
+                {
+                    std::cout << "HTTP method, URL and body must be entered!" << std::endl;
+                    continue;
+                }
+                auto response = client->SendQueryRequest(commands[1], commands[2]).get();
+                std::cout << response << std::endl;
+            }
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "POST")
             {
                 if (commands.size() < 3)

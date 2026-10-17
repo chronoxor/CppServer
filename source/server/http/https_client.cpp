@@ -75,7 +75,7 @@ std::future<HTTPResponse> HTTPSClientEx::SendRequest(const HTTPRequest& request,
     // Check if the HTTP request is valid
     if (_request.empty() || _request.error())
     {
-        SetPromiseError("Invalid HTTP request!");
+        SetResponseError("Invalid HTTP request!");
         return _promise.get_future();
     }
 
@@ -84,7 +84,7 @@ std::future<HTTPResponse> HTTPSClientEx::SendRequest(const HTTPRequest& request,
         // Connect to the Web server
         if (!ConnectAsync(_resolver))
         {
-            SetPromiseError("Connection failed!");
+            SetResponseError("Connection failed!");
             return _promise.get_future();
         }
     }
@@ -93,7 +93,7 @@ std::future<HTTPResponse> HTTPSClientEx::SendRequest(const HTTPRequest& request,
         // Send prepared HTTP request
         if (!SendRequestAsync())
         {
-            SetPromiseError("Failed to send HTTP request!");
+            SetResponseError("Failed to send HTTP request!");
             return _promise.get_future();
         }
     }
@@ -112,7 +112,7 @@ std::future<HTTPResponse> HTTPSClientEx::SendRequest(const HTTPRequest& request,
     };
     if (!_timeout->Setup(timeout_handler, timeout) || !_timeout->WaitAsync())
     {
-        SetPromiseError("Failed to setup timeout timer!");
+        SetResponseError("Failed to setup timeout timer!");
         return _promise.get_future();
     }
 
@@ -126,7 +126,7 @@ void HTTPSClientEx::onHandshaked()
     // Send prepared HTTP request on connect
     if (!_request.empty() && !_request.error())
         if (!SendRequestAsync())
-            SetPromiseError("Failed to send HTTP request!");
+            SetResponseError("Failed to send HTTP request!");
 }
 
 void HTTPSClientEx::onDisconnected()
@@ -136,7 +136,7 @@ void HTTPSClientEx::onDisconnected()
         _timeout->Cancel();
 
     if (!_request.empty())
-        SetPromiseError("Disconnected!");
+        SetResponseError("Disconnected!");
 
     HTTPSClient::onDisconnected();
 }
@@ -148,7 +148,7 @@ void HTTPSClientEx::onError(int error, const std::string& category, const std::s
         _timeout->Cancel();
 
     if (!_request.empty())
-        SetPromiseError(message.empty() ? "Socket error!" : message);
+        SetResponseError(message.empty() ? "Socket error!" : message);
 
     HTTPSClient::onError(error, category, message);
 }
@@ -159,7 +159,7 @@ void HTTPSClientEx::onReceivedResponse(const HTTPResponse& response)
     if (_timeout)
         _timeout->Cancel();
 
-    SetPromiseValue(response);
+    SetResponseValue(response);
 }
 
 void HTTPSClientEx::onReceivedResponseError(const HTTPResponse& response, const std::string& error)
@@ -168,10 +168,10 @@ void HTTPSClientEx::onReceivedResponseError(const HTTPResponse& response, const 
     if (_timeout)
         _timeout->Cancel();
 
-    SetPromiseError(error);
+    SetResponseError(error);
 }
 
-void HTTPSClientEx::SetPromiseValue(const HTTPResponse& response)
+void HTTPSClientEx::SetResponseValue(const HTTPResponse& response)
 {
     // Guard try/catch block against promise double-resolution races
     try
@@ -183,7 +183,7 @@ void HTTPSClientEx::SetPromiseValue(const HTTPResponse& response)
     _request.Clear();
 }
 
-void HTTPSClientEx::SetPromiseError(const std::string& error)
+void HTTPSClientEx::SetResponseError(const std::string& error)
 {
     // Guard try/catch block against promise double-resolution races
     try

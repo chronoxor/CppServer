@@ -224,6 +224,16 @@ HTTPRequest& HTTPRequest::MakeGetRequest(std::string_view url)
     return *this;
 }
 
+HTTPRequest& HTTPRequest::MakeQueryRequest(std::string_view url, std::string_view content, std::string_view content_type)
+{
+    Clear();
+    SetBegin("QUERY", url);
+    if (!content_type.empty())
+        SetHeader("Content-Type", content_type);
+    SetBody(content);
+    return *this;
+}
+
 HTTPRequest& HTTPRequest::MakePostRequest(std::string_view url, std::string_view content, std::string_view content_type)
 {
     Clear();
@@ -570,7 +580,7 @@ bool HTTPRequest::ReceiveBody(const void* buffer, size_t size)
     else
     {
         // HEAD/GET/DELETE/OPTIONS/TRACE request might have no body
-        if ((method() == "HEAD") || (method() == "GET") || (method() == "DELETE") || (method() == "OPTIONS") || (method() == "TRACE"))
+        if ((method() == "HEAD") || (method() == "GET") || (method() == "QUERY") || (method() == "DELETE") || (method() == "OPTIONS") || (method() == "TRACE"))
         {
             _body_length = 0;
             _body_size = 0;

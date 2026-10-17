@@ -1712,7 +1712,7 @@ int main(int argc, char** argv)
 
 ## Example: HTTP server
 Here comes the example of the HTTP cache server. It allows to manipulate
-cache data with HTTP methods (GET, POST, PUT and DELETE).
+cache data with HTTP methods (GET, QUEY, POST, PUT and DELETE).
 
 Use the following link to open [Swagger OpenAPI](https://swagger.io/specification/) iterative documentation: http://localhost:8080/api/index.html
 
@@ -1822,6 +1822,25 @@ protected:
             {
                 // Response with the cache value
                 SendResponseAsync(response().MakeGetResponse(value));
+            }
+            else
+                SendResponseAsync(response().MakeErrorResponse(404, "Required cache value was not found for the key: " + key));
+        }
+        else if (request.method() == "QUERY")
+        {
+            std::string key(request.body());
+            std::string value;
+
+            if (key.empty())
+            {
+                // Response with all cache values
+                SendResponseAsync(response().MakeContentResponse(Cache::GetInstance().GetAllCache(), "application/json; charset=UTF-8"));
+            }
+            // Get the cache value by the given key
+            else if (Cache::GetInstance().GetCacheValue(key, value))
+            {
+                // Response with the cache value
+                SendResponseAsync(response().MakeContentResponse(value));
             }
             else
                 SendResponseAsync(response().MakeErrorResponse(404, "Required cache value was not found for the key: " + key));
@@ -2034,6 +2053,16 @@ int main(int argc, char** argv)
                 auto response = client->SendGetRequest(commands[1]).get();
                 std::cout << response << std::endl;
             }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "QUERY")
+            {
+                if (commands.size() < 3)
+                {
+                    std::cout << "HTTP method, URL and body must be entered!" << std::endl;
+                    continue;
+                }
+                auto response = client->SendQueryRequest(commands[1], commands[2]).get();
+                std::cout << response << std::endl;
+            }
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "POST")
             {
                 if (commands.size() < 3)
@@ -2200,6 +2229,25 @@ protected:
             {
                 // Response with the cache value
                 SendResponseAsync(response().MakeGetResponse(value));
+            }
+            else
+                SendResponseAsync(response().MakeErrorResponse(404, "Required cache value was not found for the key: " + key));
+        }
+        else if (request.method() == "QUERY")
+        {
+            std::string key(request.body());
+            std::string value;
+
+            if (key.empty())
+            {
+                // Response with all cache values
+                SendResponseAsync(response().MakeContentResponse(Cache::GetInstance().GetAllCache(), "application/json; charset=UTF-8"));
+            }
+            // Get the cache value by the given key
+            else if (Cache::GetInstance().GetCacheValue(key, value))
+            {
+                // Response with the cache value
+                SendResponseAsync(response().MakeContentResponse(value));
             }
             else
                 SendResponseAsync(response().MakeErrorResponse(404, "Required cache value was not found for the key: " + key));
@@ -2425,6 +2473,16 @@ int main(int argc, char** argv)
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "GET")
             {
                 auto response = client->SendGetRequest(commands[1]).get();
+                std::cout << response << std::endl;
+            }
+            else if (CppCommon::StringUtils::ToUpper(commands[0]) == "QUERY")
+            {
+                if (commands.size() < 3)
+                {
+                    std::cout << "HTTP method, URL and body must be entered!" << std::endl;
+                    continue;
+                }
+                auto response = client->SendQueryRequest(commands[1], commands[2]).get();
                 std::cout << response << std::endl;
             }
             else if (CppCommon::StringUtils::ToUpper(commands[0]) == "POST")
