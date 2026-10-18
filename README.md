@@ -1712,7 +1712,7 @@ int main(int argc, char** argv)
 
 ## Example: HTTP server
 Here comes the example of the HTTP cache server. It allows to manipulate
-cache data with HTTP methods (GET, QUEY, POST, PUT and DELETE).
+cache data with HTTP methods (GET, QUERY, POST, PUT and DELETE).
 
 Use the following link to open [Swagger OpenAPI](https://swagger.io/specification/) iterative documentation: http://localhost:8080/api/index.html
 
@@ -1986,7 +1986,7 @@ int main(int argc, char** argv)
 
 ## Example: HTTP client
 Here comes the example of the HTTP client. It allows to send HTTP requests
-(GET, POST, PUT and DELETE) and receive HTTP responses.
+(GET, QUERY, POST, PUT and DELETE) and receive HTTP responses.
 
 ```c++
 #include "server/http/http_client.h"
@@ -2113,7 +2113,7 @@ int main(int argc, char** argv)
 
 ## Example: HTTPS server
 Here comes the example of the HTTPS cache server. It allows to manipulate
-cache data with HTTP methods (GET, POST, PUT and DELETE) with secured
+cache data with HTTP methods (GET, QUERY, POST, PUT and DELETE) with secured
 transport protocol.
 
 Use the following link to open [Swagger OpenAPI](https://swagger.io/specification/) iterative documentation: https://localhost:8443/api/index.html
@@ -2395,7 +2395,7 @@ int main(int argc, char** argv)
 
 ## Example: HTTPS client
 Here comes the example of the HTTPS client. It allows to send HTTP requests
-(GET, POST, PUT and DELETE) and receive HTTP responses with secured
+(GET, QUERY, POST, PUT and DELETE) and receive HTTP responses with secured
 transport protocol.
 
 ```c++
