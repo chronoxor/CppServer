@@ -26,8 +26,12 @@
 
 #else
 
+#ifndef ASIO_STANDALONE
 #define ASIO_STANDALONE
+#endif
+#ifndef ASIO_HEADER_ONLY
 #define ASIO_SEPARATE_COMPILATION
+#endif
 #define ASIO_NO_WIN32_LEAN_AND_MEAN
 
 #if defined(_MSC_VER)
