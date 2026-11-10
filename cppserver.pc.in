@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
+
+Name: cppserver
+Description: C++ asynchronous networking library
+Version: @PROJECT_VERSION@
+Requires: cppcommon openssl asio
+Libs: -L${libdir} -lcppserver -pthread
+Cflags: -I${includedir}/cppserver -DASIO_STANDALONE -DASIO_HEADER_ONLY -pthread

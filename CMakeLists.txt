@@ -1,10 +1,16 @@
 cmake_minimum_required(VERSION 3.20)
 
+option(CPPSERVER_SYSTEM_DEPENDENCIES "Build with system libraries (Linux only)" OFF)
+
 # Global properties
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Project name
-project(cppserver)
+project(cppserver VERSION 1.0.6.0)
+
+if(CPPSERVER_SYSTEM_DEPENDENCIES AND NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  message(FATAL_ERROR "CPPSERVER_SYSTEM_DEPENDENCIES is supported only on Linux")
+endif()
 
 # Doxygen
 find_package(Doxygen)
@@ -17,68 +23,87 @@ if(DOXYGEN_FOUND)
   endif()
 endif()
 
-# CMake module path
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+if(CPPSERVER_SYSTEM_DEPENDENCIES)
+  include(GNUInstallDirs)
+  set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+  find_package(Threads REQUIRED)
+  find_package(PkgConfig REQUIRED)
+  pkg_check_modules(CPPCOMMON REQUIRED IMPORTED_TARGET cppcommon)
+  find_package(OpenSSL REQUIRED)
+  pkg_check_modules(ASIO REQUIRED IMPORTED_TARGET asio)
+  list(APPEND LINKLIBS PkgConfig::CPPCOMMON PkgConfig::ASIO OpenSSL::SSL OpenSSL::Crypto Threads::Threads)
+else()
+  set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# Compiler features
-include(CodeCoverage)
-include(SetCompilerFeatures)
-include(SetCompilerWarnings)
-include(SetPlatformFeatures)
-include(SystemInformation)
+  include(CodeCoverage)
+  include(SetCompilerFeatures)
+  include(SetCompilerWarnings)
+  include(SetPlatformFeatures)
+  include(SystemInformation)
 
-# External packages
-if(APPLE)
-  set(OPENSSL_ROOT_DIR "/usr/local/opt/openssl@3")
-elseif(CYGWIN)
-  set(OPENSSL_ROOT_DIR "/usr/lib")
-  set(OPENSSL_INCLUDE_DIR "/usr/include")
-  set(OPENSSL_CRYPTO_LIBRARY "/usr/lib/libcrypto.dll.a")
-  set(OPENSSL_SSL_LIBRARY "/usr/lib/libssl.dll.a")
-elseif(MINGW AND NOT MSYS)
-  set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/OpenSSL/MinGW")
-  set(OPENSSL_USE_STATIC_LIBS TRUE)
-elseif(MSVC)
-  set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/OpenSSL/VS")
-  set(OPENSSL_USE_STATIC_LIBS TRUE)
-  set(OPENSSL_MSVC_STATIC_RT TRUE)
+  if(APPLE)
+    set(OPENSSL_ROOT_DIR "/usr/local/opt/openssl@3")
+  elseif(CYGWIN)
+    set(OPENSSL_ROOT_DIR "/usr/lib")
+    set(OPENSSL_INCLUDE_DIR "/usr/include")
+    set(OPENSSL_CRYPTO_LIBRARY "/usr/lib/libcrypto.dll.a")
+    set(OPENSSL_SSL_LIBRARY "/usr/lib/libssl.dll.a")
+  elseif(MINGW AND NOT MSYS)
+    set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/OpenSSL/MinGW")
+    set(OPENSSL_USE_STATIC_LIBS TRUE)
+  elseif(MSVC)
+    set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/modules/OpenSSL/VS")
+    set(OPENSSL_USE_STATIC_LIBS TRUE)
+    set(OPENSSL_MSVC_STATIC_RT TRUE)
+  endif()
+  find_package(OpenSSL REQUIRED)
+  if(WIN32)
+    find_package(Crypt)
+    find_package(WinSock)
+  endif()
+
+  add_subdirectory("modules")
+
+  list(APPEND LINKLIBS ${OPENSSL_LIBRARIES})
+  if(WIN32)
+    list(APPEND LINKLIBS ${CRYPT_LIBRARIES})
+    list(APPEND LINKLIBS ${WINSOCK_LIBRARIES})
+  endif()
+  list(APPEND LINKLIBS cppcommon)
+
+  message(STATUS "OpenSSL version: ${OPENSSL_VERSION} ${OPENSSL_INCLUDE_DIR} ${OPENSSL_LIBRARIES}")
+
+  include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/modules")
+
 endif()
-find_package(OpenSSL REQUIRED)
-if(WIN32)
-  find_package(Crypt)
-  find_package(WinSock)
-endif()
-
-# Modules
-add_subdirectory("modules")
-
-# Link libraries
-list(APPEND LINKLIBS ${OPENSSL_LIBRARIES})
-if(WIN32)
-  list(APPEND LINKLIBS ${CRYPT_LIBRARIES})
-  list(APPEND LINKLIBS ${WINSOCK_LIBRARIES})
-endif()
-list(APPEND LINKLIBS cppcommon)
-
-# OpenSSL libraries
-message(STATUS "OpenSSL version: ${OPENSSL_VERSION} ${OPENSSL_INCLUDE_DIR} ${OPENSSL_LIBRARIES}")
-
-# System directories
-include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/modules")
 
 # Library
 file(GLOB_RECURSE LIB_HEADER_FILES "include/*.h" "source/*.h")
 file(GLOB_RECURSE LIB_INLINE_FILES "include/*.inl" "source/*.inl")
 file(GLOB_RECURSE LIB_SOURCE_FILES "include/*.cpp" "source/*.cpp")
-add_library(cppserver ${LIB_HEADER_FILES} ${LIB_INLINE_FILES} ${LIB_SOURCE_FILES})
+if(CPPSERVER_SYSTEM_DEPENDENCIES)
+  add_library(cppserver SHARED ${LIB_HEADER_FILES} ${LIB_INLINE_FILES} ${LIB_SOURCE_FILES})
+else()
+  add_library(cppserver ${LIB_HEADER_FILES} ${LIB_INLINE_FILES} ${LIB_SOURCE_FILES})
+endif()
 set_target_properties(cppserver PROPERTIES COMPILE_FLAGS "${PEDANTIC_COMPILE_FLAGS}" FOLDER "libraries")
-target_include_directories(cppserver PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-target_link_libraries(cppserver ${LINKLIBS} asio)
+if(CPPSERVER_SYSTEM_DEPENDENCIES)
+  set_target_properties(cppserver PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION 1)
+  target_compile_features(cppserver PUBLIC cxx_std_17)
+  target_compile_definitions(cppserver PUBLIC ASIO_STANDALONE ASIO_HEADER_ONLY)
+  target_include_directories(cppserver PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/cppserver>)
+  target_link_libraries(cppserver PUBLIC ${LINKLIBS})
+else()
+  target_include_directories(cppserver PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+  target_link_libraries(cppserver ${LINKLIBS} asio)
+endif()
 list(APPEND INSTALL_TARGETS cppserver)
 list(APPEND LINKLIBS cppserver)
 
 # Additional module components: benchmarks, examples, plugins, tests, tools and install
-if(NOT CPPSERVER_MODULE)
+if(NOT CPPSERVER_MODULE AND NOT CPPSERVER_SYSTEM_DEPENDENCIES)
 
   # Proto library
   file(GLOB_RECURSE PROTO_HEADER_FILES "proto/*.h")
@@ -147,4 +172,12 @@ if(NOT CPPSERVER_MODULE)
     endforeach()
   endif()
 
+endif()
+
+if(CPPSERVER_SYSTEM_DEPENDENCIES AND NOT CPPSERVER_MODULE)
+  configure_file(cppserver.pc.in cppserver.pc @ONLY)
+  install(TARGETS cppserver LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+  install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cppserver)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cppserver.pc
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
